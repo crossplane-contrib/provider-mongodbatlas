@@ -17,13 +17,15 @@ limitations under the License.
 package config
 
 import (
-	tjconfig "github.com/crossplane-contrib/terrajet/pkg/config"
+	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/mongodbatlas"
 )
 
 const (
-	resourcePrefix = "template"
-	modulePath     = "github.com/crossplane-contrib/provider-jet-template"
+	resourcePrefix = "mongodbatlas"
+	modulePath     = "github.com/crossplane-contrib/provider-jet-mongodbatlas"
 )
 
 // GetProvider returns provider configuration
@@ -32,14 +34,19 @@ func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
 		r := tjconfig.DefaultResource(name, terraformResource)
 		// Add any provider-specific defaulting here. For example:
 		//   r.ExternalName = tjconfig.IdentifierFromProvider
+		if r.ShortGroup == resourcePrefix {
+			r.ShortGroup = ""
+		}
 		return r
 	}
 
 	pc := tjconfig.NewProvider(resourceMap, resourcePrefix, modulePath,
-		tjconfig.WithDefaultResourceFn(defaultResourceFn))
+		tjconfig.WithDefaultResourceFn(defaultResourceFn),
+		tjconfig.WithSkipList([]string{"mongodbatlas_encryption_at_rest", "mongodbatlas_teams"}))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
+		mongodbatlas.Configure,
 	} {
 		configure(pc)
 	}

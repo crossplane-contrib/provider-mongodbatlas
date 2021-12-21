@@ -1,14 +1,14 @@
 # ====================================================================================
 # Setup Project
 
-PROJECT_NAME := provider-jet-template
+PROJECT_NAME := provider-jet-mongodbatlas
 PROJECT_REPO := github.com/crossplane-contrib/$(PROJECT_NAME)
 
 export TERRAFORM_VERSION := 1.0.11
-export TERRAFORM_PROVIDER_SOURCE := hashicorp/hashicups
-export TERRAFORM_PROVIDER_VERSION := 0.3.2
-export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-hashicups
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://github.com/hashicorp/terraform-provider-hashicups/releases/download/v0.3.2
+export TERRAFORM_PROVIDER_SOURCE := terraform-providers/mongodbatlas
+export TERRAFORM_PROVIDER_VERSION := 1.2.0
+export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-mongodbatlas
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-mongodbatlas/1.2.0
 
 PLATFORMS ?= linux_amd64 linux_arm64
 
@@ -49,8 +49,8 @@ GO111MODULE = on
 # ====================================================================================
 # Setup Images
 
-DOCKER_REGISTRY ?= crossplane
-IMAGES = provider-jet-template provider-jet-template-controller
+DOCKER_REGISTRY := crossplane
+IMAGES = provider-jet-mongodbatlas provider-jet-mongodbatlas-controller
 -include build/makelib/image.mk
 
 # ====================================================================================
@@ -66,15 +66,6 @@ IMAGES = provider-jet-template provider-jet-template-controller
 fallthrough: submodules
 	@echo Initial setup complete. Running make again . . .
 	@make
-
-# NOTE: the build submodule currently overrides XDG_CACHE_HOME in order to
-# force the Helm 3 to use the .work/helm directory. This causes Go on Linux
-# machines to use that directory as the build cache as well. We should adjust
-# this behavior in the build submodule because it is also causing Linux users
-# to duplicate their build cache, but for now we just make it easier to identify
-# its location in CI so that we cache between builds.
-go.cachedir:
-	@go env GOCACHE
 
 # Generate a coverage report for cobertura applying exclusions on
 # - generated file

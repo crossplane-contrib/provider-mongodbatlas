@@ -22,15 +22,51 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/crossplane-contrib/provider-jet-template/apis/hashicups/v1alpha1"
-	v1alpha1apis "github.com/crossplane-contrib/provider-jet-template/apis/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/alert/v1alpha1"
+	v1alpha1cloud "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/cloud/v1alpha1"
+	v1alpha1custom "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/custom/v1alpha1"
+	v1alpha1data "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/data/v1alpha1"
+	v1alpha1database "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/database/v1alpha1"
+	v1alpha1event "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/event/v1alpha1"
+	v1alpha1global "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/global/v1alpha1"
+	v1alpha1ldap "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/ldap/v1alpha1"
+	v1alpha1maintenance "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/maintenance/v1alpha1"
+	v1alpha1mongodbatlas "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/mongodbatlas/v1alpha1"
+	v1alpha1network "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/network/v1alpha1"
+	v1alpha1online "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/online/v1alpha1"
+	v1alpha1org "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/org/v1alpha1"
+	v1alpha1private "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/private/v1alpha1"
+	v1alpha1privatelink "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/privatelink/v1alpha1"
+	v1alpha1project "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/project/v1alpha1"
+	v1alpha1search "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/search/v1alpha1"
+	v1alpha1third "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/third/v1alpha1"
+	v1alpha1apis "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/v1alpha1"
+	v1alpha1x509 "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/x509/v1alpha1"
 )
 
 func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1cloud.SchemeBuilder.AddToScheme,
+		v1alpha1custom.SchemeBuilder.AddToScheme,
+		v1alpha1data.SchemeBuilder.AddToScheme,
+		v1alpha1database.SchemeBuilder.AddToScheme,
+		v1alpha1event.SchemeBuilder.AddToScheme,
+		v1alpha1global.SchemeBuilder.AddToScheme,
+		v1alpha1ldap.SchemeBuilder.AddToScheme,
+		v1alpha1maintenance.SchemeBuilder.AddToScheme,
+		v1alpha1mongodbatlas.SchemeBuilder.AddToScheme,
+		v1alpha1network.SchemeBuilder.AddToScheme,
+		v1alpha1online.SchemeBuilder.AddToScheme,
+		v1alpha1org.SchemeBuilder.AddToScheme,
+		v1alpha1private.SchemeBuilder.AddToScheme,
+		v1alpha1privatelink.SchemeBuilder.AddToScheme,
+		v1alpha1project.SchemeBuilder.AddToScheme,
+		v1alpha1search.SchemeBuilder.AddToScheme,
+		v1alpha1third.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
+		v1alpha1x509.SchemeBuilder.AddToScheme,
 	)
 }
 

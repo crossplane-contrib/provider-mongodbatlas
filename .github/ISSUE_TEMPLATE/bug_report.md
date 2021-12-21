@@ -1,10 +1,10 @@
 ---
 name: Bug Report
-about: Help us diagnose and fix bugs in Template Provider.
+about: Help us diagnose and fix bugs in MongoDBAtlas Provider.
 labels: bug
 ---
 <!--
-Thank you for helping to improve Template Provider!
+Thank you for helping to improve MongoDBAtlas Provider!
 
 Please be sure to search for open issues before raising a new one. We use issues
 for bug reports and feature requests. Please find us at https://slack.crossplane.io
@@ -13,7 +13,7 @@ for questions, support, and discussion.
 
 ### What happened?
 <!--
-Please let us know what behaviour you expected and how Template Provider diverged from
+Please let us know what behaviour you expected and how MongoDBAtlas Provider diverged from
 that behaviour.
 -->
 

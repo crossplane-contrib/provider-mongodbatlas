@@ -1,5 +1,3 @@
-// +build generate
-
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -20,17 +18,19 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
-	tf "github.com/hashicorp/terraform-provider-hashicups/hashicups"
+	tf "github.com/mongodb/terraform-provider-mongodbatlas/mongodbatlas"
+	"github.com/pkg/errors"
 
-	"github.com/crossplane-contrib/terrajet/pkg/pipeline"
+	"github.com/crossplane/terrajet/pkg/pipeline"
 	// Comment out the line below instead of the above, if your Terraform
 	// provider uses an old version (<v2) of github.com/hashicorp/terraform-plugin-sdk.
-	// "github.com/crossplane-contrib/terrajet/pkg/types/conversion"
+	// "github.com/crossplane/terrajet/pkg/types/conversion"
 
-	"github.com/crossplane-contrib/provider-jet-template/config"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config"
 )
 
 func main() {
@@ -41,9 +41,38 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("cannot calculate the absolute path of %s", os.Args[1]))
 	}
+	// delete API dirs
+	deleteGenDirs(absRootDir+"/apis", map[string]struct{}{
+		"v1alpha1": {},
+	})
+	// delete controller dirs
+	deleteGenDirs(absRootDir+"/internal/controller", map[string]struct{}{
+		"providerconfig": {},
+	})
 	resourceMap := tf.Provider().ResourcesMap
 	// Comment out the line below instead of the above, if your Terraform
 	// provider uses an old version (<v2) of github.com/hashicorp/terraform-plugin-sdk.
 	// resourceMap := conversion.GetV2ResourceMap(tf.Provider())
 	pipeline.Run(config.GetProvider(resourceMap), absRootDir)
+}
+
+// delete API subdirs for a clean start
+func deleteGenDirs(rootDir string, keepMap map[string]struct{}) {
+	files, err := ioutil.ReadDir(rootDir)
+	if err != nil {
+		panic(errors.Wrapf(err, "cannot list files under %s", rootDir))
+	}
+
+	for _, f := range files {
+		if !f.IsDir() {
+			continue
+		}
+		if _, ok := keepMap[f.Name()]; ok {
+			continue
+		}
+		removeDir := filepath.Join(rootDir, f.Name())
+		if err := os.RemoveAll(removeDir); err != nil {
+			panic(errors.Wrapf(err, "cannot remove API dir: %s", removeDir))
+		}
+	}
 }

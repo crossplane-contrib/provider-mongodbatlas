@@ -20,23 +20,23 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/crossplane-contrib/terrajet/pkg/terraform"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
-	tf "github.com/hashicorp/terraform-provider-hashicups/hashicups"
+	"github.com/crossplane/terrajet/pkg/terraform"
+	tf "github.com/mongodb/terraform-provider-mongodbatlas/mongodbatlas"
 	"gopkg.in/alecthomas/kingpin.v2"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/crossplane-contrib/provider-jet-template/apis"
-	pconfig "github.com/crossplane-contrib/provider-jet-template/config"
-	"github.com/crossplane-contrib/provider-jet-template/internal/clients"
-	"github.com/crossplane-contrib/provider-jet-template/internal/controller"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis"
+	pconfig "github.com/crossplane-contrib/provider-jet-mongodbatlas/config"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/clients"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/controller"
 )
 
 func main() {
 	var (
-		app              = kingpin.New(filepath.Base(os.Args[0]), "Terraform based Crossplane provider for Template").DefaultEnvars()
+		app              = kingpin.New(filepath.Base(os.Args[0]), "Terraform based Crossplane provider for MongoDBAtlas").DefaultEnvars()
 		debug            = app.Flag("debug", "Run with debug logging.").Short('d').Bool()
 		syncPeriod       = app.Flag("sync", "Controller manager sync period such as 300ms, 1.5h, or 2h45m").Short('s').Default("1h").Duration()
 		leaderElection   = app.Flag("leader-election", "Use leader election for the controller manager.").Short('l').Default("false").OverrideDefaultFromEnvar("LEADER_ELECTION").Bool()
@@ -47,7 +47,7 @@ func main() {
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	zl := zap.New(zap.UseDevMode(*debug))
-	log := logging.NewLogrLogger(zl.WithName("provider-jet-template"))
+	log := logging.NewLogrLogger(zl.WithName("provider-jet-mongodbatlas"))
 	if *debug {
 		// The controller-runtime runs with a no-op logger by default. It is
 		// *very* verbose even at info level, so we only provide it a real
@@ -62,7 +62,7 @@ func main() {
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
 		LeaderElection:   *leaderElection,
-		LeaderElectionID: "crossplane-leader-election-provider-jet-template",
+		LeaderElectionID: "crossplane-leader-election-provider-jet-mongodbatlas",
 		SyncPeriod:       syncPeriod,
 	})
 	kingpin.FatalIfError(err, "Cannot create controller manager")
@@ -70,7 +70,7 @@ func main() {
 	setup := clients.TerraformSetupBuilder(*terraformVersion, *providerSource, *providerVersion)
 
 	rl := ratelimiter.NewGlobal(ratelimiter.DefaultGlobalRPS)
-	kingpin.FatalIfError(apis.AddToScheme(mgr.GetScheme()), "Cannot add Template APIs to scheme")
-	kingpin.FatalIfError(controller.Setup(mgr, log, rl, setup, ws, pconfig.GetProvider(tf.Provider().ResourcesMap), 1), "Cannot setup Template controllers")
+	kingpin.FatalIfError(apis.AddToScheme(mgr.GetScheme()), "Cannot add MongoDBAtlas APIs to scheme")
+	kingpin.FatalIfError(controller.Setup(mgr, log, rl, setup, ws, pconfig.GetProvider(tf.Provider().ResourcesMap), 1), "Cannot setup MongoDBAtlas controllers")
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
 }

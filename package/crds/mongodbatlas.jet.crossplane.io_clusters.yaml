@@ -1,0 +1,440 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.6.2
+  creationTimestamp: null
+  name: clusters.mongodbatlas.jet.crossplane.io
+spec:
+  group: mongodbatlas.jet.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - mongodbatlasjet
+    kind: Cluster
+    listKind: ClusterList
+    plural: clusters
+    singular: cluster
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Cluster is the Schema for the Clusters API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ClusterSpec defines the desired state of Cluster
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  advancedConfiguration:
+                    items:
+                      properties:
+                        defaultReadConcern:
+                          type: string
+                        defaultWriteConcern:
+                          type: string
+                        failIndexKeyTooLong:
+                          type: boolean
+                        javascriptEnabled:
+                          type: boolean
+                        minimumEnabledTlsProtocol:
+                          type: string
+                        noTableScan:
+                          type: boolean
+                        oplogSizeMb:
+                          format: int64
+                          type: integer
+                        sampleRefreshIntervalBiConnector:
+                          format: int64
+                          type: integer
+                        sampleSizeBiConnector:
+                          format: int64
+                          type: integer
+                      type: object
+                    type: array
+                  autoScalingComputeEnabled:
+                    type: boolean
+                  autoScalingComputeScaleDownEnabled:
+                    type: boolean
+                  autoScalingDiskGbEnabled:
+                    type: boolean
+                  backingProviderName:
+                    type: string
+                  backupEnabled:
+                    description: Clusters running MongoDB FCV 4.2 or later and any
+                      new Atlas clusters of any type do not support this parameter
+                    type: boolean
+                  biConnector:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  biConnectorConfig:
+                    items:
+                      properties:
+                        enabled:
+                          type: boolean
+                        readPreference:
+                          type: string
+                      type: object
+                    type: array
+                  cloudBackup:
+                    type: boolean
+                  clusterType:
+                    type: string
+                  diskSizeGb:
+                    type: number
+                  encryptionAtRestProvider:
+                    type: string
+                  labels:
+                    items:
+                      properties:
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  mongoDbMajorVersion:
+                    type: string
+                  name:
+                    type: string
+                  numShards:
+                    format: int64
+                    type: integer
+                  paused:
+                    type: boolean
+                  pitEnabled:
+                    type: boolean
+                  projectId:
+                    type: string
+                  projectIdRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  projectIdSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                    type: object
+                  providerAutoScalingComputeMaxInstanceSize:
+                    type: string
+                  providerAutoScalingComputeMinInstanceSize:
+                    type: string
+                  providerBackupEnabled:
+                    type: boolean
+                  providerDiskIops:
+                    format: int64
+                    type: integer
+                  providerDiskTypeName:
+                    type: string
+                  providerEncryptEbsVolume:
+                    type: boolean
+                  providerInstanceSizeName:
+                    type: string
+                  providerName:
+                    type: string
+                  providerRegionName:
+                    type: string
+                  providerVolumeType:
+                    type: string
+                  replicationFactor:
+                    format: int64
+                    type: integer
+                  replicationSpecs:
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        numShards:
+                          format: int64
+                          type: integer
+                        regionsConfig:
+                          items:
+                            properties:
+                              analyticsNodes:
+                                format: int64
+                                type: integer
+                              electableNodes:
+                                format: int64
+                                type: integer
+                              priority:
+                                format: int64
+                                type: integer
+                              readOnlyNodes:
+                                format: int64
+                                type: integer
+                              regionName:
+                                type: string
+                            required:
+                            - regionName
+                            type: object
+                          type: array
+                        zoneName:
+                          type: string
+                      required:
+                      - numShards
+                      type: object
+                    type: array
+                  versionReleaseSystem:
+                    type: string
+                required:
+                - name
+                - providerInstanceSizeName
+                - providerName
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: ClusterStatus defines the observed state of Cluster.
+            properties:
+              atProvider:
+                properties:
+                  clusterId:
+                    type: string
+                  connectionStrings:
+                    items:
+                      properties:
+                        awsPrivateLink:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        awsPrivateLinkSrv:
+                          additionalProperties:
+                            type: string
+                          type: object
+                        private:
+                          type: string
+                        privateEndpoint:
+                          items:
+                            properties:
+                              connectionString:
+                                type: string
+                              endpoints:
+                                items:
+                                  properties:
+                                    endpointId:
+                                      type: string
+                                    providerName:
+                                      type: string
+                                    region:
+                                      type: string
+                                  type: object
+                                type: array
+                              srvConnectionString:
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          type: array
+                        privateSrv:
+                          type: string
+                        standard:
+                          type: string
+                        standardSrv:
+                          type: string
+                      type: object
+                    type: array
+                  containerId:
+                    type: string
+                  id:
+                    type: string
+                  mongoDbVersion:
+                    type: string
+                  mongoUri:
+                    type: string
+                  mongoUriUpdated:
+                    type: string
+                  mongoUriWithOptions:
+                    type: string
+                  providerEncryptEbsVolumeFlag:
+                    type: boolean
+                  snapshotBackupPolicy:
+                    items:
+                      properties:
+                        clusterId:
+                          type: string
+                        clusterName:
+                          type: string
+                        nextSnapshot:
+                          type: string
+                        policies:
+                          items:
+                            properties:
+                              id:
+                                type: string
+                              policyItem:
+                                items:
+                                  properties:
+                                    frequencyInterval:
+                                      format: int64
+                                      type: integer
+                                    frequencyType:
+                                      type: string
+                                    id:
+                                      type: string
+                                    retentionUnit:
+                                      type: string
+                                    retentionValue:
+                                      format: int64
+                                      type: integer
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        referenceHourOfDay:
+                          format: int64
+                          type: integer
+                        referenceMinuteOfHour:
+                          format: int64
+                          type: integer
+                        restoreWindowDays:
+                          format: int64
+                          type: integer
+                        updateSnapshots:
+                          type: boolean
+                      type: object
+                    type: array
+                  srvAddress:
+                    type: string
+                  stateName:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

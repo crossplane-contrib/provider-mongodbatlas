@@ -17,8 +17,8 @@ limitations under the License.
 package providerconfig
 
 import (
-	"github.com/crossplane-contrib/terrajet/pkg/config"
-	"github.com/crossplane-contrib/terrajet/pkg/terraform"
+	"github.com/crossplane/terrajet/pkg/config"
+	"github.com/crossplane/terrajet/pkg/terraform"
 	"k8s.io/client-go/util/workqueue"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
@@ -30,7 +30,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/reconciler/providerconfig"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 
-	"github.com/crossplane-contrib/provider-jet-template/apis/v1alpha1"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/v1alpha1"
 )
 
 // Setup adds a controller that reconciles ProviderConfigs by accounting for

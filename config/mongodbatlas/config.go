@@ -53,7 +53,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 		r.References = config.References{
 			"project_id": config.Reference{
-				Type:      "Project",
+				Type:      "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/mongodbatlas/v1alpha1.Project",
 				Extractor: common.ExtractResourceIDFuncPath,
 			},
 		}

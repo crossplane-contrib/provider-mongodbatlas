@@ -30,18 +30,12 @@ const (
 
 // GetProvider returns provider configuration
 func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
-	defaultResourceFn := func(name string, terraformResource *schema.Resource, opts ...tjconfig.ResourceOption) *tjconfig.Resource {
-		r := tjconfig.DefaultResource(name, terraformResource)
-		// Add any provider-specific defaulting here. For example:
-		r.ExternalName = tjconfig.IdentifierFromProvider
-		if r.ShortGroup == resourcePrefix {
-			r.ShortGroup = ""
-		}
-		return r
-	}
-
 	pc := tjconfig.NewProvider(resourceMap, resourcePrefix, modulePath,
-		tjconfig.WithDefaultResourceFn(defaultResourceFn),
+		tjconfig.WithDefaultResourceFn(DefaultResource(
+			groupKindOverrides(),
+			identifierAssignedByMongoDBAtlas(),
+			commonReferences(),
+		)),
 		tjconfig.WithSkipList([]string{"mongodbatlas_encryption_at_rest", "mongodbatlas_teams"}))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
@@ -53,4 +47,12 @@ func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
 
 	pc.ConfigureResources()
 	return pc
+}
+
+// DefaultResource returns a DefaultResoruceFn that makes sure the original
+// DefaultResource call is made with given options here.
+func DefaultResource(opts ...tjconfig.ResourceOption) tjconfig.DefaultResourceFn {
+	return func(name string, terraformResource *schema.Resource, orgOpts ...tjconfig.ResourceOption) *tjconfig.Resource {
+		return tjconfig.DefaultResource(name, terraformResource, append(orgOpts, opts...)...)
+	}
 }

@@ -18,44 +18,14 @@ package mongodbatlas
 
 import (
 	"github.com/crossplane/terrajet/pkg/config"
-
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
 )
 
 // Configure configures the root group
 func Configure(p *config.Provider) {
-	p.AddResourceConfigurator("mongodbatlas_project", func(r *config.Resource) {
-		r.ExternalName = config.IdentifierFromProvider
-	})
 	p.AddResourceConfigurator("mongodbatlas_cluster", func(r *config.Resource) {
-		r.ExternalName = config.IdentifierFromProvider
-		r.References = config.References{
-			"project_id": config.Reference{
-				Type:      "Project",
-				Extractor: common.ExtractResourceIDFuncPath,
-			},
-		}
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
-		r.ShortGroup = ""
-		r.Kind = "AdvancedCluster"
-		r.ExternalName = config.IdentifierFromProvider
-		r.References = config.References{
-			"project_id": config.Reference{
-				Type:      "Project",
-				Extractor: common.ExtractResourceIDFuncPath,
-			},
-		}
 		r.UseAsync = true
-	})
-	p.AddResourceConfigurator("mongodbatlas_project_ip_access_list", func(r *config.Resource) {
-		r.ExternalName = config.IdentifierFromProvider
-		r.References = config.References{
-			"project_id": config.Reference{
-				Type:      "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/mongodbatlas/v1alpha1.Project",
-				Extractor: common.ExtractResourceIDFuncPath,
-			},
-		}
 	})
 }

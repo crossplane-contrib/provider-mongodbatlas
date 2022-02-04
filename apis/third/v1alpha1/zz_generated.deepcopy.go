@@ -147,6 +147,16 @@ func (in *PartyIntegrationParameters) DeepCopyInto(out *PartyIntegrationParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.Reference)
+		**out = **in
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ReadTokenSecretRef != nil {
 		in, out := &in.ReadTokenSecretRef, &out.ReadTokenSecretRef
 		*out = new(v1.SecretKeySelector)

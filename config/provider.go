@@ -33,7 +33,7 @@ func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
 	defaultResourceFn := func(name string, terraformResource *schema.Resource, opts ...tjconfig.ResourceOption) *tjconfig.Resource {
 		r := tjconfig.DefaultResource(name, terraformResource)
 		// Add any provider-specific defaulting here. For example:
-		//   r.ExternalName = tjconfig.IdentifierFromProvider
+		r.ExternalName = tjconfig.IdentifierFromProvider
 		if r.ShortGroup == resourcePrefix {
 			r.ShortGroup = ""
 		}

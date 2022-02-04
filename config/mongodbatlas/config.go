@@ -49,4 +49,13 @@ func Configure(p *config.Provider) {
 		}
 		r.UseAsync = true
 	})
+	p.AddResourceConfigurator("mongodbatlas_project_ip_access_list", func(r *config.Resource) {
+		r.ExternalName = config.IdentifierFromProvider
+		r.References = config.References{
+			"project_id": config.Reference{
+				Type:      "Project",
+				Extractor: common.ExtractResourceIDFuncPath,
+			},
+		}
+	})
 }

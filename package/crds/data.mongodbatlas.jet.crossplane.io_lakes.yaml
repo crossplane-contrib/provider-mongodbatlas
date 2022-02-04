@@ -86,10 +86,13 @@ spec:
                       - region
                       type: object
                     type: array
+                  name:
+                    type: string
                   projectId:
                     type: string
                 required:
                 - aws
+                - name
                 - projectId
                 type: object
               providerConfigRef:

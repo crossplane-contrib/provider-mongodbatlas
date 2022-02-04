@@ -55,6 +55,9 @@ type IndexParameters struct {
 	MappingsFields *string `json:"mappingsFields,omitempty" tf:"mappings_fields,omitempty"`
 
 	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Required
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// +kubebuilder:validation:Optional

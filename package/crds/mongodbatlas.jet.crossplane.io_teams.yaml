@@ -62,6 +62,8 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  name:
+                    type: string
                   orgId:
                     type: string
                   usernames:
@@ -69,6 +71,7 @@ spec:
                       type: string
                     type: array
                 required:
+                - name
                 - orgId
                 - usernames
                 type: object

@@ -95,6 +95,9 @@ type LakeParameters struct {
 	DataProcessRegion []DataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
 	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Required
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 

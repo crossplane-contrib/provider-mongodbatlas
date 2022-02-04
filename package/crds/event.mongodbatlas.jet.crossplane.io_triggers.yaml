@@ -108,12 +108,15 @@ spec:
                     type: array
                   functionId:
                     type: string
+                  name:
+                    type: string
                   projectId:
                     type: string
                   type:
                     type: string
                 required:
                 - appId
+                - name
                 - projectId
                 - type
                 type: object

@@ -3,17 +3,13 @@ package config
 import (
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-type groupKind struct {
-	group string
-	kind  string
-}
-
-var groupKindMap = map[string]groupKind{
+var groupKindMap = map[string]schema.GroupKind{
 	"mongodbatlas_advanced_cluster": {
-		group: "",
-		kind:  "AdvancedCluster",
+		Group: "",
+		Kind:  "AdvancedCluster",
 	},
 }
 
@@ -25,8 +21,8 @@ func groupKindOverrides() tjconfig.ResourceOption {
 			r.ShortGroup = ""
 		}
 		if val, ok := groupKindMap[r.Name]; ok {
-			r.ShortGroup = val.group
-			r.Kind = val.kind
+			r.ShortGroup = val.Group
+			r.Kind = val.Kind
 		}
 	}
 }
@@ -53,7 +49,7 @@ func commonReferences() tjconfig.ResourceOption {
 
 			if k == "project_id" {
 				ref := tjconfig.Reference{
-					Type:      "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/mongodbatlas/v1alpha1.Project",
+					Type:      common.APISPackagePath + "/mongodbatlas/v1alpha1.Project",
 					Extractor: common.ExtractResourceIDFuncPath,
 				}
 				if r.ShortGroup == "" {

@@ -34,6 +34,11 @@ const (
 	ExtractResourceIDFuncPath = commonConfigPackagePath + ".ExtractResourceID()"
 )
 
+const (
+	// APISPackagePath is the package path for generated APIs root package
+	APISPackagePath = "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis"
+)
+
 // GetAttributeValue reads a string attribute from the specified map
 func GetAttributeValue(attrMap map[string]interface{}, attr string) (string, error) {
 	v, ok := attrMap[attr]

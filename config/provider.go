@@ -32,6 +32,9 @@ const (
 func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
 	pc := tjconfig.NewProvider(resourceMap, resourcePrefix, modulePath,
 		tjconfig.WithDefaultResourceFn(DefaultResource(
+			// Note(turkenh): Some other resource configuration options rely on
+			// the final version Group and Kind. So, please make sure to have
+			// `groupKindOverrides()` as the first option here.
 			groupKindOverrides(),
 			identifierAssignedByMongoDBAtlas(),
 			commonReferences(),

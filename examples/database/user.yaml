@@ -1,0 +1,21 @@
+apiVersion: database.mongodbatlas.jet.crossplane.io/v1alpha1
+kind: User
+metadata:
+  name: example
+spec:
+  forProvider:
+    authDatabaseName: admin
+    username: example-user
+    passwordSecretRef:
+      name: user-password
+      key: password
+      namespace: crossplane-system
+    projectId: <project ID>
+    roles:
+      - databaseName: admin
+        roleName: readAnyDatabase
+    scopes:
+      - name: test-scope
+        type: CLUSTER
+  providerConfigRef:
+    name: default

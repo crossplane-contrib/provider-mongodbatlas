@@ -1,0 +1,11 @@
+apiVersion: project.mongodbatlas.jet.crossplane.io/v1alpha1
+kind: IPAccessList
+metadata:
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 0.0.0.0/32
+    comment: Example IP access list
+    projectId: <project ID>
+  providerConfigRef:
+    name: default

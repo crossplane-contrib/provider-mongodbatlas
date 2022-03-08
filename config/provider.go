@@ -20,7 +20,9 @@ import (
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/database"
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/mongodbatlas"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/project"
 )
 
 const (
@@ -44,6 +46,8 @@ func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
 		mongodbatlas.Configure,
+		project.Configure,
+		database.Configure,
 	} {
 		configure(pc)
 	}

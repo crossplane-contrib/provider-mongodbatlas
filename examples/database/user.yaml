@@ -9,7 +9,8 @@ spec:
       name: user-password
       key: password
       namespace: crossplane-system
-    projectId: <project ID>
+    projectIdRef:
+      name: example-project
     roles:
       - databaseName: admin
         roleName: readAnyDatabase

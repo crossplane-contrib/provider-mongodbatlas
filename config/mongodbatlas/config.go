@@ -17,15 +17,50 @@ limitations under the License.
 package mongodbatlas
 
 import (
+	"context"
+	"fmt"
+	"strings"
+
 	"github.com/crossplane/terrajet/pkg/config"
+
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
 )
 
 // Configure configures the root group
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster", func(r *config.Resource) {
+		r.ExternalName = config.NameAsIdentifier
+		r.ExternalName.SetIdentifierArgumentFn = setIdentifierFunc
+		r.ExternalName.GetExternalNameFn = getExternalNameFunc
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
+			parts := strings.Split(externalName, ":")
+			if len(parts) != 2 {
+				return "", nil
+			}
+			return common.Base64EncodeTokens("cluster_id", parts[1], "cluster_name", parameters["name"], "project_id", parameters["project_id"], "provider_name", parameters["provider_name"])
+		}
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
+		r.ExternalName = config.NameAsIdentifier
+		r.ExternalName.SetIdentifierArgumentFn = setIdentifierFunc
+		r.ExternalName.GetExternalNameFn = getExternalNameFunc
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
+			parts := strings.Split(externalName, ":")
+			if len(parts) != 2 {
+				return "", nil
+			}
+			return common.Base64EncodeTokens("cluster_id", parts[1], "cluster_name", parameters["name"], "project_id", parameters["project_id"])
+		}
 		r.UseAsync = true
 	})
+}
+
+func setIdentifierFunc(base map[string]interface{}, externalName string) {
+	parts := strings.Split(externalName, ":")
+	base["name"] = parts[0]
+}
+
+func getExternalNameFunc(tfstate map[string]interface{}) (string, error) {
+	return fmt.Sprintf("%s:%s", tfstate["name"], tfstate["cluster_id"]), nil
 }

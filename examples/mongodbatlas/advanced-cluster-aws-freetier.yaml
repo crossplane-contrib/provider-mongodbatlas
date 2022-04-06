@@ -1,4 +1,4 @@
-apiVersion: mongodbatlas.jet.crossplane.io/v1alpha1
+apiVersion: mongodbatlas.jet.crossplane.io/v1alpha2
 kind: AdvancedCluster
 metadata:
   name: example-advanced-cluster
@@ -7,7 +7,6 @@ spec:
     projectIdRef:
       name: example-project
     clusterType: REPLICASET
-    name: example-advanced-cluster
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:

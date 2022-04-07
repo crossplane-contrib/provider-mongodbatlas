@@ -1,28 +1,36 @@
 package config
 
 import (
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
 )
 
-var groupKindMap = map[string]schema.GroupKind{
+var gvkMap = map[string]schema.GroupVersionKind{
 	"mongodbatlas_advanced_cluster": {
-		Group: "",
-		Kind:  "AdvancedCluster",
+		Group:   "",
+		Kind:    "AdvancedCluster",
+		Version: common.VersionV1Alpha2,
+	},
+	"mongodbatlas_cluster": {
+		Group:   "",
+		Kind:    "Cluster",
+		Version: common.VersionV1Alpha2,
 	},
 }
 
-// groupKindOverrides overrides the group and kind of the resource if it matches
-// any entry in the GroupMap.
-func groupKindOverrides() tjconfig.ResourceOption {
+// gvkOverrides overrides the group, version and kind of the resource if it matches
+// any entry in the gvkMap.
+func gvkOverrides() tjconfig.ResourceOption {
 	return func(r *tjconfig.Resource) {
 		if r.ShortGroup == resourcePrefix {
 			r.ShortGroup = ""
 		}
-		if val, ok := groupKindMap[r.Name]; ok {
-			r.ShortGroup = val.Group
-			r.Kind = val.Kind
+		if gvk, ok := gvkMap[r.Name]; ok {
+			r.ShortGroup = gvk.Group
+			r.Kind = gvk.Kind
+			r.Version = gvk.Version
 		}
 	}
 }
@@ -52,7 +60,7 @@ func commonReferences() tjconfig.ResourceOption {
 					Type:      common.APISPackagePath + "/mongodbatlas/v1alpha1.Project",
 					Extractor: common.ExtractResourceIDFuncPath,
 				}
-				if r.ShortGroup == "" {
+				if r.ShortGroup == "" && r.Version == "v1alpha1" {
 					ref.Type = "Project"
 				}
 				r.References["project_id"] = ref

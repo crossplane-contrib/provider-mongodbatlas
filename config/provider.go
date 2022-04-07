@@ -37,7 +37,7 @@ func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
 			// Note(turkenh): Some other resource configuration options rely on
 			// the final version Group and Kind. So, please make sure to have
 			// `groupKindOverrides()` as the first option here.
-			groupKindOverrides(),
+			gvkOverrides(),
 			identifierAssignedByMongoDBAtlas(),
 			commonReferences(),
 		)),

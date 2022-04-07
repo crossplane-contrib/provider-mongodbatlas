@@ -1,16 +1,16 @@
-apiVersion: database.mongodbatlas.jet.crossplane.io/v1alpha1
+apiVersion: database.mongodbatlas.jet.crossplane.io/v1alpha2
 kind: User
 metadata:
   name: example
 spec:
   forProvider:
     authDatabaseName: admin
-    username: example-user
     passwordSecretRef:
       name: user-password
       key: password
       namespace: crossplane-system
-    projectId: <project ID>
+    projectIdRef:
+      name: example-project
     roles:
       - databaseName: admin
         roleName: readAnyDatabase

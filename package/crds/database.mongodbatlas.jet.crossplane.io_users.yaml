@@ -31,7 +31,7 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
-    name: v1alpha1
+    name: v1alpha2
     schema:
       openAPIV3Schema:
         description: User is the Schema for the Users API
@@ -142,13 +142,10 @@ spec:
                           type: string
                       type: object
                     type: array
-                  username:
-                    type: string
                   x509Type:
                     type: string
                 required:
                 - roles
-                - username
                 type: object
               providerConfigRef:
                 default:

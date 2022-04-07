@@ -31,7 +31,7 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
-    name: v1alpha1
+    name: v1alpha2
     schema:
       openAPIV3Schema:
         description: AdvancedCluster is the Schema for the AdvancedClusters API
@@ -89,8 +89,6 @@ spec:
                       type: object
                     type: array
                   mongoDbMajorVersion:
-                    type: string
-                  name:
                     type: string
                   paused:
                     type: boolean
@@ -223,7 +221,6 @@ spec:
                     type: string
                 required:
                 - clusterType
-                - name
                 - replicationSpecs
                 type: object
               providerConfigRef:

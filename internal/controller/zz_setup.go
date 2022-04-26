@@ -17,13 +17,9 @@ limitations under the License.
 package controller
 
 import (
-	"k8s.io/client-go/util/workqueue"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/crossplane-runtime/pkg/logging"
-
-	tjconfig "github.com/crossplane/terrajet/pkg/config"
-	"github.com/crossplane/terrajet/pkg/terraform"
+	"github.com/crossplane/terrajet/pkg/controller"
 
 	configuration "github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/controller/alert/configuration"
 	backupschedule "github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/controller/cloud/backupschedule"
@@ -67,8 +63,8 @@ import (
 
 // Setup creates all controllers with the supplied logger and adds them to
 // the supplied manager.
-func Setup(mgr ctrl.Manager, l logging.Logger, wl workqueue.RateLimiter, ps terraform.SetupFn, ws *terraform.WorkspaceStore, cfg *tjconfig.Provider, concurrency int) error {
-	for _, setup := range []func(ctrl.Manager, logging.Logger, workqueue.RateLimiter, terraform.SetupFn, *terraform.WorkspaceStore, *tjconfig.Provider, int) error{
+func Setup(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		configuration.Setup,
 		backupschedule.Setup,
 		backupsnapshot.Setup,
@@ -108,7 +104,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger, wl workqueue.RateLimiter, ps terr
 		partyintegration.Setup,
 		authenticationdatabaseuser.Setup,
 	} {
-		if err := setup(mgr, l, wl, ps, ws, cfg, concurrency); err != nil {
+		if err := setup(mgr, o); err != nil {
 			return err
 		}
 	}

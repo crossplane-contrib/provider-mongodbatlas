@@ -25,18 +25,18 @@ import (
 	"github.com/crossplane/terrajet/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this Container
-func (mg *Container) GetTerraformResourceType() string {
-	return "mongodbatlas_network_container"
+// GetTerraformResourceType returns Terraform resource type for this Configuration
+func (mg *Configuration) GetTerraformResourceType() string {
+	return "mongodbatlas_alert_configuration"
 }
 
-// GetConnectionDetailsMapping for this Container
-func (tr *Container) GetConnectionDetailsMapping() map[string]string {
-	return nil
+// GetConnectionDetailsMapping for this Configuration
+func (tr *Configuration) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"notification[*].api_token": "spec.forProvider.notification[*].apiTokenSecretRef", "notification[*].datadog_api_key": "spec.forProvider.notification[*].datadogApiKeySecretRef", "notification[*].flowdock_api_token": "spec.forProvider.notification[*].flowdockApiTokenSecretRef", "notification[*].ops_genie_api_key": "spec.forProvider.notification[*].opsGenieApiKeySecretRef", "notification[*].service_key": "spec.forProvider.notification[*].serviceKeySecretRef", "notification[*].victor_ops_api_key": "spec.forProvider.notification[*].victorOpsApiKeySecretRef", "notification[*].victor_ops_routing_key": "spec.forProvider.notification[*].victorOpsRoutingKeySecretRef"}
 }
 
-// GetObservation of this Container
-func (tr *Container) GetObservation() (map[string]interface{}, error) {
+// GetObservation of this Configuration
+func (tr *Configuration) GetObservation() (map[string]interface{}, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -45,8 +45,8 @@ func (tr *Container) GetObservation() (map[string]interface{}, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this Container
-func (tr *Container) SetObservation(obs map[string]interface{}) error {
+// SetObservation for this Configuration
+func (tr *Configuration) SetObservation(obs map[string]interface{}) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -54,16 +54,16 @@ func (tr *Container) SetObservation(obs map[string]interface{}) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this Container
-func (tr *Container) GetID() string {
+// GetID returns ID of underlying Terraform resource of this Configuration
+func (tr *Configuration) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this Container
-func (tr *Container) GetParameters() (map[string]interface{}, error) {
+// GetParameters of this Configuration
+func (tr *Configuration) GetParameters() (map[string]interface{}, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -72,8 +72,8 @@ func (tr *Container) GetParameters() (map[string]interface{}, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this Container
-func (tr *Container) SetParameters(params map[string]interface{}) error {
+// SetParameters for this Configuration
+func (tr *Configuration) SetParameters(params map[string]interface{}) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -81,10 +81,10 @@ func (tr *Container) SetParameters(params map[string]interface{}) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// LateInitialize this Container using its observed tfState.
+// LateInitialize this Configuration using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *Container) LateInitialize(attrs []byte) (bool, error) {
-	params := &ContainerParameters{}
+func (tr *Configuration) LateInitialize(attrs []byte) (bool, error) {
+	params := &ConfigurationParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -95,6 +95,6 @@ func (tr *Container) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *Container) GetTerraformSchemaVersion() int {
+func (tr *Configuration) GetTerraformSchemaVersion() int {
 	return 0
 }

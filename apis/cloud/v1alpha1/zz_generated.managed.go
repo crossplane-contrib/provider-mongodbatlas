@@ -42,6 +42,11 @@ func (mg *BackupSchedule) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this BackupSchedule.
+func (mg *BackupSchedule) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this BackupSchedule.
 func (mg *BackupSchedule) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -68,6 +73,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *BackupSchedule) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this BackupSchedule.
+func (mg *BackupSchedule) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this BackupSchedule.
@@ -98,6 +108,11 @@ func (mg *BackupSnapshot) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this BackupSnapshot.
+func (mg *BackupSnapshot) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this BackupSnapshot.
 func (mg *BackupSnapshot) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -124,6 +139,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *BackupSnapshot) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this BackupSnapshot.
+func (mg *BackupSnapshot) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this BackupSnapshot.
@@ -154,6 +174,11 @@ func (mg *BackupSnapshotRestoreJob) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this BackupSnapshotRestoreJob.
+func (mg *BackupSnapshotRestoreJob) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this BackupSnapshotRestoreJob.
 func (mg *BackupSnapshotRestoreJob) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -180,6 +205,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *BackupSnapshotRestoreJob) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this BackupSnapshotRestoreJob.
+func (mg *BackupSnapshotRestoreJob) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this BackupSnapshotRestoreJob.
@@ -210,6 +240,11 @@ func (mg *ProviderAccess) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this ProviderAccess.
+func (mg *ProviderAccess) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this ProviderAccess.
 func (mg *ProviderAccess) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -236,6 +271,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *ProviderAccess) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProviderAccess.
+func (mg *ProviderAccess) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ProviderAccess.
@@ -266,6 +306,11 @@ func (mg *ProviderAccessAuthorization) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this ProviderAccessAuthorization.
+func (mg *ProviderAccessAuthorization) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this ProviderAccessAuthorization.
 func (mg *ProviderAccessAuthorization) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -292,6 +337,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *ProviderAccessAuthorization) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProviderAccessAuthorization.
+func (mg *ProviderAccessAuthorization) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ProviderAccessAuthorization.
@@ -322,6 +372,11 @@ func (mg *ProviderAccessSetup) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this ProviderAccessSetup.
+func (mg *ProviderAccessSetup) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this ProviderAccessSetup.
 func (mg *ProviderAccessSetup) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -348,6 +403,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *ProviderAccessSetup) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProviderAccessSetup.
+func (mg *ProviderAccessSetup) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ProviderAccessSetup.
@@ -378,6 +438,11 @@ func (mg *ProviderSnapshot) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this ProviderSnapshot.
+func (mg *ProviderSnapshot) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this ProviderSnapshot.
 func (mg *ProviderSnapshot) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -404,6 +469,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *ProviderSnapshot) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProviderSnapshot.
+func (mg *ProviderSnapshot) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ProviderSnapshot.
@@ -434,6 +504,11 @@ func (mg *ProviderSnapshotBackupPolicy) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this ProviderSnapshotBackupPolicy.
+func (mg *ProviderSnapshotBackupPolicy) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this ProviderSnapshotBackupPolicy.
 func (mg *ProviderSnapshotBackupPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -460,6 +535,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *ProviderSnapshotBackupPolicy) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProviderSnapshotBackupPolicy.
+func (mg *ProviderSnapshotBackupPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ProviderSnapshotBackupPolicy.
@@ -490,6 +570,11 @@ func (mg *ProviderSnapshotRestoreJob) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this ProviderSnapshotRestoreJob.
+func (mg *ProviderSnapshotRestoreJob) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this ProviderSnapshotRestoreJob.
 func (mg *ProviderSnapshotRestoreJob) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -516,6 +601,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *ProviderSnapshotRestoreJob) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProviderSnapshotRestoreJob.
+func (mg *ProviderSnapshotRestoreJob) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ProviderSnapshotRestoreJob.

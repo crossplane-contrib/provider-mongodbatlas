@@ -76,8 +76,6 @@ spec:
                       - roleNames
                       type: object
                     type: array
-                  name:
-                    type: string
                   orgId:
                     type: string
                   projectOwnerId:
@@ -99,7 +97,6 @@ spec:
                   withDefaultAlertsSettings:
                     type: boolean
                 required:
-                - name
                 - orgId
                 type: object
               providerConfigRef:

@@ -51,9 +51,6 @@ type ProjectParameters struct {
 	APIKeys []APIKeysParameters `json:"apiKeys,omitempty" tf:"api_keys,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
 	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
 	// +kubebuilder:validation:Optional

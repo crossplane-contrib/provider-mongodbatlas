@@ -30,7 +30,7 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster", func(r *config.Resource) {
 		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.SetIdentifierArgumentFn = setIdentifierFunc
+		r.ExternalName.SetIdentifierArgumentFn = common.SetIdentifierFunc
 		r.ExternalName.GetExternalNameFn = getExternalNameFunc
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
 			parts := strings.Split(externalName, ":")
@@ -43,7 +43,7 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
 		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.SetIdentifierArgumentFn = setIdentifierFunc
+		r.ExternalName.SetIdentifierArgumentFn = common.SetIdentifierFunc
 		r.ExternalName.GetExternalNameFn = getExternalNameFunc
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
 			parts := strings.Split(externalName, ":")
@@ -54,11 +54,6 @@ func Configure(p *config.Provider) {
 		}
 		r.UseAsync = true
 	})
-}
-
-func setIdentifierFunc(base map[string]interface{}, externalName string) {
-	parts := strings.Split(externalName, ":")
-	base["name"] = parts[0]
 }
 
 func getExternalNameFunc(tfstate map[string]interface{}) (string, error) {

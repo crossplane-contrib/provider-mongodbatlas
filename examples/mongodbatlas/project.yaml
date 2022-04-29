@@ -5,6 +5,5 @@ metadata:
 spec:
   forProvider:
     orgId: "<mongodb atlas organization ID>"
-    name: example-project
   providerConfigRef:
     name: default

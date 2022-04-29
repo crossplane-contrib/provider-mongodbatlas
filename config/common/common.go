@@ -19,6 +19,7 @@ package common
 import (
 	"encoding/base64"
 	"fmt"
+	"strings"
 
 	xpref "github.com/crossplane/crossplane-runtime/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -89,4 +90,12 @@ func Base64EncodeTokens(keyVal ...interface{}) (string, error) {
 		}
 	}
 	return result, nil
+}
+
+// SetIdentifierFunc sets the identifier attribute `name` from a composite
+// external-name where the identifier resides at index 0 of a colon-delimited
+// string.
+func SetIdentifierFunc(base map[string]interface{}, externalName string) {
+	parts := strings.Split(externalName, ":")
+	base["name"] = parts[0]
 }

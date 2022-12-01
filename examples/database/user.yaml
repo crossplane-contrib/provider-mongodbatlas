@@ -1,21 +1,21 @@
 apiVersion: database.mongodbatlas.jet.crossplane.io/v1alpha2
 kind: User
 metadata:
-  name: example
+  name: donuser2
 spec:
   forProvider:
     authDatabaseName: admin
     passwordSecretRef:
-      name: user-password
-      key: password
+      name: temp-creds
       namespace: crossplane-system
+      key: password
     projectIdRef:
-      name: example-project
+      name: test-project
     roles:
-      - databaseName: admin
-        roleName: readAnyDatabase
+      - databaseName: dondb
+        roleName: readWrite
     scopes:
-      - name: test-scope
+      - name: test-cluster
         type: CLUSTER
   providerConfigRef:
-    name: default
+    name: mongodbtest1

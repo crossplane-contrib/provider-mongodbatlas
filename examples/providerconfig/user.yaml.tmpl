@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: demo-creds
+  name: super-creds
   namespace: crossplane-system
 type: Opaque
 stringData:
   credentials: |
     {
-      "public_key": "kvcylsau",
-      "private_key": "22005d51-e532-4a30-a30d-c4768f572d3d"
+      "username": "test-user",
+      "password": "welcome123"
     }

@@ -1,14 +1,14 @@
 apiVersion: mongodbatlas.jet.crossplane.io/v1alpha2
 kind: Cluster
 metadata:
-  name: example-cluster
+  name: demo-cluster
 spec:
   forProvider:
     projectIdRef:
-      name: example-project
+      name: demo-project
     providerName: TENANT
     backingProviderName: AWS
     providerRegionName: US_EAST_1
     providerInstanceSizeName: M0
   providerConfigRef:
-    name: default
+    name: mongodbtest1

@@ -1,0 +1,61 @@
+apiVersion: database.mongodbatlas.jet.crossplane.io/v1alpha2
+kind: User
+metadata:
+  name: test-user
+spec:
+  forProvider:
+    authDatabaseName: admin
+    passwordSecretRef:
+      name: user-cred11
+      namespace: crossplane-system
+      key: credentials
+    projectIdRef:
+      name: test-project
+    roles:
+      - databaseName: testdb
+        collectionName: employee
+        roleName: readAnyDatabase
+    scopes:
+      - name: test-scope
+        type: CLUSTER
+  providerConfigRef:
+    name: default
+
+
+
+apiVersion: database.mongodbatlas.jet.crossplane.io/v1alpha2
+kind: User
+metadata:
+  name: test-user
+spec:
+  forProvider:
+    authDatabaseName: admin
+    passwordSecretRef:
+      name: user-cred11
+      key: password
+      namespace: crossplane-system
+    projectIdRef:
+      name: test-project
+    roles:
+      - databaseName: admin
+        roleName: readAnyDatabase
+    scopes:
+      - name: test-scope
+        type: CLUSTER
+  providerConfigRef:
+    name: mongodbtest1
+
+apiVersion: database.mongodbatlas.jet.crossplane.io/v1alpha2
+kind: User
+metadata:
+  name: test-user
+spec:
+  forProvider:
+    projectIdRef:
+      name: test-project
+    roles:
+      - databaseName: testdb
+        roleName: readAnyDatabase
+        collectionName: employee
+  providerConfigRef:
+    name: mongodbtest

@@ -1,0 +1,23 @@
+apiVersion: mongodbatlas.jet.crossplane.io/v1alpha2
+kind: AdvancedCluster
+metadata:
+  name: test-advanced-cluster3
+spec:
+  forProvider:
+    projectIdRef:
+      name: advanced-project
+    clusterType: REPLICASET
+    backupEnabled: true
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+        - instanceSize: M10
+  patches:
+    - fromFieldPath: "spec.parameters.count"
+      toFieldPath: "spec.forProvider.nodeCount"
+        providerName: AWS
+        #backingProviderName: AWS
+        regionName: US_EAST_1
+        priority: 7
+  providerConfigRef:
+    name: mongodbtest1

@@ -1,0 +1,49 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xmongodbatlas.mongo.database.example.org
+  labels:
+    provider: mongo
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: database.example.org/v1alpha1
+    kind: XMongodbatlas
+  resources:
+    - name: mongodb
+      base:
+        apiVersion: mongodbatlas.jet.crossplane.io/v1alpha2
+        kind: AdvancedCluster
+        metadata:
+          name: advanced-cluster14
+        spec:
+          providerConfigRef:
+            name: mongodbtest1
+          forProvider:
+            projectIdRef:
+              name: advanced-project
+            backupEnabled: true
+      patches:
+        - fromFieldPath: "spec.parameters.instanceSize"
+          toFieldPath: "spec.forProvider.replicationSpecs[0].regionConfigs[0].electableSpecs[0].instanceSize"
+
+        - fromFieldPath: "spec.parameters.nodeCount"
+          toFieldPath: "spec.forProvider.replicationSpecs[0].regionConfigs[0].electableSpecs[0].nodeCount"
+
+        - fromFieldPath: "spec.parameters.providerName"
+          toFieldPath: "spec.forProvider.replicationSpecs[0].regionConfigs[0].providerName"
+
+        - fromFieldPath: "spec.parameters.regionName"
+          toFieldPath: "spec.forProvider.replicationSpecs[0].regionConfigs[0].regionName"
+        
+        - fromFieldPath: "spec.parameters.priority"
+          toFieldPath: "spec.forProvider.replicationSpecs[0].regionConfigs[0].priority"
+
+        - fromFieldPath: "spec.parameters.clusterType"
+          toFieldPath: "spec.forProvider.clusterType"
+
+        - fromFieldPath: "spec.parameters.diskSizeGb"
+          toFieldPath: "spec.forProvider.diskSizeGb"
+
+        - fromFieldPath: "spec.parameters.mongoDbMajorVersion"
+          toFieldPath: "spec.forProvider.mongoDbMajorVersion"

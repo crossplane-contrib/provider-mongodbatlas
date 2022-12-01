@@ -1,9 +1,9 @@
 apiVersion: mongodbatlas.jet.crossplane.io/v1alpha1
 kind: Project
 metadata:
-  name: example-project
+  name: advanced-project11
 spec:
   forProvider:
-    orgId: "<mongodb atlas organization ID>"
+    orgId: "614873f88ed806008b976442"
   providerConfigRef:
-    name: default
+    name: mongodbtest1

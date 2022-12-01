@@ -1,0 +1,53 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xmongodbatlas.database.example.org
+spec:
+  group: database.example.org
+  names:
+    kind: XMongodbatlas
+    plural: xmongodbatlas
+  claimNames:
+    kind: Mongodbatlas
+    plural: mongodbatlas
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  instanceSize:
+                    type: string
+                  nodeCount:
+                    type: integer
+                  providerName: 
+                    type: string
+                  regionName: 
+                    type: string
+                  priority: 
+                    type: integer
+                  clusterType: 
+                    type: string
+                  diskSizeGb: 
+                    type: integer
+                  mongoDbMajorVersion:
+                    type: string
+                required:
+                  - instanceSize
+                  - nodeCount
+                  - providerName
+                  - regionName
+                  - priority
+                  - clusterType
+                  - diskSizeGb
+                  - mongoDbMajorVersion
+            required:
+              - parameters

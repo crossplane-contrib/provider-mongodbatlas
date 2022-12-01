@@ -1,11 +1,11 @@
 apiVersion: mongodbatlas.jet.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
-  name: default
+  name: mongodbtest1
 spec:
   credentials:
     source: Secret
     secretRef:
-      name: example-creds
+      name: demo-creds
       namespace: crossplane-system
       key: credentials

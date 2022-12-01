@@ -1,0 +1,18 @@
+apiVersion: database.example.org/v1alpha1
+kind: Mongodbatlas
+metadata:
+  name: air
+spec:
+  parameters:
+    instanceSize: M10
+    nodeCount: 3
+    providerName: AWS
+    regionName: EU_CENTRAL_1
+    priority: 7
+    clusterType: REPLICASET
+    diskSizeGb: 16
+    mongoDbMajorVersion: "6.0"
+  compositionSelector:
+    matchLabels:
+      provider: mongo
+  

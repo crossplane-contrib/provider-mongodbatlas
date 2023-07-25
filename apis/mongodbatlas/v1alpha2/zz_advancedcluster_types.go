@@ -45,10 +45,16 @@ type AdvancedClusterObservation struct {
 type AdvancedClusterParameters struct {
 
 	// +kubebuilder:validation:Optional
+	AdvancedConfiguration []AdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	BiConnector []BiConnectorParameters `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BiConnectorConfig []BiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	// +kubebuilder:validation:Required
 	ClusterType *string `json:"clusterType" tf:"cluster_type,omitempty"`
@@ -91,7 +97,67 @@ type AdvancedClusterParameters struct {
 	RootCertType *string `json:"rootCertType,omitempty" tf:"root_cert_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
+}
+
+type AdvancedConfigurationObservation struct {
+}
+
+type AdvancedConfigurationParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FailIndexKeyTooLong *bool `json:"failIndexKeyTooLong,omitempty" tf:"fail_index_key_too_long,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	JavascriptEnabled *bool `json:"javascriptEnabled,omitempty" tf:"javascript_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MinimumEnabledTLSProtocol *string `json:"minimumEnabledTlsProtocol,omitempty" tf:"minimum_enabled_tls_protocol,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+}
+
+type AnalyticsAutoScalingObservation struct {
+}
+
+type AnalyticsAutoScalingParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ComputeEnabled *bool `json:"computeEnabled,omitempty" tf:"compute_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ComputeMaxInstanceSize *string `json:"computeMaxInstanceSize,omitempty" tf:"compute_max_instance_size,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ComputeMinInstanceSize *string `json:"computeMinInstanceSize,omitempty" tf:"compute_min_instance_size,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
 type AnalyticsSpecsObservation struct {
@@ -131,6 +197,18 @@ type AutoScalingParameters struct {
 
 	// +kubebuilder:validation:Optional
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
+}
+
+type BiConnectorConfigObservation struct {
+}
+
+type BiConnectorConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
 type BiConnectorObservation struct {
@@ -242,6 +320,9 @@ type RegionConfigsObservation struct {
 type RegionConfigsParameters struct {
 
 	// +kubebuilder:validation:Optional
+	AnalyticsAutoScaling []AnalyticsAutoScalingParameters `json:"analyticsAutoScaling,omitempty" tf:"analytics_auto_scaling,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	AnalyticsSpecs []AnalyticsSpecsParameters `json:"analyticsSpecs,omitempty" tf:"analytics_specs,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -267,6 +348,8 @@ type RegionConfigsParameters struct {
 }
 
 type ReplicationSpecsObservation struct {
+	ContainerID map[string]*string `json:"containerId,omitempty" tf:"container_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 

@@ -121,6 +121,9 @@ type TriggerParameters struct {
 
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Unordered *bool `json:"unordered,omitempty" tf:"unordered,omitempty"`
 }
 
 // TriggerSpec defines the desired state of Trigger

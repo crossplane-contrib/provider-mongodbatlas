@@ -128,6 +128,11 @@ func (in *PartyIntegrationParameters) DeepCopyInto(out *PartyIntegrationParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.FlowName != nil {
 		in, out := &in.FlowName, &out.FlowName
 		*out = new(string)
@@ -138,9 +143,19 @@ func (in *PartyIntegrationParameters) DeepCopyInto(out *PartyIntegrationParamete
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
+	if in.MicrosoftTeamsWebhookURLSecretRef != nil {
+		in, out := &in.MicrosoftTeamsWebhookURLSecretRef, &out.MicrosoftTeamsWebhookURLSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.OrgName != nil {
 		in, out := &in.OrgName, &out.OrgName
 		*out = new(string)
+		**out = **in
+	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -173,8 +188,18 @@ func (in *PartyIntegrationParameters) DeepCopyInto(out *PartyIntegrationParamete
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
+	if in.Scheme != nil {
+		in, out := &in.Scheme, &out.Scheme
+		*out = new(string)
+		**out = **in
+	}
 	if in.SecretSecretRef != nil {
 		in, out := &in.SecretSecretRef, &out.SecretSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.ServiceDiscoverySecretRef != nil {
+		in, out := &in.ServiceDiscoverySecretRef, &out.ServiceDiscoverySecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
@@ -196,6 +221,11 @@ func (in *PartyIntegrationParameters) DeepCopyInto(out *PartyIntegrationParamete
 	if in.URL != nil {
 		in, out := &in.URL, &out.URL
 		*out = new(string)
+		**out = **in
+	}
+	if in.UserNameSecretRef != nil {
+		in, out := &in.UserNameSecretRef, &out.UserNameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 	if in.WriteTokenSecretRef != nil {

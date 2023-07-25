@@ -432,6 +432,11 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.MicrosoftTeamsWebhookURLSecretRef != nil {
+		in, out := &in.MicrosoftTeamsWebhookURLSecretRef, &out.MicrosoftTeamsWebhookURLSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.MobileNumber != nil {
 		in, out := &in.MobileNumber, &out.MobileNumber
 		*out = new(string)
@@ -495,6 +500,16 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 	}
 	if in.VictorOpsRoutingKeySecretRef != nil {
 		in, out := &in.VictorOpsRoutingKeySecretRef, &out.VictorOpsRoutingKeySecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.WebhookSecretSecretRef != nil {
+		in, out := &in.WebhookSecretSecretRef, &out.WebhookSecretSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.WebhookURLSecretRef != nil {
+		in, out := &in.WebhookURLSecretRef, &out.WebhookURLSecretRef
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}

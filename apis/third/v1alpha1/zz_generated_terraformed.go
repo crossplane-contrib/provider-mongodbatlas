@@ -32,7 +32,7 @@ func (mg *PartyIntegration) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this PartyIntegration
 func (tr *PartyIntegration) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"api_key": "spec.forProvider.apiKeySecretRef", "api_token": "spec.forProvider.apiTokenSecretRef", "license_key": "spec.forProvider.licenseKeySecretRef", "read_token": "spec.forProvider.readTokenSecretRef", "routing_key": "spec.forProvider.routingKeySecretRef", "secret": "spec.forProvider.secretSecretRef", "service_key": "spec.forProvider.serviceKeySecretRef", "write_token": "spec.forProvider.writeTokenSecretRef"}
+	return map[string]string{"api_key": "spec.forProvider.apiKeySecretRef", "api_token": "spec.forProvider.apiTokenSecretRef", "license_key": "spec.forProvider.licenseKeySecretRef", "microsoft_teams_webhook_url": "spec.forProvider.microsoftTeamsWebhookUrlSecretRef", "password": "spec.forProvider.passwordSecretRef", "read_token": "spec.forProvider.readTokenSecretRef", "routing_key": "spec.forProvider.routingKeySecretRef", "secret": "spec.forProvider.secretSecretRef", "service_discovery": "spec.forProvider.serviceDiscoverySecretRef", "service_key": "spec.forProvider.serviceKeySecretRef", "user_name": "spec.forProvider.userNameSecretRef", "write_token": "spec.forProvider.writeTokenSecretRef"}
 }
 
 // GetObservation of this PartyIntegration

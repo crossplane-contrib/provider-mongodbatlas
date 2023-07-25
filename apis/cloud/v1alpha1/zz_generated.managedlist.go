@@ -28,6 +28,24 @@ func (l *BackupScheduleList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this BackupSnapshotExportBucketList.
+func (l *BackupSnapshotExportBucketList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this BackupSnapshotExportJobList.
+func (l *BackupSnapshotExportJobList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this BackupSnapshotList.
 func (l *BackupSnapshotList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

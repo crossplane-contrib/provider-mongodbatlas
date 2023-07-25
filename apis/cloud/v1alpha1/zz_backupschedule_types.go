@@ -49,8 +49,17 @@ type BackupScheduleObservation struct {
 
 type BackupScheduleParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
+
 	// +kubebuilder:validation:Required
 	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CopySettings []CopySettingsParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Export []ExportParameters `json:"export,omitempty" tf:"export,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PolicyItemDaily []PolicyItemDailyParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
@@ -88,6 +97,42 @@ type BackupScheduleParameters struct {
 
 	// +kubebuilder:validation:Optional
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UseOrgAndGroupNamesInExportPrefix *bool `json:"useOrgAndGroupNamesInExportPrefix,omitempty" tf:"use_org_and_group_names_in_export_prefix,omitempty"`
+}
+
+type CopySettingsObservation struct {
+}
+
+type CopySettingsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Frequencies []*string `json:"frequencies,omitempty" tf:"frequencies,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReplicationSpecID *string `json:"replicationSpecId,omitempty" tf:"replication_spec_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
+}
+
+type ExportObservation struct {
+}
+
+type ExportParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 }
 
 type PolicyItemDailyObservation struct {

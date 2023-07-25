@@ -99,6 +99,80 @@ func (tr *Endpoint) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+// GetTerraformResourceType returns Terraform resource type for this EndpointServerless
+func (mg *EndpointServerless) GetTerraformResourceType() string {
+	return "mongodbatlas_privatelink_endpoint_serverless"
+}
+
+// GetConnectionDetailsMapping for this EndpointServerless
+func (tr *EndpointServerless) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this EndpointServerless
+func (tr *EndpointServerless) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this EndpointServerless
+func (tr *EndpointServerless) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this EndpointServerless
+func (tr *EndpointServerless) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this EndpointServerless
+func (tr *EndpointServerless) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this EndpointServerless
+func (tr *EndpointServerless) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this EndpointServerless using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *EndpointServerless) LateInitialize(attrs []byte) (bool, error) {
+	params := &EndpointServerlessParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *EndpointServerless) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this EndpointService
 func (mg *EndpointService) GetTerraformResourceType() string {
 	return "mongodbatlas_privatelink_endpoint_service"
@@ -244,5 +318,79 @@ func (tr *EndpointServiceAdl) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *EndpointServiceAdl) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this EndpointServiceServerless
+func (mg *EndpointServiceServerless) GetTerraformResourceType() string {
+	return "mongodbatlas_privatelink_endpoint_service_serverless"
+}
+
+// GetConnectionDetailsMapping for this EndpointServiceServerless
+func (tr *EndpointServiceServerless) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this EndpointServiceServerless
+func (tr *EndpointServiceServerless) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this EndpointServiceServerless
+func (tr *EndpointServiceServerless) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this EndpointServiceServerless
+func (tr *EndpointServiceServerless) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this EndpointServiceServerless
+func (tr *EndpointServiceServerless) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this EndpointServiceServerless
+func (tr *EndpointServiceServerless) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this EndpointServiceServerless using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *EndpointServiceServerless) LateInitialize(attrs []byte) (bool, error) {
+	params := &EndpointServiceServerlessParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *EndpointServiceServerless) GetTerraformSchemaVersion() int {
 	return 0
 }

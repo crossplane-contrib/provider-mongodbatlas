@@ -44,6 +44,9 @@ type ArchiveParameters struct {
 	// +kubebuilder:validation:Required
 	CollName *string `json:"collName" tf:"coll_name,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	CollectionType *string `json:"collectionType,omitempty" tf:"collection_type,omitempty"`
+
 	// +kubebuilder:validation:Required
 	Criteria []CriteriaParameters `json:"criteria" tf:"criteria,omitempty"`
 

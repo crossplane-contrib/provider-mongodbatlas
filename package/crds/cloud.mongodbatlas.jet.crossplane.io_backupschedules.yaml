@@ -64,8 +64,36 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  autoExportEnabled:
+                    type: boolean
                   clusterName:
                     type: string
+                  copySettings:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        frequencies:
+                          items:
+                            type: string
+                          type: array
+                        regionName:
+                          type: string
+                        replicationSpecId:
+                          type: string
+                        shouldCopyOplogs:
+                          type: boolean
+                      type: object
+                    type: array
+                  export:
+                    items:
+                      properties:
+                        exportBucketId:
+                          type: string
+                        frequencyType:
+                          type: string
+                      type: object
+                    type: array
                   policyItemDaily:
                     items:
                       properties:
@@ -210,6 +238,8 @@ spec:
                   restoreWindowDays:
                     type: number
                   updateSnapshots:
+                    type: boolean
+                  useOrgAndGroupNamesInExportPrefix:
                     type: boolean
                 required:
                 - clusterName

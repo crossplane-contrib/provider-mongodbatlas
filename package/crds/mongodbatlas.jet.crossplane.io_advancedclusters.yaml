@@ -64,9 +64,43 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  advancedConfiguration:
+                    items:
+                      properties:
+                        defaultReadConcern:
+                          type: string
+                        defaultWriteConcern:
+                          type: string
+                        failIndexKeyTooLong:
+                          type: boolean
+                        javascriptEnabled:
+                          type: boolean
+                        minimumEnabledTlsProtocol:
+                          type: string
+                        noTableScan:
+                          type: boolean
+                        oplogMinRetentionHours:
+                          type: number
+                        oplogSizeMb:
+                          type: number
+                        sampleRefreshIntervalBiConnector:
+                          type: number
+                        sampleSizeBiConnector:
+                          type: number
+                      type: object
+                    type: array
                   backupEnabled:
                     type: boolean
                   biConnector:
+                    items:
+                      properties:
+                        enabled:
+                          type: boolean
+                        readPreference:
+                          type: string
+                      type: object
+                    type: array
+                  biConnectorConfig:
                     items:
                       properties:
                         enabled:
@@ -181,6 +215,21 @@ spec:
                         regionConfigs:
                           items:
                             properties:
+                              analyticsAutoScaling:
+                                items:
+                                  properties:
+                                    computeEnabled:
+                                      type: boolean
+                                    computeMaxInstanceSize:
+                                      type: string
+                                    computeMinInstanceSize:
+                                      type: string
+                                    computeScaleDownEnabled:
+                                      type: boolean
+                                    diskGbEnabled:
+                                      type: boolean
+                                  type: object
+                                type: array
                               analyticsSpecs:
                                 items:
                                   properties:
@@ -263,6 +312,8 @@ spec:
                     type: array
                   rootCertType:
                     type: string
+                  terminationProtectionEnabled:
+                    type: boolean
                   versionReleaseSystem:
                     type: string
                 required:
@@ -499,6 +550,10 @@ spec:
                   replicationSpecs:
                     items:
                       properties:
+                        containerId:
+                          additionalProperties:
+                            type: string
+                          type: object
                         id:
                           type: string
                       type: object

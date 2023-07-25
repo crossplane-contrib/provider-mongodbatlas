@@ -78,6 +78,8 @@ spec:
                           type: string
                         noTableScan:
                           type: boolean
+                        oplogMinRetentionHours:
+                          type: number
                         oplogSizeMb:
                           type: number
                         sampleRefreshIntervalBiConnector:
@@ -265,6 +267,8 @@ spec:
                       - numShards
                       type: object
                     type: array
+                  terminationProtectionEnabled:
+                    type: boolean
                   versionReleaseSystem:
                     type: string
                 required:

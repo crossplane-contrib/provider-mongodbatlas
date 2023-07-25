@@ -19,6 +19,15 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/pkg/resource"
 
+// GetItems of this EndpointRegionalModeList.
+func (l *EndpointRegionalModeList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this IPModeList.
 func (l *IPModeList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AdvancedConfigurationObservation struct {
+type ClusterAdvancedConfigurationObservation struct {
 }
 
-type AdvancedConfigurationParameters struct {
+type ClusterAdvancedConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
@@ -49,6 +49,9 @@ type AdvancedConfigurationParameters struct {
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -58,10 +61,10 @@ type AdvancedConfigurationParameters struct {
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
 }
 
-type BiConnectorConfigObservation struct {
+type ClusterBiConnectorConfigObservation struct {
 }
 
-type BiConnectorConfigParameters struct {
+type ClusterBiConnectorConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -130,7 +133,7 @@ type ClusterObservation struct {
 type ClusterParameters struct {
 
 	// +kubebuilder:validation:Optional
-	AdvancedConfiguration []AdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+	AdvancedConfiguration []ClusterAdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
@@ -152,7 +155,7 @@ type ClusterParameters struct {
 	BiConnector map[string]*string `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	BiConnectorConfig []BiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
+	BiConnectorConfig []ClusterBiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
@@ -229,6 +232,9 @@ type ClusterParameters struct {
 
 	// +kubebuilder:validation:Optional
 	ReplicationSpecs []ClusterReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`

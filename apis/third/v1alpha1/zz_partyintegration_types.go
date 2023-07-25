@@ -44,13 +44,22 @@ type PartyIntegrationParameters struct {
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	LicenseKeySecretRef *v1.SecretKeySelector `json:"licenseKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
+	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
 	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common.ExtractResourceID()
@@ -75,7 +84,13 @@ type PartyIntegrationParameters struct {
 	RoutingKeySecretRef *v1.SecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
+	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	SecretSecretRef *v1.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	ServiceDiscoverySecretRef *v1.SecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
@@ -88,6 +103,9 @@ type PartyIntegrationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	WriteTokenSecretRef *v1.SecretKeySelector `json:"writeTokenSecretRef,omitempty" tf:"-"`

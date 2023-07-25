@@ -151,6 +151,9 @@ type NotificationParameters struct {
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -185,6 +188,12 @@ type NotificationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	VictorOpsRoutingKeySecretRef *v1.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	WebhookSecretSecretRef *v1.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	WebhookURLSecretRef *v1.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
 }
 
 type ThresholdConfigObservation struct {

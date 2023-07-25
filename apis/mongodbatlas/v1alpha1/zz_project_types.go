@@ -50,11 +50,29 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	APIKeys []APIKeysParameters `json:"apiKeys,omitempty" tf:"api_keys,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
+
 	// +kubebuilder:validation:Required
 	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Teams []TeamsParameters `json:"teams,omitempty" tf:"teams,omitempty"`

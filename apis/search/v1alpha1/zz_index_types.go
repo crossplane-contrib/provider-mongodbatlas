@@ -78,6 +78,9 @@ type IndexParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Synonyms []SynonymsParameters `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WaitForIndexBuildCompletion *bool `json:"waitForIndexBuildCompletion,omitempty" tf:"wait_for_index_build_completion,omitempty"`
 }
 
 type SynonymsObservation struct {

@@ -334,6 +334,31 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.IsCollectDatabaseSpecificsStatisticsEnabled != nil {
+		in, out := &in.IsCollectDatabaseSpecificsStatisticsEnabled, &out.IsCollectDatabaseSpecificsStatisticsEnabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.IsDataExplorerEnabled != nil {
+		in, out := &in.IsDataExplorerEnabled, &out.IsDataExplorerEnabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.IsPerformanceAdvisorEnabled != nil {
+		in, out := &in.IsPerformanceAdvisorEnabled, &out.IsPerformanceAdvisorEnabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.IsRealtimePerformancePanelEnabled != nil {
+		in, out := &in.IsRealtimePerformancePanelEnabled, &out.IsRealtimePerformancePanelEnabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.IsSchemaAdvisorEnabled != nil {
+		in, out := &in.IsSchemaAdvisorEnabled, &out.IsSchemaAdvisorEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
@@ -341,6 +366,11 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 	}
 	if in.ProjectOwnerID != nil {
 		in, out := &in.ProjectOwnerID, &out.ProjectOwnerID
+		*out = new(string)
+		**out = **in
+	}
+	if in.RegionUsageRestrictions != nil {
+		in, out := &in.RegionUsageRestrictions, &out.RegionUsageRestrictions
 		*out = new(string)
 		**out = **in
 	}

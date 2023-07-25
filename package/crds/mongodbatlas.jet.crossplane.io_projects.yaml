@@ -77,9 +77,21 @@ spec:
                       - roleNames
                       type: object
                     type: array
+                  isCollectDatabaseSpecificsStatisticsEnabled:
+                    type: boolean
+                  isDataExplorerEnabled:
+                    type: boolean
+                  isPerformanceAdvisorEnabled:
+                    type: boolean
+                  isRealtimePerformancePanelEnabled:
+                    type: boolean
+                  isSchemaAdvisorEnabled:
+                    type: boolean
                   orgId:
                     type: string
                   projectOwnerId:
+                    type: string
+                  regionUsageRestrictions:
                     type: string
                   teams:
                     items:

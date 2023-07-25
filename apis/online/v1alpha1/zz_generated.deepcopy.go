@@ -135,6 +135,11 @@ func (in *ArchiveParameters) DeepCopyInto(out *ArchiveParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.CollectionType != nil {
+		in, out := &in.CollectionType, &out.CollectionType
+		*out = new(string)
+		**out = **in
+	}
 	if in.Criteria != nil {
 		in, out := &in.Criteria, &out.Criteria
 		*out = make([]CriteriaParameters, len(*in))

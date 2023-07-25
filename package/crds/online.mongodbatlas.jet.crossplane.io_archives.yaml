@@ -67,6 +67,8 @@ spec:
                     type: string
                   collName:
                     type: string
+                  collectionType:
+                    type: string
                   criteria:
                     items:
                       properties:

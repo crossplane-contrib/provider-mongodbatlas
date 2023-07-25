@@ -175,6 +175,8 @@ spec:
                       - sourceCollection
                       type: object
                     type: array
+                  waitForIndexBuildCompletion:
+                    type: boolean
                 required:
                 - analyzer
                 - clusterName

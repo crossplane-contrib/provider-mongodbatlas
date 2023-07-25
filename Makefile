@@ -4,9 +4,9 @@
 PROJECT_NAME := provider-jet-mongodbatlas
 PROJECT_REPO := github.com/crossplane-contrib/$(PROJECT_NAME)
 
-export TERRAFORM_VERSION := 1.3.3
+export TERRAFORM_VERSION := 1.4.6
 export TERRAFORM_PROVIDER_SOURCE := terraform-providers/mongodbatlas
-export TERRAFORM_PROVIDER_VERSION := 1.2.0
+export TERRAFORM_PROVIDER_VERSION := 1.9.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-mongodbatlas
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-mongodbatlas/1.2.0
 

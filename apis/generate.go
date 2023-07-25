@@ -1,3 +1,4 @@
+//go:build generate
 // +build generate
 
 /*
@@ -28,11 +29,11 @@ limitations under the License.
 //go:generate bash -c "find ../internal/controller -iname 'zz_*' -delete"
 //go:generate bash -c "find ../internal/controller -type d -empty -delete"
 
-// Run Terrajet generator
-//go:generate go run -tags generate ../cmd/generator/main.go ..
+// Run Upjet generator
+//go:generate go run ../cmd/generator/main.go ..
 
 // Generate deepcopy methodsets and CRD manifests
-//go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:trivialVersions=true,allowDangerousTypes=true,crdVersions=v1 output:artifacts:config=../package/crds
+//go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:allowDangerousTypes=true,crdVersions=v1 output:artifacts:config=../package/crds
 
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...

@@ -19,17 +19,19 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"time"
 
+	xpcontroller "github.com/crossplane/crossplane-runtime/pkg/controller"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
-	"github.com/crossplane/terrajet/pkg/terraform"
-	tf "github.com/mongodb/terraform-provider-mongodbatlas/mongodbatlas"
+	ujcontroller "github.com/upbound/upjet/pkg/controller"
+	"github.com/upbound/upjet/pkg/terraform"
 	"gopkg.in/alecthomas/kingpin.v2"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis"
-	pconfig "github.com/crossplane-contrib/provider-jet-mongodbatlas/config"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config"
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/clients"
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/controller"
 )
@@ -43,6 +45,7 @@ func main() {
 		terraformVersion = app.Flag("terraform-version", "Terraform version.").Required().Envar("TERRAFORM_VERSION").String()
 		providerSource   = app.Flag("terraform-provider-source", "Terraform provider source.").Required().Envar("TERRAFORM_PROVIDER_SOURCE").String()
 		providerVersion  = app.Flag("terraform-provider-version", "Terraform provider version.").Required().Envar("TERRAFORM_PROVIDER_VERSION").String()
+		maxReconcileRate = app.Flag("max-reconcile-rate", "The global maximum rate per second at which resources may checked for drift from the desired state.").Default("10").Int()
 	)
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
@@ -61,16 +64,28 @@ func main() {
 	kingpin.FatalIfError(err, "Cannot get API server rest config")
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
-		LeaderElection:   *leaderElection,
-		LeaderElectionID: "crossplane-leader-election-provider-jet-mongodbatlas",
-		SyncPeriod:       syncPeriod,
+		LeaderElection:     *leaderElection,
+		LeaderElectionID:   "crossplane-leader-election-provider-jet-mongodbatlas",
+		SyncPeriod:         syncPeriod,
+		MetricsBindAddress: "0.0.0.0:8081",
 	})
 	kingpin.FatalIfError(err, "Cannot create controller manager")
-	ws := terraform.NewWorkspaceStore(log)
-	setup := clients.TerraformSetupBuilder(*terraformVersion, *providerSource, *providerVersion)
 
-	rl := ratelimiter.NewGlobal(ratelimiter.DefaultGlobalRPS)
+	o := ujcontroller.Options{
+		Options: xpcontroller.Options{
+			Logger:                  log,
+			GlobalRateLimiter:       ratelimiter.NewGlobal(*maxReconcileRate),
+			PollInterval:            1 * time.Minute,
+			MaxConcurrentReconciles: 1,
+		},
+		Provider: config.GetProvider(),
+		// use the following WorkspaceStoreOption to enable the shared gRPC mode
+		// terraform.WithProviderRunner(terraform.NewSharedProvider(log, os.Getenv("TERRAFORM_NATIVE_PROVIDER_PATH"), terraform.WithNativeProviderArgs("-debuggable")))
+		WorkspaceStore: terraform.NewWorkspaceStore(log),
+		SetupFn:        clients.TerraformSetupBuilder(*terraformVersion, *providerSource, *providerVersion),
+	}
+
 	kingpin.FatalIfError(apis.AddToScheme(mgr.GetScheme()), "Cannot add MongoDBAtlas APIs to scheme")
-	kingpin.FatalIfError(controller.Setup(mgr, log, rl, setup, ws, pconfig.GetProvider(tf.Provider().ResourcesMap), 1), "Cannot setup MongoDBAtlas controllers")
+	kingpin.FatalIfError(controller.Setup(mgr, o), "Cannot setup MongoDBAtlas controllers")
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
 }

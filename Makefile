@@ -4,7 +4,7 @@
 PROJECT_NAME := provider-jet-mongodbatlas
 PROJECT_REPO := github.com/crossplane-contrib/$(PROJECT_NAME)
 
-export TERRAFORM_VERSION := 1.0.11
+export TERRAFORM_VERSION := 1.3.3
 export TERRAFORM_PROVIDER_SOURCE := terraform-providers/mongodbatlas
 export TERRAFORM_PROVIDER_VERSION := 1.2.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-mongodbatlas
@@ -35,10 +35,12 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider
+GO_REQUIRED_VERSION ?= 1.19
+GOLANGCILINT_VERSION ?= 1.50.0
+GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
-GO111MODULE = on
+GO111MODULE ?= on
 -include build/makelib/golang.mk
 
 # ====================================================================================
@@ -51,10 +53,28 @@ GO111MODULE = on
 
 DOCKER_REGISTRY := crossplane
 IMAGES = provider-jet-mongodbatlas provider-jet-mongodbatlas-controller
--include build/makelib/image.mk
+-include build/makelib/imagelight.mk
 
 # ====================================================================================
-# Targets
+# Setup XPKG
+
+XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
+# NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
+# inferred.
+XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
+XPKGS = $(PROJECT_NAME)
+-include build/makelib/xpkg.mk
+
+# NOTE(hasheddan): we force image building to happen prior to xpkg build so that
+# we ensure image is present in daemon.
+xpkg.build.upjet-provider-template: do.build.images
+
+# NOTE(hasheddan): we ensure up is installed prior to running platform-specific
+# build steps in parallel to avoid encountering an installation race condition.
+build.init: $(UP)
+
+# ====================================================================================
+# Fallthrough
 
 # run `make help` to see the targets and options
 
@@ -67,20 +87,57 @@ fallthrough: submodules
 	@echo Initial setup complete. Running make again . . .
 	@make
 
+# ====================================================================================
+# Setup Terraform for fetching provider schema
+TERRAFORM := $(TOOLS_HOST_DIR)/terraform-$(TERRAFORM_VERSION)
+TERRAFORM_WORKDIR := $(WORK_DIR)/terraform
+TERRAFORM_PROVIDER_SCHEMA := config/schema.json
+
+$(TERRAFORM):
+	@$(INFO) installing terraform $(HOSTOS)-$(HOSTARCH)
+	@mkdir -p $(TOOLS_HOST_DIR)/tmp-terraform
+	@curl -fsSL https://releases.hashicorp.com/terraform/$(TERRAFORM_VERSION)/terraform_$(TERRAFORM_VERSION)_$(SAFEHOST_PLATFORM).zip -o $(TOOLS_HOST_DIR)/tmp-terraform/terraform.zip
+	@unzip $(TOOLS_HOST_DIR)/tmp-terraform/terraform.zip -d $(TOOLS_HOST_DIR)/tmp-terraform
+	@mv $(TOOLS_HOST_DIR)/tmp-terraform/terraform $(TERRAFORM)
+	@rm -fr $(TOOLS_HOST_DIR)/tmp-terraform
+	@$(OK) installing terraform $(HOSTOS)-$(HOSTARCH)
+
+$(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
+	@$(INFO) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
+	@mkdir -p $(TERRAFORM_WORKDIR)
+	@echo '{"terraform":[{"required_providers":[{"provider":{"source":"'"$(TERRAFORM_PROVIDER_SOURCE)"'","version":"'"$(TERRAFORM_PROVIDER_VERSION)"'"}}],"required_version":"'"$(TERRAFORM_VERSION)"'"}]}' > $(TERRAFORM_WORKDIR)/main.tf.json
+	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) init > $(TERRAFORM_WORKDIR)/terraform-logs.txt 2>&1
+	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
+	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
+
+pull-docs:
+	@if [ ! -d "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" ]; then \
+  		mkdir -p "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" && \
+		git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)"; \
+	fi
+	@git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
+
+generate.init: $(TERRAFORM_PROVIDER_SCHEMA)
+
+.PHONY: $(TERRAFORM_PROVIDER_SCHEMA)
+# ====================================================================================
+# Targets
+
+# NOTE: the build submodule currently overrides XDG_CACHE_HOME in order to
+# force the Helm 3 to use the .work/helm directory. This causes Go on Linux
+# machines to use that directory as the build cache as well. We should adjust
+# this behavior in the build submodule because it is also causing Linux users
+# to duplicate their build cache, but for now we just make it easier to identify
+# its location in CI so that we cache between builds.
+go.cachedir:
+	@go env GOCACHE
+
 # Generate a coverage report for cobertura applying exclusions on
 # - generated file
 cobertura:
 	@cat $(GO_TEST_OUTPUT)/coverage.txt | \
 		grep -v zz_ | \
 		$(GOCOVER_COBERTURA) > $(GO_TEST_OUTPUT)/cobertura-coverage.xml
-
-crds.clean:
-	@$(INFO) cleaning generated CRDs
-	@find package/crds -name '*.yaml' -exec sed -i.sed -e '1,2d' {} \; || $(FAIL)
-	@find package/crds -name '*.yaml.sed' -delete || $(FAIL)
-	@$(OK) cleaned generated CRDs
-
-generate.done: crds.clean
 
 # Update the submodules, such as the common build scripts.
 submodules:
@@ -94,6 +151,25 @@ run: go.build
 	@$(INFO) Running Crossplane locally out-of-cluster . . .
 	@# To see other arguments that can be provided, run the command with --help instead
 	$(GO_OUT_DIR)/provider --debug
+
+# ====================================================================================
+# End to End Testing
+CROSSPLANE_NAMESPACE = upbound-system
+-include build/makelib/local.xpkg.mk
+-include build/makelib/controlplane.mk
+
+uptest: $(UPTEST) $(KUBECTL) $(KUTTL)
+	@$(INFO) running automated tests
+	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --setup-script=cluster/test/setup.sh || $(FAIL)
+	@$(OK) running automated tests
+
+local-deploy: build controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)
+	@$(INFO) running locally built provider
+	@$(KUBECTL) wait provider.pkg $(PROJECT_NAME) --for condition=Healthy --timeout 5m
+	@$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m
+	@$(OK) running locally built provider
+
+e2e: local-deploy uptest
 
 .PHONY: cobertura submodules fallthrough run crds.clean
 

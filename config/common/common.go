@@ -23,7 +23,7 @@ import (
 
 	xpref "github.com/crossplane/crossplane-runtime/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane/terrajet/pkg/resource"
+	"github.com/upbound/upjet/pkg/resource"
 	"github.com/pkg/errors"
 )
 

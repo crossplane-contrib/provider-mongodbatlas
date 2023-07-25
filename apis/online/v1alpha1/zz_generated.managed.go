@@ -42,6 +42,11 @@ func (mg *Archive) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this Archive.
+func (mg *Archive) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this Archive.
 func (mg *Archive) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -68,6 +73,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *Archive) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this Archive.
+func (mg *Archive) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this Archive.

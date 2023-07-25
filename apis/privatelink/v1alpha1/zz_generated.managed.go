@@ -42,6 +42,11 @@ func (mg *Endpoint) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this Endpoint.
+func (mg *Endpoint) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this Endpoint.
 func (mg *Endpoint) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -68,6 +73,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *Endpoint) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this Endpoint.
+func (mg *Endpoint) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this Endpoint.
@@ -98,6 +108,11 @@ func (mg *EndpointService) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this EndpointService.
+func (mg *EndpointService) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this EndpointService.
 func (mg *EndpointService) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -124,6 +139,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *EndpointService) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this EndpointService.
+func (mg *EndpointService) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this EndpointService.
@@ -154,6 +174,11 @@ func (mg *EndpointServiceAdl) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
+// GetPublishConnectionDetailsTo of this EndpointServiceAdl.
+func (mg *EndpointServiceAdl) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
 // GetWriteConnectionSecretToReference of this EndpointServiceAdl.
 func (mg *EndpointServiceAdl) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -180,6 +205,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *EndpointServiceAdl) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this EndpointServiceAdl.
+func (mg *EndpointServiceAdl) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this EndpointServiceAdl.

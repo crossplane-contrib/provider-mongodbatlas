@@ -32,15 +32,9 @@ import (
 const (
 	keyPublicKey  = "public_key"
 	keyPrivateKey = "private_key"
-
-	// MongoDBAtlas credentials environment variable names
-	envPublicKey  = "MONGODB_ATLAS_PUBLIC_KEY"
-	envPrivateKey = "MONGODB_ATLAS_PRIVATE_KEY"
 )
 
 const (
-	fmtEnvVar = "%s=%s"
-
 	// error messages
 	errNoProviderConfig     = "no providerConfigRef provided"
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"

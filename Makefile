@@ -9,6 +9,7 @@ export TERRAFORM_PROVIDER_SOURCE := terraform-providers/mongodbatlas
 export TERRAFORM_PROVIDER_VERSION := 1.9.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-mongodbatlas
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-mongodbatlas/1.9.0
+export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-mongodbatlas_v1.9.0
 
 PLATFORMS ?= linux_amd64 linux_arm64
 

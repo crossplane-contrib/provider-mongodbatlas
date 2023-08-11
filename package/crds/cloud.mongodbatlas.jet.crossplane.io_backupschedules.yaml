@@ -1,8 +1,9 @@
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.6.2
+    controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
   name: backupschedules.cloud.mongodbatlas.jet.crossplane.io
 spec:
@@ -11,7 +12,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - mongodbatlasjet
+    - mongodbatlas
     kind: BackupSchedule
     listKind: BackupScheduleList
     plural: backupschedules
@@ -34,7 +35,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: BackupSchedule is the Schema for the BackupSchedules API
+        description: BackupSchedule is the Schema for the BackupSchedules API. <no
+          value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -62,19 +64,45 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  autoExportEnabled:
+                    type: boolean
                   clusterName:
                     type: string
+                  copySettings:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        frequencies:
+                          items:
+                            type: string
+                          type: array
+                        regionName:
+                          type: string
+                        replicationSpecId:
+                          type: string
+                        shouldCopyOplogs:
+                          type: boolean
+                      type: object
+                    type: array
+                  export:
+                    items:
+                      properties:
+                        exportBucketId:
+                          type: string
+                        frequencyType:
+                          type: string
+                      type: object
+                    type: array
                   policyItemDaily:
                     items:
                       properties:
                         frequencyInterval:
-                          format: int64
-                          type: integer
+                          type: number
                         retentionUnit:
                           type: string
                         retentionValue:
-                          format: int64
-                          type: integer
+                          type: number
                       required:
                       - frequencyInterval
                       - retentionUnit
@@ -85,13 +113,11 @@ spec:
                     items:
                       properties:
                         frequencyInterval:
-                          format: int64
-                          type: integer
+                          type: number
                         retentionUnit:
                           type: string
                         retentionValue:
-                          format: int64
-                          type: integer
+                          type: number
                       required:
                       - frequencyInterval
                       - retentionUnit
@@ -102,13 +128,11 @@ spec:
                     items:
                       properties:
                         frequencyInterval:
-                          format: int64
-                          type: integer
+                          type: number
                         retentionUnit:
                           type: string
                         retentionValue:
-                          format: int64
-                          type: integer
+                          type: number
                       required:
                       - frequencyInterval
                       - retentionUnit
@@ -119,13 +143,11 @@ spec:
                     items:
                       properties:
                         frequencyInterval:
-                          format: int64
-                          type: integer
+                          type: number
                         retentionUnit:
                           type: string
                         retentionValue:
-                          format: int64
-                          type: integer
+                          type: number
                       required:
                       - frequencyInterval
                       - retentionUnit
@@ -135,16 +157,43 @@ spec:
                   projectId:
                     type: string
                   projectIdRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Project in mongodbatlas to populate
+                      projectId.
                     properties:
                       name:
                         description: Name of the referenced object.
                         type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
                     required:
                     - name
                     type: object
                   projectIdSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Project in mongodbatlas to populate
+                      projectId.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -156,17 +205,41 @@ spec:
                         description: MatchLabels ensures an object with matching labels
                           is selected.
                         type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
                     type: object
                   referenceHourOfDay:
-                    format: int64
-                    type: integer
+                    type: number
                   referenceMinuteOfHour:
-                    format: int64
-                    type: integer
+                    type: number
                   restoreWindowDays:
-                    format: int64
-                    type: integer
+                    type: number
                   updateSnapshots:
+                    type: boolean
+                  useOrgAndGroupNamesInExportPrefix:
                     type: boolean
                 required:
                 - clusterName
@@ -181,6 +254,31 @@ spec:
                   name:
                     description: Name of the referenced object.
                     type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
                 required:
                 - name
                 type: object
@@ -192,6 +290,105 @@ spec:
                   name:
                     description: Name of the referenced object.
                     type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
                 required:
                 - name
                 type: object
@@ -200,7 +397,10 @@ spec:
                   and name of a Secret to which any connection details for this managed
                   resource should be written. Connection details frequently include
                   the endpoint, username, and password required to connect to the
-                  managed resource.
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -228,6 +428,42 @@ spec:
                     type: string
                   nextSnapshot:
                     type: string
+                  policyItemDaily:
+                    items:
+                      properties:
+                        frequencyType:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  policyItemHourly:
+                    items:
+                      properties:
+                        frequencyType:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  policyItemMonthly:
+                    items:
+                      properties:
+                        frequencyType:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  policyItemWeekly:
+                    items:
+                      properties:
+                        frequencyType:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

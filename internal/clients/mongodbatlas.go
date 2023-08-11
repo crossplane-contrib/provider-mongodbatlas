@@ -19,29 +19,22 @@ package clients
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane/terrajet/pkg/terraform"
 	"github.com/pkg/errors"
+	"github.com/upbound/upjet/pkg/terraform"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/v1alpha1"
+	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/v1beta1"
 )
 
 const (
 	keyPublicKey  = "public_key"
 	keyPrivateKey = "private_key"
-
-	// MongoDBAtlas credentials environment variable names
-	envPublicKey  = "MONGODB_ATLAS_PUBLIC_KEY"
-	envPrivateKey = "MONGODB_ATLAS_PRIVATE_KEY"
 )
 
 const (
-	fmtEnvVar = "%s=%s"
-
 	// error messages
 	errNoProviderConfig     = "no providerConfigRef provided"
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
@@ -66,12 +59,12 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if configRef == nil {
 			return ps, errors.New(errNoProviderConfig)
 		}
-		pc := &v1alpha1.ProviderConfig{}
+		pc := &v1beta1.ProviderConfig{}
 		if err := client.Get(ctx, types.NamespacedName{Name: configRef.Name}, pc); err != nil {
 			return ps, errors.Wrap(err, errGetProviderConfig)
 		}
 
-		t := resource.NewProviderConfigUsageTracker(client, &v1alpha1.ProviderConfigUsage{})
+		t := resource.NewProviderConfigUsageTracker(client, &v1beta1.ProviderConfigUsage{})
 		if err := t.Track(ctx, mg); err != nil {
 			return ps, errors.Wrap(err, errTrackUsage)
 		}
@@ -85,11 +78,15 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			return ps, errors.Wrap(err, errUnmarshalCredentials)
 		}
 
-		// set environment variables for sensitive provider configuration
-		ps.Env = []string{
-			fmt.Sprintf(fmtEnvVar, envPublicKey, mongodbatlasCreds[keyPublicKey]),
-			fmt.Sprintf(fmtEnvVar, envPrivateKey, mongodbatlasCreds[keyPrivateKey]),
+		ps.Configuration = map[string]any{}
+
+		if v, ok := mongodbatlasCreds[keyPublicKey]; ok {
+			ps.Configuration[keyPublicKey] = v
 		}
+		if v, ok := mongodbatlasCreds[keyPrivateKey]; ok {
+			ps.Configuration[keyPrivateKey] = v
+		}
+
 		return ps, nil
 	}
 }

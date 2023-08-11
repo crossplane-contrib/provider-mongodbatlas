@@ -1,7 +1,7 @@
 package config
 
 import (
-	tjconfig "github.com/crossplane/terrajet/pkg/config"
+	ujconfig "github.com/upbound/upjet/pkg/config"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
@@ -22,8 +22,8 @@ var gvkMap = map[string]schema.GroupVersionKind{
 
 // gvkOverrides overrides the group, version and kind of the resource if it matches
 // any entry in the gvkMap.
-func gvkOverrides() tjconfig.ResourceOption {
-	return func(r *tjconfig.Resource) {
+func gvkOverrides() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
 		if r.ShortGroup == resourcePrefix {
 			r.ShortGroup = ""
 		}
@@ -38,16 +38,16 @@ func gvkOverrides() tjconfig.ResourceOption {
 // identifierAssignedByMongoDBAtlas is the most common external name
 // configuration.
 // The resource-specific configurations should override this whenever needed.
-func identifierAssignedByMongoDBAtlas() tjconfig.ResourceOption {
-	return func(r *tjconfig.Resource) {
-		r.ExternalName = tjconfig.IdentifierFromProvider
+func identifierAssignedByMongoDBAtlas() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
+		r.ExternalName = ujconfig.IdentifierFromProvider
 	}
 }
 
 // commonReferences adds referencers for fields that are known and common among
 // more than a few resources.
-func commonReferences() tjconfig.ResourceOption {
-	return func(r *tjconfig.Resource) {
+func commonReferences() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
 		for k, s := range r.TerraformResource.Schema {
 			// We shouldn't add referencers for status fields and sensitive fields
 			// since they already have secret referencer.
@@ -56,7 +56,7 @@ func commonReferences() tjconfig.ResourceOption {
 			}
 
 			if k == "project_id" {
-				ref := tjconfig.Reference{
+				ref := ujconfig.Reference{
 					Type:      common.APISPackagePath + "/mongodbatlas/v1alpha1.Project",
 					Extractor: common.ExtractResourceIDFuncPath,
 				}

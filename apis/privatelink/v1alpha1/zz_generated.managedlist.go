@@ -28,6 +28,15 @@ func (l *EndpointList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this EndpointServerlessList.
+func (l *EndpointServerlessList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this EndpointServiceAdlList.
 func (l *EndpointServiceAdlList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -39,6 +48,15 @@ func (l *EndpointServiceAdlList) GetItems() []resource.Managed {
 
 // GetItems of this EndpointServiceList.
 func (l *EndpointServiceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this EndpointServiceServerlessList.
+func (l *EndpointServiceServerlessList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

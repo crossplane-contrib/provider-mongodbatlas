@@ -17,8 +17,10 @@ limitations under the License.
 package config
 
 import (
-	tjconfig "github.com/crossplane/terrajet/pkg/config"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	// Note(turkenh): we are importing this to embed provider schema document
+	_ "embed"
+
+	ujconfig "github.com/upbound/upjet/pkg/config"
 
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/database"
 	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/mongodbatlas"
@@ -30,20 +32,22 @@ const (
 	modulePath     = "github.com/crossplane-contrib/provider-jet-mongodbatlas"
 )
 
+//go:embed schema.json
+var providerSchema string
+
 // GetProvider returns provider configuration
-func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
-	pc := tjconfig.NewProvider(resourceMap, resourcePrefix, modulePath,
-		tjconfig.WithDefaultResourceFn(DefaultResource(
-			// Note(turkenh): Some other resource configuration options rely on
-			// the final version Group and Kind. So, please make sure to have
-			// `groupKindOverrides()` as the first option here.
+func GetProvider() *ujconfig.Provider {
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
+		ujconfig.WithSkipList([]string{"mongodbatlas_encryption_at_rest", "mongodbatlas_teams"}),
+		ujconfig.WithDefaultResourceOptions(
 			gvkOverrides(),
 			identifierAssignedByMongoDBAtlas(),
 			commonReferences(),
-		)),
-		tjconfig.WithSkipList([]string{"mongodbatlas_encryption_at_rest", "mongodbatlas_teams"}))
+		),
+		ujconfig.WithRootGroup("mongodbatlas.jet.crossplane.io"), // keep the old terrajet naming
+	)
 
-	for _, configure := range []func(provider *tjconfig.Provider){
+	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		mongodbatlas.Configure,
 		project.Configure,
@@ -54,12 +58,4 @@ func GetProvider(resourceMap map[string]*schema.Resource) *tjconfig.Provider {
 
 	pc.ConfigureResources()
 	return pc
-}
-
-// DefaultResource returns a DefaultResoruceFn that makes sure the original
-// DefaultResource call is made with given options here.
-func DefaultResource(opts ...tjconfig.ResourceOption) tjconfig.DefaultResourceFn {
-	return func(name string, terraformResource *schema.Resource, orgOpts ...tjconfig.ResourceOption) *tjconfig.Resource {
-		return tjconfig.DefaultResource(name, terraformResource, append(orgOpts, opts...)...)
-	}
 }

@@ -19,6 +19,72 @@ package v1alpha1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
+// GetCondition of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this EndpointRegionalMode.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *EndpointRegionalMode) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this EndpointRegionalMode.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *EndpointRegionalMode) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this IPMode.
 func (mg *IPMode) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -40,6 +106,11 @@ Deprecated: Use GetProviderConfigReference.
 */
 func (mg *IPMode) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this IPMode.
+func (mg *IPMode) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this IPMode.
@@ -68,6 +139,11 @@ Deprecated: Use SetProviderConfigReference.
 */
 func (mg *IPMode) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this IPMode.
+func (mg *IPMode) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this IPMode.

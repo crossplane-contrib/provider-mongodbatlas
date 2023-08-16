@@ -2,6 +2,23 @@ apiVersion: meta.pkg.crossplane.io/v1alpha1
 kind: Provider
 metadata:
   name: provider-mongodbatlas
+  annotations:
+    meta.crossplane.io/maintainer: Crossplane Maintainers <info@crossplane.io>
+    meta.crossplane.io/source: github.com/crossplane-contrib/provider-mongodbatlas
+    meta.crossplane.io/license: Apache-2.0
+    meta.crossplane.io/description: |
+      The MongoDB Atlas Crossplane provider adds support for
+      managing MongoDB Atlas resources through Kubernetes.
+
+    meta.crossplane.io/readme: |
+      `provider-mongodbatlas` is the Crossplane infrastructure provider
+      for [MongoDB Atlas](https://www.mongodb.com/atlas).
+
+      If you encounter an issue please reach out on
+      [slack.crossplane.io](https://slack.crossplane.io)
+      and create an issue in the
+      [crossplane-contrib/provider-mongodbatlas](https://github.com/crossplane-contrib/provider-mongodbatlas)
+      repo.
 spec:
   controller:
     image: DOCKER_REGISTRY/provider-mongodbatlas-controller:VERSION

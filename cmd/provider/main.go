@@ -35,12 +35,12 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis"
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/v1alpha1"
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config"
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/clients"
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/controller"
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/internal/features"
+	"github.com/crossplane-contrib/provider-mongodbatlas/apis"
+	"github.com/crossplane-contrib/provider-mongodbatlas/apis/v1alpha1"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config"
+	"github.com/crossplane-contrib/provider-mongodbatlas/internal/clients"
+	"github.com/crossplane-contrib/provider-mongodbatlas/internal/controller"
+	"github.com/crossplane-contrib/provider-mongodbatlas/internal/features"
 )
 
 func main() {
@@ -62,7 +62,7 @@ func main() {
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	zl := zap.New(zap.UseDevMode(*debug))
-	log := logging.NewLogrLogger(zl.WithName("provider-jet-mongodbatlas"))
+	log := logging.NewLogrLogger(zl.WithName("provider-mongodbatlas"))
 	if *debug {
 		// The controller-runtime runs with a no-op logger by default. It is
 		// *very* verbose even at info level, so we only provide it a real
@@ -77,7 +77,7 @@ func main() {
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
 		LeaderElection:     *leaderElection,
-		LeaderElectionID:   "crossplane-leader-election-provider-jet-mongodbatlas",
+		LeaderElectionID:   "crossplane-leader-election-provider-mongodbatlas",
 		SyncPeriod:         syncPeriod,
 		MetricsBindAddress: "0.0.0.0:8081",
 	})

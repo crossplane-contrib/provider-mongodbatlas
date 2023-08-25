@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: users.database.mongodbatlas.jet.crossplane.io
+  name: users.database.mongodbatlas.crossplane.io
 spec:
-  group: database.mongodbatlas.jet.crossplane.io
+  group: database.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane

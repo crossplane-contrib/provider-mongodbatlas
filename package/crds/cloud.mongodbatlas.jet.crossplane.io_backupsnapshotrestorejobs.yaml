@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: backupsnapshotrestorejobs.cloud.mongodbatlas.jet.crossplane.io
+  name: backupsnapshotrestorejobs.cloud.mongodbatlas.crossplane.io
 spec:
-  group: cloud.mongodbatlas.jet.crossplane.io
+  group: cloud.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane

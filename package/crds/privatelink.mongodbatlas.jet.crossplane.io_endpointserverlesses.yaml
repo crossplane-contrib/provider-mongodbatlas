@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: endpointserverlesses.privatelink.mongodbatlas.jet.crossplane.io
+  name: endpointserverlesses.privatelink.mongodbatlas.crossplane.io
 spec:
-  group: privatelink.mongodbatlas.jet.crossplane.io
+  group: privatelink.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane

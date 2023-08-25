@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: settingsidentityproviders.federated.mongodbatlas.jet.crossplane.io
+  name: settingsidentityproviders.federated.mongodbatlas.crossplane.io
 spec:
-  group: federated.mongodbatlas.jet.crossplane.io
+  group: federated.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane

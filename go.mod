@@ -1,4 +1,4 @@
-module github.com/crossplane-contrib/provider-jet-mongodbatlas
+module github.com/crossplane-contrib/provider-mongodbatlas
 
 go 1.19
 

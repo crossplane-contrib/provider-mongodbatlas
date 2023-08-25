@@ -4,7 +4,7 @@ import (
 	ujconfig "github.com/upbound/upjet/pkg/config"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/common"
 )
 
 var gvkMap = map[string]schema.GroupVersionKind{

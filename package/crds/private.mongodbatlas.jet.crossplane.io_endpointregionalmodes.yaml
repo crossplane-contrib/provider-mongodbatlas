@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: endpointregionalmodes.private.mongodbatlas.jet.crossplane.io
+  name: endpointregionalmodes.private.mongodbatlas.crossplane.io
 spec:
-  group: private.mongodbatlas.jet.crossplane.io
+  group: private.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane

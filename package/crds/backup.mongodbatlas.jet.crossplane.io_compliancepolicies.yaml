@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: compliancepolicies.backup.mongodbatlas.jet.crossplane.io
+  name: compliancepolicies.backup.mongodbatlas.crossplane.io
 spec:
-  group: backup.mongodbatlas.jet.crossplane.io
+  group: backup.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane

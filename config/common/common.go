@@ -34,7 +34,7 @@ const (
 	// errFmtUnexpectedType is an error string for attribute map values of unexpected type
 	errFmtUnexpectedType = `unexpected type for attribute %s: Expecting a string`
 
-	commonConfigPackagePath = "github.com/crossplane-contrib/provider-jet-mongodbatlas/config/common"
+	commonConfigPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/config/common"
 	// ExtractResourceIDFuncPath holds the MongoDBAtlas resource ID extractor func name
 	ExtractResourceIDFuncPath = commonConfigPackagePath + ".ExtractResourceID()"
 
@@ -44,7 +44,7 @@ const (
 
 const (
 	// APISPackagePath is the package path for generated APIs root package
-	APISPackagePath = "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis"
+	APISPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/apis"
 )
 
 // GetAttributeValue reads a string attribute from the specified map

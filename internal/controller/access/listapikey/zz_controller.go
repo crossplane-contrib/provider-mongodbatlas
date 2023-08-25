@@ -30,7 +30,7 @@ import (
 	"github.com/upbound/upjet/pkg/terraform"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1alpha1 "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/access/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/access/v1alpha1"
 )
 
 // Setup adds a controller that reconciles ListAPIKey managed resources.

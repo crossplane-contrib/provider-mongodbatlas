@@ -25,7 +25,7 @@ import (
 
 // Package type metadata.
 const (
-	Group   = "mongodbatlas.jet.crossplane.io"
+	Group   = "mongodbatlas.crossplane.io"
 	Version = "v1alpha1"
 )
 

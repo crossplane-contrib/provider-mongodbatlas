@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: providerconfigs.mongodbatlas.jet.crossplane.io
+  name: providerconfigs.mongodbatlas.crossplane.io
 spec:
-  group: mongodbatlas.jet.crossplane.io
+  group: mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane
@@ -30,7 +30,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: A ProviderConfig configures a MongoDBAtlas jet provider.
+        description: A ProviderConfig configures a MongoDBAtlas provider.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

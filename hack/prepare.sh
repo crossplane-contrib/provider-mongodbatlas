@@ -27,5 +27,5 @@ git grep -l 'Template' -- ${REPLACE_FILES} | xargs sed -i.bak "s/Template/${Prov
 git clean -fd
 
 git mv "internal/clients/template.go" "internal/clients/${ProviderNameLower}.go"
-git mv "cluster/images/provider-jet-template" "cluster/images/provider-jet-${ProviderNameLower}"
-git mv "cluster/images/provider-jet-template-controller" "cluster/images/provider-jet-${ProviderNameLower}-controller"
+git mv "cluster/images/provider-jet-template" "cluster/images/provider-${ProviderNameLower}"
+git mv "cluster/images/provider-jet-template-controller" "cluster/images/provider-${ProviderNameLower}-controller"

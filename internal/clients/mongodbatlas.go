@@ -26,7 +26,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/v1beta1"
+	"github.com/crossplane-contrib/provider-mongodbatlas/apis/v1beta1"
 )
 
 const (

@@ -1,4 +1,4 @@
-apiVersion: project.mongodbatlas.jet.crossplane.io/v1alpha1
+apiVersion: project.mongodbatlas.crossplane.io/v1alpha1
 kind: IPAccessList
 metadata:
   name: example

@@ -26,7 +26,7 @@ import (
 	// provider uses an old version (<v2) of github.com/hashicorp/terraform-plugin-sdk.
 	// "github.com/upbound/upjet/pkg/types/conversion"
 
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config"
 )
 
 func main() {

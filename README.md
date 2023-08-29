@@ -1,19 +1,19 @@
-# Terrajet MongoDBAtlas Provider
+# MongoDBAtlas Provider
 
-`provider-jet-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
-is built using [Terrajet](https://github.com/crossplane-contrib/terrajet) code
-generation tools and exposes XRM-conformant managed resources for the 
+`provider-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
+is built using [Upjet](https://github.com/upbound/upjet) code
+generation tools and exposes XRM-conformant managed resources for the
 MongoDBAtlas API.
 
 ## Getting Started
 
 Install the provider by using the following command after changing the image tag
-to the [latest release](https://github.com/crossplane-contrib/provider-jet-mongodbatlas/releases):
+to the [latest release](https://github.com/crossplane-contrib/provider-mongodbatlas/releases):
 ```
-kubectl crossplane install provider crossplane/provider-jet-mongodbatlas:v0.1.0
+kubectl crossplane install provider crossplane/provider-mongodbatlas:v0.1.0
 ```
 
-You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-contrib/provider-jet-mongodbatlas).
+You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-contrib/provider-mongodbatlas).
 
 ## Developing
 
@@ -55,7 +55,7 @@ make build
 ## Report a Bug
 
 For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/crossplane-contrib/provider-jet-mongodbatlas/issues).
+open an [issue](https://github.com/crossplane-contrib/provider-mongodbatlas/issues).
 
 ## Contact
 
@@ -69,17 +69,17 @@ Please use the following to reach members of the community:
 
 ## Governance and Owners
 
-provider-jet-mongodbatlas is run according to the same
+provider-mongodbatlas is run according to the same
 [Governance](https://github.com/crossplane/crossplane/blob/master/GOVERNANCE.md)
 and [Ownership](https://github.com/crossplane/crossplane/blob/master/OWNERS.md)
 structure as the core Crossplane project.
 
 ## Code of Conduct
 
-provider-jet-mongodbatlas adheres to the same [Code of
+provider-mongodbatlas adheres to the same [Code of
 Conduct](https://github.com/crossplane/crossplane/blob/master/CODE_OF_CONDUCT.md)
 as the core Crossplane project.
 
 ## Licensing
 
-provider-jet-mongodbatlas is under the Apache 2.0 license.
+provider-mongodbatlas is under the Apache 2.0 license.

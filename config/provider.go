@@ -22,14 +22,14 @@ import (
 
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/database"
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/mongodbatlas"
-	"github.com/crossplane-contrib/provider-jet-mongodbatlas/config/project"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/database"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/mongodbatlas"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/project"
 )
 
 const (
 	resourcePrefix = "mongodbatlas"
-	modulePath     = "github.com/crossplane-contrib/provider-jet-mongodbatlas"
+	modulePath     = "github.com/crossplane-contrib/provider-mongodbatlas"
 )
 
 //go:embed schema.json
@@ -44,7 +44,7 @@ func GetProvider() *ujconfig.Provider {
 			identifierAssignedByMongoDBAtlas(),
 			commonReferences(),
 		),
-		ujconfig.WithRootGroup("mongodbatlas.jet.crossplane.io"), // keep the old terrajet naming
+		ujconfig.WithRootGroup("mongodbatlas.crossplane.io"), // crossplane.io naming without jet subgroup
 	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){

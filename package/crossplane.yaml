@@ -1,7 +1,7 @@
 apiVersion: meta.pkg.crossplane.io/v1alpha1
 kind: Provider
 metadata:
-  name: provider-jet-mongodbatlas
+  name: provider-mongodbatlas
 spec:
   controller:
-    image: DOCKER_REGISTRY/provider-jet-mongodbatlas-controller:VERSION
+    image: DOCKER_REGISTRY/provider-mongodbatlas-controller:VERSION

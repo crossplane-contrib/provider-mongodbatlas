@@ -30,7 +30,7 @@ import (
 	"github.com/upbound/upjet/pkg/terraform"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1alpha2 "github.com/crossplane-contrib/provider-jet-mongodbatlas/apis/mongodbatlas/v1alpha2"
+	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha2"
 )
 
 // Setup adds a controller that reconciles Cluster managed resources.

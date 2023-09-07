@@ -52,6 +52,9 @@ func Configure(p *config.Provider) {
 			}
 			return common.Base64EncodeTokens("cluster_id", parts[1], "cluster_name", parameters["name"], "project_id", parameters["project_id"])
 		}
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"bi_connector"},
+		}
 		r.UseAsync = true
 	})
 }

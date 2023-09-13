@@ -4,4 +4,4 @@ metadata:
   name: provider-mongodbatlas
 spec:
   controller:
-    image: DOCKER_REGISTRY/provider-mongodbatlas-controller:VERSION
+    image: DOCKER_REGISTRY/provider-mongodbatlas:VERSION

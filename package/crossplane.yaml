@@ -19,6 +19,3 @@ metadata:
       and create an issue in the
       [crossplane-contrib/provider-mongodbatlas](https://github.com/crossplane-contrib/provider-mongodbatlas)
       repo.
-spec:
-  controller:
-    image: DOCKER_REGISTRY/provider-mongodbatlas-controller:VERSION

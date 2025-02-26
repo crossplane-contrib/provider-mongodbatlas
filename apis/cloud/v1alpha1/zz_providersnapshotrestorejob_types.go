@@ -25,7 +25,40 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProviderSnapshotRestoreJobDeliveryTypeConfigInitParameters struct {
+	Automated *bool `json:"automated,omitempty" tf:"automated,omitempty"`
+
+	Download *bool `json:"download,omitempty" tf:"download,omitempty"`
+
+	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
+
+	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
+
+	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
+
+	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
+
+	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
+}
+
 type ProviderSnapshotRestoreJobDeliveryTypeConfigObservation struct {
+	Automated *bool `json:"automated,omitempty" tf:"automated,omitempty"`
+
+	Download *bool `json:"download,omitempty" tf:"download,omitempty"`
+
+	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
+
+	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
+
+	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
+
+	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
+
+	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 }
 
 type ProviderSnapshotRestoreJobDeliveryTypeConfigParameters struct {
@@ -55,10 +88,40 @@ type ProviderSnapshotRestoreJobDeliveryTypeConfigParameters struct {
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 }
 
+type ProviderSnapshotRestoreJobInitParameters struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// +mapType=granular
+	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
+
+	DeliveryTypeConfig []ProviderSnapshotRestoreJobDeliveryTypeConfigInitParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+}
+
 type ProviderSnapshotRestoreJobObservation struct {
 	Cancelled *bool `json:"cancelled,omitempty" tf:"cancelled,omitempty"`
 
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
+
+	// +mapType=granular
+	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
+
+	DeliveryTypeConfig []ProviderSnapshotRestoreJobDeliveryTypeConfigObservation `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
 	DeliveryURL []*string `json:"deliveryUrl,omitempty" tf:"delivery_url,omitempty"`
 
@@ -70,6 +133,10 @@ type ProviderSnapshotRestoreJobObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
 	SnapshotRestoreJobID *string `json:"snapshotRestoreJobId,omitempty" tf:"snapshot_restore_job_id,omitempty"`
 
 	Timestamp *string `json:"timestamp,omitempty" tf:"timestamp,omitempty"`
@@ -77,10 +144,11 @@ type ProviderSnapshotRestoreJobObservation struct {
 
 type ProviderSnapshotRestoreJobParameters struct {
 
-	// +kubebuilder:validation:Required
-	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -99,14 +167,25 @@ type ProviderSnapshotRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	SnapshotID *string `json:"snapshotId" tf:"snapshot_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 }
 
 // ProviderSnapshotRestoreJobSpec defines the desired state of ProviderSnapshotRestoreJob
 type ProviderSnapshotRestoreJobSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProviderSnapshotRestoreJobParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProviderSnapshotRestoreJobInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProviderSnapshotRestoreJobStatus defines the observed state of ProviderSnapshotRestoreJob.
@@ -116,19 +195,22 @@ type ProviderSnapshotRestoreJobStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ProviderSnapshotRestoreJob is the Schema for the ProviderSnapshotRestoreJobs API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type ProviderSnapshotRestoreJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProviderSnapshotRestoreJobSpec   `json:"spec"`
-	Status            ProviderSnapshotRestoreJobStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotId) || (has(self.initProvider) && has(self.initProvider.snapshotId))",message="spec.forProvider.snapshotId is a required parameter"
+	Spec   ProviderSnapshotRestoreJobSpec   `json:"spec"`
+	Status ProviderSnapshotRestoreJobStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

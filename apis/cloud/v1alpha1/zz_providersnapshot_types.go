@@ -25,8 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProviderSnapshotInitParameters struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
+
+	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+}
+
 type ProviderSnapshotObservation struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
+
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
@@ -36,6 +62,10 @@ type ProviderSnapshotObservation struct {
 
 	MongodVersion *string `json:"mongodVersion,omitempty" tf:"mongod_version,omitempty"`
 
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
+
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
 	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
@@ -44,16 +74,18 @@ type ProviderSnapshotObservation struct {
 
 	StorageSizeBytes *float64 `json:"storageSizeBytes,omitempty" tf:"storage_size_bytes,omitempty"`
 
+	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ProviderSnapshotParameters struct {
 
-	// +kubebuilder:validation:Required
-	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Description *string `json:"description" tf:"description,omitempty"`
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -68,8 +100,8 @@ type ProviderSnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	RetentionInDays *float64 `json:"retentionInDays" tf:"retention_in_days,omitempty"`
+	// +kubebuilder:validation:Optional
+	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
@@ -79,6 +111,17 @@ type ProviderSnapshotParameters struct {
 type ProviderSnapshotSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProviderSnapshotParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProviderSnapshotInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProviderSnapshotStatus defines the observed state of ProviderSnapshot.
@@ -88,19 +131,23 @@ type ProviderSnapshotStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ProviderSnapshot is the Schema for the ProviderSnapshots API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type ProviderSnapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProviderSnapshotSpec   `json:"spec"`
-	Status            ProviderSnapshotStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.retentionInDays) || (has(self.initProvider) && has(self.initProvider.retentionInDays))",message="spec.forProvider.retentionInDays is a required parameter"
+	Spec   ProviderSnapshotSpec   `json:"spec"`
+	Status ProviderSnapshotStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

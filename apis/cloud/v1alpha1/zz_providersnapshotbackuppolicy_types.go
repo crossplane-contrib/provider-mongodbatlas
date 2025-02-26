@@ -25,54 +25,124 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type PoliciesInitParameters struct {
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	PolicyItem []PolicyItemInitParameters `json:"policyItem,omitempty" tf:"policy_item,omitempty"`
+}
+
 type PoliciesObservation struct {
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	PolicyItem []PolicyItemObservation `json:"policyItem,omitempty" tf:"policy_item,omitempty"`
 }
 
 type PoliciesParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ID *string `json:"id" tf:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PolicyItem []PolicyItemParameters `json:"policyItem" tf:"policy_item,omitempty"`
 }
 
+type PolicyItemInitParameters struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
+
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
 type PolicyItemObservation struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
+
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FrequencyType *string `json:"frequencyType" tf:"frequency_type,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ID *string `json:"id" tf:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
+}
+
+type ProviderSnapshotBackupPolicyInitParameters struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	Policies []PoliciesInitParameters `json:"policies,omitempty" tf:"policies,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
+
+	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
+
+	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+
+	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 }
 
 type ProviderSnapshotBackupPolicyObservation struct {
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	NextSnapshot *string `json:"nextSnapshot,omitempty" tf:"next_snapshot,omitempty"`
+
+	Policies []PoliciesObservation `json:"policies,omitempty" tf:"policies,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
+
+	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
+
+	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+
+	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 }
 
 type ProviderSnapshotBackupPolicyParameters struct {
 
-	// +kubebuilder:validation:Required
-	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Policies []PoliciesParameters `json:"policies" tf:"policies,omitempty"`
+	// +kubebuilder:validation:Optional
+	Policies []PoliciesParameters `json:"policies,omitempty" tf:"policies,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -104,6 +174,17 @@ type ProviderSnapshotBackupPolicyParameters struct {
 type ProviderSnapshotBackupPolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProviderSnapshotBackupPolicyParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProviderSnapshotBackupPolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProviderSnapshotBackupPolicyStatus defines the observed state of ProviderSnapshotBackupPolicy.
@@ -113,19 +194,22 @@ type ProviderSnapshotBackupPolicyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ProviderSnapshotBackupPolicy is the Schema for the ProviderSnapshotBackupPolicys API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type ProviderSnapshotBackupPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProviderSnapshotBackupPolicySpec   `json:"spec"`
-	Status            ProviderSnapshotBackupPolicyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policies) || (has(self.initProvider) && has(self.initProvider.policies))",message="spec.forProvider.policies is a required parameter"
+	Spec   ProviderSnapshotBackupPolicySpec   `json:"spec"`
+	Status ProviderSnapshotBackupPolicyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

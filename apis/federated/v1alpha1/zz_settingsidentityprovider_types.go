@@ -25,10 +25,48 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SettingsIdentityProviderInitParameters struct {
+	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
+
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
+	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
+
+	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
+
+	SsoDebugEnabled *bool `json:"ssoDebugEnabled,omitempty" tf:"sso_debug_enabled,omitempty"`
+
+	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
+
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+}
+
 type SettingsIdentityProviderObservation struct {
+	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
+
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	OktaIdpID *string `json:"oktaIdpId,omitempty" tf:"okta_idp_id,omitempty"`
+
+	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
+
+	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
+
+	SsoDebugEnabled *bool `json:"ssoDebugEnabled,omitempty" tf:"sso_debug_enabled,omitempty"`
+
+	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
+
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
 type SettingsIdentityProviderParameters struct {
@@ -36,35 +74,46 @@ type SettingsIdentityProviderParameters struct {
 	// +kubebuilder:validation:Optional
 	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
 
-	// +kubebuilder:validation:Required
-	FederationSettingsID *string `json:"federationSettingsId" tf:"federation_settings_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	IssuerURI *string `json:"issuerUri" tf:"issuer_uri,omitempty"`
+	// +kubebuilder:validation:Optional
+	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	RequestBinding *string `json:"requestBinding" tf:"request_binding,omitempty"`
+	// +kubebuilder:validation:Optional
+	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
 
-	// +kubebuilder:validation:Required
-	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm" tf:"response_signature_algorithm,omitempty"`
+	// +kubebuilder:validation:Optional
+	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
 
-	// +kubebuilder:validation:Required
-	SsoDebugEnabled *bool `json:"ssoDebugEnabled" tf:"sso_debug_enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	SsoDebugEnabled *bool `json:"ssoDebugEnabled,omitempty" tf:"sso_debug_enabled,omitempty"`
 
-	// +kubebuilder:validation:Required
-	SsoURL *string `json:"ssoUrl" tf:"sso_url,omitempty"`
+	// +kubebuilder:validation:Optional
+	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Status *string `json:"status" tf:"status,omitempty"`
+	// +kubebuilder:validation:Optional
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
 // SettingsIdentityProviderSpec defines the desired state of SettingsIdentityProvider
 type SettingsIdentityProviderSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SettingsIdentityProviderParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SettingsIdentityProviderInitParameters `json:"initProvider,omitempty"`
 }
 
 // SettingsIdentityProviderStatus defines the observed state of SettingsIdentityProvider.
@@ -74,19 +123,28 @@ type SettingsIdentityProviderStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // SettingsIdentityProvider is the Schema for the SettingsIdentityProviders API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type SettingsIdentityProvider struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SettingsIdentityProviderSpec   `json:"spec"`
-	Status            SettingsIdentityProviderStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.federationSettingsId) || (has(self.initProvider) && has(self.initProvider.federationSettingsId))",message="spec.forProvider.federationSettingsId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.issuerUri) || (has(self.initProvider) && has(self.initProvider.issuerUri))",message="spec.forProvider.issuerUri is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.requestBinding) || (has(self.initProvider) && has(self.initProvider.requestBinding))",message="spec.forProvider.requestBinding is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.responseSignatureAlgorithm) || (has(self.initProvider) && has(self.initProvider.responseSignatureAlgorithm))",message="spec.forProvider.responseSignatureAlgorithm is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ssoDebugEnabled) || (has(self.initProvider) && has(self.initProvider.ssoDebugEnabled))",message="spec.forProvider.ssoDebugEnabled is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ssoUrl) || (has(self.initProvider) && has(self.initProvider.ssoUrl))",message="spec.forProvider.ssoUrl is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.status) || (has(self.initProvider) && has(self.initProvider.status))",message="spec.forProvider.status is a required parameter"
+	Spec   SettingsIdentityProviderSpec   `json:"spec"`
+	Status SettingsIdentityProviderStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

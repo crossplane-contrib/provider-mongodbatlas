@@ -25,12 +25,40 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackupSnapshotExportJobInitParameters struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	CustomData []CustomDataInitParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
+
+	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+}
+
 type BackupSnapshotExportJobObservation struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
 	Components []ComponentsObservation `json:"components,omitempty" tf:"components,omitempty"`
 
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
+	CustomData []CustomDataObservation `json:"customData,omitempty" tf:"custom_data,omitempty"`
+
 	ErrMsg *string `json:"errMsg,omitempty" tf:"err_msg,omitempty"`
+
+	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
 	ExportJobID *string `json:"exportJobId,omitempty" tf:"export_job_id,omitempty"`
 
@@ -44,19 +72,23 @@ type BackupSnapshotExportJobObservation struct {
 
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type BackupSnapshotExportJobParameters struct {
 
-	// +kubebuilder:validation:Required
-	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	CustomData []CustomDataParameters `json:"customData" tf:"custom_data,omitempty"`
+	// +kubebuilder:validation:Optional
+	CustomData []CustomDataParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
 
-	// +kubebuilder:validation:Required
-	ExportBucketID *string `json:"exportBucketId" tf:"export_bucket_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -71,8 +103,11 @@ type BackupSnapshotExportJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	SnapshotID *string `json:"snapshotId" tf:"snapshot_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+}
+
+type ComponentsInitParameters struct {
 }
 
 type ComponentsObservation struct {
@@ -84,15 +119,24 @@ type ComponentsObservation struct {
 type ComponentsParameters struct {
 }
 
+type CustomDataInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type CustomDataObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type CustomDataParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
@@ -100,6 +144,17 @@ type CustomDataParameters struct {
 type BackupSnapshotExportJobSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BackupSnapshotExportJobParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider BackupSnapshotExportJobInitParameters `json:"initProvider,omitempty"`
 }
 
 // BackupSnapshotExportJobStatus defines the observed state of BackupSnapshotExportJob.
@@ -109,19 +164,24 @@ type BackupSnapshotExportJobStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // BackupSnapshotExportJob is the Schema for the BackupSnapshotExportJobs API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type BackupSnapshotExportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackupSnapshotExportJobSpec   `json:"spec"`
-	Status            BackupSnapshotExportJobStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.customData) || (has(self.initProvider) && has(self.initProvider.customData))",message="spec.forProvider.customData is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.exportBucketId) || (has(self.initProvider) && has(self.initProvider.exportBucketId))",message="spec.forProvider.exportBucketId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotId) || (has(self.initProvider) && has(self.initProvider.snapshotId))",message="spec.forProvider.snapshotId is a required parameter"
+	Spec   BackupSnapshotExportJobSpec   `json:"spec"`
+	Status BackupSnapshotExportJobStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

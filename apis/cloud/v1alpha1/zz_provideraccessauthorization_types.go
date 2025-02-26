@@ -25,16 +25,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AwsInitParameters struct {
+	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
+}
+
 type AwsObservation struct {
+	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
 }
 
 type AwsParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn" tf:"iam_assumed_role_arn,omitempty"`
 }
 
+type ProviderAccessAuthorizationFeatureUsagesInitParameters struct {
+}
+
 type ProviderAccessAuthorizationFeatureUsagesObservation struct {
+
+	// +mapType=granular
 	FeatureID map[string]*string `json:"featureId,omitempty" tf:"feature_id,omitempty"`
 
 	FeatureType *string `json:"featureType,omitempty" tf:"feature_type,omitempty"`
@@ -43,12 +53,36 @@ type ProviderAccessAuthorizationFeatureUsagesObservation struct {
 type ProviderAccessAuthorizationFeatureUsagesParameters struct {
 }
 
+type ProviderAccessAuthorizationInitParameters struct {
+	Aws []AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+}
+
 type ProviderAccessAuthorizationObservation struct {
 	AuthorizedDate *string `json:"authorizedDate,omitempty" tf:"authorized_date,omitempty"`
+
+	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	FeatureUsages []ProviderAccessAuthorizationFeatureUsagesObservation `json:"featureUsages,omitempty" tf:"feature_usages,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
 
 type ProviderAccessAuthorizationParameters struct {
@@ -69,14 +103,25 @@ type ProviderAccessAuthorizationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
 
 // ProviderAccessAuthorizationSpec defines the desired state of ProviderAccessAuthorization
 type ProviderAccessAuthorizationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProviderAccessAuthorizationParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProviderAccessAuthorizationInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProviderAccessAuthorizationStatus defines the observed state of ProviderAccessAuthorization.
@@ -86,19 +131,21 @@ type ProviderAccessAuthorizationStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ProviderAccessAuthorization is the Schema for the ProviderAccessAuthorizations API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type ProviderAccessAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProviderAccessAuthorizationSpec   `json:"spec"`
-	Status            ProviderAccessAuthorizationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleId) || (has(self.initProvider) && has(self.initProvider.roleId))",message="spec.forProvider.roleId is a required parameter"
+	Spec   ProviderAccessAuthorizationSpec   `json:"spec"`
+	Status ProviderAccessAuthorizationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

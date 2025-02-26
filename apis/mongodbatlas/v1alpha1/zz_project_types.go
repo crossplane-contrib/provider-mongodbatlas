@@ -25,24 +25,82 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type APIKeysInitParameters struct {
+	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
+
+	// +listType=set
+	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+}
+
 type APIKeysObservation struct {
+	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
+
+	// +listType=set
+	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 }
 
 type APIKeysParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	APIKeyID *string `json:"apiKeyId" tf:"api_key_id,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
+	// +listType=set
 	RoleNames []*string `json:"roleNames" tf:"role_names,omitempty"`
 }
 
+type ProjectInitParameters struct {
+	APIKeys []APIKeysInitParameters `json:"apiKeys,omitempty" tf:"api_keys,omitempty"`
+
+	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
+
+	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
+
+	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
+
+	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
+
+	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
+
+	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
+
+	Teams []TeamsInitParameters `json:"teams,omitempty" tf:"teams,omitempty"`
+
+	WithDefaultAlertsSettings *bool `json:"withDefaultAlertsSettings,omitempty" tf:"with_default_alerts_settings,omitempty"`
+}
+
 type ProjectObservation struct {
+	APIKeys []APIKeysObservation `json:"apiKeys,omitempty" tf:"api_keys,omitempty"`
+
 	ClusterCount *float64 `json:"clusterCount,omitempty" tf:"cluster_count,omitempty"`
 
 	Created *string `json:"created,omitempty" tf:"created,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
+
+	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
+
+	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
+
+	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
+
+	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
+
+	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
+
+	Teams []TeamsObservation `json:"teams,omitempty" tf:"teams,omitempty"`
+
+	WithDefaultAlertsSettings *bool `json:"withDefaultAlertsSettings,omitempty" tf:"with_default_alerts_settings,omitempty"`
 }
 
 type ProjectParameters struct {
@@ -65,8 +123,8 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
@@ -81,15 +139,29 @@ type ProjectParameters struct {
 	WithDefaultAlertsSettings *bool `json:"withDefaultAlertsSettings,omitempty" tf:"with_default_alerts_settings,omitempty"`
 }
 
+type TeamsInitParameters struct {
+
+	// +listType=set
+	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+
+	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+}
+
 type TeamsObservation struct {
+
+	// +listType=set
+	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+
+	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 }
 
 type TeamsParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
+	// +listType=set
 	RoleNames []*string `json:"roleNames" tf:"role_names,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId" tf:"team_id,omitempty"`
 }
 
@@ -97,6 +169,17 @@ type TeamsParameters struct {
 type ProjectSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProjectInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectStatus defines the observed state of Project.
@@ -106,19 +189,21 @@ type ProjectStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Project is the Schema for the Projects API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Project struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectSpec   `json:"spec"`
-	Status            ProjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
+	Spec   ProjectSpec   `json:"spec"`
+	Status ProjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -25,14 +25,64 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConfigurationInitParameters struct {
+	AuthenticationEnabled *bool `json:"authenticationEnabled,omitempty" tf:"authentication_enabled,omitempty"`
+
+	AuthorizationEnabled *bool `json:"authorizationEnabled,omitempty" tf:"authorization_enabled,omitempty"`
+
+	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
+
+	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
+
+	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
+
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	UserToDnMapping []UserToDnMappingInitParameters `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
+}
+
 type ConfigurationObservation struct {
+	AuthenticationEnabled *bool `json:"authenticationEnabled,omitempty" tf:"authentication_enabled,omitempty"`
+
+	AuthorizationEnabled *bool `json:"authorizationEnabled,omitempty" tf:"authorization_enabled,omitempty"`
+
+	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
+
+	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
+
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	UserToDnMapping []UserToDnMappingObservation `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 
 type ConfigurationParameters struct {
 
-	// +kubebuilder:validation:Required
-	AuthenticationEnabled *bool `json:"authenticationEnabled" tf:"authentication_enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	AuthenticationEnabled *bool `json:"authenticationEnabled,omitempty" tf:"authentication_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	AuthorizationEnabled *bool `json:"authorizationEnabled,omitempty" tf:"authorization_enabled,omitempty"`
@@ -40,17 +90,17 @@ type ConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	BindUsername *string `json:"bindUsername" tf:"bind_username,omitempty"`
+	// +kubebuilder:validation:Optional
+	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
+	// +kubebuilder:validation:Optional
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -72,7 +122,20 @@ type ConfigurationParameters struct {
 	UserToDnMapping []UserToDnMappingParameters `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 
+type UserToDnMappingInitParameters struct {
+	LdapQuery *string `json:"ldapQuery,omitempty" tf:"ldap_query,omitempty"`
+
+	Match *string `json:"match,omitempty" tf:"match,omitempty"`
+
+	Substitution *string `json:"substitution,omitempty" tf:"substitution,omitempty"`
+}
+
 type UserToDnMappingObservation struct {
+	LdapQuery *string `json:"ldapQuery,omitempty" tf:"ldap_query,omitempty"`
+
+	Match *string `json:"match,omitempty" tf:"match,omitempty"`
+
+	Substitution *string `json:"substitution,omitempty" tf:"substitution,omitempty"`
 }
 
 type UserToDnMappingParameters struct {
@@ -91,6 +154,17 @@ type UserToDnMappingParameters struct {
 type ConfigurationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ConfigurationParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ConfigurationInitParameters `json:"initProvider,omitempty"`
 }
 
 // ConfigurationStatus defines the observed state of Configuration.
@@ -100,19 +174,24 @@ type ConfigurationStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Configuration is the Schema for the Configurations API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConfigurationSpec   `json:"spec"`
-	Status            ConfigurationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authenticationEnabled) || (has(self.initProvider) && has(self.initProvider.authenticationEnabled))",message="spec.forProvider.authenticationEnabled is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindPasswordSecretRef)",message="spec.forProvider.bindPasswordSecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindUsername) || (has(self.initProvider) && has(self.initProvider.bindUsername))",message="spec.forProvider.bindUsername is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hostname) || (has(self.initProvider) && has(self.initProvider.hostname))",message="spec.forProvider.hostname is a required parameter"
+	Spec   ConfigurationSpec   `json:"spec"`
+	Status ConfigurationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

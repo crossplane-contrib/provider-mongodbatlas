@@ -25,22 +25,50 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackupSnapshotExportBucketInitParameters struct {
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+}
+
 type BackupSnapshotExportBucketObservation struct {
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type BackupSnapshotExportBucketParameters struct {
 
-	// +kubebuilder:validation:Required
-	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
+	// +kubebuilder:validation:Optional
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
-	// +kubebuilder:validation:Required
-	IAMRoleID *string `json:"iamRoleId" tf:"iam_role_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -60,6 +88,17 @@ type BackupSnapshotExportBucketParameters struct {
 type BackupSnapshotExportBucketSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BackupSnapshotExportBucketParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider BackupSnapshotExportBucketInitParameters `json:"initProvider,omitempty"`
 }
 
 // BackupSnapshotExportBucketStatus defines the observed state of BackupSnapshotExportBucket.
@@ -69,19 +108,23 @@ type BackupSnapshotExportBucketStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // BackupSnapshotExportBucket is the Schema for the BackupSnapshotExportBuckets API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type BackupSnapshotExportBucket struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackupSnapshotExportBucketSpec   `json:"spec"`
-	Status            BackupSnapshotExportBucketStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bucketName) || (has(self.initProvider) && has(self.initProvider.bucketName))",message="spec.forProvider.bucketName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cloudProvider) || (has(self.initProvider) && has(self.initProvider.cloudProvider))",message="spec.forProvider.cloudProvider is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.iamRoleId) || (has(self.initProvider) && has(self.initProvider.iamRoleId))",message="spec.forProvider.iamRoleId is a required parameter"
+	Spec   BackupSnapshotExportBucketSpec   `json:"spec"`
+	Status BackupSnapshotExportBucketStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

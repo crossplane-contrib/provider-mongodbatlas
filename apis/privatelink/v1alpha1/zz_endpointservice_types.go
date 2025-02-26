@@ -25,6 +25,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EndpointServiceInitParameters struct {
+	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
+
+	Endpoints []EndpointsInitParameters `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
+
+	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
+
+	PrivateEndpointIPAddress *string `json:"privateEndpointIpAddress,omitempty" tf:"private_endpoint_ip_address,omitempty"`
+
+	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
+}
+
 type EndpointServiceObservation struct {
 	AwsConnectionStatus *string `json:"awsConnectionStatus,omitempty" tf:"aws_connection_status,omitempty"`
 
@@ -34,10 +60,13 @@ type EndpointServiceObservation struct {
 
 	EndpointGroupName *string `json:"endpointGroupName,omitempty" tf:"endpoint_group_name,omitempty"`
 
-	// +kubebuilder:validation:Optional
+	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
+
 	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
+
+	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
 	GCPStatus *string `json:"gcpStatus,omitempty" tf:"gcp_status,omitempty"`
 
@@ -47,13 +76,21 @@ type EndpointServiceObservation struct {
 
 	PrivateEndpointConnectionName *string `json:"privateEndpointConnectionName,omitempty" tf:"private_endpoint_connection_name,omitempty"`
 
+	PrivateEndpointIPAddress *string `json:"privateEndpointIpAddress,omitempty" tf:"private_endpoint_ip_address,omitempty"`
+
 	PrivateEndpointResourceID *string `json:"privateEndpointResourceId,omitempty" tf:"private_endpoint_resource_id,omitempty"`
+
+	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
 type EndpointServiceParameters struct {
 
-	// +kubebuilder:validation:Required
-	EndpointServiceID *string `json:"endpointServiceId" tf:"endpoint_service_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Endpoints []EndpointsParameters `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
@@ -64,8 +101,8 @@ type EndpointServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateEndpointIPAddress *string `json:"privateEndpointIpAddress,omitempty" tf:"private_endpoint_ip_address,omitempty"`
 
-	// +kubebuilder:validation:Required
-	PrivateLinkID *string `json:"privateLinkId" tf:"private_link_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -80,11 +117,21 @@ type EndpointServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	ProviderName *string `json:"providerName" tf:"provider_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
+}
+
+type EndpointsInitParameters struct {
+	EndpointName *string `json:"endpointName,omitempty" tf:"endpoint_name,omitempty"`
+
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
 type EndpointsObservation struct {
+	EndpointName *string `json:"endpointName,omitempty" tf:"endpoint_name,omitempty"`
+
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
 	ServiceAttachmentName *string `json:"serviceAttachmentName,omitempty" tf:"service_attachment_name,omitempty"`
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
@@ -103,6 +150,17 @@ type EndpointsParameters struct {
 type EndpointServiceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     EndpointServiceParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider EndpointServiceInitParameters `json:"initProvider,omitempty"`
 }
 
 // EndpointServiceStatus defines the observed state of EndpointService.
@@ -112,19 +170,23 @@ type EndpointServiceStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // EndpointService is the Schema for the EndpointServices API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type EndpointService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EndpointServiceSpec   `json:"spec"`
-	Status            EndpointServiceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.endpointServiceId) || (has(self.initProvider) && has(self.initProvider.endpointServiceId))",message="spec.forProvider.endpointServiceId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.privateLinkId) || (has(self.initProvider) && has(self.initProvider.privateLinkId))",message="spec.forProvider.privateLinkId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
+	Spec   EndpointServiceSpec   `json:"spec"`
+	Status EndpointServiceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

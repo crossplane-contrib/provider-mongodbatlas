@@ -4,7 +4,7 @@
 PROJECT_NAME := provider-mongodbatlas
 PROJECT_REPO := github.com/crossplane-contrib/$(PROJECT_NAME)
 
-export TERRAFORM_VERSION := 1.4.6
+export TERRAFORM_VERSION := 1.5.7
 
 export TERRAFORM_PROVIDER_SOURCE := terraform-providers/mongodbatlas
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/mongodb/terraform-provider-mongodbatlas
@@ -40,8 +40,8 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_REQUIRED_VERSION ?= 1.19
-GOLANGCILINT_VERSION ?= 1.50.0
+GO_REQUIRED_VERSION ?= 1.22
+GOLANGCILINT_VERSION ?= 1.61.0
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
@@ -51,10 +51,10 @@ GO111MODULE ?= on
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.16.0
-UP_VERSION = v0.18.0
+KIND_VERSION = v0.27.0
+UP_VERSION = v0.37.1
 UP_CHANNEL = stable
-UPTEST_VERSION = v0.5.0
+UPTEST_VERSION = v1.3.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================

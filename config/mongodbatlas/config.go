@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/common"
 )

@@ -21,18 +21,19 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/alecthomas/kingpin/v2"
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	xpcontroller "github.com/crossplane/crossplane-runtime/pkg/controller"
 	"github.com/crossplane/crossplane-runtime/pkg/feature"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	ujcontroller "github.com/upbound/upjet/pkg/controller"
-	"github.com/upbound/upjet/pkg/terraform"
-	"gopkg.in/alecthomas/kingpin.v2"
+	ujcontroller "github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/pkg/terraform"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/apis"
@@ -76,10 +77,11 @@ func main() {
 	kingpin.FatalIfError(err, "Cannot get API server rest config")
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
-		LeaderElection:     *leaderElection,
-		LeaderElectionID:   "crossplane-leader-election-provider-mongodbatlas",
-		SyncPeriod:         syncPeriod,
-		MetricsBindAddress: "0.0.0.0:8081",
+		LeaderElection:   *leaderElection,
+		LeaderElectionID: "crossplane-leader-election-provider-mongodbatlas",
+		Cache: cache.Options{
+			SyncPeriod: syncPeriod,
+		},
 	})
 	kingpin.FatalIfError(err, "Cannot create controller manager")
 

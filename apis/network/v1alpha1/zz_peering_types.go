@@ -25,10 +25,70 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type PeeringInitParameters struct {
+	AccepterRegionName *string `json:"accepterRegionName,omitempty" tf:"accepter_region_name,omitempty"`
+
+	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
+
+	AtlasGCPProjectID *string `json:"atlasGcpProjectId,omitempty" tf:"atlas_gcp_project_id,omitempty"`
+
+	AtlasVPCName *string `json:"atlasVpcName,omitempty" tf:"atlas_vpc_name,omitempty"`
+
+	AwsAccountID *string `json:"awsAccountId,omitempty" tf:"aws_account_id,omitempty"`
+
+	AzureDirectoryID *string `json:"azureDirectoryId,omitempty" tf:"azure_directory_id,omitempty"`
+
+	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
+
+	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
+
+	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
+
+	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
+
+	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
+
+	RouteTableCidrBlock *string `json:"routeTableCidrBlock,omitempty" tf:"route_table_cidr_block,omitempty"`
+
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	VnetName *string `json:"vnetName,omitempty" tf:"vnet_name,omitempty"`
+}
+
 type PeeringObservation struct {
+	AccepterRegionName *string `json:"accepterRegionName,omitempty" tf:"accepter_region_name,omitempty"`
+
+	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
+
+	AtlasGCPProjectID *string `json:"atlasGcpProjectId,omitempty" tf:"atlas_gcp_project_id,omitempty"`
+
 	AtlasID *string `json:"atlasId,omitempty" tf:"atlas_id,omitempty"`
 
+	AtlasVPCName *string `json:"atlasVpcName,omitempty" tf:"atlas_vpc_name,omitempty"`
+
+	AwsAccountID *string `json:"awsAccountId,omitempty" tf:"aws_account_id,omitempty"`
+
+	AzureDirectoryID *string `json:"azureDirectoryId,omitempty" tf:"azure_directory_id,omitempty"`
+
+	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
+
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
@@ -36,13 +96,29 @@ type PeeringObservation struct {
 
 	ErrorStateName *string `json:"errorStateName,omitempty" tf:"error_state_name,omitempty"`
 
+	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
+
 	PeerID *string `json:"peerId,omitempty" tf:"peer_id,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
+
+	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
+
+	RouteTableCidrBlock *string `json:"routeTableCidrBlock,omitempty" tf:"route_table_cidr_block,omitempty"`
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	StatusName *string `json:"statusName,omitempty" tf:"status_name,omitempty"`
+
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	VnetName *string `json:"vnetName,omitempty" tf:"vnet_name,omitempty"`
 }
 
 type PeeringParameters struct {
@@ -68,8 +144,8 @@ type PeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	ContainerID *string `json:"containerId" tf:"container_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
@@ -90,8 +166,8 @@ type PeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	ProviderName *string `json:"providerName" tf:"provider_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
@@ -110,6 +186,17 @@ type PeeringParameters struct {
 type PeeringSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PeeringParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider PeeringInitParameters `json:"initProvider,omitempty"`
 }
 
 // PeeringStatus defines the observed state of Peering.
@@ -119,19 +206,22 @@ type PeeringStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Peering is the Schema for the Peerings API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Peering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PeeringSpec   `json:"spec"`
-	Status            PeeringStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.containerId) || (has(self.initProvider) && has(self.initProvider.containerId))",message="spec.forProvider.containerId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
+	Spec   PeeringSpec   `json:"spec"`
+	Status PeeringStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

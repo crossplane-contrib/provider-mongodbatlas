@@ -90,30 +90,3 @@ func (l *ProviderAccessSetupList) GetItems() []resource.Managed {
 	}
 	return items
 }
-
-// GetItems of this ProviderSnapshotBackupPolicyList.
-func (l *ProviderSnapshotBackupPolicyList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this ProviderSnapshotList.
-func (l *ProviderSnapshotList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this ProviderSnapshotRestoreJobList.
-func (l *ProviderSnapshotRestoreJobList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}

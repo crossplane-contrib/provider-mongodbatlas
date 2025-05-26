@@ -25,23 +25,64 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CompliancePolicyInitParameters struct {
+	AuthorizedEmail *string `json:"authorizedEmail,omitempty" tf:"authorized_email,omitempty"`
+
+	CopyProtectionEnabled *bool `json:"copyProtectionEnabled,omitempty" tf:"copy_protection_enabled,omitempty"`
+
+	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled,omitempty" tf:"encryption_at_rest_enabled,omitempty"`
+
+	OnDemandPolicyItem []OnDemandPolicyItemInitParameters `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
+
+	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
+
+	PolicyItemDaily []PolicyItemDailyInitParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
+
+	PolicyItemHourly []PolicyItemHourlyInitParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
+
+	PolicyItemMonthly []PolicyItemMonthlyInitParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
+
+	PolicyItemWeekly []PolicyItemWeeklyInitParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+}
+
 type CompliancePolicyObservation struct {
+	AuthorizedEmail *string `json:"authorizedEmail,omitempty" tf:"authorized_email,omitempty"`
+
+	CopyProtectionEnabled *bool `json:"copyProtectionEnabled,omitempty" tf:"copy_protection_enabled,omitempty"`
+
+	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled,omitempty" tf:"encryption_at_rest_enabled,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
 	OnDemandPolicyItem []OnDemandPolicyItemObservation `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
-	// +kubebuilder:validation:Optional
+	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
+
 	PolicyItemDaily []PolicyItemDailyObservation `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	PolicyItemHourly []PolicyItemHourlyObservation `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	PolicyItemMonthly []PolicyItemMonthlyObservation `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	PolicyItemWeekly []PolicyItemWeeklyObservation `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -52,20 +93,20 @@ type CompliancePolicyObservation struct {
 
 type CompliancePolicyParameters struct {
 
-	// +kubebuilder:validation:Required
-	AuthorizedEmail *string `json:"authorizedEmail" tf:"authorized_email,omitempty"`
+	// +kubebuilder:validation:Optional
+	AuthorizedEmail *string `json:"authorizedEmail,omitempty" tf:"authorized_email,omitempty"`
 
-	// +kubebuilder:validation:Required
-	CopyProtectionEnabled *bool `json:"copyProtectionEnabled" tf:"copy_protection_enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	CopyProtectionEnabled *bool `json:"copyProtectionEnabled,omitempty" tf:"copy_protection_enabled,omitempty"`
 
-	// +kubebuilder:validation:Required
-	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled" tf:"encryption_at_rest_enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled,omitempty" tf:"encryption_at_rest_enabled,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OnDemandPolicyItem []OnDemandPolicyItemParameters `json:"onDemandPolicyItem" tf:"on_demand_policy_item,omitempty"`
+	// +kubebuilder:validation:Optional
+	OnDemandPolicyItem []OnDemandPolicyItemParameters `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
-	// +kubebuilder:validation:Required
-	PitEnabled *bool `json:"pitEnabled" tf:"pit_enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PolicyItemDaily []PolicyItemDailyParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
@@ -96,93 +137,163 @@ type CompliancePolicyParameters struct {
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 }
 
+type OnDemandPolicyItemInitParameters struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
 type OnDemandPolicyItemObservation struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type OnDemandPolicyItemParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
+type PolicyItemDailyInitParameters struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
 type PolicyItemDailyObservation struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemDailyParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
+type PolicyItemHourlyInitParameters struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
 type PolicyItemHourlyObservation struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemHourlyParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
+type PolicyItemMonthlyInitParameters struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
 type PolicyItemMonthlyObservation struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemMonthlyParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
+type PolicyItemWeeklyInitParameters struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
 type PolicyItemWeeklyObservation struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemWeeklyParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
@@ -190,6 +301,17 @@ type PolicyItemWeeklyParameters struct {
 type CompliancePolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     CompliancePolicyParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider CompliancePolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // CompliancePolicyStatus defines the observed state of CompliancePolicy.
@@ -199,19 +321,25 @@ type CompliancePolicyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // CompliancePolicy is the Schema for the CompliancePolicys API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type CompliancePolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CompliancePolicySpec   `json:"spec"`
-	Status            CompliancePolicyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authorizedEmail) || (has(self.initProvider) && has(self.initProvider.authorizedEmail))",message="spec.forProvider.authorizedEmail is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.copyProtectionEnabled) || (has(self.initProvider) && has(self.initProvider.copyProtectionEnabled))",message="spec.forProvider.copyProtectionEnabled is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.encryptionAtRestEnabled) || (has(self.initProvider) && has(self.initProvider.encryptionAtRestEnabled))",message="spec.forProvider.encryptionAtRestEnabled is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.onDemandPolicyItem) || (has(self.initProvider) && has(self.initProvider.onDemandPolicyItem))",message="spec.forProvider.onDemandPolicyItem is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.pitEnabled) || (has(self.initProvider) && has(self.initProvider.pitEnabled))",message="spec.forProvider.pitEnabled is a required parameter"
+	Spec   CompliancePolicySpec   `json:"spec"`
+	Status CompliancePolicyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

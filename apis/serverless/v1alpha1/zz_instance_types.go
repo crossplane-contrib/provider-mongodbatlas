@@ -25,19 +25,64 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstanceInitParameters struct {
+	ContinuousBackupEnabled *bool `json:"continuousBackupEnabled,omitempty" tf:"continuous_backup_enabled,omitempty"`
+
+	Links []LinksInitParameters `json:"links,omitempty" tf:"links,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName,omitempty" tf:"provider_settings_backing_provider_name,omitempty"`
+
+	ProviderSettingsProviderName *string `json:"providerSettingsProviderName,omitempty" tf:"provider_settings_provider_name,omitempty"`
+
+	ProviderSettingsRegionName *string `json:"providerSettingsRegionName,omitempty" tf:"provider_settings_region_name,omitempty"`
+
+	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
+
+	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
+}
+
 type InstanceObservation struct {
 	ConnectionStringsPrivateEndpointSrv []*string `json:"connectionStringsPrivateEndpointSrv,omitempty" tf:"connection_strings_private_endpoint_srv,omitempty"`
 
 	ConnectionStringsStandardSrv *string `json:"connectionStringsStandardSrv,omitempty" tf:"connection_strings_standard_srv,omitempty"`
 
+	ContinuousBackupEnabled *bool `json:"continuousBackupEnabled,omitempty" tf:"continuous_backup_enabled,omitempty"`
+
 	CreateDate *string `json:"createDate,omitempty" tf:"create_date,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Links []LinksObservation `json:"links,omitempty" tf:"links,omitempty"`
 
 	MongoDBVersion *string `json:"mongoDbVersion,omitempty" tf:"mongo_db_version,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName,omitempty" tf:"provider_settings_backing_provider_name,omitempty"`
+
+	ProviderSettingsProviderName *string `json:"providerSettingsProviderName,omitempty" tf:"provider_settings_provider_name,omitempty"`
+
+	ProviderSettingsRegionName *string `json:"providerSettingsRegionName,omitempty" tf:"provider_settings_region_name,omitempty"`
+
+	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
+
+	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 }
 
 type InstanceParameters struct {
@@ -48,8 +93,8 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Links []LinksParameters `json:"links,omitempty" tf:"links,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -64,20 +109,23 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName" tf:"provider_settings_backing_provider_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName,omitempty" tf:"provider_settings_backing_provider_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	ProviderSettingsProviderName *string `json:"providerSettingsProviderName" tf:"provider_settings_provider_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProviderSettingsProviderName *string `json:"providerSettingsProviderName,omitempty" tf:"provider_settings_provider_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	ProviderSettingsRegionName *string `json:"providerSettingsRegionName" tf:"provider_settings_region_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProviderSettingsRegionName *string `json:"providerSettingsRegionName,omitempty" tf:"provider_settings_region_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
+}
+
+type LinksInitParameters struct {
 }
 
 type LinksObservation struct {
@@ -93,6 +141,17 @@ type LinksParameters struct {
 type InstanceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider InstanceInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceStatus defines the observed state of Instance.
@@ -102,19 +161,24 @@ type InstanceStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Instance is the Schema for the Instances API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstanceSpec   `json:"spec"`
-	Status            InstanceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerSettingsBackingProviderName) || (has(self.initProvider) && has(self.initProvider.providerSettingsBackingProviderName))",message="spec.forProvider.providerSettingsBackingProviderName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerSettingsProviderName) || (has(self.initProvider) && has(self.initProvider.providerSettingsProviderName))",message="spec.forProvider.providerSettingsProviderName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerSettingsRegionName) || (has(self.initProvider) && has(self.initProvider.providerSettingsRegionName))",message="spec.forProvider.providerSettingsRegionName is a required parameter"
+	Spec   InstanceSpec   `json:"spec"`
+	Status InstanceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

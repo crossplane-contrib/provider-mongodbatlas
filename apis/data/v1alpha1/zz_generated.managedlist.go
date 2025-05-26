@@ -27,3 +27,12 @@ func (l *LakeList) GetItems() []resource.Managed {
 	}
 	return items
 }
+
+// GetItems of this LakePipelineList.
+func (l *LakePipelineList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}

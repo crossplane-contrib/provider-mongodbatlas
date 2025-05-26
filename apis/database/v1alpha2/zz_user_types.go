@@ -25,7 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type LabelsInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type LabelsObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type LabelsParameters struct {
@@ -37,7 +46,20 @@ type LabelsParameters struct {
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
+type RolesInitParameters struct {
+	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
+
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
+}
+
 type RolesObservation struct {
+	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
+
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
 type RolesParameters struct {
@@ -52,7 +74,16 @@ type RolesParameters struct {
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
+type ScopesInitParameters struct {
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type ScopesObservation struct {
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ScopesParameters struct {
@@ -64,8 +95,58 @@ type ScopesParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
+type UserInitParameters struct {
+	AuthDatabaseName *string `json:"authDatabaseName,omitempty" tf:"auth_database_name,omitempty"`
+
+	AwsIAMType *string `json:"awsIamType,omitempty" tf:"aws_iam_type,omitempty"`
+
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+
+	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	LdapAuthType *string `json:"ldapAuthType,omitempty" tf:"ldap_auth_type,omitempty"`
+
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	Roles []RolesInitParameters `json:"roles,omitempty" tf:"roles,omitempty"`
+
+	Scopes []ScopesInitParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
+}
+
 type UserObservation struct {
+	AuthDatabaseName *string `json:"authDatabaseName,omitempty" tf:"auth_database_name,omitempty"`
+
+	AwsIAMType *string `json:"awsIamType,omitempty" tf:"aws_iam_type,omitempty"`
+
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	LdapAuthType *string `json:"ldapAuthType,omitempty" tf:"ldap_auth_type,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	Roles []RolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
+
+	Scopes []ScopesObservation `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
 }
 
 type UserParameters struct {
@@ -101,8 +182,8 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Roles []RolesParameters `json:"roles" tf:"roles,omitempty"`
+	// +kubebuilder:validation:Optional
+	Roles []RolesParameters `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Scopes []ScopesParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
@@ -115,6 +196,17 @@ type UserParameters struct {
 type UserSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     UserParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider UserInitParameters `json:"initProvider,omitempty"`
 }
 
 // UserStatus defines the observed state of User.
@@ -124,19 +216,21 @@ type UserStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // User is the Schema for the Users API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserSpec   `json:"spec"`
-	Status            UserStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roles) || (has(self.initProvider) && has(self.initProvider.roles))",message="spec.forProvider.roles is a required parameter"
+	Spec   UserSpec   `json:"spec"`
+	Status UserStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

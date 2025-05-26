@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type LinksInitParameters struct {
+}
+
 type LinksObservation struct {
 	Href *string `json:"href,omitempty" tf:"href,omitempty"`
 
@@ -32,6 +35,9 @@ type LinksObservation struct {
 }
 
 type LinksParameters struct {
+}
+
+type ValidationsInitParameters struct {
 }
 
 type ValidationsObservation struct {
@@ -43,10 +49,50 @@ type ValidationsObservation struct {
 type ValidationsParameters struct {
 }
 
+type VerifyInitParameters struct {
+	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
+
+	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
+
+	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
+
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+}
+
 type VerifyObservation struct {
+	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
+
+	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
+
+	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
+
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	Links []LinksObservation `json:"links,omitempty" tf:"links,omitempty"`
+
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	RequestID *string `json:"requestId,omitempty" tf:"request_id,omitempty"`
 
@@ -60,20 +106,20 @@ type VerifyParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
-	// +kubebuilder:validation:Required
-	BindPassword *string `json:"bindPassword" tf:"bind_password,omitempty"`
+	// +kubebuilder:validation:Optional
+	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
 
-	// +kubebuilder:validation:Required
-	BindUsername *string `json:"bindUsername" tf:"bind_username,omitempty"`
+	// +kubebuilder:validation:Optional
+	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
+	// +kubebuilder:validation:Optional
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Port *float64 `json:"port" tf:"port,omitempty"`
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -93,6 +139,17 @@ type VerifyParameters struct {
 type VerifySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     VerifyParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider VerifyInitParameters `json:"initProvider,omitempty"`
 }
 
 // VerifyStatus defines the observed state of Verify.
@@ -102,19 +159,24 @@ type VerifyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Verify is the Schema for the Verifys API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Verify struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VerifySpec   `json:"spec"`
-	Status            VerifyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindPassword) || (has(self.initProvider) && has(self.initProvider.bindPassword))",message="spec.forProvider.bindPassword is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindUsername) || (has(self.initProvider) && has(self.initProvider.bindUsername))",message="spec.forProvider.bindUsername is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hostname) || (has(self.initProvider) && has(self.initProvider.hostname))",message="spec.forProvider.hostname is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port) || (has(self.initProvider) && has(self.initProvider.port))",message="spec.forProvider.port is a required parameter"
+	Spec   VerifySpec   `json:"spec"`
+	Status VerifyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

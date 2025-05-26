@@ -27,6 +27,7 @@ import (
 	v1alpha1api "github.com/crossplane-contrib/provider-mongodbatlas/apis/api/v1alpha1"
 	v1alpha1backup "github.com/crossplane-contrib/provider-mongodbatlas/apis/backup/v1alpha1"
 	v1alpha1cloud "github.com/crossplane-contrib/provider-mongodbatlas/apis/cloud/v1alpha1"
+	v1alpha1cluster "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/v1alpha1"
 	v1alpha1custom "github.com/crossplane-contrib/provider-mongodbatlas/apis/custom/v1alpha1"
 	v1alpha1data "github.com/crossplane-contrib/provider-mongodbatlas/apis/data/v1alpha1"
 	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/database/v1alpha2"
@@ -59,6 +60,7 @@ func init() {
 		v1alpha1api.SchemeBuilder.AddToScheme,
 		v1alpha1backup.SchemeBuilder.AddToScheme,
 		v1alpha1cloud.SchemeBuilder.AddToScheme,
+		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1alpha1custom.SchemeBuilder.AddToScheme,
 		v1alpha1data.SchemeBuilder.AddToScheme,
 		v1alpha2.SchemeBuilder.AddToScheme,

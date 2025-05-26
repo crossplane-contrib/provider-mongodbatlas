@@ -88,6 +88,8 @@ spec:
                     type: boolean
                   isDataExplorerEnabled:
                     type: boolean
+                  isExtendedStorageSizesEnabled:
+                    type: boolean
                   isPerformanceAdvisorEnabled:
                     type: boolean
                   isRealtimePerformancePanelEnabled:
@@ -143,6 +145,8 @@ spec:
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     type: boolean
                   isDataExplorerEnabled:
+                    type: boolean
+                  isExtendedStorageSizesEnabled:
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     type: boolean
@@ -369,6 +373,8 @@ spec:
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     type: boolean
                   isDataExplorerEnabled:
+                    type: boolean
+                  isExtendedStorageSizesEnabled:
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     type: boolean

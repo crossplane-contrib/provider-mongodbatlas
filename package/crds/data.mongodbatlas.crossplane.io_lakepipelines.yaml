@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
-  name: providersnapshotbackuppolicies.cloud.mongodbatlas.crossplane.io
+  name: lakepipelines.data.mongodbatlas.crossplane.io
 spec:
-  group: cloud.mongodbatlas.crossplane.io
+  group: data.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - mongodbatlas
-    kind: ProviderSnapshotBackupPolicy
-    listKind: ProviderSnapshotBackupPolicyList
-    plural: providersnapshotbackuppolicies
-    singular: providersnapshotbackuppolicy
+    kind: LakePipeline
+    listKind: LakePipelineList
+    plural: lakepipelines
+    singular: lakepipeline
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ProviderSnapshotBackupPolicy is the Schema for the ProviderSnapshotBackupPolicys
-          API. <no value>
+        description: LakePipeline is the Schema for the LakePipelines API. <no value>
         properties:
           apiVersion:
             description: |-
@@ -55,8 +54,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ProviderSnapshotBackupPolicySpec defines the desired state
-              of ProviderSnapshotBackupPolicy
+            description: LakePipelineSpec defines the desired state of LakePipeline
             properties:
               deletionPolicy:
                 default: Delete
@@ -74,30 +72,8 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  clusterName:
+                  name:
                     type: string
-                  policies:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        policyItem:
-                          items:
-                            properties:
-                              frequencyInterval:
-                                type: number
-                              frequencyType:
-                                type: string
-                              id:
-                                type: string
-                              retentionUnit:
-                                type: string
-                              retentionValue:
-                                type: number
-                            type: object
-                          type: array
-                      type: object
-                    type: array
                   projectId:
                     type: string
                   projectIdRef:
@@ -176,14 +152,52 @@ spec:
                             type: string
                         type: object
                     type: object
-                  referenceHourOfDay:
-                    type: number
-                  referenceMinuteOfHour:
-                    type: number
-                  restoreWindowDays:
-                    type: number
-                  updateSnapshots:
-                    type: boolean
+                  sink:
+                    items:
+                      properties:
+                        partitionFields:
+                          items:
+                            properties:
+                              fieldName:
+                                type: string
+                              order:
+                                type: number
+                            type: object
+                          type: array
+                        provider:
+                          type: string
+                        region:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  source:
+                    items:
+                      properties:
+                        clusterName:
+                          type: string
+                        collectionName:
+                          type: string
+                        databaseName:
+                          type: string
+                        policyItemId:
+                          type: string
+                        projectId:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  transformations:
+                    items:
+                      properties:
+                        field:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -198,30 +212,8 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  clusterName:
+                  name:
                     type: string
-                  policies:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        policyItem:
-                          items:
-                            properties:
-                              frequencyInterval:
-                                type: number
-                              frequencyType:
-                                type: string
-                              id:
-                                type: string
-                              retentionUnit:
-                                type: string
-                              retentionValue:
-                                type: number
-                            type: object
-                          type: array
-                      type: object
-                    type: array
                   projectId:
                     type: string
                   projectIdRef:
@@ -300,14 +292,52 @@ spec:
                             type: string
                         type: object
                     type: object
-                  referenceHourOfDay:
-                    type: number
-                  referenceMinuteOfHour:
-                    type: number
-                  restoreWindowDays:
-                    type: number
-                  updateSnapshots:
-                    type: boolean
+                  sink:
+                    items:
+                      properties:
+                        partitionFields:
+                          items:
+                            properties:
+                              fieldName:
+                                type: string
+                              order:
+                                type: number
+                            type: object
+                          type: array
+                        provider:
+                          type: string
+                        region:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  source:
+                    items:
+                      properties:
+                        clusterName:
+                          type: string
+                        collectionName:
+                          type: string
+                        databaseName:
+                          type: string
+                        policyItemId:
+                          type: string
+                        projectId:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  transformations:
+                    items:
+                      properties:
+                        field:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -477,60 +507,123 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.clusterName is a required parameter
+            - message: spec.forProvider.name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
-                || (has(self.initProvider) && has(self.initProvider.clusterName))'
-            - message: spec.forProvider.policies is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.policies)
-                || (has(self.initProvider) && has(self.initProvider.policies))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
-            description: ProviderSnapshotBackupPolicyStatus defines the observed state
-              of ProviderSnapshotBackupPolicy.
+            description: LakePipelineStatus defines the observed state of LakePipeline.
             properties:
               atProvider:
                 properties:
-                  clusterId:
-                    type: string
-                  clusterName:
+                  createdDate:
                     type: string
                   id:
                     type: string
-                  nextSnapshot:
-                    type: string
-                  policies:
+                  ingestionSchedules:
                     items:
                       properties:
+                        frequencyInterval:
+                          type: number
+                        frequencyType:
+                          type: string
                         id:
                           type: string
-                        policyItem:
+                        retentionUnit:
+                          type: string
+                        retentionValue:
+                          type: number
+                      type: object
+                    type: array
+                  lastUpdatedDate:
+                    type: string
+                  name:
+                    type: string
+                  projectId:
+                    type: string
+                  sink:
+                    items:
+                      properties:
+                        partitionFields:
                           items:
                             properties:
-                              frequencyInterval:
-                                type: number
-                              frequencyType:
+                              fieldName:
                                 type: string
-                              id:
-                                type: string
-                              retentionUnit:
-                                type: string
-                              retentionValue:
+                              order:
                                 type: number
                             type: object
                           type: array
+                        provider:
+                          type: string
+                        region:
+                          type: string
+                        type:
+                          type: string
                       type: object
                     type: array
-                  projectId:
+                  snapshots:
+                    items:
+                      properties:
+                        copyRegion:
+                          type: string
+                        createdAt:
+                          type: string
+                        expiresAt:
+                          type: string
+                        frequencyYype:
+                          type: string
+                        id:
+                          type: string
+                        masterKey:
+                          type: string
+                        mongodVersion:
+                          type: string
+                        policies:
+                          items:
+                            type: string
+                          type: array
+                        provider:
+                          type: string
+                        replicaSetName:
+                          type: string
+                        size:
+                          type: number
+                        snapshotType:
+                          type: string
+                        status:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  source:
+                    items:
+                      properties:
+                        clusterName:
+                          type: string
+                        collectionName:
+                          type: string
+                        databaseName:
+                          type: string
+                        policyItemId:
+                          type: string
+                        projectId:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  state:
                     type: string
-                  referenceHourOfDay:
-                    type: number
-                  referenceMinuteOfHour:
-                    type: number
-                  restoreWindowDays:
-                    type: number
-                  updateSnapshots:
-                    type: boolean
+                  transformations:
+                    items:
+                      properties:
+                        field:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

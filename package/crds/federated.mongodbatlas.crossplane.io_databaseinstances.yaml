@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
-  name: providersnapshots.cloud.mongodbatlas.crossplane.io
+  name: databaseinstances.federated.mongodbatlas.crossplane.io
 spec:
-  group: cloud.mongodbatlas.crossplane.io
+  group: federated.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - mongodbatlas
-    kind: ProviderSnapshot
-    listKind: ProviderSnapshotList
-    plural: providersnapshots
-    singular: providersnapshot
+    kind: DatabaseInstance
+    listKind: DatabaseInstanceList
+    plural: databaseinstances
+    singular: databaseinstance
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ProviderSnapshot is the Schema for the ProviderSnapshots API.
+        description: DatabaseInstance is the Schema for the DatabaseInstances API.
           <no value>
         properties:
           apiVersion:
@@ -55,7 +55,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ProviderSnapshotSpec defines the desired state of ProviderSnapshot
+            description: DatabaseInstanceSpec defines the desired state of DatabaseInstance
             properties:
               deletionPolicy:
                 default: Delete
@@ -73,9 +73,30 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  clusterName:
-                    type: string
-                  description:
+                  cloudProviderConfig:
+                    items:
+                      properties:
+                        aws:
+                          items:
+                            properties:
+                              roleId:
+                                type: string
+                              testS3Bucket:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  dataProcessRegion:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        region:
+                          type: string
+                      type: object
+                    type: array
+                  name:
                     type: string
                   projectId:
                     type: string
@@ -155,10 +176,99 @@ spec:
                             type: string
                         type: object
                     type: object
-                  retentionInDays:
-                    type: number
-                  timeout:
-                    type: string
+                  storageDatabases:
+                    items:
+                      properties:
+                        collections:
+                          items:
+                            properties:
+                              dataSources:
+                                items:
+                                  properties:
+                                    allowInsecure:
+                                      type: boolean
+                                    collection:
+                                      type: string
+                                    collectionRegex:
+                                      type: string
+                                    database:
+                                      type: string
+                                    databaseRegex:
+                                      type: string
+                                    defaultFormat:
+                                      type: string
+                                    path:
+                                      type: string
+                                    provenanceFieldName:
+                                      type: string
+                                    storeName:
+                                      type: string
+                                    urls:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              name:
+                                type: string
+                            type: object
+                          type: array
+                        name:
+                          type: string
+                        views:
+                          items:
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  storageStores:
+                    items:
+                      properties:
+                        additionalStorageClasses:
+                          items:
+                            type: string
+                          type: array
+                        allowInsecure:
+                          type: boolean
+                        bucket:
+                          type: string
+                        clusterId:
+                          type: string
+                        clusterName:
+                          type: string
+                        defaultFormat:
+                          type: string
+                        delimiter:
+                          type: string
+                        includeTags:
+                          type: boolean
+                        name:
+                          type: string
+                        prefix:
+                          type: string
+                        projectId:
+                          type: string
+                        provider:
+                          type: string
+                        public:
+                          type: string
+                        readPreference:
+                          items:
+                            properties:
+                              maxStalenessSeconds:
+                                type: number
+                              mode:
+                                type: string
+                            type: object
+                          type: array
+                        region:
+                          type: string
+                        urls:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -173,9 +283,30 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  clusterName:
-                    type: string
-                  description:
+                  cloudProviderConfig:
+                    items:
+                      properties:
+                        aws:
+                          items:
+                            properties:
+                              roleId:
+                                type: string
+                              testS3Bucket:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  dataProcessRegion:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        region:
+                          type: string
+                      type: object
+                    type: array
+                  name:
                     type: string
                   projectId:
                     type: string
@@ -255,10 +386,99 @@ spec:
                             type: string
                         type: object
                     type: object
-                  retentionInDays:
-                    type: number
-                  timeout:
-                    type: string
+                  storageDatabases:
+                    items:
+                      properties:
+                        collections:
+                          items:
+                            properties:
+                              dataSources:
+                                items:
+                                  properties:
+                                    allowInsecure:
+                                      type: boolean
+                                    collection:
+                                      type: string
+                                    collectionRegex:
+                                      type: string
+                                    database:
+                                      type: string
+                                    databaseRegex:
+                                      type: string
+                                    defaultFormat:
+                                      type: string
+                                    path:
+                                      type: string
+                                    provenanceFieldName:
+                                      type: string
+                                    storeName:
+                                      type: string
+                                    urls:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              name:
+                                type: string
+                            type: object
+                          type: array
+                        name:
+                          type: string
+                        views:
+                          items:
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  storageStores:
+                    items:
+                      properties:
+                        additionalStorageClasses:
+                          items:
+                            type: string
+                          type: array
+                        allowInsecure:
+                          type: boolean
+                        bucket:
+                          type: string
+                        clusterId:
+                          type: string
+                        clusterName:
+                          type: string
+                        defaultFormat:
+                          type: string
+                        delimiter:
+                          type: string
+                        includeTags:
+                          type: boolean
+                        name:
+                          type: string
+                        prefix:
+                          type: string
+                        projectId:
+                          type: string
+                        provider:
+                          type: string
+                        public:
+                          type: string
+                        readPreference:
+                          items:
+                            properties:
+                              maxStalenessSeconds:
+                                type: number
+                              mode:
+                                type: string
+                            type: object
+                          type: array
+                        region:
+                          type: string
+                        urls:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -428,53 +648,167 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.clusterName is a required parameter
+            - message: spec.forProvider.name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
-                || (has(self.initProvider) && has(self.initProvider.clusterName))'
-            - message: spec.forProvider.description is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.description)
-                || (has(self.initProvider) && has(self.initProvider.description))'
-            - message: spec.forProvider.retentionInDays is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.retentionInDays)
-                || (has(self.initProvider) && has(self.initProvider.retentionInDays))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
-            description: ProviderSnapshotStatus defines the observed state of ProviderSnapshot.
+            description: DatabaseInstanceStatus defines the observed state of DatabaseInstance.
             properties:
               atProvider:
                 properties:
-                  clusterName:
-                    type: string
-                  createdAt:
-                    type: string
-                  description:
-                    type: string
-                  expiresAt:
-                    type: string
+                  cloudProviderConfig:
+                    items:
+                      properties:
+                        aws:
+                          items:
+                            properties:
+                              externalId:
+                                type: string
+                              iamAssumedRoleArn:
+                                type: string
+                              iamUserArn:
+                                type: string
+                              roleId:
+                                type: string
+                              testS3Bucket:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  dataProcessRegion:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        region:
+                          type: string
+                      type: object
+                    type: array
+                  hostnames:
+                    items:
+                      type: string
+                    type: array
                   id:
                     type: string
-                  masterKeyUuid:
-                    type: string
-                  mongodVersion:
+                  name:
                     type: string
                   projectId:
                     type: string
-                  retentionInDays:
-                    type: number
-                  snapshotId:
+                  state:
                     type: string
-                  snapshotType:
-                    type: string
-                  status:
-                    type: string
-                  storageSizeBytes:
-                    type: number
-                  timeout:
-                    type: string
-                  type:
-                    type: string
+                  storageDatabases:
+                    items:
+                      properties:
+                        collections:
+                          items:
+                            properties:
+                              dataSources:
+                                items:
+                                  properties:
+                                    allowInsecure:
+                                      type: boolean
+                                    collection:
+                                      type: string
+                                    collectionRegex:
+                                      type: string
+                                    database:
+                                      type: string
+                                    databaseRegex:
+                                      type: string
+                                    defaultFormat:
+                                      type: string
+                                    path:
+                                      type: string
+                                    provenanceFieldName:
+                                      type: string
+                                    storeName:
+                                      type: string
+                                    urls:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              name:
+                                type: string
+                            type: object
+                          type: array
+                        maxWildcardCollections:
+                          type: number
+                        name:
+                          type: string
+                        views:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              pipeline:
+                                type: string
+                              source:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  storageStores:
+                    items:
+                      properties:
+                        additionalStorageClasses:
+                          items:
+                            type: string
+                          type: array
+                        allowInsecure:
+                          type: boolean
+                        bucket:
+                          type: string
+                        clusterId:
+                          type: string
+                        clusterName:
+                          type: string
+                        defaultFormat:
+                          type: string
+                        delimiter:
+                          type: string
+                        includeTags:
+                          type: boolean
+                        name:
+                          type: string
+                        prefix:
+                          type: string
+                        projectId:
+                          type: string
+                        provider:
+                          type: string
+                        public:
+                          type: string
+                        readPreference:
+                          items:
+                            properties:
+                              maxStalenessSeconds:
+                                type: number
+                              mode:
+                                type: string
+                              tags:
+                                items:
+                                  properties:
+                                    name:
+                                      type: string
+                                    value:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        region:
+                          type: string
+                        urls:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

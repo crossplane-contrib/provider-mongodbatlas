@@ -25,8 +25,33 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type IPModeInitParameters struct {
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+type OutageFiltersInitParameters struct {
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
+}
+
+type OutageFiltersObservation struct {
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type OutageFiltersParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RegionName *string `json:"regionName" tf:"region_name,omitempty"`
+}
+
+type OutageSimulationInitParameters struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	OutageFilters []OutageFiltersInitParameters `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -41,18 +66,29 @@ type IPModeInitParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
-type IPModeObservation struct {
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+type OutageSimulationObservation struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	OutageFilters []OutageFiltersObservation `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
+
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	SimulationID *string `json:"simulationId,omitempty" tf:"simulation_id,omitempty"`
+
+	StartRequestDate *string `json:"startRequestDate,omitempty" tf:"start_request_date,omitempty"`
+
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
-type IPModeParameters struct {
+type OutageSimulationParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OutageFilters []OutageFiltersParameters `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -68,10 +104,10 @@ type IPModeParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
-// IPModeSpec defines the desired state of IPMode
-type IPModeSpec struct {
+// OutageSimulationSpec defines the desired state of OutageSimulation
+type OutageSimulationSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     IPModeParameters `json:"forProvider"`
+	ForProvider     OutageSimulationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -82,50 +118,51 @@ type IPModeSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider IPModeInitParameters `json:"initProvider,omitempty"`
+	InitProvider OutageSimulationInitParameters `json:"initProvider,omitempty"`
 }
 
-// IPModeStatus defines the observed state of IPMode.
-type IPModeStatus struct {
+// OutageSimulationStatus defines the observed state of OutageSimulation.
+type OutageSimulationStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        IPModeObservation `json:"atProvider,omitempty"`
+	AtProvider        OutageSimulationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// IPMode is the Schema for the IPModes API. <no value>
+// OutageSimulation is the Schema for the OutageSimulations API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
-type IPMode struct {
+type OutageSimulation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.enabled) || (has(self.initProvider) && has(self.initProvider.enabled))",message="spec.forProvider.enabled is a required parameter"
-	Spec   IPModeSpec   `json:"spec"`
-	Status IPModeStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.outageFilters) || (has(self.initProvider) && has(self.initProvider.outageFilters))",message="spec.forProvider.outageFilters is a required parameter"
+	Spec   OutageSimulationSpec   `json:"spec"`
+	Status OutageSimulationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// IPModeList contains a list of IPModes
-type IPModeList struct {
+// OutageSimulationList contains a list of OutageSimulations
+type OutageSimulationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []IPMode `json:"items"`
+	Items           []OutageSimulation `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	IPMode_Kind             = "IPMode"
-	IPMode_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: IPMode_Kind}.String()
-	IPMode_KindAPIVersion   = IPMode_Kind + "." + CRDGroupVersion.String()
-	IPMode_GroupVersionKind = CRDGroupVersion.WithKind(IPMode_Kind)
+	OutageSimulation_Kind             = "OutageSimulation"
+	OutageSimulation_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: OutageSimulation_Kind}.String()
+	OutageSimulation_KindAPIVersion   = OutageSimulation_Kind + "." + CRDGroupVersion.String()
+	OutageSimulation_GroupVersionKind = CRDGroupVersion.WithKind(OutageSimulation_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&IPMode{}, &IPModeList{})
+	SchemeBuilder.Register(&OutageSimulation{}, &OutageSimulationList{})
 }

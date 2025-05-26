@@ -677,16 +677,6 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 		*out = new(bool)
 		**out = **in
 	}
-	if in.FlowName != nil {
-		in, out := &in.FlowName, &out.FlowName
-		*out = new(string)
-		**out = **in
-	}
-	if in.FlowdockAPITokenSecretRef != nil {
-		in, out := &in.FlowdockAPITokenSecretRef, &out.FlowdockAPITokenSecretRef
-		*out = new(v1.SecretKeySelector)
-		**out = **in
-	}
 	if in.IntervalMin != nil {
 		in, out := &in.IntervalMin, &out.IntervalMin
 		*out = new(float64)
@@ -709,11 +699,6 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 	}
 	if in.OpsGenieRegion != nil {
 		in, out := &in.OpsGenieRegion, &out.OpsGenieRegion
-		*out = new(string)
-		**out = **in
-	}
-	if in.OrgName != nil {
-		in, out := &in.OrgName, &out.OrgName
 		*out = new(string)
 		**out = **in
 	}
@@ -813,11 +798,6 @@ func (in *NotificationObservation) DeepCopyInto(out *NotificationObservation) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.FlowName != nil {
-		in, out := &in.FlowName, &out.FlowName
-		*out = new(string)
-		**out = **in
-	}
 	if in.IntervalMin != nil {
 		in, out := &in.IntervalMin, &out.IntervalMin
 		*out = new(float64)
@@ -830,11 +810,6 @@ func (in *NotificationObservation) DeepCopyInto(out *NotificationObservation) {
 	}
 	if in.OpsGenieRegion != nil {
 		in, out := &in.OpsGenieRegion, &out.OpsGenieRegion
-		*out = new(string)
-		**out = **in
-	}
-	if in.OrgName != nil {
-		in, out := &in.OrgName, &out.OrgName
 		*out = new(string)
 		**out = **in
 	}
@@ -924,16 +899,6 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.FlowName != nil {
-		in, out := &in.FlowName, &out.FlowName
-		*out = new(string)
-		**out = **in
-	}
-	if in.FlowdockAPITokenSecretRef != nil {
-		in, out := &in.FlowdockAPITokenSecretRef, &out.FlowdockAPITokenSecretRef
-		*out = new(v1.SecretKeySelector)
-		**out = **in
-	}
 	if in.IntervalMin != nil {
 		in, out := &in.IntervalMin, &out.IntervalMin
 		*out = new(float64)
@@ -956,11 +921,6 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 	}
 	if in.OpsGenieRegion != nil {
 		in, out := &in.OpsGenieRegion, &out.OpsGenieRegion
-		*out = new(string)
-		**out = **in
-	}
-	if in.OrgName != nil {
-		in, out := &in.OrgName, &out.OrgName
 		*out = new(string)
 		**out = **in
 	}

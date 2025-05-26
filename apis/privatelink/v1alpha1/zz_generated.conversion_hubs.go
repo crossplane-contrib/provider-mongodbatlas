@@ -31,4 +31,7 @@ func (tr *EndpointService) Hub() {}
 func (tr *EndpointServiceAdl) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *EndpointServiceDataFederationOnlineArchive) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *EndpointServiceServerless) Hub() {}

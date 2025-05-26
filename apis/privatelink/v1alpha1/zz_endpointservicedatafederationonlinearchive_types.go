@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ProviderSnapshotInitParameters struct {
-	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+type EndpointServiceDataFederationOnlineArchiveInitParameters struct {
+	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -42,50 +42,30 @@ type ProviderSnapshotInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
-
-	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
-type ProviderSnapshotObservation struct {
-	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+type EndpointServiceDataFederationOnlineArchiveObservation struct {
+	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
-	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
-
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
+	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	MasterKeyUUID *string `json:"masterKeyUuid,omitempty" tf:"master_key_uuid,omitempty"`
-
-	MongodVersion *string `json:"mongodVersion,omitempty" tf:"mongod_version,omitempty"`
-
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
-
-	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
-
-	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
-
-	Status *string `json:"status,omitempty" tf:"status,omitempty"`
-
-	StorageSizeBytes *float64 `json:"storageSizeBytes,omitempty" tf:"storage_size_bytes,omitempty"`
-
-	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type ProviderSnapshotParameters struct {
+type EndpointServiceDataFederationOnlineArchiveParameters struct {
 
 	// +kubebuilder:validation:Optional
-	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -101,16 +81,13 @@ type ProviderSnapshotParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
-// ProviderSnapshotSpec defines the desired state of ProviderSnapshot
-type ProviderSnapshotSpec struct {
+// EndpointServiceDataFederationOnlineArchiveSpec defines the desired state of EndpointServiceDataFederationOnlineArchive
+type EndpointServiceDataFederationOnlineArchiveSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProviderSnapshotParameters `json:"forProvider"`
+	ForProvider     EndpointServiceDataFederationOnlineArchiveParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -121,52 +98,51 @@ type ProviderSnapshotSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider ProviderSnapshotInitParameters `json:"initProvider,omitempty"`
+	InitProvider EndpointServiceDataFederationOnlineArchiveInitParameters `json:"initProvider,omitempty"`
 }
 
-// ProviderSnapshotStatus defines the observed state of ProviderSnapshot.
-type ProviderSnapshotStatus struct {
+// EndpointServiceDataFederationOnlineArchiveStatus defines the observed state of EndpointServiceDataFederationOnlineArchive.
+type EndpointServiceDataFederationOnlineArchiveStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProviderSnapshotObservation `json:"atProvider,omitempty"`
+	AtProvider        EndpointServiceDataFederationOnlineArchiveObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ProviderSnapshot is the Schema for the ProviderSnapshots API. <no value>
+// EndpointServiceDataFederationOnlineArchive is the Schema for the EndpointServiceDataFederationOnlineArchives API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
-type ProviderSnapshot struct {
+type EndpointServiceDataFederationOnlineArchive struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.retentionInDays) || (has(self.initProvider) && has(self.initProvider.retentionInDays))",message="spec.forProvider.retentionInDays is a required parameter"
-	Spec   ProviderSnapshotSpec   `json:"spec"`
-	Status ProviderSnapshotStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.endpointId) || (has(self.initProvider) && has(self.initProvider.endpointId))",message="spec.forProvider.endpointId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
+	Spec   EndpointServiceDataFederationOnlineArchiveSpec   `json:"spec"`
+	Status EndpointServiceDataFederationOnlineArchiveStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProviderSnapshotList contains a list of ProviderSnapshots
-type ProviderSnapshotList struct {
+// EndpointServiceDataFederationOnlineArchiveList contains a list of EndpointServiceDataFederationOnlineArchives
+type EndpointServiceDataFederationOnlineArchiveList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ProviderSnapshot `json:"items"`
+	Items           []EndpointServiceDataFederationOnlineArchive `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	ProviderSnapshot_Kind             = "ProviderSnapshot"
-	ProviderSnapshot_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ProviderSnapshot_Kind}.String()
-	ProviderSnapshot_KindAPIVersion   = ProviderSnapshot_Kind + "." + CRDGroupVersion.String()
-	ProviderSnapshot_GroupVersionKind = CRDGroupVersion.WithKind(ProviderSnapshot_Kind)
+	EndpointServiceDataFederationOnlineArchive_Kind             = "EndpointServiceDataFederationOnlineArchive"
+	EndpointServiceDataFederationOnlineArchive_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: EndpointServiceDataFederationOnlineArchive_Kind}.String()
+	EndpointServiceDataFederationOnlineArchive_KindAPIVersion   = EndpointServiceDataFederationOnlineArchive_Kind + "." + CRDGroupVersion.String()
+	EndpointServiceDataFederationOnlineArchive_GroupVersionKind = CRDGroupVersion.WithKind(EndpointServiceDataFederationOnlineArchive_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&ProviderSnapshot{}, &ProviderSnapshotList{})
+	SchemeBuilder.Register(&EndpointServiceDataFederationOnlineArchive{}, &EndpointServiceDataFederationOnlineArchiveList{})
 }

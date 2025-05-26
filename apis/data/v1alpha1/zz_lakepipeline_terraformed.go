@@ -26,18 +26,18 @@ import (
 	"github.com/crossplane/upjet/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this ProviderSnapshot
-func (mg *ProviderSnapshot) GetTerraformResourceType() string {
-	return "mongodbatlas_cloud_provider_snapshot"
+// GetTerraformResourceType returns Terraform resource type for this LakePipeline
+func (mg *LakePipeline) GetTerraformResourceType() string {
+	return "mongodbatlas_data_lake_pipeline"
 }
 
-// GetConnectionDetailsMapping for this ProviderSnapshot
-func (tr *ProviderSnapshot) GetConnectionDetailsMapping() map[string]string {
+// GetConnectionDetailsMapping for this LakePipeline
+func (tr *LakePipeline) GetConnectionDetailsMapping() map[string]string {
 	return nil
 }
 
-// GetObservation of this ProviderSnapshot
-func (tr *ProviderSnapshot) GetObservation() (map[string]any, error) {
+// GetObservation of this LakePipeline
+func (tr *LakePipeline) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -46,8 +46,8 @@ func (tr *ProviderSnapshot) GetObservation() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this ProviderSnapshot
-func (tr *ProviderSnapshot) SetObservation(obs map[string]any) error {
+// SetObservation for this LakePipeline
+func (tr *LakePipeline) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -55,16 +55,16 @@ func (tr *ProviderSnapshot) SetObservation(obs map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this ProviderSnapshot
-func (tr *ProviderSnapshot) GetID() string {
+// GetID returns ID of underlying Terraform resource of this LakePipeline
+func (tr *LakePipeline) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this ProviderSnapshot
-func (tr *ProviderSnapshot) GetParameters() (map[string]any, error) {
+// GetParameters of this LakePipeline
+func (tr *LakePipeline) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -73,8 +73,8 @@ func (tr *ProviderSnapshot) GetParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this ProviderSnapshot
-func (tr *ProviderSnapshot) SetParameters(params map[string]any) error {
+// SetParameters for this LakePipeline
+func (tr *LakePipeline) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -82,8 +82,8 @@ func (tr *ProviderSnapshot) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// GetInitParameters of this ProviderSnapshot
-func (tr *ProviderSnapshot) GetInitParameters() (map[string]any, error) {
+// GetInitParameters of this LakePipeline
+func (tr *LakePipeline) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
 	if err != nil {
 		return nil, err
@@ -92,8 +92,8 @@ func (tr *ProviderSnapshot) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// GetInitParameters of this ProviderSnapshot
-func (tr *ProviderSnapshot) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
+// GetInitParameters of this LakePipeline
+func (tr *LakePipeline) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
 	params, err := tr.GetParameters()
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot get parameters for resource '%q'", tr.GetName())
@@ -122,10 +122,10 @@ func (tr *ProviderSnapshot) GetMergedParameters(shouldMergeInitProvider bool) (m
 	return params, nil
 }
 
-// LateInitialize this ProviderSnapshot using its observed tfState.
+// LateInitialize this LakePipeline using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *ProviderSnapshot) LateInitialize(attrs []byte) (bool, error) {
-	params := &ProviderSnapshotParameters{}
+func (tr *LakePipeline) LateInitialize(attrs []byte) (bool, error) {
+	params := &LakePipelineParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -136,6 +136,6 @@ func (tr *ProviderSnapshot) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *ProviderSnapshot) GetTerraformSchemaVersion() int {
+func (tr *LakePipeline) GetTerraformSchemaVersion() int {
 	return 0
 }

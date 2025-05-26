@@ -41,12 +41,3 @@ func (tr *ProviderAccessAuthorization) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ProviderAccessSetup) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ProviderSnapshot) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ProviderSnapshotBackupPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ProviderSnapshotRestoreJob) Hub() {}

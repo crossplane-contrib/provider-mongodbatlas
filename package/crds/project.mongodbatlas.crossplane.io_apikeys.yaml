@@ -74,6 +74,18 @@ spec:
                 properties:
                   description:
                     type: string
+                  projectAssignment:
+                    items:
+                      properties:
+                        projectId:
+                          type: string
+                        roleNames:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
                   projectId:
                     type: string
                   projectIdRef:
@@ -173,6 +185,18 @@ spec:
                 properties:
                   description:
                     type: string
+                  projectAssignment:
+                    items:
+                      properties:
+                        projectId:
+                          type: string
+                        roleNames:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
                   projectId:
                     type: string
                   projectIdRef:
@@ -429,10 +453,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.description)
                 || (has(self.initProvider) && has(self.initProvider.description))'
-            - message: spec.forProvider.roleNames is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.roleNames)
-                || (has(self.initProvider) && has(self.initProvider.roleNames))'
           status:
             description: APIKeyStatus defines the observed state of APIKey.
             properties:
@@ -444,6 +464,18 @@ spec:
                     type: string
                   id:
                     type: string
+                  projectAssignment:
+                    items:
+                      properties:
+                        projectId:
+                          type: string
+                        roleNames:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                      type: object
+                    type: array
                   projectId:
                     type: string
                   publicKey:

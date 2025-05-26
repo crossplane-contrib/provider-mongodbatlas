@@ -56,6 +56,8 @@ type ProjectInitParameters struct {
 
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
 
 	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
@@ -86,6 +88,8 @@ type ProjectObservation struct {
 
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
 
 	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
@@ -113,6 +117,9 @@ type ProjectParameters struct {
 
 	// +kubebuilder:validation:Optional
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`

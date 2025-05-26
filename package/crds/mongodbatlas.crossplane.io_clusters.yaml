@@ -95,6 +95,8 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   autoScalingComputeEnabled:
@@ -274,6 +276,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
                   terminationProtectionEnabled:
                     type: boolean
                   versionReleaseSystem:
@@ -315,6 +321,8 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   autoScalingComputeEnabled:
@@ -494,6 +502,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
                   terminationProtectionEnabled:
                     type: boolean
                   versionReleaseSystem:
@@ -703,6 +715,8 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   autoScalingComputeEnabled:
@@ -769,6 +783,8 @@ spec:
                                   type: object
                                 type: array
                               srvConnectionString:
+                                type: string
+                              srvShardOptimizedConnectionString:
                                 type: string
                               type:
                                 type: string
@@ -867,6 +883,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
                   snapshotBackupPolicy:
                     items:
                       properties:

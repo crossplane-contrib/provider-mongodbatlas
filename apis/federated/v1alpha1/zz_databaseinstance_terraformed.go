@@ -26,18 +26,18 @@ import (
 	"github.com/crossplane/upjet/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this ProviderSnapshotBackupPolicy
-func (mg *ProviderSnapshotBackupPolicy) GetTerraformResourceType() string {
-	return "mongodbatlas_cloud_provider_snapshot_backup_policy"
+// GetTerraformResourceType returns Terraform resource type for this DatabaseInstance
+func (mg *DatabaseInstance) GetTerraformResourceType() string {
+	return "mongodbatlas_federated_database_instance"
 }
 
-// GetConnectionDetailsMapping for this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) GetConnectionDetailsMapping() map[string]string {
+// GetConnectionDetailsMapping for this DatabaseInstance
+func (tr *DatabaseInstance) GetConnectionDetailsMapping() map[string]string {
 	return nil
 }
 
-// GetObservation of this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) GetObservation() (map[string]any, error) {
+// GetObservation of this DatabaseInstance
+func (tr *DatabaseInstance) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -46,8 +46,8 @@ func (tr *ProviderSnapshotBackupPolicy) GetObservation() (map[string]any, error)
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) SetObservation(obs map[string]any) error {
+// SetObservation for this DatabaseInstance
+func (tr *DatabaseInstance) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -55,16 +55,16 @@ func (tr *ProviderSnapshotBackupPolicy) SetObservation(obs map[string]any) error
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) GetID() string {
+// GetID returns ID of underlying Terraform resource of this DatabaseInstance
+func (tr *DatabaseInstance) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) GetParameters() (map[string]any, error) {
+// GetParameters of this DatabaseInstance
+func (tr *DatabaseInstance) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -73,8 +73,8 @@ func (tr *ProviderSnapshotBackupPolicy) GetParameters() (map[string]any, error) 
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) SetParameters(params map[string]any) error {
+// SetParameters for this DatabaseInstance
+func (tr *DatabaseInstance) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -82,8 +82,8 @@ func (tr *ProviderSnapshotBackupPolicy) SetParameters(params map[string]any) err
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// GetInitParameters of this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) GetInitParameters() (map[string]any, error) {
+// GetInitParameters of this DatabaseInstance
+func (tr *DatabaseInstance) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
 	if err != nil {
 		return nil, err
@@ -92,8 +92,8 @@ func (tr *ProviderSnapshotBackupPolicy) GetInitParameters() (map[string]any, err
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// GetInitParameters of this ProviderSnapshotBackupPolicy
-func (tr *ProviderSnapshotBackupPolicy) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
+// GetInitParameters of this DatabaseInstance
+func (tr *DatabaseInstance) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
 	params, err := tr.GetParameters()
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot get parameters for resource '%q'", tr.GetName())
@@ -122,10 +122,10 @@ func (tr *ProviderSnapshotBackupPolicy) GetMergedParameters(shouldMergeInitProvi
 	return params, nil
 }
 
-// LateInitialize this ProviderSnapshotBackupPolicy using its observed tfState.
+// LateInitialize this DatabaseInstance using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *ProviderSnapshotBackupPolicy) LateInitialize(attrs []byte) (bool, error) {
-	params := &ProviderSnapshotBackupPolicyParameters{}
+func (tr *DatabaseInstance) LateInitialize(attrs []byte) (bool, error) {
+	params := &DatabaseInstanceParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -136,6 +136,6 @@ func (tr *ProviderSnapshotBackupPolicy) LateInitialize(attrs []byte) (bool, erro
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *ProviderSnapshotBackupPolicy) GetTerraformSchemaVersion() int {
+func (tr *DatabaseInstance) GetTerraformSchemaVersion() int {
 	return 0
 }

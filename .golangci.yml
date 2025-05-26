@@ -18,14 +18,17 @@ linters-settings:
     # default is false: such cases aren't reported by default.
     check-blank: false
 
+    # [deprecated] comma-separated list of pairs of the form pkg:regex
+    # the regex is used to ignore names within pkg. (default "fmt:.*").
+    # see https://github.com/kisielk/errcheck#the-deprecated-method for details
     exclude-functions:
-      - io/ioutil.ReadFile
-      - io/ioutil.ReadDir
-      - io/ioutil.ReadAll
+      - fmt:.*
+      - io/ioutil:^Read.*
 
   govet:
     # report about shadowed variables
-    check-shadowing: false
+    disable:
+      - shadow
 
   revive:
     # confidence for issues, default is 0.8
@@ -57,6 +60,13 @@ linters-settings:
   lll:
     # tab width in spaces. Default to 1.
     tab-width: 1
+
+  unused:
+    # treat code as a program (not a library) and report unused exported identifiers; default is false.
+    # XXX: if you enable this setting, unused will report a lot of false-positives in text editors:
+    # if it's called for subdir of a project it can't find funcs usages. All text editor integrations
+    # with golangci-lint call it on a directory with the changed file.
+    exported-fields-are-used: false
 
   unparam:
     # Inspect exported functions, default is false. Set to true if no external program/library imports your code.
@@ -115,7 +125,8 @@ linters:
 
 issues:
   exclude-files:
-    - "zz_.*go$"
+    - "zz_\\..+\\.go$"
+
   # Excluding configuration per-path and per-linter
   exclude-rules:
     # Exclude some linters from running on tests files.

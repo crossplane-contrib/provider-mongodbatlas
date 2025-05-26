@@ -19,6 +19,12 @@ limitations under the License.
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *DatabaseInstance) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *QueryLimit) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *SettingsIdentityProvider) Hub() {}
 
 // Hub marks this type as a conversion hub.

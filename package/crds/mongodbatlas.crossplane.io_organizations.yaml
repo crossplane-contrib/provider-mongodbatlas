@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
-  name: providersnapshotrestorejobs.cloud.mongodbatlas.crossplane.io
+  name: organizations.mongodbatlas.crossplane.io
 spec:
-  group: cloud.mongodbatlas.crossplane.io
+  group: mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - mongodbatlas
-    kind: ProviderSnapshotRestoreJob
-    listKind: ProviderSnapshotRestoreJobList
-    plural: providersnapshotrestorejobs
-    singular: providersnapshotrestorejob
+    kind: Organization
+    listKind: OrganizationList
+    plural: organizations
+    singular: organization
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ProviderSnapshotRestoreJob is the Schema for the ProviderSnapshotRestoreJobs
-          API. <no value>
+        description: Organization is the Schema for the Organizations API. <no value>
         properties:
           apiVersion:
             description: |-
@@ -55,8 +54,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ProviderSnapshotRestoreJobSpec defines the desired state
-              of ProviderSnapshotRestoreJob
+            description: OrganizationSpec defines the desired state of Organization
             properties:
               deletionPolicy:
                 default: Delete
@@ -74,114 +72,19 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  clusterName:
+                  description:
                     type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
-                  deliveryTypeConfig:
+                  federationSettingsId:
+                    type: string
+                  name:
+                    type: string
+                  orgOwnerId:
+                    type: string
+                  roleNames:
                     items:
-                      properties:
-                        automated:
-                          type: boolean
-                        download:
-                          type: boolean
-                        oplogInc:
-                          type: number
-                        oplogTs:
-                          type: number
-                        pointInTime:
-                          type: boolean
-                        pointInTimeUtcSeconds:
-                          type: number
-                        targetClusterName:
-                          type: string
-                        targetProjectId:
-                          type: string
-                      type: object
+                      type: string
                     type: array
-                  projectId:
-                    type: string
-                  projectIdRef:
-                    description: Reference to a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  projectIdSelector:
-                    description: Selector for a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
-                  snapshotId:
-                    type: string
+                    x-kubernetes-list-type: set
                 type: object
               initProvider:
                 description: |-
@@ -196,114 +99,19 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  clusterName:
+                  description:
                     type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
-                  deliveryTypeConfig:
+                  federationSettingsId:
+                    type: string
+                  name:
+                    type: string
+                  orgOwnerId:
+                    type: string
+                  roleNames:
                     items:
-                      properties:
-                        automated:
-                          type: boolean
-                        download:
-                          type: boolean
-                        oplogInc:
-                          type: number
-                        oplogTs:
-                          type: number
-                        pointInTime:
-                          type: boolean
-                        pointInTimeUtcSeconds:
-                          type: number
-                        targetClusterName:
-                          type: string
-                        targetProjectId:
-                          type: string
-                      type: object
+                      type: string
                     type: array
-                  projectId:
-                    type: string
-                  projectIdRef:
-                    description: Reference to a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  projectIdSelector:
-                    description: Selector for a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
-                  snapshotId:
-                    type: string
+                    x-kubernetes-list-type: set
                 type: object
               managementPolicies:
                 default:
@@ -473,72 +281,44 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.clusterName is a required parameter
+            - message: spec.forProvider.description is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
-                || (has(self.initProvider) && has(self.initProvider.clusterName))'
-            - message: spec.forProvider.snapshotId is a required parameter
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.description)
+                || (has(self.initProvider) && has(self.initProvider.description))'
+            - message: spec.forProvider.name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.snapshotId)
-                || (has(self.initProvider) && has(self.initProvider.snapshotId))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.orgOwnerId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.orgOwnerId)
+                || (has(self.initProvider) && has(self.initProvider.orgOwnerId))'
+            - message: spec.forProvider.roleNames is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.roleNames)
+                || (has(self.initProvider) && has(self.initProvider.roleNames))'
           status:
-            description: ProviderSnapshotRestoreJobStatus defines the observed state
-              of ProviderSnapshotRestoreJob.
+            description: OrganizationStatus defines the observed state of Organization.
             properties:
               atProvider:
                 properties:
-                  cancelled:
-                    type: boolean
-                  clusterName:
+                  description:
                     type: string
-                  createdAt:
-                    type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
-                  deliveryTypeConfig:
-                    items:
-                      properties:
-                        automated:
-                          type: boolean
-                        download:
-                          type: boolean
-                        oplogInc:
-                          type: number
-                        oplogTs:
-                          type: number
-                        pointInTime:
-                          type: boolean
-                        pointInTimeUtcSeconds:
-                          type: number
-                        targetClusterName:
-                          type: string
-                        targetProjectId:
-                          type: string
-                      type: object
-                    type: array
-                  deliveryUrl:
-                    items:
-                      type: string
-                    type: array
-                  expired:
-                    type: boolean
-                  expiresAt:
-                    type: string
-                  finishedAt:
+                  federationSettingsId:
                     type: string
                   id:
                     type: string
-                  projectId:
+                  name:
                     type: string
-                  snapshotId:
+                  orgId:
                     type: string
-                  snapshotRestoreJobId:
+                  orgOwnerId:
                     type: string
-                  timestamp:
-                    type: string
+                  roleNames:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                 type: object
               conditions:
                 description: Conditions of the resource.

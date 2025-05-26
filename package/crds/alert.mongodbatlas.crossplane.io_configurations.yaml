@@ -156,26 +156,6 @@ spec:
                           type: string
                         emailEnabled:
                           type: boolean
-                        flowName:
-                          type: string
-                        flowdockApiTokenSecretRef:
-                          description: A SecretKeySelector is a reference to a secret
-                            key in an arbitrary namespace.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
                         intervalMin:
                           type: number
                         microsoftTeamsWebhookUrlSecretRef:
@@ -217,8 +197,6 @@ spec:
                           - namespace
                           type: object
                         opsGenieRegion:
-                          type: string
-                        orgName:
                           type: string
                         roles:
                           items:
@@ -516,26 +494,6 @@ spec:
                           type: string
                         emailEnabled:
                           type: boolean
-                        flowName:
-                          type: string
-                        flowdockApiTokenSecretRef:
-                          description: A SecretKeySelector is a reference to a secret
-                            key in an arbitrary namespace.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
                         intervalMin:
                           type: number
                         microsoftTeamsWebhookUrlSecretRef:
@@ -577,8 +535,6 @@ spec:
                           - namespace
                           type: object
                         opsGenieRegion:
-                          type: string
-                        orgName:
                           type: string
                         roles:
                           items:
@@ -1014,15 +970,11 @@ spec:
                           type: string
                         emailEnabled:
                           type: boolean
-                        flowName:
-                          type: string
                         intervalMin:
                           type: number
                         mobileNumber:
                           type: string
                         opsGenieRegion:
-                          type: string
-                        orgName:
                           type: string
                         roles:
                           items:

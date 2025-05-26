@@ -73,27 +73,7 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  accountId:
-                    type: string
                   apiKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
-                  apiTokenSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
                     properties:
@@ -115,26 +95,6 @@ spec:
                     type: string
                   enabled:
                     type: boolean
-                  flowName:
-                    type: string
-                  licenseKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
                   microsoftTeamsWebhookUrlSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
@@ -153,8 +113,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  orgName:
-                    type: string
                   passwordSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
@@ -251,24 +209,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  readTokenSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
                   region:
                     type: string
                   routingKeySecretRef:
@@ -352,24 +292,6 @@ spec:
                   url:
                     type: string
                   userNameSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
-                  writeTokenSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
                     properties:
@@ -401,27 +323,7 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  accountId:
-                    type: string
                   apiKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
-                  apiTokenSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
                     properties:
@@ -443,26 +345,6 @@ spec:
                     type: string
                   enabled:
                     type: boolean
-                  flowName:
-                    type: string
-                  licenseKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
                   microsoftTeamsWebhookUrlSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
@@ -481,8 +363,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  orgName:
-                    type: string
                   passwordSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
@@ -579,24 +459,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  readTokenSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
                   region:
                     type: string
                   routingKeySecretRef:
@@ -680,24 +542,6 @@ spec:
                   url:
                     type: string
                   userNameSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
-                  writeTokenSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
                       in an arbitrary namespace.
                     properties:
@@ -893,17 +737,11 @@ spec:
             properties:
               atProvider:
                 properties:
-                  accountId:
-                    type: string
                   channelName:
                     type: string
                   enabled:
                     type: boolean
-                  flowName:
-                    type: string
                   id:
-                    type: string
-                  orgName:
                     type: string
                   projectId:
                     type: string

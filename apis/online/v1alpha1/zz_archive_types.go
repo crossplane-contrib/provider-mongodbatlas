@@ -52,6 +52,8 @@ type ArchiveInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	Schedule []ScheduleInitParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
+
 	SyncCreation *bool `json:"syncCreation,omitempty" tf:"sync_creation,omitempty"`
 }
 
@@ -75,6 +77,8 @@ type ArchiveObservation struct {
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	Schedule []ScheduleObservation `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -116,6 +120,9 @@ type ArchiveParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	Schedule []ScheduleParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	SyncCreation *bool `json:"syncCreation,omitempty" tf:"sync_creation,omitempty"`
@@ -184,6 +191,62 @@ type PartitionFieldsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Order *float64 `json:"order" tf:"order,omitempty"`
+}
+
+type ScheduleInitParameters struct {
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ScheduleObservation struct {
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ScheduleParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // ArchiveSpec defines the desired state of Archive

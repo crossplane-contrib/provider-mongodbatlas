@@ -33,14 +33,15 @@ import (
 	provideraccess "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cloud/provideraccess"
 	provideraccessauthorization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cloud/provideraccessauthorization"
 	provideraccesssetup "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cloud/provideraccesssetup"
-	providersnapshot "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cloud/providersnapshot"
-	providersnapshotbackuppolicy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cloud/providersnapshotbackuppolicy"
-	providersnapshotrestorejob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cloud/providersnapshotrestorejob"
+	outagesimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/outagesimulation"
 	dbrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/custom/dbrole"
 	dnsconfigurationclusteraws "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/custom/dnsconfigurationclusteraws"
 	lake "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/data/lake"
+	lakepipeline "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/data/lakepipeline"
 	user "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/database/user"
 	trigger "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/event/trigger"
+	databaseinstance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/federated/databaseinstance"
+	querylimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/federated/querylimit"
 	settingsidentityprovider "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/federated/settingsidentityprovider"
 	settingsorgconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/federated/settingsorgconfig"
 	settingsorgrolemapping "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/federated/settingsorgrolemapping"
@@ -51,6 +52,7 @@ import (
 	advancedcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/mongodbatlas/advancedcluster"
 	auditing "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/mongodbatlas/auditing"
 	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/mongodbatlas/cluster"
+	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/mongodbatlas/organization"
 	project "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/mongodbatlas/project"
 	team "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/mongodbatlas/team"
 	container "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/network/container"
@@ -58,11 +60,11 @@ import (
 	archive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/online/archive"
 	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/org/invitation"
 	endpointregionalmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/private/endpointregionalmode"
-	ipmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/private/ipmode"
 	endpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/privatelink/endpoint"
 	endpointserverless "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/privatelink/endpointserverless"
 	endpointservice "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/privatelink/endpointservice"
 	endpointserviceadl "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/privatelink/endpointserviceadl"
+	endpointservicedatafederationonlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/privatelink/endpointservicedatafederationonlinearchive"
 	endpointserviceserverless "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/privatelink/endpointserviceserverless"
 	apikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/project/apikey"
 	invitationproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/project/invitation"
@@ -90,14 +92,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		provideraccess.Setup,
 		provideraccessauthorization.Setup,
 		provideraccesssetup.Setup,
-		providersnapshot.Setup,
-		providersnapshotbackuppolicy.Setup,
-		providersnapshotrestorejob.Setup,
+		outagesimulation.Setup,
 		dbrole.Setup,
 		dnsconfigurationclusteraws.Setup,
 		lake.Setup,
+		lakepipeline.Setup,
 		user.Setup,
 		trigger.Setup,
+		databaseinstance.Setup,
+		querylimit.Setup,
 		settingsidentityprovider.Setup,
 		settingsorgconfig.Setup,
 		settingsorgrolemapping.Setup,
@@ -108,6 +111,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		advancedcluster.Setup,
 		auditing.Setup,
 		cluster.Setup,
+		organization.Setup,
 		project.Setup,
 		team.Setup,
 		container.Setup,
@@ -115,11 +119,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		archive.Setup,
 		invitation.Setup,
 		endpointregionalmode.Setup,
-		ipmode.Setup,
 		endpoint.Setup,
 		endpointserverless.Setup,
 		endpointservice.Setup,
 		endpointserviceadl.Setup,
+		endpointservicedatafederationonlinearchive.Setup,
 		endpointserviceserverless.Setup,
 		apikey.Setup,
 		invitationproject.Setup,

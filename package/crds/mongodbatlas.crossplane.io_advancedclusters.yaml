@@ -96,6 +96,8 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   backupEnabled:
@@ -308,6 +310,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
                   rootCertType:
                     type: string
                   terminationProtectionEnabled:
@@ -351,6 +357,8 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   backupEnabled:
@@ -563,6 +571,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
                   rootCertType:
                     type: string
                   terminationProtectionEnabled:
@@ -774,6 +786,8 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   backupEnabled:
@@ -832,6 +846,8 @@ spec:
                                   type: object
                                 type: array
                               srvConnectionString:
+                                type: string
+                              srvShardOptimizedConnectionString:
                                 type: string
                               type:
                                 type: string
@@ -970,6 +986,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
                   rootCertType:
                     type: string
                   stateName:

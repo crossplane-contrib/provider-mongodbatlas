@@ -184,6 +184,25 @@ spec:
                             type: string
                         type: object
                     type: object
+                  schedule:
+                    items:
+                      properties:
+                        dayOfMonth:
+                          type: number
+                        dayOfWeek:
+                          type: number
+                        endHour:
+                          type: number
+                        endMinute:
+                          type: number
+                        startHour:
+                          type: number
+                        startMinute:
+                          type: number
+                        type:
+                          type: string
+                      type: object
+                    type: array
                   syncCreation:
                     type: boolean
                 type: object
@@ -312,6 +331,25 @@ spec:
                             type: string
                         type: object
                     type: object
+                  schedule:
+                    items:
+                      properties:
+                        dayOfMonth:
+                          type: number
+                        dayOfWeek:
+                          type: number
+                        endHour:
+                          type: number
+                        endMinute:
+                          type: number
+                        startHour:
+                          type: number
+                        startMinute:
+                          type: number
+                        type:
+                          type: string
+                      type: object
+                    type: array
                   syncCreation:
                     type: boolean
                 type: object
@@ -546,6 +584,25 @@ spec:
                     type: boolean
                   projectId:
                     type: string
+                  schedule:
+                    items:
+                      properties:
+                        dayOfMonth:
+                          type: number
+                        dayOfWeek:
+                          type: number
+                        endHour:
+                          type: number
+                        endMinute:
+                          type: number
+                        startHour:
+                          type: number
+                        startMinute:
+                          type: number
+                        type:
+                          type: string
+                      type: object
+                    type: array
                   state:
                     type: string
                   syncCreation:

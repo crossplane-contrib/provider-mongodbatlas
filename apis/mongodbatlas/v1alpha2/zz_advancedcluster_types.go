@@ -62,6 +62,9 @@ type AdvancedClusterInitParameters struct {
 
 	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
 	RootCertType *string `json:"rootCertType,omitempty" tf:"root_cert_type,omitempty"`
 
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
@@ -105,6 +108,9 @@ type AdvancedClusterObservation struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
 
 	RootCertType *string `json:"rootCertType,omitempty" tf:"root_cert_type,omitempty"`
 
@@ -166,6 +172,10 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	// +kubebuilder:validation:Optional
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	RootCertType *string `json:"rootCertType,omitempty" tf:"root_cert_type,omitempty"`
 
@@ -196,6 +206,8 @@ type AdvancedConfigurationInitParameters struct {
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AdvancedConfigurationObservation struct {
@@ -218,6 +230,8 @@ type AdvancedConfigurationObservation struct {
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AdvancedConfigurationParameters struct {
@@ -251,6 +265,9 @@ type AdvancedConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AnalyticsAutoScalingInitParameters struct {
@@ -518,6 +535,8 @@ type PrivateEndpointObservation struct {
 	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
 	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
+
+	SrvShardOptimizedConnectionString *string `json:"srvShardOptimizedConnectionString,omitempty" tf:"srv_shard_optimized_connection_string,omitempty"`
 
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

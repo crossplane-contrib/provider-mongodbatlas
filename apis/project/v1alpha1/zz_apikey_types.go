@@ -28,6 +28,8 @@ import (
 type APIKeyInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	ProjectAssignment []ProjectAssignmentInitParameters `json:"projectAssignment,omitempty" tf:"project_assignment,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -51,6 +53,8 @@ type APIKeyObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	ProjectAssignment []ProjectAssignmentObservation `json:"projectAssignment,omitempty" tf:"project_assignment,omitempty"`
+
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
@@ -63,6 +67,9 @@ type APIKeyParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ProjectAssignment []ProjectAssignmentParameters `json:"projectAssignment,omitempty" tf:"project_assignment,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -80,6 +87,30 @@ type APIKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+}
+
+type ProjectAssignmentInitParameters struct {
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// +listType=set
+	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+}
+
+type ProjectAssignmentObservation struct {
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// +listType=set
+	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+}
+
+type ProjectAssignmentParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	RoleNames []*string `json:"roleNames" tf:"role_names,omitempty"`
 }
 
 // APIKeySpec defines the desired state of APIKey
@@ -119,7 +150,6 @@ type APIKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleNames) || (has(self.initProvider) && has(self.initProvider.roleNames))",message="spec.forProvider.roleNames is a required parameter"
 	Spec   APIKeySpec   `json:"spec"`
 	Status APIKeyStatus `json:"status,omitempty"`
 }

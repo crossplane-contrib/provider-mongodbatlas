@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
-  name: ipmodes.private.mongodbatlas.crossplane.io
+  name: querylimits.federated.mongodbatlas.crossplane.io
 spec:
-  group: private.mongodbatlas.crossplane.io
+  group: federated.mongodbatlas.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - mongodbatlas
-    kind: IPMode
-    listKind: IPModeList
-    plural: ipmodes
-    singular: ipmode
+    kind: QueryLimit
+    listKind: QueryLimitList
+    plural: querylimits
+    singular: querylimit
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: IPMode is the Schema for the IPModes API. <no value>
+        description: QueryLimit is the Schema for the QueryLimits API. <no value>
         properties:
           apiVersion:
             description: |-
@@ -54,7 +54,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: IPModeSpec defines the desired state of IPMode
+            description: QueryLimitSpec defines the desired state of QueryLimit
             properties:
               deletionPolicy:
                 default: Delete
@@ -72,8 +72,14 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  enabled:
-                    type: boolean
+                  defaultLimit:
+                    type: number
+                  limitName:
+                    type: string
+                  maximumLimit:
+                    type: number
+                  overrunPolicy:
+                    type: string
                   projectId:
                     type: string
                   projectIdRef:
@@ -152,6 +158,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  tenantName:
+                    type: string
+                  value:
+                    type: number
                 type: object
               initProvider:
                 description: |-
@@ -166,8 +176,14 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  enabled:
-                    type: boolean
+                  defaultLimit:
+                    type: number
+                  limitName:
+                    type: string
+                  maximumLimit:
+                    type: number
+                  overrunPolicy:
+                    type: string
                   projectId:
                     type: string
                   projectIdRef:
@@ -246,6 +262,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  tenantName:
+                    type: string
+                  value:
+                    type: number
                 type: object
               managementPolicies:
                 default:
@@ -415,21 +435,47 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.enabled is a required parameter
+            - message: spec.forProvider.limitName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.enabled)
-                || (has(self.initProvider) && has(self.initProvider.enabled))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.limitName)
+                || (has(self.initProvider) && has(self.initProvider.limitName))'
+            - message: spec.forProvider.overrunPolicy is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.overrunPolicy)
+                || (has(self.initProvider) && has(self.initProvider.overrunPolicy))'
+            - message: spec.forProvider.tenantName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.tenantName)
+                || (has(self.initProvider) && has(self.initProvider.tenantName))'
+            - message: spec.forProvider.value is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.value)
+                || (has(self.initProvider) && has(self.initProvider.value))'
           status:
-            description: IPModeStatus defines the observed state of IPMode.
+            description: QueryLimitStatus defines the observed state of QueryLimit.
             properties:
               atProvider:
                 properties:
-                  enabled:
-                    type: boolean
+                  currentUsage:
+                    type: number
+                  defaultLimit:
+                    type: number
                   id:
+                    type: string
+                  lastModifiedDate:
+                    type: string
+                  limitName:
+                    type: string
+                  maximumLimit:
+                    type: number
+                  overrunPolicy:
                     type: string
                   projectId:
                     type: string
+                  tenantName:
+                    type: string
+                  value:
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.

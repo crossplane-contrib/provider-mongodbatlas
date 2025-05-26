@@ -45,6 +45,8 @@ type ClusterAdvancedConfigurationInitParameters struct {
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type ClusterAdvancedConfigurationObservation struct {
@@ -67,6 +69,8 @@ type ClusterAdvancedConfigurationObservation struct {
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type ClusterAdvancedConfigurationParameters struct {
@@ -100,6 +104,9 @@ type ClusterAdvancedConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type ClusterBiConnectorConfigInitParameters struct {
@@ -221,6 +228,9 @@ type ClusterInitParameters struct {
 
 	ReplicationSpecs []ClusterReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
@@ -327,6 +337,9 @@ type ClusterObservation struct {
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	ReplicationSpecs []ClusterReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
 
 	SnapshotBackupPolicy []SnapshotBackupPolicyObservation `json:"snapshotBackupPolicy,omitempty" tf:"snapshot_backup_policy,omitempty"`
 
@@ -443,6 +456,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplicationSpecs []ClusterReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	// +kubebuilder:validation:Optional
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
@@ -494,6 +511,8 @@ type ConnectionStringsPrivateEndpointObservation struct {
 	Endpoints []PrivateEndpointEndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
 	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
+
+	SrvShardOptimizedConnectionString *string `json:"srvShardOptimizedConnectionString,omitempty" tf:"srv_shard_optimized_connection_string,omitempty"`
 
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

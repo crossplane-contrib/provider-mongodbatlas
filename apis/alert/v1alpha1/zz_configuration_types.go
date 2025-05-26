@@ -214,10 +214,6 @@ type NotificationInitParameters struct {
 
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
-	FlowdockAPITokenSecretRef *v1.SecretKeySelector `json:"flowdockApiTokenSecretRef,omitempty" tf:"-"`
-
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
 	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
@@ -227,8 +223,6 @@ type NotificationInitParameters struct {
 	OpsGenieAPIKeySecretRef *v1.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
 
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
-
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
@@ -262,15 +256,11 @@ type NotificationObservation struct {
 
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
-
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
@@ -309,12 +299,6 @@ type NotificationParameters struct {
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	FlowdockAPITokenSecretRef *v1.SecretKeySelector `json:"flowdockApiTokenSecretRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -328,9 +312,6 @@ type NotificationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`

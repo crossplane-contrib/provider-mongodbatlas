@@ -25,8 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SettingsOrgConfigInitParameters struct {
+	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
+
+	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
+
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
+	IdentityProviderID *string `json:"identityProviderId,omitempty" tf:"identity_provider_id,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
+}
+
 type SettingsOrgConfigObservation struct {
+	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
+
+	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
+
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IdentityProviderID *string `json:"identityProviderId,omitempty" tf:"identity_provider_id,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
 }
 
 type SettingsOrgConfigParameters struct {
@@ -34,17 +60,17 @@ type SettingsOrgConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
 
-	// +kubebuilder:validation:Required
-	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled" tf:"domain_restriction_enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
 
-	// +kubebuilder:validation:Required
-	FederationSettingsID *string `json:"federationSettingsId" tf:"federation_settings_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	IdentityProviderID *string `json:"identityProviderId" tf:"identity_provider_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	IdentityProviderID *string `json:"identityProviderId,omitempty" tf:"identity_provider_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
@@ -54,6 +80,17 @@ type SettingsOrgConfigParameters struct {
 type SettingsOrgConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SettingsOrgConfigParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SettingsOrgConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // SettingsOrgConfigStatus defines the observed state of SettingsOrgConfig.
@@ -63,19 +100,24 @@ type SettingsOrgConfigStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // SettingsOrgConfig is the Schema for the SettingsOrgConfigs API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type SettingsOrgConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SettingsOrgConfigSpec   `json:"spec"`
-	Status            SettingsOrgConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domainRestrictionEnabled) || (has(self.initProvider) && has(self.initProvider.domainRestrictionEnabled))",message="spec.forProvider.domainRestrictionEnabled is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.federationSettingsId) || (has(self.initProvider) && has(self.initProvider.federationSettingsId))",message="spec.forProvider.federationSettingsId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.identityProviderId) || (has(self.initProvider) && has(self.initProvider.identityProviderId))",message="spec.forProvider.identityProviderId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
+	Spec   SettingsOrgConfigSpec   `json:"spec"`
+	Status SettingsOrgConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

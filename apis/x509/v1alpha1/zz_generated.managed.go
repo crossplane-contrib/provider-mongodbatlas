@@ -29,17 +29,14 @@ func (mg *AuthenticationDatabaseUser) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this AuthenticationDatabaseUser.
+func (mg *AuthenticationDatabaseUser) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this AuthenticationDatabaseUser.
 func (mg *AuthenticationDatabaseUser) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this AuthenticationDatabaseUser.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *AuthenticationDatabaseUser) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this AuthenticationDatabaseUser.
@@ -62,17 +59,14 @@ func (mg *AuthenticationDatabaseUser) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this AuthenticationDatabaseUser.
+func (mg *AuthenticationDatabaseUser) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this AuthenticationDatabaseUser.
 func (mg *AuthenticationDatabaseUser) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this AuthenticationDatabaseUser.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *AuthenticationDatabaseUser) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this AuthenticationDatabaseUser.

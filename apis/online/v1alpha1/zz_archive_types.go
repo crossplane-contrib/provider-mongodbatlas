@@ -25,33 +25,82 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ArchiveInitParameters struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	CollName *string `json:"collName,omitempty" tf:"coll_name,omitempty"`
+
+	CollectionType *string `json:"collectionType,omitempty" tf:"collection_type,omitempty"`
+
+	Criteria []CriteriaInitParameters `json:"criteria,omitempty" tf:"criteria,omitempty"`
+
+	DBName *string `json:"dbName,omitempty" tf:"db_name,omitempty"`
+
+	PartitionFields []PartitionFieldsInitParameters `json:"partitionFields,omitempty" tf:"partition_fields,omitempty"`
+
+	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	Schedule []ScheduleInitParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
+
+	SyncCreation *bool `json:"syncCreation,omitempty" tf:"sync_creation,omitempty"`
+}
+
 type ArchiveObservation struct {
 	ArchiveID *string `json:"archiveId,omitempty" tf:"archive_id,omitempty"`
 
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	CollName *string `json:"collName,omitempty" tf:"coll_name,omitempty"`
+
+	CollectionType *string `json:"collectionType,omitempty" tf:"collection_type,omitempty"`
+
+	Criteria []CriteriaObservation `json:"criteria,omitempty" tf:"criteria,omitempty"`
+
+	DBName *string `json:"dbName,omitempty" tf:"db_name,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	PartitionFields []PartitionFieldsObservation `json:"partitionFields,omitempty" tf:"partition_fields,omitempty"`
 
+	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	Schedule []ScheduleObservation `json:"schedule,omitempty" tf:"schedule,omitempty"`
+
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	SyncCreation *bool `json:"syncCreation,omitempty" tf:"sync_creation,omitempty"`
 }
 
 type ArchiveParameters struct {
 
-	// +kubebuilder:validation:Required
-	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	CollName *string `json:"collName" tf:"coll_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	CollName *string `json:"collName,omitempty" tf:"coll_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	CollectionType *string `json:"collectionType,omitempty" tf:"collection_type,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Criteria []CriteriaParameters `json:"criteria" tf:"criteria,omitempty"`
+	// +kubebuilder:validation:Optional
+	Criteria []CriteriaParameters `json:"criteria,omitempty" tf:"criteria,omitempty"`
 
-	// +kubebuilder:validation:Required
-	DBName *string `json:"dbName" tf:"db_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DBName *string `json:"dbName,omitempty" tf:"db_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PartitionFields []PartitionFieldsParameters `json:"partitionFields,omitempty" tf:"partition_fields,omitempty"`
@@ -73,10 +122,34 @@ type ArchiveParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
+	Schedule []ScheduleParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	SyncCreation *bool `json:"syncCreation,omitempty" tf:"sync_creation,omitempty"`
 }
 
+type CriteriaInitParameters struct {
+	DateField *string `json:"dateField,omitempty" tf:"date_field,omitempty"`
+
+	DateFormat *string `json:"dateFormat,omitempty" tf:"date_format,omitempty"`
+
+	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type CriteriaObservation struct {
+	DateField *string `json:"dateField,omitempty" tf:"date_field,omitempty"`
+
+	DateFormat *string `json:"dateFormat,omitempty" tf:"date_format,omitempty"`
+
+	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type CriteriaParameters struct {
@@ -93,27 +166,104 @@ type CriteriaParameters struct {
 	// +kubebuilder:validation:Optional
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
+type PartitionFieldsInitParameters struct {
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+
+	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
+}
+
 type PartitionFieldsObservation struct {
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+
 	FieldType *string `json:"fieldType,omitempty" tf:"field_type,omitempty"`
+
+	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
 }
 
 type PartitionFieldsParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	FieldName *string `json:"fieldName" tf:"field_name,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Order *float64 `json:"order" tf:"order,omitempty"`
+}
+
+type ScheduleInitParameters struct {
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ScheduleObservation struct {
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ScheduleParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // ArchiveSpec defines the desired state of Archive
 type ArchiveSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ArchiveParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ArchiveInitParameters `json:"initProvider,omitempty"`
 }
 
 // ArchiveStatus defines the observed state of Archive.
@@ -123,19 +273,24 @@ type ArchiveStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Archive is the Schema for the Archives API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Archive struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ArchiveSpec   `json:"spec"`
-	Status            ArchiveStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.collName) || (has(self.initProvider) && has(self.initProvider.collName))",message="spec.forProvider.collName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.criteria) || (has(self.initProvider) && has(self.initProvider.criteria))",message="spec.forProvider.criteria is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dbName) || (has(self.initProvider) && has(self.initProvider.dbName))",message="spec.forProvider.dbName is a required parameter"
+	Spec   ArchiveSpec   `json:"spec"`
+	Status ArchiveStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

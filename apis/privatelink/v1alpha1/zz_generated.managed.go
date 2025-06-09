@@ -29,17 +29,14 @@ func (mg *Endpoint) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this Endpoint.
+func (mg *Endpoint) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this Endpoint.
 func (mg *Endpoint) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this Endpoint.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Endpoint) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this Endpoint.
@@ -62,17 +59,14 @@ func (mg *Endpoint) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this Endpoint.
+func (mg *Endpoint) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this Endpoint.
 func (mg *Endpoint) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Endpoint.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Endpoint) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Endpoint.
@@ -95,17 +89,14 @@ func (mg *EndpointServerless) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this EndpointServerless.
+func (mg *EndpointServerless) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this EndpointServerless.
 func (mg *EndpointServerless) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this EndpointServerless.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *EndpointServerless) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this EndpointServerless.
@@ -128,17 +119,14 @@ func (mg *EndpointServerless) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this EndpointServerless.
+func (mg *EndpointServerless) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this EndpointServerless.
 func (mg *EndpointServerless) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this EndpointServerless.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *EndpointServerless) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this EndpointServerless.
@@ -161,17 +149,14 @@ func (mg *EndpointService) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this EndpointService.
+func (mg *EndpointService) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this EndpointService.
 func (mg *EndpointService) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this EndpointService.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *EndpointService) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this EndpointService.
@@ -194,17 +179,14 @@ func (mg *EndpointService) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this EndpointService.
+func (mg *EndpointService) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this EndpointService.
 func (mg *EndpointService) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this EndpointService.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *EndpointService) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this EndpointService.
@@ -227,17 +209,14 @@ func (mg *EndpointServiceAdl) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this EndpointServiceAdl.
+func (mg *EndpointServiceAdl) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this EndpointServiceAdl.
 func (mg *EndpointServiceAdl) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this EndpointServiceAdl.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *EndpointServiceAdl) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this EndpointServiceAdl.
@@ -260,17 +239,14 @@ func (mg *EndpointServiceAdl) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this EndpointServiceAdl.
+func (mg *EndpointServiceAdl) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this EndpointServiceAdl.
 func (mg *EndpointServiceAdl) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this EndpointServiceAdl.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *EndpointServiceAdl) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this EndpointServiceAdl.
@@ -280,6 +256,66 @@ func (mg *EndpointServiceAdl) SetPublishConnectionDetailsTo(r *xpv1.PublishConne
 
 // SetWriteConnectionSecretToReference of this EndpointServiceAdl.
 func (mg *EndpointServiceAdl) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetPublishConnectionDetailsTo of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetPublishConnectionDetailsTo of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this EndpointServiceDataFederationOnlineArchive.
+func (mg *EndpointServiceDataFederationOnlineArchive) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
@@ -293,17 +329,14 @@ func (mg *EndpointServiceServerless) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this EndpointServiceServerless.
+func (mg *EndpointServiceServerless) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this EndpointServiceServerless.
 func (mg *EndpointServiceServerless) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this EndpointServiceServerless.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *EndpointServiceServerless) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this EndpointServiceServerless.
@@ -326,17 +359,14 @@ func (mg *EndpointServiceServerless) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this EndpointServiceServerless.
+func (mg *EndpointServiceServerless) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this EndpointServiceServerless.
 func (mg *EndpointServiceServerless) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this EndpointServiceServerless.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *EndpointServiceServerless) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this EndpointServiceServerless.

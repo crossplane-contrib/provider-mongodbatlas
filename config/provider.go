@@ -20,7 +20,7 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
-	ujconfig "github.com/upbound/upjet/pkg/config"
+	ujconfig "github.com/crossplane/upjet/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/database"
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/mongodbatlas"
@@ -39,6 +39,7 @@ var providerSchema string
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
 		ujconfig.WithSkipList([]string{"mongodbatlas_encryption_at_rest", "mongodbatlas_teams"}),
+		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
 			gvkOverrides(),
 			identifierAssignedByMongoDBAtlas(),

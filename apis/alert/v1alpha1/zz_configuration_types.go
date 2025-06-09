@@ -25,15 +25,64 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConfigurationInitParameters struct {
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
+
+	Matcher []MatcherInitParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
+
+	// +mapType=granular
+	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
+
+	MetricThresholdConfig []MetricThresholdConfigInitParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
+
+	Notification []NotificationInitParameters `json:"notification,omitempty" tf:"notification,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// +mapType=granular
+	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+
+	ThresholdConfig []ThresholdConfigInitParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
+}
+
 type ConfigurationObservation struct {
 	AlertConfigurationID *string `json:"alertConfigurationId,omitempty" tf:"alert_configuration_id,omitempty"`
 
 	Created *string `json:"created,omitempty" tf:"created,omitempty"`
 
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
+	Matcher []MatcherObservation `json:"matcher,omitempty" tf:"matcher,omitempty"`
+
+	// +mapType=granular
+	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
+
+	MetricThresholdConfig []MetricThresholdConfigObservation `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
+
 	Notification []NotificationObservation `json:"notification,omitempty" tf:"notification,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// +mapType=granular
+	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+
+	ThresholdConfig []ThresholdConfigObservation `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 
 	Updated *string `json:"updated,omitempty" tf:"updated,omitempty"`
 }
@@ -43,20 +92,21 @@ type ConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// +kubebuilder:validation:Required
-	EventType *string `json:"eventType" tf:"event_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Matcher []MatcherParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MetricThresholdConfig []MetricThresholdConfigParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Notification []NotificationParameters `json:"notification" tf:"notification,omitempty"`
+	// +kubebuilder:validation:Optional
+	Notification []NotificationParameters `json:"notification,omitempty" tf:"notification,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -72,13 +122,27 @@ type ConfigurationParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ThresholdConfig []ThresholdConfigParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 }
 
+type MatcherInitParameters struct {
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type MatcherObservation struct {
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type MatcherParameters struct {
@@ -93,7 +157,28 @@ type MatcherParameters struct {
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
+type MetricThresholdConfigInitParameters struct {
+	MetricName *string `json:"metricName,omitempty" tf:"metric_name,omitempty"`
+
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+
+	Units *string `json:"units,omitempty" tf:"units,omitempty"`
+}
+
 type MetricThresholdConfigObservation struct {
+	MetricName *string `json:"metricName,omitempty" tf:"metric_name,omitempty"`
+
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+
+	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
 type MetricThresholdConfigParameters struct {
@@ -114,8 +199,80 @@ type MetricThresholdConfigParameters struct {
 	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
+type NotificationInitParameters struct {
+	APITokenSecretRef *v1.SecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
+
+	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
+
+	DatadogAPIKeySecretRef *v1.SecretKeySelector `json:"datadogApiKeySecretRef,omitempty" tf:"-"`
+
+	DatadogRegion *string `json:"datadogRegion,omitempty" tf:"datadog_region,omitempty"`
+
+	DelayMin *float64 `json:"delayMin,omitempty" tf:"delay_min,omitempty"`
+
+	EmailAddress *string `json:"emailAddress,omitempty" tf:"email_address,omitempty"`
+
+	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
+
+	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
+
+	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
+
+	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
+
+	OpsGenieAPIKeySecretRef *v1.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
+
+	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+
+	SMSEnabled *bool `json:"smsEnabled,omitempty" tf:"sms_enabled,omitempty"`
+
+	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+
+	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
+	TypeName *string `json:"typeName,omitempty" tf:"type_name,omitempty"`
+
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
+	VictorOpsAPIKeySecretRef *v1.SecretKeySelector `json:"victorOpsApiKeySecretRef,omitempty" tf:"-"`
+
+	VictorOpsRoutingKeySecretRef *v1.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
+
+	WebhookSecretSecretRef *v1.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
+
+	WebhookURLSecretRef *v1.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
+}
+
 type NotificationObservation struct {
+	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
+
+	DatadogRegion *string `json:"datadogRegion,omitempty" tf:"datadog_region,omitempty"`
+
+	DelayMin *float64 `json:"delayMin,omitempty" tf:"delay_min,omitempty"`
+
+	EmailAddress *string `json:"emailAddress,omitempty" tf:"email_address,omitempty"`
+
+	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
+
+	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
+
+	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
+
+	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
+
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+
+	SMSEnabled *bool `json:"smsEnabled,omitempty" tf:"sms_enabled,omitempty"`
+
+	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
+
+	TypeName *string `json:"typeName,omitempty" tf:"type_name,omitempty"`
+
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type NotificationParameters struct {
@@ -142,12 +299,6 @@ type NotificationParameters struct {
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	FlowdockAPITokenSecretRef *v1.SecretKeySelector `json:"flowdockApiTokenSecretRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -161,9 +312,6 @@ type NotificationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -196,7 +344,20 @@ type NotificationParameters struct {
 	WebhookURLSecretRef *v1.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
 }
 
+type ThresholdConfigInitParameters struct {
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+
+	Units *string `json:"units,omitempty" tf:"units,omitempty"`
+}
+
 type ThresholdConfigObservation struct {
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
+
+	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
 type ThresholdConfigParameters struct {
@@ -215,6 +376,17 @@ type ThresholdConfigParameters struct {
 type ConfigurationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ConfigurationParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ConfigurationInitParameters `json:"initProvider,omitempty"`
 }
 
 // ConfigurationStatus defines the observed state of Configuration.
@@ -224,19 +396,22 @@ type ConfigurationStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Configuration is the Schema for the Configurations API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConfigurationSpec   `json:"spec"`
-	Status            ConfigurationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.eventType) || (has(self.initProvider) && has(self.initProvider.eventType))",message="spec.forProvider.eventType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.notification) || (has(self.initProvider) && has(self.initProvider.notification))",message="spec.forProvider.notification is a required parameter"
+	Spec   ConfigurationSpec   `json:"spec"`
+	Status ConfigurationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

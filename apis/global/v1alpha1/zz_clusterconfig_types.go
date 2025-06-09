@@ -25,16 +25,45 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ClusterConfigInitParameters struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	CustomZoneMappings []CustomZoneMappingsInitParameters `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`
+
+	ManagedNamespaces []ManagedNamespacesInitParameters `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+}
+
 type ClusterConfigObservation struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// +mapType=granular
 	CustomZoneMapping map[string]*string `json:"customZoneMapping,omitempty" tf:"custom_zone_mapping,omitempty"`
 
+	CustomZoneMappings []CustomZoneMappingsObservation `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	ManagedNamespaces []ManagedNamespacesObservation `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type ClusterConfigParameters struct {
 
-	// +kubebuilder:validation:Required
-	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	CustomZoneMappings []CustomZoneMappingsParameters `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`
@@ -56,7 +85,16 @@ type ClusterConfigParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
+type CustomZoneMappingsInitParameters struct {
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
 type CustomZoneMappingsObservation struct {
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type CustomZoneMappingsParameters struct {
@@ -68,18 +106,39 @@ type CustomZoneMappingsParameters struct {
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
+type ManagedNamespacesInitParameters struct {
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	CustomShardKey *string `json:"customShardKey,omitempty" tf:"custom_shard_key,omitempty"`
+
+	DB *string `json:"db,omitempty" tf:"db,omitempty"`
+
+	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
+
+	IsShardKeyUnique *bool `json:"isShardKeyUnique,omitempty" tf:"is_shard_key_unique,omitempty"`
+}
+
 type ManagedNamespacesObservation struct {
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	CustomShardKey *string `json:"customShardKey,omitempty" tf:"custom_shard_key,omitempty"`
+
+	DB *string `json:"db,omitempty" tf:"db,omitempty"`
+
+	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
+
+	IsShardKeyUnique *bool `json:"isShardKeyUnique,omitempty" tf:"is_shard_key_unique,omitempty"`
 }
 
 type ManagedNamespacesParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Collection *string `json:"collection" tf:"collection,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	CustomShardKey *string `json:"customShardKey" tf:"custom_shard_key,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	DB *string `json:"db" tf:"db,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -93,6 +152,17 @@ type ManagedNamespacesParameters struct {
 type ClusterConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ClusterConfigParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ClusterConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // ClusterConfigStatus defines the observed state of ClusterConfig.
@@ -102,19 +172,21 @@ type ClusterConfigStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ClusterConfig is the Schema for the ClusterConfigs API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type ClusterConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ClusterConfigSpec   `json:"spec"`
-	Status            ClusterConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
+	Spec   ClusterConfigSpec   `json:"spec"`
+	Status ClusterConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -23,8 +23,8 @@ import (
 
 	xpref "github.com/crossplane/crossplane-runtime/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/upjet/pkg/resource"
 	"github.com/pkg/errors"
-	"github.com/upbound/upjet/pkg/resource"
 )
 
 const (

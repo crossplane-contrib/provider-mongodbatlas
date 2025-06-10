@@ -21,10 +21,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/upbound/upjet/pkg/pipeline"
+	"github.com/crossplane/upjet/pkg/pipeline"
 	// Comment out the line below instead of the above, if your Terraform
 	// provider uses an old version (<v2) of github.com/hashicorp/terraform-plugin-sdk.
-	// "github.com/upbound/upjet/pkg/types/conversion"
+	// "github.com/crossplane/upjet/pkg/types/conversion"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config"
 )

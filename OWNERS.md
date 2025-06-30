@@ -13,4 +13,3 @@ maintainers, and reviewers.
 
 * Hendrik Leppelsack ([Henni](https://github.com/Henni))
 * J. Fernández ([fernandezcuesta](https://github.com/fernandezcuesta))
-* Helder Santana ([helderjs](https://github.com/helderjs))

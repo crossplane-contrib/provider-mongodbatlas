@@ -19,7 +19,7 @@ package database
 import (
 	"context"
 
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/common"
 )
@@ -40,7 +40,12 @@ func Configure(p *config.Provider) {
 			return tfstate["username"].(string), nil
 		}
 		r.ExternalName.GetIDFn = func(_ context.Context, _ string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			return common.Base64EncodeTokens("auth_database_name", parameters["auth_database_name"], "project_id", parameters["project_id"], "username", parameters["username"])
+			return common.Base64EncodeTokens(
+				"auth_database_name",
+				parameters["auth_database_name"],
+				"project_id", parameters["project_id"],
+				"username", parameters["username"],
+			)
 		}
 	})
 }

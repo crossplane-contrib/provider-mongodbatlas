@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/common"
 )
@@ -32,11 +32,16 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.SetIdentifierArgumentFn = common.SetIdentifierFunc
 		r.ExternalName.GetExternalNameFn = getExternalNameFunc
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
+		r.ExternalName.GetIDFn = func(
+			_ context.Context,
+			externalName string,
+			parameters map[string]interface{},
+			providerConfig map[string]interface{}) (string, error) {
 			parts := strings.Split(externalName, ":")
 			if len(parts) != 2 {
 				return "", nil
 			}
+
 			return parts[1], nil
 		}
 	})

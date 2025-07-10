@@ -23,8 +23,8 @@ import (
 
 	xpref "github.com/crossplane/crossplane-runtime/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/upjet/pkg/resource"
 	"github.com/pkg/errors"
-	"github.com/upbound/upjet/pkg/resource"
 )
 
 const (
@@ -57,6 +57,7 @@ func GetAttributeValue(attrMap map[string]interface{}, attr string) (string, err
 	if !ok {
 		return "", errors.Errorf(errFmtUnexpectedType, attr)
 	}
+
 	return vStr, nil
 }
 
@@ -69,6 +70,7 @@ func ExtractResourceID() xpref.ExtractValueFn {
 		if !ok {
 			return ""
 		}
+
 		return tr.GetID()
 	}
 }
@@ -81,7 +83,11 @@ func Base64EncodeTokens(keyVal ...interface{}) (string, error) {
 	}
 	result := ""
 	for i := 0; i < len(keyVal); i += 2 {
-		encodedPair := fmt.Sprintf("%s:%s", base64.StdEncoding.EncodeToString([]byte(keyVal[i].(string))), base64.StdEncoding.EncodeToString([]byte(keyVal[i+1].(string))))
+		encodedPair := fmt.Sprintf(
+			"%s:%s",
+			base64.StdEncoding.EncodeToString([]byte(keyVal[i].(string))),
+			base64.StdEncoding.EncodeToString([]byte(keyVal[i+1].(string))),
+		)
 		switch result {
 		case "":
 			result = encodedPair
@@ -89,6 +95,7 @@ func Base64EncodeTokens(keyVal ...interface{}) (string, error) {
 			result = fmt.Sprintf("%s-%s", result, encodedPair)
 		}
 	}
+
 	return result, nil
 }
 

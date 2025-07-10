@@ -25,20 +25,57 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ActionsInitParameters struct {
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	Resources []ResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+}
+
 type ActionsObservation struct {
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	Resources []ResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
 type ActionsParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Action *string `json:"action" tf:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Resources []ResourcesParameters `json:"resources" tf:"resources,omitempty"`
 }
 
+type DBRoleInitParameters struct {
+	Actions []ActionsInitParameters `json:"actions,omitempty" tf:"actions,omitempty"`
+
+	InheritedRoles []InheritedRolesInitParameters `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
+}
+
 type DBRoleObservation struct {
+	Actions []ActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	InheritedRoles []InheritedRolesObservation `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
 type DBRoleParameters struct {
@@ -62,23 +99,45 @@ type DBRoleParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	RoleName *string `json:"roleName" tf:"role_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
+}
+
+type InheritedRolesInitParameters struct {
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
 type InheritedRolesObservation struct {
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
 type InheritedRolesParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	DatabaseName *string `json:"databaseName" tf:"database_name,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName" tf:"role_name,omitempty"`
 }
 
+type ResourcesInitParameters struct {
+	Cluster *bool `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
+
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+}
+
 type ResourcesObservation struct {
+	Cluster *bool `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
+
+	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
 }
 
 type ResourcesParameters struct {
@@ -97,6 +156,17 @@ type ResourcesParameters struct {
 type DBRoleSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DBRoleParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DBRoleInitParameters `json:"initProvider,omitempty"`
 }
 
 // DBRoleStatus defines the observed state of DBRole.
@@ -106,19 +176,21 @@ type DBRoleStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DBRole is the Schema for the DBRoles API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type DBRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DBRoleSpec   `json:"spec"`
-	Status            DBRoleStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleName) || (has(self.initProvider) && has(self.initProvider.roleName))",message="spec.forProvider.roleName is a required parameter"
+	Spec   DBRoleSpec   `json:"spec"`
+	Status DBRoleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

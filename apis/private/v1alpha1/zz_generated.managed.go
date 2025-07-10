@@ -29,17 +29,14 @@ func (mg *EndpointRegionalMode) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this EndpointRegionalMode.
 func (mg *EndpointRegionalMode) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this EndpointRegionalMode.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *EndpointRegionalMode) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this EndpointRegionalMode.
@@ -62,17 +59,14 @@ func (mg *EndpointRegionalMode) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this EndpointRegionalMode.
+func (mg *EndpointRegionalMode) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this EndpointRegionalMode.
 func (mg *EndpointRegionalMode) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this EndpointRegionalMode.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *EndpointRegionalMode) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this EndpointRegionalMode.
@@ -95,17 +89,14 @@ func (mg *IPMode) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this IPMode.
+func (mg *IPMode) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this IPMode.
 func (mg *IPMode) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this IPMode.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *IPMode) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this IPMode.
@@ -128,17 +119,14 @@ func (mg *IPMode) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this IPMode.
+func (mg *IPMode) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this IPMode.
 func (mg *IPMode) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this IPMode.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *IPMode) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this IPMode.

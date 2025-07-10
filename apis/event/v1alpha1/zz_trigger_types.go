@@ -25,7 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AwsEventbridgeInitParameters struct {
+	ConfigAccountID *string `json:"configAccountId,omitempty" tf:"config_account_id,omitempty"`
+
+	ConfigRegion *string `json:"configRegion,omitempty" tf:"config_region,omitempty"`
+}
+
 type AwsEventbridgeObservation struct {
+	ConfigAccountID *string `json:"configAccountId,omitempty" tf:"config_account_id,omitempty"`
+
+	ConfigRegion *string `json:"configRegion,omitempty" tf:"config_region,omitempty"`
 }
 
 type AwsEventbridgeParameters struct {
@@ -37,7 +46,12 @@ type AwsEventbridgeParameters struct {
 	ConfigRegion *string `json:"configRegion,omitempty" tf:"config_region,omitempty"`
 }
 
+type EventProcessorsInitParameters struct {
+	AwsEventbridge []AwsEventbridgeInitParameters `json:"awsEventbridge,omitempty" tf:"aws_eventbridge,omitempty"`
+}
+
 type EventProcessorsObservation struct {
+	AwsEventbridge []AwsEventbridgeObservation `json:"awsEventbridge,omitempty" tf:"aws_eventbridge,omitempty"`
 }
 
 type EventProcessorsParameters struct {
@@ -46,20 +60,108 @@ type EventProcessorsParameters struct {
 	AwsEventbridge []AwsEventbridgeParameters `json:"awsEventbridge,omitempty" tf:"aws_eventbridge,omitempty"`
 }
 
+type TriggerInitParameters struct {
+	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
+
+	ConfigCollection *string `json:"configCollection,omitempty" tf:"config_collection,omitempty"`
+
+	ConfigDatabase *string `json:"configDatabase,omitempty" tf:"config_database,omitempty"`
+
+	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
+
+	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
+
+	ConfigMatch *string `json:"configMatch,omitempty" tf:"config_match,omitempty"`
+
+	ConfigOperationType *string `json:"configOperationType,omitempty" tf:"config_operation_type,omitempty"`
+
+	ConfigOperationTypes []*string `json:"configOperationTypes,omitempty" tf:"config_operation_types,omitempty"`
+
+	ConfigProject *string `json:"configProject,omitempty" tf:"config_project,omitempty"`
+
+	ConfigProviders []*string `json:"configProviders,omitempty" tf:"config_providers,omitempty"`
+
+	ConfigSchedule *string `json:"configSchedule,omitempty" tf:"config_schedule,omitempty"`
+
+	ConfigServiceID *string `json:"configServiceId,omitempty" tf:"config_service_id,omitempty"`
+
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	EventProcessors []EventProcessorsInitParameters `json:"eventProcessors,omitempty" tf:"event_processors,omitempty"`
+
+	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	Unordered *bool `json:"unordered,omitempty" tf:"unordered,omitempty"`
+}
+
 type TriggerObservation struct {
+	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
+
+	ConfigCollection *string `json:"configCollection,omitempty" tf:"config_collection,omitempty"`
+
+	ConfigDatabase *string `json:"configDatabase,omitempty" tf:"config_database,omitempty"`
+
+	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
+
+	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
+
+	ConfigMatch *string `json:"configMatch,omitempty" tf:"config_match,omitempty"`
+
+	ConfigOperationType *string `json:"configOperationType,omitempty" tf:"config_operation_type,omitempty"`
+
+	ConfigOperationTypes []*string `json:"configOperationTypes,omitempty" tf:"config_operation_types,omitempty"`
+
+	ConfigProject *string `json:"configProject,omitempty" tf:"config_project,omitempty"`
+
+	ConfigProviders []*string `json:"configProviders,omitempty" tf:"config_providers,omitempty"`
+
+	ConfigSchedule *string `json:"configSchedule,omitempty" tf:"config_schedule,omitempty"`
+
 	ConfigScheduleType *string `json:"configScheduleType,omitempty" tf:"config_schedule_type,omitempty"`
+
+	ConfigServiceID *string `json:"configServiceId,omitempty" tf:"config_service_id,omitempty"`
+
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	EventProcessors []EventProcessorsObservation `json:"eventProcessors,omitempty" tf:"event_processors,omitempty"`
+
+	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
 
 	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
 	TriggerID *string `json:"triggerId,omitempty" tf:"trigger_id,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	Unordered *bool `json:"unordered,omitempty" tf:"unordered,omitempty"`
 }
 
 type TriggerParameters struct {
 
-	// +kubebuilder:validation:Required
-	AppID *string `json:"appId" tf:"app_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ConfigCollection *string `json:"configCollection,omitempty" tf:"config_collection,omitempty"`
@@ -103,8 +205,8 @@ type TriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -119,8 +221,8 @@ type TriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Unordered *bool `json:"unordered,omitempty" tf:"unordered,omitempty"`
@@ -130,6 +232,17 @@ type TriggerParameters struct {
 type TriggerSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TriggerParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TriggerInitParameters `json:"initProvider,omitempty"`
 }
 
 // TriggerStatus defines the observed state of Trigger.
@@ -139,19 +252,23 @@ type TriggerStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Trigger is the Schema for the Triggers API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Trigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TriggerSpec   `json:"spec"`
-	Status            TriggerStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appId) || (has(self.initProvider) && has(self.initProvider.appId))",message="spec.forProvider.appId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || (has(self.initProvider) && has(self.initProvider.type))",message="spec.forProvider.type is a required parameter"
+	Spec   TriggerSpec   `json:"spec"`
+	Status TriggerStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

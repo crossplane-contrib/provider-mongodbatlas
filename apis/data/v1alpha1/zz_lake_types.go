@@ -25,21 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AwsInitParameters struct {
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	TestS3Bucket *string `json:"testS3Bucket,omitempty" tf:"test_s3_bucket,omitempty"`
+}
+
 type AwsObservation struct {
 	ExternalID *string `json:"externalId,omitempty" tf:"external_id,omitempty"`
 
 	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
 
 	IAMUserArn *string `json:"iamUserArn,omitempty" tf:"iam_user_arn,omitempty"`
+
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	TestS3Bucket *string `json:"testS3Bucket,omitempty" tf:"test_s3_bucket,omitempty"`
 }
 
 type AwsParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	TestS3Bucket *string `json:"testS3Bucket" tf:"test_s3_bucket,omitempty"`
+}
+
+type CollectionsInitParameters struct {
 }
 
 type CollectionsObservation struct {
@@ -51,16 +64,28 @@ type CollectionsObservation struct {
 type CollectionsParameters struct {
 }
 
+type DataProcessRegionInitParameters struct {
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
 type DataProcessRegionObservation struct {
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type DataProcessRegionParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region" tf:"region,omitempty"`
+}
+
+type DataSourcesInitParameters struct {
 }
 
 type DataSourcesObservation struct {
@@ -74,14 +99,38 @@ type DataSourcesObservation struct {
 type DataSourcesParameters struct {
 }
 
-type LakeObservation struct {
+type LakeInitParameters struct {
+	Aws []AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
-	// +kubebuilder:validation:Required
+	DataProcessRegion []DataProcessRegionInitParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+}
+
+type LakeObservation struct {
 	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	DataProcessRegion []DataProcessRegionObservation `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -92,14 +141,14 @@ type LakeObservation struct {
 
 type LakeParameters struct {
 
-	// +kubebuilder:validation:Required
-	Aws []AwsParameters `json:"aws" tf:"aws,omitempty"`
+	// +kubebuilder:validation:Optional
+	Aws []AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DataProcessRegion []DataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
@@ -115,6 +164,9 @@ type LakeParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
+type StorageDatabasesInitParameters struct {
+}
+
 type StorageDatabasesObservation struct {
 	Collections []CollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
 
@@ -128,7 +180,12 @@ type StorageDatabasesObservation struct {
 type StorageDatabasesParameters struct {
 }
 
+type StorageStoresInitParameters struct {
+}
+
 type StorageStoresObservation struct {
+
+	// +listType=set
 	AdditionalStorageClasses []*string `json:"additionalStorageClasses,omitempty" tf:"additional_storage_classes,omitempty"`
 
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
@@ -149,6 +206,9 @@ type StorageStoresObservation struct {
 type StorageStoresParameters struct {
 }
 
+type ViewsInitParameters struct {
+}
+
 type ViewsObservation struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -164,6 +224,17 @@ type ViewsParameters struct {
 type LakeSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LakeParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LakeInitParameters `json:"initProvider,omitempty"`
 }
 
 // LakeStatus defines the observed state of Lake.
@@ -173,19 +244,22 @@ type LakeStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Lake is the Schema for the Lakes API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type Lake struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LakeSpec   `json:"spec"`
-	Status            LakeStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.aws) || (has(self.initProvider) && has(self.initProvider.aws))",message="spec.forProvider.aws is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   LakeSpec   `json:"spec"`
+	Status LakeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

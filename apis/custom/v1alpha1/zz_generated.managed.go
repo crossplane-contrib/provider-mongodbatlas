@@ -29,17 +29,14 @@ func (mg *DBRole) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this DBRole.
+func (mg *DBRole) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this DBRole.
 func (mg *DBRole) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this DBRole.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *DBRole) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this DBRole.
@@ -62,17 +59,14 @@ func (mg *DBRole) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this DBRole.
+func (mg *DBRole) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this DBRole.
 func (mg *DBRole) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this DBRole.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *DBRole) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this DBRole.
@@ -95,17 +89,14 @@ func (mg *DNSConfigurationClusterAws) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this DNSConfigurationClusterAws.
+func (mg *DNSConfigurationClusterAws) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this DNSConfigurationClusterAws.
 func (mg *DNSConfigurationClusterAws) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this DNSConfigurationClusterAws.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *DNSConfigurationClusterAws) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this DNSConfigurationClusterAws.
@@ -128,17 +119,14 @@ func (mg *DNSConfigurationClusterAws) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this DNSConfigurationClusterAws.
+func (mg *DNSConfigurationClusterAws) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this DNSConfigurationClusterAws.
 func (mg *DNSConfigurationClusterAws) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this DNSConfigurationClusterAws.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *DNSConfigurationClusterAws) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this DNSConfigurationClusterAws.

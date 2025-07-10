@@ -4,6 +4,12 @@ output:
     text:
       path: stdout
 linters:
+  default: fast
+  disable:
+    - depguard
+    - gochecknoinits
+    - mnd
+    - wsl
   enable:
     - asasalint
     - asciicheck
@@ -41,6 +47,7 @@ linters:
     - unconvert
     - unparam
     - zerologlint
+    # - wsl_v5
   settings:
     dupl:
       # tokens count to trigger issue, 150 by default
@@ -84,14 +91,8 @@ linters:
       # minimal code complexity to report, 30 by default (but we recommend 10-20)
       min-complexity: 10
 
-    gofmt:
-      # simplify code: gofmt with `-s` option, true by default
-      simplify: true
-
-    goimports:
-      # put imports beginning with prefix after 3rd-party packages;
-      # it's a comma-separated list of prefixes
-      local-prefixes: github.com/crossplane-contrib/provider-mongodbatlas
+    godot:
+      period: false
 
     govet:
       # report about shadowed variables
@@ -99,6 +100,8 @@ linters:
         - shadow
 
     lll:
+      # Default: 120.
+      line-length: 160
       # tab width in spaces. Default to 1.
       tab-width: 1
 
@@ -133,6 +136,12 @@ linters:
       # if it's called for subdir of a project it can't find funcs usages. All text editor integrations
       # with golangci-lint call it on a directory with the changed file.
       exported-fields-are-used: false
+
+    wsl_v5:
+      allow-first-in-block: true
+      allow-whole-block: true
+      branch-max-lines: 2
+
   exclusions:
     generated: lax
     rules:
@@ -145,6 +154,10 @@ linters:
           - scopelint
           - unparam
         path: _test(ing)?\.go
+
+      - linters:
+          - embeddedstructfieldcheck
+        path: apis
 
       # Ease some gocritic warnings on test files.
       - linters:
@@ -178,9 +191,7 @@ linters:
         text: 'G104:'
 
     paths:
-      - third_party$
-      - builtin$
-      - examples$
+      - "internal/.*/zz_.+\\.go$"
 
 run:
   timeout: 10m
@@ -204,12 +215,18 @@ formatters:
   enable:
     - gofmt
     - goimports
+
   settings:
     gofmt:
+      # simplify code: gofmt with `-s` option, true by default
       simplify: true
+
     goimports:
+      # put imports beginning with prefix after 3rd-party packages;
+      # it's a comma-separated list of prefixes
       local-prefixes:
         - github.com/crossplane-contrib/provider-mongodbatlas
+
   exclusions:
     generated: lax
     paths:

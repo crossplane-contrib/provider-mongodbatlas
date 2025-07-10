@@ -25,13 +25,36 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type FeatureUsagesInitParameters struct {
+}
+
 type FeatureUsagesObservation struct {
+
+	// +mapType=granular
 	FeatureID map[string]*string `json:"featureId,omitempty" tf:"feature_id,omitempty"`
 
 	FeatureType *string `json:"featureType,omitempty" tf:"feature_type,omitempty"`
 }
 
 type FeatureUsagesParameters struct {
+}
+
+type ProviderAccessInitParameters struct {
+	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/mongodbatlas/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/common.ExtractResourceID()
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
 type ProviderAccessObservation struct {
@@ -45,7 +68,13 @@ type ProviderAccessObservation struct {
 
 	FeatureUsages []FeatureUsagesObservation `json:"featureUsages,omitempty" tf:"feature_usages,omitempty"`
 
+	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
@@ -68,14 +97,25 @@ type ProviderAccessParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	ProviderName *string `json:"providerName" tf:"provider_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
 // ProviderAccessSpec defines the desired state of ProviderAccess
 type ProviderAccessSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProviderAccessParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProviderAccessInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProviderAccessStatus defines the observed state of ProviderAccess.
@@ -85,19 +125,21 @@ type ProviderAccessStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ProviderAccess is the Schema for the ProviderAccesss API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type ProviderAccess struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProviderAccessSpec   `json:"spec"`
-	Status            ProviderAccessStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
+	Spec   ProviderAccessSpec   `json:"spec"`
+	Status ProviderAccessStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

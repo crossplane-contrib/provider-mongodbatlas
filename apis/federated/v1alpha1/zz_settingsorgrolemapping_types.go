@@ -25,7 +25,22 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RoleAssignmentsInitParameters struct {
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// +listType=set
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+}
+
 type RoleAssignmentsObservation struct {
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// +listType=set
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type RoleAssignmentsParameters struct {
@@ -37,32 +52,62 @@ type RoleAssignmentsParameters struct {
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
+type SettingsOrgRoleMappingInitParameters struct {
+	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
+
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	RoleAssignments []RoleAssignmentsInitParameters `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
+}
+
 type SettingsOrgRoleMappingObservation struct {
+	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
+
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	RoleAssignments []RoleAssignmentsObservation `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
 }
 
 type SettingsOrgRoleMappingParameters struct {
 
-	// +kubebuilder:validation:Required
-	ExternalGroupName *string `json:"externalGroupName" tf:"external_group_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
-	// +kubebuilder:validation:Required
-	FederationSettingsID *string `json:"federationSettingsId" tf:"federation_settings_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	RoleAssignments []RoleAssignmentsParameters `json:"roleAssignments" tf:"role_assignments,omitempty"`
+	// +kubebuilder:validation:Optional
+	RoleAssignments []RoleAssignmentsParameters `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
 }
 
 // SettingsOrgRoleMappingSpec defines the desired state of SettingsOrgRoleMapping
 type SettingsOrgRoleMappingSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SettingsOrgRoleMappingParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SettingsOrgRoleMappingInitParameters `json:"initProvider,omitempty"`
 }
 
 // SettingsOrgRoleMappingStatus defines the observed state of SettingsOrgRoleMapping.
@@ -72,19 +117,24 @@ type SettingsOrgRoleMappingStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // SettingsOrgRoleMapping is the Schema for the SettingsOrgRoleMappings API. <no value>
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,mongodbatlas}
 type SettingsOrgRoleMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SettingsOrgRoleMappingSpec   `json:"spec"`
-	Status            SettingsOrgRoleMappingStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.externalGroupName) || (has(self.initProvider) && has(self.initProvider.externalGroupName))",message="spec.forProvider.externalGroupName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.federationSettingsId) || (has(self.initProvider) && has(self.initProvider.federationSettingsId))",message="spec.forProvider.federationSettingsId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleAssignments) || (has(self.initProvider) && has(self.initProvider.roleAssignments))",message="spec.forProvider.roleAssignments is a required parameter"
+	Spec   SettingsOrgRoleMappingSpec   `json:"spec"`
+	Status SettingsOrgRoleMappingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

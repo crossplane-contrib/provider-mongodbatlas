@@ -118,3 +118,9 @@ func namespacedCommonReferencesOverride() ujconfig.ResourceOption {
 		}
 	}
 }
+
+func identifierAssignedByMongoDBAtlas() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
+		r.ExternalName = ujconfig.IdentifierFromProvider
+	}
+}

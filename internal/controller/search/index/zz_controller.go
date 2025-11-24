@@ -21,13 +21,13 @@ package index
 import (
 	"time"
 
-	"github.com/crossplane/crossplane-runtime/pkg/connection"
-	"github.com/crossplane/crossplane-runtime/pkg/event"
-	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
-	tjcontroller "github.com/upbound/upjet/pkg/controller"
-	"github.com/upbound/upjet/pkg/terraform"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/connection"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/event"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/ratelimiter"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
+	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/search/v1alpha1"

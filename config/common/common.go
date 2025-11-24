@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"strings"
 
-	xpref "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	xpref "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/pkg/errors"
-	"github.com/upbound/upjet/pkg/resource"
+	"github.com/crossplane/upjet/v2/pkg/resource"
 )
 
 const (

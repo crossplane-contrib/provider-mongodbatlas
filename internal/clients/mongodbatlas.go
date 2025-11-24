@@ -20,9 +20,9 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/pkg/errors"
-	"github.com/upbound/upjet/pkg/terraform"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 

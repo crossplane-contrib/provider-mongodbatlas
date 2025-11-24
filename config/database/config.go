@@ -19,7 +19,7 @@ package database
 import (
 	"context"
 
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/common"
 )

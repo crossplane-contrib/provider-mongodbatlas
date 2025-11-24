@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/upbound/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	listapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/access/listapikey"
 	configuration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/alert/configuration"

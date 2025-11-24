@@ -32,12 +32,12 @@ var SkipTfResourceList = []string{
 //go:embed schema.json
 var providerSchema string
 
-//go:embed provider-metadata.yaml
-var providerMetadata string
+// // go:embed provider-metadata.yaml
+// var providerMetadata string
 
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
 		ujconfig.WithSkipList(SkipTfResourceList),
 		// ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithShortName("mongodbatlas"),
@@ -64,7 +64,7 @@ func GetProvider() *ujconfig.Provider {
 
 // GetProviderNamespaced returns provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
 		ujconfig.WithSkipList(SkipTfResourceList),
 		// ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithShortName("mongodbatlas"),

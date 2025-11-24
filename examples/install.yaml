@@ -1,0 +1,6 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-mongodbatlas
+spec:
+  package: crossplane-contrib/provider-mongodbatlas:v0.1.0

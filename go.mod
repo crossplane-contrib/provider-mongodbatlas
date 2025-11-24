@@ -1,6 +1,8 @@
 module github.com/crossplane-contrib/provider-mongodbatlas
 
-go 1.19
+go 1.25.0
+
+toolchain go1.25.1
 
 require (
 	github.com/crossplane/crossplane-runtime/v2 v2.1.0

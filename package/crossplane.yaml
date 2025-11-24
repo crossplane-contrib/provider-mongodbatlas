@@ -19,3 +19,6 @@ metadata:
       and create an issue in the
       [crossplane-contrib/provider-mongodbatlas](https://github.com/crossplane-contrib/provider-mongodbatlas)
       repo.
+spec:
+  capabilities:
+  - SafeStart

@@ -24,11 +24,6 @@ const (
 	modulePath     = "github.com/crossplane-contrib/provider-mongodbatlas"
 )
 
-var skipResourcesList = []string{
-	"mongodbatlas_encryption_at_rest",
-	"mongodbatlas_teams",
-}
-
 //go:embed schema.json
 var providerSchema string
 
@@ -38,7 +33,6 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithSkipList(skipResourcesList),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithShortName("mongodbatlas"),
 		ujconfig.WithFeaturesPackage("internal/features"),
@@ -65,7 +59,6 @@ func GetProvider() *ujconfig.Provider {
 // GetProviderNamespaced returns provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithSkipList(skipResourcesList),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithShortName("mongodbatlas"),
 		ujconfig.WithFeaturesPackage("internal/features"),

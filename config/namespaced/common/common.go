@@ -21,9 +21,10 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	xpref "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
-	"github.com/pkg/errors"
 	"github.com/crossplane/upjet/v2/pkg/resource"
 )
 
@@ -34,7 +35,7 @@ const (
 	// errFmtUnexpectedType is an error string for attribute map values of unexpected type
 	errFmtUnexpectedType = `unexpected type for attribute %s: Expecting a string`
 
-	commonConfigPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/config/common"
+	commonConfigPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
 	// ExtractResourceIDFuncPath holds the MongoDBAtlas resource ID extractor func name
 	ExtractResourceIDFuncPath = commonConfigPackagePath + ".ExtractResourceID()"
 
@@ -44,7 +45,7 @@ const (
 
 const (
 	// APISPackagePath is the package path for generated APIs root package
-	APISPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/apis"
+	APISPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced"
 )
 
 // GetAttributeValue reads a string attribute from the specified map

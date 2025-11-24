@@ -21,7 +21,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	"github.com/crossplane-contrib/provider-mongodbatlas/config/common"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 )
 
 // Configure configures the root group

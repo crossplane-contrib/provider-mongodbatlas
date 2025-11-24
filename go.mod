@@ -3,10 +3,10 @@ module github.com/crossplane-contrib/provider-mongodbatlas
 go 1.19
 
 require (
-	github.com/crossplane/crossplane-runtime v0.19.0-rc.0.0.20221012013934-bce61005a175
-	github.com/crossplane/crossplane-tools v0.0.0-20220310165030-1f43fc12793e
+	github.com/crossplane/crossplane-runtime/v2 v2.1.0
+	github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339
+	github.com/crossplane/upjet/v2 v2.0.0
 	github.com/pkg/errors v0.9.1
-	github.com/crossplane/upjet v0.8.0-rc.0.0.20221024111721-c82119f5ef34
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/apimachinery v0.27.1
 	sigs.k8s.io/controller-runtime v0.12.1

@@ -169,7 +169,6 @@ func main() {
 	metrics.Registry.MustRegister(metricRecorder)
 	metrics.Registry.MustRegister(stateMetrics)
 
-
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  log,

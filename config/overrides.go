@@ -76,7 +76,6 @@ func clusterCommonReferencesOverride() ujconfig.ResourceOption {
 	}
 }
 
-
 // namespacedGvkOverride overrides the group, version and kind of the resource if it matches
 // any entry in the gvkMap.
 func namespacedGvkOverride() ujconfig.ResourceOption {

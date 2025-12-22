@@ -12,4 +12,4 @@ on:
 
 jobs:
   backport:
-    uses: upbound/uptest/.github/workflows/provider-backport.yml@main
+    uses: crossplane-contrib/provider-workflows/.github/workflows/backport.yml@main

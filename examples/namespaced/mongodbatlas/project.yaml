@@ -1,0 +1,11 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  name: example-project
+  namespace: crossplane-system
+spec:
+  forProvider:
+    orgId: "<mongodb atlas organization ID>"
+  providerConfigRef:
+    name: default
+    kind: ClusterProviderConfig

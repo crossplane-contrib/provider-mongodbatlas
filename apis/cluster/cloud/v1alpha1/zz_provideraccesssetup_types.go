@@ -25,7 +25,51 @@ type AwsConfigObservation struct {
 type AwsConfigParameters struct {
 }
 
+type AzureConfigInitParameters struct {
+	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
+
+	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
+
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureConfigObservation struct {
+	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
+
+	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
+
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AtlasAzureAppID *string `json:"atlasAzureAppId" tf:"atlas_azure_app_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ServicePrincipalID *string `json:"servicePrincipalId" tf:"service_principal_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
+}
+
+type GCPConfigInitParameters struct {
+}
+
+type GCPConfigObservation struct {
+	ServiceAccountForAtlas *string `json:"serviceAccountForAtlas,omitempty" tf:"service_account_for_atlas,omitempty"`
+
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+}
+
+type GCPConfigParameters struct {
+}
+
 type ProviderAccessSetupInitParameters struct {
+	AzureConfig []AzureConfigInitParameters `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
@@ -43,15 +87,20 @@ type ProviderAccessSetupInitParameters struct {
 }
 
 type ProviderAccessSetupObservation struct {
-
-	// +mapType=granular
-	Aws map[string]*string `json:"aws,omitempty" tf:"aws,omitempty"`
-
 	AwsConfig []AwsConfigObservation `json:"awsConfig,omitempty" tf:"aws_config,omitempty"`
+
+	AzureConfig []AzureConfigObservation `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
 
 	CreatedDate *string `json:"createdDate,omitempty" tf:"created_date,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
+	GCPConfig []GCPConfigObservation `json:"gcpConfig,omitempty" tf:"gcp_config,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	LastUpdatedDate *string `json:"lastUpdatedDate,omitempty" tf:"last_updated_date,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -61,6 +110,13 @@ type ProviderAccessSetupObservation struct {
 }
 
 type ProviderAccessSetupParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AzureConfig []AzureConfigParameters `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	// +kubebuilder:validation:Optional
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()

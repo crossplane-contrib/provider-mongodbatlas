@@ -31,6 +31,12 @@ type BackupSnapshotExportBucketInitParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	ServiceURL *string `json:"serviceUrl,omitempty" tf:"service_url,omitempty"`
+
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type BackupSnapshotExportBucketObservation struct {
@@ -45,6 +51,12 @@ type BackupSnapshotExportBucketObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	ServiceURL *string `json:"serviceUrl,omitempty" tf:"service_url,omitempty"`
+
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type BackupSnapshotExportBucketParameters struct {
@@ -70,6 +82,15 @@ type BackupSnapshotExportBucketParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ServiceURL *string `json:"serviceUrl,omitempty" tf:"service_url,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 // BackupSnapshotExportBucketSpec defines the desired state of BackupSnapshotExportBucket
@@ -110,7 +131,6 @@ type BackupSnapshotExportBucket struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bucketName) || (has(self.initProvider) && has(self.initProvider.bucketName))",message="spec.forProvider.bucketName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cloudProvider) || (has(self.initProvider) && has(self.initProvider.cloudProvider))",message="spec.forProvider.cloudProvider is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.iamRoleId) || (has(self.initProvider) && has(self.initProvider.iamRoleId))",message="spec.forProvider.iamRoleId is a required parameter"
 	Spec   BackupSnapshotExportBucketSpec   `json:"spec"`
 	Status BackupSnapshotExportBucketStatus `json:"status,omitempty"`
 }

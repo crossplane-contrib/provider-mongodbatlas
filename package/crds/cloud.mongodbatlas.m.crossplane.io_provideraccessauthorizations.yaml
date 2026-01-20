@@ -67,6 +67,17 @@ spec:
                           type: string
                       type: object
                     type: array
+                  azure:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          type: string
+                        servicePrincipalId:
+                          type: string
+                        tenantId:
+                          type: string
+                      type: object
+                    type: array
                   projectId:
                     type: string
                   projectIdRef:
@@ -171,6 +182,17 @@ spec:
                     items:
                       properties:
                         iamAssumedRoleArn:
+                          type: string
+                      type: object
+                    type: array
+                  azure:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          type: string
+                        servicePrincipalId:
+                          type: string
+                        tenantId:
                           type: string
                       type: object
                     type: array
@@ -339,6 +361,17 @@ spec:
                           type: string
                       type: object
                     type: array
+                  azure:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          type: string
+                        servicePrincipalId:
+                          type: string
+                        tenantId:
+                          type: string
+                      type: object
+                    type: array
                   featureUsages:
                     items:
                       properties:
@@ -348,6 +381,13 @@ spec:
                           type: object
                           x-kubernetes-map-type: granular
                         featureType:
+                          type: string
+                      type: object
+                    type: array
+                  gcp:
+                    items:
+                      properties:
+                        serviceAccountForAtlas:
                           type: string
                       type: object
                     type: array

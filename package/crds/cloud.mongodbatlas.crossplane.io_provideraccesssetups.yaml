@@ -73,6 +73,27 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  azureConfig:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          type: string
+                        servicePrincipalId:
+                          type: string
+                        tenantId:
+                          type: string
+                      type: object
+                    type: array
+                  deleteOnCreateTimeout:
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
+                    type: boolean
                   projectId:
                     type: string
                   projectIdRef:
@@ -167,6 +188,27 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  azureConfig:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          type: string
+                        servicePrincipalId:
+                          type: string
+                        tenantId:
+                          type: string
+                      type: object
+                    type: array
+                  deleteOnCreateTimeout:
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
+                    type: boolean
                   projectId:
                     type: string
                   projectIdRef:
@@ -344,11 +386,6 @@ spec:
             properties:
               atProvider:
                 properties:
-                  aws:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   awsConfig:
                     items:
                       properties:
@@ -358,9 +395,41 @@ spec:
                           type: string
                       type: object
                     type: array
+                  azureConfig:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          type: string
+                        servicePrincipalId:
+                          type: string
+                        tenantId:
+                          type: string
+                      type: object
+                    type: array
                   createdDate:
                     type: string
+                  deleteOnCreateTimeout:
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
+                    type: boolean
+                  gcpConfig:
+                    items:
+                      properties:
+                        serviceAccountForAtlas:
+                          type: string
+                        status:
+                          type: string
+                      type: object
+                    type: array
                   id:
+                    type: string
+                  lastUpdatedDate:
                     type: string
                   projectId:
                     type: string

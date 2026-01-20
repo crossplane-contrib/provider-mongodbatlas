@@ -73,11 +73,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  metricThreshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   metricThresholdConfig:
                     items:
                       properties:
@@ -134,22 +129,8 @@ spec:
                           type: string
                         emailEnabled:
                           type: boolean
-                        flowName:
+                        integrationId:
                           type: string
-                        flowdockApiTokenSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
-                          properties:
-                            key:
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          type: object
                         intervalMin:
                           type: number
                         microsoftTeamsWebhookUrlSecretRef:
@@ -168,6 +149,8 @@ spec:
                           type: object
                         mobileNumber:
                           type: string
+                        notifierId:
+                          type: string
                         opsGenieApiKeySecretRef:
                           description: |-
                             A LocalSecretKeySelector is a reference to a secret key
@@ -183,8 +166,6 @@ spec:
                           - name
                           type: object
                         opsGenieRegion:
-                          type: string
-                        orgName:
                           type: string
                         roles:
                           items:
@@ -354,11 +335,8 @@ spec:
                             type: string
                         type: object
                     type: object
-                  threshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
+                  severityOverride:
+                    type: string
                   thresholdConfig:
                     items:
                       properties:
@@ -399,11 +377,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  metricThreshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   metricThresholdConfig:
                     items:
                       properties:
@@ -460,22 +433,8 @@ spec:
                           type: string
                         emailEnabled:
                           type: boolean
-                        flowName:
+                        integrationId:
                           type: string
-                        flowdockApiTokenSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
-                          properties:
-                            key:
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          type: object
                         intervalMin:
                           type: number
                         microsoftTeamsWebhookUrlSecretRef:
@@ -494,6 +453,8 @@ spec:
                           type: object
                         mobileNumber:
                           type: string
+                        notifierId:
+                          type: string
                         opsGenieApiKeySecretRef:
                           description: |-
                             A LocalSecretKeySelector is a reference to a secret key
@@ -509,8 +470,6 @@ spec:
                           - name
                           type: object
                         opsGenieRegion:
-                          type: string
-                        orgName:
                           type: string
                         roles:
                           items:
@@ -680,11 +639,8 @@ spec:
                             type: string
                         type: object
                     type: object
-                  threshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
+                  severityOverride:
+                    type: string
                   thresholdConfig:
                     items:
                       properties:
@@ -760,10 +716,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.eventType)
                 || (has(self.initProvider) && has(self.initProvider.eventType))'
-            - message: spec.forProvider.notification is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.notification)
-                || (has(self.initProvider) && has(self.initProvider.notification))'
           status:
             description: ConfigurationStatus defines the observed state of Configuration.
             properties:
@@ -790,11 +742,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  metricThreshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   metricThresholdConfig:
                     items:
                       properties:
@@ -823,15 +770,15 @@ spec:
                           type: string
                         emailEnabled:
                           type: boolean
-                        flowName:
+                        integrationId:
                           type: string
                         intervalMin:
                           type: number
                         mobileNumber:
                           type: string
-                        opsGenieRegion:
+                        notifierId:
                           type: string
-                        orgName:
+                        opsGenieRegion:
                           type: string
                         roles:
                           items:
@@ -851,11 +798,8 @@ spec:
                     type: array
                   projectId:
                     type: string
-                  threshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
+                  severityOverride:
+                    type: string
                   thresholdConfig:
                     items:
                       properties:

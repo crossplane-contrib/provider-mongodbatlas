@@ -259,6 +259,8 @@ spec:
                           x-kubernetes-list-type: set
                       type: object
                     type: array
+                  roleMappingId:
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

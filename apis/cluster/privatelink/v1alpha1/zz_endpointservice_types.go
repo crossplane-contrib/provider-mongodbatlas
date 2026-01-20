@@ -14,6 +14,10 @@ import (
 )
 
 type EndpointServiceInitParameters struct {
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
 	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
 
 	Endpoints []EndpointsInitParameters `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
@@ -43,6 +47,9 @@ type EndpointServiceObservation struct {
 	AwsConnectionStatus *string `json:"awsConnectionStatus,omitempty" tf:"aws_connection_status,omitempty"`
 
 	AzureStatus *string `json:"azureStatus,omitempty" tf:"azure_status,omitempty"`
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
 	DeleteRequested *bool `json:"deleteRequested,omitempty" tf:"delete_requested,omitempty"`
 
@@ -76,6 +83,10 @@ type EndpointServiceObservation struct {
 }
 
 type EndpointServiceParameters struct {
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	// +kubebuilder:validation:Optional
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
@@ -119,8 +130,6 @@ type EndpointsObservation struct {
 	EndpointName *string `json:"endpointName,omitempty" tf:"endpoint_name,omitempty"`
 
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
-
-	ServiceAttachmentName *string `json:"serviceAttachmentName,omitempty" tf:"service_attachment_name,omitempty"`
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }

@@ -59,23 +59,7 @@ spec:
             properties:
               forProvider:
                 properties:
-                  accountId:
-                    type: string
                   apiKeySecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
-                  apiTokenSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
                       in the same namespace with the referencing object.
@@ -93,22 +77,6 @@ spec:
                     type: string
                   enabled:
                     type: boolean
-                  flowName:
-                    type: string
-                  licenseKeySecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
                   microsoftTeamsWebhookUrlSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -123,8 +91,6 @@ spec:
                     - key
                     - name
                     type: object
-                  orgName:
-                    type: string
                   passwordSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -223,20 +189,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  readTokenSecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
                   region:
                     type: string
                   routingKeySecretRef:
@@ -253,8 +205,6 @@ spec:
                     - key
                     - name
                     type: object
-                  scheme:
-                    type: string
                   secretSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -269,6 +219,12 @@ spec:
                     - key
                     - name
                     type: object
+                  sendCollectionLatencyMetrics:
+                    type: boolean
+                  sendDatabaseMetrics:
+                    type: boolean
+                  sendUserProvidedResourceTags:
+                    type: boolean
                   serviceDiscoverySecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -304,20 +260,6 @@ spec:
                   url:
                     type: string
                   userNameSecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
-                  writeTokenSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
                       in the same namespace with the referencing object.
@@ -345,23 +287,7 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  accountId:
-                    type: string
                   apiKeySecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
-                  apiTokenSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
                       in the same namespace with the referencing object.
@@ -379,22 +305,6 @@ spec:
                     type: string
                   enabled:
                     type: boolean
-                  flowName:
-                    type: string
-                  licenseKeySecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
                   microsoftTeamsWebhookUrlSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -409,8 +319,6 @@ spec:
                     - key
                     - name
                     type: object
-                  orgName:
-                    type: string
                   passwordSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -509,20 +417,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  readTokenSecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
                   region:
                     type: string
                   routingKeySecretRef:
@@ -539,8 +433,6 @@ spec:
                     - key
                     - name
                     type: object
-                  scheme:
-                    type: string
                   secretSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -555,6 +447,12 @@ spec:
                     - key
                     - name
                     type: object
+                  sendCollectionLatencyMetrics:
+                    type: boolean
+                  sendDatabaseMetrics:
+                    type: boolean
+                  sendUserProvidedResourceTags:
+                    type: boolean
                   serviceDiscoverySecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
@@ -590,20 +488,6 @@ spec:
                   url:
                     type: string
                   userNameSecretRef:
-                    description: |-
-                      A LocalSecretKeySelector is a reference to a secret key
-                      in the same namespace with the referencing object.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
-                  writeTokenSecretRef:
                     description: |-
                       A LocalSecretKeySelector is a reference to a secret key
                       in the same namespace with the referencing object.
@@ -686,24 +570,22 @@ spec:
             properties:
               atProvider:
                 properties:
-                  accountId:
-                    type: string
                   channelName:
                     type: string
                   enabled:
                     type: boolean
-                  flowName:
-                    type: string
                   id:
-                    type: string
-                  orgName:
                     type: string
                   projectId:
                     type: string
                   region:
                     type: string
-                  scheme:
-                    type: string
+                  sendCollectionLatencyMetrics:
+                    type: boolean
+                  sendDatabaseMetrics:
+                    type: boolean
+                  sendUserProvidedResourceTags:
+                    type: boolean
                   teamName:
                     type: string
                   type:

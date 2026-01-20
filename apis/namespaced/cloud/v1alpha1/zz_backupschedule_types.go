@@ -31,6 +31,8 @@ type BackupScheduleInitParameters struct {
 
 	PolicyItemWeekly []PolicyItemWeeklyInitParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	PolicyItemYearly []PolicyItemYearlyInitParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -79,6 +81,8 @@ type BackupScheduleObservation struct {
 
 	PolicyItemWeekly []PolicyItemWeeklyObservation `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	PolicyItemYearly []PolicyItemYearlyObservation `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
+
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
@@ -118,6 +122,9 @@ type BackupScheduleParameters struct {
 	// +kubebuilder:validation:Optional
 	PolicyItemWeekly []PolicyItemWeeklyParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	PolicyItemYearly []PolicyItemYearlyParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -155,9 +162,9 @@ type CopySettingsInitParameters struct {
 
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
-	ReplicationSpecID *string `json:"replicationSpecId,omitempty" tf:"replication_spec_id,omitempty"`
-
 	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
+
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 }
 
 type CopySettingsObservation struct {
@@ -168,9 +175,9 @@ type CopySettingsObservation struct {
 
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
-	ReplicationSpecID *string `json:"replicationSpecId,omitempty" tf:"replication_spec_id,omitempty"`
-
 	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
+
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 }
 
 type CopySettingsParameters struct {
@@ -186,10 +193,10 @@ type CopySettingsParameters struct {
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ReplicationSpecID *string `json:"replicationSpecId,omitempty" tf:"replication_spec_id,omitempty"`
+	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 }
 
 type ExportInitParameters struct {
@@ -330,6 +337,38 @@ type PolicyItemWeeklyObservation struct {
 }
 
 type PolicyItemWeeklyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
+}
+
+type PolicyItemYearlyInitParameters struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
+type PolicyItemYearlyObservation struct {
+	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+
+	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
+
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
+type PolicyItemYearlyParameters struct {
 
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`

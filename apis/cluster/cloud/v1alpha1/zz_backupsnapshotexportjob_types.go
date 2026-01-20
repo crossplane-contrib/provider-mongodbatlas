@@ -44,8 +44,6 @@ type BackupSnapshotExportJobObservation struct {
 
 	CustomData []CustomDataObservation `json:"customData,omitempty" tf:"custom_data,omitempty"`
 
-	ErrMsg *string `json:"errMsg,omitempty" tf:"err_msg,omitempty"`
-
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
 	ExportJobID *string `json:"exportJobId,omitempty" tf:"export_job_id,omitempty"`
@@ -165,7 +163,6 @@ type BackupSnapshotExportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.customData) || (has(self.initProvider) && has(self.initProvider.customData))",message="spec.forProvider.customData is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.exportBucketId) || (has(self.initProvider) && has(self.initProvider.exportBucketId))",message="spec.forProvider.exportBucketId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotId) || (has(self.initProvider) && has(self.initProvider.snapshotId))",message="spec.forProvider.snapshotId is a required parameter"
 	Spec   BackupSnapshotExportJobSpec   `json:"spec"`

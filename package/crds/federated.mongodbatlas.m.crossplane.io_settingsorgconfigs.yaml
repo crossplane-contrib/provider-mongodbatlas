@@ -59,6 +59,10 @@ spec:
             properties:
               forProvider:
                 properties:
+                  dataAccessIdentityProviderIds:
+                    items:
+                      type: string
+                    type: array
                   domainAllowList:
                     items:
                       type: string
@@ -89,6 +93,10 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  dataAccessIdentityProviderIds:
+                    items:
+                      type: string
+                    type: array
                   domainAllowList:
                     items:
                       type: string
@@ -173,10 +181,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.federationSettingsId)
                 || (has(self.initProvider) && has(self.initProvider.federationSettingsId))'
-            - message: spec.forProvider.identityProviderId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.identityProviderId)
-                || (has(self.initProvider) && has(self.initProvider.identityProviderId))'
             - message: spec.forProvider.orgId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.orgId)
@@ -186,6 +190,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  dataAccessIdentityProviderIds:
+                    items:
+                      type: string
+                    type: array
                   domainAllowList:
                     items:
                       type: string
@@ -203,6 +211,21 @@ spec:
                   postAuthRoleGrants:
                     items:
                       type: string
+                    type: array
+                  userConflicts:
+                    items:
+                      properties:
+                        emailAddress:
+                          type: string
+                        federationSettingsId:
+                          type: string
+                        firstName:
+                          type: string
+                        lastName:
+                          type: string
+                        userId:
+                          type: string
+                      type: object
                     type: array
                 type: object
               conditions:

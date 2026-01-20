@@ -14,6 +14,8 @@ import (
 )
 
 type SettingsOrgConfigInitParameters struct {
+	DataAccessIdentityProviderIds []*string `json:"dataAccessIdentityProviderIds,omitempty" tf:"data_access_identity_provider_ids,omitempty"`
+
 	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
 
 	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
@@ -28,6 +30,8 @@ type SettingsOrgConfigInitParameters struct {
 }
 
 type SettingsOrgConfigObservation struct {
+	DataAccessIdentityProviderIds []*string `json:"dataAccessIdentityProviderIds,omitempty" tf:"data_access_identity_provider_ids,omitempty"`
+
 	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
 
 	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
@@ -41,9 +45,14 @@ type SettingsOrgConfigObservation struct {
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
+
+	UserConflicts []UserConflictsObservation `json:"userConflicts,omitempty" tf:"user_conflicts,omitempty"`
 }
 
 type SettingsOrgConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DataAccessIdentityProviderIds []*string `json:"dataAccessIdentityProviderIds,omitempty" tf:"data_access_identity_provider_ids,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
@@ -62,6 +71,24 @@ type SettingsOrgConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
+}
+
+type UserConflictsInitParameters struct {
+}
+
+type UserConflictsObservation struct {
+	EmailAddress *string `json:"emailAddress,omitempty" tf:"email_address,omitempty"`
+
+	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
+	FirstName *string `json:"firstName,omitempty" tf:"first_name,omitempty"`
+
+	LastName *string `json:"lastName,omitempty" tf:"last_name,omitempty"`
+
+	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
+}
+
+type UserConflictsParameters struct {
 }
 
 // SettingsOrgConfigSpec defines the desired state of SettingsOrgConfig
@@ -102,7 +129,6 @@ type SettingsOrgConfig struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domainRestrictionEnabled) || (has(self.initProvider) && has(self.initProvider.domainRestrictionEnabled))",message="spec.forProvider.domainRestrictionEnabled is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.federationSettingsId) || (has(self.initProvider) && has(self.initProvider.federationSettingsId))",message="spec.forProvider.federationSettingsId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.identityProviderId) || (has(self.initProvider) && has(self.initProvider.identityProviderId))",message="spec.forProvider.identityProviderId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
 	Spec   SettingsOrgConfigSpec   `json:"spec"`
 	Status SettingsOrgConfigStatus `json:"status,omitempty"`

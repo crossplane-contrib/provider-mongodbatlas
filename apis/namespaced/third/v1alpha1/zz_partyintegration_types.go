@@ -17,21 +17,11 @@ import (
 type PartyIntegrationInitParameters struct {
 	APIKeySecretRef *v1.LocalSecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
-	APITokenSecretRef *v1.LocalSecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
-
-	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
-
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
-	LicenseKeySecretRef *v1.LocalSecretKeySelector `json:"licenseKeySecretRef,omitempty" tf:"-"`
-
 	MicrosoftTeamsWebhookURLSecretRef *v1.LocalSecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
-
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
@@ -47,15 +37,17 @@ type PartyIntegrationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	ReadTokenSecretRef *v1.LocalSecretKeySelector `json:"readTokenSecretRef,omitempty" tf:"-"`
-
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	RoutingKeySecretRef *v1.LocalSecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
 
-	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
-
 	SecretSecretRef *v1.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
+
+	SendCollectionLatencyMetrics *bool `json:"sendCollectionLatencyMetrics,omitempty" tf:"send_collection_latency_metrics,omitempty"`
+
+	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
+
+	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
 	ServiceDiscoverySecretRef *v1.LocalSecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
 
@@ -68,28 +60,24 @@ type PartyIntegrationInitParameters struct {
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	UserNameSecretRef *v1.LocalSecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
-
-	WriteTokenSecretRef *v1.LocalSecretKeySelector `json:"writeTokenSecretRef,omitempty" tf:"-"`
 }
 
 type PartyIntegrationObservation struct {
-	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
-
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+	SendCollectionLatencyMetrics *bool `json:"sendCollectionLatencyMetrics,omitempty" tf:"send_collection_latency_metrics,omitempty"`
+
+	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
+
+	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
 
@@ -104,28 +92,13 @@ type PartyIntegrationParameters struct {
 	APIKeySecretRef *v1.LocalSecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	APITokenSecretRef *v1.LocalSecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	LicenseKeySecretRef *v1.LocalSecretKeySelector `json:"licenseKeySecretRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
 	MicrosoftTeamsWebhookURLSecretRef *v1.LocalSecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
@@ -144,19 +117,22 @@ type PartyIntegrationParameters struct {
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	ReadTokenSecretRef *v1.LocalSecretKeySelector `json:"readTokenSecretRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	RoutingKeySecretRef *v1.LocalSecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	Scheme *string `json:"scheme,omitempty" tf:"scheme,omitempty"`
+	SecretSecretRef *v1.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	SecretSecretRef *v1.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
+	SendCollectionLatencyMetrics *bool `json:"sendCollectionLatencyMetrics,omitempty" tf:"send_collection_latency_metrics,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ServiceDiscoverySecretRef *v1.LocalSecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
@@ -175,9 +151,6 @@ type PartyIntegrationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	UserNameSecretRef *v1.LocalSecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	WriteTokenSecretRef *v1.LocalSecretKeySelector `json:"writeTokenSecretRef,omitempty" tf:"-"`
 }
 
 // PartyIntegrationSpec defines the desired state of PartyIntegration

@@ -24,11 +24,17 @@ type IndexInitParameters struct {
 
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
+	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
+
 	MappingsDynamic *bool `json:"mappingsDynamic,omitempty" tf:"mappings_dynamic,omitempty"`
+
+	MappingsDynamicConfig *string `json:"mappingsDynamicConfig,omitempty" tf:"mappings_dynamic_config,omitempty"`
 
 	MappingsFields *string `json:"mappingsFields,omitempty" tf:"mappings_fields,omitempty"`
 
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
@@ -44,9 +50,13 @@ type IndexInitParameters struct {
 
 	SearchAnalyzer *string `json:"searchAnalyzer,omitempty" tf:"search_analyzer,omitempty"`
 
-	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+	StoredSource *string `json:"storedSource,omitempty" tf:"stored_source,omitempty"`
 
 	Synonyms []SynonymsInitParameters `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	TypeSets []TypeSetsInitParameters `json:"typeSets,omitempty" tf:"type_sets,omitempty"`
 
 	WaitForIndexBuildCompletion *bool `json:"waitForIndexBuildCompletion,omitempty" tf:"wait_for_index_build_completion,omitempty"`
 }
@@ -62,15 +72,21 @@ type IndexObservation struct {
 
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
+	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	IndexID *string `json:"indexId,omitempty" tf:"index_id,omitempty"`
 
 	MappingsDynamic *bool `json:"mappingsDynamic,omitempty" tf:"mappings_dynamic,omitempty"`
 
+	MappingsDynamicConfig *string `json:"mappingsDynamicConfig,omitempty" tf:"mappings_dynamic_config,omitempty"`
+
 	MappingsFields *string `json:"mappingsFields,omitempty" tf:"mappings_fields,omitempty"`
 
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -78,7 +94,13 @@ type IndexObservation struct {
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	StoredSource *string `json:"storedSource,omitempty" tf:"stored_source,omitempty"`
+
 	Synonyms []SynonymsObservation `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	TypeSets []TypeSetsObservation `json:"typeSets,omitempty" tf:"type_sets,omitempty"`
 
 	WaitForIndexBuildCompletion *bool `json:"waitForIndexBuildCompletion,omitempty" tf:"wait_for_index_build_completion,omitempty"`
 }
@@ -101,13 +123,22 @@ type IndexParameters struct {
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	MappingsDynamic *bool `json:"mappingsDynamic,omitempty" tf:"mappings_dynamic,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MappingsDynamicConfig *string `json:"mappingsDynamicConfig,omitempty" tf:"mappings_dynamic_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MappingsFields *string `json:"mappingsFields,omitempty" tf:"mappings_fields,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
@@ -126,10 +157,16 @@ type IndexParameters struct {
 	SearchAnalyzer *string `json:"searchAnalyzer,omitempty" tf:"search_analyzer,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+	StoredSource *string `json:"storedSource,omitempty" tf:"stored_source,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Synonyms []SynonymsParameters `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TypeSets []TypeSetsParameters `json:"typeSets,omitempty" tf:"type_sets,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	WaitForIndexBuildCompletion *bool `json:"waitForIndexBuildCompletion,omitempty" tf:"wait_for_index_build_completion,omitempty"`
@@ -161,6 +198,27 @@ type SynonymsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SourceCollection *string `json:"sourceCollection" tf:"source_collection,omitempty"`
+}
+
+type TypeSetsInitParameters struct {
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	Types *string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type TypeSetsObservation struct {
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	Types *string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type TypeSetsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Types *string `json:"types,omitempty" tf:"types,omitempty"`
 }
 
 // IndexSpec defines the desired state of Index
@@ -199,7 +257,6 @@ type IndexStatus struct {
 type Index struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.analyzer) || (has(self.initProvider) && has(self.initProvider.analyzer))",message="spec.forProvider.analyzer is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.collectionName) || (has(self.initProvider) && has(self.initProvider.collectionName))",message="spec.forProvider.collectionName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.database) || (has(self.initProvider) && has(self.initProvider.database))",message="spec.forProvider.database is a required parameter"

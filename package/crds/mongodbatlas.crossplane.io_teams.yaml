@@ -200,10 +200,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.orgId)
                 || (has(self.initProvider) && has(self.initProvider.orgId))'
-            - message: spec.forProvider.usernames is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.usernames)
-                || (has(self.initProvider) && has(self.initProvider.usernames))'
           status:
             description: TeamStatus defines the observed state of Team.
             properties:

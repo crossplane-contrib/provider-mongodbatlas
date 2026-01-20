@@ -1,7 +1,3 @@
-/*
-Copyright 2021 Upbound Inc.
-*/
-
 package config
 
 import (
@@ -33,24 +29,27 @@ var SkipTfResourceList = []string{
 var providerSchema string
 
 // // go:embed provider-metadata.yaml
-// var providerMetadata string
+var providerMetadata string
 
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
-		ujconfig.WithSkipList(SkipTfResourceList),
-		// ujconfig.WithIncludeList(ExternalNameConfigured()),
-		ujconfig.WithShortName("mongodbatlas"),
-		ujconfig.WithFeaturesPackage("internal/features"),
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithRootGroup("mongodbatlas.crossplane.io"),
+		// ujconfig.WithIncludeList(ExternalNameConfigured()),
+		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
 			clusterGvkOverride(),
 			identifierAssignedByMongoDBAtlas(),
 			clusterCommonReferencesOverride(),
-		))
+		),
+		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
+			ManagedResourceNamespace: "crossplane-system",
+		}),
+		ujconfig.WithSkipList(SkipTfResourceList),
+		ujconfig.WithShortName("mongodbatlas"),
+	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
 		databaseCluster.Configure,
 		mongodbatlasCluster.Configure,
 		projectCluster.Configure,
@@ -65,19 +64,22 @@ func GetProvider() *ujconfig.Provider {
 // GetProviderNamespaced returns provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
-		ujconfig.WithSkipList(SkipTfResourceList),
-		// ujconfig.WithIncludeList(ExternalNameConfigured()),
-		ujconfig.WithShortName("mongodbatlas"),
-		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithRootGroup("mongodbatlas.m.crossplane.io"),
+		// ujconfig.WithIncludeList(ExternalNameConfigured()),
+		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
 			namespacedGvkOverride(),
 			identifierAssignedByMongoDBAtlas(),
 			namespacedCommonReferencesOverride(),
-		))
+		),
+		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
+			ManagedResourceNamespace: "crossplane-system",
+		}),
+		ujconfig.WithSkipList(SkipTfResourceList),
+		ujconfig.WithShortName("mongodbatlas"),
+	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
 		databaseNamespaced.Configure,
 		mongodbatlasNamespaced.Configure,
 		projectNamespaced.Configure,

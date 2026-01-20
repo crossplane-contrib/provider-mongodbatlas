@@ -15,28 +15,66 @@ import (
 )
 
 type AdvancedClusterInitParameters struct {
-	AdvancedConfiguration []AdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
+	// If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set **acceptDataRisksAndForceReplicaSetReconfig** to the current date.
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
+
+	AdvancedConfiguration *AdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+
+	// Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses [Cloud Backups](https://docs.atlas.mongodb.com/backup/cloud-backup/overview/) for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups.
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
-	BiConnector []BiConnectorInitParameters `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
+	BiConnectorConfig *BiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
-	BiConnectorConfig []BiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
-
+	// Configuration of nodes that comprise the cluster.
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
-	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+	// Config Server Management Mode for creating or updating a sharded cluster.
+	//
+	// When configured as ATLAS_MANAGED, atlas may automatically switch the cluster's config server type for optimal performance and savings.
+	//
+	// When configured as FIXED_TO_DEDICATED, the cluster will always use a dedicated config server.
+	ConfigServerManagementMode *string `json:"configServerManagementMode,omitempty" tf:"config_server_management_mode,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
+	// Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster **replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize** setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely.
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
-	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+	// Set this field to configure the Sharding Management Mode when creating a new Global Cluster.
+	//
+	// When set to false, the management mode is set to Atlas-Managed Sharding. This mode fully manages the sharding of your Global Cluster and is built to provide a seamless deployment experience.
+	//
+	// When set to true, the management mode is set to Self-Managed Sharding. This mode leaves the management of shards in your hands and is built to provide an advanced and flexible deployment experience.
+	//
+	// This setting cannot be changed once the cluster is deployed.
+	GlobalClusterSelfManagedSharding *bool `json:"globalClusterSelfManagedSharding,omitempty" tf:"global_cluster_self_managed_sharding,omitempty"`
 
+	// Map of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels.
+	//
+	// Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://dochub.mongodb.org/core/add-cluster-tag-atlas) instead.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// MongoDB major version of the cluster.
+	//
+	// On creation: Choose from the available versions of MongoDB, or leave unspecified for the current recommended default in the MongoDB Cloud platform. The recommended version is a recent Long Term Support version. The default is not guaranteed to be the most recently released version throughout the entire release cycle. For versions available in a specific project, see the linked documentation or use the API endpoint for [project LTS versions endpoint](#tag/Projects/operation/getProjectLTSVersions).
+	//
+	// On update: Increase version only by 1 major version at a time. If the cluster is pinned to a MongoDB feature compatibility version exactly one major version below the current MongoDB version, the MongoDB version can be downgraded to the previous major version.
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Flag that indicates whether the cluster is paused.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
+	PinnedFcv *PinnedFcvInitParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+
+	// Flag that indicates whether the cluster uses continuous cloud backups.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
+	//
+	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -49,96 +87,247 @@ type AdvancedClusterInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Enable or disable log redaction.
+	//
+	// This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	//
+	// Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	//
+	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
+	// Set this field to configure the replica set scaling mode for your cluster.
+	//
+	// By default, Atlas scales under WORKLOAD_TYPE. This mode allows Atlas to scale your analytics nodes in parallel to your operational nodes.
+	//
+	// When configured as SEQUENTIAL, Atlas scales all nodes sequentially. This mode is intended for steady-state workloads and applications performing latency-sensitive secondary reads.
+	//
+	// When configured as NODE_TYPE, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads.
+	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
+
 	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	// Root Certificate Authority that MongoDB Cloud cluster uses. MongoDB Cloud supports Internet Security Research Group.
 	RootCertType *string `json:"rootCertType,omitempty" tf:"root_cert_type,omitempty"`
 
+	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
+	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
+	UseEffectiveFields *bool `json:"useEffectiveFields,omitempty" tf:"use_effective_fields,omitempty"`
+
+	// Method by which the cluster maintains the MongoDB versions. If value is `CONTINUOUS`, you must not specify **mongoDBMajorVersion**.
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
 type AdvancedClusterObservation struct {
-	AdvancedConfiguration []AdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
+	// If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set **acceptDataRisksAndForceReplicaSetReconfig** to the current date.
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
+
+	AdvancedConfiguration *AdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+
+	// Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses [Cloud Backups](https://docs.atlas.mongodb.com/backup/cloud-backup/overview/) for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups.
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
-	BiConnector []BiConnectorObservation `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
+	BiConnectorConfig *BiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
-	BiConnectorConfig []BiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
-
+	// Unique 24-hexadecimal digit string that identifies the cluster.
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
+	// Configuration of nodes that comprise the cluster.
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
-	ConnectionStrings []ConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
+	// Config Server Management Mode for creating or updating a sharded cluster.
+	//
+	// When configured as ATLAS_MANAGED, atlas may automatically switch the cluster's config server type for optimal performance and savings.
+	//
+	// When configured as FIXED_TO_DEDICATED, the cluster will always use a dedicated config server.
+	ConfigServerManagementMode *string `json:"configServerManagementMode,omitempty" tf:"config_server_management_mode,omitempty"`
 
+	// Describes a sharded cluster's config server type.
+	ConfigServerType *string `json:"configServerType,omitempty" tf:"config_server_type,omitempty"`
+
+	ConnectionStrings *ConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
+
+	// Date and time when MongoDB Cloud created this cluster. This parameter expresses its value in ISO 8601 format in UTC.
 	CreateDate *string `json:"createDate,omitempty" tf:"create_date,omitempty"`
 
-	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster **replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize** setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely.
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
+
+	// Set this field to configure the Sharding Management Mode when creating a new Global Cluster.
+	//
+	// When set to false, the management mode is set to Atlas-Managed Sharding. This mode fully manages the sharding of your Global Cluster and is built to provide a seamless deployment experience.
+	//
+	// When set to true, the management mode is set to Self-Managed Sharding. This mode leaves the management of shards in your hands and is built to provide an advanced and flexible deployment experience.
+	//
+	// This setting cannot be changed once the cluster is deployed.
+	GlobalClusterSelfManagedSharding *bool `json:"globalClusterSelfManagedSharding,omitempty" tf:"global_cluster_self_managed_sharding,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
+	// Map of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels.
+	//
+	// Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://dochub.mongodb.org/core/add-cluster-tag-atlas) instead.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// MongoDB major version of the cluster.
+	//
+	// On creation: Choose from the available versions of MongoDB, or leave unspecified for the current recommended default in the MongoDB Cloud platform. The recommended version is a recent Long Term Support version. The default is not guaranteed to be the most recently released version throughout the entire release cycle. For versions available in a specific project, see the linked documentation or use the API endpoint for [project LTS versions endpoint](#tag/Projects/operation/getProjectLTSVersions).
+	//
+	// On update: Increase version only by 1 major version at a time. If the cluster is pinned to a MongoDB feature compatibility version exactly one major version below the current MongoDB version, the MongoDB version can be downgraded to the previous major version.
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Version of MongoDB that the cluster runs.
 	MongoDBVersion *string `json:"mongoDbVersion,omitempty" tf:"mongo_db_version,omitempty"`
 
+	// Flag that indicates whether the cluster is paused.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
+	PinnedFcv *PinnedFcvObservation `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+
+	// Flag that indicates whether the cluster uses continuous cloud backups.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
+	//
+	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Enable or disable log redaction.
+	//
+	// This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	//
+	// Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	//
+	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
+	// Set this field to configure the replica set scaling mode for your cluster.
+	//
+	// By default, Atlas scales under WORKLOAD_TYPE. This mode allows Atlas to scale your analytics nodes in parallel to your operational nodes.
+	//
+	// When configured as SEQUENTIAL, Atlas scales all nodes sequentially. This mode is intended for steady-state workloads and applications performing latency-sensitive secondary reads.
+	//
+	// When configured as NODE_TYPE, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads.
+	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
 
 	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	// Root Certificate Authority that MongoDB Cloud cluster uses. MongoDB Cloud supports Internet Security Research Group.
 	RootCertType *string `json:"rootCertType,omitempty" tf:"root_cert_type,omitempty"`
 
+	// Human-readable label that indicates the current operating condition of this cluster.
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
+	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
+	UseEffectiveFields *bool `json:"useEffectiveFields,omitempty" tf:"use_effective_fields,omitempty"`
+
+	// Method by which the cluster maintains the MongoDB versions. If value is `CONTINUOUS`, you must not specify **mongoDBMajorVersion**.
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
 type AdvancedClusterParameters struct {
 
+	// If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set **acceptDataRisksAndForceReplicaSetReconfig** to the current date.
 	// +kubebuilder:validation:Optional
-	AdvancedConfiguration []AdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	AdvancedConfiguration *AdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+
+	// Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses [Cloud Backups](https://docs.atlas.mongodb.com/backup/cloud-backup/overview/) for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups.
 	// +kubebuilder:validation:Optional
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	BiConnector []BiConnectorParameters `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
+	BiConnectorConfig *BiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	BiConnectorConfig []BiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
-
+	// Configuration of nodes that comprise the cluster.
 	// +kubebuilder:validation:Optional
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
+	// Config Server Management Mode for creating or updating a sharded cluster.
+	//
+	// When configured as ATLAS_MANAGED, atlas may automatically switch the cluster's config server type for optimal performance and savings.
+	//
+	// When configured as FIXED_TO_DEDICATED, the cluster will always use a dedicated config server.
 	// +kubebuilder:validation:Optional
-	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+	ConfigServerManagementMode *string `json:"configServerManagementMode,omitempty" tf:"config_server_management_mode,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	// +kubebuilder:validation:Optional
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
+	// Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster **replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize** setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely.
 	// +kubebuilder:validation:Optional
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
+	// Set this field to configure the Sharding Management Mode when creating a new Global Cluster.
+	//
+	// When set to false, the management mode is set to Atlas-Managed Sharding. This mode fully manages the sharding of your Global Cluster and is built to provide a seamless deployment experience.
+	//
+	// When set to true, the management mode is set to Self-Managed Sharding. This mode leaves the management of shards in your hands and is built to provide an advanced and flexible deployment experience.
+	//
+	// This setting cannot be changed once the cluster is deployed.
 	// +kubebuilder:validation:Optional
-	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+	GlobalClusterSelfManagedSharding *bool `json:"globalClusterSelfManagedSharding,omitempty" tf:"global_cluster_self_managed_sharding,omitempty"`
 
+	// Map of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels.
+	//
+	// Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://dochub.mongodb.org/core/add-cluster-tag-atlas) instead.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// MongoDB major version of the cluster.
+	//
+	// On creation: Choose from the available versions of MongoDB, or leave unspecified for the current recommended default in the MongoDB Cloud platform. The recommended version is a recent Long Term Support version. The default is not guaranteed to be the most recently released version throughout the entire release cycle. For versions available in a specific project, see the linked documentation or use the API endpoint for [project LTS versions endpoint](#tag/Projects/operation/getProjectLTSVersions).
+	//
+	// On update: Increase version only by 1 major version at a time. If the cluster is pinned to a MongoDB feature compatibility version exactly one major version below the current MongoDB version, the MongoDB version can be downgraded to the previous major version.
 	// +kubebuilder:validation:Optional
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Flag that indicates whether the cluster is paused.
 	// +kubebuilder:validation:Optional
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	PinnedFcv *PinnedFcvParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+
+	// Flag that indicates whether the cluster uses continuous cloud backups.
+	// +kubebuilder:validation:Optional
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
+	//
+	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -152,253 +341,502 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Enable or disable log redaction.
+	//
+	// This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	//
+	// Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	//
+	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
+	// +kubebuilder:validation:Optional
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
+	// Set this field to configure the replica set scaling mode for your cluster.
+	//
+	// By default, Atlas scales under WORKLOAD_TYPE. This mode allows Atlas to scale your analytics nodes in parallel to your operational nodes.
+	//
+	// When configured as SEQUENTIAL, Atlas scales all nodes sequentially. This mode is intended for steady-state workloads and applications performing latency-sensitive secondary reads.
+	//
+	// When configured as NODE_TYPE, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads.
+	// +kubebuilder:validation:Optional
+	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
+	// +kubebuilder:validation:Optional
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	// Root Certificate Authority that MongoDB Cloud cluster uses. MongoDB Cloud supports Internet Security Research Group.
 	// +kubebuilder:validation:Optional
 	RootCertType *string `json:"rootCertType,omitempty" tf:"root_cert_type,omitempty"`
 
+	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
+	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
+	// +kubebuilder:validation:Optional
+	UseEffectiveFields *bool `json:"useEffectiveFields,omitempty" tf:"use_effective_fields,omitempty"`
+
+	// Method by which the cluster maintains the MongoDB versions. If value is `CONTINUOUS`, you must not specify **mongoDBMajorVersion**.
 	// +kubebuilder:validation:Optional
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
 type AdvancedConfigurationInitParameters struct {
-	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
+	// The minimum pre- and post-image retention time in seconds.
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when `tls_cipher_config_mode` is set to `CUSTOM`.
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.3. This field is only valid when `tls_cipher_config_mode` is set to `CUSTOM`.
+	// +listType=set
+	CustomOpensslCipherConfigTls13 []*string `json:"customOpensslCipherConfigTls13,omitempty" tf:"custom_openssl_cipher_config_tls13,omitempty"`
+
+	// Default time limit in milliseconds for individual read operations to complete. This parameter is supported only for MongoDB version 8.0 and above.
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
+	// Default level of acknowledgment requested from MongoDB for write operations when none is specified by the driver.
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
-	FailIndexKeyTooLong *bool `json:"failIndexKeyTooLong,omitempty" tf:"fail_index_key_too_long,omitempty"`
-
+	// Flag that indicates whether the cluster allows execution of operations that perform server-side executions of JavaScript. When using 8.0+, we recommend disabling server-side JavaScript and using operators of aggregation pipeline as more performant alternative.
 	JavascriptEnabled *bool `json:"javascriptEnabled,omitempty" tf:"javascript_enabled,omitempty"`
 
+	// Minimum Transport Layer Security (TLS) version that the cluster accepts for incoming connections. Clusters using TLS 1.0 or 1.1 should consider setting TLS 1.2 as the minimum TLS protocol version.
 	MinimumEnabledTLSProtocol *string `json:"minimumEnabledTlsProtocol,omitempty" tf:"minimum_enabled_tls_protocol,omitempty"`
 
+	// Flag that indicates whether the cluster disables executing any query that requires a collection scan to return results.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
+	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
+	// Storage limit of cluster's oplog expressed in megabytes. A value of null indicates that the cluster uses the default oplog size that MongoDB Cloud calculates.
 	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
+	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema.
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
+	// Number of documents per database to sample when gathering schema information.
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// The TLS cipher suite configuration mode. Valid values include `CUSTOM` or `DEFAULT`. The `DEFAULT` mode uses the default cipher suites. The `CUSTOM` mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to `DEFAULT`.
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	// Lifetime, in seconds, of multi-document transactions. Atlas considers the transactions that exceed this limit as expired and so aborts them through a periodic cleanup process.
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AdvancedConfigurationObservation struct {
-	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
+	// The minimum pre- and post-image retention time in seconds.
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when `tls_cipher_config_mode` is set to `CUSTOM`.
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.3. This field is only valid when `tls_cipher_config_mode` is set to `CUSTOM`.
+	// +listType=set
+	CustomOpensslCipherConfigTls13 []*string `json:"customOpensslCipherConfigTls13,omitempty" tf:"custom_openssl_cipher_config_tls13,omitempty"`
+
+	// Default time limit in milliseconds for individual read operations to complete. This parameter is supported only for MongoDB version 8.0 and above.
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
+	// Default level of acknowledgment requested from MongoDB for write operations when none is specified by the driver.
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
-	FailIndexKeyTooLong *bool `json:"failIndexKeyTooLong,omitempty" tf:"fail_index_key_too_long,omitempty"`
-
+	// Flag that indicates whether the cluster allows execution of operations that perform server-side executions of JavaScript. When using 8.0+, we recommend disabling server-side JavaScript and using operators of aggregation pipeline as more performant alternative.
 	JavascriptEnabled *bool `json:"javascriptEnabled,omitempty" tf:"javascript_enabled,omitempty"`
 
+	// Minimum Transport Layer Security (TLS) version that the cluster accepts for incoming connections. Clusters using TLS 1.0 or 1.1 should consider setting TLS 1.2 as the minimum TLS protocol version.
 	MinimumEnabledTLSProtocol *string `json:"minimumEnabledTlsProtocol,omitempty" tf:"minimum_enabled_tls_protocol,omitempty"`
 
+	// Flag that indicates whether the cluster disables executing any query that requires a collection scan to return results.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
+	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
+	// Storage limit of cluster's oplog expressed in megabytes. A value of null indicates that the cluster uses the default oplog size that MongoDB Cloud calculates.
 	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
+	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema.
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
+	// Number of documents per database to sample when gathering schema information.
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// The TLS cipher suite configuration mode. Valid values include `CUSTOM` or `DEFAULT`. The `DEFAULT` mode uses the default cipher suites. The `CUSTOM` mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to `DEFAULT`.
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	// Lifetime, in seconds, of multi-document transactions. Atlas considers the transactions that exceed this limit as expired and so aborts them through a periodic cleanup process.
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AdvancedConfigurationParameters struct {
 
+	// The minimum pre- and post-image retention time in seconds.
 	// +kubebuilder:validation:Optional
-	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
+	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when `tls_cipher_config_mode` is set to `CUSTOM`.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.3. This field is only valid when `tls_cipher_config_mode` is set to `CUSTOM`.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	CustomOpensslCipherConfigTls13 []*string `json:"customOpensslCipherConfigTls13,omitempty" tf:"custom_openssl_cipher_config_tls13,omitempty"`
+
+	// Default time limit in milliseconds for individual read operations to complete. This parameter is supported only for MongoDB version 8.0 and above.
+	// +kubebuilder:validation:Optional
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
+	// Default level of acknowledgment requested from MongoDB for write operations when none is specified by the driver.
 	// +kubebuilder:validation:Optional
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	FailIndexKeyTooLong *bool `json:"failIndexKeyTooLong,omitempty" tf:"fail_index_key_too_long,omitempty"`
-
+	// Flag that indicates whether the cluster allows execution of operations that perform server-side executions of JavaScript. When using 8.0+, we recommend disabling server-side JavaScript and using operators of aggregation pipeline as more performant alternative.
 	// +kubebuilder:validation:Optional
 	JavascriptEnabled *bool `json:"javascriptEnabled,omitempty" tf:"javascript_enabled,omitempty"`
 
+	// Minimum Transport Layer Security (TLS) version that the cluster accepts for incoming connections. Clusters using TLS 1.0 or 1.1 should consider setting TLS 1.2 as the minimum TLS protocol version.
 	// +kubebuilder:validation:Optional
 	MinimumEnabledTLSProtocol *string `json:"minimumEnabledTlsProtocol,omitempty" tf:"minimum_enabled_tls_protocol,omitempty"`
 
+	// Flag that indicates whether the cluster disables executing any query that requires a collection scan to return results.
 	// +kubebuilder:validation:Optional
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
+	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	// +kubebuilder:validation:Optional
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
+	// Storage limit of cluster's oplog expressed in megabytes. A value of null indicates that the cluster uses the default oplog size that MongoDB Cloud calculates.
 	// +kubebuilder:validation:Optional
 	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
+	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema.
 	// +kubebuilder:validation:Optional
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
+	// Number of documents per database to sample when gathering schema information.
 	// +kubebuilder:validation:Optional
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// The TLS cipher suite configuration mode. Valid values include `CUSTOM` or `DEFAULT`. The `DEFAULT` mode uses the default cipher suites. The `CUSTOM` mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to `DEFAULT`.
+	// +kubebuilder:validation:Optional
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	// Lifetime, in seconds, of multi-document transactions. Atlas considers the transactions that exceed this limit as expired and so aborts them through a periodic cleanup process.
+	// +kubebuilder:validation:Optional
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AnalyticsAutoScalingInitParameters struct {
+
+	// Flag that indicates whether someone enabled instance size auto-scaling.
+	//
+	// - Set to `true` to enable instance size auto-scaling. If enabled, you must specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.maxInstanceSize**.
+	// - Set to `false` to disable instance size automatic scaling.
 	ComputeEnabled *bool `json:"computeEnabled,omitempty" tf:"compute_enabled,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMaxInstanceSize *string `json:"computeMaxInstanceSize,omitempty" tf:"compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMinInstanceSize *string `json:"computeMinInstanceSize,omitempty" tf:"compute_min_instance_size,omitempty"`
 
+	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
 type AnalyticsAutoScalingObservation struct {
+
+	// Flag that indicates whether someone enabled instance size auto-scaling.
+	//
+	// - Set to `true` to enable instance size auto-scaling. If enabled, you must specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.maxInstanceSize**.
+	// - Set to `false` to disable instance size automatic scaling.
 	ComputeEnabled *bool `json:"computeEnabled,omitempty" tf:"compute_enabled,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMaxInstanceSize *string `json:"computeMaxInstanceSize,omitempty" tf:"compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMinInstanceSize *string `json:"computeMinInstanceSize,omitempty" tf:"compute_min_instance_size,omitempty"`
 
+	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
 type AnalyticsAutoScalingParameters struct {
 
+	// Flag that indicates whether someone enabled instance size auto-scaling.
+	//
+	// - Set to `true` to enable instance size auto-scaling. If enabled, you must specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.maxInstanceSize**.
+	// - Set to `false` to disable instance size automatic scaling.
 	// +kubebuilder:validation:Optional
 	ComputeEnabled *bool `json:"computeEnabled,omitempty" tf:"compute_enabled,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	// +kubebuilder:validation:Optional
 	ComputeMaxInstanceSize *string `json:"computeMaxInstanceSize,omitempty" tf:"compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	// +kubebuilder:validation:Optional
 	ComputeMinInstanceSize *string `json:"computeMinInstanceSize,omitempty" tf:"compute_min_instance_size,omitempty"`
 
+	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	// +kubebuilder:validation:Optional
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
 	// +kubebuilder:validation:Optional
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
 type AnalyticsSpecsInitParameters struct {
+
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type AnalyticsSpecsObservation struct {
+
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type AnalyticsSpecsParameters struct {
 
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	// +kubebuilder:validation:Optional
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// +kubebuilder:validation:Optional
-	InstanceSize *string `json:"instanceSize" tf:"instance_size,omitempty"`
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type AutoScalingInitParameters struct {
+
+	// Flag that indicates whether someone enabled instance size auto-scaling.
+	//
+	// - Set to `true` to enable instance size auto-scaling. If enabled, you must specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.maxInstanceSize**.
+	// - Set to `false` to disable instance size automatic scaling.
 	ComputeEnabled *bool `json:"computeEnabled,omitempty" tf:"compute_enabled,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMaxInstanceSize *string `json:"computeMaxInstanceSize,omitempty" tf:"compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMinInstanceSize *string `json:"computeMinInstanceSize,omitempty" tf:"compute_min_instance_size,omitempty"`
 
+	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
 type AutoScalingObservation struct {
+
+	// Flag that indicates whether someone enabled instance size auto-scaling.
+	//
+	// - Set to `true` to enable instance size auto-scaling. If enabled, you must specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.maxInstanceSize**.
+	// - Set to `false` to disable instance size automatic scaling.
 	ComputeEnabled *bool `json:"computeEnabled,omitempty" tf:"compute_enabled,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMaxInstanceSize *string `json:"computeMaxInstanceSize,omitempty" tf:"compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	ComputeMinInstanceSize *string `json:"computeMinInstanceSize,omitempty" tf:"compute_min_instance_size,omitempty"`
 
+	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
 type AutoScalingParameters struct {
 
+	// Flag that indicates whether someone enabled instance size auto-scaling.
+	//
+	// - Set to `true` to enable instance size auto-scaling. If enabled, you must specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.maxInstanceSize**.
+	// - Set to `false` to disable instance size automatic scaling.
 	// +kubebuilder:validation:Optional
 	ComputeEnabled *bool `json:"computeEnabled,omitempty" tf:"compute_enabled,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	// +kubebuilder:validation:Optional
 	ComputeMaxInstanceSize *string `json:"computeMaxInstanceSize,omitempty" tf:"compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.scaleDownEnabled" : true`.
 	// +kubebuilder:validation:Optional
 	ComputeMinInstanceSize *string `json:"computeMinInstanceSize,omitempty" tf:"compute_min_instance_size,omitempty"`
 
+	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	// +kubebuilder:validation:Optional
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
 	// +kubebuilder:validation:Optional
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
 type BiConnectorConfigInitParameters struct {
+
+	// Flag that indicates whether MongoDB Connector for Business Intelligence is enabled on the specified cluster.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Data source node designated for the MongoDB Connector for Business Intelligence on MongoDB Cloud. The MongoDB Connector for Business Intelligence on MongoDB Cloud reads data from the primary, secondary, or analytics node based on your read preferences. Defaults to `ANALYTICS` node, or `SECONDARY` if there are no `ANALYTICS` nodes.
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
 type BiConnectorConfigObservation struct {
+
+	// Flag that indicates whether MongoDB Connector for Business Intelligence is enabled on the specified cluster.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Data source node designated for the MongoDB Connector for Business Intelligence on MongoDB Cloud. The MongoDB Connector for Business Intelligence on MongoDB Cloud reads data from the primary, secondary, or analytics node based on your read preferences. Defaults to `ANALYTICS` node, or `SECONDARY` if there are no `ANALYTICS` nodes.
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
 type BiConnectorConfigParameters struct {
 
+	// Flag that indicates whether MongoDB Connector for Business Intelligence is enabled on the specified cluster.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
-}
-
-type BiConnectorInitParameters struct {
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
-
-	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
-}
-
-type BiConnectorObservation struct {
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
-
-	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
-}
-
-type BiConnectorParameters struct {
-
-	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
-
+	// Data source node designated for the MongoDB Connector for Business Intelligence on MongoDB Cloud. The MongoDB Connector for Business Intelligence on MongoDB Cloud reads data from the primary, secondary, or analytics node based on your read preferences. Defaults to `ANALYTICS` node, or `SECONDARY` if there are no `ANALYTICS` nodes.
 	// +kubebuilder:validation:Optional
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
@@ -408,20 +846,18 @@ type ConnectionStringsInitParameters struct {
 
 type ConnectionStringsObservation struct {
 
-	// +mapType=granular
-	AwsPrivateLink map[string]*string `json:"awsPrivateLink,omitempty" tf:"aws_private_link,omitempty"`
-
-	// +mapType=granular
-	AwsPrivateLinkSrv map[string]*string `json:"awsPrivateLinkSrv,omitempty" tf:"aws_private_link_srv,omitempty"`
-
+	// Network peering connection strings for each interface Virtual Private Cloud (VPC) endpoint that you configured to connect to this cluster. This connection string uses the `mongodb+srv://` protocol. The resource returns this parameter once someone creates a network peering connection to this cluster. This protocol tells the application to look up the host seed list in the Domain Name System (DNS). This list synchronizes with the nodes in a cluster. If the connection string uses this Uniform Resource Identifier (URI) format, you don't need to append the seed list or change the URI if the nodes change. Use this URI format if your driver supports it. If it doesn't, use connectionStrings.private. For Amazon Web Services (AWS) clusters, this resource returns this parameter only if you enable custom DNS.
 	Private *string `json:"private,omitempty" tf:"private,omitempty"`
 
 	PrivateEndpoint []PrivateEndpointObservation `json:"privateEndpoint,omitempty" tf:"private_endpoint,omitempty"`
 
+	// Network peering connection strings for each interface Virtual Private Cloud (VPC) endpoint that you configured to connect to this cluster. This connection string uses the `mongodb+srv://` protocol. The resource returns this parameter when someone creates a network peering connection to this cluster. This protocol tells the application to look up the host seed list in the Domain Name System (DNS). This list synchronizes with the nodes in a cluster. If the connection string uses this Uniform Resource Identifier (URI) format, you don't need to append the seed list or change the Uniform Resource Identifier (URI) if the nodes change. Use this Uniform Resource Identifier (URI) format if your driver supports it. If it doesn't, use `connectionStrings.private`. For Amazon Web Services (AWS) clusters, this parameter returns only if you [enable custom DNS](https://docs.atlas.mongodb.com/reference/api/aws-custom-dns-update/).
 	PrivateSrv *string `json:"privateSrv,omitempty" tf:"private_srv,omitempty"`
 
+	// Public connection string that you can use to connect to this cluster. This connection string uses the `mongodb://` protocol.
 	Standard *string `json:"standard,omitempty" tf:"standard,omitempty"`
 
+	// Public connection string that you can use to connect to this cluster. This connection string uses the `mongodb+srv://` protocol.
 	StandardSrv *string `json:"standardSrv,omitempty" tf:"standard_srv,omitempty"`
 }
 
@@ -429,36 +865,129 @@ type ConnectionStringsParameters struct {
 }
 
 type ElectableSpecsInitParameters struct {
+
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type ElectableSpecsObservation struct {
+
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type ElectableSpecsParameters struct {
 
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	// +kubebuilder:validation:Optional
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// +kubebuilder:validation:Optional
-	InstanceSize *string `json:"instanceSize" tf:"instance_size,omitempty"`
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
@@ -467,47 +996,59 @@ type EndpointsInitParameters struct {
 }
 
 type EndpointsObservation struct {
+
+	// Unique string that the cloud provider uses to identify the private endpoint.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
+	// Cloud provider in which MongoDB Cloud deploys the private endpoint.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Region where the private endpoint is deployed.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type EndpointsParameters struct {
 }
 
-type LabelsInitParameters struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+type PinnedFcvInitParameters struct {
 
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	// Expiration date of the fixed FCV. This value is in the ISO 8601 timestamp format (e.g. 2024-12-04T16:25:00Z). Note that this field cannot exceed 4 weeks from the pinned date.
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
 }
 
-type LabelsObservation struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+type PinnedFcvObservation struct {
 
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	// Expiration date of the fixed FCV. This value is in the ISO 8601 timestamp format (e.g. 2024-12-04T16:25:00Z). Note that this field cannot exceed 4 weeks from the pinned date.
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
+
+	// Feature compatibility version of the cluster.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type LabelsParameters struct {
+type PinnedFcvParameters struct {
 
+	// Expiration date of the fixed FCV. This value is in the ISO 8601 timestamp format (e.g. 2024-12-04T16:25:00Z). Note that this field cannot exceed 4 weeks from the pinned date.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	ExpirationDate *string `json:"expirationDate" tf:"expiration_date,omitempty"`
 }
 
 type PrivateEndpointInitParameters struct {
 }
 
 type PrivateEndpointObservation struct {
+
+	// Private endpoint-aware connection string that uses the `mongodb://` protocol to connect to MongoDB Cloud through a private endpoint.
 	ConnectionString *string `json:"connectionString,omitempty" tf:"connection_string,omitempty"`
 
 	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
+	// Private endpoint-aware connection string that uses the `mongodb+srv://` protocol to connect to MongoDB Cloud through a private endpoint. The `mongodb+srv` protocol tells the driver to look up the seed list of hosts in the Domain Name System (DNS). This list synchronizes with the nodes in a cluster. If the connection string uses this Uniform Resource Identifier (URI) format, you don't need to append the seed list or change the Uniform Resource Identifier (URI) if the nodes change. Use this Uniform Resource Identifier (URI) format if your application supports it. If it doesn't, use connectionStrings.privateEndpoint[n].connectionString.
 	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
 
+	// Private endpoint-aware connection string optimized for sharded clusters that uses the `mongodb+srv://` protocol to connect to MongoDB Cloud through a private endpoint. If the connection string uses this Uniform Resource Identifier (URI) format, you don't need to change the Uniform Resource Identifier (URI) if the nodes change. Use this Uniform Resource Identifier (URI) format if your application and Atlas cluster supports it. If it doesn't, use and consult the documentation for connectionStrings.privateEndpoint[n].srvConnectionString.
+	SrvShardOptimizedConnectionString *string `json:"srvShardOptimizedConnectionString,omitempty" tf:"srv_shard_optimized_connection_string,omitempty"`
+
+	// MongoDB process type to which your application connects. Use `MONGOD` for replica sets and `MONGOS` for sharded clusters.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -515,142 +1056,293 @@ type PrivateEndpointParameters struct {
 }
 
 type ReadOnlySpecsInitParameters struct {
+
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type ReadOnlySpecsObservation struct {
+
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type ReadOnlySpecsParameters struct {
 
+	// Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+	//
+	// - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
+	// - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+	//
+	// The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
+	// This parameter defaults to the cluster tier's standard IOPS value.
+	// Changing this value impacts cluster cost.
 	// +kubebuilder:validation:Optional
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
+	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
+	//
+	// This value must be equal for all shards and node types.
+	//
+	// This value is not configurable on M0/M2/M5 clusters.
+	//
+	// MongoDB Cloud requires this parameter if you set **replicationSpecs**.
+	//
+	// If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value.
+	//
+	// Storage charge calculations depend on whether you choose the default value or a custom value.
+	//
+	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Type of storage you want to attach to your AWS-provisioned cluster.
+	//
+	// - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+	//
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
+	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// +kubebuilder:validation:Optional
-	InstanceSize *string `json:"instanceSize" tf:"instance_size,omitempty"`
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// Number of nodes of the given type for MongoDB Cloud to deploy to the region.
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type RegionConfigsInitParameters struct {
-	AnalyticsAutoScaling []AnalyticsAutoScalingInitParameters `json:"analyticsAutoScaling,omitempty" tf:"analytics_auto_scaling,omitempty"`
+	AnalyticsAutoScaling *AnalyticsAutoScalingInitParameters `json:"analyticsAutoScaling,omitempty" tf:"analytics_auto_scaling,omitempty"`
 
-	AnalyticsSpecs []AnalyticsSpecsInitParameters `json:"analyticsSpecs,omitempty" tf:"analytics_specs,omitempty"`
+	AnalyticsSpecs *AnalyticsSpecsInitParameters `json:"analyticsSpecs,omitempty" tf:"analytics_specs,omitempty"`
 
-	AutoScaling []AutoScalingInitParameters `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
+	AutoScaling *AutoScalingInitParameters `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
 
+	// Cloud service provider on which MongoDB Cloud provisioned the multi-tenant cluster. The resource returns this parameter when **providerName** is `TENANT` and **electableSpecs.instanceSize** is `M0`.
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
-	ElectableSpecs []ElectableSpecsInitParameters `json:"electableSpecs,omitempty" tf:"electable_specs,omitempty"`
+	ElectableSpecs *ElectableSpecsInitParameters `json:"electableSpecs,omitempty" tf:"electable_specs,omitempty"`
 
+	// Precedence is given to this region when a primary election occurs. If your **regionConfigs** has only **readOnlySpecs**, **analyticsSpecs**, or both, set this value to `0`. If you have multiple **regionConfigs** objects (your cluster is multi-region or multi-cloud), they must have priorities in descending order. The highest priority is `7`.
+	//
+	// **Example:** If you have three regions, their priorities would be `7`, `6`, and `5` respectively. If you added two more regions for supporting electable nodes, the priorities of those regions would be `4` and `3` respectively.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// Cloud service provider on which MongoDB Cloud provisions the hosts. Set dedicated clusters to `AWS`, `GCP`, `AZURE` or `TENANT`.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
-	ReadOnlySpecs []ReadOnlySpecsInitParameters `json:"readOnlySpecs,omitempty" tf:"read_only_specs,omitempty"`
+	ReadOnlySpecs *ReadOnlySpecsInitParameters `json:"readOnlySpecs,omitempty" tf:"read_only_specs,omitempty"`
 
+	// Physical location of your MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. The region name is only returned in the response for single-region clusters. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. It assigns the VPC a Classless Inter-Domain Routing (CIDR) block. To limit a new VPC peering connection to one Classless Inter-Domain Routing (CIDR) block and region, create the connection first. Deploy the cluster after the connection starts. GCP Clusters and Multi-region clusters require one VPC peering connection for each region. MongoDB nodes can use only the peering connection that resides in the same region as the nodes to communicate with the peered VPC.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
 
 type RegionConfigsObservation struct {
-	AnalyticsAutoScaling []AnalyticsAutoScalingObservation `json:"analyticsAutoScaling,omitempty" tf:"analytics_auto_scaling,omitempty"`
+	AnalyticsAutoScaling *AnalyticsAutoScalingObservation `json:"analyticsAutoScaling,omitempty" tf:"analytics_auto_scaling,omitempty"`
 
-	AnalyticsSpecs []AnalyticsSpecsObservation `json:"analyticsSpecs,omitempty" tf:"analytics_specs,omitempty"`
+	AnalyticsSpecs *AnalyticsSpecsObservation `json:"analyticsSpecs,omitempty" tf:"analytics_specs,omitempty"`
 
-	AutoScaling []AutoScalingObservation `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
+	AutoScaling *AutoScalingObservation `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
 
+	// Cloud service provider on which MongoDB Cloud provisioned the multi-tenant cluster. The resource returns this parameter when **providerName** is `TENANT` and **electableSpecs.instanceSize** is `M0`.
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
-	ElectableSpecs []ElectableSpecsObservation `json:"electableSpecs,omitempty" tf:"electable_specs,omitempty"`
+	ElectableSpecs *ElectableSpecsObservation `json:"electableSpecs,omitempty" tf:"electable_specs,omitempty"`
 
+	// Precedence is given to this region when a primary election occurs. If your **regionConfigs** has only **readOnlySpecs**, **analyticsSpecs**, or both, set this value to `0`. If you have multiple **regionConfigs** objects (your cluster is multi-region or multi-cloud), they must have priorities in descending order. The highest priority is `7`.
+	//
+	// **Example:** If you have three regions, their priorities would be `7`, `6`, and `5` respectively. If you added two more regions for supporting electable nodes, the priorities of those regions would be `4` and `3` respectively.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// Cloud service provider on which MongoDB Cloud provisions the hosts. Set dedicated clusters to `AWS`, `GCP`, `AZURE` or `TENANT`.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
-	ReadOnlySpecs []ReadOnlySpecsObservation `json:"readOnlySpecs,omitempty" tf:"read_only_specs,omitempty"`
+	ReadOnlySpecs *ReadOnlySpecsObservation `json:"readOnlySpecs,omitempty" tf:"read_only_specs,omitempty"`
 
+	// Physical location of your MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. The region name is only returned in the response for single-region clusters. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. It assigns the VPC a Classless Inter-Domain Routing (CIDR) block. To limit a new VPC peering connection to one Classless Inter-Domain Routing (CIDR) block and region, create the connection first. Deploy the cluster after the connection starts. GCP Clusters and Multi-region clusters require one VPC peering connection for each region. MongoDB nodes can use only the peering connection that resides in the same region as the nodes to communicate with the peered VPC.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
 
 type RegionConfigsParameters struct {
 
 	// +kubebuilder:validation:Optional
-	AnalyticsAutoScaling []AnalyticsAutoScalingParameters `json:"analyticsAutoScaling,omitempty" tf:"analytics_auto_scaling,omitempty"`
+	AnalyticsAutoScaling *AnalyticsAutoScalingParameters `json:"analyticsAutoScaling,omitempty" tf:"analytics_auto_scaling,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	AnalyticsSpecs []AnalyticsSpecsParameters `json:"analyticsSpecs,omitempty" tf:"analytics_specs,omitempty"`
+	AnalyticsSpecs *AnalyticsSpecsParameters `json:"analyticsSpecs,omitempty" tf:"analytics_specs,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	AutoScaling []AutoScalingParameters `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
+	AutoScaling *AutoScalingParameters `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
 
+	// Cloud service provider on which MongoDB Cloud provisioned the multi-tenant cluster. The resource returns this parameter when **providerName** is `TENANT` and **electableSpecs.instanceSize** is `M0`.
 	// +kubebuilder:validation:Optional
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ElectableSpecs []ElectableSpecsParameters `json:"electableSpecs,omitempty" tf:"electable_specs,omitempty"`
+	ElectableSpecs *ElectableSpecsParameters `json:"electableSpecs,omitempty" tf:"electable_specs,omitempty"`
 
+	// Precedence is given to this region when a primary election occurs. If your **regionConfigs** has only **readOnlySpecs**, **analyticsSpecs**, or both, set this value to `0`. If you have multiple **regionConfigs** objects (your cluster is multi-region or multi-cloud), they must have priorities in descending order. The highest priority is `7`.
+	//
+	// **Example:** If you have three regions, their priorities would be `7`, `6`, and `5` respectively. If you added two more regions for supporting electable nodes, the priorities of those regions would be `4` and `3` respectively.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority" tf:"priority,omitempty"`
 
+	// Cloud service provider on which MongoDB Cloud provisions the hosts. Set dedicated clusters to `AWS`, `GCP`, `AZURE` or `TENANT`.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName" tf:"provider_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ReadOnlySpecs []ReadOnlySpecsParameters `json:"readOnlySpecs,omitempty" tf:"read_only_specs,omitempty"`
+	ReadOnlySpecs *ReadOnlySpecsParameters `json:"readOnlySpecs,omitempty" tf:"read_only_specs,omitempty"`
 
+	// Physical location of your MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. The region name is only returned in the response for single-region clusters. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. It assigns the VPC a Classless Inter-Domain Routing (CIDR) block. To limit a new VPC peering connection to one Classless Inter-Domain Routing (CIDR) block and region, create the connection first. Deploy the cluster after the connection starts. GCP Clusters and Multi-region clusters require one VPC peering connection for each region. MongoDB nodes can use only the peering connection that resides in the same region as the nodes to communicate with the peered VPC.
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName" tf:"region_name,omitempty"`
 }
 
 type ReplicationSpecsInitParameters struct {
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
-
 	RegionConfigs []RegionConfigsInitParameters `json:"regionConfigs,omitempty" tf:"region_configs,omitempty"`
 
+	// Human-readable label that describes the zone this shard belongs to in a Global Cluster. Provide this value only if "clusterType" : "GEOSHARDED" but not "selfManagedSharding" : true.
 	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
 }
 
 type ReplicationSpecsObservation struct {
 
+	// A key-value map of the Network Peering Container ID(s) for the configuration specified in region_configs. The Container ID is the id of the container created when the first cluster in the region (AWS/Azure) or project (GCP) was created.
 	// +mapType=granular
 	ContainerID map[string]*string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	// Unique 24-hexadecimal digit string that identifies the replication object for a shard in a Cluster. This value corresponds to Shard ID displayed in the UI.
+	ExternalID *string `json:"externalId,omitempty" tf:"external_id,omitempty"`
 
 	RegionConfigs []RegionConfigsObservation `json:"regionConfigs,omitempty" tf:"region_configs,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the zone in a Global Cluster. This value can be used to configure Global Cluster backup policies.
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
+
+	// Human-readable label that describes the zone this shard belongs to in a Global Cluster. Provide this value only if "clusterType" : "GEOSHARDED" but not "selfManagedSharding" : true.
 	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
 }
 
 type ReplicationSpecsParameters struct {
 
 	// +kubebuilder:validation:Optional
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	RegionConfigs []RegionConfigsParameters `json:"regionConfigs" tf:"region_configs,omitempty"`
 
+	// Human-readable label that describes the zone this shard belongs to in a Global Cluster. Provide this value only if "clusterType" : "GEOSHARDED" but not "selfManagedSharding" : true.
 	// +kubebuilder:validation:Optional
 	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+}
+
+type TimeoutsInitParameters struct {
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
+}
+
+type TimeoutsObservation struct {
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
+}
+
+type TimeoutsParameters struct {
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// +kubebuilder:validation:Optional
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	// +kubebuilder:validation:Optional
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// +kubebuilder:validation:Optional
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 // AdvancedClusterSpec defines the desired state of AdvancedCluster

@@ -10,13 +10,7 @@ package v1alpha1
 func (tr *Endpoint) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *EndpointServerless) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *EndpointService) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *EndpointServiceAdl) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *EndpointServiceServerless) Hub() {}
+func (tr *EndpointServiceDataFederationOnlineArchive) Hub() {}

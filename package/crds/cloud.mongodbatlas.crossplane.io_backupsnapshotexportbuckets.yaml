@@ -158,6 +158,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  roleId:
+                    type: string
+                  serviceUrl:
+                    type: string
+                  tenantId:
+                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -256,6 +262,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  roleId:
+                    type: string
+                  serviceUrl:
+                    type: string
+                  tenantId:
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -352,10 +364,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.cloudProvider)
                 || (has(self.initProvider) && has(self.initProvider.cloudProvider))'
-            - message: spec.forProvider.iamRoleId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.iamRoleId)
-                || (has(self.initProvider) && has(self.initProvider.iamRoleId))'
           status:
             description: BackupSnapshotExportBucketStatus defines the observed state
               of BackupSnapshotExportBucket.
@@ -373,6 +381,12 @@ spec:
                   id:
                     type: string
                   projectId:
+                    type: string
+                  roleId:
+                    type: string
+                  serviceUrl:
+                    type: string
+                  tenantId:
                     type: string
                 type: object
               conditions:

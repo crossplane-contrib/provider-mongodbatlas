@@ -62,11 +62,6 @@ spec:
                 properties:
                   clusterName:
                     type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   deliveryTypeConfig:
                     items:
                       properties:
@@ -190,11 +185,6 @@ spec:
                 properties:
                   clusterName:
                     type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   deliveryTypeConfig:
                     items:
                       properties:
@@ -366,10 +356,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
                 || (has(self.initProvider) && has(self.initProvider.clusterName))'
-            - message: spec.forProvider.snapshotId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.snapshotId)
-                || (has(self.initProvider) && has(self.initProvider.snapshotId))'
           status:
             description: BackupSnapshotRestoreJobStatus defines the observed state
               of BackupSnapshotRestoreJob.
@@ -380,13 +366,6 @@ spec:
                     type: boolean
                   clusterName:
                     type: string
-                  createdAt:
-                    type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   deliveryTypeConfig:
                     items:
                       properties:
@@ -416,6 +395,8 @@ spec:
                     type: boolean
                   expiresAt:
                     type: string
+                  failed:
+                    type: boolean
                   finishedAt:
                     type: string
                   id:

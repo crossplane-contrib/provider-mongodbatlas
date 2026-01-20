@@ -56,10 +56,10 @@ type RolesParameters struct {
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+	DatabaseName *string `json:"databaseName" tf:"database_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
+	RoleName *string `json:"roleName" tf:"role_name,omitempty"`
 }
 
 type ScopesInitParameters struct {
@@ -88,11 +88,13 @@ type UserInitParameters struct {
 
 	AwsIAMType *string `json:"awsIamType,omitempty" tf:"aws_iam_type,omitempty"`
 
-	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	LdapAuthType *string `json:"ldapAuthType,omitempty" tf:"ldap_auth_type,omitempty"`
+
+	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
@@ -120,13 +122,15 @@ type UserObservation struct {
 
 	AwsIAMType *string `json:"awsIamType,omitempty" tf:"aws_iam_type,omitempty"`
 
-	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	LdapAuthType *string `json:"ldapAuthType,omitempty" tf:"ldap_auth_type,omitempty"`
+
+	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -146,13 +150,16 @@ type UserParameters struct {
 	AwsIAMType *string `json:"awsIamType,omitempty" tf:"aws_iam_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	LdapAuthType *string `json:"ldapAuthType,omitempty" tf:"ldap_auth_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
@@ -216,7 +223,7 @@ type UserStatus struct {
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roles) || (has(self.initProvider) && has(self.initProvider.roles))",message="spec.forProvider.roles is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authDatabaseName) || (has(self.initProvider) && has(self.initProvider.authDatabaseName))",message="spec.forProvider.authDatabaseName is a required parameter"
 	Spec   UserSpec   `json:"spec"`
 	Status UserStatus `json:"status,omitempty"`
 }

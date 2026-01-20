@@ -14,6 +14,8 @@ import (
 )
 
 type InstanceInitParameters struct {
+	AutoIndexing *bool `json:"autoIndexing,omitempty" tf:"auto_indexing,omitempty"`
+
 	ContinuousBackupEnabled *bool `json:"continuousBackupEnabled,omitempty" tf:"continuous_backup_enabled,omitempty"`
 
 	Links []LinksInitParameters `json:"links,omitempty" tf:"links,omitempty"`
@@ -40,10 +42,14 @@ type InstanceInitParameters struct {
 
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	Tags []TagsInitParameters `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 }
 
 type InstanceObservation struct {
+	AutoIndexing *bool `json:"autoIndexing,omitempty" tf:"auto_indexing,omitempty"`
+
 	ConnectionStringsPrivateEndpointSrv []*string `json:"connectionStringsPrivateEndpointSrv,omitempty" tf:"connection_strings_private_endpoint_srv,omitempty"`
 
 	ConnectionStringsStandardSrv *string `json:"connectionStringsStandardSrv,omitempty" tf:"connection_strings_standard_srv,omitempty"`
@@ -70,10 +76,15 @@ type InstanceObservation struct {
 
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	Tags []TagsObservation `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 }
 
 type InstanceParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AutoIndexing *bool `json:"autoIndexing,omitempty" tf:"auto_indexing,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ContinuousBackupEnabled *bool `json:"continuousBackupEnabled,omitempty" tf:"continuous_backup_enabled,omitempty"`
@@ -110,10 +121,16 @@ type InstanceParameters struct {
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Tags []TagsParameters `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 }
 
 type LinksInitParameters struct {
+	Href *string `json:"href,omitempty" tf:"href,omitempty"`
+
+	Rel *string `json:"rel,omitempty" tf:"rel,omitempty"`
 }
 
 type LinksObservation struct {
@@ -123,6 +140,33 @@ type LinksObservation struct {
 }
 
 type LinksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Href *string `json:"href,omitempty" tf:"href,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Rel *string `json:"rel,omitempty" tf:"rel,omitempty"`
+}
+
+type TagsInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TagsObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TagsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

@@ -24,6 +24,13 @@ type ArchiveInitParameters struct {
 
 	DBName *string `json:"dbName,omitempty" tf:"db_name,omitempty"`
 
+	DataExpirationRule []DataExpirationRuleInitParameters `json:"dataExpirationRule,omitempty" tf:"data_expiration_rule,omitempty"`
+
+	DataProcessRegion []DataProcessRegionInitParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
 	PartitionFields []PartitionFieldsInitParameters `json:"partitionFields,omitempty" tf:"partition_fields,omitempty"`
 
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
@@ -39,6 +46,8 @@ type ArchiveInitParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	Schedule []ScheduleInitParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	SyncCreation *bool `json:"syncCreation,omitempty" tf:"sync_creation,omitempty"`
 }
@@ -56,6 +65,13 @@ type ArchiveObservation struct {
 
 	DBName *string `json:"dbName,omitempty" tf:"db_name,omitempty"`
 
+	DataExpirationRule []DataExpirationRuleObservation `json:"dataExpirationRule,omitempty" tf:"data_expiration_rule,omitempty"`
+
+	DataProcessRegion []DataProcessRegionObservation `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	PartitionFields []PartitionFieldsObservation `json:"partitionFields,omitempty" tf:"partition_fields,omitempty"`
@@ -63,6 +79,8 @@ type ArchiveObservation struct {
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	Schedule []ScheduleObservation `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -87,6 +105,16 @@ type ArchiveParameters struct {
 	DBName *string `json:"dbName,omitempty" tf:"db_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	DataExpirationRule []DataExpirationRuleParameters `json:"dataExpirationRule,omitempty" tf:"data_expiration_rule,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DataProcessRegion []DataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
+
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	// +kubebuilder:validation:Optional
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	PartitionFields []PartitionFieldsParameters `json:"partitionFields,omitempty" tf:"partition_fields,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -104,6 +132,9 @@ type ArchiveParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	Schedule []ScheduleParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	SyncCreation *bool `json:"syncCreation,omitempty" tf:"sync_creation,omitempty"`
@@ -151,6 +182,41 @@ type CriteriaParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
+type DataExpirationRuleInitParameters struct {
+	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+}
+
+type DataExpirationRuleObservation struct {
+	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+}
+
+type DataExpirationRuleParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ExpireAfterDays *float64 `json:"expireAfterDays" tf:"expire_after_days,omitempty"`
+}
+
+type DataProcessRegionInitParameters struct {
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type DataProcessRegionObservation struct {
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type DataProcessRegionParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
 type PartitionFieldsInitParameters struct {
 	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
 
@@ -172,6 +238,62 @@ type PartitionFieldsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Order *float64 `json:"order" tf:"order,omitempty"`
+}
+
+type ScheduleInitParameters struct {
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ScheduleObservation struct {
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ScheduleParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // ArchiveSpec defines the desired state of Archive

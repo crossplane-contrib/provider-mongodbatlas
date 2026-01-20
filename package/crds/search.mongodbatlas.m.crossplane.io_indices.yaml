@@ -68,12 +68,18 @@ spec:
                     type: string
                   database:
                     type: string
+                  fields:
+                    type: string
                   mappingsDynamic:
                     type: boolean
+                  mappingsDynamicConfig:
+                    type: string
                   mappingsFields:
                     type: string
                   name:
                     type: string
+                  numPartitions:
+                    type: number
                   projectId:
                     type: string
                   projectIdRef:
@@ -160,7 +166,7 @@ spec:
                     type: object
                   searchAnalyzer:
                     type: string
-                  status:
+                  storedSource:
                     type: string
                   synonyms:
                     items:
@@ -170,6 +176,17 @@ spec:
                         name:
                           type: string
                         sourceCollection:
+                          type: string
+                      type: object
+                    type: array
+                  type:
+                    type: string
+                  typeSets:
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        types:
                           type: string
                       type: object
                     type: array
@@ -199,12 +216,18 @@ spec:
                     type: string
                   database:
                     type: string
+                  fields:
+                    type: string
                   mappingsDynamic:
                     type: boolean
+                  mappingsDynamicConfig:
+                    type: string
                   mappingsFields:
                     type: string
                   name:
                     type: string
+                  numPartitions:
+                    type: number
                   projectId:
                     type: string
                   projectIdRef:
@@ -291,7 +314,7 @@ spec:
                     type: object
                   searchAnalyzer:
                     type: string
-                  status:
+                  storedSource:
                     type: string
                   synonyms:
                     items:
@@ -301,6 +324,17 @@ spec:
                         name:
                           type: string
                         sourceCollection:
+                          type: string
+                      type: object
+                    type: array
+                  type:
+                    type: string
+                  typeSets:
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        types:
                           type: string
                       type: object
                     type: array
@@ -366,10 +400,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.analyzer is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.analyzer)
-                || (has(self.initProvider) && has(self.initProvider.analyzer))'
             - message: spec.forProvider.clusterName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
@@ -401,21 +431,29 @@ spec:
                     type: string
                   database:
                     type: string
+                  fields:
+                    type: string
                   id:
                     type: string
                   indexId:
                     type: string
                   mappingsDynamic:
                     type: boolean
+                  mappingsDynamicConfig:
+                    type: string
                   mappingsFields:
                     type: string
                   name:
                     type: string
+                  numPartitions:
+                    type: number
                   projectId:
                     type: string
                   searchAnalyzer:
                     type: string
                   status:
+                    type: string
+                  storedSource:
                     type: string
                   synonyms:
                     items:
@@ -425,6 +463,17 @@ spec:
                         name:
                           type: string
                         sourceCollection:
+                          type: string
+                      type: object
+                    type: array
+                  type:
+                    type: string
+                  typeSets:
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        types:
                           type: string
                       type: object
                     type: array

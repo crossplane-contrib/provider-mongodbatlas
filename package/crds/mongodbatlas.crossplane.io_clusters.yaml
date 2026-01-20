@@ -72,9 +72,22 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  acceptDataRisksAndForceReplicaSetReconfig:
+                    description: Submit this field alongside your topology reconfiguration
+                      to request a new regional outage resistant topology
+                    type: string
                   advancedConfiguration:
                     items:
                       properties:
+                        changeStreamOptionsPreAndPostImagesExpireAfterSeconds:
+                          type: number
+                        customOpensslCipherConfigTls12:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        defaultMaxTimeMs:
+                          type: number
                         defaultReadConcern:
                           type: string
                         defaultWriteConcern:
@@ -95,6 +108,10 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        tlsCipherConfigMode:
+                          type: string
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   autoScalingComputeEnabled:
@@ -109,11 +126,6 @@ spec:
                     description: Clusters running MongoDB FCV 4.2 or later and any
                       new Atlas clusters of any type do not support this parameter
                     type: boolean
-                  biConnector:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   biConnectorConfig:
                     items:
                       properties:
@@ -146,6 +158,13 @@ spec:
                     type: number
                   paused:
                     type: boolean
+                  pinnedFcv:
+                    items:
+                      properties:
+                        expirationDate:
+                          type: string
+                      type: object
+                    type: array
                   pitEnabled:
                     type: boolean
                   projectId:
@@ -230,8 +249,6 @@ spec:
                     type: string
                   providerAutoScalingComputeMinInstanceSize:
                     type: string
-                  providerBackupEnabled:
-                    type: boolean
                   providerDiskIops:
                     type: number
                   providerDiskTypeName:
@@ -246,6 +263,8 @@ spec:
                     type: string
                   providerVolumeType:
                     type: string
+                  redactClientLogData:
+                    type: boolean
                   replicationFactor:
                     type: number
                   replicationSpecs:
@@ -271,6 +290,19 @@ spec:
                             type: object
                           type: array
                         zoneName:
+                          type: string
+                      type: object
+                    type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
+                  tags:
+                    items:
+                      properties:
+                        key:
+                          type: string
+                        value:
                           type: string
                       type: object
                     type: array
@@ -292,9 +324,22 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  acceptDataRisksAndForceReplicaSetReconfig:
+                    description: Submit this field alongside your topology reconfiguration
+                      to request a new regional outage resistant topology
+                    type: string
                   advancedConfiguration:
                     items:
                       properties:
+                        changeStreamOptionsPreAndPostImagesExpireAfterSeconds:
+                          type: number
+                        customOpensslCipherConfigTls12:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        defaultMaxTimeMs:
+                          type: number
                         defaultReadConcern:
                           type: string
                         defaultWriteConcern:
@@ -315,6 +360,10 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        tlsCipherConfigMode:
+                          type: string
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   autoScalingComputeEnabled:
@@ -329,11 +378,6 @@ spec:
                     description: Clusters running MongoDB FCV 4.2 or later and any
                       new Atlas clusters of any type do not support this parameter
                     type: boolean
-                  biConnector:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   biConnectorConfig:
                     items:
                       properties:
@@ -366,6 +410,13 @@ spec:
                     type: number
                   paused:
                     type: boolean
+                  pinnedFcv:
+                    items:
+                      properties:
+                        expirationDate:
+                          type: string
+                      type: object
+                    type: array
                   pitEnabled:
                     type: boolean
                   projectId:
@@ -450,8 +501,6 @@ spec:
                     type: string
                   providerAutoScalingComputeMinInstanceSize:
                     type: string
-                  providerBackupEnabled:
-                    type: boolean
                   providerDiskIops:
                     type: number
                   providerDiskTypeName:
@@ -466,6 +515,8 @@ spec:
                     type: string
                   providerVolumeType:
                     type: string
+                  redactClientLogData:
+                    type: boolean
                   replicationFactor:
                     type: number
                   replicationSpecs:
@@ -491,6 +542,19 @@ spec:
                             type: object
                           type: array
                         zoneName:
+                          type: string
+                      type: object
+                    type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
+                  tags:
+                    items:
+                      properties:
+                        key:
+                          type: string
+                        value:
                           type: string
                       type: object
                     type: array
@@ -599,9 +663,22 @@ spec:
             properties:
               atProvider:
                 properties:
+                  acceptDataRisksAndForceReplicaSetReconfig:
+                    description: Submit this field alongside your topology reconfiguration
+                      to request a new regional outage resistant topology
+                    type: string
                   advancedConfiguration:
                     items:
                       properties:
+                        changeStreamOptionsPreAndPostImagesExpireAfterSeconds:
+                          type: number
+                        customOpensslCipherConfigTls12:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        defaultMaxTimeMs:
+                          type: number
                         defaultReadConcern:
                           type: string
                         defaultWriteConcern:
@@ -622,6 +699,10 @@ spec:
                           type: number
                         sampleSizeBiConnector:
                           type: number
+                        tlsCipherConfigMode:
+                          type: string
+                        transactionLifetimeLimitSeconds:
+                          type: number
                       type: object
                     type: array
                   autoScalingComputeEnabled:
@@ -636,11 +717,6 @@ spec:
                     description: Clusters running MongoDB FCV 4.2 or later and any
                       new Atlas clusters of any type do not support this parameter
                     type: boolean
-                  biConnector:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   biConnectorConfig:
                     items:
                       properties:
@@ -659,16 +735,6 @@ spec:
                   connectionStrings:
                     items:
                       properties:
-                        awsPrivateLink:
-                          additionalProperties:
-                            type: string
-                          type: object
-                          x-kubernetes-map-type: granular
-                        awsPrivateLinkSrv:
-                          additionalProperties:
-                            type: string
-                          type: object
-                          x-kubernetes-map-type: granular
                         private:
                           type: string
                         privateEndpoint:
@@ -688,6 +754,8 @@ spec:
                                   type: object
                                 type: array
                               srvConnectionString:
+                                type: string
+                              srvShardOptimizedConnectionString:
                                 type: string
                               type:
                                 type: string
@@ -732,6 +800,15 @@ spec:
                     type: number
                   paused:
                     type: boolean
+                  pinnedFcv:
+                    items:
+                      properties:
+                        expirationDate:
+                          type: string
+                        version:
+                          type: string
+                      type: object
+                    type: array
                   pitEnabled:
                     type: boolean
                   projectId:
@@ -740,8 +817,6 @@ spec:
                     type: string
                   providerAutoScalingComputeMinInstanceSize:
                     type: string
-                  providerBackupEnabled:
-                    type: boolean
                   providerDiskIops:
                     type: number
                   providerDiskTypeName:
@@ -758,6 +833,8 @@ spec:
                     type: string
                   providerVolumeType:
                     type: string
+                  redactClientLogData:
+                    type: boolean
                   replicationFactor:
                     type: number
                   replicationSpecs:
@@ -786,6 +863,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  retainBackupsEnabled:
+                    description: Flag that indicates whether to retain backup snapshots
+                      for the deleted dedicated cluster
+                    type: boolean
                   snapshotBackupPolicy:
                     items:
                       properties:
@@ -831,6 +912,15 @@ spec:
                     type: string
                   stateName:
                     type: string
+                  tags:
+                    items:
+                      properties:
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
                   terminationProtectionEnabled:
                     type: boolean
                   versionReleaseSystem:

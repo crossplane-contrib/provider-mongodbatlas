@@ -293,8 +293,8 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.DatabaseName != nil {
-		in, out := &in.DatabaseName, &out.DatabaseName
+	if in.Description != nil {
+		in, out := &in.Description, &out.Description
 		*out = new(string)
 		**out = **in
 	}
@@ -307,6 +307,11 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 	}
 	if in.LdapAuthType != nil {
 		in, out := &in.LdapAuthType, &out.LdapAuthType
+		*out = new(string)
+		**out = **in
+	}
+	if in.OidcAuthType != nil {
+		in, out := &in.OidcAuthType, &out.OidcAuthType
 		*out = new(string)
 		**out = **in
 	}
@@ -406,8 +411,8 @@ func (in *UserObservation) DeepCopyInto(out *UserObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.DatabaseName != nil {
-		in, out := &in.DatabaseName, &out.DatabaseName
+	if in.Description != nil {
+		in, out := &in.Description, &out.Description
 		*out = new(string)
 		**out = **in
 	}
@@ -425,6 +430,11 @@ func (in *UserObservation) DeepCopyInto(out *UserObservation) {
 	}
 	if in.LdapAuthType != nil {
 		in, out := &in.LdapAuthType, &out.LdapAuthType
+		*out = new(string)
+		**out = **in
+	}
+	if in.OidcAuthType != nil {
+		in, out := &in.OidcAuthType, &out.OidcAuthType
 		*out = new(string)
 		**out = **in
 	}
@@ -477,8 +487,8 @@ func (in *UserParameters) DeepCopyInto(out *UserParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.DatabaseName != nil {
-		in, out := &in.DatabaseName, &out.DatabaseName
+	if in.Description != nil {
+		in, out := &in.Description, &out.Description
 		*out = new(string)
 		**out = **in
 	}
@@ -491,6 +501,11 @@ func (in *UserParameters) DeepCopyInto(out *UserParameters) {
 	}
 	if in.LdapAuthType != nil {
 		in, out := &in.LdapAuthType, &out.LdapAuthType
+		*out = new(string)
+		**out = **in
+	}
+	if in.OidcAuthType != nil {
+		in, out := &in.OidcAuthType, &out.OidcAuthType
 		*out = new(string)
 		**out = **in
 	}

@@ -129,8 +129,8 @@ func (in *ClusterConfigObservation) DeepCopyInto(out *ClusterConfigObservation) 
 		*out = new(string)
 		**out = **in
 	}
-	if in.CustomZoneMapping != nil {
-		in, out := &in.CustomZoneMapping, &out.CustomZoneMapping
+	if in.CustomZoneMappingZoneID != nil {
+		in, out := &in.CustomZoneMappingZoneID, &out.CustomZoneMappingZoneID
 		*out = make(map[string]*string, len(*in))
 		for key, val := range *in {
 			var outVal *string

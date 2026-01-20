@@ -64,14 +64,32 @@ spec:
                     items:
                       type: string
                     type: array
+                  audience:
+                    type: string
+                  authorizationType:
+                    type: string
+                  clientId:
+                    type: string
+                  description:
+                    type: string
                   federationSettingsId:
+                    type: string
+                  groupsClaim:
+                    type: string
+                  idpType:
                     type: string
                   issuerUri:
                     type: string
                   name:
                     type: string
+                  protocol:
+                    type: string
                   requestBinding:
                     type: string
+                  requestedScopes:
+                    items:
+                      type: string
+                    type: array
                   responseSignatureAlgorithm:
                     type: string
                   ssoDebugEnabled:
@@ -79,6 +97,8 @@ spec:
                   ssoUrl:
                     type: string
                   status:
+                    type: string
+                  userClaim:
                     type: string
                 type: object
               initProvider:
@@ -98,14 +118,32 @@ spec:
                     items:
                       type: string
                     type: array
+                  audience:
+                    type: string
+                  authorizationType:
+                    type: string
+                  clientId:
+                    type: string
+                  description:
+                    type: string
                   federationSettingsId:
+                    type: string
+                  groupsClaim:
+                    type: string
+                  idpType:
                     type: string
                   issuerUri:
                     type: string
                   name:
                     type: string
+                  protocol:
+                    type: string
                   requestBinding:
                     type: string
+                  requestedScopes:
+                    items:
+                      type: string
+                    type: array
                   responseSignatureAlgorithm:
                     type: string
                   ssoDebugEnabled:
@@ -113,6 +151,8 @@ spec:
                   ssoUrl:
                     type: string
                   status:
+                    type: string
+                  userClaim:
                     type: string
                 type: object
               managementPolicies:
@@ -186,26 +226,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
                 || (has(self.initProvider) && has(self.initProvider.name))'
-            - message: spec.forProvider.requestBinding is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.requestBinding)
-                || (has(self.initProvider) && has(self.initProvider.requestBinding))'
-            - message: spec.forProvider.responseSignatureAlgorithm is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.responseSignatureAlgorithm)
-                || (has(self.initProvider) && has(self.initProvider.responseSignatureAlgorithm))'
-            - message: spec.forProvider.ssoDebugEnabled is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.ssoDebugEnabled)
-                || (has(self.initProvider) && has(self.initProvider.ssoDebugEnabled))'
-            - message: spec.forProvider.ssoUrl is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.ssoUrl)
-                || (has(self.initProvider) && has(self.initProvider.ssoUrl))'
-            - message: spec.forProvider.status is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.status)
-                || (has(self.initProvider) && has(self.initProvider.status))'
           status:
             description: SettingsIdentityProviderStatus defines the observed state
               of SettingsIdentityProvider.
@@ -216,9 +236,23 @@ spec:
                     items:
                       type: string
                     type: array
+                  audience:
+                    type: string
+                  authorizationType:
+                    type: string
+                  clientId:
+                    type: string
+                  description:
+                    type: string
                   federationSettingsId:
                     type: string
+                  groupsClaim:
+                    type: string
                   id:
+                    type: string
+                  idpId:
+                    type: string
+                  idpType:
                     type: string
                   issuerUri:
                     type: string
@@ -226,8 +260,14 @@ spec:
                     type: string
                   oktaIdpId:
                     type: string
+                  protocol:
+                    type: string
                   requestBinding:
                     type: string
+                  requestedScopes:
+                    items:
+                      type: string
+                    type: array
                   responseSignatureAlgorithm:
                     type: string
                   ssoDebugEnabled:
@@ -235,6 +275,8 @@ spec:
                   ssoUrl:
                     type: string
                   status:
+                    type: string
+                  userClaim:
                     type: string
                 type: object
               conditions:

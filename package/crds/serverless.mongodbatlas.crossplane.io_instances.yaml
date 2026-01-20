@@ -72,10 +72,17 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  autoIndexing:
+                    type: boolean
                   continuousBackupEnabled:
                     type: boolean
                   links:
                     items:
+                      properties:
+                        href:
+                          type: string
+                        rel:
+                          type: string
                       type: object
                     type: array
                   name:
@@ -166,6 +173,15 @@ spec:
                     type: string
                   stateName:
                     type: string
+                  tags:
+                    items:
+                      properties:
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
                   terminationProtectionEnabled:
                     type: boolean
                 type: object
@@ -182,10 +198,17 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  autoIndexing:
+                    type: boolean
                   continuousBackupEnabled:
                     type: boolean
                   links:
                     items:
+                      properties:
+                        href:
+                          type: string
+                        rel:
+                          type: string
                       type: object
                     type: array
                   name:
@@ -276,6 +299,15 @@ spec:
                     type: string
                   stateName:
                     type: string
+                  tags:
+                    items:
+                      properties:
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
                   terminationProtectionEnabled:
                     type: boolean
                 type: object
@@ -389,6 +421,8 @@ spec:
             properties:
               atProvider:
                 properties:
+                  autoIndexing:
+                    type: boolean
                   connectionStringsPrivateEndpointSrv:
                     items:
                       type: string
@@ -424,6 +458,15 @@ spec:
                     type: string
                   stateName:
                     type: string
+                  tags:
+                    items:
+                      properties:
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
                   terminationProtectionEnabled:
                     type: boolean
                 type: object

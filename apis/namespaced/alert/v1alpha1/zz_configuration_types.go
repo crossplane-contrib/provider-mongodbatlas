@@ -21,9 +21,6 @@ type ConfigurationInitParameters struct {
 
 	Matcher []MatcherInitParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
-	// +mapType=granular
-	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
-
 	MetricThresholdConfig []MetricThresholdConfigInitParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
 	Notification []NotificationInitParameters `json:"notification,omitempty" tf:"notification,omitempty"`
@@ -40,8 +37,7 @@ type ConfigurationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +mapType=granular
-	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
 	ThresholdConfig []ThresholdConfigInitParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 }
@@ -59,17 +55,13 @@ type ConfigurationObservation struct {
 
 	Matcher []MatcherObservation `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
-	// +mapType=granular
-	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
-
 	MetricThresholdConfig []MetricThresholdConfigObservation `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
 	Notification []NotificationObservation `json:"notification,omitempty" tf:"notification,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// +mapType=granular
-	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
 	ThresholdConfig []ThresholdConfigObservation `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 
@@ -86,10 +78,6 @@ type ConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Matcher []MatcherParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MetricThresholdConfig []MetricThresholdConfigParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
@@ -111,8 +99,7 @@ type ConfigurationParameters struct {
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ThresholdConfig []ThresholdConfigParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
@@ -137,13 +124,13 @@ type MatcherObservation struct {
 type MatcherParameters struct {
 
 	// +kubebuilder:validation:Optional
-	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+	FieldName *string `json:"fieldName" tf:"field_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type MetricThresholdConfigInitParameters struct {
@@ -173,7 +160,7 @@ type MetricThresholdConfigObservation struct {
 type MetricThresholdConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	MetricName *string `json:"metricName,omitempty" tf:"metric_name,omitempty"`
+	MetricName *string `json:"metricName" tf:"metric_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
@@ -203,9 +190,7 @@ type NotificationInitParameters struct {
 
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
-	FlowdockAPITokenSecretRef *v1.LocalSecretKeySelector `json:"flowdockApiTokenSecretRef,omitempty" tf:"-"`
+	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
@@ -213,11 +198,11 @@ type NotificationInitParameters struct {
 
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
+	NotifierID *string `json:"notifierId,omitempty" tf:"notifier_id,omitempty"`
+
 	OpsGenieAPIKeySecretRef *v1.LocalSecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
 
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
-
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
@@ -251,15 +236,15 @@ type NotificationObservation struct {
 
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
+	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
-	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
+	NotifierID *string `json:"notifierId,omitempty" tf:"notifier_id,omitempty"`
 
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
+	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
 
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
@@ -298,10 +283,7 @@ type NotificationParameters struct {
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	FlowdockAPITokenSecretRef *v1.LocalSecretKeySelector `json:"flowdockApiTokenSecretRef,omitempty" tf:"-"`
+	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
@@ -313,13 +295,13 @@ type NotificationParameters struct {
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	NotifierID *string `json:"notifierId,omitempty" tf:"notifier_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	OpsGenieAPIKeySecretRef *v1.LocalSecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -334,7 +316,7 @@ type NotificationParameters struct {
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	TypeName *string `json:"typeName,omitempty" tf:"type_name,omitempty"`
+	TypeName *string `json:"typeName" tf:"type_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -417,7 +399,6 @@ type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.eventType) || (has(self.initProvider) && has(self.initProvider.eventType))",message="spec.forProvider.eventType is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.notification) || (has(self.initProvider) && has(self.initProvider.notification))",message="spec.forProvider.notification is a required parameter"
 	Spec   ConfigurationSpec   `json:"spec"`
 	Status ConfigurationStatus `json:"status,omitempty"`
 }

@@ -14,36 +14,63 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
-type APIKeysInitParameters struct {
-	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
-
-	// +listType=set
-	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+type ClustersInitParameters struct {
 }
 
-type APIKeysObservation struct {
-	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
+type ClustersObservation struct {
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +listType=set
-	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
+	Inbound []*string `json:"inbound,omitempty" tf:"inbound,omitempty"`
+
+	Outbound []*string `json:"outbound,omitempty" tf:"outbound,omitempty"`
 }
 
-type APIKeysParameters struct {
+type ClustersParameters struct {
+}
+
+type IPAddressesInitParameters struct {
+}
+
+type IPAddressesObservation struct {
+	Services *ServicesObservation `json:"services,omitempty" tf:"services,omitempty"`
+}
+
+type IPAddressesParameters struct {
+}
+
+type LimitsInitParameters struct {
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LimitsObservation struct {
+	CurrentUsage *float64 `json:"currentUsage,omitempty" tf:"current_usage,omitempty"`
+
+	DefaultLimit *float64 `json:"defaultLimit,omitempty" tf:"default_limit,omitempty"`
+
+	MaximumLimit *float64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LimitsParameters struct {
 
 	// +kubebuilder:validation:Optional
-	APIKeyID *string `json:"apiKeyId" tf:"api_key_id,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	// +listType=set
-	RoleNames []*string `json:"roleNames" tf:"role_names,omitempty"`
+	Value *float64 `json:"value" tf:"value,omitempty"`
 }
 
 type ProjectInitParameters struct {
-	APIKeys []APIKeysInitParameters `json:"apiKeys,omitempty" tf:"api_keys,omitempty"`
-
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
+
+	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
 
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
 
@@ -51,11 +78,18 @@ type ProjectInitParameters struct {
 
 	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
 
+	IsSlowOperationThresholdingEnabled *bool `json:"isSlowOperationThresholdingEnabled,omitempty" tf:"is_slow_operation_thresholding_enabled,omitempty"`
+
+	Limits []LimitsInitParameters `json:"limits,omitempty" tf:"limits,omitempty"`
+
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
 
 	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
+
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Teams []TeamsInitParameters `json:"teams,omitempty" tf:"teams,omitempty"`
 
@@ -63,17 +97,19 @@ type ProjectInitParameters struct {
 }
 
 type ProjectObservation struct {
-	APIKeys []APIKeysObservation `json:"apiKeys,omitempty" tf:"api_keys,omitempty"`
-
 	ClusterCount *float64 `json:"clusterCount,omitempty" tf:"cluster_count,omitempty"`
 
 	Created *string `json:"created,omitempty" tf:"created,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	IPAddresses *IPAddressesObservation `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
+
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
+
+	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
 
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
 
@@ -81,11 +117,18 @@ type ProjectObservation struct {
 
 	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
 
+	IsSlowOperationThresholdingEnabled *bool `json:"isSlowOperationThresholdingEnabled,omitempty" tf:"is_slow_operation_thresholding_enabled,omitempty"`
+
+	Limits []LimitsObservation `json:"limits,omitempty" tf:"limits,omitempty"`
+
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
 
 	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
+
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Teams []TeamsObservation `json:"teams,omitempty" tf:"teams,omitempty"`
 
@@ -95,13 +138,13 @@ type ProjectObservation struct {
 type ProjectParameters struct {
 
 	// +kubebuilder:validation:Optional
-	APIKeys []APIKeysParameters `json:"apiKeys,omitempty" tf:"api_keys,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
@@ -113,6 +156,12 @@ type ProjectParameters struct {
 	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	IsSlowOperationThresholdingEnabled *bool `json:"isSlowOperationThresholdingEnabled,omitempty" tf:"is_slow_operation_thresholding_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Limits []LimitsParameters `json:"limits,omitempty" tf:"limits,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -122,10 +171,24 @@ type ProjectParameters struct {
 	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Teams []TeamsParameters `json:"teams,omitempty" tf:"teams,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	WithDefaultAlertsSettings *bool `json:"withDefaultAlertsSettings,omitempty" tf:"with_default_alerts_settings,omitempty"`
+}
+
+type ServicesInitParameters struct {
+}
+
+type ServicesObservation struct {
+	Clusters []ClustersObservation `json:"clusters,omitempty" tf:"clusters,omitempty"`
+}
+
+type ServicesParameters struct {
 }
 
 type TeamsInitParameters struct {

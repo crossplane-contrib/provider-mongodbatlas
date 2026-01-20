@@ -64,6 +64,8 @@ type SettingsOrgRoleMappingObservation struct {
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	RoleAssignments []RoleAssignmentsObservation `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
+
+	RoleMappingID *string `json:"roleMappingId,omitempty" tf:"role_mapping_id,omitempty"`
 }
 
 type SettingsOrgRoleMappingParameters struct {

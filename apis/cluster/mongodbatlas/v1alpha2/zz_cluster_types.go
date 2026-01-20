@@ -14,6 +14,13 @@ import (
 )
 
 type ClusterAdvancedConfigurationInitParameters struct {
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
@@ -33,9 +40,20 @@ type ClusterAdvancedConfigurationInitParameters struct {
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type ClusterAdvancedConfigurationObservation struct {
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
@@ -55,11 +73,25 @@ type ClusterAdvancedConfigurationObservation struct {
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type ClusterAdvancedConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -88,6 +120,12 @@ type ClusterAdvancedConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type ClusterBiConnectorConfigInitParameters struct {
@@ -115,13 +153,6 @@ type ClusterConnectionStringsInitParameters struct {
 }
 
 type ClusterConnectionStringsObservation struct {
-
-	// +mapType=granular
-	AwsPrivateLink map[string]*string `json:"awsPrivateLink,omitempty" tf:"aws_private_link,omitempty"`
-
-	// +mapType=granular
-	AwsPrivateLinkSrv map[string]*string `json:"awsPrivateLinkSrv,omitempty" tf:"aws_private_link_srv,omitempty"`
-
 	Private *string `json:"private,omitempty" tf:"private,omitempty"`
 
 	PrivateEndpoint []ConnectionStringsPrivateEndpointObservation `json:"privateEndpoint,omitempty" tf:"private_endpoint,omitempty"`
@@ -137,6 +168,10 @@ type ClusterConnectionStringsParameters struct {
 }
 
 type ClusterInitParameters struct {
+
+	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
+
 	AdvancedConfiguration []ClusterAdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
@@ -150,9 +185,6 @@ type ClusterInitParameters struct {
 	// Clusters running MongoDB FCV 4.2 or later and any new Atlas clusters of any type do not support this parameter
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
-	// +mapType=granular
-	BiConnector map[string]*string `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
-
 	BiConnectorConfig []ClusterBiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
@@ -163,13 +195,15 @@ type ClusterInitParameters struct {
 
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
-	Labels []ClusterLabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
 	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	PinnedFcv []ClusterPinnedFcvInitParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
@@ -189,8 +223,6 @@ type ClusterInitParameters struct {
 
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
 
-	ProviderBackupEnabled *bool `json:"providerBackupEnabled,omitempty" tf:"provider_backup_enabled,omitempty"`
-
 	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
@@ -205,37 +237,27 @@ type ClusterInitParameters struct {
 
 	ProviderVolumeType *string `json:"providerVolumeType,omitempty" tf:"provider_volume_type,omitempty"`
 
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	ReplicationSpecs []ClusterReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	Tags []TagsInitParameters `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
-type ClusterLabelsInitParameters struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ClusterLabelsObservation struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ClusterLabelsParameters struct {
-
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
 type ClusterObservation struct {
+
+	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
+
 	AdvancedConfiguration []ClusterAdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
@@ -248,9 +270,6 @@ type ClusterObservation struct {
 
 	// Clusters running MongoDB FCV 4.2 or later and any new Atlas clusters of any type do not support this parameter
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
-
-	// +mapType=granular
-	BiConnector map[string]*string `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
 
 	BiConnectorConfig []ClusterBiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
@@ -270,7 +289,7 @@ type ClusterObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	Labels []ClusterLabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
@@ -286,6 +305,8 @@ type ClusterObservation struct {
 
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
+	PinnedFcv []ClusterPinnedFcvObservation `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -293,8 +314,6 @@ type ClusterObservation struct {
 	ProviderAutoScalingComputeMaxInstanceSize *string `json:"providerAutoScalingComputeMaxInstanceSize,omitempty" tf:"provider_auto_scaling_compute_max_instance_size,omitempty"`
 
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
-
-	ProviderBackupEnabled *bool `json:"providerBackupEnabled,omitempty" tf:"provider_backup_enabled,omitempty"`
 
 	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
@@ -312,9 +331,14 @@ type ClusterObservation struct {
 
 	ProviderVolumeType *string `json:"providerVolumeType,omitempty" tf:"provider_volume_type,omitempty"`
 
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	ReplicationSpecs []ClusterReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
 
 	SnapshotBackupPolicy []SnapshotBackupPolicyObservation `json:"snapshotBackupPolicy,omitempty" tf:"snapshot_backup_policy,omitempty"`
 
@@ -322,12 +346,18 @@ type ClusterObservation struct {
 
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	Tags []TagsObservation `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
 type ClusterParameters struct {
+
+	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
+	// +kubebuilder:validation:Optional
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	AdvancedConfiguration []ClusterAdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
@@ -349,10 +379,6 @@ type ClusterParameters struct {
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	BiConnector map[string]*string `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	BiConnectorConfig []ClusterBiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -368,7 +394,7 @@ type ClusterParameters struct {
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Labels []ClusterLabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
@@ -378,6 +404,9 @@ type ClusterParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PinnedFcv []ClusterPinnedFcvParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
@@ -402,9 +431,6 @@ type ClusterParameters struct {
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ProviderBackupEnabled *bool `json:"providerBackupEnabled,omitempty" tf:"provider_backup_enabled,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -426,16 +452,42 @@ type ClusterParameters struct {
 	ProviderVolumeType *string `json:"providerVolumeType,omitempty" tf:"provider_volume_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ReplicationSpecs []ClusterReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	// +kubebuilder:validation:Optional
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Tags []TagsParameters `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
+}
+
+type ClusterPinnedFcvInitParameters struct {
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
+}
+
+type ClusterPinnedFcvObservation struct {
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
+
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type ClusterPinnedFcvParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ExpirationDate *string `json:"expirationDate" tf:"expiration_date,omitempty"`
 }
 
 type ClusterReplicationSpecsInitParameters struct {
@@ -483,10 +535,33 @@ type ConnectionStringsPrivateEndpointObservation struct {
 
 	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
 
+	SrvShardOptimizedConnectionString *string `json:"srvShardOptimizedConnectionString,omitempty" tf:"srv_shard_optimized_connection_string,omitempty"`
+
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ConnectionStringsPrivateEndpointParameters struct {
+}
+
+type LabelsInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LabelsObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LabelsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type PoliciesInitParameters struct {
@@ -597,6 +672,27 @@ type SnapshotBackupPolicyObservation struct {
 }
 
 type SnapshotBackupPolicyParameters struct {
+}
+
+type TagsInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TagsObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TagsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // ClusterSpec defines the desired state of Cluster

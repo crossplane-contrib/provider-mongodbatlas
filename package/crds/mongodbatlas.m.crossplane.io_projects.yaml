@@ -58,21 +58,11 @@ spec:
             properties:
               forProvider:
                 properties:
-                  apiKeys:
-                    items:
-                      properties:
-                        apiKeyId:
-                          type: string
-                        roleNames:
-                          items:
-                            type: string
-                          type: array
-                          x-kubernetes-list-type: set
-                      type: object
-                    type: array
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     type: boolean
                   isDataExplorerEnabled:
+                    type: boolean
+                  isExtendedStorageSizesEnabled:
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     type: boolean
@@ -80,12 +70,28 @@ spec:
                     type: boolean
                   isSchemaAdvisorEnabled:
                     type: boolean
+                  isSlowOperationThresholdingEnabled:
+                    type: boolean
+                  limits:
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: number
+                      type: object
+                    type: array
                   orgId:
                     type: string
                   projectOwnerId:
                     type: string
                   regionUsageRestrictions:
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   teams:
                     items:
                       properties:
@@ -114,21 +120,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  apiKeys:
-                    items:
-                      properties:
-                        apiKeyId:
-                          type: string
-                        roleNames:
-                          items:
-                            type: string
-                          type: array
-                          x-kubernetes-list-type: set
-                      type: object
-                    type: array
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     type: boolean
                   isDataExplorerEnabled:
+                    type: boolean
+                  isExtendedStorageSizesEnabled:
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     type: boolean
@@ -136,12 +132,28 @@ spec:
                     type: boolean
                   isSchemaAdvisorEnabled:
                     type: boolean
+                  isSlowOperationThresholdingEnabled:
+                    type: boolean
+                  limits:
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: number
+                      type: object
+                    type: array
                   orgId:
                     type: string
                   projectOwnerId:
                     type: string
                   regionUsageRestrictions:
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   teams:
                     items:
                       properties:
@@ -225,27 +237,38 @@ spec:
             properties:
               atProvider:
                 properties:
-                  apiKeys:
-                    items:
-                      properties:
-                        apiKeyId:
-                          type: string
-                        roleNames:
-                          items:
-                            type: string
-                          type: array
-                          x-kubernetes-list-type: set
-                      type: object
-                    type: array
                   clusterCount:
                     type: number
                   created:
                     type: string
                   id:
                     type: string
+                  ipAddresses:
+                    properties:
+                      services:
+                        properties:
+                          clusters:
+                            items:
+                              properties:
+                                clusterName:
+                                  type: string
+                                inbound:
+                                  items:
+                                    type: string
+                                  type: array
+                                outbound:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                        type: object
+                    type: object
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     type: boolean
                   isDataExplorerEnabled:
+                    type: boolean
+                  isExtendedStorageSizesEnabled:
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     type: boolean
@@ -253,12 +276,34 @@ spec:
                     type: boolean
                   isSchemaAdvisorEnabled:
                     type: boolean
+                  isSlowOperationThresholdingEnabled:
+                    type: boolean
+                  limits:
+                    items:
+                      properties:
+                        currentUsage:
+                          type: number
+                        defaultLimit:
+                          type: number
+                        maximumLimit:
+                          type: number
+                        name:
+                          type: string
+                        value:
+                          type: number
+                      type: object
+                    type: array
                   orgId:
                     type: string
                   projectOwnerId:
                     type: string
                   regionUsageRestrictions:
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   teams:
                     items:
                       properties:

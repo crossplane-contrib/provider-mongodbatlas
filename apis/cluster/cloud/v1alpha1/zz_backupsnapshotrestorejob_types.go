@@ -16,9 +16,6 @@ import (
 type BackupSnapshotRestoreJobInitParameters struct {
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +mapType=granular
-	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
-
 	DeliveryTypeConfig []DeliveryTypeConfigInitParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -41,11 +38,6 @@ type BackupSnapshotRestoreJobObservation struct {
 
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
-
-	// +mapType=granular
-	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
-
 	DeliveryTypeConfig []DeliveryTypeConfigObservation `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
 	DeliveryURL []*string `json:"deliveryUrl,omitempty" tf:"delivery_url,omitempty"`
@@ -53,6 +45,8 @@ type BackupSnapshotRestoreJobObservation struct {
 	Expired *bool `json:"expired,omitempty" tf:"expired,omitempty"`
 
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
+
+	Failed *bool `json:"failed,omitempty" tf:"failed,omitempty"`
 
 	FinishedAt *string `json:"finishedAt,omitempty" tf:"finished_at,omitempty"`
 
@@ -71,10 +65,6 @@ type BackupSnapshotRestoreJobParameters struct {
 
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DeliveryTypeConfig []DeliveryTypeConfigParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
@@ -196,7 +186,6 @@ type BackupSnapshotRestoreJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotId) || (has(self.initProvider) && has(self.initProvider.snapshotId))",message="spec.forProvider.snapshotId is a required parameter"
 	Spec   BackupSnapshotRestoreJobSpec   `json:"spec"`
 	Status BackupSnapshotRestoreJobStatus `json:"status,omitempty"`
 }

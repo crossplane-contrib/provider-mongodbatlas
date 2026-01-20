@@ -27,10 +27,38 @@ type AwsParameters struct {
 	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn" tf:"iam_assumed_role_arn,omitempty"`
 }
 
-type ProviderAccessAuthorizationFeatureUsagesInitParameters struct {
+type AzureInitParameters struct {
+	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
+
+	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
+
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
-type ProviderAccessAuthorizationFeatureUsagesObservation struct {
+type AzureObservation struct {
+	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
+
+	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
+
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type AzureParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AtlasAzureAppID *string `json:"atlasAzureAppId" tf:"atlas_azure_app_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ServicePrincipalID *string `json:"servicePrincipalId" tf:"service_principal_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
+}
+
+type FeatureUsagesInitParameters struct {
+}
+
+type FeatureUsagesObservation struct {
 
 	// +mapType=granular
 	FeatureID map[string]*string `json:"featureId,omitempty" tf:"feature_id,omitempty"`
@@ -38,11 +66,23 @@ type ProviderAccessAuthorizationFeatureUsagesObservation struct {
 	FeatureType *string `json:"featureType,omitempty" tf:"feature_type,omitempty"`
 }
 
-type ProviderAccessAuthorizationFeatureUsagesParameters struct {
+type FeatureUsagesParameters struct {
+}
+
+type GCPInitParameters struct {
+}
+
+type GCPObservation struct {
+	ServiceAccountForAtlas *string `json:"serviceAccountForAtlas,omitempty" tf:"service_account_for_atlas,omitempty"`
+}
+
+type GCPParameters struct {
 }
 
 type ProviderAccessAuthorizationInitParameters struct {
 	Aws []AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
@@ -64,7 +104,11 @@ type ProviderAccessAuthorizationObservation struct {
 
 	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
-	FeatureUsages []ProviderAccessAuthorizationFeatureUsagesObservation `json:"featureUsages,omitempty" tf:"feature_usages,omitempty"`
+	Azure []AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
+
+	FeatureUsages []FeatureUsagesObservation `json:"featureUsages,omitempty" tf:"feature_usages,omitempty"`
+
+	GCP []GCPObservation `json:"gcp,omitempty" tf:"gcp,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -77,6 +121,9 @@ type ProviderAccessAuthorizationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Aws []AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()

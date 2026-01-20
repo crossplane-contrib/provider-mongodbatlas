@@ -37,7 +37,7 @@ type ClusterConfigObservation struct {
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// +mapType=granular
-	CustomZoneMapping map[string]*string `json:"customZoneMapping,omitempty" tf:"custom_zone_mapping,omitempty"`
+	CustomZoneMappingZoneID map[string]*string `json:"customZoneMappingZoneId,omitempty" tf:"custom_zone_mapping_zone_id,omitempty"`
 
 	CustomZoneMappings []CustomZoneMappingsObservation `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`
 

@@ -12,33 +12,38 @@ import (
 	listapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/access/listapikey"
 	configuration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/alert/configuration"
 	key "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/api/key"
+	keyprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/api/keyprojectassignment"
 	compliancepolicy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/backup/compliancepolicy"
 	backupschedule "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupschedule"
 	backupsnapshot "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupsnapshot"
 	backupsnapshotexportbucket "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupsnapshotexportbucket"
 	backupsnapshotexportjob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupsnapshotexportjob"
 	backupsnapshotrestorejob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupsnapshotrestorejob"
-	provideraccess "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/provideraccess"
 	provideraccessauthorization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/provideraccessauthorization"
 	provideraccesssetup "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/provideraccesssetup"
-	providersnapshot "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/providersnapshot"
-	providersnapshotbackuppolicy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/providersnapshotbackuppolicy"
-	providersnapshotrestorejob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/providersnapshotrestorejob"
+	userorgassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/userorgassignment"
+	userprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/userprojectassignment"
+	userteamassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/userteamassignment"
+	outagesimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cluster/outagesimulation"
 	dbrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/custom/dbrole"
 	dnsconfigurationclusteraws "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/custom/dnsconfigurationclusteraws"
-	lake "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/data/lake"
 	user "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/database/user"
 	trigger "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/event/trigger"
+	databaseinstance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/databaseinstance"
+	querylimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/querylimit"
 	settingsidentityprovider "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/settingsidentityprovider"
 	settingsorgconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/settingsorgconfig"
 	settingsorgrolemapping "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/settingsorgrolemapping"
+	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/flex/cluster"
 	clusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/clusterconfig"
 	configurationldap "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/configuration"
 	verify "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/verify"
 	window "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/maintenance/window"
+	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodb/employeeaccessgrant"
 	advancedcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/advancedcluster"
 	auditing "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/auditing"
-	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/cluster"
+	clustermongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/cluster"
+	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/organization"
 	project "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/project"
 	team "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/team"
 	container "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/network/container"
@@ -46,18 +51,24 @@ import (
 	archive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/online/archive"
 	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/org/invitation"
 	endpointregionalmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/private/endpointregionalmode"
-	ipmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/private/ipmode"
 	endpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpoint"
-	endpointserverless "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpointserverless"
 	endpointservice "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpointservice"
-	endpointserviceadl "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpointserviceadl"
-	endpointserviceserverless "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpointserviceserverless"
+	endpointservicedatafederationonlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpointservicedatafederationonlinearchive"
 	apikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/apikey"
 	invitationproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/invitation"
 	ipaccesslist "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/ipaccesslist"
 	providerconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/providerconfig"
+	basedlogexport "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/push/basedlogexport"
+	policy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/resource/policy"
+	deployment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/search/deployment"
 	index "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/search/index"
 	instance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/serverless/instance"
+	connection "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/connection"
+	instancestream "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/instance"
+	privatelinkendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/privatelinkendpoint"
+	processor "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/processor"
+	workspace "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/workspace"
+	projectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/team/projectassignment"
 	partyintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/third/partyintegration"
 	authenticationdatabaseuser "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/x509/authenticationdatabaseuser"
 )
@@ -69,33 +80,38 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		listapikey.Setup,
 		configuration.Setup,
 		key.Setup,
+		keyprojectassignment.Setup,
 		compliancepolicy.Setup,
 		backupschedule.Setup,
 		backupsnapshot.Setup,
 		backupsnapshotexportbucket.Setup,
 		backupsnapshotexportjob.Setup,
 		backupsnapshotrestorejob.Setup,
-		provideraccess.Setup,
 		provideraccessauthorization.Setup,
 		provideraccesssetup.Setup,
-		providersnapshot.Setup,
-		providersnapshotbackuppolicy.Setup,
-		providersnapshotrestorejob.Setup,
+		userorgassignment.Setup,
+		userprojectassignment.Setup,
+		userteamassignment.Setup,
+		outagesimulation.Setup,
 		dbrole.Setup,
 		dnsconfigurationclusteraws.Setup,
-		lake.Setup,
 		user.Setup,
 		trigger.Setup,
+		databaseinstance.Setup,
+		querylimit.Setup,
 		settingsidentityprovider.Setup,
 		settingsorgconfig.Setup,
 		settingsorgrolemapping.Setup,
+		cluster.Setup,
 		clusterconfig.Setup,
 		configurationldap.Setup,
 		verify.Setup,
 		window.Setup,
+		employeeaccessgrant.Setup,
 		advancedcluster.Setup,
 		auditing.Setup,
-		cluster.Setup,
+		clustermongodbatlas.Setup,
+		organization.Setup,
 		project.Setup,
 		team.Setup,
 		container.Setup,
@@ -103,18 +119,24 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		archive.Setup,
 		invitation.Setup,
 		endpointregionalmode.Setup,
-		ipmode.Setup,
 		endpoint.Setup,
-		endpointserverless.Setup,
 		endpointservice.Setup,
-		endpointserviceadl.Setup,
-		endpointserviceserverless.Setup,
+		endpointservicedatafederationonlinearchive.Setup,
 		apikey.Setup,
 		invitationproject.Setup,
 		ipaccesslist.Setup,
 		providerconfig.Setup,
+		basedlogexport.Setup,
+		policy.Setup,
+		deployment.Setup,
 		index.Setup,
 		instance.Setup,
+		connection.Setup,
+		instancestream.Setup,
+		privatelinkendpoint.Setup,
+		processor.Setup,
+		workspace.Setup,
+		projectassignment.Setup,
 		partyintegration.Setup,
 		authenticationdatabaseuser.Setup,
 	} {
@@ -132,33 +154,38 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		listapikey.SetupGated,
 		configuration.SetupGated,
 		key.SetupGated,
+		keyprojectassignment.SetupGated,
 		compliancepolicy.SetupGated,
 		backupschedule.SetupGated,
 		backupsnapshot.SetupGated,
 		backupsnapshotexportbucket.SetupGated,
 		backupsnapshotexportjob.SetupGated,
 		backupsnapshotrestorejob.SetupGated,
-		provideraccess.SetupGated,
 		provideraccessauthorization.SetupGated,
 		provideraccesssetup.SetupGated,
-		providersnapshot.SetupGated,
-		providersnapshotbackuppolicy.SetupGated,
-		providersnapshotrestorejob.SetupGated,
+		userorgassignment.SetupGated,
+		userprojectassignment.SetupGated,
+		userteamassignment.SetupGated,
+		outagesimulation.SetupGated,
 		dbrole.SetupGated,
 		dnsconfigurationclusteraws.SetupGated,
-		lake.SetupGated,
 		user.SetupGated,
 		trigger.SetupGated,
+		databaseinstance.SetupGated,
+		querylimit.SetupGated,
 		settingsidentityprovider.SetupGated,
 		settingsorgconfig.SetupGated,
 		settingsorgrolemapping.SetupGated,
+		cluster.SetupGated,
 		clusterconfig.SetupGated,
 		configurationldap.SetupGated,
 		verify.SetupGated,
 		window.SetupGated,
+		employeeaccessgrant.SetupGated,
 		advancedcluster.SetupGated,
 		auditing.SetupGated,
-		cluster.SetupGated,
+		clustermongodbatlas.SetupGated,
+		organization.SetupGated,
 		project.SetupGated,
 		team.SetupGated,
 		container.SetupGated,
@@ -166,18 +193,24 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		archive.SetupGated,
 		invitation.SetupGated,
 		endpointregionalmode.SetupGated,
-		ipmode.SetupGated,
 		endpoint.SetupGated,
-		endpointserverless.SetupGated,
 		endpointservice.SetupGated,
-		endpointserviceadl.SetupGated,
-		endpointserviceserverless.SetupGated,
+		endpointservicedatafederationonlinearchive.SetupGated,
 		apikey.SetupGated,
 		invitationproject.SetupGated,
 		ipaccesslist.SetupGated,
 		providerconfig.SetupGated,
+		basedlogexport.SetupGated,
+		policy.SetupGated,
+		deployment.SetupGated,
 		index.SetupGated,
 		instance.SetupGated,
+		connection.SetupGated,
+		instancestream.SetupGated,
+		privatelinkendpoint.SetupGated,
+		processor.SetupGated,
+		workspace.SetupGated,
+		projectassignment.SetupGated,
 		partyintegration.SetupGated,
 		authenticationdatabaseuser.SetupGated,
 	} {

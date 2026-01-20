@@ -68,8 +68,6 @@ spec:
                     type: boolean
                   hourOfDay:
                     type: number
-                  numberOfDeferrals:
-                    type: number
                   projectId:
                     type: string
                   projectIdRef:
@@ -154,6 +152,15 @@ spec:
                             type: string
                         type: object
                     type: object
+                  protectedHours:
+                    items:
+                      properties:
+                        endHourOfDay:
+                          type: number
+                        startHourOfDay:
+                          type: number
+                      type: object
+                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -178,8 +185,6 @@ spec:
                     type: boolean
                   hourOfDay:
                     type: number
-                  numberOfDeferrals:
-                    type: number
                   projectId:
                     type: string
                   projectIdRef:
@@ -264,6 +269,15 @@ spec:
                             type: string
                         type: object
                     type: object
+                  protectedHours:
+                    items:
+                      properties:
+                        endHourOfDay:
+                          type: number
+                        startHourOfDay:
+                          type: number
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -323,6 +337,15 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.dayOfWeek is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.dayOfWeek)
+                || (has(self.initProvider) && has(self.initProvider.dayOfWeek))'
+            - message: spec.forProvider.hourOfDay is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.hourOfDay)
+                || (has(self.initProvider) && has(self.initProvider.hourOfDay))'
           status:
             description: WindowStatus defines the observed state of Window.
             properties:
@@ -344,8 +367,19 @@ spec:
                     type: number
                   projectId:
                     type: string
+                  protectedHours:
+                    items:
+                      properties:
+                        endHourOfDay:
+                          type: number
+                        startHourOfDay:
+                          type: number
+                      type: object
+                    type: array
                   startAsap:
                     type: boolean
+                  timeZoneId:
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

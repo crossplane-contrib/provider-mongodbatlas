@@ -76,7 +76,7 @@ spec:
                     type: string
                   awsIamType:
                     type: string
-                  databaseName:
+                  description:
                     type: string
                   labels:
                     items:
@@ -88,6 +88,8 @@ spec:
                       type: object
                     type: array
                   ldapAuthType:
+                    type: string
+                  oidcAuthType:
                     type: string
                   passwordSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
@@ -225,7 +227,7 @@ spec:
                     type: string
                   awsIamType:
                     type: string
-                  databaseName:
+                  description:
                     type: string
                   labels:
                     items:
@@ -237,6 +239,8 @@ spec:
                       type: object
                     type: array
                   ldapAuthType:
+                    type: string
+                  oidcAuthType:
                     type: string
                   passwordSecretRef:
                     description: A SecretKeySelector is a reference to a secret key
@@ -444,10 +448,10 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.roles is a required parameter
+            - message: spec.forProvider.authDatabaseName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.roles)
-                || (has(self.initProvider) && has(self.initProvider.roles))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.authDatabaseName)
+                || (has(self.initProvider) && has(self.initProvider.authDatabaseName))'
           status:
             description: UserStatus defines the observed state of User.
             properties:
@@ -457,7 +461,7 @@ spec:
                     type: string
                   awsIamType:
                     type: string
-                  databaseName:
+                  description:
                     type: string
                   id:
                     type: string
@@ -471,6 +475,8 @@ spec:
                       type: object
                     type: array
                   ldapAuthType:
+                    type: string
+                  oidcAuthType:
                     type: string
                   projectId:
                     type: string

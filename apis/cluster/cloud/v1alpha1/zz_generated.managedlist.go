@@ -61,15 +61,6 @@ func (l *ProviderAccessAuthorizationList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ProviderAccessList.
-func (l *ProviderAccessList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this ProviderAccessSetupList.
 func (l *ProviderAccessSetupList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -79,8 +70,8 @@ func (l *ProviderAccessSetupList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ProviderSnapshotBackupPolicyList.
-func (l *ProviderSnapshotBackupPolicyList) GetItems() []resource.Managed {
+// GetItems of this UserOrgAssignmentList.
+func (l *UserOrgAssignmentList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -88,8 +79,8 @@ func (l *ProviderSnapshotBackupPolicyList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ProviderSnapshotList.
-func (l *ProviderSnapshotList) GetItems() []resource.Managed {
+// GetItems of this UserProjectAssignmentList.
+func (l *UserProjectAssignmentList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -97,8 +88,8 @@ func (l *ProviderSnapshotList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ProviderSnapshotRestoreJobList.
-func (l *ProviderSnapshotRestoreJobList) GetItems() []resource.Managed {
+// GetItems of this UserTeamAssignmentList.
+func (l *UserTeamAssignmentList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

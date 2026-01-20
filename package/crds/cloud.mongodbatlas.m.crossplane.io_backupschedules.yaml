@@ -75,10 +75,10 @@ spec:
                           x-kubernetes-list-type: set
                         regionName:
                           type: string
-                        replicationSpecId:
-                          type: string
                         shouldCopyOplogs:
                           type: boolean
+                        zoneId:
+                          type: string
                       type: object
                     type: array
                   export:
@@ -124,6 +124,17 @@ spec:
                       type: object
                     type: array
                   policyItemWeekly:
+                    items:
+                      properties:
+                        frequencyInterval:
+                          type: number
+                        retentionUnit:
+                          type: string
+                        retentionValue:
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
                     items:
                       properties:
                         frequencyInterval:
@@ -258,10 +269,10 @@ spec:
                           x-kubernetes-list-type: set
                         regionName:
                           type: string
-                        replicationSpecId:
-                          type: string
                         shouldCopyOplogs:
                           type: boolean
+                        zoneId:
+                          type: string
                       type: object
                     type: array
                   export:
@@ -307,6 +318,17 @@ spec:
                       type: object
                     type: array
                   policyItemWeekly:
+                    items:
+                      properties:
+                        frequencyInterval:
+                          type: number
+                        retentionUnit:
+                          type: string
+                        retentionValue:
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
                     items:
                       properties:
                         frequencyInterval:
@@ -498,10 +520,10 @@ spec:
                           x-kubernetes-list-type: set
                         regionName:
                           type: string
-                        replicationSpecId:
-                          type: string
                         shouldCopyOplogs:
                           type: boolean
+                        zoneId:
+                          type: string
                       type: object
                     type: array
                   export:
@@ -565,6 +587,21 @@ spec:
                       type: object
                     type: array
                   policyItemWeekly:
+                    items:
+                      properties:
+                        frequencyInterval:
+                          type: number
+                        frequencyType:
+                          type: string
+                        id:
+                          type: string
+                        retentionUnit:
+                          type: string
+                        retentionValue:
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
                     items:
                       properties:
                         frequencyInterval:

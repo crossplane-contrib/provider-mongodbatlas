@@ -336,10 +336,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
                 || (has(self.initProvider) && has(self.initProvider.clusterName))'
-            - message: spec.forProvider.customData is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.customData)
-                || (has(self.initProvider) && has(self.initProvider.customData))'
             - message: spec.forProvider.exportBucketId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.exportBucketId)
@@ -376,8 +372,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  errMsg:
-                    type: string
                   exportBucketId:
                     type: string
                   exportJobId:

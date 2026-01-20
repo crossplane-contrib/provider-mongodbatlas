@@ -393,7 +393,7 @@ spec:
                 properties:
                   clusterName:
                     type: string
-                  customZoneMapping:
+                  customZoneMappingZoneId:
                     additionalProperties:
                       type: string
                     type: object

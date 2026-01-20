@@ -17,13 +17,29 @@ import (
 type SettingsIdentityProviderInitParameters struct {
 	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
 
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	AuthorizationType *string `json:"authorizationType,omitempty" tf:"authorization_type,omitempty"`
+
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
+	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
+
+	IdpType *string `json:"idpType,omitempty" tf:"idp_type,omitempty"`
 
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
 	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
+
+	RequestedScopes []*string `json:"requestedScopes,omitempty" tf:"requested_scopes,omitempty"`
 
 	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
 
@@ -32,14 +48,30 @@ type SettingsIdentityProviderInitParameters struct {
 	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	UserClaim *string `json:"userClaim,omitempty" tf:"user_claim,omitempty"`
 }
 
 type SettingsIdentityProviderObservation struct {
 	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
 
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	AuthorizationType *string `json:"authorizationType,omitempty" tf:"authorization_type,omitempty"`
+
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
+	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IdpID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
+
+	IdpType *string `json:"idpType,omitempty" tf:"idp_type,omitempty"`
 
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 
@@ -47,7 +79,11 @@ type SettingsIdentityProviderObservation struct {
 
 	OktaIdpID *string `json:"oktaIdpId,omitempty" tf:"okta_idp_id,omitempty"`
 
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
 	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
+
+	RequestedScopes []*string `json:"requestedScopes,omitempty" tf:"requested_scopes,omitempty"`
 
 	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
 
@@ -56,6 +92,8 @@ type SettingsIdentityProviderObservation struct {
 	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	UserClaim *string `json:"userClaim,omitempty" tf:"user_claim,omitempty"`
 }
 
 type SettingsIdentityProviderParameters struct {
@@ -64,7 +102,25 @@ type SettingsIdentityProviderParameters struct {
 	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AuthorizationType *string `json:"authorizationType,omitempty" tf:"authorization_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IdpType *string `json:"idpType,omitempty" tf:"idp_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
@@ -73,7 +129,13 @@ type SettingsIdentityProviderParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RequestedScopes []*string `json:"requestedScopes,omitempty" tf:"requested_scopes,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
@@ -86,6 +148,9 @@ type SettingsIdentityProviderParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UserClaim *string `json:"userClaim,omitempty" tf:"user_claim,omitempty"`
 }
 
 // SettingsIdentityProviderSpec defines the desired state of SettingsIdentityProvider
@@ -127,11 +192,6 @@ type SettingsIdentityProvider struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.federationSettingsId) || (has(self.initProvider) && has(self.initProvider.federationSettingsId))",message="spec.forProvider.federationSettingsId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.issuerUri) || (has(self.initProvider) && has(self.initProvider.issuerUri))",message="spec.forProvider.issuerUri is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.requestBinding) || (has(self.initProvider) && has(self.initProvider.requestBinding))",message="spec.forProvider.requestBinding is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.responseSignatureAlgorithm) || (has(self.initProvider) && has(self.initProvider.responseSignatureAlgorithm))",message="spec.forProvider.responseSignatureAlgorithm is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ssoDebugEnabled) || (has(self.initProvider) && has(self.initProvider.ssoDebugEnabled))",message="spec.forProvider.ssoDebugEnabled is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ssoUrl) || (has(self.initProvider) && has(self.initProvider.ssoUrl))",message="spec.forProvider.ssoUrl is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.status) || (has(self.initProvider) && has(self.initProvider.status))",message="spec.forProvider.status is a required parameter"
 	Spec   SettingsIdentityProviderSpec   `json:"spec"`
 	Status SettingsIdentityProviderStatus `json:"status,omitempty"`
 }

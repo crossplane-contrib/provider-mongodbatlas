@@ -14,6 +14,27 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type ProtectedHoursInitParameters struct {
+	EndHourOfDay *float64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
+
+	StartHourOfDay *float64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
+}
+
+type ProtectedHoursObservation struct {
+	EndHourOfDay *float64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
+
+	StartHourOfDay *float64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
+}
+
+type ProtectedHoursParameters struct {
+
+	// +kubebuilder:validation:Optional
+	EndHourOfDay *float64 `json:"endHourOfDay" tf:"end_hour_of_day,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StartHourOfDay *float64 `json:"startHourOfDay" tf:"start_hour_of_day,omitempty"`
+}
+
 type WindowInitParameters struct {
 	AutoDefer *bool `json:"autoDefer,omitempty" tf:"auto_defer,omitempty"`
 
@@ -24,8 +45,6 @@ type WindowInitParameters struct {
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
-
-	NumberOfDeferrals *float64 `json:"numberOfDeferrals,omitempty" tf:"number_of_deferrals,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
@@ -38,6 +57,8 @@ type WindowInitParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	ProtectedHours []ProtectedHoursInitParameters `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
 }
 
 type WindowObservation struct {
@@ -57,7 +78,11 @@ type WindowObservation struct {
 
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	ProtectedHours []ProtectedHoursObservation `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
+
 	StartAsap *bool `json:"startAsap,omitempty" tf:"start_asap,omitempty"`
+
+	TimeZoneID *string `json:"timeZoneId,omitempty" tf:"time_zone_id,omitempty"`
 }
 
 type WindowParameters struct {
@@ -77,9 +102,6 @@ type WindowParameters struct {
 	// +kubebuilder:validation:Optional
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	NumberOfDeferrals *float64 `json:"numberOfDeferrals,omitempty" tf:"number_of_deferrals,omitempty"`
-
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -92,6 +114,9 @@ type WindowParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	ProtectedHours []ProtectedHoursParameters `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
 }
 
 // WindowSpec defines the desired state of Window
@@ -130,8 +155,10 @@ type WindowStatus struct {
 type Window struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              WindowSpec   `json:"spec"`
-	Status            WindowStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dayOfWeek) || (has(self.initProvider) && has(self.initProvider.dayOfWeek))",message="spec.forProvider.dayOfWeek is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hourOfDay) || (has(self.initProvider) && has(self.initProvider.hourOfDay))",message="spec.forProvider.hourOfDay is a required parameter"
+	Spec   WindowSpec   `json:"spec"`
+	Status WindowStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

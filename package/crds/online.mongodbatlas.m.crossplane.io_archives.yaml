@@ -79,8 +79,34 @@ spec:
                           type: string
                       type: object
                     type: array
+                  dataExpirationRule:
+                    items:
+                      properties:
+                        expireAfterDays:
+                          type: number
+                      type: object
+                    type: array
+                  dataProcessRegion:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        region:
+                          type: string
+                      type: object
+                    type: array
                   dbName:
                     type: string
+                  deleteOnCreateTimeout:
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
+                    type: boolean
                   partitionFields:
                     items:
                       properties:
@@ -176,6 +202,25 @@ spec:
                             type: string
                         type: object
                     type: object
+                  schedule:
+                    items:
+                      properties:
+                        dayOfMonth:
+                          type: number
+                        dayOfWeek:
+                          type: number
+                        endHour:
+                          type: number
+                        endMinute:
+                          type: number
+                        startHour:
+                          type: number
+                        startMinute:
+                          type: number
+                        type:
+                          type: string
+                      type: object
+                    type: array
                   syncCreation:
                     type: boolean
                 type: object
@@ -213,8 +258,34 @@ spec:
                           type: string
                       type: object
                     type: array
+                  dataExpirationRule:
+                    items:
+                      properties:
+                        expireAfterDays:
+                          type: number
+                      type: object
+                    type: array
+                  dataProcessRegion:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        region:
+                          type: string
+                      type: object
+                    type: array
                   dbName:
                     type: string
+                  deleteOnCreateTimeout:
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
+                    type: boolean
                   partitionFields:
                     items:
                       properties:
@@ -310,6 +381,25 @@ spec:
                             type: string
                         type: object
                     type: object
+                  schedule:
+                    items:
+                      properties:
+                        dayOfMonth:
+                          type: number
+                        dayOfWeek:
+                          type: number
+                        endHour:
+                          type: number
+                        endMinute:
+                          type: number
+                        startHour:
+                          type: number
+                        startMinute:
+                          type: number
+                        type:
+                          type: string
+                      type: object
+                    type: array
                   syncCreation:
                     type: boolean
                 type: object
@@ -416,8 +506,34 @@ spec:
                           type: string
                       type: object
                     type: array
+                  dataExpirationRule:
+                    items:
+                      properties:
+                        expireAfterDays:
+                          type: number
+                      type: object
+                    type: array
+                  dataProcessRegion:
+                    items:
+                      properties:
+                        cloudProvider:
+                          type: string
+                        region:
+                          type: string
+                      type: object
+                    type: array
                   dbName:
                     type: string
+                  deleteOnCreateTimeout:
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
+                    type: boolean
                   id:
                     type: string
                   partitionFields:
@@ -435,6 +551,25 @@ spec:
                     type: boolean
                   projectId:
                     type: string
+                  schedule:
+                    items:
+                      properties:
+                        dayOfMonth:
+                          type: number
+                        dayOfWeek:
+                          type: number
+                        endHour:
+                          type: number
+                        endMinute:
+                          type: number
+                        startHour:
+                          type: number
+                        startMinute:
+                          type: number
+                        type:
+                          type: string
+                      type: object
+                    type: array
                   state:
                     type: string
                   syncCreation:

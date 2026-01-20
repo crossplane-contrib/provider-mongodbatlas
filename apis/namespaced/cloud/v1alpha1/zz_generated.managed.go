@@ -207,46 +207,6 @@ func (mg *BackupSnapshotRestoreJob) SetWriteConnectionSecretToReference(r *xpv1.
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderAccess.
-func (mg *ProviderAccess) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
-	return mg.Status.GetCondition(ct)
-}
-
-// GetManagementPolicies of this ProviderAccess.
-func (mg *ProviderAccess) GetManagementPolicies() xpv1.ManagementPolicies {
-	return mg.Spec.ManagementPolicies
-}
-
-// GetProviderConfigReference of this ProviderAccess.
-func (mg *ProviderAccess) GetProviderConfigReference() *xpv1.ProviderConfigReference {
-	return mg.Spec.ProviderConfigReference
-}
-
-// GetWriteConnectionSecretToReference of this ProviderAccess.
-func (mg *ProviderAccess) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
-}
-
-// SetConditions of this ProviderAccess.
-func (mg *ProviderAccess) SetConditions(c ...xpv1.Condition) {
-	mg.Status.SetConditions(c...)
-}
-
-// SetManagementPolicies of this ProviderAccess.
-func (mg *ProviderAccess) SetManagementPolicies(r xpv1.ManagementPolicies) {
-	mg.Spec.ManagementPolicies = r
-}
-
-// SetProviderConfigReference of this ProviderAccess.
-func (mg *ProviderAccess) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
-	mg.Spec.ProviderConfigReference = r
-}
-
-// SetWriteConnectionSecretToReference of this ProviderAccess.
-func (mg *ProviderAccess) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
-}
-
 // GetCondition of this ProviderAccessAuthorization.
 func (mg *ProviderAccessAuthorization) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -327,122 +287,122 @@ func (mg *ProviderAccessSetup) SetWriteConnectionSecretToReference(r *xpv1.Local
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetManagementPolicies of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+// GetProviderConfigReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetProviderConfigReference() *xpv1.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+// GetWriteConnectionSecretToReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetManagementPolicies of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+// SetProviderConfigReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+// SetWriteConnectionSecretToReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetManagementPolicies of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+// GetProviderConfigReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetProviderConfigReference() *xpv1.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+// GetWriteConnectionSecretToReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetManagementPolicies of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+// SetProviderConfigReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+// SetWriteConnectionSecretToReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetManagementPolicies of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+// GetProviderConfigReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetProviderConfigReference() *xpv1.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+// GetWriteConnectionSecretToReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetManagementPolicies of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+// SetProviderConfigReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+// SetWriteConnectionSecretToReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

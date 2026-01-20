@@ -75,6 +75,10 @@ spec:
                 properties:
                   authorizedEmail:
                     type: string
+                  authorizedUserFirstName:
+                    type: string
+                  authorizedUserLastName:
+                    type: string
                   copyProtectionEnabled:
                     type: boolean
                   encryptionAtRestEnabled:
@@ -126,6 +130,17 @@ spec:
                       type: object
                     type: array
                   policyItemWeekly:
+                    items:
+                      properties:
+                        frequencyInterval:
+                          type: number
+                        retentionUnit:
+                          type: string
+                        retentionValue:
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
                     items:
                       properties:
                         frequencyInterval:
@@ -232,6 +247,10 @@ spec:
                 properties:
                   authorizedEmail:
                     type: string
+                  authorizedUserFirstName:
+                    type: string
+                  authorizedUserLastName:
+                    type: string
                   copyProtectionEnabled:
                     type: boolean
                   encryptionAtRestEnabled:
@@ -283,6 +302,17 @@ spec:
                       type: object
                     type: array
                   policyItemWeekly:
+                    items:
+                      properties:
+                        frequencyInterval:
+                          type: number
+                        retentionUnit:
+                          type: string
+                        retentionValue:
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
                     items:
                       properties:
                         frequencyInterval:
@@ -465,28 +495,24 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.authorizedEmail)
                 || (has(self.initProvider) && has(self.initProvider.authorizedEmail))'
-            - message: spec.forProvider.copyProtectionEnabled is a required parameter
+            - message: spec.forProvider.authorizedUserFirstName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.copyProtectionEnabled)
-                || (has(self.initProvider) && has(self.initProvider.copyProtectionEnabled))'
-            - message: spec.forProvider.encryptionAtRestEnabled is a required parameter
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.authorizedUserFirstName)
+                || (has(self.initProvider) && has(self.initProvider.authorizedUserFirstName))'
+            - message: spec.forProvider.authorizedUserLastName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.encryptionAtRestEnabled)
-                || (has(self.initProvider) && has(self.initProvider.encryptionAtRestEnabled))'
-            - message: spec.forProvider.onDemandPolicyItem is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.onDemandPolicyItem)
-                || (has(self.initProvider) && has(self.initProvider.onDemandPolicyItem))'
-            - message: spec.forProvider.pitEnabled is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.pitEnabled)
-                || (has(self.initProvider) && has(self.initProvider.pitEnabled))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.authorizedUserLastName)
+                || (has(self.initProvider) && has(self.initProvider.authorizedUserLastName))'
           status:
             description: CompliancePolicyStatus defines the observed state of CompliancePolicy.
             properties:
               atProvider:
                 properties:
                   authorizedEmail:
+                    type: string
+                  authorizedUserFirstName:
+                    type: string
+                  authorizedUserLastName:
                     type: string
                   copyProtectionEnabled:
                     type: boolean
@@ -557,6 +583,21 @@ spec:
                       type: object
                     type: array
                   policyItemWeekly:
+                    items:
+                      properties:
+                        frequencyInterval:
+                          type: number
+                        frequencyType:
+                          type: string
+                        id:
+                          type: string
+                        retentionUnit:
+                          type: string
+                        retentionValue:
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
                     items:
                       properties:
                         frequencyInterval:

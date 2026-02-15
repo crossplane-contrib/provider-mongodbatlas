@@ -90,10 +90,10 @@ var cli struct {
 	MetricsBindAddress       string        `help:"The address the metrics server listens on" default:":8081" env:"METRICS_BIND_ADDRESS"`
 	BrokerConnectionTimeout  time.Duration `help:"Timeout for establishing connection to Kafka brokers" default:"30s"`
 
-	TerraformVersion string `required help:"Terraform version" env:"TERRAFORM_VERSION"`
-	ProviderSource   string `required help:"Terraform provider source" env:"TERRAFORM_PROVIDER_SOURCE"`
-	ProviderVersion  string `required help:"Terraform provider version" env:"TERRAFORM_PROVIDER_VERSION"`
-	CertsDir         string `help:"The directory that contains the server key and certificate" default:"${defaultCertsDir}" env:"${defautCertsDirEnvVar}"`
+	TerraformVersion string   `required:"true" help:"Terraform version" env:"TERRAFORM_VERSION"`
+	ProviderSource   string   `required:"true" help:"Terraform provider source" env:"TERRAFORM_PROVIDER_SOURCE"`
+	ProviderVersion  string   `required:"true" help:"Terraform provider version" env:"TERRAFORM_PROVIDER_VERSION"`
+	CertsDir         certsDir `help:"The directory that contains the server key and certificate" default:"${defaultCertsDir}" env:"${defautCertsDirEnvVar}"`
 }
 
 func main() {

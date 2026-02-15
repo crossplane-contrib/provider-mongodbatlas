@@ -142,7 +142,7 @@ func main() {
 		// we probably don't need this condition but just to be on the
 		// safe side, if we are missing any kingpin machinery details...
 		if xpCertsDir != "" {
-			cli.CertsDir = xpCertsDir
+			cli.CertsDir = certsDir(xpCertsDir)
 		}
 	}
 
@@ -157,7 +157,7 @@ func main() {
 		},
 		WebhookServer: webhook.NewServer(
 			webhook.Options{
-				CertDir: cli.CertsDir,
+				CertDir: string(cli.CertsDir),
 				Port:    cli.WebhookPort,
 			}),
 		LeaderElectionResourceLock: resourcelock.LeasesResourceLock,

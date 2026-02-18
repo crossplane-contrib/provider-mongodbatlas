@@ -7,8 +7,8 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/api/v1alpha1"
-	v1alpha11 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/org/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -28,8 +28,8 @@ func (mg *ListAPIKey) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.ForProvider.APIKeyIDRef,
 		Selector:     mg.Spec.ForProvider.APIKeyIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.KeyList{},
-			Managed: &v1alpha1.Key{},
+			List:    &v1alpha1.APIKeyList{},
+			Managed: &v1alpha1.APIKey{},
 		},
 	})
 	if err != nil {
@@ -62,8 +62,8 @@ func (mg *ListAPIKey) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.InitProvider.APIKeyIDRef,
 		Selector:     mg.Spec.InitProvider.APIKeyIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.KeyList{},
-			Managed: &v1alpha1.Key{},
+			List:    &v1alpha1.APIKeyList{},
+			Managed: &v1alpha1.APIKey{},
 		},
 	})
 	if err != nil {

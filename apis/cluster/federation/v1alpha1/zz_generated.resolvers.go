@@ -8,6 +8,7 @@ package v1alpha1
 import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/org/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -53,6 +54,50 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 	}
 	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this OrgConfigSettings.
+func (mg *OrgConfigSettings) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.OrgIDRef,
+		Selector:     mg.Spec.ForProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.OrganizationList{},
+			Managed: &v1alpha11.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
+	}
+	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.OrgIDRef,
+		Selector:     mg.Spec.InitProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.OrganizationList{},
+			Managed: &v1alpha11.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -141,6 +186,84 @@ func (mg *QueryLimit) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this RoleMapping.
+func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FederationSettingsID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.FederationSettingsIDRef,
+		Selector:     mg.Spec.ForProvider.FederationSettingsIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.OrganizationList{},
+			Managed: &v1alpha11.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FederationSettingsID")
+	}
+	mg.Spec.ForProvider.FederationSettingsID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FederationSettingsIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.OrgIDRef,
+		Selector:     mg.Spec.ForProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.OrganizationList{},
+			Managed: &v1alpha11.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
+	}
+	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FederationSettingsID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.FederationSettingsIDRef,
+		Selector:     mg.Spec.InitProvider.FederationSettingsIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.OrganizationList{},
+			Managed: &v1alpha11.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.FederationSettingsID")
+	}
+	mg.Spec.InitProvider.FederationSettingsID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.FederationSettingsIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.OrgIDRef,
+		Selector:     mg.Spec.InitProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.OrganizationList{},
+			Managed: &v1alpha11.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
 
 	return nil
 }

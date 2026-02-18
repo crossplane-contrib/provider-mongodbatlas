@@ -54,6 +54,7 @@ func Configure(p *config.Provider) {
 			return idSlice[2], nil
 		}
 	})
+
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot_export_bucket", func(r *config.Resource) {
 		r.ShortGroup = "cloud"
 		r.References = config.References{
@@ -167,6 +168,7 @@ func Configure(p *config.Provider) {
 			return idSlice[2], nil
 		}
 	})
+
 	p.AddResourceConfigurator("mongodbatlas_cloud_provider_access_setup", func(r *config.Resource) {
 		r.ShortGroup = "cloud"
 		r.References = config.References{
@@ -201,5 +203,69 @@ func Configure(p *config.Provider) {
 			idSlice := strings.Split(idStr, "-")
 			return idSlice[2], nil
 		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_cloud_user_org_assignment", func(r *config.Resource) {
+		r.ShortGroup = "cloud"
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_cloud_user_project_assignment", func(r *config.Resource) {
+		r.ShortGroup = "cloud"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_cloud_user_team_assignment", func(r *config.Resource) {
+		r.ShortGroup = "cloud"
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+		}
+		r.References = config.References{
+			"team_id": {
+				TerraformName: "mongodbatlas_team",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_serverless_instance", func(r *config.Resource) {
+		r.ShortGroup = "cloud"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+			name, ok := parameters["name"]
+			if !ok {
+				return "", errors.New("name missing from parameters")
+			}
+			return fmt.Sprintf("%s-%s", externalName, name), nil
+		}
+
+		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+			id, ok := tfstate["id"]
+			if !ok {
+				return "", errors.New("id attribute missing from state file")
+			}
+
+			idStr, ok := id.(string)
+			if !ok {
+				return "", errors.New("value of id needs to be string")
+			}
+
+			idSlice := strings.Split(idStr, "-")
+			return idSlice[2], nil
+		}
+
 	})
 }

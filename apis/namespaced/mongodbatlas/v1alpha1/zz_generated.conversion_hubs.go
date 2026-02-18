@@ -7,7 +7,7 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
-func (tr *Cluster) Hub() {}
+func (tr *Auditing) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *EmployeeAccessGrant) Hub() {}
+func (tr *Project) Hub() {}

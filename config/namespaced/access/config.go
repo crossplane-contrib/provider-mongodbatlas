@@ -38,6 +38,5 @@ func Configure(p *config.Provider) {
 			}
 			return fmt.Sprintf("%s-%s-%s", org, api_key, ip), nil
 		}
-
 	})
 }

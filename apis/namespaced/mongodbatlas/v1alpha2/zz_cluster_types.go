@@ -14,7 +14,7 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
-type ClusterAdvancedConfigurationInitParameters struct {
+type AdvancedConfigurationInitParameters struct {
 	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
 	// +listType=set
@@ -47,7 +47,7 @@ type ClusterAdvancedConfigurationInitParameters struct {
 	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
-type ClusterAdvancedConfigurationObservation struct {
+type AdvancedConfigurationObservation struct {
 	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
 	// +listType=set
@@ -80,7 +80,7 @@ type ClusterAdvancedConfigurationObservation struct {
 	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
-type ClusterAdvancedConfigurationParameters struct {
+type AdvancedConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
@@ -129,43 +129,25 @@ type ClusterAdvancedConfigurationParameters struct {
 	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
-type ClusterBiConnectorConfigInitParameters struct {
+type BiConnectorConfigInitParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
-type ClusterBiConnectorConfigObservation struct {
+type BiConnectorConfigObservation struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
-type ClusterBiConnectorConfigParameters struct {
+type BiConnectorConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
-}
-
-type ClusterConnectionStringsInitParameters struct {
-}
-
-type ClusterConnectionStringsObservation struct {
-	Private *string `json:"private,omitempty" tf:"private,omitempty"`
-
-	PrivateEndpoint []ConnectionStringsPrivateEndpointObservation `json:"privateEndpoint,omitempty" tf:"private_endpoint,omitempty"`
-
-	PrivateSrv *string `json:"privateSrv,omitempty" tf:"private_srv,omitempty"`
-
-	Standard *string `json:"standard,omitempty" tf:"standard,omitempty"`
-
-	StandardSrv *string `json:"standardSrv,omitempty" tf:"standard_srv,omitempty"`
-}
-
-type ClusterConnectionStringsParameters struct {
 }
 
 type ClusterInitParameters struct {
@@ -173,7 +155,7 @@ type ClusterInitParameters struct {
 	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
 	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
-	AdvancedConfiguration []ClusterAdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+	AdvancedConfiguration []AdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
 
@@ -186,7 +168,7 @@ type ClusterInitParameters struct {
 	// Clusters running MongoDB FCV 4.2 or later and any new Atlas clusters of any type do not support this parameter
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
-	BiConnectorConfig []ClusterBiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
+	BiConnectorConfig []BiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
 
@@ -206,7 +188,7 @@ type ClusterInitParameters struct {
 
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
-	PinnedFcv []ClusterPinnedFcvInitParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+	PinnedFcv []PinnedFcvInitParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
@@ -243,7 +225,7 @@ type ClusterInitParameters struct {
 
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
-	ReplicationSpecs []ClusterReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
 	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
@@ -260,7 +242,7 @@ type ClusterObservation struct {
 	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
 	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
-	AdvancedConfiguration []ClusterAdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+	AdvancedConfiguration []AdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
 
@@ -273,7 +255,7 @@ type ClusterObservation struct {
 	// Clusters running MongoDB FCV 4.2 or later and any new Atlas clusters of any type do not support this parameter
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
-	BiConnectorConfig []ClusterBiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
+	BiConnectorConfig []BiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
 
@@ -281,7 +263,7 @@ type ClusterObservation struct {
 
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
-	ConnectionStrings []ClusterConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
+	ConnectionStrings []ConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
 
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
@@ -309,7 +291,7 @@ type ClusterObservation struct {
 
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
-	PinnedFcv []ClusterPinnedFcvObservation `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+	PinnedFcv []PinnedFcvObservation `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
@@ -339,7 +321,7 @@ type ClusterObservation struct {
 
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
-	ReplicationSpecs []ClusterReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
 	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
@@ -364,7 +346,7 @@ type ClusterParameters struct {
 	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	AdvancedConfiguration []ClusterAdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+	AdvancedConfiguration []AdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
@@ -383,7 +365,7 @@ type ClusterParameters struct {
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	BiConnectorConfig []ClusterBiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
+	BiConnectorConfig []BiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
@@ -413,7 +395,7 @@ type ClusterParameters struct {
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	PinnedFcv []ClusterPinnedFcvParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+	PinnedFcv []PinnedFcvParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
@@ -464,7 +446,7 @@ type ClusterParameters struct {
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ReplicationSpecs []ClusterReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
 	// +kubebuilder:validation:Optional
@@ -480,73 +462,36 @@ type ClusterParameters struct {
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
-type ClusterPinnedFcvInitParameters struct {
-	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
+type ConnectionStringsInitParameters struct {
 }
 
-type ClusterPinnedFcvObservation struct {
-	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
+type ConnectionStringsObservation struct {
+	Private *string `json:"private,omitempty" tf:"private,omitempty"`
 
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	PrivateEndpoint []PrivateEndpointObservation `json:"privateEndpoint,omitempty" tf:"private_endpoint,omitempty"`
+
+	PrivateSrv *string `json:"privateSrv,omitempty" tf:"private_srv,omitempty"`
+
+	Standard *string `json:"standard,omitempty" tf:"standard,omitempty"`
+
+	StandardSrv *string `json:"standardSrv,omitempty" tf:"standard_srv,omitempty"`
 }
 
-type ClusterPinnedFcvParameters struct {
-
-	// +kubebuilder:validation:Optional
-	ExpirationDate *string `json:"expirationDate" tf:"expiration_date,omitempty"`
+type ConnectionStringsParameters struct {
 }
 
-type ClusterReplicationSpecsInitParameters struct {
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
-
-	RegionsConfig []RegionsConfigInitParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
-
-	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+type EndpointsInitParameters struct {
 }
 
-type ClusterReplicationSpecsObservation struct {
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+type EndpointsObservation struct {
+	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
-	RegionsConfig []RegionsConfigObservation `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
-
-	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
-type ClusterReplicationSpecsParameters struct {
-
-	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	NumShards *float64 `json:"numShards" tf:"num_shards,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	RegionsConfig []RegionsConfigParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
-}
-
-type ConnectionStringsPrivateEndpointInitParameters struct {
-}
-
-type ConnectionStringsPrivateEndpointObservation struct {
-	ConnectionString *string `json:"connectionString,omitempty" tf:"connection_string,omitempty"`
-
-	Endpoints []PrivateEndpointEndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
-
-	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
-
-	SrvShardOptimizedConnectionString *string `json:"srvShardOptimizedConnectionString,omitempty" tf:"srv_shard_optimized_connection_string,omitempty"`
-
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type ConnectionStringsPrivateEndpointParameters struct {
+type EndpointsParameters struct {
 }
 
 type LabelsInitParameters struct {
@@ -568,6 +513,22 @@ type LabelsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type PinnedFcvInitParameters struct {
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
+}
+
+type PinnedFcvObservation struct {
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
+
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type PinnedFcvParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ExpirationDate *string `json:"expirationDate" tf:"expiration_date,omitempty"`
 }
 
 type PoliciesInitParameters struct {
@@ -600,18 +561,22 @@ type PolicyItemObservation struct {
 type PolicyItemParameters struct {
 }
 
-type PrivateEndpointEndpointsInitParameters struct {
+type PrivateEndpointInitParameters struct {
 }
 
-type PrivateEndpointEndpointsObservation struct {
-	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
+type PrivateEndpointObservation struct {
+	ConnectionString *string `json:"connectionString,omitempty" tf:"connection_string,omitempty"`
 
-	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
+	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
+
+	SrvShardOptimizedConnectionString *string `json:"srvShardOptimizedConnectionString,omitempty" tf:"srv_shard_optimized_connection_string,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type PrivateEndpointEndpointsParameters struct {
+type PrivateEndpointParameters struct {
 }
 
 type RegionsConfigInitParameters struct {
@@ -654,6 +619,41 @@ type RegionsConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName" tf:"region_name,omitempty"`
+}
+
+type ReplicationSpecsInitParameters struct {
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+
+	RegionsConfig []RegionsConfigInitParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
+
+	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+}
+
+type ReplicationSpecsObservation struct {
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+
+	RegionsConfig []RegionsConfigObservation `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
+
+	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+}
+
+type ReplicationSpecsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NumShards *float64 `json:"numShards" tf:"num_shards,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RegionsConfig []RegionsConfigParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
 }
 
 type SnapshotBackupPolicyInitParameters struct {

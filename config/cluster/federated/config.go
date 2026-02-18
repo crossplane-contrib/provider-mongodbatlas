@@ -1,22 +1,11 @@
-/*
-Copyright 2022 The Crossplane Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package federated
 
 import (
+	"context"
+	"errors"
+	"fmt"
+	"strings"
+
 	"github.com/crossplane/upjet/v2/pkg/config"
 )
 
@@ -52,4 +41,79 @@ func Configure(p *config.Provider) {
 		}
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_federated_settings_identity_provider", func(r *config.Resource) {
+		r.ShortGroup = "federation"
+		r.Kind = "IdentityProvider"
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+			f, ok := parameters["federation_settings_id"]
+			if !ok {
+				return "", errors.New("federation_settings_id missing from parameters")
+			}
+			return fmt.Sprintf("%s-%s", f, externalName), nil
+		}
+
+		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+			id, ok := tfstate["id"]
+			if !ok {
+				return "", errors.New("id attribute missing from state file")
+			}
+
+			idStr, ok := id.(string)
+			if !ok {
+				return "", errors.New("value of id needs to be string")
+			}
+
+			idSlice := strings.Split(idStr, "-")
+			return idSlice[1], nil
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_federated_settings_org_config", func(r *config.Resource) {
+		r.ShortGroup = "federation"
+		r.Kind = "OrgConfigSettings"
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_federated_settings_org_role_mapping", func(r *config.Resource) {
+		r.ShortGroup = "federation"
+		r.Kind = "RoleMapping"
+		r.References = config.References{
+			"federation_settings_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+		}
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+			f, ok := parameters["federation_settings_id"]
+			if !ok {
+				return "", errors.New("federation_settings_id missing from parameters")
+			}
+			o, ok := parameters["org_id"]
+			if !ok {
+				return "", errors.New("org_id missing from parameters")
+			}
+			return fmt.Sprintf("%s-%s-%s", f, o, externalName), nil
+		}
+
+		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+			id, ok := tfstate["id"]
+			if !ok {
+				return "", errors.New("id attribute missing from state file")
+			}
+
+			idStr, ok := id.(string)
+			if !ok {
+				return "", errors.New("value of id needs to be string")
+			}
+
+			idSlice := strings.Split(idStr, "-")
+			return idSlice[1], nil
+		}
+	})
 }

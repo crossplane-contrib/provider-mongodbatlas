@@ -7,101 +7,136 @@ package v1alpha1
 
 import (
 	"context"
+	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/org/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// ResolveReferences of this APIKey.
+func (mg *APIKey) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.OrgIDRef,
+		Selector:     mg.Spec.ForProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
+	}
+	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.OrgIDRef,
+		Selector:     mg.Spec.InitProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this APIKeyProjectAssignment.
+func (mg *APIKeyProjectAssignment) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.APIKeyID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.APIKeyIDRef,
+		Selector:     mg.Spec.ForProvider.APIKeyIDSelector,
+		To: reference.To{
+			List:    &APIKeyList{},
+			Managed: &APIKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.APIKeyID")
+	}
+	mg.Spec.ForProvider.APIKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.APIKeyIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.APIKeyID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.APIKeyIDRef,
+		Selector:     mg.Spec.InitProvider.APIKeyIDSelector,
+		To: reference.To{
+			List:    &APIKeyList{},
+			Managed: &APIKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.APIKeyID")
+	}
+	mg.Spec.InitProvider.APIKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.APIKeyIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Auditing.
 func (mg *Auditing) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.ForProvider.ProjectIDRef,
-		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
-		To: reference.To{
-			List:    &ProjectList{},
-			Managed: &Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
-	}
-	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.InitProvider.ProjectIDRef,
-		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
-		To: reference.To{
-			List:    &ProjectList{},
-			Managed: &Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
-	}
-	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this Cluster.
-func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.ForProvider.ProjectIDRef,
-		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
-		To: reference.To{
-			List:    &ProjectList{},
-			Managed: &Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
-	}
-	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.InitProvider.ProjectIDRef,
-		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
-		To: reference.To{
-			List:    &ProjectList{},
-			Managed: &Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
-	}
-	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this ClusterConfig.
-func (mg *ClusterConfig) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -188,8 +223,272 @@ func (mg *ClusterOutageSimulation) ResolveReferences(ctx context.Context, c clie
 	return nil
 }
 
+// ResolveReferences of this CustomDNSConfigurationClusterAWS.
+func (mg *CustomDNSConfigurationClusterAWS) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this EmployeeAccessGrant.
 func (mg *EmployeeAccessGrant) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this EventTrigger.
+func (mg *EventTrigger) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this FlexCluster.
+func (mg *FlexCluster) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this LogIntegration.
+func (mg *LogIntegration) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this MaintenanceWindow.
+func (mg *MaintenanceWindow) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this OnlineArchive.
+func (mg *OnlineArchive) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -246,8 +545,8 @@ func (mg *Project) ResolveReferences(ctx context.Context, c client.Reader) error
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -263,8 +562,140 @@ func (mg *Project) ResolveReferences(ctx context.Context, c client.Reader) error
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this PushBasedLogExport.
+func (mg *PushBasedLogExport) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ResourcePolicy.
+func (mg *ResourcePolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.OrgIDRef,
+		Selector:     mg.Spec.ForProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
+	}
+	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.OrgIDRef,
+		Selector:     mg.Spec.InitProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ServiceAccount.
+func (mg *ServiceAccount) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.OrgIDRef,
+		Selector:     mg.Spec.ForProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
+	}
+	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.OrgIDRef,
+		Selector:     mg.Spec.InitProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -290,8 +721,8 @@ func (mg *ServiceAccountAccessListEntry) ResolveReferences(ctx context.Context, 
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -307,8 +738,96 @@ func (mg *ServiceAccountAccessListEntry) ResolveReferences(ctx context.Context, 
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ServiceAccountProjectAssignment.
+func (mg *ServiceAccountProjectAssignment) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ProjectIDRef,
+		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ProjectIDRef,
+		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ServiceAccountSecret.
+func (mg *ServiceAccountSecret) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.OrgIDRef,
+		Selector:     mg.Spec.ForProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
+	}
+	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.OrgIDRef,
+		Selector:     mg.Spec.InitProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -334,8 +853,8 @@ func (mg *Team) ResolveReferences(ctx context.Context, c client.Reader) error {
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -351,8 +870,8 @@ func (mg *Team) ResolveReferences(ctx context.Context, c client.Reader) error {
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {

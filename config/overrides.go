@@ -12,7 +12,7 @@ var clusterGkvOverrideMap = map[string]schema.GroupVersionKind{
 	"mongodbatlas_advanced_cluster": {
 		Group:   "",
 		Kind:    "AdvancedCluster",
-		Version: commonCluster.VersionV1Alpha2,
+		Version: commonCluster.VersionV1Alpha3,
 	},
 	"mongodbatlas_cluster": {
 		Group:   "",
@@ -25,7 +25,7 @@ var namespacedGkvOverrideMap = map[string]schema.GroupVersionKind{
 	"mongodbatlas_advanced_cluster": {
 		Group:   "",
 		Kind:    "AdvancedCluster",
-		Version: commonNamespaced.VersionV1Alpha2,
+		Version: commonNamespaced.VersionV1Alpha3,
 	},
 	"mongodbatlas_cluster": {
 		Group:   "",

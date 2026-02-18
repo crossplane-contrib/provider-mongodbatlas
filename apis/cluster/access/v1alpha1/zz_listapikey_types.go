@@ -15,14 +15,14 @@ import (
 
 type ListAPIKeyInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/api/v1alpha1.Key
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.APIKey
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
-	// Reference to a Key in api to populate apiKeyId.
+	// Reference to a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
 	APIKeyIDRef *v1.Reference `json:"apiKeyIdRef,omitempty" tf:"-"`
 
-	// Selector for a Key in api to populate apiKeyId.
+	// Selector for a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v1.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
@@ -30,14 +30,14 @@ type ListAPIKeyInitParameters struct {
 
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/org/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in mongodbatlas to populate orgId.
+	// Reference to a Organization in org to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in mongodbatlas to populate orgId.
+	// Selector for a Organization in org to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }
@@ -56,15 +56,15 @@ type ListAPIKeyObservation struct {
 
 type ListAPIKeyParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/api/v1alpha1.Key
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.APIKey
 	// +kubebuilder:validation:Optional
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
-	// Reference to a Key in api to populate apiKeyId.
+	// Reference to a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
 	APIKeyIDRef *v1.Reference `json:"apiKeyIdRef,omitempty" tf:"-"`
 
-	// Selector for a Key in api to populate apiKeyId.
+	// Selector for a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v1.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
@@ -74,15 +74,15 @@ type ListAPIKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/org/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in mongodbatlas to populate orgId.
+	// Reference to a Organization in org to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in mongodbatlas to populate orgId.
+	// Selector for a Organization in org to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }

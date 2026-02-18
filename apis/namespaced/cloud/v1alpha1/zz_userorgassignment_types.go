@@ -57,7 +57,16 @@ type RolesParameters struct {
 type UserOrgAssignmentInitParameters struct {
 
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/org/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	Roles *RolesInitParameters `json:"roles,omitempty" tf:"roles,omitempty"`
 
@@ -118,8 +127,17 @@ type UserOrgAssignmentObservation struct {
 type UserOrgAssignmentParameters struct {
 
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/org/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Roles *RolesParameters `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -165,7 +183,6 @@ type UserOrgAssignmentStatus struct {
 type UserOrgAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roles) || (has(self.initProvider) && has(self.initProvider.roles))",message="spec.forProvider.roles is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.username) || (has(self.initProvider) && has(self.initProvider.username))",message="spec.forProvider.username is a required parameter"
 	Spec   UserOrgAssignmentSpec   `json:"spec"`

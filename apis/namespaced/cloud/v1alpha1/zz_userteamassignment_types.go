@@ -36,7 +36,16 @@ type UserTeamAssignmentInitParameters struct {
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
+	// Reference to a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDRef *v1.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+
+	// Selector for a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDSelector *v1.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
@@ -102,8 +111,17 @@ type UserTeamAssignmentParameters struct {
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
+	// Reference to a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDRef *v1.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+
+	// Selector for a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDSelector *v1.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	// +kubebuilder:validation:Optional
@@ -162,7 +180,6 @@ type UserTeamAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.teamId) || (has(self.initProvider) && has(self.initProvider.teamId))",message="spec.forProvider.teamId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userId) || (has(self.initProvider) && has(self.initProvider.userId))",message="spec.forProvider.userId is a required parameter"
 	Spec   UserTeamAssignmentSpec   `json:"spec"`
 	Status UserTeamAssignmentStatus `json:"status,omitempty"`

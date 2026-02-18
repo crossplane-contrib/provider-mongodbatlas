@@ -61,7 +61,8 @@ spec:
                   apiKeyId:
                     type: string
                   apiKeyIdRef:
-                    description: Reference to a Key in api to populate apiKeyId.
+                    description: Reference to a APIKey in mongodbatlas to populate
+                      apiKeyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -98,7 +99,8 @@ spec:
                     - name
                     type: object
                   apiKeyIdSelector:
-                    description: Selector for a Key in api to populate apiKeyId.
+                    description: Selector for a APIKey in mongodbatlas to populate
+                      apiKeyId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -147,8 +149,7 @@ spec:
                   orgId:
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in mongodbatlas to populate
-                      orgId.
+                    description: Reference to a Organization in org to populate orgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -185,8 +186,7 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in mongodbatlas to populate
-                      orgId.
+                    description: Selector for a Organization in org to populate orgId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -245,7 +245,8 @@ spec:
                   apiKeyId:
                     type: string
                   apiKeyIdRef:
-                    description: Reference to a Key in api to populate apiKeyId.
+                    description: Reference to a APIKey in mongodbatlas to populate
+                      apiKeyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -282,7 +283,8 @@ spec:
                     - name
                     type: object
                   apiKeyIdSelector:
-                    description: Selector for a Key in api to populate apiKeyId.
+                    description: Selector for a APIKey in mongodbatlas to populate
+                      apiKeyId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -331,8 +333,7 @@ spec:
                   orgId:
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in mongodbatlas to populate
-                      orgId.
+                    description: Reference to a Organization in org to populate orgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -369,8 +370,7 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in mongodbatlas to populate
-                      orgId.
+                    description: Selector for a Organization in org to populate orgId.
                     properties:
                       matchControllerRef:
                         description: |-

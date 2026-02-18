@@ -47,25 +47,25 @@ type RoleAssignmentsParameters struct {
 type RoleMappingInitParameters struct {
 	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
-	// Reference to a Organization in global to populate federationSettingsId.
+	// Reference to a Organization in mongodbatlas to populate federationSettingsId.
 	// +kubebuilder:validation:Optional
 	FederationSettingsIDRef *v1.Reference `json:"federationSettingsIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in global to populate federationSettingsId.
+	// Selector for a Organization in mongodbatlas to populate federationSettingsId.
 	// +kubebuilder:validation:Optional
 	FederationSettingsIDSelector *v1.Selector `json:"federationSettingsIdSelector,omitempty" tf:"-"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in global to populate orgId.
+	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in global to populate orgId.
+	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
@@ -91,27 +91,27 @@ type RoleMappingParameters struct {
 	// +kubebuilder:validation:Optional
 	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
-	// Reference to a Organization in global to populate federationSettingsId.
+	// Reference to a Organization in mongodbatlas to populate federationSettingsId.
 	// +kubebuilder:validation:Optional
 	FederationSettingsIDRef *v1.Reference `json:"federationSettingsIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in global to populate federationSettingsId.
+	// Selector for a Organization in mongodbatlas to populate federationSettingsId.
 	// +kubebuilder:validation:Optional
 	FederationSettingsIDSelector *v1.Selector `json:"federationSettingsIdSelector,omitempty" tf:"-"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in global to populate orgId.
+	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in global to populate orgId.
+	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 

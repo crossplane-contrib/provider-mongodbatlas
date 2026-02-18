@@ -21,7 +21,7 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
 	features "github.com/crossplane-contrib/provider-mongodbatlas/internal/features"
 )
 

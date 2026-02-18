@@ -40,6 +40,9 @@ func (tr *MaintenanceWindow) Hub() {}
 func (tr *OnlineArchive) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *Organization) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Project) Hub() {}
 
 // Hub marks this type as a conversion hub.

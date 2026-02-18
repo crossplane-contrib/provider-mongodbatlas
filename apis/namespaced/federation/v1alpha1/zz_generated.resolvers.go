@@ -7,7 +7,6 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha11 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/global/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
@@ -72,8 +71,8 @@ func (mg *OrgConfigSettings) ResolveReferences(ctx context.Context, c client.Rea
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -89,8 +88,8 @@ func (mg *OrgConfigSettings) ResolveReferences(ctx context.Context, c client.Rea
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -204,8 +203,8 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 		Reference:    mg.Spec.ForProvider.FederationSettingsIDRef,
 		Selector:     mg.Spec.ForProvider.FederationSettingsIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -221,8 +220,8 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -238,8 +237,8 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 		Reference:    mg.Spec.InitProvider.FederationSettingsIDRef,
 		Selector:     mg.Spec.InitProvider.FederationSettingsIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -255,8 +254,8 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {

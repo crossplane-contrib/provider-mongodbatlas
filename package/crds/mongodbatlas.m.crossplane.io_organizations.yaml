@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.1
-  name: organizations.global.mongodbatlas.m.crossplane.io
+  name: organizations.mongodbatlas.m.crossplane.io
 spec:
-  group: global.mongodbatlas.m.crossplane.io
+  group: mongodbatlas.m.crossplane.io
   names:
     categories:
     - crossplane

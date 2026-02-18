@@ -30,14 +30,14 @@ type AccessListAPIKeyInitParameters struct {
 
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in global to populate orgId.
+	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in global to populate orgId.
+	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }
@@ -74,15 +74,15 @@ type AccessListAPIKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in global to populate orgId.
+	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in global to populate orgId.
+	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }

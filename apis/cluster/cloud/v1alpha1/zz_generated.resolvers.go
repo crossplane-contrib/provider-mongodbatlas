@@ -7,7 +7,6 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha11 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
 	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
@@ -483,8 +482,8 @@ func (mg *UserOrgAssignment) ResolveReferences(ctx context.Context, c client.Rea
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -500,8 +499,8 @@ func (mg *UserOrgAssignment) ResolveReferences(ctx context.Context, c client.Rea
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.OrganizationList{},
-			Managed: &v1alpha11.Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {

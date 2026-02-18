@@ -71,8 +71,8 @@ func (mg *Invitation) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {
@@ -88,8 +88,8 @@ func (mg *Invitation) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &OrganizationList{},
-			Managed: &Organization{},
+			List:    &v1alpha1.OrganizationList{},
+			Managed: &v1alpha1.Organization{},
 		},
 	})
 	if err != nil {

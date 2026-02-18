@@ -11,6 +11,3 @@ func (tr *ClusterConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Invitation) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Organization) Hub() {}

@@ -7,7 +7,6 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -27,8 +26,8 @@ func (mg *APIKey) ResolveReferences(ctx context.Context, c client.Reader) error 
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -44,8 +43,8 @@ func (mg *APIKey) ResolveReferences(ctx context.Context, c client.Reader) error 
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -166,8 +165,8 @@ func (mg *AccessListAPIKey) ResolveReferences(ctx context.Context, c client.Read
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -200,8 +199,8 @@ func (mg *AccessListAPIKey) ResolveReferences(ctx context.Context, c client.Read
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -579,8 +578,8 @@ func (mg *Project) ResolveReferences(ctx context.Context, c client.Reader) error
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -596,8 +595,8 @@ func (mg *Project) ResolveReferences(ctx context.Context, c client.Reader) error
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -667,8 +666,8 @@ func (mg *ResourcePolicy) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -684,8 +683,8 @@ func (mg *ResourcePolicy) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -711,8 +710,8 @@ func (mg *ServiceAccount) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -728,8 +727,8 @@ func (mg *ServiceAccount) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -755,8 +754,8 @@ func (mg *ServiceAccountAccessListEntry) ResolveReferences(ctx context.Context, 
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -772,8 +771,8 @@ func (mg *ServiceAccountAccessListEntry) ResolveReferences(ctx context.Context, 
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -843,8 +842,8 @@ func (mg *ServiceAccountSecret) ResolveReferences(ctx context.Context, c client.
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -860,8 +859,8 @@ func (mg *ServiceAccountSecret) ResolveReferences(ctx context.Context, c client.
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -887,8 +886,8 @@ func (mg *Team) ResolveReferences(ctx context.Context, c client.Reader) error {
 		Reference:    mg.Spec.ForProvider.OrgIDRef,
 		Selector:     mg.Spec.ForProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {
@@ -904,8 +903,8 @@ func (mg *Team) ResolveReferences(ctx context.Context, c client.Reader) error {
 		Reference:    mg.Spec.InitProvider.OrgIDRef,
 		Selector:     mg.Spec.InitProvider.OrgIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
+			List:    &OrganizationList{},
+			Managed: &Organization{},
 		},
 	})
 	if err != nil {

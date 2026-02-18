@@ -17,7 +17,7 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_organization", func(r *config.Resource) {
-		r.ShortGroup = "global"
+		r.ShortGroup = ""
 		r.Kind = "Organization"
 	})
 

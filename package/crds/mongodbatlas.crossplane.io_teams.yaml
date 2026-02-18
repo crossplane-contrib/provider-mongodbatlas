@@ -77,7 +77,7 @@ spec:
                   orgId:
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in global to populate
+                    description: Reference to a Organization in mongodbatlas to populate
                       orgId.
                     properties:
                       name:
@@ -112,7 +112,7 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in global to populate
+                    description: Selector for a Organization in mongodbatlas to populate
                       orgId.
                     properties:
                       matchControllerRef:
@@ -176,7 +176,7 @@ spec:
                   orgId:
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in global to populate
+                    description: Reference to a Organization in mongodbatlas to populate
                       orgId.
                     properties:
                       name:
@@ -211,7 +211,7 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in global to populate
+                    description: Selector for a Organization in mongodbatlas to populate
                       orgId.
                     properties:
                       matchControllerRef:

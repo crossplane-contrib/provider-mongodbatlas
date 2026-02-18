@@ -34,7 +34,6 @@ import (
 	rolemapping "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federation/rolemapping"
 	clusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/clusterconfig"
 	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/invitation"
-	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/organization"
 	configurationldap "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/configuration"
 	verify "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/verify"
 	accesslistapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/accesslistapikey"
@@ -50,6 +49,7 @@ import (
 	logintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/logintegration"
 	maintenancewindow "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/maintenancewindow"
 	onlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/onlinearchive"
+	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/organization"
 	project "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/project"
 	pushbasedlogexport "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/pushbasedlogexport"
 	resourcepolicy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/resourcepolicy"
@@ -110,7 +110,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		rolemapping.Setup,
 		clusterconfig.Setup,
 		invitation.Setup,
-		organization.Setup,
 		configurationldap.Setup,
 		verify.Setup,
 		accesslistapikey.Setup,
@@ -126,6 +125,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		logintegration.Setup,
 		maintenancewindow.Setup,
 		onlinearchive.Setup,
+		organization.Setup,
 		project.Setup,
 		pushbasedlogexport.Setup,
 		resourcepolicy.Setup,
@@ -192,7 +192,6 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		rolemapping.SetupGated,
 		clusterconfig.SetupGated,
 		invitation.SetupGated,
-		organization.SetupGated,
 		configurationldap.SetupGated,
 		verify.SetupGated,
 		accesslistapikey.SetupGated,
@@ -208,6 +207,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		logintegration.SetupGated,
 		maintenancewindow.SetupGated,
 		onlinearchive.SetupGated,
+		organization.SetupGated,
 		project.SetupGated,
 		pushbasedlogexport.SetupGated,
 		resourcepolicy.SetupGated,

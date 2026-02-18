@@ -1,6 +1,7 @@
 package common
 
 import (
+	"context"
 	"encoding/base64"
 	"fmt"
 	"strings"
@@ -85,4 +86,48 @@ func Base64EncodeTokens(keyVal ...interface{}) (string, error) {
 func SetIdentifierFunc(base map[string]interface{}, externalName string) {
 	parts := strings.Split(externalName, ":")
 	base["name"] = parts[0]
+}
+
+// GetIDFromParamsAndExternalName returns a GetIDFn that builds a composite ID
+// by extracting parameter values and inserting the externalName at the given
+// index position, joining all parts with sep.
+func GetIDFromParamsAndExternalName(sep string, externalNameIndex int, params ...string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
+	return func(_ context.Context, externalName string, parameters map[string]any, _ map[string]any) (string, error) {
+		parts := make([]string, len(params)+1)
+		parts[externalNameIndex] = externalName
+		paramIdx := 0
+		for i := range parts {
+			if i == externalNameIndex {
+				continue
+			}
+			v, ok := parameters[params[paramIdx]]
+			if !ok {
+				return "", fmt.Errorf("%s missing from parameters", params[paramIdx])
+			}
+			parts[i] = fmt.Sprint(v)
+			paramIdx++
+		}
+		return strings.Join(parts, sep), nil
+	}
+}
+
+// ExternalNameFromSegment returns a GetExternalNameFn that splits the
+// resource ID by the given separator and returns the segment at the given
+// index. If no index is provided, it returns the last segment.
+func ExternalNameFromSegment(sep string, index ...int) func(tfstate map[string]any) (string, error) {
+	return func(tfstate map[string]any) (string, error) {
+		id, ok := tfstate["id"]
+		if !ok {
+			return "", errors.New("id attribute missing from state file")
+		}
+		idStr, ok := id.(string)
+		if !ok {
+			return "", errors.New("value of id needs to be string")
+		}
+		parts := strings.Split(idStr, sep)
+		if len(index) > 0 {
+			return parts[index[0]], nil
+		}
+		return parts[len(parts)-1], nil
+	}
 }

@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+
+	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 )
 
 // Configure configures the root group
@@ -81,28 +82,8 @@ func Configure(p *config.Provider) {
 			},
 		}
 
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			org, ok := parameters["org_id"]
-			if !ok {
-				return "", errors.New("org_id missing from parameters")
-			}
-			return fmt.Sprintf("%s-%s", org, externalName), nil
-		}
-
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
-
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
-
-			idSlice := strings.Split(idStr, "-")
-			return idSlice[1], nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "org_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_team_project_assignment", func(r *config.Resource) {
@@ -124,28 +105,8 @@ func Configure(p *config.Provider) {
 			},
 		}
 
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			org, ok := parameters["org_id"]
-			if !ok {
-				return "", errors.New("org_id missing from parameters")
-			}
-			return fmt.Sprintf("%s-%s", org, externalName), nil
-		}
-
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
-
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
-
-			idSlice := strings.Split(idStr, "-")
-			return idSlice[1], nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "org_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_api_key_project_assignment", func(r *config.Resource) {
@@ -170,32 +131,8 @@ func Configure(p *config.Provider) {
 			},
 		}
 
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			project, ok := parameters["project_id"]
-			if !ok {
-				return "", errors.New("project_id missing from parameters")
-			}
-			app, ok := parameters["app_id"]
-			if !ok {
-				return "", errors.New("app_id missing from parameters")
-			}
-			return fmt.Sprintf("%s-%s-%s", project, app, externalName), nil
-		}
-
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
-
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
-
-			idSlice := strings.Split(idStr, "-")
-			return idSlice[2], nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "project_id", "app_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_log_integration", func(r *config.Resource) {
@@ -207,27 +144,24 @@ func Configure(p *config.Provider) {
 			},
 		}
 
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			project, ok := parameters["project_id"]
-			if !ok {
-				return "", errors.New("project_id missing from parameters")
-			}
-			return fmt.Sprintf("%s/%s", project, externalName), nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "project_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
+	})
 
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
+	p.AddResourceConfigurator("mongodbatlas_organization", func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.Kind = "Organization"
+	})
 
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
+	p.AddResourceConfigurator("mongodbatlas_org_invitation", func(r *config.Resource) {
+		r.ShortGroup = "global"
+		r.Kind = "Invitation"
+		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Migrate to mongodbatlas_cloud_user_org_assignment for managing organization membership."
 
-			idSlice := strings.Split(idStr, "/")
-			return idSlice[1], nil
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
 		}
 	})
 
@@ -271,27 +205,8 @@ func Configure(p *config.Provider) {
 			},
 		}
 
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			org, ok := parameters["org_id"]
-			if !ok {
-				return "", errors.New("org_id missing from parameters")
-			}
-			return fmt.Sprintf("%s/%s", org, externalName), nil
-		}
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
-
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
-
-			idSlice := strings.Split(idStr, "/")
-			return idSlice[1], nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "org_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account_secret", func(r *config.Resource) {
@@ -303,32 +218,8 @@ func Configure(p *config.Provider) {
 			},
 		}
 
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			org, ok := parameters["org_id"]
-			if !ok {
-				return "", errors.New("org_id missing from parameters")
-			}
-			client, ok := parameters["client_id"]
-			if !ok {
-				return "", errors.New("client_id missing from parameters")
-			}
-
-			return fmt.Sprintf("%s/%s/%s", org, client, externalName), nil
-		}
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
-
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
-
-			idSlice := strings.Split(idStr, "/")
-			return idSlice[2], nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 2, "org_id", "client_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account_access_list_entry", func(r *config.Resource) {
@@ -382,28 +273,8 @@ func Configure(p *config.Provider) {
 				TerraformName: "mongodbatlas_organization",
 			},
 		}
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			org, ok := parameters["org_id"]
-			if !ok {
-				return "", errors.New("org_id missing from parameters")
-			}
-			return fmt.Sprintf("%s-%s", org, externalName), nil
-		}
-
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
-
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
-
-			idSlice := strings.Split(idStr, "-")
-			return idSlice[1], nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "org_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_online_archive", func(r *config.Resource) {
@@ -415,33 +286,8 @@ func Configure(p *config.Provider) {
 			},
 		}
 
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			project, ok := parameters["project_id"]
-			if !ok {
-				return "", errors.New("project_id missing from parameters")
-			}
-			cluster, ok := parameters["cluster_name"]
-			if !ok {
-				return "", errors.New("cluster_name missing from parameters")
-			}
-
-			return fmt.Sprintf("%s-%s-%s", project, cluster, externalName), nil
-		}
-
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"]
-			if !ok {
-				return "", errors.New("id attribute missing from state file")
-			}
-
-			idStr, ok := id.(string)
-			if !ok {
-				return "", errors.New("value of id needs to be string")
-			}
-
-			idSlice := strings.Split(idStr, "-")
-			return idSlice[2], nil
-		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "project_id", "cluster_name")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {

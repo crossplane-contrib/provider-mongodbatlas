@@ -17,14 +17,14 @@ import (
 type APIKeyInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/org/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/global/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in org to populate orgId.
+	// Reference to a Organization in global to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in org to populate orgId.
+	// Selector for a Organization in global to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
@@ -52,15 +52,15 @@ type APIKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/org/v1alpha1.Organization
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/global/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a Organization in org to populate orgId.
+	// Reference to a Organization in global to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Organization in org to populate orgId.
+	// Selector for a Organization in global to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 

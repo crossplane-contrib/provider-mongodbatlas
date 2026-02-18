@@ -6,7 +6,6 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
-	accessCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/access"
 	alertCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/alert"
 	backupCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/backup"
 	cloudCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/cloud"
@@ -16,12 +15,10 @@ import (
 	ldapCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/ldap"
 	mongodbatlasCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/mongodbatlas"
 	networkCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/network"
-	organizationCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/organization"
 	privateCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/privateendpoint"
 	projectCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/project"
 	streamCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/stream"
 
-	accessNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/access"
 	alertNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/alert"
 	backupNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/backup"
 	cloudnamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/cloud"
@@ -31,7 +28,6 @@ import (
 	ldapNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/ldap"
 	mongodbatlasNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/mongodbatlas"
 	networkNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/network"
-	organizationNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/organization"
 	privateNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/privateendpoint"
 	projectNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/project"
 	streamNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/stream"
@@ -72,7 +68,6 @@ func GetProvider() *ujconfig.Provider {
 	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		accessCluster.Configure,
 		alertCluster.Configure,
 		backupCluster.Configure,
 		cloudCluster.Configure,
@@ -82,7 +77,6 @@ func GetProvider() *ujconfig.Provider {
 		ldapCluster.Configure,
 		mongodbatlasCluster.Configure,
 		networkCluster.Configure,
-		organizationCluster.Configure,
 		privateCluster.Configure,
 		projectCluster.Configure,
 		streamCluster.Configure,
@@ -113,7 +107,6 @@ func GetProviderNamespaced() *ujconfig.Provider {
 	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		accessNamespaced.Configure,
 		alertNamespaced.Configure,
 		backupNamespaced.Configure,
 		cloudnamespaced.Configure,
@@ -123,7 +116,6 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		ldapNamespaced.Configure,
 		mongodbatlasNamespaced.Configure,
 		networkNamespaced.Configure,
-		organizationNamespaced.Configure,
 		privateNamespaced.Configure,
 		projectNamespaced.Configure,
 		streamNamespaced.Configure,

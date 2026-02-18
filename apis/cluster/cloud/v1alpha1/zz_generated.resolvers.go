@@ -7,8 +7,8 @@ package v1alpha1
 
 import (
 	"context"
+	v1alpha11 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/global/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
-	v1alpha11 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/org/v1alpha1"
 	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"

@@ -80,7 +80,8 @@ spec:
                       user has access.
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in org to populate orgId.
+                    description: Reference to a Organization in global to populate
+                      orgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -114,7 +115,8 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in org to populate orgId.
+                    description: Selector for a Organization in global to populate
+                      orgId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -188,7 +190,8 @@ spec:
                       user has access.
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in org to populate orgId.
+                    description: Reference to a Organization in global to populate
+                      orgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -222,7 +225,8 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in org to populate orgId.
+                    description: Selector for a Organization in global to populate
+                      orgId.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -25,8 +25,8 @@ func (l *APIKeyProjectAssignmentList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this AuditingList.
-func (l *AuditingList) GetItems() []resource.Managed {
+// GetItems of this AccessListAPIKeyList.
+func (l *AccessListAPIKeyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -34,8 +34,8 @@ func (l *AuditingList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ClusterOutageSimulationList.
-func (l *ClusterOutageSimulationList) GetItems() []resource.Managed {
+// GetItems of this AuditingList.
+func (l *AuditingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

@@ -7,7 +7,58 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *AccessListAPIKey) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *APIKey) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *APIKeyProjectAssignment) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Auditing) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *CustomDNSConfigurationClusterAWS) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EmployeeAccessGrant) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EventTrigger) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FlexCluster) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *LogIntegration) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *MaintenanceWindow) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *OnlineArchive) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Project) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PushBasedLogExport) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ResourcePolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceAccount) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceAccountAccessListEntry) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceAccountProjectAssignment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceAccountSecret) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Team) Hub() {}

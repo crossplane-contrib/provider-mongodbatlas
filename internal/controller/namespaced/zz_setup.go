@@ -9,7 +9,6 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	listapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/access/listapikey"
 	configuration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/alert/configuration"
 	compliancepolicy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/backup/compliancepolicy"
 	backupschedule "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupschedule"
@@ -23,6 +22,7 @@ import (
 	userorgassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/userorgassignment"
 	userprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/userprojectassignment"
 	userteamassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/userteamassignment"
+	outagesimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cluster/outagesimulation"
 	customrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/database/customrole"
 	user "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/database/user"
 	x509userauthentication "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/database/x509userauthentication"
@@ -33,14 +33,16 @@ import (
 	querylimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federation/querylimit"
 	rolemapping "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federation/rolemapping"
 	clusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/clusterconfig"
+	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/invitation"
+	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/organization"
 	configurationldap "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/configuration"
 	verify "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/verify"
+	accesslistapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/accesslistapikey"
 	advancedcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/advancedcluster"
 	apikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/apikey"
 	apikeyprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/apikeyprojectassignment"
 	auditing "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/auditing"
 	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/cluster"
-	clusteroutagesimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/clusteroutagesimulation"
 	customdnsconfigurationclusteraws "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/customdnsconfigurationclusteraws"
 	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/employeeaccessgrant"
 	eventtrigger "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/eventtrigger"
@@ -58,8 +60,6 @@ import (
 	team "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/team"
 	container "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/network/container"
 	peering "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/network/peering"
-	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/org/invitation"
-	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/org/organization"
 	regionalmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privateendpoint/regionalmode"
 	resource "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privateendpoint/resource"
 	service "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privateendpoint/service"
@@ -85,7 +85,6 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		listapikey.Setup,
 		configuration.Setup,
 		compliancepolicy.Setup,
 		backupschedule.Setup,
@@ -99,6 +98,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		userorgassignment.Setup,
 		userprojectassignment.Setup,
 		userteamassignment.Setup,
+		outagesimulation.Setup,
 		customrole.Setup,
 		user.Setup,
 		x509userauthentication.Setup,
@@ -109,14 +109,16 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		querylimit.Setup,
 		rolemapping.Setup,
 		clusterconfig.Setup,
+		invitation.Setup,
+		organization.Setup,
 		configurationldap.Setup,
 		verify.Setup,
+		accesslistapikey.Setup,
 		advancedcluster.Setup,
 		apikey.Setup,
 		apikeyprojectassignment.Setup,
 		auditing.Setup,
 		cluster.Setup,
-		clusteroutagesimulation.Setup,
 		customdnsconfigurationclusteraws.Setup,
 		employeeaccessgrant.Setup,
 		eventtrigger.Setup,
@@ -134,8 +136,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		team.Setup,
 		container.Setup,
 		peering.Setup,
-		invitation.Setup,
-		organization.Setup,
 		regionalmode.Setup,
 		resource.Setup,
 		service.Setup,
@@ -167,7 +167,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		listapikey.SetupGated,
 		configuration.SetupGated,
 		compliancepolicy.SetupGated,
 		backupschedule.SetupGated,
@@ -181,6 +180,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		userorgassignment.SetupGated,
 		userprojectassignment.SetupGated,
 		userteamassignment.SetupGated,
+		outagesimulation.SetupGated,
 		customrole.SetupGated,
 		user.SetupGated,
 		x509userauthentication.SetupGated,
@@ -191,14 +191,16 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		querylimit.SetupGated,
 		rolemapping.SetupGated,
 		clusterconfig.SetupGated,
+		invitation.SetupGated,
+		organization.SetupGated,
 		configurationldap.SetupGated,
 		verify.SetupGated,
+		accesslistapikey.SetupGated,
 		advancedcluster.SetupGated,
 		apikey.SetupGated,
 		apikeyprojectassignment.SetupGated,
 		auditing.SetupGated,
 		cluster.SetupGated,
-		clusteroutagesimulation.SetupGated,
 		customdnsconfigurationclusteraws.SetupGated,
 		employeeaccessgrant.SetupGated,
 		eventtrigger.SetupGated,
@@ -216,8 +218,6 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		team.SetupGated,
 		container.SetupGated,
 		peering.SetupGated,
-		invitation.SetupGated,
-		organization.SetupGated,
 		regionalmode.SetupGated,
 		resource.SetupGated,
 		service.SetupGated,

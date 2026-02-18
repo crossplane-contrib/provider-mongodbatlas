@@ -77,7 +77,8 @@ spec:
                   federationSettingsId:
                     type: string
                   federationSettingsIdRef:
-                    description: Reference to a Organization in org to populate federationSettingsId.
+                    description: Reference to a Organization in global to populate
+                      federationSettingsId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -111,7 +112,8 @@ spec:
                     - name
                     type: object
                   federationSettingsIdSelector:
-                    description: Selector for a Organization in org to populate federationSettingsId.
+                    description: Selector for a Organization in global to populate
+                      federationSettingsId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -153,7 +155,8 @@ spec:
                   orgId:
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in org to populate orgId.
+                    description: Reference to a Organization in global to populate
+                      orgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -187,7 +190,8 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in org to populate orgId.
+                    description: Selector for a Organization in global to populate
+                      orgId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -259,7 +263,8 @@ spec:
                   federationSettingsId:
                     type: string
                   federationSettingsIdRef:
-                    description: Reference to a Organization in org to populate federationSettingsId.
+                    description: Reference to a Organization in global to populate
+                      federationSettingsId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -293,7 +298,8 @@ spec:
                     - name
                     type: object
                   federationSettingsIdSelector:
-                    description: Selector for a Organization in org to populate federationSettingsId.
+                    description: Selector for a Organization in global to populate
+                      federationSettingsId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -335,7 +341,8 @@ spec:
                   orgId:
                     type: string
                   orgIdRef:
-                    description: Reference to a Organization in org to populate orgId.
+                    description: Reference to a Organization in global to populate
+                      orgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -369,7 +376,8 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a Organization in org to populate orgId.
+                    description: Selector for a Organization in global to populate
+                      orgId.
                     properties:
                       matchControllerRef:
                         description: |-

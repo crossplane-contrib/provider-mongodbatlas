@@ -10,10 +10,10 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/access/v1alpha1"
-	v1alpha1alert "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/alert/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/alert/v1alpha1"
 	v1alpha1backup "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/backup/v1alpha1"
 	v1alpha1cloud "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1"
+	v1alpha1cluster "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cluster/v1alpha1"
 	v1alpha1database "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha1"
 	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha2"
 	v1alpha1federation "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/federation/v1alpha1"
@@ -23,14 +23,13 @@ import (
 	v1alpha2mongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha2"
 	v1alpha3 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3"
 	v1alpha1network "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/network/v1alpha1"
-	v1alpha1org "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/org/v1alpha1"
 	v1alpha1privateendpoint "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/privateendpoint/v1alpha1"
 	v1alpha1project "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/project/v1alpha1"
 	v1alpha1search "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/search/v1alpha1"
 	v1alpha1stream "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/stream/v1alpha1"
 	v1alpha1team "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/team/v1alpha1"
 	v1alpha1third "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/third/v1alpha1"
-	v1alpha1cluster "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/v1alpha1"
+	v1alpha1clusterapis "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/v1alpha1"
 	v1beta1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/v1beta1"
 )
 
@@ -38,9 +37,9 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
-		v1alpha1alert.SchemeBuilder.AddToScheme,
 		v1alpha1backup.SchemeBuilder.AddToScheme,
 		v1alpha1cloud.SchemeBuilder.AddToScheme,
+		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1alpha1database.SchemeBuilder.AddToScheme,
 		v1alpha2.SchemeBuilder.AddToScheme,
 		v1alpha1federation.SchemeBuilder.AddToScheme,
@@ -50,14 +49,13 @@ func init() {
 		v1alpha2mongodbatlas.SchemeBuilder.AddToScheme,
 		v1alpha3.SchemeBuilder.AddToScheme,
 		v1alpha1network.SchemeBuilder.AddToScheme,
-		v1alpha1org.SchemeBuilder.AddToScheme,
 		v1alpha1privateendpoint.SchemeBuilder.AddToScheme,
 		v1alpha1project.SchemeBuilder.AddToScheme,
 		v1alpha1search.SchemeBuilder.AddToScheme,
 		v1alpha1stream.SchemeBuilder.AddToScheme,
 		v1alpha1team.SchemeBuilder.AddToScheme,
 		v1alpha1third.SchemeBuilder.AddToScheme,
-		v1alpha1cluster.SchemeBuilder.AddToScheme,
+		v1alpha1clusterapis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)
 }

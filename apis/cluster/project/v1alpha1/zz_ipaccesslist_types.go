@@ -14,16 +14,21 @@ import (
 )
 
 type IPAccessListInitParameters struct {
+
+	// Unique identifier of the AWS security group to add to the access list. Mutually exclusive with `cidr_block` and `ip_address`.
 	AwsSecurityGroup *string `json:"awsSecurityGroup,omitempty" tf:"aws_security_group,omitempty"`
 
+	// Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with `ip_address` and `aws_security_group`.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// Remark that explains the purpose or scope of this IP access list entry.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
+	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -38,16 +43,22 @@ type IPAccessListInitParameters struct {
 }
 
 type IPAccessListObservation struct {
+
+	// Unique identifier of the AWS security group to add to the access list. Mutually exclusive with `cidr_block` and `ip_address`.
 	AwsSecurityGroup *string `json:"awsSecurityGroup,omitempty" tf:"aws_security_group,omitempty"`
 
+	// Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with `ip_address` and `aws_security_group`.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// Remark that explains the purpose or scope of this IP access list entry.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
@@ -55,20 +66,24 @@ type IPAccessListObservation struct {
 
 type IPAccessListParameters struct {
 
+	// Unique identifier of the AWS security group to add to the access list. Mutually exclusive with `cidr_block` and `ip_address`.
 	// +kubebuilder:validation:Optional
 	AwsSecurityGroup *string `json:"awsSecurityGroup,omitempty" tf:"aws_security_group,omitempty"`
 
+	// Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with `ip_address` and `aws_security_group`.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// Remark that explains the purpose or scope of this IP access list entry.
 	// +kubebuilder:validation:Optional
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
+	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -91,9 +106,6 @@ type TimeoutsInitParameters struct {
 
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
 	Read *string `json:"read,omitempty" tf:"read,omitempty"`
-
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsObservation struct {
@@ -103,9 +115,6 @@ type TimeoutsObservation struct {
 
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
 	Read *string `json:"read,omitempty" tf:"read,omitempty"`
-
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsParameters struct {
@@ -117,10 +126,6 @@ type TimeoutsParameters struct {
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
 	// +kubebuilder:validation:Optional
 	Read *string `json:"read,omitempty" tf:"read,omitempty"`
-
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-	// +kubebuilder:validation:Optional
-	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 // IPAccessListSpec defines the desired state of IPAccessList

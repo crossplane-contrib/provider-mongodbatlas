@@ -390,6 +390,16 @@ func (in *PeeringInitParameters) DeepCopyInto(out *PeeringInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ContainerIDRef != nil {
+		in, out := &in.ContainerIDRef, &out.ContainerIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ContainerIDSelector != nil {
+		in, out := &in.ContainerIDSelector, &out.ContainerIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
 		*out = new(bool)
@@ -676,6 +686,16 @@ func (in *PeeringParameters) DeepCopyInto(out *PeeringParameters) {
 		in, out := &in.ContainerID, &out.ContainerID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ContainerIDRef != nil {
+		in, out := &in.ContainerIDRef, &out.ContainerIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ContainerIDSelector != nil {
+		in, out := &in.ContainerIDSelector, &out.ContainerIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout

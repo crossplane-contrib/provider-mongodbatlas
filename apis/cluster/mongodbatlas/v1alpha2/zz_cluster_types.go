@@ -199,6 +199,8 @@ type ClusterInitParameters struct {
 
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
@@ -208,7 +210,6 @@ type ClusterInitParameters struct {
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -300,6 +301,8 @@ type ClusterObservation struct {
 	MongoURIUpdated *string `json:"mongoUriUpdated,omitempty" tf:"mongo_uri_updated,omitempty"`
 
 	MongoURIWithOptions *string `json:"mongoUriWithOptions,omitempty" tf:"mongo_uri_with_options,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
@@ -400,6 +403,9 @@ type ClusterParameters struct {
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -412,7 +418,6 @@ type ClusterParameters struct {
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -731,6 +736,7 @@ type ClusterStatus struct {
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerInstanceSizeName) || (has(self.initProvider) && has(self.initProvider.providerInstanceSizeName))",message="spec.forProvider.providerInstanceSizeName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
 	Spec   ClusterSpec   `json:"spec"`

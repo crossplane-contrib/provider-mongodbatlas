@@ -9,6 +9,7 @@
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -47,6 +48,16 @@ func (in *ListAPIKeyInitParameters) DeepCopyInto(out *ListAPIKeyInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.APIKeyIDRef != nil {
+		in, out := &in.APIKeyIDRef, &out.APIKeyIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.APIKeyIDSelector != nil {
+		in, out := &in.APIKeyIDSelector, &out.APIKeyIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CidrBlock != nil {
 		in, out := &in.CidrBlock, &out.CidrBlock
 		*out = new(string)
@@ -61,6 +72,16 @@ func (in *ListAPIKeyInitParameters) DeepCopyInto(out *ListAPIKeyInitParameters) 
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
 		**out = **in
+	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -154,6 +175,16 @@ func (in *ListAPIKeyParameters) DeepCopyInto(out *ListAPIKeyParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.APIKeyIDRef != nil {
+		in, out := &in.APIKeyIDRef, &out.APIKeyIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.APIKeyIDSelector != nil {
+		in, out := &in.APIKeyIDSelector, &out.APIKeyIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CidrBlock != nil {
 		in, out := &in.CidrBlock, &out.CidrBlock
 		*out = new(string)
@@ -168,6 +199,16 @@ func (in *ListAPIKeyParameters) DeepCopyInto(out *ListAPIKeyParameters) {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
 		**out = **in
+	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

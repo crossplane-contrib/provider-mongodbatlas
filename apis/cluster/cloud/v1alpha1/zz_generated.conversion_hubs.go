@@ -22,6 +22,9 @@ func (tr *BackupSnapshotExportJob) Hub() {}
 func (tr *BackupSnapshotRestoreJob) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *Instance) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ProviderAccessAuthorization) Hub() {}
 
 // Hub marks this type as a conversion hub.

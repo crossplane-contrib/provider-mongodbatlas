@@ -31,44 +31,33 @@ import (
 	trigger "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/event/trigger"
 	databaseinstance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/databaseinstance"
 	querylimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/querylimit"
-	settingsidentityprovider "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/settingsidentityprovider"
-	settingsorgconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/settingsorgconfig"
-	settingsorgrolemapping "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/settingsorgrolemapping"
-	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/flex/cluster"
 	clusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/global/clusterconfig"
 	configurationldap "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/configuration"
-	verify "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ldap/verify"
+	integration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/log/integration"
 	window "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/maintenance/window"
-	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodb/employeeaccessgrant"
 	advancedcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/advancedcluster"
 	auditing "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/auditing"
-	clustermongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/cluster"
+	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/cluster"
+	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/employeeaccessgrant"
 	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/organization"
 	project "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/project"
 	team "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/team"
 	container "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/network/container"
 	peering "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/network/peering"
 	archive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/online/archive"
-	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/org/invitation"
-	endpointregionalmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/private/endpointregionalmode"
-	endpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpoint"
-	endpointservice "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpointservice"
 	endpointservicedatafederationonlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/privatelink/endpointservicedatafederationonlinearchive"
 	apikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/apikey"
-	invitationproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/invitation"
+	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/invitation"
 	ipaccesslist "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/ipaccesslist"
+	serviceaccount "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/serviceaccount"
+	serviceaccountaccesslistentry "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/serviceaccountaccesslistentry"
+	serviceaccountsecret "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/project/serviceaccountsecret"
 	providerconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/providerconfig"
-	basedlogexport "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/push/basedlogexport"
-	policy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/resource/policy"
-	deployment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/search/deployment"
-	index "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/search/index"
 	instance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/serverless/instance"
-	connection "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/connection"
-	instancestream "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/instance"
-	privatelinkendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/privatelinkendpoint"
-	processor "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/processor"
-	workspace "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/workspace"
-	projectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/team/projectassignment"
+	account "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/service/account"
+	accountaccesslistentry "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/service/accountaccesslistentry"
+	accountprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/service/accountprojectassignment"
+	accountsecret "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/service/accountsecret"
 	partyintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/third/partyintegration"
 	authenticationdatabaseuser "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/x509/authenticationdatabaseuser"
 )
@@ -99,44 +88,34 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		trigger.Setup,
 		databaseinstance.Setup,
 		querylimit.Setup,
-		settingsidentityprovider.Setup,
-		settingsorgconfig.Setup,
-		settingsorgrolemapping.Setup,
-		cluster.Setup,
 		clusterconfig.Setup,
 		configurationldap.Setup,
-		verify.Setup,
+		integration.Setup,
 		window.Setup,
-		employeeaccessgrant.Setup,
 		advancedcluster.Setup,
 		auditing.Setup,
-		clustermongodbatlas.Setup,
+		cluster.Setup,
+		cluster.Setup,
+		employeeaccessgrant.Setup,
 		organization.Setup,
 		project.Setup,
 		team.Setup,
 		container.Setup,
 		peering.Setup,
 		archive.Setup,
-		invitation.Setup,
-		endpointregionalmode.Setup,
-		endpoint.Setup,
-		endpointservice.Setup,
 		endpointservicedatafederationonlinearchive.Setup,
 		apikey.Setup,
-		invitationproject.Setup,
+		invitation.Setup,
 		ipaccesslist.Setup,
+		serviceaccount.Setup,
+		serviceaccountaccesslistentry.Setup,
+		serviceaccountsecret.Setup,
 		providerconfig.Setup,
-		basedlogexport.Setup,
-		policy.Setup,
-		deployment.Setup,
-		index.Setup,
 		instance.Setup,
-		connection.Setup,
-		instancestream.Setup,
-		privatelinkendpoint.Setup,
-		processor.Setup,
-		workspace.Setup,
-		projectassignment.Setup,
+		account.Setup,
+		accountaccesslistentry.Setup,
+		accountprojectassignment.Setup,
+		accountsecret.Setup,
 		partyintegration.Setup,
 		authenticationdatabaseuser.Setup,
 	} {
@@ -173,44 +152,34 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		trigger.SetupGated,
 		databaseinstance.SetupGated,
 		querylimit.SetupGated,
-		settingsidentityprovider.SetupGated,
-		settingsorgconfig.SetupGated,
-		settingsorgrolemapping.SetupGated,
-		cluster.SetupGated,
 		clusterconfig.SetupGated,
 		configurationldap.SetupGated,
-		verify.SetupGated,
+		integration.SetupGated,
 		window.SetupGated,
-		employeeaccessgrant.SetupGated,
 		advancedcluster.SetupGated,
 		auditing.SetupGated,
-		clustermongodbatlas.SetupGated,
+		cluster.SetupGated,
+		cluster.SetupGated,
+		employeeaccessgrant.SetupGated,
 		organization.SetupGated,
 		project.SetupGated,
 		team.SetupGated,
 		container.SetupGated,
 		peering.SetupGated,
 		archive.SetupGated,
-		invitation.SetupGated,
-		endpointregionalmode.SetupGated,
-		endpoint.SetupGated,
-		endpointservice.SetupGated,
 		endpointservicedatafederationonlinearchive.SetupGated,
 		apikey.SetupGated,
-		invitationproject.SetupGated,
+		invitation.SetupGated,
 		ipaccesslist.SetupGated,
+		serviceaccount.SetupGated,
+		serviceaccountaccesslistentry.SetupGated,
+		serviceaccountsecret.SetupGated,
 		providerconfig.SetupGated,
-		basedlogexport.SetupGated,
-		policy.SetupGated,
-		deployment.SetupGated,
-		index.SetupGated,
 		instance.SetupGated,
-		connection.SetupGated,
-		instancestream.SetupGated,
-		privatelinkendpoint.SetupGated,
-		processor.SetupGated,
-		workspace.SetupGated,
-		projectassignment.SetupGated,
+		account.SetupGated,
+		accountaccesslistentry.SetupGated,
+		accountprojectassignment.SetupGated,
+		accountsecret.SetupGated,
 		partyintegration.SetupGated,
 		authenticationdatabaseuser.SetupGated,
 	} {

@@ -109,6 +109,11 @@ func (in *AdvancedClusterInitParameters) DeepCopyInto(out *AdvancedClusterInitPa
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.Paused != nil {
 		in, out := &in.Paused, &out.Paused
 		*out = new(bool)
@@ -345,6 +350,11 @@ func (in *AdvancedClusterObservation) DeepCopyInto(out *AdvancedClusterObservati
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.Paused != nil {
 		in, out := &in.Paused, &out.Paused
 		*out = new(bool)
@@ -511,6 +521,11 @@ func (in *AdvancedClusterParameters) DeepCopyInto(out *AdvancedClusterParameters
 	}
 	if in.MongoDBMajorVersion != nil {
 		in, out := &in.MongoDBMajorVersion, &out.MongoDBMajorVersion
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}
@@ -1921,6 +1936,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
 		*out = new(float64)
@@ -2207,6 +2227,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
 		*out = new(float64)
@@ -2428,6 +2453,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.MongoDBMajorVersion != nil {
 		in, out := &in.MongoDBMajorVersion, &out.MongoDBMajorVersion
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}

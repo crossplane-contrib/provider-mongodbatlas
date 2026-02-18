@@ -73,14 +73,26 @@ spec:
               forProvider:
                 properties:
                   awsSecurityGroup:
+                    description: Unique identifier of the AWS security group to add
+                      to the access list. Mutually exclusive with `cidr_block` and
+                      `ip_address`.
                     type: string
                   cidrBlock:
+                    description: Range of IP addresses in CIDR notation to be added
+                      to the access list. Mutually exclusive with `ip_address` and
+                      `aws_security_group`.
                     type: string
                   comment:
+                    description: Remark that explains the purpose or scope of this
+                      IP access list entry.
                     type: string
                   ipAddress:
+                    description: Single IP address to be added to the access list.
+                      Mutually exclusive with `cidr_block` and `aws_security_group`.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -174,12 +186,6 @@ spec:
                           "2h45m". Valid time units are "s" (seconds), "m" (minutes),
                           "h" (hours). Read operations occur during any refresh or
                           planning operation when refresh is enabled.
-                        type: string
-                      update:
-                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          "h" (hours).
                         type: string
                     type: object
                 type: object
@@ -197,14 +203,26 @@ spec:
                   autoscaler.
                 properties:
                   awsSecurityGroup:
+                    description: Unique identifier of the AWS security group to add
+                      to the access list. Mutually exclusive with `cidr_block` and
+                      `ip_address`.
                     type: string
                   cidrBlock:
+                    description: Range of IP addresses in CIDR notation to be added
+                      to the access list. Mutually exclusive with `ip_address` and
+                      `aws_security_group`.
                     type: string
                   comment:
+                    description: Remark that explains the purpose or scope of this
+                      IP access list entry.
                     type: string
                   ipAddress:
+                    description: Single IP address to be added to the access list.
+                      Mutually exclusive with `cidr_block` and `aws_security_group`.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -298,12 +316,6 @@ spec:
                           "2h45m". Valid time units are "s" (seconds), "m" (minutes),
                           "h" (hours). Read operations occur during any refresh or
                           planning operation when refresh is enabled.
-                        type: string
-                      update:
-                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          "h" (hours).
                         type: string
                     type: object
                 type: object
@@ -399,16 +411,28 @@ spec:
               atProvider:
                 properties:
                   awsSecurityGroup:
+                    description: Unique identifier of the AWS security group to add
+                      to the access list. Mutually exclusive with `cidr_block` and
+                      `ip_address`.
                     type: string
                   cidrBlock:
+                    description: Range of IP addresses in CIDR notation to be added
+                      to the access list. Mutually exclusive with `ip_address` and
+                      `aws_security_group`.
                     type: string
                   comment:
+                    description: Remark that explains the purpose or scope of this
+                      IP access list entry.
                     type: string
                   id:
                     type: string
                   ipAddress:
+                    description: Single IP address to be added to the access list.
+                      Mutually exclusive with `cidr_block` and `aws_security_group`.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   timeouts:
                     properties:
@@ -426,12 +450,6 @@ spec:
                           "2h45m". Valid time units are "s" (seconds), "m" (minutes),
                           "h" (hours). Read operations occur during any refresh or
                           planning operation when refresh is enabled.
-                        type: string
-                      update:
-                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          "h" (hours).
                         type: string
                     type: object
                 type: object

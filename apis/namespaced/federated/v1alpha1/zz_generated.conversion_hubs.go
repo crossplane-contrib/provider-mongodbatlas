@@ -11,12 +11,3 @@ func (tr *DatabaseInstance) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *QueryLimit) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SettingsIdentityProvider) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SettingsOrgConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SettingsOrgRoleMapping) Hub() {}

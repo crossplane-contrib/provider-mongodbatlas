@@ -16,7 +16,16 @@ import (
 type KeyInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
@@ -42,8 +51,17 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -87,7 +105,6 @@ type Key struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleNames) || (has(self.initProvider) && has(self.initProvider.roleNames))",message="spec.forProvider.roleNames is a required parameter"
 	Spec   KeySpec   `json:"spec"`
 	Status KeyStatus `json:"status,omitempty"`

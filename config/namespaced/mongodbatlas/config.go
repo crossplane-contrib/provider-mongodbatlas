@@ -18,47 +18,132 @@ package mongodbatlas
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
-
-	"github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
 )
 
 // Configure configures the root group
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.SetIdentifierArgumentFn = common.SetIdentifierFunc
-		r.ExternalName.GetExternalNameFn = getExternalNameFunc
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			parts := strings.Split(externalName, ":")
-			if len(parts) != 2 {
-				return "", nil
-			}
-			return common.Base64EncodeTokens("cluster_id", parts[1], "cluster_name", parameters["name"], "project_id", parameters["project_id"], "provider_name", parameters["provider_name"])
-		}
 		r.UseAsync = true
-	})
-	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.SetIdentifierArgumentFn = common.SetIdentifierFunc
-		r.ExternalName.GetExternalNameFn = getExternalNameFunc
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			parts := strings.Split(externalName, ":")
-			if len(parts) != 2 {
-				return "", nil
-			}
-			return common.Base64EncodeTokens("cluster_id", parts[1], "cluster_name", parameters["name"], "project_id", parameters["project_id"])
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
 		}
-		r.LateInitializer = config.LateInitializer{
-			IgnoredFields: []string{"bi_connector"},
-		}
-		r.UseAsync = true
 	})
-}
 
-func getExternalNameFunc(tfstate map[string]interface{}) (string, error) {
-	return fmt.Sprintf("%s:%s", tfstate["name"], tfstate["cluster_id"]), nil
+	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
+		r.UseAsync = true
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_flex_cluster", func(r *config.Resource) {
+		r.UseAsync = true
+		r.ShortGroup = "mongodbatlas"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_auditing", func(r *config.Resource) {
+		r.UseAsync = true
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_team", func(r *config.Resource) {
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+		}
+
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+			org, ok := parameters["org_id"]
+			if !ok {
+				return "", errors.New("org_id missing from parameters")
+			}
+			return fmt.Sprintf("%s-%s", org, externalName), nil
+		}
+
+		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+			id, ok := tfstate["id"]
+			if !ok {
+				return "", errors.New("id attribute missing from state file")
+			}
+
+			idStr, ok := id.(string)
+			if !ok {
+				return "", errors.New("value of id needs to be string")
+			}
+
+			idSlice := strings.Split(idStr, "-")
+			return idSlice[1], nil
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_api_key", func(r *config.Resource) {
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+		}
+
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+			org, ok := parameters["org_id"]
+			if !ok {
+				return "", errors.New("org_id missing from parameters")
+			}
+			return fmt.Sprintf("%s-%s", org, externalName), nil
+		}
+
+		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+			id, ok := tfstate["id"]
+			if !ok {
+				return "", errors.New("id attribute missing from state file")
+			}
+
+			idStr, ok := id.(string)
+			if !ok {
+				return "", errors.New("value of id needs to be string")
+			}
+
+			idSlice := strings.Split(idStr, "-")
+			return idSlice[1], nil
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_api_key_project_assignment", func(r *config.Resource) {
+		r.References = config.References{
+			"api_key_id": {
+				TerraformName: "mongodbatlas_api_key",
+			},
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_mongodb_employee_access_grant", func(r *config.Resource) {
+		r.ShortGroup = "mongodbatlas"
+		r.Kind = "EmployeeAccessGrant"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
 }

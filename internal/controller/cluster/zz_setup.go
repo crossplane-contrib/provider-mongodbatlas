@@ -19,58 +19,47 @@ import (
 	backupsnapshotexportbucket "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/backupsnapshotexportbucket"
 	backupsnapshotexportjob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/backupsnapshotexportjob"
 	backupsnapshotrestorejob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/backupsnapshotrestorejob"
+	instance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/instance"
 	provideraccessauthorization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/provideraccessauthorization"
 	provideraccesssetup "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/provideraccesssetup"
 	userorgassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/userorgassignment"
 	userprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/userprojectassignment"
 	userteamassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/userteamassignment"
-	outagesimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cluster/outagesimulation"
-	dbrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/custom/dbrole"
 	dnsconfigurationclusteraws "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/custom/dnsconfigurationclusteraws"
+	customrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/customrole"
 	user "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/user"
+	x509userauthentication "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/x509userauthentication"
 	trigger "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/event/trigger"
-	databaseinstance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/databaseinstance"
-	querylimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/querylimit"
-	settingsidentityprovider "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/settingsidentityprovider"
-	settingsorgconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/settingsorgconfig"
-	settingsorgrolemapping "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/settingsorgrolemapping"
-	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/flex/cluster"
-	clusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/global/clusterconfig"
+	databaseinstance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federation/databaseinstance"
+	privatelinkendpointservice "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federation/privatelinkendpointservice"
+	querylimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federation/querylimit"
 	configurationldap "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ldap/configuration"
-	verify "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ldap/verify"
+	integration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/log/integration"
 	window "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/maintenance/window"
-	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodb/employeeaccessgrant"
 	advancedcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/advancedcluster"
 	auditing "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/auditing"
-	clustermongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/cluster"
+	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/cluster"
+	clusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/clusterconfig"
+	clusteroutagesimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/clusteroutagesimulation"
+	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/employeeaccessgrant"
 	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/organization"
 	project "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/project"
+	serviceaccountaccesslistentry "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/serviceaccountaccesslistentry"
 	team "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/team"
 	container "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/network/container"
 	peering "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/network/peering"
 	archive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/online/archive"
-	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/org/invitation"
-	endpointregionalmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/private/endpointregionalmode"
-	endpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/privatelink/endpoint"
-	endpointservice "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/privatelink/endpointservice"
-	endpointservicedatafederationonlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/privatelink/endpointservicedatafederationonlinearchive"
 	apikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/apikey"
-	invitationproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/invitation"
+	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/invitation"
 	ipaccesslist "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/ipaccesslist"
+	serviceaccount "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/serviceaccount"
+	serviceaccountaccesslistentryproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/serviceaccountaccesslistentry"
+	serviceaccountsecret "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/serviceaccountsecret"
 	providerconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/providerconfig"
-	basedlogexport "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/push/basedlogexport"
-	policy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/resource/policy"
-	deployment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/search/deployment"
-	index "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/search/index"
-	instance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/serverless/instance"
-	connection "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/stream/connection"
-	instancestream "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/stream/instance"
-	privatelinkendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/stream/privatelinkendpoint"
-	processor "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/stream/processor"
-	workspace "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/stream/workspace"
-	projectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/team/projectassignment"
+	account "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/service/account"
+	accountprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/service/accountprojectassignment"
+	accountsecret "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/service/accountsecret"
 	partyintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/third/partyintegration"
-	authenticationdatabaseuser "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/x509/authenticationdatabaseuser"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -87,58 +76,48 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		backupsnapshotexportbucket.Setup,
 		backupsnapshotexportjob.Setup,
 		backupsnapshotrestorejob.Setup,
+		instance.Setup,
 		provideraccessauthorization.Setup,
 		provideraccesssetup.Setup,
 		userorgassignment.Setup,
 		userprojectassignment.Setup,
 		userteamassignment.Setup,
-		outagesimulation.Setup,
-		dbrole.Setup,
 		dnsconfigurationclusteraws.Setup,
+		customrole.Setup,
 		user.Setup,
+		x509userauthentication.Setup,
 		trigger.Setup,
 		databaseinstance.Setup,
+		privatelinkendpointservice.Setup,
 		querylimit.Setup,
-		settingsidentityprovider.Setup,
-		settingsorgconfig.Setup,
-		settingsorgrolemapping.Setup,
-		cluster.Setup,
-		clusterconfig.Setup,
 		configurationldap.Setup,
-		verify.Setup,
+		integration.Setup,
 		window.Setup,
-		employeeaccessgrant.Setup,
 		advancedcluster.Setup,
 		auditing.Setup,
-		clustermongodbatlas.Setup,
+		cluster.Setup,
+		cluster.Setup,
+		clusterconfig.Setup,
+		clusteroutagesimulation.Setup,
+		employeeaccessgrant.Setup,
 		organization.Setup,
 		project.Setup,
+		serviceaccountaccesslistentry.Setup,
 		team.Setup,
 		container.Setup,
 		peering.Setup,
 		archive.Setup,
-		invitation.Setup,
-		endpointregionalmode.Setup,
-		endpoint.Setup,
-		endpointservice.Setup,
-		endpointservicedatafederationonlinearchive.Setup,
 		apikey.Setup,
-		invitationproject.Setup,
+		invitation.Setup,
 		ipaccesslist.Setup,
+		serviceaccount.Setup,
+		serviceaccountaccesslistentryproject.Setup,
+		serviceaccountsecret.Setup,
 		providerconfig.Setup,
-		basedlogexport.Setup,
-		policy.Setup,
-		deployment.Setup,
-		index.Setup,
-		instance.Setup,
-		connection.Setup,
-		instancestream.Setup,
-		privatelinkendpoint.Setup,
-		processor.Setup,
-		workspace.Setup,
-		projectassignment.Setup,
+		account.Setup,
+		accountprojectassignment.Setup,
+		accountsecret.Setup,
 		partyintegration.Setup,
-		authenticationdatabaseuser.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -161,58 +140,48 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		backupsnapshotexportbucket.SetupGated,
 		backupsnapshotexportjob.SetupGated,
 		backupsnapshotrestorejob.SetupGated,
+		instance.SetupGated,
 		provideraccessauthorization.SetupGated,
 		provideraccesssetup.SetupGated,
 		userorgassignment.SetupGated,
 		userprojectassignment.SetupGated,
 		userteamassignment.SetupGated,
-		outagesimulation.SetupGated,
-		dbrole.SetupGated,
 		dnsconfigurationclusteraws.SetupGated,
+		customrole.SetupGated,
 		user.SetupGated,
+		x509userauthentication.SetupGated,
 		trigger.SetupGated,
 		databaseinstance.SetupGated,
+		privatelinkendpointservice.SetupGated,
 		querylimit.SetupGated,
-		settingsidentityprovider.SetupGated,
-		settingsorgconfig.SetupGated,
-		settingsorgrolemapping.SetupGated,
-		cluster.SetupGated,
-		clusterconfig.SetupGated,
 		configurationldap.SetupGated,
-		verify.SetupGated,
+		integration.SetupGated,
 		window.SetupGated,
-		employeeaccessgrant.SetupGated,
 		advancedcluster.SetupGated,
 		auditing.SetupGated,
-		clustermongodbatlas.SetupGated,
+		cluster.SetupGated,
+		cluster.SetupGated,
+		clusterconfig.SetupGated,
+		clusteroutagesimulation.SetupGated,
+		employeeaccessgrant.SetupGated,
 		organization.SetupGated,
 		project.SetupGated,
+		serviceaccountaccesslistentry.SetupGated,
 		team.SetupGated,
 		container.SetupGated,
 		peering.SetupGated,
 		archive.SetupGated,
-		invitation.SetupGated,
-		endpointregionalmode.SetupGated,
-		endpoint.SetupGated,
-		endpointservice.SetupGated,
-		endpointservicedatafederationonlinearchive.SetupGated,
 		apikey.SetupGated,
-		invitationproject.SetupGated,
+		invitation.SetupGated,
 		ipaccesslist.SetupGated,
+		serviceaccount.SetupGated,
+		serviceaccountaccesslistentryproject.SetupGated,
+		serviceaccountsecret.SetupGated,
 		providerconfig.SetupGated,
-		basedlogexport.SetupGated,
-		policy.SetupGated,
-		deployment.SetupGated,
-		index.SetupGated,
-		instance.SetupGated,
-		connection.SetupGated,
-		instancestream.SetupGated,
-		privatelinkendpoint.SetupGated,
-		processor.SetupGated,
-		workspace.SetupGated,
-		projectassignment.SetupGated,
+		account.SetupGated,
+		accountprojectassignment.SetupGated,
+		accountsecret.SetupGated,
 		partyintegration.SetupGated,
-		authenticationdatabaseuser.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

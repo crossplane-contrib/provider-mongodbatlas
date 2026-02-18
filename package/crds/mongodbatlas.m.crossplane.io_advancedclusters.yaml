@@ -233,6 +233,9 @@ spec:
 
                       On update: Increase version only by 1 major version at a time. If the cluster is pinned to a MongoDB feature compatibility version exactly one major version below the current MongoDB version, the MongoDB version can be downgraded to the previous major version.
                     type: string
+                  name:
+                    description: Human-readable label that identifies this cluster.
+                    type: string
                   paused:
                     description: Flag that indicates whether the cluster is paused.
                     type: boolean
@@ -888,6 +891,9 @@ spec:
 
                       On update: Increase version only by 1 major version at a time. If the cluster is pinned to a MongoDB feature compatibility version exactly one major version below the current MongoDB version, the MongoDB version can be downgraded to the previous major version.
                     type: string
+                  name:
+                    description: Human-readable label that identifies this cluster.
+                    type: string
                   paused:
                     description: Flag that indicates whether the cluster is paused.
                     type: boolean
@@ -1419,6 +1425,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterType)
                 || (has(self.initProvider) && has(self.initProvider.clusterType))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
             - message: spec.forProvider.replicationSpecs is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.replicationSpecs)
@@ -1721,6 +1731,9 @@ spec:
                     type: string
                   mongoDbVersion:
                     description: Version of MongoDB that the cluster runs.
+                    type: string
+                  name:
+                    description: Human-readable label that identifies this cluster.
                     type: string
                   paused:
                     description: Flag that indicates whether the cluster is paused.

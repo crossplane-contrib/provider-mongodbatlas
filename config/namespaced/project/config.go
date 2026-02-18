@@ -17,27 +17,16 @@ limitations under the License.
 package project
 
 import (
-	"context"
-	"fmt"
-	"strings"
-
 	"github.com/crossplane/upjet/v2/pkg/config"
-
-	"github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
 )
 
 // Configure configures the root group
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_project", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.SetIdentifierArgumentFn = common.SetIdentifierFunc
-		r.ExternalName.GetExternalNameFn = getExternalNameFunc
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			parts := strings.Split(externalName, ":")
-			if len(parts) != 2 {
-				return "", nil
-			}
-			return parts[1], nil
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
 		}
 	})
 
@@ -46,8 +35,12 @@ func Configure(p *config.Provider) {
 			IgnoredFields: []string{"ip_address"},
 		}
 	})
-}
 
-func getExternalNameFunc(tfstate map[string]interface{}) (string, error) {
-	return fmt.Sprintf("%s:%s", tfstate["name"], tfstate["id"]), nil
+	p.AddResourceConfigurator("mongodbatlas_project_invitation", func(r *config.Resource) {
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
 }

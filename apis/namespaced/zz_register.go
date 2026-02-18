@@ -20,25 +20,18 @@ import (
 	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/database/v1alpha2"
 	v1alpha1event "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/event/v1alpha1"
 	v1alpha1federated "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/federated/v1alpha1"
-	v1alpha1flex "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/flex/v1alpha1"
 	v1alpha1global "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/global/v1alpha1"
 	v1alpha1ldap "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/ldap/v1alpha1"
+	v1alpha1log "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/log/v1alpha1"
 	v1alpha1maintenance "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/maintenance/v1alpha1"
-	v1alpha1mongodb "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodb/v1alpha1"
 	v1alpha1mongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1"
 	v1alpha2mongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2"
 	v1alpha1network "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/network/v1alpha1"
 	v1alpha1online "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/online/v1alpha1"
-	v1alpha1org "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/org/v1alpha1"
-	v1alpha1private "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/private/v1alpha1"
 	v1alpha1privatelink "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/privatelink/v1alpha1"
 	v1alpha1project "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/project/v1alpha1"
-	v1alpha1push "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/push/v1alpha1"
-	v1alpha1resource "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/resource/v1alpha1"
-	v1alpha1search "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/search/v1alpha1"
 	v1alpha1serverless "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/serverless/v1alpha1"
-	v1alpha1stream "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/stream/v1alpha1"
-	v1alpha1team "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/team/v1alpha1"
+	v1alpha1service "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/service/v1alpha1"
 	v1alpha1third "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/third/v1alpha1"
 	v1alpha1namespaced "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/v1alpha1"
 	v1beta1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/v1beta1"
@@ -58,25 +51,18 @@ func init() {
 		v1alpha2.SchemeBuilder.AddToScheme,
 		v1alpha1event.SchemeBuilder.AddToScheme,
 		v1alpha1federated.SchemeBuilder.AddToScheme,
-		v1alpha1flex.SchemeBuilder.AddToScheme,
 		v1alpha1global.SchemeBuilder.AddToScheme,
 		v1alpha1ldap.SchemeBuilder.AddToScheme,
+		v1alpha1log.SchemeBuilder.AddToScheme,
 		v1alpha1maintenance.SchemeBuilder.AddToScheme,
-		v1alpha1mongodb.SchemeBuilder.AddToScheme,
 		v1alpha1mongodbatlas.SchemeBuilder.AddToScheme,
 		v1alpha2mongodbatlas.SchemeBuilder.AddToScheme,
 		v1alpha1network.SchemeBuilder.AddToScheme,
 		v1alpha1online.SchemeBuilder.AddToScheme,
-		v1alpha1org.SchemeBuilder.AddToScheme,
-		v1alpha1private.SchemeBuilder.AddToScheme,
 		v1alpha1privatelink.SchemeBuilder.AddToScheme,
 		v1alpha1project.SchemeBuilder.AddToScheme,
-		v1alpha1push.SchemeBuilder.AddToScheme,
-		v1alpha1resource.SchemeBuilder.AddToScheme,
-		v1alpha1search.SchemeBuilder.AddToScheme,
 		v1alpha1serverless.SchemeBuilder.AddToScheme,
-		v1alpha1stream.SchemeBuilder.AddToScheme,
-		v1alpha1team.SchemeBuilder.AddToScheme,
+		v1alpha1service.SchemeBuilder.AddToScheme,
 		v1alpha1third.SchemeBuilder.AddToScheme,
 		v1alpha1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

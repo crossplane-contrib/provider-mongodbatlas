@@ -53,6 +53,16 @@ func (in *KeyInitParameters) DeepCopyInto(out *KeyInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RoleNames != nil {
 		in, out := &in.RoleNames, &out.RoleNames
 		*out = make([]*string, len(*in))
@@ -172,6 +182,16 @@ func (in *KeyParameters) DeepCopyInto(out *KeyParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RoleNames != nil {
 		in, out := &in.RoleNames, &out.RoleNames
 		*out = make([]*string, len(*in))
@@ -229,6 +249,16 @@ func (in *KeyProjectAssignmentInitParameters) DeepCopyInto(out *KeyProjectAssign
 		in, out := &in.APIKeyID, &out.APIKeyID
 		*out = new(string)
 		**out = **in
+	}
+	if in.APIKeyIDRef != nil {
+		in, out := &in.APIKeyIDRef, &out.APIKeyIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.APIKeyIDSelector != nil {
+		in, out := &in.APIKeyIDSelector, &out.APIKeyIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
@@ -348,6 +378,16 @@ func (in *KeyProjectAssignmentParameters) DeepCopyInto(out *KeyProjectAssignment
 		in, out := &in.APIKeyID, &out.APIKeyID
 		*out = new(string)
 		**out = **in
+	}
+	if in.APIKeyIDRef != nil {
+		in, out := &in.APIKeyIDRef, &out.APIKeyIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.APIKeyIDSelector != nil {
+		in, out := &in.APIKeyIDSelector, &out.APIKeyIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID

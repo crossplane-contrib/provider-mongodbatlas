@@ -81,7 +81,18 @@ type ProjectInitParameters struct {
 
 	Limits []LimitsInitParameters `json:"limits,omitempty" tf:"limits,omitempty"`
 
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
 
@@ -119,6 +130,8 @@ type ProjectObservation struct {
 	IsSlowOperationThresholdingEnabled *bool `json:"isSlowOperationThresholdingEnabled,omitempty" tf:"is_slow_operation_thresholding_enabled,omitempty"`
 
 	Limits []LimitsObservation `json:"limits,omitempty" tf:"limits,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -161,7 +174,19 @@ type ProjectParameters struct {
 	Limits []LimitsParameters `json:"limits,omitempty" tf:"limits,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
+	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in mongodbatlas to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
@@ -252,7 +277,7 @@ type ProjectStatus struct {
 type Project struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || (has(self.initProvider) && has(self.initProvider.orgId))",message="spec.forProvider.orgId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	Spec   ProjectSpec   `json:"spec"`
 	Status ProjectStatus `json:"status,omitempty"`
 }

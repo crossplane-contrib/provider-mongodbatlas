@@ -20,7 +20,7 @@ resources:
                   "org_id": "\u003cORG_ID\u003e"
                 }
         argumentDocs:
-            api_key_id: '- Unique identifier for the Organization API Key for which you want to create a new access list entry.'
+            api_key_id: '- (Required) Unique identifier for the Organization API Key for which you want to create a new access list entry.'
             cidr_block: '- (Optional) Range of IP addresses in CIDR notation to be added to the access list. Your access list entry can include only one cidrBlock, or one ipAddress.'
             ip_address: '- (Optional) Single IP address to be added to the access list.'
             org_id: '- (Required) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.'
@@ -3498,6 +3498,58 @@ resources:
             status: '- The current status of the LDAP over TLS/SSL configuration. One of the following values: PENDING, SUCCESS, and FAILED.'
             validations: '- Array of validation messages related to the verification of the provided LDAP over TLS/SSL configuration details. The array contains a document for each test that Atlas runs. Atlas stops running tests after the first failure. The following return values can be seen here: Values'
         importStatements: []
+    mongodbatlas_log_integration:
+        subCategory: Log Integration
+        name: mongodbatlas_log_integration
+        title: ""
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "bucket_name": "${aws_s3_bucket.log_bucket.bucket}",
+                  "iam_role_id": "${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}",
+                  "log_types": [
+                    "MONGOD_AUDIT"
+                  ],
+                  "prefix_path": "atlas-logs",
+                  "project_id": "${mongodbatlas_project.project.id}",
+                  "type": "S3_LOG_EXPORT"
+                }
+              references:
+                bucket_name: aws_s3_bucket.log_bucket.bucket
+                iam_role_id: mongodbatlas_cloud_provider_access_authorization.auth_role.role_id
+                project_id: mongodbatlas_project.project.id
+              dependencies:
+                mongodbatlas_cloud_provider_access_authorization.auth_role: |-
+                    {
+                      "aws": [
+                        {
+                          "iam_assumed_role_arn": "${aws_iam_role.atlas_role.arn}"
+                        }
+                      ],
+                      "project_id": "${mongodbatlas_project.project.id}",
+                      "role_id": "${mongodbatlas_cloud_provider_access_setup.setup_only.role_id}"
+                    }
+                mongodbatlas_cloud_provider_access_setup.setup_only: |-
+                    {
+                      "project_id": "${mongodbatlas_project.project.id}",
+                      "provider_name": "AWS"
+                    }
+                mongodbatlas_project.project: |-
+                    {
+                      "name": "${var.atlas_project_name}",
+                      "org_id": "${var.atlas_org_id}"
+                    }
+        argumentDocs:
+            bucket_name: (String) Human-readable label that identifies the S3 bucket name for storing log files.
+            iam_role_id: (String) Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
+            integration_id: (String) Unique 24-character hexadecimal digit string that identifies the log integration configuration.
+            kms_key: (String) AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
+            log_types: '(Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.'
+            prefix_path: (String) S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            type: (String) Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
+        importStatements: []
     mongodbatlas_maintenance_window:
         subCategory: Projects
         name: mongodbatlas_maintenance_window
@@ -3523,10 +3575,10 @@ resources:
                   "project_id": "\u003cyour-project-id\u003e"
                 }
         argumentDocs:
-            auto_defer: '- Defer any scheduled maintenance for the given project for one week.'
-            auto_defer_once_enabled: '- Flag that indicates whether you want to defer all maintenance windows one week they would be triggered.'
+            auto_defer: '- (Optional) Boolean flag to toggle automatic deferral on/off. Each change flips the current state. Achieves the same outcome as auto_defer_once_enabled but through a toggle operation.'
+            auto_defer_once_enabled: '- (Optional) When true, enables automatic deferral of all scheduled maintenance for the given project by one week. Achieves the same outcome as auto_defer but by directly setting the value to true or false. If auto_defer is modified triggering a toggle, it will impact the value of this attribute.'
             day_of_week: '- (Required) Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.'
-            defer: '- Defer the next scheduled maintenance for the given project for one week.'
+            defer: '- (Optional) Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.'
             end_hour_of_day: '- Zero-based integer that represents the end hour of the day for the protected hours window.'
             hour_of_day: '- (Required) Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project''s configured timezone.'
             number_of_deferrals: '- Number of times the current maintenance event for this project has been deferred, there can be a maximum of 2 deferrals.'
@@ -4658,60 +4710,191 @@ resources:
         name: mongodbatlas_project_ip_access_list
         title: ""
         examples:
-            - name: test
+            - name: this
               manifest: |-
                 {
                   "cidr_block": "1.2.3.4/32",
-                  "comment": "cidr block for tf acc testing",
-                  "project_id": "\u003cPROJECT-ID\u003e"
+                  "comment": "cidr block test",
+                  "project_id": "${var.project_id}"
                 }
-            - name: test
+              references:
+                project_id: var.project_id
+            - name: this
               manifest: |-
                 {
-                  "comment": "ip address for tf acc testing",
+                  "comment": "ip address test",
                   "ip_address": "2.3.4.5",
-                  "project_id": "\u003cPROJECT-ID\u003e"
+                  "project_id": "${var.project_id}"
                 }
-            - name: test
+              references:
+                project_id: var.project_id
+            - name: this
               manifest: |-
                 {
                   "aws_security_group": "sg-0026348ec11780bd1",
-                  "comment": "TestAcc for awsSecurityGroup",
+                  "comment": "AWS Security Group test",
                   "depends_on": [
-                    "mongodbatlas_network_peering.test"
+                    "mongodbatlas_network_peering.this"
                   ],
-                  "project_id": "\u003cPROJECT-ID\u003e"
+                  "project_id": "${var.project_id}"
                 }
+              references:
+                project_id: var.project_id
               dependencies:
-                mongodbatlas_network_container.test: |-
+                mongodbatlas_network_container.this: |-
                     {
                       "atlas_cidr_block": "192.168.208.0/21",
-                      "project_id": "\u003cPROJECT-ID\u003e",
+                      "project_id": "${var.project_id}",
                       "provider_name": "AWS",
                       "region_name": "US_EAST_1"
                     }
-                mongodbatlas_network_peering.test: |-
+                mongodbatlas_network_peering.this: |-
                     {
                       "accepter_region_name": "us-east-1",
                       "aws_account_id": "232589400519",
-                      "container_id": "${mongodbatlas_network_container.test.container_id}",
-                      "project_id": "\u003cPROJECT-ID\u003e",
+                      "container_id": "${mongodbatlas_network_container.this.container_id}",
+                      "project_id": "${var.project_id}",
                       "provider_name": "AWS",
                       "route_table_cidr_block": "172.31.0.0/16",
                       "vpc_id": "vpc-0d93d6f69f1578bd8"
                     }
         argumentDocs:
-            aws_security_group: '- (Optional) Unique identifier of the AWS security group to add to the access list. Your access list entry can include only one awsSecurityGroup, one cidrBlock, or one ipAddress.'
-            cidr_block: '- (Optional) Range of IP addresses in CIDR notation to be added to the access list. Your access list entry can include only one awsSecurityGroup, one cidrBlock, or one ipAddress.'
-            comment: '- (Optional) Comment to add to the access list entry.'
-            create: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 45m.'
-            delete: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 45m.'
-            id: '- Unique identifier used for terraform for internal manages and can be used to import.'
-            ip_address: '- (Optional) Single IP address to be added to the access list. Mutually exclusive with awsSecurityGroup and cidrBlock.'
-            project_id: '- (Required) Unique identifier for the project to which you want to add one or more access list entries.'
-            read: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 2m.'
+            aws_security_group: (String) Unique identifier of the AWS security group to add to the access list. Mutually exclusive with cidr_block and ip_address.
+            cidr_block: (String) Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with ip_address and aws_security_group.
+            comment: (String) Remark that explains the purpose or scope of this IP access list entry.
+            delete: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+            id: (String) Unique identifier used for terraform for internal management.
+            ip_address: (String) Single IP address to be added to the access list. Mutually exclusive with cidr_block and aws_security_group.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            read: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
             timeouts: (Attributes) (see below for nested schema)
-            update: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 45m.'
+        importStatements: []
+    mongodbatlas_project_service_account:
+        subCategory: Service Accounts
+        name: mongodbatlas_project_service_account
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "description": "Example Project Service Account",
+                  "name": "example-project-service-account",
+                  "project_id": "${var.project_id}",
+                  "roles": [
+                    "GROUP_READ_ONLY"
+                  ],
+                  "secret_expires_after_hours": 2160
+                }
+              references:
+                project_id: var.project_id
+        argumentDocs:
+            client_id: (String) The Client ID of the Service Account.
+            created_at: (String) The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            description: (String) Human readable description for the Service Account.
+            expires_at: (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            masked_secret_value: (String) The masked Service Account secret.
+            name: (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            roles: (Set of String) A list of project-level roles for the Service Account.
+            secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
+            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
+            secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
+            secrets: (Attributes List) A list of secrets associated with the specified Service Account. (see below for nested schema)
+        importStatements: []
+    mongodbatlas_project_service_account_access_list_entry:
+        subCategory: Service Accounts
+        name: mongodbatlas_project_service_account_access_list_entry
+        title: ""
+        examples:
+            - name: cidr
+              manifest: |-
+                {
+                  "cidr_block": "1.2.3.4/32",
+                  "client_id": "${mongodbatlas_project_service_account.this.client_id}",
+                  "project_id": "${var.project_id}"
+                }
+              references:
+                client_id: mongodbatlas_project_service_account.this.client_id
+                project_id: var.project_id
+              dependencies:
+                mongodbatlas_project_service_account.this: |-
+                    {
+                      "description": "Example Project Service Account",
+                      "name": "example-project-service-account",
+                      "project_id": "${var.project_id}",
+                      "roles": [
+                        "GROUP_READ_ONLY"
+                      ],
+                      "secret_expires_after_hours": 2160
+                    }
+            - name: ip
+              manifest: |-
+                {
+                  "client_id": "${mongodbatlas_project_service_account.this.client_id}",
+                  "ip_address": "2.3.4.5",
+                  "project_id": "${var.project_id}"
+                }
+              references:
+                client_id: mongodbatlas_project_service_account.this.client_id
+                project_id: var.project_id
+              dependencies:
+                mongodbatlas_project_service_account.this: |-
+                    {
+                      "description": "Example Project Service Account",
+                      "name": "example-project-service-account",
+                      "project_id": "${var.project_id}",
+                      "roles": [
+                        "GROUP_READ_ONLY"
+                      ],
+                      "secret_expires_after_hours": 2160
+                    }
+        argumentDocs:
+            cidr_block: (String) Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or ip_address, but not for both.
+            client_id: (String) The Client ID of the Service Account.
+            created_at: (String) Date the entry was added to the access list. This attribute expresses its value in the ISO 8601 timestamp format in UTC.
+            ip_address: (String) IP address to be added to the access list. You can set a value for this parameter or cidr_block, but not for both.
+            last_used_address: (String) Network address that issued the most recent request to the API.
+            last_used_at: (String) Date when the API received the most recent request that originated from this network address.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies the project.
+            request_count: (Number) The number of requests that has originated from this network address.
+        importStatements: []
+    mongodbatlas_project_service_account_secret:
+        subCategory: Service Accounts
+        name: mongodbatlas_project_service_account_secret
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "client_id": "${mongodbatlas_project_service_account.this.client_id}",
+                  "project_id": "${var.project_id}",
+                  "secret_expires_after_hours": 2160
+                }
+              references:
+                client_id: mongodbatlas_project_service_account.this.client_id
+                project_id: var.project_id
+              dependencies:
+                mongodbatlas_project_service_account.this: |-
+                    {
+                      "description": "Example Project Service Account",
+                      "name": "example-project-service-account",
+                      "project_id": "${var.project_id}",
+                      "roles": [
+                        "GROUP_READ_ONLY"
+                      ],
+                      "secret_expires_after_hours": 2160
+                    }
+        argumentDocs:
+            client_id: (String) The Client ID of the Service Account.
+            created_at: (String) The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            expires_at: (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            masked_secret_value: (String) The masked Service Account secret.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
+            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
+            secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
         importStatements: []
     mongodbatlas_push_based_log_export:
         subCategory: Push-Based Log Export
@@ -5051,6 +5234,166 @@ resources:
             termination_protection_enabled: '- Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won''t delete the cluster. If set to false, MongoDB Cloud will delete the cluster.'
             value: '- (Required) Variable that belongs to the set of the tag.'
         importStatements: []
+    mongodbatlas_service_account:
+        subCategory: Service Accounts
+        name: mongodbatlas_service_account
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "description": "Example Service Account",
+                  "name": "example-service-account",
+                  "org_id": "${var.org_id}",
+                  "roles": [
+                    "ORG_READ_ONLY"
+                  ],
+                  "secret_expires_after_hours": 2160
+                }
+              references:
+                org_id: var.org_id
+        argumentDocs:
+            client_id: (String) The Client ID of the Service Account.
+            created_at: (String) The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            description: (String) Human readable description for the Service Account.
+            expires_at: (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            masked_secret_value: (String) The masked Service Account secret.
+            name: (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
+            org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+            roles: (Set of String) A list of organization-level roles for the Service Account.
+            secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
+            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
+            secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
+            secrets: (Attributes List) A list of secrets associated with the specified Service Account. (see below for nested schema)
+        importStatements: []
+    mongodbatlas_service_account_access_list_entry:
+        subCategory: Service Accounts
+        name: mongodbatlas_service_account_access_list_entry
+        title: ""
+        examples:
+            - name: cidr
+              manifest: |-
+                {
+                  "cidr_block": "1.2.3.4/32",
+                  "client_id": "${mongodbatlas_service_account.this.client_id}",
+                  "org_id": "${var.org_id}"
+                }
+              references:
+                client_id: mongodbatlas_service_account.this.client_id
+                org_id: var.org_id
+              dependencies:
+                mongodbatlas_service_account.this: |-
+                    {
+                      "description": "Example Service Account",
+                      "name": "example-service-account",
+                      "org_id": "${var.org_id}",
+                      "roles": [
+                        "ORG_READ_ONLY"
+                      ],
+                      "secret_expires_after_hours": 2160
+                    }
+            - name: ip
+              manifest: |-
+                {
+                  "client_id": "${mongodbatlas_service_account.this.client_id}",
+                  "ip_address": "2.3.4.5",
+                  "org_id": "${var.org_id}"
+                }
+              references:
+                client_id: mongodbatlas_service_account.this.client_id
+                org_id: var.org_id
+              dependencies:
+                mongodbatlas_service_account.this: |-
+                    {
+                      "description": "Example Service Account",
+                      "name": "example-service-account",
+                      "org_id": "${var.org_id}",
+                      "roles": [
+                        "ORG_READ_ONLY"
+                      ],
+                      "secret_expires_after_hours": 2160
+                    }
+        argumentDocs:
+            cidr_block: (String) Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or ip_address, but not for both.
+            client_id: (String) The Client ID of the Service Account.
+            created_at: (String) Date the entry was added to the access list. This attribute expresses its value in the ISO 8601 timestamp format in UTC.
+            ip_address: (String) IP address to be added to the access list. You can set a value for this parameter or cidr_block, but not for both.
+            last_used_address: (String) Network address that issued the most recent request to the API.
+            last_used_at: (String) Date when the API received the most recent request that originated from this network address.
+            org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+            request_count: (Number) The number of requests that has originated from this network address.
+        importStatements: []
+    mongodbatlas_service_account_project_assignment:
+        subCategory: Service Accounts
+        name: mongodbatlas_service_account_project_assignment
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "client_id": "${mongodbatlas_service_account.this.client_id}",
+                  "project_id": "${var.project_id}",
+                  "roles": [
+                    "GROUP_READ_ONLY"
+                  ]
+                }
+              references:
+                client_id: mongodbatlas_service_account.this.client_id
+                project_id: var.project_id
+              dependencies:
+                mongodbatlas_service_account.this: |-
+                    {
+                      "description": "Example Service Account",
+                      "name": "example-service-account",
+                      "org_id": "${var.org_id}",
+                      "roles": [
+                        "ORG_MEMBER"
+                      ],
+                      "secret_expires_after_hours": 2160
+                    }
+        argumentDocs:
+            client_id: (String) The Client ID of the Service Account.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            roles: (Set of String) The Project permissions for the Service Account in the specified Project.
+        importStatements: []
+    mongodbatlas_service_account_secret:
+        subCategory: Service Accounts
+        name: mongodbatlas_service_account_secret
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "client_id": "${mongodbatlas_service_account.this.client_id}",
+                  "org_id": "${var.org_id}",
+                  "secret_expires_after_hours": 2160
+                }
+              references:
+                client_id: mongodbatlas_service_account.this.client_id
+                org_id: var.org_id
+              dependencies:
+                mongodbatlas_service_account.this: |-
+                    {
+                      "description": "Example Service Account",
+                      "name": "example-service-account",
+                      "org_id": "${var.org_id}",
+                      "roles": [
+                        "ORG_READ_ONLY"
+                      ],
+                      "secret_expires_after_hours": 2160
+                    }
+        argumentDocs:
+            client_id: (String) The Client ID of the Service Account.
+            created_at: (String) The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            expires_at: (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            masked_secret_value: (String) The masked Service Account secret.
+            org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+            secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
+            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
+            secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
+        importStatements: []
     mongodbatlas_stream_connection:
         subCategory: Streams
         name: mongodbatlas_stream_connection
@@ -5186,7 +5529,47 @@ resources:
               references:
                 project_id: var.project_id
                 workspace_name: mongodbatlas_stream_instance.example.instance_name
+            - name: example-schema-registry
+              manifest: |-
+                {
+                  "connection_name": "SchemaRegistryConnection",
+                  "project_id": "${var.project_id}",
+                  "schema_registry_authentication": {
+                    "password": "${var.schema_registry_password}",
+                    "type": "USER_INFO",
+                    "username": "registry-user"
+                  },
+                  "schema_registry_provider": "CONFLUENT",
+                  "schema_registry_urls": [
+                    "https://schema-registry.example.com:8081"
+                  ],
+                  "type": "SchemaRegistry",
+                  "workspace_name": "${mongodbatlas_stream_instance.example.instance_name}"
+                }
+              references:
+                project_id: var.project_id
+                workspace_name: mongodbatlas_stream_instance.example.instance_name
+            - name: example-schema-registry-sasl
+              manifest: |-
+                {
+                  "connection_name": "SchemaRegistryConnectionSASL",
+                  "project_id": "${var.project_id}",
+                  "schema_registry_authentication": {
+                    "type": "SASL_INHERIT"
+                  },
+                  "schema_registry_provider": "CONFLUENT",
+                  "schema_registry_urls": [
+                    "https://schema-registry.example.com:8081"
+                  ],
+                  "type": "SchemaRegistry",
+                  "workspace_name": "${mongodbatlas_stream_instance.example.instance_name}"
+                }
+              references:
+                project_id: var.project_id
+                workspace_name: mongodbatlas_stream_instance.example.instance_name
         argumentDocs:
+            SASL_INHERIT: '- Inherits the authentication configuration from Kafka for the Confluent Schema Registry.'
+            USER_INFO: '- Uses username and password authentication for Confluent Schema Registry.'
             access: '- Information about the networking access. See access.'
             authentication: '- User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.'
             aws: '- The configuration for AWS Lambda connection. See AWS'
@@ -5211,10 +5594,13 @@ resources:
             role: '- The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.'
             role_arn: '- Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.'
             sasl_oauthbearer_extensions: '- Additional information to provide to the Kafka broker.'
+            schema_registry_authentication: '- Authentication configuration for Schema Registry. See Schema Registry Authentication.'
+            schema_registry_provider: '- The Schema Registry provider. Must be set to CONFLUENT.'
+            schema_registry_urls: '- List of Schema Registry endpoint URLs used by this connection. Each URL must use the http or https scheme and specify a valid host and optional port.'
             scope: '- Scope of the access request to the broker specified by the Kafka clients.'
             security: '- Properties for the secure transport connection to Kafka. For SASL_SSL, this can include the trusted certificate to use. See security.'
             token_endpoint_url: '-  OAUTH issuer (IdP provider) token endpoint HTTP(S) URI used to retrieve the token.'
-            type: '- (Required) Type of connection. Can be AWSLambda, Cluster, Https, Kafka or Sample.'
+            type: '- (Required) Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.'
             url: '- URL of the HTTPs endpoint that will be used for creating a connection.'
             username: '- Username of the account to connect to the Kafka cluster.'
             workspace_name: '- (Optional) Label that identifies the stream processing workspace. Conflicts with instance_name.'

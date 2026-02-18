@@ -28,7 +28,16 @@ type PeeringInitParameters struct {
 
 	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/network/v1alpha1.Container
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
+
+	// Reference to a Container in network to populate containerId.
+	// +kubebuilder:validation:Optional
+	ContainerIDRef *v1.Reference `json:"containerIdRef,omitempty" tf:"-"`
+
+	// Selector for a Container in network to populate containerId.
+	// +kubebuilder:validation:Optional
+	ContainerIDSelector *v1.Selector `json:"containerIdSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
@@ -38,7 +47,6 @@ type PeeringInitParameters struct {
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -138,8 +146,17 @@ type PeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/network/v1alpha1.Container
 	// +kubebuilder:validation:Optional
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
+
+	// Reference to a Container in network to populate containerId.
+	// +kubebuilder:validation:Optional
+	ContainerIDRef *v1.Reference `json:"containerIdRef,omitempty" tf:"-"`
+
+	// Selector for a Container in network to populate containerId.
+	// +kubebuilder:validation:Optional
+	ContainerIDSelector *v1.Selector `json:"containerIdSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
@@ -152,7 +169,6 @@ type PeeringParameters struct {
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -216,7 +232,6 @@ type PeeringStatus struct {
 type Peering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.containerId) || (has(self.initProvider) && has(self.initProvider.containerId))",message="spec.forProvider.containerId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
 	Spec   PeeringSpec   `json:"spec"`
 	Status PeeringStatus `json:"status,omitempty"`

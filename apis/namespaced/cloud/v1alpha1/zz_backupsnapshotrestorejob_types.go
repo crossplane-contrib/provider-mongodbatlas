@@ -20,7 +20,6 @@ type BackupSnapshotRestoreJobInitParameters struct {
 	DeliveryTypeConfig []DeliveryTypeConfigInitParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -31,7 +30,16 @@ type BackupSnapshotRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type BackupSnapshotRestoreJobObservation struct {
@@ -71,7 +79,6 @@ type BackupSnapshotRestoreJobParameters struct {
 	DeliveryTypeConfig []DeliveryTypeConfigParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -83,8 +90,17 @@ type BackupSnapshotRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type DeliveryTypeConfigInitParameters struct {

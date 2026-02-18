@@ -17,13 +17,21 @@ import (
 type KeyProjectAssignmentInitParameters struct {
 
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/api/v1alpha1.Key
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
+
+	// Reference to a Key in api to populate apiKeyId.
+	// +kubebuilder:validation:Optional
+	APIKeyIDRef *v1.NamespacedReference `json:"apiKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in api to populate apiKeyId.
+	// +kubebuilder:validation:Optional
+	APIKeyIDSelector *v1.NamespacedSelector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -59,14 +67,22 @@ type KeyProjectAssignmentObservation struct {
 type KeyProjectAssignmentParameters struct {
 
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/api/v1alpha1.Key
 	// +kubebuilder:validation:Optional
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
+
+	// Reference to a Key in api to populate apiKeyId.
+	// +kubebuilder:validation:Optional
+	APIKeyIDRef *v1.NamespacedReference `json:"apiKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in api to populate apiKeyId.
+	// +kubebuilder:validation:Optional
+	APIKeyIDSelector *v1.NamespacedSelector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -120,7 +136,6 @@ type KeyProjectAssignmentStatus struct {
 type KeyProjectAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.apiKeyId) || (has(self.initProvider) && has(self.initProvider.apiKeyId))",message="spec.forProvider.apiKeyId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roles) || (has(self.initProvider) && has(self.initProvider.roles))",message="spec.forProvider.roles is a required parameter"
 	Spec   KeyProjectAssignmentSpec   `json:"spec"`
 	Status KeyProjectAssignmentStatus `json:"status,omitempty"`

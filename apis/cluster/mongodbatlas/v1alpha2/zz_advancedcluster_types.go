@@ -63,6 +63,9 @@ type AdvancedClusterInitParameters struct {
 	// On update: Increase version only by 1 major version at a time. If the cluster is pinned to a MongoDB feature compatibility version exactly one major version below the current MongoDB version, the MongoDB version can be downgraded to the previous major version.
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Human-readable label that identifies this cluster.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// Flag that indicates whether the cluster is paused.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
@@ -75,7 +78,6 @@ type AdvancedClusterInitParameters struct {
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -193,6 +195,9 @@ type AdvancedClusterObservation struct {
 
 	// Version of MongoDB that the cluster runs.
 	MongoDBVersion *string `json:"mongoDbVersion,omitempty" tf:"mongo_db_version,omitempty"`
+
+	// Human-readable label that identifies this cluster.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Flag that indicates whether the cluster is paused.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
@@ -313,6 +318,10 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Human-readable label that identifies this cluster.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// Flag that indicates whether the cluster is paused.
 	// +kubebuilder:validation:Optional
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
@@ -328,7 +337,6 @@ type AdvancedClusterParameters struct {
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -1381,6 +1389,7 @@ type AdvancedCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterType) || (has(self.initProvider) && has(self.initProvider.clusterType))",message="spec.forProvider.clusterType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.replicationSpecs) || (has(self.initProvider) && has(self.initProvider.replicationSpecs))",message="spec.forProvider.replicationSpecs is a required parameter"
 	Spec   AdvancedClusterSpec   `json:"spec"`
 	Status AdvancedClusterStatus `json:"status,omitempty"`

@@ -18,10 +18,18 @@ type BackupSnapshotExportJobInitParameters struct {
 
 	CustomData []CustomDataInitParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshotExportBucket
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDRef *v1.Reference `json:"exportBucketIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDSelector *v1.Selector `json:"exportBucketIdSelector,omitempty" tf:"-"`
+
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -32,7 +40,16 @@ type BackupSnapshotExportJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type BackupSnapshotExportJobObservation struct {
@@ -73,11 +90,19 @@ type BackupSnapshotExportJobParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomData []CustomDataParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshotExportBucket
 	// +kubebuilder:validation:Optional
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDRef *v1.Reference `json:"exportBucketIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDSelector *v1.Selector `json:"exportBucketIdSelector,omitempty" tf:"-"`
+
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -89,8 +114,17 @@ type BackupSnapshotExportJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type ComponentsInitParameters struct {
@@ -163,8 +197,6 @@ type BackupSnapshotExportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.exportBucketId) || (has(self.initProvider) && has(self.initProvider.exportBucketId))",message="spec.forProvider.exportBucketId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotId) || (has(self.initProvider) && has(self.initProvider.snapshotId))",message="spec.forProvider.snapshotId is a required parameter"
 	Spec   BackupSnapshotExportJobSpec   `json:"spec"`
 	Status BackupSnapshotExportJobStatus `json:"status,omitempty"`
 }

@@ -93,6 +93,9 @@ type ServiceObservation struct {
 
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
+	// Status of the GCP endpoint. Only populated for port-mapped architecture.
+	GCPEndpointStatus *string `json:"gcpEndpointStatus,omitempty" tf:"gcp_endpoint_status,omitempty"`
+
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
 	GCPStatus *string `json:"gcpStatus,omitempty" tf:"gcp_status,omitempty"`
@@ -100,6 +103,9 @@ type ServiceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	InterfaceEndpointID *string `json:"interfaceEndpointId,omitempty" tf:"interface_endpoint_id,omitempty"`
+
+	// Flag that indicates whether the underlying `privatelink_endpoint` resource uses GCP port-mapping. This is a read-only attribute that reflects the architecture type. When `true`, the endpoint service uses the port-mapped architecture. When `false`, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+	PortMappingEnabled *bool `json:"portMappingEnabled,omitempty" tf:"port_mapping_enabled,omitempty"`
 
 	PrivateEndpointConnectionName *string `json:"privateEndpointConnectionName,omitempty" tf:"private_endpoint_connection_name,omitempty"`
 

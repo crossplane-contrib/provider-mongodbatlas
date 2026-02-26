@@ -283,6 +283,21 @@ spec:
                       protocol:
                         type: string
                     type: object
+                  timeouts:
+                    properties:
+                      create:
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `20m`.'
+                        type: string
+                      update:
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `20m`.'
+                        type: string
+                    type: object
                   type:
                     type: string
                   url:
@@ -514,6 +529,21 @@ spec:
                       protocol:
                         type: string
                     type: object
+                  timeouts:
+                    properties:
+                      create:
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `20m`.'
+                        type: string
+                      update:
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `20m`.'
+                        type: string
+                    type: object
                   type:
                     type: string
                   url:
@@ -702,6 +732,21 @@ spec:
                       brokerPublicCertificate:
                         type: string
                       protocol:
+                        type: string
+                    type: object
+                  timeouts:
+                    properties:
+                      create:
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `20m`.'
+                        type: string
+                      update:
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `20m`.'
                         type: string
                     type: object
                   type:

@@ -7,6 +7,15 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
+// GetItems of this BackupCompliancePolicyList.
+func (l *BackupCompliancePolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this BackupScheduleList.
 func (l *BackupScheduleList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -45,15 +54,6 @@ func (l *BackupSnapshotList) GetItems() []resource.Managed {
 
 // GetItems of this BackupSnapshotRestoreJobList.
 func (l *BackupSnapshotRestoreJobList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this InstanceList.
-func (l *InstanceList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

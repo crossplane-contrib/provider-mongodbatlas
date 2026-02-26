@@ -31,6 +31,9 @@ func (tr *EventTrigger) Hub() {}
 func (tr *FlexCluster) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *GlobalClusterConfig) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *LogIntegration) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -41,6 +44,9 @@ func (tr *OnlineArchive) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Organization) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PartyIntegration) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Project) Hub() {}

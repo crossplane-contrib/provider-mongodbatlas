@@ -568,6 +568,10 @@ spec:
                     type: array
                   errorMessage:
                     type: string
+                  gcpEndpointStatus:
+                    description: Status of the GCP endpoint. Only populated for port-mapped
+                      architecture.
+                    type: string
                   gcpProjectId:
                     type: string
                   gcpStatus:
@@ -576,6 +580,14 @@ spec:
                     type: string
                   interfaceEndpointId:
                     type: string
+                  portMappingEnabled:
+                    description: Flag that indicates whether the underlying `privatelink_endpoint`
+                      resource uses GCP port-mapping. This is a read-only attribute
+                      that reflects the architecture type. When `true`, the endpoint
+                      service uses the port-mapped architecture. When `false`, it
+                      uses the GCP legacy private endpoint architecture. Only applicable
+                      for GCP provider.
+                    type: boolean
                   privateEndpointConnectionName:
                     type: string
                   privateEndpointIpAddress:

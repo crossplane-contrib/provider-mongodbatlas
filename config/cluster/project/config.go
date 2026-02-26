@@ -39,6 +39,18 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_invitation", func(r *config.Resource) {
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"ip_address"},
+		}
 		r.References = config.References{
 			"project_id": {
 				TerraformName: "mongodbatlas_project",

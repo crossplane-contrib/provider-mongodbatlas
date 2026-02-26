@@ -13,31 +13,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
-type SecretsInitParameters struct {
-}
-
-type SecretsObservation struct {
-
-	// The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
-	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
-
-	// The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
-	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
-
-	// The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
-	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
-
-	// The masked Service Account secret.
-	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
-
-	// Unique 24-hexadecimal digit string that identifies the secret.
-	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
-}
-
-type SecretsParameters struct {
-}
-
-type ServiceAccountInitParameters struct {
+type ServiceAccountInitParameters_2 struct {
 
 	// Human readable description for the Service Account.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -65,7 +41,7 @@ type ServiceAccountInitParameters struct {
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 }
 
-type ServiceAccountObservation struct {
+type ServiceAccountObservation_2 struct {
 
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
@@ -91,10 +67,10 @@ type ServiceAccountObservation struct {
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
-	Secrets []SecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
+	Secrets []ServiceAccountSecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
 }
 
-type ServiceAccountParameters struct {
+type ServiceAccountParameters_2 struct {
 
 	// Human readable description for the Service Account.
 	// +kubebuilder:validation:Optional
@@ -127,10 +103,34 @@ type ServiceAccountParameters struct {
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 }
 
+type ServiceAccountSecretsInitParameters struct {
+}
+
+type ServiceAccountSecretsObservation struct {
+
+	// The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
+
+	// The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
+
+	// The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
+
+	// The masked Service Account secret.
+	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
+
+	// Unique 24-hexadecimal digit string that identifies the secret.
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+}
+
+type ServiceAccountSecretsParameters struct {
+}
+
 // ServiceAccountSpec defines the desired state of ServiceAccount
 type ServiceAccountSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceAccountParameters `json:"forProvider"`
+	ForProvider     ServiceAccountParameters_2 `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -141,13 +141,13 @@ type ServiceAccountSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider ServiceAccountInitParameters `json:"initProvider,omitempty"`
+	InitProvider ServiceAccountInitParameters_2 `json:"initProvider,omitempty"`
 }
 
 // ServiceAccountStatus defines the observed state of ServiceAccount.
 type ServiceAccountStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAccountObservation `json:"atProvider,omitempty"`
+	AtProvider        ServiceAccountObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

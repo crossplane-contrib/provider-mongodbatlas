@@ -23,8 +23,7 @@ type DeploymentInitParameters struct {
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -81,8 +80,7 @@ type DeploymentParameters struct {
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 

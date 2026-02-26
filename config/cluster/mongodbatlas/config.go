@@ -122,6 +122,28 @@ func Configure(p *config.Provider) {
 		}
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_encryption_at_rest", func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.Kind = "EncryptionAtRest"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_encryption_at_rest_private_endpoint", func(r *config.Resource) {
+		r.ShortGroup = "encryptionatrest"
+		r.Kind = "PrivateEndpoint"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "project_id", "cloud_provider")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_event_trigger", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "EventTrigger"
@@ -133,6 +155,17 @@ func Configure(p *config.Provider) {
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "project_id", "app_id")
 		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+	})
+
+	// Configure configures the root group
+	p.AddResourceConfigurator("mongodbatlas_global_cluster_config", func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.Kind = "GlobalClusterConfig"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_log_integration", func(r *config.Resource) {
@@ -154,7 +187,7 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_org_invitation", func(r *config.Resource) {
-		r.ShortGroup = "global"
+		r.ShortGroup = "org"
 		r.Kind = "Invitation"
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Migrate to mongodbatlas_cloud_user_org_assignment for managing organization membership."
 

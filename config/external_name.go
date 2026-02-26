@@ -27,6 +27,8 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_custom_db_role":                                              config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}/{{ .parameters.role_name }}"),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        config.ParameterAsIdentifier("project_id"),
 	"mongodbatlas_database_user":                                               config.NameAsIdentifier,
+	"mongodbatlas_encryption_at_rest":                                          config.ParameterAsIdentifier("project_id"),
+	"mongodbatlas_encryption_at_rest_private_endpoint":                         config.IdentifierFromProvider,
 	"mongodbatlas_event_trigger":                                               config.IdentifierFromProvider,
 	"mongodbatlas_federated_database_instance":                                 config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}--{{ .parameters.name }}"),
 	"mongodbatlas_federated_query_limit":                                       config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}--{{ .parameters.tenant_name }}--{{ .parameters.limit_name }}"),

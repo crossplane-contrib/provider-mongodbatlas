@@ -105,7 +105,7 @@ type ProcessorInitParameters struct {
 	// Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
-	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+	Timeouts *ProcessorTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Label that identifies the stream processing workspace.
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
@@ -145,7 +145,7 @@ type ProcessorObservation struct {
 	// Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
-	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+	Timeouts *ProcessorTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Label that identifies the stream processing workspace.
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
@@ -198,26 +198,26 @@ type ProcessorParameters struct {
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+	Timeouts *ProcessorTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Label that identifies the stream processing workspace.
 	// +kubebuilder:validation:Optional
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
-type TimeoutsInitParameters struct {
+type ProcessorTimeoutsInitParameters struct {
 
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
-type TimeoutsObservation struct {
+type ProcessorTimeoutsObservation struct {
 
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
-type TimeoutsParameters struct {
+type ProcessorTimeoutsParameters struct {
 
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	// +kubebuilder:validation:Optional

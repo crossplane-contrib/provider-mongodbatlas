@@ -81,6 +81,22 @@ spec:
                     x-kubernetes-list-type: set
                   securityContact:
                     type: string
+                  serviceAccount:
+                    items:
+                      properties:
+                        description:
+                          type: string
+                        name:
+                          type: string
+                        roles:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        secretExpiresAfterHours:
+                          type: number
+                      type: object
+                    type: array
                   skipDefaultAlertsSettings:
                     type: boolean
                 type: object
@@ -120,6 +136,22 @@ spec:
                     x-kubernetes-list-type: set
                   securityContact:
                     type: string
+                  serviceAccount:
+                    items:
+                      properties:
+                        description:
+                          type: string
+                        name:
+                          type: string
+                        roles:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        secretExpiresAfterHours:
+                          type: number
+                      type: object
+                    type: array
                   skipDefaultAlertsSettings:
                     type: boolean
                 type: object
@@ -218,6 +250,39 @@ spec:
                     x-kubernetes-list-type: set
                   securityContact:
                     type: string
+                  serviceAccount:
+                    items:
+                      properties:
+                        clientId:
+                          type: string
+                        createdAt:
+                          type: string
+                        description:
+                          type: string
+                        name:
+                          type: string
+                        roles:
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
+                        secretExpiresAfterHours:
+                          type: number
+                        secrets:
+                          items:
+                            properties:
+                              createdAt:
+                                type: string
+                              expiresAt:
+                                type: string
+                              secret:
+                                type: string
+                              secretId:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   skipDefaultAlertsSettings:
                     type: boolean
                 type: object

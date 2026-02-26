@@ -159,6 +159,8 @@ type ConnectionInitParameters struct {
 
 	Security *SecurityInitParameters `json:"security,omitempty" tf:"security,omitempty"`
 
+	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
@@ -202,6 +204,8 @@ type ConnectionObservation struct {
 	SchemaRegistryUrls []*string `json:"schemaRegistryUrls,omitempty" tf:"schema_registry_urls,omitempty"`
 
 	Security *SecurityObservation `json:"security,omitempty" tf:"security,omitempty"`
+
+	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -270,6 +274,9 @@ type ConnectionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Security *SecurityParameters `json:"security,omitempty" tf:"security,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -361,6 +368,35 @@ type SecurityParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+}
+
+type TimeoutsInitParameters struct {
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
+}
+
+type TimeoutsObservation struct {
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
+}
+
+type TimeoutsParameters struct {
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// +kubebuilder:validation:Optional
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// +kubebuilder:validation:Optional
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 // ConnectionSpec defines the desired state of Connection

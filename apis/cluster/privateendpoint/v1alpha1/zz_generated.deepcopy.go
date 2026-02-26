@@ -322,6 +322,11 @@ func (in *ResourceInitParameters) DeepCopyInto(out *ResourceInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.PortMappingEnabled != nil {
+		in, out := &in.PortMappingEnabled, &out.PortMappingEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -436,6 +441,11 @@ func (in *ResourceObservation) DeepCopyInto(out *ResourceObservation) {
 			}
 		}
 	}
+	if in.PortMappingEnabled != nil {
+		in, out := &in.PortMappingEnabled, &out.PortMappingEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.PrivateEndpoints != nil {
 		in, out := &in.PrivateEndpoints, &out.PrivateEndpoints
 		*out = make([]*string, len(*in))
@@ -515,6 +525,11 @@ func (in *ResourceParameters) DeepCopyInto(out *ResourceParameters) {
 	*out = *in
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PortMappingEnabled != nil {
+		in, out := &in.PortMappingEnabled, &out.PortMappingEnabled
 		*out = new(bool)
 		**out = **in
 	}
@@ -771,6 +786,11 @@ func (in *ServiceObservation) DeepCopyInto(out *ServiceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.GCPEndpointStatus != nil {
+		in, out := &in.GCPEndpointStatus, &out.GCPEndpointStatus
+		*out = new(string)
+		**out = **in
+	}
 	if in.GCPProjectID != nil {
 		in, out := &in.GCPProjectID, &out.GCPProjectID
 		*out = new(string)
@@ -789,6 +809,11 @@ func (in *ServiceObservation) DeepCopyInto(out *ServiceObservation) {
 	if in.InterfaceEndpointID != nil {
 		in, out := &in.InterfaceEndpointID, &out.InterfaceEndpointID
 		*out = new(string)
+		**out = **in
+	}
+	if in.PortMappingEnabled != nil {
+		in, out := &in.PortMappingEnabled, &out.PortMappingEnabled
+		*out = new(bool)
 		**out = **in
 	}
 	if in.PrivateEndpointConnectionName != nil {

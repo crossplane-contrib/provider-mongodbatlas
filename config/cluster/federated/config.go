@@ -6,7 +6,7 @@ import (
 	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 )
 
-const group = "federation"
+const group = "federated"
 
 // Configure configures the root group
 func Configure(p *config.Provider) {
@@ -42,7 +42,7 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_federated_settings_identity_provider", func(r *config.Resource) {
 		r.ShortGroup = group
-		r.Kind = "IdentityProvider"
+		r.Kind = "SettingsIdentityProvider"
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "federation_settings_id")
 		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
 	})

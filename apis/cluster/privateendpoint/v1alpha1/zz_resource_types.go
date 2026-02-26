@@ -18,6 +18,9 @@ type ResourceInitParameters struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Flag that indicates whether this resource uses GCP port-mapping. When `true`, it uses the port-mapped architecture. When `false` or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+	PortMappingEnabled *bool `json:"portMappingEnabled,omitempty" tf:"port_mapping_enabled,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -49,6 +52,9 @@ type ResourceObservation struct {
 
 	InterfaceEndpoints []*string `json:"interfaceEndpoints,omitempty" tf:"interface_endpoints,omitempty"`
 
+	// Flag that indicates whether this resource uses GCP port-mapping. When `true`, it uses the port-mapped architecture. When `false` or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+	PortMappingEnabled *bool `json:"portMappingEnabled,omitempty" tf:"port_mapping_enabled,omitempty"`
+
 	PrivateEndpoints []*string `json:"privateEndpoints,omitempty" tf:"private_endpoints,omitempty"`
 
 	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
@@ -75,6 +81,10 @@ type ResourceParameters struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
+	// Flag that indicates whether this resource uses GCP port-mapping. When `true`, it uses the port-mapped architecture. When `false` or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+	// +kubebuilder:validation:Optional
+	PortMappingEnabled *bool `json:"portMappingEnabled,omitempty" tf:"port_mapping_enabled,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

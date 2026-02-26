@@ -36,6 +36,8 @@ type OrganizationInitParameters struct {
 
 	SecurityContact *string `json:"securityContact,omitempty" tf:"security_contact,omitempty"`
 
+	ServiceAccount []ServiceAccountInitParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
 	SkipDefaultAlertsSettings *bool `json:"skipDefaultAlertsSettings,omitempty" tf:"skip_default_alerts_settings,omitempty"`
 }
 
@@ -64,6 +66,8 @@ type OrganizationObservation struct {
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
 	SecurityContact *string `json:"securityContact,omitempty" tf:"security_contact,omitempty"`
+
+	ServiceAccount []ServiceAccountObservation `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	SkipDefaultAlertsSettings *bool `json:"skipDefaultAlertsSettings,omitempty" tf:"skip_default_alerts_settings,omitempty"`
 }
@@ -102,7 +106,70 @@ type OrganizationParameters struct {
 	SecurityContact *string `json:"securityContact,omitempty" tf:"security_contact,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	ServiceAccount []ServiceAccountParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	SkipDefaultAlertsSettings *bool `json:"skipDefaultAlertsSettings,omitempty" tf:"skip_default_alerts_settings,omitempty"`
+}
+
+type SecretsInitParameters struct {
+}
+
+type SecretsObservation struct {
+	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
+
+	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
+
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+}
+
+type SecretsParameters struct {
+}
+
+type ServiceAccountInitParameters struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +listType=set
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+
+	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
+}
+
+type ServiceAccountObservation struct {
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
+
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +listType=set
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+
+	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
+
+	Secrets []SecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
+}
+
+type ServiceAccountParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description" tf:"description,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	Roles []*string `json:"roles" tf:"roles,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours" tf:"secret_expires_after_hours,omitempty"`
 }
 
 // OrganizationSpec defines the desired state of Organization

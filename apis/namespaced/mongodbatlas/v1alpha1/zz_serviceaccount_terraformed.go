@@ -113,7 +113,7 @@ func (tr *ServiceAccount) GetMergedParameters(shouldMergeInitProvider bool) (map
 // LateInitialize this ServiceAccount using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ServiceAccount) LateInitialize(attrs []byte) (bool, error) {
-	params := &ServiceAccountParameters{}
+	params := &ServiceAccountParameters_2{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}

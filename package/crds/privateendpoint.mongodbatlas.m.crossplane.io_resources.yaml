@@ -68,6 +68,12 @@ spec:
                       before retrying to allow resource deletion to finish. Default
                       is `true`.
                     type: boolean
+                  portMappingEnabled:
+                    description: Flag that indicates whether this resource uses GCP
+                      port-mapping. When `true`, it uses the port-mapped architecture.
+                      When `false` or unset, it uses the GCP legacy private endpoint
+                      architecture. Only applicable for GCP provider.
+                    type: boolean
                   projectId:
                     type: string
                   projectIdRef:
@@ -179,6 +185,12 @@ spec:
                       If you suspect a transient error when the value is `true`, wait
                       before retrying to allow resource deletion to finish. Default
                       is `true`.
+                    type: boolean
+                  portMappingEnabled:
+                    description: Flag that indicates whether this resource uses GCP
+                      port-mapping. When `true`, it uses the port-mapped architecture.
+                      When `false` or unset, it uses the GCP legacy private endpoint
+                      architecture. Only applicable for GCP provider.
                     type: boolean
                   projectId:
                     type: string
@@ -365,6 +377,12 @@ spec:
                     items:
                       type: string
                     type: array
+                  portMappingEnabled:
+                    description: Flag that indicates whether this resource uses GCP
+                      port-mapping. When `true`, it uses the port-mapped architecture.
+                      When `false` or unset, it uses the GCP legacy private endpoint
+                      architecture. Only applicable for GCP provider.
+                    type: boolean
                   privateEndpoints:
                     items:
                       type: string

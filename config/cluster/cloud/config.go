@@ -10,6 +10,16 @@ const group = "cloud"
 
 // Configure configures the root group
 func Configure(p *config.Provider) {
+	p.AddResourceConfigurator("mongodbatlas_backup_compliance_policy", func(r *config.Resource) {
+		r.ShortGroup = group
+		r.Kind = "BackupCompliancePolicy"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_schedule", func(r *config.Resource) {
 		r.ShortGroup = group
 		r.References = config.References{
@@ -120,7 +130,7 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_serverless_instance", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = "serverless"
 		r.References = config.References{
 			"project_id": {
 				TerraformName: "mongodbatlas_project",

@@ -15,13 +15,18 @@ import (
 )
 
 type BackupSnapshotInitParameters struct {
+
+	// The name of the Atlas cluster that contains the snapshots you want to retrieve.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Description of the on-demand snapshot.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -33,62 +38,86 @@ type BackupSnapshotInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The number of days that Atlas should retain the on-demand snapshot. Must be at least 1.
 	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
 }
 
 type BackupSnapshotObservation struct {
+
+	// Cloud provider that stores this snapshot. Atlas returns this parameter when type is replicaSet.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// The name of the Atlas cluster that contains the snapshots you want to retrieve.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// UTC ISO 8601 formatted point in time when Atlas took the snapshot.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Description of the on-demand snapshot.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// UTC ISO 8601 formatted point in time when Atlas will delete the snapshot.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique ID of the AWS KMS Customer Master Key used to encrypt the snapshot. Only visible for clusters using Encryption at Rest via Customer KMS.
 	MasterKeyUUID *string `json:"masterKeyUuid,omitempty" tf:"master_key_uuid,omitempty"`
 
+	// Block of List of snapshots and the cloud provider where the snapshots are stored. Atlas returns this parameter when type is shardedCluster. See below
 	Members []MembersObservation `json:"members,omitempty" tf:"members,omitempty"`
 
+	// Version of the MongoDB server.
 	MongodVersion *string `json:"mongodVersion,omitempty" tf:"mongod_version,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Label given to the replica set from which Atlas took this snapshot. Atlas returns this parameter when type is replicaSet.
 	ReplicaSetName *string `json:"replicaSetName,omitempty" tf:"replica_set_name,omitempty"`
 
+	// The number of days that Atlas should retain the on-demand snapshot. Must be at least 1.
 	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
 
+	// Unique identifier of the snapshot.
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
+	// Unique identifiers of the snapshots created for the shards and config server for a sharded cluster. Atlas returns this parameter when type is shardedCluster. These identifiers should match those given in the members[#].id parameters. This allows you to map a snapshot to its shard or config server name.
 	SnapshotIds []*string `json:"snapshotIds,omitempty" tf:"snapshot_ids,omitempty"`
 
+	// Specified the type of snapshot. Valid values are onDemand and scheduled.
 	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
 
+	// Current status of the snapshot. One of the following values will be returned: queued, inProgress, completed, failed.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// Specifies the size of the snapshot in bytes.
 	StorageSizeBytes *float64 `json:"storageSizeBytes,omitempty" tf:"storage_size_bytes,omitempty"`
 
+	// Specifies the type of cluster: replicaSet or shardedCluster.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type BackupSnapshotParameters struct {
 
+	// The name of the Atlas cluster that contains the snapshots you want to retrieve.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Description of the on-demand snapshot.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -101,6 +130,7 @@ type BackupSnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The number of days that Atlas should retain the on-demand snapshot. Must be at least 1.
 	// +kubebuilder:validation:Optional
 	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
 }
@@ -109,10 +139,14 @@ type MembersInitParameters struct {
 }
 
 type MembersObservation struct {
+
+	// Cloud provider that stores this snapshot.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Unique identifier for the sharded cluster snapshot.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Label given to a shard or config server from which Atlas took this snapshot.
 	ReplicaSetName *string `json:"replicaSetName,omitempty" tf:"replica_set_name,omitempty"`
 }
 
@@ -146,7 +180,7 @@ type BackupSnapshotStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BackupSnapshot is the Schema for the BackupSnapshots API. <no value>
+// BackupSnapshot is the Schema for the BackupSnapshots API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

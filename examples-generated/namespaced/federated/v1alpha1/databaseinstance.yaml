@@ -1,0 +1,30 @@
+apiVersion: federated.mongodbatlas.m.crossplane.io/v1alpha1
+kind: DatabaseInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: federated/v1alpha1/databaseinstance
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: TENANT NAME OF THE FEDERATED DATABASE INSTANCE
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    storageDatabases:
+    - collections:
+      - dataSources:
+        - collection: COLLECTION IN THE CLUSTER
+          database: DB IN THE CLUSTER
+          storeName: CLUSTER NAME
+        name: NAME OF THE COLLECTION
+      name: VirtualDatabase0
+    storageStores:
+    - clusterName: CLUSTER NAME
+      name: STORE 1 NAME
+      projectId: PROJECT ID
+      provider: atlas
+      readPreference:
+      - mode: secondary

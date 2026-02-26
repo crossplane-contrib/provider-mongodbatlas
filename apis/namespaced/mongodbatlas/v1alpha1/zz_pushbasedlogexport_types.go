@@ -16,18 +16,23 @@ import (
 
 type PushBasedLogExportInitParameters struct {
 
+	// (String) The name of the bucket to which the agent sends the logs to.
 	// The name of the bucket to which the agent sends the logs to.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// (String) ID of the AWS IAM role that is used to write to the S3 bucket.
 	// ID of the AWS IAM role that is used to write to the S3 bucket.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
+	// (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	// S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -42,57 +47,71 @@ type PushBasedLogExportInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Attributes) (see below for nested schema)
 	Timeouts *PushBasedLogExportTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type PushBasedLogExportObservation struct {
 
+	// (String) The name of the bucket to which the agent sends the logs to.
 	// The name of the bucket to which the agent sends the logs to.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// (String) Date and time that this feature was enabled on.
 	// Date and time that this feature was enabled on.
 	CreateDate *string `json:"createDate,omitempty" tf:"create_date,omitempty"`
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// (String) ID of the AWS IAM role that is used to write to the S3 bucket.
 	// ID of the AWS IAM role that is used to write to the S3 bucket.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	// S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (String) Describes whether or not the feature is enabled and what status it is in.
 	// Describes whether or not the feature is enabled and what status it is in.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (Attributes) (see below for nested schema)
 	Timeouts *PushBasedLogExportTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type PushBasedLogExportParameters struct {
 
+	// (String) The name of the bucket to which the agent sends the logs to.
 	// The name of the bucket to which the agent sends the logs to.
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// (String) ID of the AWS IAM role that is used to write to the S3 bucket.
 	// ID of the AWS IAM role that is used to write to the S3 bucket.
 	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
+	// (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	// S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	// +kubebuilder:validation:Optional
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -108,44 +127,54 @@ type PushBasedLogExportParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *PushBasedLogExportTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type PushBasedLogExportTimeoutsInitParameters struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `15m`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type PushBasedLogExportTimeoutsObservation struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `15m`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type PushBasedLogExportTimeoutsParameters struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `15m`.
 	// +kubebuilder:validation:Optional
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
 	// +kubebuilder:validation:Optional
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
@@ -178,7 +207,7 @@ type PushBasedLogExportStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// PushBasedLogExport is the Schema for the PushBasedLogExports API. <no value>
+// PushBasedLogExport is the Schema for the PushBasedLogExports API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

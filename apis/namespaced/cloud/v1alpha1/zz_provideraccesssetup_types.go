@@ -18,8 +18,11 @@ type AwsConfigInitParameters struct {
 }
 
 type AwsConfigObservation struct {
+
+	// Unique external ID Atlas uses when assuming the IAM role in your AWS account.
 	AtlasAssumedRoleExternalID *string `json:"atlasAssumedRoleExternalId,omitempty" tf:"atlas_assumed_role_external_id,omitempty"`
 
+	// ARN associated with the Atlas AWS account used to assume IAM roles in your AWS account.
 	AtlasAwsAccountArn *string `json:"atlasAwsAccountArn,omitempty" tf:"atlas_aws_account_arn,omitempty"`
 }
 
@@ -27,29 +30,40 @@ type AwsConfigParameters struct {
 }
 
 type AzureConfigInitParameters struct {
+
+	// Azure Active Directory Application ID of Atlas. This property is required when provider_name = "AZURE".
 	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
 
+	// UUID string that identifies the Azure Service Principal. This property is required when provider_name = "AZURE".
 	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
 
+	// UUID String that identifies the Azure Active Directory Tenant ID. This property is required when provider_name = "AZURE".
 	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type AzureConfigObservation struct {
+
+	// Azure Active Directory Application ID of Atlas. This property is required when provider_name = "AZURE".
 	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
 
+	// UUID string that identifies the Azure Service Principal. This property is required when provider_name = "AZURE".
 	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
 
+	// UUID String that identifies the Azure Active Directory Tenant ID. This property is required when provider_name = "AZURE".
 	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type AzureConfigParameters struct {
 
+	// Azure Active Directory Application ID of Atlas. This property is required when provider_name = "AZURE".
 	// +kubebuilder:validation:Optional
 	AtlasAzureAppID *string `json:"atlasAzureAppId" tf:"atlas_azure_app_id,omitempty"`
 
+	// UUID string that identifies the Azure Service Principal. This property is required when provider_name = "AZURE".
 	// +kubebuilder:validation:Optional
 	ServicePrincipalID *string `json:"servicePrincipalId" tf:"service_principal_id,omitempty"`
 
+	// UUID String that identifies the Azure Active Directory Tenant ID. This property is required when provider_name = "AZURE".
 	// +kubebuilder:validation:Optional
 	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
 }
@@ -58,8 +72,11 @@ type GCPConfigInitParameters struct {
 }
 
 type GCPConfigObservation struct {
+
+	// The GCP service account email that Atlas uses.
 	ServiceAccountForAtlas *string `json:"serviceAccountForAtlas,omitempty" tf:"service_account_for_atlas,omitempty"`
 
+	// The status of the GCP cloud provider access setup. See MongoDB Atlas API.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
@@ -67,11 +84,15 @@ type GCPConfigParameters struct {
 }
 
 type ProviderAccessSetupInitParameters struct {
+
+	// azure related configurations
 	AzureConfig []AzureConfigInitParameters `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// The unique ID for the project
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -83,41 +104,55 @@ type ProviderAccessSetupInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The cloud provider for which to create a new role. Currently, AWS, AZURE and GCP are supported. WARNING Changing the provider_name will result in destruction of the existing resource and the creation of a new resource.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
 type ProviderAccessSetupObservation struct {
+
+	// aws related arn roles
 	AwsConfig []AwsConfigObservation `json:"awsConfig,omitempty" tf:"aws_config,omitempty"`
 
+	// azure related configurations
 	AzureConfig []AzureConfigObservation `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
 
+	// Date on which this role was created.
 	CreatedDate *string `json:"createdDate,omitempty" tf:"created_date,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// gcp related configuration
 	GCPConfig []GCPConfigObservation `json:"gcpConfig,omitempty" tf:"gcp_config,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Date and time when this Azure Service Principal was last updated. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	LastUpdatedDate *string `json:"lastUpdatedDate,omitempty" tf:"last_updated_date,omitempty"`
 
+	// The unique ID for the project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// The cloud provider for which to create a new role. Currently, AWS, AZURE and GCP are supported. WARNING Changing the provider_name will result in destruction of the existing resource and the creation of a new resource.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// of the first resource.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
 
 type ProviderAccessSetupParameters struct {
 
+	// azure related configurations
 	// +kubebuilder:validation:Optional
 	AzureConfig []AzureConfigParameters `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// The unique ID for the project
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -130,6 +165,7 @@ type ProviderAccessSetupParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The cloud provider for which to create a new role. Currently, AWS, AZURE and GCP are supported. WARNING Changing the provider_name will result in destruction of the existing resource and the creation of a new resource.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
@@ -161,7 +197,7 @@ type ProviderAccessSetupStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ProviderAccessSetup is the Schema for the ProviderAccessSetups API. <no value>
+// ProviderAccessSetup is the Schema for the ProviderAccessSetups API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

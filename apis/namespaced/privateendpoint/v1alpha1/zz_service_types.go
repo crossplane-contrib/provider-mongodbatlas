@@ -15,41 +15,56 @@ import (
 )
 
 type EndpointsInitParameters struct {
+
+	// Forwarding rule that corresponds to the endpoint you created.
 	EndpointName *string `json:"endpointName,omitempty" tf:"endpoint_name,omitempty"`
 
+	// Private IP address of the endpoint you created.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
 type EndpointsObservation struct {
+
+	// Forwarding rule that corresponds to the endpoint you created.
 	EndpointName *string `json:"endpointName,omitempty" tf:"endpoint_name,omitempty"`
 
+	// Private IP address of the endpoint you created.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Status of the endpoint. Atlas returns one of the values shown above.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
 type EndpointsParameters struct {
 
+	// Forwarding rule that corresponds to the endpoint you created.
 	// +kubebuilder:validation:Optional
 	EndpointName *string `json:"endpointName,omitempty" tf:"endpoint_name,omitempty"`
 
+	// Private IP address of the endpoint you created.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
 type ServiceInitParameters struct {
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Unique identifier of the interface endpoint you created in your VPC. For AWS and AZURE, this is the interface endpoint identifier. For GCP port-mapped architecture, this is the forwarding rule name. For GCP legacy private endpoint architecture, this is the endpoint group name.
 	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
 
+	// Collection of individual private endpoints that comprise your endpoint group. Only for GCP legacy private endpoint architecture. Note: For the port-mapped architecture, this field is no longer used - use endpoint_service_id and private_endpoint_ip_address instead.
 	Endpoints []EndpointsInitParameters `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
+	// Unique identifier of the GCP project in which you created your endpoints. Required for  (both legacy and port-mapped architectures). Only for GCP.
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
+	// Private IP address of the private endpoint network interface. Required for  For port-mapped architecture, this is required and is the IP address of the forwarding rule. For GCP legacy private endpoint architecture, this is not used.
 	PrivateEndpointIPAddress *string `json:"privateEndpointIpAddress,omitempty" tf:"private_endpoint_ip_address,omitempty"`
 
+	// Unique identifier of the AWS, AZURE or GCP PrivateLink connection which is created by mongodbatlas_privatelink_endpoint resource.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/privateendpoint/v1alpha1.Resource
 	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
 
@@ -61,6 +76,7 @@ type ServiceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateLinkIDSelector *v1.NamespacedSelector `json:"privateLinkIdSelector,omitempty" tf:"-"`
 
+	// Unique identifier for the project, also known as group_id in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -72,72 +88,101 @@ type ServiceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud provider for which you want to create a private endpoint. Atlas accepts AWS, AZURE or GCP.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
 type ServiceObservation struct {
+
+	// Status of the interface endpoint for AWS.
+	// Returns one of the following values:
 	AwsConnectionStatus *string `json:"awsConnectionStatus,omitempty" tf:"aws_connection_status,omitempty"`
 
+	// Status of the interface endpoint for AZURE.
+	// Returns one of the following values:
 	AzureStatus *string `json:"azureStatus,omitempty" tf:"azure_status,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Indicates if Atlas received a request to remove the interface endpoint from the private endpoint connection.
 	DeleteRequested *bool `json:"deleteRequested,omitempty" tf:"delete_requested,omitempty"`
 
 	EndpointGroupName *string `json:"endpointGroupName,omitempty" tf:"endpoint_group_name,omitempty"`
 
+	// Unique identifier of the interface endpoint you created in your VPC. For AWS and AZURE, this is the interface endpoint identifier. For GCP port-mapped architecture, this is the forwarding rule name. For GCP legacy private endpoint architecture, this is the endpoint group name.
 	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
 
+	// Collection of individual private endpoints that comprise your endpoint group. Only for GCP legacy private endpoint architecture. Note: For the port-mapped architecture, this field is no longer used - use endpoint_service_id and private_endpoint_ip_address instead.
 	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
+	// Error message pertaining to the interface endpoint. Returns null if there are no errors.
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
+	// Status of the individual endpoint. Only populated for port-mapped architecture. Returns one of the following values: INITIATING, AVAILABLE, FAILED, DELETING.
 	// Status of the GCP endpoint. Only populated for port-mapped architecture.
 	GCPEndpointStatus *string `json:"gcpEndpointStatus,omitempty" tf:"gcp_endpoint_status,omitempty"`
 
+	// Unique identifier of the GCP project in which you created your endpoints. Required for  (both legacy and port-mapped architectures). Only for GCP.
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
+	// Status of the interface endpoint.
+	// Returns one of the following values:
 	GCPStatus *string `json:"gcpStatus,omitempty" tf:"gcp_status,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique identifier of the interface endpoint.
 	InterfaceEndpointID *string `json:"interfaceEndpointId,omitempty" tf:"interface_endpoint_id,omitempty"`
 
+	// Flag that indicates whether the underlying privatelink_endpoint resource uses GCP port-mapping. This is a read-only attribute that reflects the architecture type. When true, the endpoint service uses the port-mapped architecture. When false, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
 	// Flag that indicates whether the underlying `privatelink_endpoint` resource uses GCP port-mapping. This is a read-only attribute that reflects the architecture type. When `true`, the endpoint service uses the port-mapped architecture. When `false`, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
 	PortMappingEnabled *bool `json:"portMappingEnabled,omitempty" tf:"port_mapping_enabled,omitempty"`
 
+	// Name of the connection for this private endpoint that Atlas generates.
 	PrivateEndpointConnectionName *string `json:"privateEndpointConnectionName,omitempty" tf:"private_endpoint_connection_name,omitempty"`
 
+	// Private IP address of the private endpoint network interface. Required for  For port-mapped architecture, this is required and is the IP address of the forwarding rule. For GCP legacy private endpoint architecture, this is not used.
 	PrivateEndpointIPAddress *string `json:"privateEndpointIpAddress,omitempty" tf:"private_endpoint_ip_address,omitempty"`
 
+	// Unique identifier of the private endpoint.
 	PrivateEndpointResourceID *string `json:"privateEndpointResourceId,omitempty" tf:"private_endpoint_resource_id,omitempty"`
 
+	// Unique identifier of the AWS, AZURE or GCP PrivateLink connection which is created by mongodbatlas_privatelink_endpoint resource.
 	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
 
+	// Unique identifier for the project, also known as group_id in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Cloud provider for which you want to create a private endpoint. Atlas accepts AWS, AZURE or GCP.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
 
 type ServiceParameters struct {
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Unique identifier of the interface endpoint you created in your VPC. For AWS and AZURE, this is the interface endpoint identifier. For GCP port-mapped architecture, this is the forwarding rule name. For GCP legacy private endpoint architecture, this is the endpoint group name.
 	// +kubebuilder:validation:Optional
 	EndpointServiceID *string `json:"endpointServiceId,omitempty" tf:"endpoint_service_id,omitempty"`
 
+	// Collection of individual private endpoints that comprise your endpoint group. Only for GCP legacy private endpoint architecture. Note: For the port-mapped architecture, this field is no longer used - use endpoint_service_id and private_endpoint_ip_address instead.
 	// +kubebuilder:validation:Optional
 	Endpoints []EndpointsParameters `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
+	// Unique identifier of the GCP project in which you created your endpoints. Required for  (both legacy and port-mapped architectures). Only for GCP.
 	// +kubebuilder:validation:Optional
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
+	// Private IP address of the private endpoint network interface. Required for  For port-mapped architecture, this is required and is the IP address of the forwarding rule. For GCP legacy private endpoint architecture, this is not used.
 	// +kubebuilder:validation:Optional
 	PrivateEndpointIPAddress *string `json:"privateEndpointIpAddress,omitempty" tf:"private_endpoint_ip_address,omitempty"`
 
+	// Unique identifier of the AWS, AZURE or GCP PrivateLink connection which is created by mongodbatlas_privatelink_endpoint resource.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/privateendpoint/v1alpha1.Resource
 	// +kubebuilder:validation:Optional
 	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
@@ -150,6 +195,7 @@ type ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateLinkIDSelector *v1.NamespacedSelector `json:"privateLinkIdSelector,omitempty" tf:"-"`
 
+	// Unique identifier for the project, also known as group_id in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -162,6 +208,7 @@ type ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud provider for which you want to create a private endpoint. Atlas accepts AWS, AZURE or GCP.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
@@ -193,7 +240,7 @@ type ServiceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Service is the Schema for the Services API. <no value>
+// Service is the Schema for the Services API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

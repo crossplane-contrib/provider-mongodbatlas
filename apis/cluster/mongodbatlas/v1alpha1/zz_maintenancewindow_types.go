@@ -14,16 +14,23 @@ import (
 )
 
 type MaintenanceWindowInitParameters struct {
+
+	// Boolean flag to toggle automatic deferral on/off. Each change flips the current state (ON → OFF or OFF → ON). For most use cases, prefer
 	AutoDefer *bool `json:"autoDefer,omitempty" tf:"auto_defer,omitempty"`
 
+	// Recommended field to enable or disable automatic deferral of all scheduled maintenance for the given project by one week. If auto_defer is used to toggle the underlying flag, it will also affect the value of this attribute.
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
+	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
 	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
+	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
+	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
+	// The unique identifier of the project for the Maintenance Window.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -35,50 +42,68 @@ type MaintenanceWindowInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.
 	ProtectedHours []ProtectedHoursInitParameters `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
 }
 
 type MaintenanceWindowObservation struct {
+
+	// Boolean flag to toggle automatic deferral on/off. Each change flips the current state (ON → OFF or OFF → ON). For most use cases, prefer
 	AutoDefer *bool `json:"autoDefer,omitempty" tf:"auto_defer,omitempty"`
 
+	// Recommended field to enable or disable automatic deferral of all scheduled maintenance for the given project by one week. If auto_defer is used to toggle the underlying flag, it will also affect the value of this attribute.
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
+	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
 	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
+	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
+	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Number of times the current maintenance event for this project has been deferred, there can be a maximum of 2 deferrals.
 	NumberOfDeferrals *float64 `json:"numberOfDeferrals,omitempty" tf:"number_of_deferrals,omitempty"`
 
+	// The unique identifier of the project for the Maintenance Window.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.
 	ProtectedHours []ProtectedHoursObservation `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
 
+	// Flag indicating whether project maintenance has been directed to start immediately. If requested, this field returns true from the time the request was made until the time the maintenance event completes.
 	StartAsap *bool `json:"startAsap,omitempty" tf:"start_asap,omitempty"`
 
+	// Identifier for the current time zone of the maintenance window. This can only be updated via the Project Settings UI.
 	TimeZoneID *string `json:"timeZoneId,omitempty" tf:"time_zone_id,omitempty"`
 }
 
 type MaintenanceWindowParameters struct {
 
+	// Boolean flag to toggle automatic deferral on/off. Each change flips the current state (ON → OFF or OFF → ON). For most use cases, prefer
 	// +kubebuilder:validation:Optional
 	AutoDefer *bool `json:"autoDefer,omitempty" tf:"auto_defer,omitempty"`
 
+	// Recommended field to enable or disable automatic deferral of all scheduled maintenance for the given project by one week. If auto_defer is used to toggle the underlying flag, it will also affect the value of this attribute.
 	// +kubebuilder:validation:Optional
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
+	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
 	// +kubebuilder:validation:Optional
 	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
+	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	// +kubebuilder:validation:Optional
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
+	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
 	// +kubebuilder:validation:Optional
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
+	// The unique identifier of the project for the Maintenance Window.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -91,27 +116,36 @@ type MaintenanceWindowParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.
 	// +kubebuilder:validation:Optional
 	ProtectedHours []ProtectedHoursParameters `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
 }
 
 type ProtectedHoursInitParameters struct {
+
+	// Zero-based integer that represents the end hour of the day for the protected hours window.
 	EndHourOfDay *float64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
 
+	// Zero-based integer that represents the beginning hour of the day for the protected hours window.
 	StartHourOfDay *float64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
 }
 
 type ProtectedHoursObservation struct {
+
+	// Zero-based integer that represents the end hour of the day for the protected hours window.
 	EndHourOfDay *float64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
 
+	// Zero-based integer that represents the beginning hour of the day for the protected hours window.
 	StartHourOfDay *float64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
 }
 
 type ProtectedHoursParameters struct {
 
+	// Zero-based integer that represents the end hour of the day for the protected hours window.
 	// +kubebuilder:validation:Optional
 	EndHourOfDay *float64 `json:"endHourOfDay" tf:"end_hour_of_day,omitempty"`
 
+	// Zero-based integer that represents the beginning hour of the day for the protected hours window.
 	// +kubebuilder:validation:Optional
 	StartHourOfDay *float64 `json:"startHourOfDay" tf:"start_hour_of_day,omitempty"`
 }
@@ -143,7 +177,7 @@ type MaintenanceWindowStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// MaintenanceWindow is the Schema for the MaintenanceWindows API. <no value>
+// MaintenanceWindow is the Schema for the MaintenanceWindows API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

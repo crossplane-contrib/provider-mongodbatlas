@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: FlexCluster is the Schema for the FlexClusters API. <no value>
+        description: FlexCluster is the Schema for the FlexClusters API.
         properties:
           apiVersion:
             description: |-
@@ -59,21 +59,19 @@ spec:
               forProvider:
                 properties:
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   name:
-                    description: Human-readable label that identifies the instance.
+                    description: |-
+                      readable label that identifies the instance.
+                      Human-readable label that identifies the instance.
                     type: string
                   projectId:
-                    description: Unique 24-hexadecimal character string that identifies
-                      the project.
+                    description: |-
+                      hexadecimal character string that identifies the project.
+                      Unique 24-hexadecimal character string that identifies the project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -158,54 +156,51 @@ spec:
                         type: object
                     type: object
                   providerSettings:
+                    description: (Attributes) Group of cloud provider settings that
+                      configure the provisioned MongoDB flex cluster. (see below for
+                      nested schema)
                     properties:
                       backingProviderName:
-                        description: Cloud service provider on which MongoDB Cloud
-                          provisioned the flex cluster.
+                        description: |-
+                          (String) Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
+                          Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
                         type: string
                       regionName:
-                        description: Human-readable label that identifies the geographic
-                          location of your MongoDB flex cluster. The region you choose
-                          can affect network latency for clients accessing your databases.
-                          For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws),
-                          [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/),
-                          and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
+                        description: |-
+                          readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+                          Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws), [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/), and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
                         type: string
                     type: object
                   tags:
                     additionalProperties:
                       type: string
-                    description: Map that contains key-value pairs between 1 to 255
-                      characters in length for tagging and categorizing the instance.
+                    description: |-
+                      value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+                      Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                     type: object
                     x-kubernetes-map-type: granular
                   terminationProtectionEnabled:
-                    description: Flag that indicates whether termination protection
-                      is enabled on the cluster. If set to `true`, MongoDB Cloud won't
-                      delete the cluster. If set to `false`, MongoDB Cloud will delete
-                      the cluster.
+                    description: |-
+                      (Boolean) Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
+                      Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
                     type: boolean
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                       delete:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Setting a timeout for a Delete operation
-                          is only applicable if changes are saved into state before
-                          the destroy operation occurs. Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                     type: object
                 type: object
@@ -223,21 +218,19 @@ spec:
                   autoscaler.
                 properties:
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   name:
-                    description: Human-readable label that identifies the instance.
+                    description: |-
+                      readable label that identifies the instance.
+                      Human-readable label that identifies the instance.
                     type: string
                   projectId:
-                    description: Unique 24-hexadecimal character string that identifies
-                      the project.
+                    description: |-
+                      hexadecimal character string that identifies the project.
+                      Unique 24-hexadecimal character string that identifies the project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -322,54 +315,51 @@ spec:
                         type: object
                     type: object
                   providerSettings:
+                    description: (Attributes) Group of cloud provider settings that
+                      configure the provisioned MongoDB flex cluster. (see below for
+                      nested schema)
                     properties:
                       backingProviderName:
-                        description: Cloud service provider on which MongoDB Cloud
-                          provisioned the flex cluster.
+                        description: |-
+                          (String) Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
+                          Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
                         type: string
                       regionName:
-                        description: Human-readable label that identifies the geographic
-                          location of your MongoDB flex cluster. The region you choose
-                          can affect network latency for clients accessing your databases.
-                          For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws),
-                          [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/),
-                          and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
+                        description: |-
+                          readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+                          Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws), [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/), and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
                         type: string
                     type: object
                   tags:
                     additionalProperties:
                       type: string
-                    description: Map that contains key-value pairs between 1 to 255
-                      characters in length for tagging and categorizing the instance.
+                    description: |-
+                      value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+                      Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                     type: object
                     x-kubernetes-map-type: granular
                   terminationProtectionEnabled:
-                    description: Flag that indicates whether termination protection
-                      is enabled on the cluster. If set to `true`, MongoDB Cloud won't
-                      delete the cluster. If set to `false`, MongoDB Cloud will delete
-                      the cluster.
+                    description: |-
+                      (Boolean) Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
+                      Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
                     type: boolean
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                       delete:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Setting a timeout for a Delete operation
-                          is only applicable if changes are saved into state before
-                          the destroy operation occurs. Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                     type: object
                 type: object
@@ -446,120 +436,130 @@ spec:
               atProvider:
                 properties:
                   backupSettings:
+                    description: (Attributes) Flex backup configuration (see below
+                      for nested schema)
                     properties:
                       enabled:
-                        description: Flag that indicates whether backups are performed
-                          for this flex cluster. Backup uses [flex cluster backups](https://www.mongodb.com/docs/atlas/backup/cloud-backup/flex-cluster-backup/).
+                        description: |-
+                          (Boolean) Flag that indicates whether backups are performed for this flex cluster. Backup uses flex cluster backups.
+                          Flag that indicates whether backups are performed for this flex cluster. Backup uses [flex cluster backups](https://www.mongodb.com/docs/atlas/backup/cloud-backup/flex-cluster-backup/).
                         type: boolean
                     type: object
                   clusterType:
-                    description: Flex cluster topology.
+                    description: |-
+                      (String) Flex cluster topology.
+                      Flex cluster topology.
                     type: string
                   connectionStrings:
+                    description: (Attributes) Collection of Uniform Resource Locators
+                      that point to the MongoDB database. (see below for nested schema)
                     properties:
                       standard:
-                        description: Public connection string that you can use to
-                          connect to this cluster. This connection string uses the
-                          mongodb:// protocol.
+                        description: |-
+                          (String) Public connection string that you can use to connect to this cluster. This connection string uses the mongodb:// protocol.
+                          Public connection string that you can use to connect to this cluster. This connection string uses the mongodb:// protocol.
                         type: string
                       standardSrv:
-                        description: Public connection string that you can use to
-                          connect to this flex cluster. This connection string uses
-                          the `mongodb+srv://` protocol.
+                        description: |-
+                          (String) Public connection string that you can use to connect to this flex cluster. This connection string uses the mongodb+srv:// protocol.
+                          Public connection string that you can use to connect to this flex cluster. This connection string uses the `mongodb+srv://` protocol.
                         type: string
                     type: object
                   createDate:
-                    description: Date and time when MongoDB Cloud created this instance.
-                      This parameter expresses its value in ISO 8601 format in UTC.
+                    description: |-
+                      (String) Date and time when MongoDB Cloud created this instance. This parameter expresses its value in ISO 8601 format in UTC.
+                      Date and time when MongoDB Cloud created this instance. This parameter expresses its value in ISO 8601 format in UTC.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   id:
+                    description: hexadecimal digit string that identifies the instance.
                     type: string
                   mongoDbVersion:
-                    description: Version of MongoDB that the instance runs.
+                    description: |-
+                      (String) Version of MongoDB that the instance runs.
+                      Version of MongoDB that the instance runs.
                     type: string
                   name:
-                    description: Human-readable label that identifies the instance.
+                    description: |-
+                      readable label that identifies the instance.
+                      Human-readable label that identifies the instance.
                     type: string
                   projectId:
-                    description: Unique 24-hexadecimal character string that identifies
-                      the project.
+                    description: |-
+                      hexadecimal character string that identifies the project.
+                      Unique 24-hexadecimal character string that identifies the project.
                     type: string
                   providerSettings:
+                    description: (Attributes) Group of cloud provider settings that
+                      configure the provisioned MongoDB flex cluster. (see below for
+                      nested schema)
                     properties:
                       backingProviderName:
-                        description: Cloud service provider on which MongoDB Cloud
-                          provisioned the flex cluster.
+                        description: |-
+                          (String) Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
+                          Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
                         type: string
                       diskSizeGb:
-                        description: Storage capacity available to the flex cluster
-                          expressed in gigabytes.
+                        description: |-
+                          (Number) Storage capacity available to the flex cluster expressed in gigabytes.
+                          Storage capacity available to the flex cluster expressed in gigabytes.
                         type: number
                       providerName:
-                        description: Human-readable label that identifies the cloud
-                          service provider.
+                        description: |-
+                          readable label that identifies the cloud service provider.
+                          Human-readable label that identifies the cloud service provider.
                         type: string
                       regionName:
-                        description: Human-readable label that identifies the geographic
-                          location of your MongoDB flex cluster. The region you choose
-                          can affect network latency for clients accessing your databases.
-                          For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws),
-                          [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/),
-                          and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
+                        description: |-
+                          readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+                          Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws), [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/), and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
                         type: string
                     type: object
                   stateName:
-                    description: Human-readable label that indicates the current operating
-                      condition of this instance.
+                    description: |-
+                      readable label that indicates the current operating condition of this instance.
+                      Human-readable label that indicates the current operating condition of this instance.
                     type: string
                   tags:
                     additionalProperties:
                       type: string
-                    description: Map that contains key-value pairs between 1 to 255
-                      characters in length for tagging and categorizing the instance.
+                    description: |-
+                      value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+                      Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                     type: object
                     x-kubernetes-map-type: granular
                   terminationProtectionEnabled:
-                    description: Flag that indicates whether termination protection
-                      is enabled on the cluster. If set to `true`, MongoDB Cloud won't
-                      delete the cluster. If set to `false`, MongoDB Cloud will delete
-                      the cluster.
+                    description: |-
+                      (Boolean) Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
+                      Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
                     type: boolean
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                       delete:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Setting a timeout for a Delete operation
-                          is only applicable if changes are saved into state before
-                          the destroy operation occurs. Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                     type: object
                   versionReleaseSystem:
-                    description: Method by which the cluster maintains the MongoDB
-                      versions.
+                    description: |-
+                      (String) Method by which the cluster maintains the MongoDB versions.
+                      Method by which the cluster maintains the MongoDB versions.
                     type: string
                 type: object
               conditions:

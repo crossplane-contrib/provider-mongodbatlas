@@ -1,0 +1,19 @@
+apiVersion: stream.mongodbatlas.crossplane.io/v1alpha1
+kind: PrivatelinkEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/privatelinkendpoint
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    dnsDomain: ${confluent_network.private_link.dns_domain}
+    dnsSubDomain: ${confluent_network.private_link.zonal_subdomains}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS
+    region: ${var.aws_region}
+    serviceEndpointId: ${confluent_network.private_link.aws[0].private_link_endpoint_service}
+    vendor: CONFLUENT

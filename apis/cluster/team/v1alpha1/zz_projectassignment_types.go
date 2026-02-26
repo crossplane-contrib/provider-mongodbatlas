@@ -15,15 +15,18 @@ import (
 
 type ProjectAssignmentInitParameters struct {
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
+	// hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 }
@@ -31,32 +34,38 @@ type ProjectAssignmentInitParameters struct {
 type ProjectAssignmentObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
+	// hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 }
 
 type ProjectAssignmentParameters struct {
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
+	// hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
 	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
@@ -89,7 +98,7 @@ type ProjectAssignmentStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ProjectAssignment is the Schema for the ProjectAssignments API. <no value>
+// ProjectAssignment is the Schema for the ProjectAssignments API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

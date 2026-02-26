@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: RoleMapping is the Schema for the RoleMappings API. <no value>
+        description: RoleMapping is the Schema for the RoleMappings API.
         properties:
           apiVersion:
             description: |-
@@ -59,8 +59,12 @@ spec:
               forProvider:
                 properties:
                   externalGroupName:
+                    description: Unique label that identifies the identity provider
+                      group to which this role mapping applies.
                     type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
                     type: string
                   federationSettingsIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -145,6 +149,8 @@ spec:
                         type: object
                     type: object
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -229,13 +235,22 @@ spec:
                         type: object
                     type: object
                   roleAssignments:
+                    description: Atlas roles and the unique identifiers of the groups
+                      and organizations associated with each role.
                     items:
                       properties:
                         groupId:
+                          description: Unique identifier of the project to which you
+                            want the role mapping to apply.
                           type: string
                         orgId:
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the organization that contains your projects.
                           type: string
                         roles:
+                          description: |-
+                            Specifies the Roles that are attached to the Role Mapping. Available role IDs can be found on the User Roles
+                            Reference.
                           items:
                             type: string
                           type: array
@@ -257,8 +272,12 @@ spec:
                   autoscaler.
                 properties:
                   externalGroupName:
+                    description: Unique label that identifies the identity provider
+                      group to which this role mapping applies.
                     type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
                     type: string
                   federationSettingsIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -343,6 +362,8 @@ spec:
                         type: object
                     type: object
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -427,13 +448,22 @@ spec:
                         type: object
                     type: object
                   roleAssignments:
+                    description: Atlas roles and the unique identifiers of the groups
+                      and organizations associated with each role.
                     items:
                       properties:
                         groupId:
+                          description: Unique identifier of the project to which you
+                            want the role mapping to apply.
                           type: string
                         orgId:
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the organization that contains your projects.
                           type: string
                         roles:
+                          description: |-
+                            Specifies the Roles that are attached to the Role Mapping. Available role IDs can be found on the User Roles
+                            Reference.
                           items:
                             type: string
                           type: array
@@ -514,21 +544,36 @@ spec:
               atProvider:
                 properties:
                   externalGroupName:
+                    description: Unique label that identifies the identity provider
+                      group to which this role mapping applies.
                     type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
                     type: string
                   id:
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   roleAssignments:
+                    description: Atlas roles and the unique identifiers of the groups
+                      and organizations associated with each role.
                     items:
                       properties:
                         groupId:
+                          description: Unique identifier of the project to which you
+                            want the role mapping to apply.
                           type: string
                         orgId:
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the organization that contains your projects.
                           type: string
                         roles:
+                          description: |-
+                            Specifies the Roles that are attached to the Role Mapping. Available role IDs can be found on the User Roles
+                            Reference.
                           items:
                             type: string
                           type: array
@@ -536,6 +581,8 @@ spec:
                       type: object
                     type: array
                   roleMappingId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      this role mapping.
                     type: string
                 type: object
               conditions:

@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackupCompliancePolicy is the Schema for the BackupCompliancePolicys
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -60,84 +60,162 @@ spec:
               forProvider:
                 properties:
                   authorizedEmail:
+                    description: Email address of a security or legal representative
+                      for the Backup Compliance Policy who is authorized to update
+                      the Backup Compliance Policy settings.
                     type: string
                   authorizedUserFirstName:
+                    description: First name of the user who authorized to update the
+                      Backup Compliance Policy settings.
                     type: string
                   authorizedUserLastName:
+                    description: Last name of the user who authorized to update the
+                      Backup Compliance Policy settings.
                     type: string
                   copyProtectionEnabled:
+                    description: Flag that indicates whether to enable additional
+                      backup copies for the cluster. If unspecified, this value defaults
+                      to false.
                     type: boolean
                   encryptionAtRestEnabled:
+                    description: Flag that indicates whether Encryption at Rest using
+                      Customer Key Management is required for all clusters with a
+                      Backup Compliance Policy. If unspecified, this value defaults
+                      to false.
                     type: boolean
                   onDemandPolicyItem:
+                    description: Specifications for on-demand policy.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   pitEnabled:
+                    description: Flag that indicates whether the cluster uses Continuous
+                      Cloud Backups with a Backup Compliance Policy. If unspecified,
+                      this value defaults to false.
                     type: boolean
                   policyItemDaily:
+                    description: Scheduled policy using a daily frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemHourly:
+                    description: Scheduled policy using an hourly frequency type,
+                      see block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemMonthly:
+                    description: Scheduled policy using a monthly frequency type,
+                      see block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemWeekly:
+                    description: Scheduled policy using a weekly frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemYearly:
+                    description: Scheduled policy using a yearly frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -222,6 +300,12 @@ spec:
                         type: object
                     type: object
                   restoreWindowDays:
+                    description: Number of previous days that you can restore back
+                      to with Continuous Cloud Backup with a Backup Compliance Policy.
+                      You must specify a positive, non-zero integer, and the maximum
+                      retention window can't exceed the hourly retention time. This
+                      parameter applies only to Continuous Cloud Backups with a Backup
+                      Compliance Policy.
                     type: number
                 type: object
               initProvider:
@@ -238,84 +322,162 @@ spec:
                   autoscaler.
                 properties:
                   authorizedEmail:
+                    description: Email address of a security or legal representative
+                      for the Backup Compliance Policy who is authorized to update
+                      the Backup Compliance Policy settings.
                     type: string
                   authorizedUserFirstName:
+                    description: First name of the user who authorized to update the
+                      Backup Compliance Policy settings.
                     type: string
                   authorizedUserLastName:
+                    description: Last name of the user who authorized to update the
+                      Backup Compliance Policy settings.
                     type: string
                   copyProtectionEnabled:
+                    description: Flag that indicates whether to enable additional
+                      backup copies for the cluster. If unspecified, this value defaults
+                      to false.
                     type: boolean
                   encryptionAtRestEnabled:
+                    description: Flag that indicates whether Encryption at Rest using
+                      Customer Key Management is required for all clusters with a
+                      Backup Compliance Policy. If unspecified, this value defaults
+                      to false.
                     type: boolean
                   onDemandPolicyItem:
+                    description: Specifications for on-demand policy.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   pitEnabled:
+                    description: Flag that indicates whether the cluster uses Continuous
+                      Cloud Backups with a Backup Compliance Policy. If unspecified,
+                      this value defaults to false.
                     type: boolean
                   policyItemDaily:
+                    description: Scheduled policy using a daily frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemHourly:
+                    description: Scheduled policy using an hourly frequency type,
+                      see block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemMonthly:
+                    description: Scheduled policy using a monthly frequency type,
+                      see block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemWeekly:
+                    description: Scheduled policy using a weekly frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemYearly:
+                    description: Scheduled policy using a yearly frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -400,6 +562,12 @@ spec:
                         type: object
                     type: object
                   restoreWindowDays:
+                    description: Number of previous days that you can restore back
+                      to with Continuous Cloud Backup with a Backup Compliance Policy.
+                      You must specify a positive, non-zero integer, and the maximum
+                      retention window can't exceed the hourly retention time. This
+                      parameter applies only to Continuous Cloud Backups with a Backup
+                      Compliance Policy.
                     type: number
                 type: object
               managementPolicies:
@@ -480,118 +648,250 @@ spec:
               atProvider:
                 properties:
                   authorizedEmail:
+                    description: Email address of a security or legal representative
+                      for the Backup Compliance Policy who is authorized to update
+                      the Backup Compliance Policy settings.
                     type: string
                   authorizedUserFirstName:
+                    description: First name of the user who authorized to update the
+                      Backup Compliance Policy settings.
                     type: string
                   authorizedUserLastName:
+                    description: Last name of the user who authorized to update the
+                      Backup Compliance Policy settings.
                     type: string
                   copyProtectionEnabled:
+                    description: Flag that indicates whether to enable additional
+                      backup copies for the cluster. If unspecified, this value defaults
+                      to false.
                     type: boolean
                   encryptionAtRestEnabled:
+                    description: Flag that indicates whether Encryption at Rest using
+                      Customer Key Management is required for all clusters with a
+                      Backup Compliance Policy. If unspecified, this value defaults
+                      to false.
                     type: boolean
                   id:
+                    description: Unique identifier of the backup policy item.
                     type: string
                   onDemandPolicyItem:
+                    description: Specifications for on-demand policy.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For hourly policies, the frequency type is defined
+                            as ondemand. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   pitEnabled:
+                    description: Flag that indicates whether the cluster uses Continuous
+                      Cloud Backups with a Backup Compliance Policy. If unspecified,
+                      this value defaults to false.
                     type: boolean
                   policyItemDaily:
+                    description: Scheduled policy using a daily frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For hourly policies, the frequency type is defined
+                            as ondemand. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemHourly:
+                    description: Scheduled policy using an hourly frequency type,
+                      see block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For hourly policies, the frequency type is defined
+                            as ondemand. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemMonthly:
+                    description: Scheduled policy using a monthly frequency type,
+                      see block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For hourly policies, the frequency type is defined
+                            as ondemand. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemWeekly:
+                    description: Scheduled policy using a weekly frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For hourly policies, the frequency type is defined
+                            as ondemand. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemYearly:
+                    description: Scheduled policy using a yearly frequency type, see
+                      block fields.
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For hourly policies, the frequency type is defined
+                            as ondemand. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   restoreWindowDays:
+                    description: Number of previous days that you can restore back
+                      to with Continuous Cloud Backup with a Backup Compliance Policy.
+                      You must specify a positive, non-zero integer, and the maximum
+                      retention window can't exceed the hourly retention time. This
+                      parameter applies only to Continuous Cloud Backups with a Backup
+                      Compliance Policy.
                     type: number
                   state:
+                    description: Label that indicates the state of the Backup Compliance
+                      Policy settings. MongoDB Cloud ignores this setting when you
+                      enable or update the Backup Compliance Policy settings.
                     type: string
                   updatedDate:
+                    description: ISO 8601 timestamp format in UTC that indicates when
+                      the user updated the Data Protection Policy settings. MongoDB
+                      Cloud ignores this setting when you enable or update the Backup
+                      Compliance Policy settings.
                     type: string
                   updatedUser:
+                    description: Email address that identifies the user who updated
+                      the Backup Compliance Policy settings. MongoDB Cloud ignores
+                      this email setting when you enable or update the Backup Compliance
+                      Policy settings.
                     type: string
                 type: object
               conditions:

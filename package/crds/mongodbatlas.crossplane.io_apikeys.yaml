@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: APIKey is the Schema for the APIKeys API. <no value>
+        description: APIKey is the Schema for the APIKeys API.
         properties:
           apiVersion:
             description: |-
@@ -73,8 +73,12 @@ spec:
               forProvider:
                 properties:
                   description:
+                    description: Description of this Organization API key.
                     type: string
                   orgId:
+                    description: Unique identifier for the organization whose API
+                      keys you want to retrieve. Use the /orgs endpoint to retrieve
+                      all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -153,6 +157,9 @@ spec:
                         type: object
                     type: object
                   roleNames:
+                    description: |-
+                      Name of the role. This resource returns all the roles the user has in Atlas.
+                      The following are valid roles:
                     items:
                       type: string
                     type: array
@@ -172,8 +179,12 @@ spec:
                   autoscaler.
                 properties:
                   description:
+                    description: Description of this Organization API key.
                     type: string
                   orgId:
+                    description: Unique identifier for the organization whose API
+                      keys you want to retrieve. Use the /orgs endpoint to retrieve
+                      all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -252,6 +263,9 @@ spec:
                         type: object
                     type: object
                   roleNames:
+                    description: |-
+                      Name of the role. This resource returns all the roles the user has in Atlas.
+                      The following are valid roles:
                     items:
                       type: string
                     type: array
@@ -358,16 +372,24 @@ spec:
               atProvider:
                 properties:
                   apiKeyId:
+                    description: Unique identifier for this Organization API key.
                     type: string
                   description:
+                    description: Description of this Organization API key.
                     type: string
                   id:
                     type: string
                   orgId:
+                    description: Unique identifier for the organization whose API
+                      keys you want to retrieve. Use the /orgs endpoint to retrieve
+                      all organizations to which the authenticated user has access.
                     type: string
                   publicKey:
                     type: string
                   roleNames:
+                    description: |-
+                      Name of the role. This resource returns all the roles the user has in Atlas.
+                      The following are valid roles:
                     items:
                       type: string
                     type: array

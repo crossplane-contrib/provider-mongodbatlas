@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: PushBasedLogExport is the Schema for the PushBasedLogExports
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -60,29 +60,28 @@ spec:
               forProvider:
                 properties:
                   bucketName:
-                    description: The name of the bucket to which the agent sends the
-                      logs to.
+                    description: |-
+                      (String) The name of the bucket to which the agent sends the logs to.
+                      The name of the bucket to which the agent sends the logs to.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   iamRoleId:
-                    description: ID of the AWS IAM role that is used to write to the
-                      S3 bucket.
+                    description: |-
+                      (String) ID of the AWS IAM role that is used to write to the S3 bucket.
+                      ID of the AWS IAM role that is used to write to the S3 bucket.
                     type: string
                   prefixPath:
-                    description: S3 directory in which vector writes in order to store
-                      the logs. An empty string denotes the root directory.
+                    description: |-
+                      (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
+                      S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -170,26 +169,22 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
                         type: string
                       delete:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Setting a timeout for a Delete operation
-                          is only applicable if changes are saved into state before
-                          the destroy operation occurs. Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `15m`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
                         type: string
                     type: object
                 type: object
@@ -207,29 +202,28 @@ spec:
                   autoscaler.
                 properties:
                   bucketName:
-                    description: The name of the bucket to which the agent sends the
-                      logs to.
+                    description: |-
+                      (String) The name of the bucket to which the agent sends the logs to.
+                      The name of the bucket to which the agent sends the logs to.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   iamRoleId:
-                    description: ID of the AWS IAM role that is used to write to the
-                      S3 bucket.
+                    description: |-
+                      (String) ID of the AWS IAM role that is used to write to the S3 bucket.
+                      ID of the AWS IAM role that is used to write to the S3 bucket.
                     type: string
                   prefixPath:
-                    description: S3 directory in which vector writes in order to store
-                      the logs. An empty string denotes the root directory.
+                    description: |-
+                      (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
+                      S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -317,26 +311,22 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
                         type: string
                       delete:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Setting a timeout for a Delete operation
-                          is only applicable if changes are saved into state before
-                          the destroy operation occurs. Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `15m`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
                         type: string
                     type: object
                 type: object
@@ -413,63 +403,61 @@ spec:
               atProvider:
                 properties:
                   bucketName:
-                    description: The name of the bucket to which the agent sends the
-                      logs to.
+                    description: |-
+                      (String) The name of the bucket to which the agent sends the logs to.
+                      The name of the bucket to which the agent sends the logs to.
                     type: string
                   createDate:
-                    description: Date and time that this feature was enabled on.
+                    description: |-
+                      (String) Date and time that this feature was enabled on.
+                      Date and time that this feature was enabled on.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   iamRoleId:
-                    description: ID of the AWS IAM role that is used to write to the
-                      S3 bucket.
+                    description: |-
+                      (String) ID of the AWS IAM role that is used to write to the S3 bucket.
+                      ID of the AWS IAM role that is used to write to the S3 bucket.
                     type: string
                   id:
                     type: string
                   prefixPath:
-                    description: S3 directory in which vector writes in order to store
-                      the logs. An empty string denotes the root directory.
+                    description: |-
+                      (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
+                      S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
                     type: string
                   state:
-                    description: Describes whether or not the feature is enabled and
-                      what status it is in.
+                    description: |-
+                      (String) Describes whether or not the feature is enabled and what status it is in.
+                      Describes whether or not the feature is enabled and what status it is in.
                     type: string
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
                         type: string
                       delete:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Setting a timeout for a Delete operation
-                          is only applicable if changes are saved into state before
-                          the destroy operation occurs. Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `15m`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `15m`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `15m`.
                         type: string
                     type: object
                 type: object

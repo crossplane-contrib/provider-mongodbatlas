@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Processor is the Schema for the Processors API. <no value>
+        description: Processor is the Schema for the Processors API.
         properties:
           apiVersion:
             description: |-
@@ -73,45 +73,54 @@ spec:
               forProvider:
                 properties:
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   instanceName:
-                    description: Label that identifies the stream processing workspace.
+                    description: |-
+                      (String, Deprecated) Label that identifies the stream processing workspace.
+                      Label that identifies the stream processing workspace.
                     type: string
                   options:
+                    description: (Attributes) Optional configuration for the stream
+                      processor. (see below for nested schema)
                     properties:
                       dlq:
+                        description: (Attributes) Dead letter queue for the stream
+                          processor. Refer to the MongoDB Atlas Docs for more information.
+                          (see below for nested schema)
                         properties:
                           coll:
-                            description: Name of the collection to use for the DLQ.
+                            description: |-
+                              (String) Name of the collection to use for the DLQ.
+                              Name of the collection to use for the DLQ.
                             type: string
                           connectionName:
-                            description: Name of the connection to write DLQ messages
-                              to. Must be an Atlas connection.
+                            description: |-
+                              (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
+                              Name of the connection to write DLQ messages to. Must be an Atlas connection.
                             type: string
                           db:
-                            description: Name of the database to use for the DLQ.
+                            description: |-
+                              (String) Name of the database to use for the DLQ.
+                              Name of the database to use for the DLQ.
                             type: string
                         type: object
                     type: object
                   pipeline:
-                    description: Stream aggregation pipeline you want to apply to
-                      your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation)
-                      contain more information. Using [jsonencode](https://developer.hashicorp.
-                      For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
+                    description: |-
+                      (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
+                      Stream aggregation pipeline you want to apply to your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. Using [jsonencode](https://developer.hashicorp. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
                     type: string
                   processorName:
-                    description: Label that identifies the stream processor.
+                    description: |-
+                      (String) Label that identifies the stream processor.
+                      Label that identifies the stream processor.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -194,27 +203,29 @@ spec:
                     type: object
                   state:
                     description: |-
+                      (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
                       The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 
                       **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
                     type: string
                   tier:
-                    description: Selected tier to start a stream processor on rather
-                      than defaulting to the workspace setting. Configures Memory
-                      / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and
-                      SP50.
+                    description: |-
+                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
+                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
                     type: string
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                     type: object
                   workspaceName:
-                    description: Label that identifies the stream processing workspace.
+                    description: |-
+                      (String) Label that identifies the stream processing workspace.
+                      Label that identifies the stream processing workspace.
                     type: string
                 type: object
               initProvider:
@@ -231,45 +242,54 @@ spec:
                   autoscaler.
                 properties:
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   instanceName:
-                    description: Label that identifies the stream processing workspace.
+                    description: |-
+                      (String, Deprecated) Label that identifies the stream processing workspace.
+                      Label that identifies the stream processing workspace.
                     type: string
                   options:
+                    description: (Attributes) Optional configuration for the stream
+                      processor. (see below for nested schema)
                     properties:
                       dlq:
+                        description: (Attributes) Dead letter queue for the stream
+                          processor. Refer to the MongoDB Atlas Docs for more information.
+                          (see below for nested schema)
                         properties:
                           coll:
-                            description: Name of the collection to use for the DLQ.
+                            description: |-
+                              (String) Name of the collection to use for the DLQ.
+                              Name of the collection to use for the DLQ.
                             type: string
                           connectionName:
-                            description: Name of the connection to write DLQ messages
-                              to. Must be an Atlas connection.
+                            description: |-
+                              (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
+                              Name of the connection to write DLQ messages to. Must be an Atlas connection.
                             type: string
                           db:
-                            description: Name of the database to use for the DLQ.
+                            description: |-
+                              (String) Name of the database to use for the DLQ.
+                              Name of the database to use for the DLQ.
                             type: string
                         type: object
                     type: object
                   pipeline:
-                    description: Stream aggregation pipeline you want to apply to
-                      your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation)
-                      contain more information. Using [jsonencode](https://developer.hashicorp.
-                      For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
+                    description: |-
+                      (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
+                      Stream aggregation pipeline you want to apply to your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. Using [jsonencode](https://developer.hashicorp. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
                     type: string
                   processorName:
-                    description: Label that identifies the stream processor.
+                    description: |-
+                      (String) Label that identifies the stream processor.
+                      Label that identifies the stream processor.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -352,27 +372,29 @@ spec:
                     type: object
                   state:
                     description: |-
+                      (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
                       The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 
                       **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
                     type: string
                   tier:
-                    description: Selected tier to start a stream processor on rather
-                      than defaulting to the workspace setting. Configures Memory
-                      / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and
-                      SP50.
+                    description: |-
+                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
+                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
                     type: string
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                     type: object
                   workspaceName:
-                    description: Label that identifies the stream processing workspace.
+                    description: |-
+                      (String) Label that identifies the stream processing workspace.
+                      Label that identifies the stream processing workspace.
                     type: string
                 type: object
               managementPolicies:
@@ -476,79 +498,92 @@ spec:
               atProvider:
                 properties:
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   id:
+                    description: hexadecimal character string that identifies the
+                      stream processor.
                     type: string
                   instanceName:
-                    description: Label that identifies the stream processing workspace.
+                    description: |-
+                      (String, Deprecated) Label that identifies the stream processing workspace.
+                      Label that identifies the stream processing workspace.
                     type: string
                   options:
+                    description: (Attributes) Optional configuration for the stream
+                      processor. (see below for nested schema)
                     properties:
                       dlq:
+                        description: (Attributes) Dead letter queue for the stream
+                          processor. Refer to the MongoDB Atlas Docs for more information.
+                          (see below for nested schema)
                         properties:
                           coll:
-                            description: Name of the collection to use for the DLQ.
+                            description: |-
+                              (String) Name of the collection to use for the DLQ.
+                              Name of the collection to use for the DLQ.
                             type: string
                           connectionName:
-                            description: Name of the connection to write DLQ messages
-                              to. Must be an Atlas connection.
+                            description: |-
+                              (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
+                              Name of the connection to write DLQ messages to. Must be an Atlas connection.
                             type: string
                           db:
-                            description: Name of the database to use for the DLQ.
+                            description: |-
+                              (String) Name of the database to use for the DLQ.
+                              Name of the database to use for the DLQ.
                             type: string
                         type: object
                     type: object
                   pipeline:
-                    description: Stream aggregation pipeline you want to apply to
-                      your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation)
-                      contain more information. Using [jsonencode](https://developer.hashicorp.
-                      For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
+                    description: |-
+                      (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
+                      Stream aggregation pipeline you want to apply to your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. Using [jsonencode](https://developer.hashicorp. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
                     type: string
                   processorName:
-                    description: Label that identifies the stream processor.
+                    description: |-
+                      (String) Label that identifies the stream processor.
+                      Label that identifies the stream processor.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
                     type: string
                   state:
                     description: |-
+                      (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
                       The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 
                       **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
                     type: string
                   stats:
-                    description: The stats associated with the stream processor. Refer
-                      to the [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/manage-stream-processor/#view-statistics-of-a-stream-processor)
-                      for more information.
+                    description: |-
+                      (String) The stats associated with the stream processor. Refer to the MongoDB Atlas Docs for more information.
+                      The stats associated with the stream processor. Refer to the [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/manage-stream-processor/#view-statistics-of-a-stream-processor) for more information.
                     type: string
                   tier:
-                    description: Selected tier to start a stream processor on rather
-                      than defaulting to the workspace setting. Configures Memory
-                      / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and
-                      SP50.
+                    description: |-
+                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
+                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
                     type: string
                   timeouts:
+                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `3h`.'
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
                         type: string
                     type: object
                   workspaceName:
-                    description: Label that identifies the stream processing workspace.
+                    description: |-
+                      (String) Label that identifies the stream processing workspace.
+                      Label that identifies the stream processing workspace.
                     type: string
                 type: object
               conditions:

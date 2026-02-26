@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Index is the Schema for the Indexs API. <no value>
+        description: Index is the Schema for the Indexs API.
         properties:
           apiVersion:
             description: |-
@@ -73,28 +73,56 @@ spec:
               forProvider:
                 properties:
                   analyzer:
+                    description: Analyzer to use when creating the index. Defaults
+                      to lucene.standard
                     type: string
                   analyzers:
+                    description: Custom analyzers to use in this index. This is an
+                      array of JSON objects.
                     type: string
                   clusterName:
+                    description: The name of the cluster where you want to create
+                      the search index within.
                     type: string
                   collectionName:
+                    description: 'Name of the collection the index is on. NOTE: The
+                      collection must exist before creating the index.'
                     type: string
                   database:
+                    description: Name of the database the collection is in.
                     type: string
                   fields:
+                    description: Array of Fields to configure this vectorSearch index.
+                      It is mandatory for vector searches and it must contain at least
+                      one vector type field. This field needs to be a JSON string
+                      in order to be decoded correctly.
                     type: string
                   mappingsDynamic:
+                    description: Indicates whether the search index uses dynamic or
+                      static mapping. For default dynamic mapping, set the value to
+                      true. For static mapping, specify the fields to index using
+                      mappings_fields. Mutually exclusive with mappings_dynamic_config.
                     type: boolean
                   mappingsDynamicConfig:
+                    description: JSON object for mappings.dynamic when using configurable
+                      dynamic. See the MongoDB documentation for further information
+                      on Static and Dynamic Mapping. Mutually exclusive with mappings_dynamic.
                     type: string
                   mappingsFields:
+                    description: attribute is required in search indexes when mappings_dynamic
+                      is false. This field needs to be a JSON string in order to be
+                      decoded correctly.
                     type: string
                   name:
+                    description: The name of the search index you want to create.
                     type: string
                   numPartitions:
+                    description: Number of index partitions. Allowed values are [1,
+                      2, 4]. Default value is 1.
                     type: number
                   projectId:
+                    description: The ID of the organization or project you want to
+                      create the search index within.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -173,28 +201,48 @@ spec:
                         type: object
                     type: object
                   searchAnalyzer:
+                    description: Analyzer to use when searching the index. Defaults
+                      to lucene.standard
                     type: string
                   storedSource:
+                    description: String that can be "true" (store all fields), "false"
+                      (default, don't store any field), or a JSON string that contains
+                      the list of fields to store (include) or not store (exclude)
+                      on Atlas Search. To learn more, see Stored Source Fields.
                     type: string
                   synonyms:
+                    description: Synonyms mapping definition to use in this index.
                     items:
                       properties:
                         analyzer:
+                          description: Analyzer to use when creating the index. Defaults
+                            to lucene.standard
                           type: string
                         name:
+                          description: Name of the type set.
                           type: string
                         sourceCollection:
+                          description: Name of the source MongoDB collection for the
+                            synonyms. Documents in this collection must be in the
+                            format described in the Synonyms Source Collection Documents.
                           type: string
                       type: object
                     type: array
                   type:
+                    description: 'Type of index: search or vectorSearch. Default type
+                      is search.'
                     type: string
                   typeSets:
+                    description: One or more blocks defining configurable dynamic
+                      type sets. Atlas only persists/returns typeSets when mappings.dynamic
+                      is an object referencing a typeSet name.
                     items:
                       properties:
                         name:
+                          description: Name of the type set.
                           type: string
                         types:
+                          description: JSON array describing the types.
                           type: string
                       type: object
                     type: array
@@ -215,28 +263,56 @@ spec:
                   autoscaler.
                 properties:
                   analyzer:
+                    description: Analyzer to use when creating the index. Defaults
+                      to lucene.standard
                     type: string
                   analyzers:
+                    description: Custom analyzers to use in this index. This is an
+                      array of JSON objects.
                     type: string
                   clusterName:
+                    description: The name of the cluster where you want to create
+                      the search index within.
                     type: string
                   collectionName:
+                    description: 'Name of the collection the index is on. NOTE: The
+                      collection must exist before creating the index.'
                     type: string
                   database:
+                    description: Name of the database the collection is in.
                     type: string
                   fields:
+                    description: Array of Fields to configure this vectorSearch index.
+                      It is mandatory for vector searches and it must contain at least
+                      one vector type field. This field needs to be a JSON string
+                      in order to be decoded correctly.
                     type: string
                   mappingsDynamic:
+                    description: Indicates whether the search index uses dynamic or
+                      static mapping. For default dynamic mapping, set the value to
+                      true. For static mapping, specify the fields to index using
+                      mappings_fields. Mutually exclusive with mappings_dynamic_config.
                     type: boolean
                   mappingsDynamicConfig:
+                    description: JSON object for mappings.dynamic when using configurable
+                      dynamic. See the MongoDB documentation for further information
+                      on Static and Dynamic Mapping. Mutually exclusive with mappings_dynamic.
                     type: string
                   mappingsFields:
+                    description: attribute is required in search indexes when mappings_dynamic
+                      is false. This field needs to be a JSON string in order to be
+                      decoded correctly.
                     type: string
                   name:
+                    description: The name of the search index you want to create.
                     type: string
                   numPartitions:
+                    description: Number of index partitions. Allowed values are [1,
+                      2, 4]. Default value is 1.
                     type: number
                   projectId:
+                    description: The ID of the organization or project you want to
+                      create the search index within.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -315,28 +391,48 @@ spec:
                         type: object
                     type: object
                   searchAnalyzer:
+                    description: Analyzer to use when searching the index. Defaults
+                      to lucene.standard
                     type: string
                   storedSource:
+                    description: String that can be "true" (store all fields), "false"
+                      (default, don't store any field), or a JSON string that contains
+                      the list of fields to store (include) or not store (exclude)
+                      on Atlas Search. To learn more, see Stored Source Fields.
                     type: string
                   synonyms:
+                    description: Synonyms mapping definition to use in this index.
                     items:
                       properties:
                         analyzer:
+                          description: Analyzer to use when creating the index. Defaults
+                            to lucene.standard
                           type: string
                         name:
+                          description: Name of the type set.
                           type: string
                         sourceCollection:
+                          description: Name of the source MongoDB collection for the
+                            synonyms. Documents in this collection must be in the
+                            format described in the Synonyms Source Collection Documents.
                           type: string
                       type: object
                     type: array
                   type:
+                    description: 'Type of index: search or vectorSearch. Default type
+                      is search.'
                     type: string
                   typeSets:
+                    description: One or more blocks defining configurable dynamic
+                      type sets. Atlas only persists/returns typeSets when mappings.dynamic
+                      is an object referencing a typeSet name.
                     items:
                       properties:
                         name:
+                          description: Name of the type set.
                           type: string
                         types:
+                          description: JSON array describing the types.
                           type: string
                       type: object
                     type: array
@@ -452,58 +548,108 @@ spec:
               atProvider:
                 properties:
                   analyzer:
+                    description: Analyzer to use when creating the index. Defaults
+                      to lucene.standard
                     type: string
                   analyzers:
+                    description: Custom analyzers to use in this index. This is an
+                      array of JSON objects.
                     type: string
                   clusterName:
+                    description: The name of the cluster where you want to create
+                      the search index within.
                     type: string
                   collectionName:
+                    description: 'Name of the collection the index is on. NOTE: The
+                      collection must exist before creating the index.'
                     type: string
                   database:
+                    description: Name of the database the collection is in.
                     type: string
                   fields:
+                    description: Array of Fields to configure this vectorSearch index.
+                      It is mandatory for vector searches and it must contain at least
+                      one vector type field. This field needs to be a JSON string
+                      in order to be decoded correctly.
                     type: string
                   id:
                     type: string
                   indexId:
+                    description: The unique identifier of the Atlas Search index.
                     type: string
                   mappingsDynamic:
+                    description: Indicates whether the search index uses dynamic or
+                      static mapping. For default dynamic mapping, set the value to
+                      true. For static mapping, specify the fields to index using
+                      mappings_fields. Mutually exclusive with mappings_dynamic_config.
                     type: boolean
                   mappingsDynamicConfig:
+                    description: JSON object for mappings.dynamic when using configurable
+                      dynamic. See the MongoDB documentation for further information
+                      on Static and Dynamic Mapping. Mutually exclusive with mappings_dynamic.
                     type: string
                   mappingsFields:
+                    description: attribute is required in search indexes when mappings_dynamic
+                      is false. This field needs to be a JSON string in order to be
+                      decoded correctly.
                     type: string
                   name:
+                    description: The name of the search index you want to create.
                     type: string
                   numPartitions:
+                    description: Number of index partitions. Allowed values are [1,
+                      2, 4]. Default value is 1.
                     type: number
                   projectId:
+                    description: The ID of the organization or project you want to
+                      create the search index within.
                     type: string
                   searchAnalyzer:
+                    description: Analyzer to use when searching the index. Defaults
+                      to lucene.standard
                     type: string
                   status:
+                    description: Current status of the index.
                     type: string
                   storedSource:
+                    description: String that can be "true" (store all fields), "false"
+                      (default, don't store any field), or a JSON string that contains
+                      the list of fields to store (include) or not store (exclude)
+                      on Atlas Search. To learn more, see Stored Source Fields.
                     type: string
                   synonyms:
+                    description: Synonyms mapping definition to use in this index.
                     items:
                       properties:
                         analyzer:
+                          description: Analyzer to use when creating the index. Defaults
+                            to lucene.standard
                           type: string
                         name:
+                          description: Name of the type set.
                           type: string
                         sourceCollection:
+                          description: Name of the source MongoDB collection for the
+                            synonyms. Documents in this collection must be in the
+                            format described in the Synonyms Source Collection Documents.
                           type: string
                       type: object
                     type: array
                   type:
+                    description: 'Type of index: search or vectorSearch. Default type
+                      is search.'
                     type: string
                   typeSets:
+                    description: One or more blocks defining configurable dynamic
+                      type sets. Atlas only persists/returns typeSets when mappings.dynamic
+                      is an object referencing a typeSet name.
                     items:
                       properties:
                         name:
+                          description: Name of the type set.
                           type: string
                         types:
+                          description: JSON array describing the types.
                           type: string
                       type: object
                     type: array

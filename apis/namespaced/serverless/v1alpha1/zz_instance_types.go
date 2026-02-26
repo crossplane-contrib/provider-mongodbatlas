@@ -15,14 +15,19 @@ import (
 )
 
 type InstanceInitParameters struct {
+
+	// (Deprecated, Optional) Flag that indicates whether the serverless instance uses Serverless Auto Indexing. This parameter defaults to true.
 	AutoIndexing *bool `json:"autoIndexing,omitempty" tf:"auto_indexing,omitempty"`
 
+	// (Deprecated, Optional) Flag that indicates whether the serverless instance uses Serverless Continuous Backup. If this parameter is false or not used, the serverless instance uses Basic Backup.
 	ContinuousBackupEnabled *bool `json:"continuousBackupEnabled,omitempty" tf:"continuous_backup_enabled,omitempty"`
 
 	Links []LinksInitParameters `json:"links,omitempty" tf:"links,omitempty"`
 
+	// Human-readable label that identifies the serverless instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the organization or project you want to create the serverless instance within.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -34,67 +39,93 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud service provider on which MongoDB Cloud provisioned the serverless instance.
 	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName,omitempty" tf:"provider_settings_backing_provider_name,omitempty"`
 
+	// Cloud service provider that applies to the provisioned the serverless instance.
 	ProviderSettingsProviderName *string `json:"providerSettingsProviderName,omitempty" tf:"provider_settings_provider_name,omitempty"`
 
+	// Human-readable label that identifies the physical location of your MongoDB serverless instance. The region you choose can affect network latency for clients accessing your databases.
 	ProviderSettingsRegionName *string `json:"providerSettingsRegionName,omitempty" tf:"provider_settings_region_name,omitempty"`
 
+	// Stage of deployment of this serverless instance when the resource made its request.
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
 	Tags []TagsInitParameters `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 }
 
 type InstanceObservation struct {
+
+	// (Deprecated, Optional) Flag that indicates whether the serverless instance uses Serverless Auto Indexing. This parameter defaults to true.
 	AutoIndexing *bool `json:"autoIndexing,omitempty" tf:"auto_indexing,omitempty"`
 
+	// List of Serverless Private Endpoint Connections
 	ConnectionStringsPrivateEndpointSrv []*string `json:"connectionStringsPrivateEndpointSrv,omitempty" tf:"connection_strings_private_endpoint_srv,omitempty"`
 
+	// Public mongodb+srv:// connection string that you can use to connect to this serverless instance.
 	ConnectionStringsStandardSrv *string `json:"connectionStringsStandardSrv,omitempty" tf:"connection_strings_standard_srv,omitempty"`
 
+	// (Deprecated, Optional) Flag that indicates whether the serverless instance uses Serverless Continuous Backup. If this parameter is false or not used, the serverless instance uses Basic Backup.
 	ContinuousBackupEnabled *bool `json:"continuousBackupEnabled,omitempty" tf:"continuous_backup_enabled,omitempty"`
 
+	// Timestamp that indicates when MongoDB Cloud created the serverless instance. The timestamp displays in the ISO 8601 date and time format in UTC.
 	CreateDate *string `json:"createDate,omitempty" tf:"create_date,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the serverless instance.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	Links []LinksObservation `json:"links,omitempty" tf:"links,omitempty"`
 
+	// Version of MongoDB that the serverless instance runs, in <major version>.<minor version> format.
 	MongoDBVersion *string `json:"mongoDbVersion,omitempty" tf:"mongo_db_version,omitempty"`
 
+	// Human-readable label that identifies the serverless instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the organization or project you want to create the serverless instance within.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Cloud service provider on which MongoDB Cloud provisioned the serverless instance.
 	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName,omitempty" tf:"provider_settings_backing_provider_name,omitempty"`
 
+	// Cloud service provider that applies to the provisioned the serverless instance.
 	ProviderSettingsProviderName *string `json:"providerSettingsProviderName,omitempty" tf:"provider_settings_provider_name,omitempty"`
 
+	// Human-readable label that identifies the physical location of your MongoDB serverless instance. The region you choose can affect network latency for clients accessing your databases.
 	ProviderSettingsRegionName *string `json:"providerSettingsRegionName,omitempty" tf:"provider_settings_region_name,omitempty"`
 
+	// Stage of deployment of this serverless instance when the resource made its request.
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
 	Tags []TagsObservation `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 }
 
 type InstanceParameters struct {
 
+	// (Deprecated, Optional) Flag that indicates whether the serverless instance uses Serverless Auto Indexing. This parameter defaults to true.
 	// +kubebuilder:validation:Optional
 	AutoIndexing *bool `json:"autoIndexing,omitempty" tf:"auto_indexing,omitempty"`
 
+	// (Deprecated, Optional) Flag that indicates whether the serverless instance uses Serverless Continuous Backup. If this parameter is false or not used, the serverless instance uses Basic Backup.
 	// +kubebuilder:validation:Optional
 	ContinuousBackupEnabled *bool `json:"continuousBackupEnabled,omitempty" tf:"continuous_backup_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Links []LinksParameters `json:"links,omitempty" tf:"links,omitempty"`
 
+	// Human-readable label that identifies the serverless instance.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the organization or project you want to create the serverless instance within.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -107,21 +138,27 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud service provider on which MongoDB Cloud provisioned the serverless instance.
 	// +kubebuilder:validation:Optional
 	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName,omitempty" tf:"provider_settings_backing_provider_name,omitempty"`
 
+	// Cloud service provider that applies to the provisioned the serverless instance.
 	// +kubebuilder:validation:Optional
 	ProviderSettingsProviderName *string `json:"providerSettingsProviderName,omitempty" tf:"provider_settings_provider_name,omitempty"`
 
+	// Human-readable label that identifies the physical location of your MongoDB serverless instance. The region you choose can affect network latency for clients accessing your databases.
 	// +kubebuilder:validation:Optional
 	ProviderSettingsRegionName *string `json:"providerSettingsRegionName,omitempty" tf:"provider_settings_region_name,omitempty"`
 
+	// Stage of deployment of this serverless instance when the resource made its request.
 	// +kubebuilder:validation:Optional
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
 	// +kubebuilder:validation:Optional
 	Tags []TagsParameters `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 }
@@ -148,22 +185,30 @@ type LinksParameters struct {
 }
 
 type TagsInitParameters struct {
+
+	// Constant that defines the set of the tag.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// Variable that belongs to the set of the tag.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TagsObservation struct {
+
+	// Constant that defines the set of the tag.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// Variable that belongs to the set of the tag.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TagsParameters struct {
 
+	// Constant that defines the set of the tag.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
+	// Variable that belongs to the set of the tag.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -195,7 +240,7 @@ type InstanceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Instance is the Schema for the Instances API. <no value>
+// Instance is the Schema for the Instances API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

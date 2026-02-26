@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: CustomDNSConfigurationClusterAWS is the Schema for the CustomDNSConfigurationClusterAWSs
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -75,8 +75,14 @@ spec:
               forProvider:
                 properties:
                   enabled:
+                    description: Indicates whether the project's clusters deployed
+                      to AWS use custom DNS. If true, the Get All Clusters and Get
+                      One Cluster endpoints return the connectionStrings.private and
+                      connectionStrings.privateSrv fields for clusters deployed to
+                      AWS .
                     type: boolean
                   projectId:
+                    description: "Required \tUnique identifier for the project."
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -169,8 +175,14 @@ spec:
                   autoscaler.
                 properties:
                   enabled:
+                    description: Indicates whether the project's clusters deployed
+                      to AWS use custom DNS. If true, the Get All Clusters and Get
+                      One Cluster endpoints return the connectionStrings.private and
+                      connectionStrings.privateSrv fields for clusters deployed to
+                      AWS .
                     type: boolean
                   projectId:
+                    description: "Required \tUnique identifier for the project."
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -347,10 +359,16 @@ spec:
               atProvider:
                 properties:
                   enabled:
+                    description: Indicates whether the project's clusters deployed
+                      to AWS use custom DNS. If true, the Get All Clusters and Get
+                      One Cluster endpoints return the connectionStrings.private and
+                      connectionStrings.privateSrv fields for clusters deployed to
+                      AWS .
                     type: boolean
                   id:
                     type: string
                   projectId:
+                    description: "Required \tUnique identifier for the project."
                     type: string
                 type: object
               conditions:

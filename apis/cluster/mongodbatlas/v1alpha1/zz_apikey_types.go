@@ -14,8 +14,11 @@ import (
 )
 
 type APIKeyInitParameters struct {
+
+	// Description of this Organization API key.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Unique identifier for the organization whose API keys you want to retrieve. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -27,30 +30,40 @@ type APIKeyInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Name of the role. This resource returns all the roles the user has in Atlas.
+	// The following are valid roles:
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 }
 
 type APIKeyObservation struct {
+
+	// Unique identifier for this Organization API key.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
+	// Description of this Organization API key.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique identifier for the organization whose API keys you want to retrieve. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 
+	// Name of the role. This resource returns all the roles the user has in Atlas.
+	// The following are valid roles:
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 }
 
 type APIKeyParameters struct {
 
+	// Description of this Organization API key.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Unique identifier for the organization whose API keys you want to retrieve. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -63,6 +76,8 @@ type APIKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Name of the role. This resource returns all the roles the user has in Atlas.
+	// The following are valid roles:
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
@@ -95,7 +110,7 @@ type APIKeyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// APIKey is the Schema for the APIKeys API. <no value>
+// APIKey is the Schema for the APIKeys API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

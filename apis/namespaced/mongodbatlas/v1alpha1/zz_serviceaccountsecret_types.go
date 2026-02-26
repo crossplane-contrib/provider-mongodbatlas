@@ -16,9 +16,11 @@ import (
 
 type ServiceAccountSecretInitParameters struct {
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -31,45 +33,56 @@ type ServiceAccountSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 }
 
 type ServiceAccountSecretObservation struct {
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// (String) The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
+	// (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
 
+	// (String) The masked Service Account secret.
 	// The masked Service Account secret.
 	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
 
+	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
+	// hexadecimal digit string that identifies the secret.
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
 
 type ServiceAccountSecretParameters struct {
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
@@ -83,6 +96,7 @@ type ServiceAccountSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
 	// +kubebuilder:validation:Optional
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
@@ -115,7 +129,7 @@ type ServiceAccountSecretStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ServiceAccountSecret is the Schema for the ServiceAccountSecrets API. <no value>
+// ServiceAccountSecret is the Schema for the ServiceAccountSecrets API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -1,0 +1,33 @@
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: OnlineArchive
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/onlinearchive
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    clusterName: ${var.cluster_name}
+    collName: ${var.collection_name}
+    criteria:
+    - dateField: dateField
+      expireAfterDays: 5
+      type: DATE
+    dbName: ${var.database_name}
+    partitionFields:
+    - fieldName: dateField
+      order: 0
+    - fieldName: firstName
+      order: 1
+    - fieldName: lastName
+      order: 2
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    schedule:
+    - endHour: 1
+      endMinute: 1
+      startHour: 1
+      startMinute: 1
+      type: DAILY

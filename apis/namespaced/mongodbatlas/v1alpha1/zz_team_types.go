@@ -15,8 +15,11 @@ import (
 )
 
 type TeamInitParameters struct {
+
+	// The name of the team you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique identifier for the organization you want to associate the team with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -28,6 +31,7 @@ type TeamInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// (DEPRECATED)  The Atlas usernames (email address). You can only add Atlas users who are part of the organization. Users who have not accepted an invitation to join the organization cannot be added as team members. There is a maximum of 250 Atlas users per team. This attribute is deprecated and will be removed in the next major release. Please transition to mongodbatlas_cloud_user_team_assignment. For more details, see Migration Guide: Team Usernames Attribute to Cloud User Team Assignment.
 	// +listType=set
 	Usernames []*string `json:"usernames,omitempty" tf:"usernames,omitempty"`
 }
@@ -35,21 +39,27 @@ type TeamInitParameters struct {
 type TeamObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The name of the team you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique identifier for the organization you want to associate the team with.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// The unique identifier for the team.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 
+	// (DEPRECATED)  The Atlas usernames (email address). You can only add Atlas users who are part of the organization. Users who have not accepted an invitation to join the organization cannot be added as team members. There is a maximum of 250 Atlas users per team. This attribute is deprecated and will be removed in the next major release. Please transition to mongodbatlas_cloud_user_team_assignment. For more details, see Migration Guide: Team Usernames Attribute to Cloud User Team Assignment.
 	// +listType=set
 	Usernames []*string `json:"usernames,omitempty" tf:"usernames,omitempty"`
 }
 
 type TeamParameters struct {
 
+	// The name of the team you want to create.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique identifier for the organization you want to associate the team with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -62,6 +72,7 @@ type TeamParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// (DEPRECATED)  The Atlas usernames (email address). You can only add Atlas users who are part of the organization. Users who have not accepted an invitation to join the organization cannot be added as team members. There is a maximum of 250 Atlas users per team. This attribute is deprecated and will be removed in the next major release. Please transition to mongodbatlas_cloud_user_team_assignment. For more details, see Migration Guide: Team Usernames Attribute to Cloud User Team Assignment.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Usernames []*string `json:"usernames,omitempty" tf:"usernames,omitempty"`
@@ -94,7 +105,7 @@ type TeamStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Team is the Schema for the Teams API. <no value>
+// Team is the Schema for the Teams API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

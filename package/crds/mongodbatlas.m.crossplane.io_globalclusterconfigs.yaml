@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: GlobalClusterConfig is the Schema for the GlobalClusterConfigs
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -60,32 +60,59 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: The name of the Global Cluster.
                     type: string
                   customZoneMappings:
+                    description: Each element in the list maps one ISO location code
+                      to a zone in your Global Cluster. See Custom Zone Mapping below
+                      for more details.
                     items:
                       properties:
                         location:
+                          description: The ISO location code to which you want to
+                            map a zone in your Global Cluster. You can find a list
+                            of all supported location codes here.
                           type: string
                         zone:
+                          description: The name of the zone in your Global Cluster
+                            that you want to map to location.
                           type: string
                       type: object
                     type: array
                   managedNamespaces:
+                    description: Add a managed namespaces to a Global Cluster. For
+                      more information about managed namespaces, see Global Clusters.
+                      See Managed Namespace below for more details.
                     items:
                       properties:
                         collection:
+                          description: The name of the collection associated with
+                            the managed namespace.
                           type: string
                         customShardKey:
+                          description: The custom shard key for the collection. Global
+                            Clusters require a compound shard key consisting of a
+                            location field and a user-selected second key, the custom
+                            shard key.
                           type: string
                         db:
+                          description: The name of the database containing the collection.
                           type: string
                         isCustomShardKeyHashed:
+                          description: Specifies whether the custom shard key for
+                            the collection is hashed. If omitted, defaults to false.
+                            If false, Atlas uses ranged sharding. This is only available
+                            for Atlas clusters with MongoDB v4.4 and later.
                           type: boolean
                         isShardKeyUnique:
+                          description: Specifies whether the underlying index enforces
+                            a unique constraint. If omitted, defaults to false. You
+                            cannot specify true when using hashed shard keys.
                           type: boolean
                       type: object
                     type: array
                   projectId:
+                    description: The unique ID for the project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -184,32 +211,59 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: The name of the Global Cluster.
                     type: string
                   customZoneMappings:
+                    description: Each element in the list maps one ISO location code
+                      to a zone in your Global Cluster. See Custom Zone Mapping below
+                      for more details.
                     items:
                       properties:
                         location:
+                          description: The ISO location code to which you want to
+                            map a zone in your Global Cluster. You can find a list
+                            of all supported location codes here.
                           type: string
                         zone:
+                          description: The name of the zone in your Global Cluster
+                            that you want to map to location.
                           type: string
                       type: object
                     type: array
                   managedNamespaces:
+                    description: Add a managed namespaces to a Global Cluster. For
+                      more information about managed namespaces, see Global Clusters.
+                      See Managed Namespace below for more details.
                     items:
                       properties:
                         collection:
+                          description: The name of the collection associated with
+                            the managed namespace.
                           type: string
                         customShardKey:
+                          description: The custom shard key for the collection. Global
+                            Clusters require a compound shard key consisting of a
+                            location field and a user-selected second key, the custom
+                            shard key.
                           type: string
                         db:
+                          description: The name of the database containing the collection.
                           type: string
                         isCustomShardKeyHashed:
+                          description: Specifies whether the custom shard key for
+                            the collection is hashed. If omitted, defaults to false.
+                            If false, Atlas uses ranged sharding. This is only available
+                            for Atlas clusters with MongoDB v4.4 and later.
                           type: boolean
                         isShardKeyUnique:
+                          description: Specifies whether the underlying index enforces
+                            a unique constraint. If omitted, defaults to false. You
+                            cannot specify true when using hashed shard keys.
                           type: boolean
                       type: object
                     type: array
                   projectId:
+                    description: The unique ID for the project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -363,39 +417,72 @@ spec:
               atProvider:
                 properties:
                   clusterName:
+                    description: The name of the Global Cluster.
                     type: string
                   customZoneMappingZoneId:
                     additionalProperties:
                       type: string
+                    description: A map of all custom zone mappings defined for the
+                      Global Cluster to replication_specs.*.zone_id. Atlas automatically
+                      maps each location code to the closest geographical zone. Custom
+                      zone mappings allow administrators to override these automatic
+                      mappings. If your Global Cluster does not have any custom zone
+                      mappings, this document is empty.
                     type: object
                     x-kubernetes-map-type: granular
                   customZoneMappings:
+                    description: Each element in the list maps one ISO location code
+                      to a zone in your Global Cluster. See Custom Zone Mapping below
+                      for more details.
                     items:
                       properties:
                         location:
+                          description: The ISO location code to which you want to
+                            map a zone in your Global Cluster. You can find a list
+                            of all supported location codes here.
                           type: string
                         zone:
+                          description: The name of the zone in your Global Cluster
+                            that you want to map to location.
                           type: string
                       type: object
                     type: array
                   id:
                     type: string
                   managedNamespaces:
+                    description: Add a managed namespaces to a Global Cluster. For
+                      more information about managed namespaces, see Global Clusters.
+                      See Managed Namespace below for more details.
                     items:
                       properties:
                         collection:
+                          description: The name of the collection associated with
+                            the managed namespace.
                           type: string
                         customShardKey:
+                          description: The custom shard key for the collection. Global
+                            Clusters require a compound shard key consisting of a
+                            location field and a user-selected second key, the custom
+                            shard key.
                           type: string
                         db:
+                          description: The name of the database containing the collection.
                           type: string
                         isCustomShardKeyHashed:
+                          description: Specifies whether the custom shard key for
+                            the collection is hashed. If omitted, defaults to false.
+                            If false, Atlas uses ranged sharding. This is only available
+                            for Atlas clusters with MongoDB v4.4 and later.
                           type: boolean
                         isShardKeyUnique:
+                          description: Specifies whether the underlying index enforces
+                            a unique constraint. If omitted, defaults to false. You
+                            cannot specify true when using hashed shard keys.
                           type: boolean
                       type: object
                     type: array
                   projectId:
+                    description: The unique ID for the project.
                     type: string
                 type: object
               conditions:

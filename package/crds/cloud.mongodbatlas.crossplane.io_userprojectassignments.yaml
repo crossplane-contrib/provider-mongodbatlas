@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: UserProjectAssignment is the Schema for the UserProjectAssignments
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -75,6 +75,7 @@ spec:
                 properties:
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -156,15 +157,17 @@ spec:
                         type: object
                     type: object
                   roles:
-                    description: One or more project-level roles to assign the MongoDB
-                      Cloud user.
+                    description: |-
+                      level roles to assign the MongoDB Cloud user.
+                      One or more project-level roles to assign the MongoDB Cloud user.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   username:
-                    description: Email address that represents the username of the
-                      MongoDB Cloud user.
+                    description: |-
+                      (String) Email address that represents the username of the MongoDB Cloud user.
+                      Email address that represents the username of the MongoDB Cloud user.
                     type: string
                 type: object
               initProvider:
@@ -182,6 +185,7 @@ spec:
                 properties:
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -263,15 +267,17 @@ spec:
                         type: object
                     type: object
                   roles:
-                    description: One or more project-level roles to assign the MongoDB
-                      Cloud user.
+                    description: |-
+                      level roles to assign the MongoDB Cloud user.
+                      One or more project-level roles to assign the MongoDB Cloud user.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   username:
-                    description: Email address that represents the username of the
-                      MongoDB Cloud user.
+                    description: |-
+                      (String) Email address that represents the username of the MongoDB Cloud user.
+                      Email address that represents the username of the MongoDB Cloud user.
                     type: string
                 type: object
               managementPolicies:
@@ -376,71 +382,81 @@ spec:
               atProvider:
                 properties:
                   country:
-                    description: Two-character alphabetical string that identifies
-                      the MongoDB Cloud user's geographic location. This parameter
-                      uses the ISO 3166-1a2 code format.
+                    description: |-
+                      character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
+                      Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
                     type: string
                   createdAt:
-                    description: Date and time when MongoDB Cloud created the current
-                      account. This value is in the ISO 8601 timestamp format in UTC.
+                    description: |-
+                      (String) Date and time when MongoDB Cloud created the current account. This value is in the ISO 8601 timestamp format in UTC.
+                      Date and time when MongoDB Cloud created the current account. This value is in the ISO 8601 timestamp format in UTC.
                     type: string
                   firstName:
-                    description: First or given name that belongs to the MongoDB Cloud
-                      user.
+                    description: |-
+                      (String) First or given name that belongs to the MongoDB Cloud user.
+                      First or given name that belongs to the MongoDB Cloud user.
                     type: string
                   id:
                     type: string
                   invitationCreatedAt:
-                    description: Date and time when MongoDB Cloud sent the invitation.
-                      MongoDB Cloud represents this timestamp in ISO 8601 format in
-                      UTC.
+                    description: |-
+                      (String) Date and time when MongoDB Cloud sent the invitation. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
+                      Date and time when MongoDB Cloud sent the invitation. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
                     type: string
                   invitationExpiresAt:
-                    description: Date and time when the invitation from MongoDB Cloud
-                      expires. MongoDB Cloud represents this timestamp in ISO 8601
-                      format in UTC.
+                    description: |-
+                      (String) Date and time when the invitation from MongoDB Cloud expires. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
+                      Date and time when the invitation from MongoDB Cloud expires. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
                     type: string
                   inviterUsername:
-                    description: Username of the MongoDB Cloud user who sent the invitation
-                      to join the organization.
+                    description: |-
+                      (String) Username of the MongoDB Cloud user who sent the invitation to join the organization.
+                      Username of the MongoDB Cloud user who sent the invitation to join the organization.
                     type: string
                   lastAuth:
-                    description: Date and time when the current account last authenticated.
-                      This value is in the ISO 8601 timestamp format in UTC.
+                    description: |-
+                      (String) Date and time when the current account last authenticated. This value is in the ISO 8601 timestamp format in UTC.
+                      Date and time when the current account last authenticated. This value is in the ISO 8601 timestamp format in UTC.
                     type: string
                   lastName:
-                    description: Last name, family name, or surname that belongs to
-                      the MongoDB Cloud user.
+                    description: |-
+                      (String) Last name, family name, or surname that belongs to the MongoDB Cloud user.
+                      Last name, family name, or surname that belongs to the MongoDB Cloud user.
                     type: string
                   mobileNumber:
-                    description: Mobile phone number that belongs to the MongoDB Cloud
-                      user.
+                    description: |-
+                      (String) Mobile phone number that belongs to the MongoDB Cloud user.
+                      Mobile phone number that belongs to the MongoDB Cloud user.
                     type: string
                   orgMembershipStatus:
-                    description: String enum that indicates whether the MongoDB Cloud
-                      user has a pending invitation to join the organization or they
-                      are already active in the organization.
+                    description: |-
+                      (String) String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
+                      String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
                     type: string
                   roles:
-                    description: One or more project-level roles to assign the MongoDB
-                      Cloud user.
+                    description: |-
+                      level roles to assign the MongoDB Cloud user.
+                      One or more project-level roles to assign the MongoDB Cloud user.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   userId:
-                    description: Unique 24-hexadecimal digit string that identifies
-                      the MongoDB Cloud user.
+                    description: |-
+                      hexadecimal digit string that identifies the MongoDB Cloud user.
+                      Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
                     type: string
                   username:
-                    description: Email address that represents the username of the
-                      MongoDB Cloud user.
+                    description: |-
+                      (String) Email address that represents the username of the MongoDB Cloud user.
+                      Email address that represents the username of the MongoDB Cloud user.
                     type: string
                 type: object
               conditions:

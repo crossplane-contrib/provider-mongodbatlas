@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackupSnapshotRestoreJob is the Schema for the BackupSnapshotRestoreJobs
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -61,29 +61,56 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: The name of the Atlas cluster whose snapshot you
+                      want to restore.
                     type: string
                   deliveryTypeConfig:
+                    description: 'Type of restore job to create. Possible configurations
+                      are: download, automated, or pointInTime only one must be set
+                      it in true.'
                     items:
                       properties:
                         automated:
+                          description: Set to true to use the automated configuration.
                           type: boolean
                         download:
+                          description: Set to true to use the download configuration.
                           type: boolean
                         oplogInc:
+                          description: Optional setting for pointInTime configuration.
+                            Oplog operation number from which to you want to restore
+                            this snapshot. This is the second part of an Oplog timestamp.
+                            Used in conjunction with oplog_ts.
                           type: number
                         oplogTs:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which to you want to restore this
+                            snapshot. This is the first part of an Oplog timestamp.
                           type: number
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which you want to restore this snapshot.
+                            Used instead of oplog settings.
                           type: number
                         targetClusterName:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                         targetProjectId:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster whose snapshot you want to restore.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -168,6 +195,8 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Optional setting for pointInTime configuration. Unique
+                      identifier of the snapshot to restore.
                     type: string
                   snapshotIdRef:
                     description: Reference to a BackupSnapshot in cloud to populate
@@ -266,29 +295,56 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: The name of the Atlas cluster whose snapshot you
+                      want to restore.
                     type: string
                   deliveryTypeConfig:
+                    description: 'Type of restore job to create. Possible configurations
+                      are: download, automated, or pointInTime only one must be set
+                      it in true.'
                     items:
                       properties:
                         automated:
+                          description: Set to true to use the automated configuration.
                           type: boolean
                         download:
+                          description: Set to true to use the download configuration.
                           type: boolean
                         oplogInc:
+                          description: Optional setting for pointInTime configuration.
+                            Oplog operation number from which to you want to restore
+                            this snapshot. This is the second part of an Oplog timestamp.
+                            Used in conjunction with oplog_ts.
                           type: number
                         oplogTs:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which to you want to restore this
+                            snapshot. This is the first part of an Oplog timestamp.
                           type: number
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which you want to restore this snapshot.
+                            Used instead of oplog settings.
                           type: number
                         targetClusterName:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                         targetProjectId:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster whose snapshot you want to restore.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -373,6 +429,8 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Optional setting for pointInTime configuration. Unique
+                      identifier of the snapshot to restore.
                     type: string
                   snapshotIdRef:
                     description: Reference to a BackupSnapshot in cloud to populate
@@ -527,51 +585,92 @@ spec:
               atProvider:
                 properties:
                   cancelled:
+                    description: Indicates whether the restore job was canceled.
                     type: boolean
                   clusterName:
+                    description: The name of the Atlas cluster whose snapshot you
+                      want to restore.
                     type: string
                   deliveryTypeConfig:
+                    description: 'Type of restore job to create. Possible configurations
+                      are: download, automated, or pointInTime only one must be set
+                      it in true.'
                     items:
                       properties:
                         automated:
+                          description: Set to true to use the automated configuration.
                           type: boolean
                         download:
+                          description: Set to true to use the download configuration.
                           type: boolean
                         oplogInc:
+                          description: Optional setting for pointInTime configuration.
+                            Oplog operation number from which to you want to restore
+                            this snapshot. This is the second part of an Oplog timestamp.
+                            Used in conjunction with oplog_ts.
                           type: number
                         oplogTs:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which to you want to restore this
+                            snapshot. This is the first part of an Oplog timestamp.
                           type: number
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which you want to restore this snapshot.
+                            Used instead of oplog settings.
                           type: number
                         targetClusterName:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                         targetProjectId:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                       type: object
                     type: array
                   deliveryUrl:
+                    description: One or more URLs for the compressed snapshot files
+                      for manual download. Only visible if deliveryType is download.
                     items:
                       type: string
                     type: array
                   expired:
+                    description: Indicates whether the restore job expired.
                     type: boolean
                   expiresAt:
+                    description: UTC ISO 8601 formatted point in time when the restore
+                      job expires.
                     type: string
                   failed:
+                    description: Indicates whether the restore job failed.
                     type: boolean
                   finishedAt:
+                    description: UTC ISO 8601 formatted point in time when the restore
+                      job completed.
                     type: string
                   id:
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster whose snapshot you want to restore.
                     type: string
                   snapshotId:
+                    description: Optional setting for pointInTime configuration. Unique
+                      identifier of the snapshot to restore.
                     type: string
                   snapshotRestoreJobId:
+                    description: The unique identifier of the restore job.
                     type: string
                   timestamp:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when the snapshot associated to snapshotId was taken.
                     type: string
                 type: object
               conditions:

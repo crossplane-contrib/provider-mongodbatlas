@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: PrivateLinkEndpointService is the Schema for the PrivateLinkEndpointServices
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -75,12 +75,21 @@ spec:
               forProvider:
                 properties:
                   comment:
+                    description: Human-readable string to associate with this private
+                      endpoint.
                     type: string
                   customerEndpointDnsName:
+                    description: Human-readable label to identify VPC endpoint DNS
+                      name. If defined, you must also specify a value for region.
                     type: string
                   endpointId:
+                    description: Unique 22-character alphanumeric string that identifies
+                      the private endpoint. See Atlas Data Federation supports Amazon
+                      Web Services private endpoints using the AWS PrivateLink feature.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -159,8 +168,14 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Human-readable label that identifies the cloud service
+                      provider.
                     type: string
                   region:
+                    description: Human-readable label to identify the region of VPC
+                      endpoint.  Requires the Atlas region name, see the reference
+                      list for AWS, GCP, Azure. If defined, you must also specify
+                      a value for customer_endpoint_dns_name.
                     type: string
                 type: object
               initProvider:
@@ -177,12 +192,21 @@ spec:
                   autoscaler.
                 properties:
                   comment:
+                    description: Human-readable string to associate with this private
+                      endpoint.
                     type: string
                   customerEndpointDnsName:
+                    description: Human-readable label to identify VPC endpoint DNS
+                      name. If defined, you must also specify a value for region.
                     type: string
                   endpointId:
+                    description: Unique 22-character alphanumeric string that identifies
+                      the private endpoint. See Atlas Data Federation supports Amazon
+                      Web Services private endpoints using the AWS PrivateLink feature.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -261,8 +285,14 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Human-readable label that identifies the cloud service
+                      provider.
                     type: string
                   region:
+                    description: Human-readable label to identify the region of VPC
+                      endpoint.  Requires the Atlas region name, see the reference
+                      list for AWS, GCP, Azure. If defined, you must also specify
+                      a value for customer_endpoint_dns_name.
                     type: string
                 type: object
               managementPolicies:
@@ -367,20 +397,37 @@ spec:
               atProvider:
                 properties:
                   comment:
+                    description: Human-readable string to associate with this private
+                      endpoint.
                     type: string
                   customerEndpointDnsName:
+                    description: Human-readable label to identify VPC endpoint DNS
+                      name. If defined, you must also specify a value for region.
                     type: string
                   endpointId:
+                    description: Unique 22-character alphanumeric string that identifies
+                      the private endpoint. See Atlas Data Federation supports Amazon
+                      Web Services private endpoints using the AWS PrivateLink feature.
                     type: string
                   id:
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   providerName:
+                    description: Human-readable label that identifies the cloud service
+                      provider.
                     type: string
                   region:
+                    description: Human-readable label to identify the region of VPC
+                      endpoint.  Requires the Atlas region name, see the reference
+                      list for AWS, GCP, Azure. If defined, you must also specify
+                      a value for customer_endpoint_dns_name.
                     type: string
                   type:
+                    description: Human-readable label that identifies the resource
+                      type associated with this private endpoint.
                     type: string
                 type: object
               conditions:

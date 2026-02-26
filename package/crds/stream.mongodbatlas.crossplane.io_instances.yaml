@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Instance is the Schema for the Instances API. <no value>
+        description: Instance is the Schema for the Instances API.
         properties:
           apiVersion:
             description: |-
@@ -73,15 +73,26 @@ spec:
               forProvider:
                 properties:
                   dataProcessRegion:
+                    description: Cloud service provider and region where MongoDB Cloud
+                      performs stream processing. See data process region.
                     properties:
                       cloudProvider:
+                        description: Label that identifies the cloud service provider
+                          where MongoDB Cloud performs stream processing. The MongoDB
+                          Atlas API describes the valid values.
                         type: string
                       region:
+                        description: Name of the cloud provider region hosting Atlas
+                          Stream Processing. The MongoDB Atlas API describes the valid
+                          values.
                         type: string
                     type: object
                   instanceName:
+                    description: Human-readable label that identifies the stream instance.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -160,10 +171,15 @@ spec:
                         type: object
                     type: object
                   streamConfig:
+                    description: Configuration options for an Atlas Stream Processing
+                      Instance. See stream config
                     properties:
                       maxTierSize:
                         type: string
                       tier:
+                        description: Selected tier for the Stream Instance. Configures
+                          Memory / VCPU allowances. The MongoDB Atlas API describes
+                          the valid values.
                         type: string
                     type: object
                 type: object
@@ -181,15 +197,26 @@ spec:
                   autoscaler.
                 properties:
                   dataProcessRegion:
+                    description: Cloud service provider and region where MongoDB Cloud
+                      performs stream processing. See data process region.
                     properties:
                       cloudProvider:
+                        description: Label that identifies the cloud service provider
+                          where MongoDB Cloud performs stream processing. The MongoDB
+                          Atlas API describes the valid values.
                         type: string
                       region:
+                        description: Name of the cloud provider region hosting Atlas
+                          Stream Processing. The MongoDB Atlas API describes the valid
+                          values.
                         type: string
                     type: object
                   instanceName:
+                    description: Human-readable label that identifies the stream instance.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -268,10 +295,15 @@ spec:
                         type: object
                     type: object
                   streamConfig:
+                    description: Configuration options for an Atlas Stream Processing
+                      Instance. See stream config
                     properties:
                       maxTierSize:
                         type: string
                       tier:
+                        description: Selected tier for the Stream Instance. Configures
+                          Memory / VCPU allowances. The MongoDB Atlas API describes
+                          the valid values.
                         type: string
                     type: object
                 type: object
@@ -376,27 +408,45 @@ spec:
               atProvider:
                 properties:
                   dataProcessRegion:
+                    description: Cloud service provider and region where MongoDB Cloud
+                      performs stream processing. See data process region.
                     properties:
                       cloudProvider:
+                        description: Label that identifies the cloud service provider
+                          where MongoDB Cloud performs stream processing. The MongoDB
+                          Atlas API describes the valid values.
                         type: string
                       region:
+                        description: Name of the cloud provider region hosting Atlas
+                          Stream Processing. The MongoDB Atlas API describes the valid
+                          values.
                         type: string
                     type: object
                   hostnames:
+                    description: List that contains the hostnames assigned to the
+                      stream instance.
                     items:
                       type: string
                     type: array
                   id:
                     type: string
                   instanceName:
+                    description: Human-readable label that identifies the stream instance.
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   streamConfig:
+                    description: Configuration options for an Atlas Stream Processing
+                      Instance. See stream config
                     properties:
                       maxTierSize:
                         type: string
                       tier:
+                        description: Selected tier for the Stream Instance. Configures
+                          Memory / VCPU allowances. The MongoDB Atlas API describes
+                          the valid values.
                         type: string
                     type: object
                 type: object

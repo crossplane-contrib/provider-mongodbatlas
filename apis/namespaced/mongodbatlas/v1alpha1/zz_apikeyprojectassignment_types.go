@@ -16,6 +16,7 @@ import (
 
 type APIKeyProjectAssignmentInitParameters struct {
 
+	// hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.APIKey
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
@@ -28,6 +29,7 @@ type APIKeyProjectAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v1.NamespacedSelector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -42,6 +44,7 @@ type APIKeyProjectAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -49,16 +52,19 @@ type APIKeyProjectAssignmentInitParameters struct {
 
 type APIKeyProjectAssignmentObservation struct {
 
+	// hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -66,6 +72,7 @@ type APIKeyProjectAssignmentObservation struct {
 
 type APIKeyProjectAssignmentParameters struct {
 
+	// hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.APIKey
 	// +kubebuilder:validation:Optional
@@ -79,6 +86,7 @@ type APIKeyProjectAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v1.NamespacedSelector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 	//
 	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -94,6 +102,7 @@ type APIKeyProjectAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -127,7 +136,7 @@ type APIKeyProjectAssignmentStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// APIKeyProjectAssignment is the Schema for the APIKeyProjectAssignments API. <no value>
+// APIKeyProjectAssignment is the Schema for the APIKeyProjectAssignments API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

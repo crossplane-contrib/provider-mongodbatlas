@@ -15,29 +15,40 @@ import (
 )
 
 type WorkspaceDataProcessRegionInitParameters struct {
+
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type WorkspaceDataProcessRegionObservation struct {
+
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type WorkspaceDataProcessRegionParameters struct {
 
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
 
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region" tf:"region,omitempty"`
 }
 
 type WorkspaceInitParameters struct {
+
+	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	DataProcessRegion *WorkspaceDataProcessRegionInitParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -49,30 +60,40 @@ type WorkspaceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Configuration options for an Atlas Stream Processing Instance. See stream config
 	StreamConfig *WorkspaceStreamConfigInitParameters `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 
+	// Label that identifies the stream workspace.
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
 type WorkspaceObservation struct {
+
+	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	DataProcessRegion *WorkspaceDataProcessRegionObservation `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// List that contains the hostnames assigned to the stream workspace.
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Configuration options for an Atlas Stream Processing Instance. See stream config
 	StreamConfig *WorkspaceStreamConfigObservation `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 
+	// Label that identifies the stream workspace.
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
 type WorkspaceParameters struct {
 
+	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	// +kubebuilder:validation:Optional
 	DataProcessRegion *WorkspaceDataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -85,30 +106,40 @@ type WorkspaceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Configuration options for an Atlas Stream Processing Instance. See stream config
 	// +kubebuilder:validation:Optional
 	StreamConfig *WorkspaceStreamConfigParameters `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 
+	// Label that identifies the stream workspace.
 	// +kubebuilder:validation:Optional
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
 type WorkspaceStreamConfigInitParameters struct {
+
+	// Max tier size for the Stream Workspace. Configures Memory / VCPU allowances.
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
+	// Selected tier for the Stream Workspace. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
 
 type WorkspaceStreamConfigObservation struct {
+
+	// Max tier size for the Stream Workspace. Configures Memory / VCPU allowances.
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
+	// Selected tier for the Stream Workspace. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
 
 type WorkspaceStreamConfigParameters struct {
 
+	// Max tier size for the Stream Workspace. Configures Memory / VCPU allowances.
 	// +kubebuilder:validation:Optional
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
+	// Selected tier for the Stream Workspace. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
 	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
@@ -140,7 +171,7 @@ type WorkspaceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Workspace is the Schema for the Workspaces API. <no value>
+// Workspace is the Schema for the Workspaces API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProviderAccessSetup is the Schema for the ProviderAccessSetups
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -74,27 +74,32 @@ spec:
               forProvider:
                 properties:
                   azureConfig:
+                    description: azure related configurations
                     items:
                       properties:
                         atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
+                            This property is required when provider_name = "AZURE".
                           type: string
                         servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal. This property is required when provider_name
+                            = "AZURE".
                           type: string
                         tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID. This property is required when provider_name
+                            = "AZURE".
                           type: string
                       type: object
                     type: array
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   projectId:
+                    description: The unique ID for the project
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -173,6 +178,10 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: The cloud provider for which to create a new role.
+                      Currently, AWS, AZURE and GCP are supported. WARNING Changing
+                      the provider_name will result in destruction of the existing
+                      resource and the creation of a new resource.
                     type: string
                 type: object
               initProvider:
@@ -189,27 +198,32 @@ spec:
                   autoscaler.
                 properties:
                   azureConfig:
+                    description: azure related configurations
                     items:
                       properties:
                         atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
+                            This property is required when provider_name = "AZURE".
                           type: string
                         servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal. This property is required when provider_name
+                            = "AZURE".
                           type: string
                         tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID. This property is required when provider_name
+                            = "AZURE".
                           type: string
                       type: object
                     type: array
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   projectId:
+                    description: The unique ID for the project
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -288,6 +302,10 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: The cloud provider for which to create a new role.
+                      Currently, AWS, AZURE and GCP are supported. WARNING Changing
+                      the provider_name will result in destruction of the existing
+                      resource and the creation of a new resource.
                     type: string
                 type: object
               managementPolicies:
@@ -387,55 +405,78 @@ spec:
               atProvider:
                 properties:
                   awsConfig:
+                    description: aws related arn roles
                     items:
                       properties:
                         atlasAssumedRoleExternalId:
+                          description: Unique external ID Atlas uses when assuming
+                            the IAM role in your AWS account.
                           type: string
                         atlasAwsAccountArn:
+                          description: ARN associated with the Atlas AWS account used
+                            to assume IAM roles in your AWS account.
                           type: string
                       type: object
                     type: array
                   azureConfig:
+                    description: azure related configurations
                     items:
                       properties:
                         atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
+                            This property is required when provider_name = "AZURE".
                           type: string
                         servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal. This property is required when provider_name
+                            = "AZURE".
                           type: string
                         tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID. This property is required when provider_name
+                            = "AZURE".
                           type: string
                       type: object
                     type: array
                   createdDate:
+                    description: Date on which this role was created.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   gcpConfig:
+                    description: gcp related configuration
                     items:
                       properties:
                         serviceAccountForAtlas:
+                          description: The GCP service account email that Atlas uses.
                           type: string
                         status:
+                          description: The status of the GCP cloud provider access
+                            setup. See MongoDB Atlas API.
                           type: string
                       type: object
                     type: array
                   id:
                     type: string
                   lastUpdatedDate:
+                    description: Date and time when this Azure Service Principal was
+                      last updated. This parameter expresses its value in the ISO
+                      8601 timestamp format in UTC.
                     type: string
                   projectId:
+                    description: The unique ID for the project
                     type: string
                   providerName:
+                    description: The cloud provider for which to create a new role.
+                      Currently, AWS, AZURE and GCP are supported. WARNING Changing
+                      the provider_name will result in destruction of the existing
+                      resource and the creation of a new resource.
                     type: string
                   roleId:
+                    description: of the first resource.
                     type: string
                 type: object
               conditions:

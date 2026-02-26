@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Team is the Schema for the Teams API. <no value>
+        description: Team is the Schema for the Teams API.
         properties:
           apiVersion:
             description: |-
@@ -59,8 +59,11 @@ spec:
               forProvider:
                 properties:
                   name:
+                    description: The name of the team you want to create.
                     type: string
                   orgId:
+                    description: The unique identifier for the organization you want
+                      to associate the team with.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -145,6 +148,14 @@ spec:
                         type: object
                     type: object
                   usernames:
+                    description: '(DEPRECATED)  The Atlas usernames (email address).
+                      You can only add Atlas users who are part of the organization.
+                      Users who have not accepted an invitation to join the organization
+                      cannot be added as team members. There is a maximum of 250 Atlas
+                      users per team. This attribute is deprecated and will be removed
+                      in the next major release. Please transition to mongodbatlas_cloud_user_team_assignment.
+                      For more details, see Migration Guide: Team Usernames Attribute
+                      to Cloud User Team Assignment.'
                     items:
                       type: string
                     type: array
@@ -164,8 +175,11 @@ spec:
                   autoscaler.
                 properties:
                   name:
+                    description: The name of the team you want to create.
                     type: string
                   orgId:
+                    description: The unique identifier for the organization you want
+                      to associate the team with.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -250,6 +264,14 @@ spec:
                         type: object
                     type: object
                   usernames:
+                    description: '(DEPRECATED)  The Atlas usernames (email address).
+                      You can only add Atlas users who are part of the organization.
+                      Users who have not accepted an invitation to join the organization
+                      cannot be added as team members. There is a maximum of 250 Atlas
+                      users per team. This attribute is deprecated and will be removed
+                      in the next major release. Please transition to mongodbatlas_cloud_user_team_assignment.
+                      For more details, see Migration Guide: Team Usernames Attribute
+                      to Cloud User Team Assignment.'
                     items:
                       type: string
                     type: array
@@ -326,12 +348,24 @@ spec:
                   id:
                     type: string
                   name:
+                    description: The name of the team you want to create.
                     type: string
                   orgId:
+                    description: The unique identifier for the organization you want
+                      to associate the team with.
                     type: string
                   teamId:
+                    description: The unique identifier for the team.
                     type: string
                   usernames:
+                    description: '(DEPRECATED)  The Atlas usernames (email address).
+                      You can only add Atlas users who are part of the organization.
+                      Users who have not accepted an invitation to join the organization
+                      cannot be added as team members. There is a maximum of 250 Atlas
+                      users per team. This attribute is deprecated and will be removed
+                      in the next major release. Please transition to mongodbatlas_cloud_user_team_assignment.
+                      For more details, see Migration Guide: Team Usernames Attribute
+                      to Cloud User Team Assignment.'
                     items:
                       type: string
                     type: array

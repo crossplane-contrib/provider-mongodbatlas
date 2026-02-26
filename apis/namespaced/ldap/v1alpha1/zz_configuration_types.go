@@ -15,22 +15,32 @@ import (
 )
 
 type ConfigurationInitParameters struct {
+
+	// Specifies whether user authentication with LDAP is enabled.
 	AuthenticationEnabled *bool `json:"authenticationEnabled,omitempty" tf:"authentication_enabled,omitempty"`
 
+	// Specifies whether user authorization with LDAP is enabled. You cannot enable user authorization with LDAP without first enabling user authentication with LDAP.
 	AuthorizationEnabled *bool `json:"authorizationEnabled,omitempty" tf:"authorization_enabled,omitempty"`
 
+	// An LDAP query template that Atlas executes to obtain the LDAP groups to which the authenticated user belongs. Used only for user authorization. Use the {USER} placeholder in the URL to substitute the authenticated username. The query is relative to the host specified with hostname. The formatting for the query must conform to RFC4515 and RFC 4516. If you do not provide a query template, Atlas attempts to use the default value: {USER}?memberOf?base.
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
+	// The password used to authenticate the bind_username.
 	BindPasswordSecretRef v1.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
+	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
+	// CA certificate used to verify the identify of the LDAP server. Self-signed certificates are allowed.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
+	// The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The unique ID for the project to configure LDAP.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -42,57 +52,77 @@ type ConfigurationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
 	UserToDnMapping []UserToDnMappingInitParameters `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 
 type ConfigurationObservation struct {
+
+	// Specifies whether user authentication with LDAP is enabled.
 	AuthenticationEnabled *bool `json:"authenticationEnabled,omitempty" tf:"authentication_enabled,omitempty"`
 
+	// Specifies whether user authorization with LDAP is enabled. You cannot enable user authorization with LDAP without first enabling user authentication with LDAP.
 	AuthorizationEnabled *bool `json:"authorizationEnabled,omitempty" tf:"authorization_enabled,omitempty"`
 
+	// An LDAP query template that Atlas executes to obtain the LDAP groups to which the authenticated user belongs. Used only for user authorization. Use the {USER} placeholder in the URL to substitute the authenticated username. The query is relative to the host specified with hostname. The formatting for the query must conform to RFC4515 and RFC 4516. If you do not provide a query template, Atlas attempts to use the default value: {USER}?memberOf?base.
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
+	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
+	// CA certificate used to verify the identify of the LDAP server. Self-signed certificates are allowed.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
+	// The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The unique ID for the project to configure LDAP.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
 	UserToDnMapping []UserToDnMappingObservation `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 
 type ConfigurationParameters struct {
 
+	// Specifies whether user authentication with LDAP is enabled.
 	// +kubebuilder:validation:Optional
 	AuthenticationEnabled *bool `json:"authenticationEnabled,omitempty" tf:"authentication_enabled,omitempty"`
 
+	// Specifies whether user authorization with LDAP is enabled. You cannot enable user authorization with LDAP without first enabling user authentication with LDAP.
 	// +kubebuilder:validation:Optional
 	AuthorizationEnabled *bool `json:"authorizationEnabled,omitempty" tf:"authorization_enabled,omitempty"`
 
+	// An LDAP query template that Atlas executes to obtain the LDAP groups to which the authenticated user belongs. Used only for user authorization. Use the {USER} placeholder in the URL to substitute the authenticated username. The query is relative to the host specified with hostname. The formatting for the query must conform to RFC4515 and RFC 4516. If you do not provide a query template, Atlas attempts to use the default value: {USER}?memberOf?base.
 	// +kubebuilder:validation:Optional
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
+	// The password used to authenticate the bind_username.
 	// +kubebuilder:validation:Optional
 	BindPasswordSecretRef v1.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
+	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	// +kubebuilder:validation:Optional
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
+	// CA certificate used to verify the identify of the LDAP server. Self-signed certificates are allowed.
 	// +kubebuilder:validation:Optional
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
+	// The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// The port to which the LDAP server listens for client connections. Default: 636
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The unique ID for the project to configure LDAP.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -105,34 +135,46 @@ type ConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
 	// +kubebuilder:validation:Optional
 	UserToDnMapping []UserToDnMappingParameters `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 
 type UserToDnMappingInitParameters struct {
+
+	// An LDAP query formatting template that inserts the LDAP name matched by the match regular expression into an LDAP query URI as specified by RFC 4515 and RFC 4516. Each numeric value is replaced by the corresponding regular expression capture group extracted from the LDAP username that matched the match regular expression.
 	LdapQuery *string `json:"ldapQuery,omitempty" tf:"ldap_query,omitempty"`
 
+	// A regular expression to match against a provided LDAP username. Each parenthesis-enclosed section represents a regular expression capture group used by the substitution or ldap_query template.
 	Match *string `json:"match,omitempty" tf:"match,omitempty"`
 
+	// An LDAP Distinguished Name (DN) formatting template that converts the LDAP name matched by the match regular expression into an LDAP Distinguished Name. Each bracket-enclosed numeric value is replaced by the corresponding regular expression capture group extracted from the LDAP username that matched the match regular expression.
 	Substitution *string `json:"substitution,omitempty" tf:"substitution,omitempty"`
 }
 
 type UserToDnMappingObservation struct {
+
+	// An LDAP query formatting template that inserts the LDAP name matched by the match regular expression into an LDAP query URI as specified by RFC 4515 and RFC 4516. Each numeric value is replaced by the corresponding regular expression capture group extracted from the LDAP username that matched the match regular expression.
 	LdapQuery *string `json:"ldapQuery,omitempty" tf:"ldap_query,omitempty"`
 
+	// A regular expression to match against a provided LDAP username. Each parenthesis-enclosed section represents a regular expression capture group used by the substitution or ldap_query template.
 	Match *string `json:"match,omitempty" tf:"match,omitempty"`
 
+	// An LDAP Distinguished Name (DN) formatting template that converts the LDAP name matched by the match regular expression into an LDAP Distinguished Name. Each bracket-enclosed numeric value is replaced by the corresponding regular expression capture group extracted from the LDAP username that matched the match regular expression.
 	Substitution *string `json:"substitution,omitempty" tf:"substitution,omitempty"`
 }
 
 type UserToDnMappingParameters struct {
 
+	// An LDAP query formatting template that inserts the LDAP name matched by the match regular expression into an LDAP query URI as specified by RFC 4515 and RFC 4516. Each numeric value is replaced by the corresponding regular expression capture group extracted from the LDAP username that matched the match regular expression.
 	// +kubebuilder:validation:Optional
 	LdapQuery *string `json:"ldapQuery,omitempty" tf:"ldap_query,omitempty"`
 
+	// A regular expression to match against a provided LDAP username. Each parenthesis-enclosed section represents a regular expression capture group used by the substitution or ldap_query template.
 	// +kubebuilder:validation:Optional
 	Match *string `json:"match,omitempty" tf:"match,omitempty"`
 
+	// An LDAP Distinguished Name (DN) formatting template that converts the LDAP name matched by the match regular expression into an LDAP Distinguished Name. Each bracket-enclosed numeric value is replaced by the corresponding regular expression capture group extracted from the LDAP username that matched the match regular expression.
 	// +kubebuilder:validation:Optional
 	Substitution *string `json:"substitution,omitempty" tf:"substitution,omitempty"`
 }
@@ -164,7 +206,7 @@ type ConfigurationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Configuration is the Schema for the Configurations API. <no value>
+// Configuration is the Schema for the Configurations API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

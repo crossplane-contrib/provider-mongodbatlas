@@ -1,0 +1,37 @@
+apiVersion: federated.mongodbatlas.m.crossplane.io/v1alpha1
+kind: RoleMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: federated/v1alpha1/rolemapping
+  labels:
+    testing.upbound.io/example-name: org_group_role_mapping_import
+  name: org-group-role-mapping-import
+  namespace: crossplane-system
+spec:
+  forProvider:
+    externalGroupName: myGrouptest
+    federationSettingsIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roleAssignments:
+    - orgId: 627a9683e7f7f7ff7fe306f14
+      roles:
+      - ORG_MEMBER
+      - ORG_GROUP_CREATOR
+      - ORG_BILLING_ADMIN
+    - groupId: 628aa20d7f7f7f7f7098b81b8
+      roles:
+      - GROUP_OWNER
+      - GROUP_DATA_ACCESS_ADMIN
+      - GROUP_SEARCH_INDEX_EDITOR
+      - GROUP_DATA_ACCESS_READ_ONLY
+    - groupId: 628aa20d7f7f7f7f7078b81b8
+      roles:
+      - GROUP_OWNER
+      - GROUP_DATA_ACCESS_ADMIN
+      - GROUP_SEARCH_INDEX_EDITOR
+      - GROUP_DATA_ACCESS_READ_ONLY
+      - GROUP_DATA_ACCESS_READ_WRITE

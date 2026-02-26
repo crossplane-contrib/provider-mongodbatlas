@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: QueryLimit is the Schema for the QueryLimits API. <no value>
+        description: QueryLimit is the Schema for the QueryLimits API.
         properties:
           apiVersion:
             description: |-
@@ -73,14 +73,23 @@ spec:
               forProvider:
                 properties:
                   defaultLimit:
+                    description: Default value of the limit.
                     type: number
                   limitName:
+                    description: 'String enum that indicates whether the identity
+                      provider is active or not. Accepted values are:'
                     type: string
                   maximumLimit:
                     type: number
                   overrunPolicy:
+                    description: String enum that identifies action to take when the
+                      usage limit is exceeded. If limit span is set to QUERY, this
+                      is ignored because MongoDB Cloud stops the query when it exceeds
+                      the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
                     type: string
                   projectId:
+                    description: The unique ID for the project to create a Federated
+                      Database Instance.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -159,8 +168,10 @@ spec:
                         type: object
                     type: object
                   tenantName:
+                    description: Name of the Atlas Federated Database Instance.
                     type: string
                   value:
+                    description: Amount to set the limit to.
                     type: number
                 type: object
               initProvider:
@@ -177,14 +188,23 @@ spec:
                   autoscaler.
                 properties:
                   defaultLimit:
+                    description: Default value of the limit.
                     type: number
                   limitName:
+                    description: 'String enum that indicates whether the identity
+                      provider is active or not. Accepted values are:'
                     type: string
                   maximumLimit:
                     type: number
                   overrunPolicy:
+                    description: String enum that identifies action to take when the
+                      usage limit is exceeded. If limit span is set to QUERY, this
+                      is ignored because MongoDB Cloud stops the query when it exceeds
+                      the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
                     type: string
                   projectId:
+                    description: The unique ID for the project to create a Federated
+                      Database Instance.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -263,8 +283,10 @@ spec:
                         type: object
                     type: object
                   tenantName:
+                    description: Name of the Atlas Federated Database Instance.
                     type: string
                   value:
+                    description: Amount to set the limit to.
                     type: number
                 type: object
               managementPolicies:
@@ -376,24 +398,36 @@ spec:
               atProvider:
                 properties:
                   currentUsage:
+                    description: Amount that indicates the current usage of the limit.
                     type: number
                   defaultLimit:
+                    description: Default value of the limit.
                     type: number
                   id:
                     type: string
                   lastModifiedDate:
                     type: string
                   limitName:
+                    description: 'String enum that indicates whether the identity
+                      provider is active or not. Accepted values are:'
                     type: string
                   maximumLimit:
                     type: number
                   overrunPolicy:
+                    description: String enum that identifies action to take when the
+                      usage limit is exceeded. If limit span is set to QUERY, this
+                      is ignored because MongoDB Cloud stops the query when it exceeds
+                      the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
                     type: string
                   projectId:
+                    description: The unique ID for the project to create a Federated
+                      Database Instance.
                     type: string
                   tenantName:
+                    description: Name of the Atlas Federated Database Instance.
                     type: string
                   value:
+                    description: Amount to set the limit to.
                     type: number
                 type: object
               conditions:

@@ -15,6 +15,7 @@ import (
 
 type AccessListAPIKeyInitParameters struct {
 
+	// Unique identifier for the Organization API Key for which you want to create a new access list entry.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.APIKey
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
@@ -26,10 +27,13 @@ type AccessListAPIKeyInitParameters struct {
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v1.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
+	// Range of IP addresses in CIDR notation to be added to the access list. Your access list entry can include only one cidrBlock, or one ipAddress.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// Single IP address to be added to the access list.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -43,19 +47,25 @@ type AccessListAPIKeyInitParameters struct {
 }
 
 type AccessListAPIKeyObservation struct {
+
+	// Unique identifier for the Organization API Key for which you want to create a new access list entry.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
+	// Range of IP addresses in CIDR notation to be added to the access list. Your access list entry can include only one cidrBlock, or one ipAddress.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Single IP address to be added to the access list.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 }
 
 type AccessListAPIKeyParameters struct {
 
+	// Unique identifier for the Organization API Key for which you want to create a new access list entry.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.APIKey
 	// +kubebuilder:validation:Optional
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
@@ -68,12 +78,15 @@ type AccessListAPIKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v1.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
+	// Range of IP addresses in CIDR notation to be added to the access list. Your access list entry can include only one cidrBlock, or one ipAddress.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// Single IP address to be added to the access list.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -114,7 +127,7 @@ type AccessListAPIKeyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// AccessListAPIKey is the Schema for the AccessListAPIKeys API. <no value>
+// AccessListAPIKey is the Schema for the AccessListAPIKeys API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

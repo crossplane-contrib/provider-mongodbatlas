@@ -18,10 +18,14 @@ type ClustersInitParameters struct {
 }
 
 type ClustersObservation struct {
+
+	// Human-readable label that identifies the cluster.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// List of inbound IP addresses associated with the cluster. If your network allows outbound HTTP requests only to specific IP addresses, you must allow access to the following IP addresses so that your application can connect to your Atlas cluster.
 	Inbound []*string `json:"inbound,omitempty" tf:"inbound,omitempty"`
 
+	// List of outbound IP addresses associated with the cluster. If your network allows inbound HTTP requests only from specific IP addresses, you must allow access from the following IP addresses so that your Atlas cluster can communicate with your webhooks and KMS.
 	Outbound []*string `json:"outbound,omitempty" tf:"outbound,omitempty"`
 }
 
@@ -39,8 +43,11 @@ type IPAddressesParameters struct {
 }
 
 type LimitsInitParameters struct {
+
+	// The name of the project you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Amount to set the limit to. Use the Project Limit Documentation under limitName parameter to verify the override limits.
 	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -51,39 +58,53 @@ type LimitsObservation struct {
 
 	MaximumLimit *float64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
 
+	// The name of the project you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Amount to set the limit to. Use the Project Limit Documentation under limitName parameter to verify the override limits.
 	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type LimitsParameters struct {
 
+	// The name of the project you want to create.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Amount to set the limit to. Use the Project Limit Documentation under limitName parameter to verify the override limits.
 	// +kubebuilder:validation:Optional
 	Value *float64 `json:"value" tf:"value,omitempty"`
 }
 
 type ProjectInitParameters struct {
+
+	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Real Time Performance Panel for the project. If enabled, you can see real time metrics from your MongoDB database. By default, this flag is set to true.
 	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Schema Advisor for the project. If enabled, you receive customized recommendations to optimize your data model and enhance performance. Disable this setting to disable schema suggestions in the Performance Advisor and the Data Explorer. By default, this flag is set to true.
 	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
 
+	// (Deprecated)  Flag that enables MongoDB Cloud to use its slow operation threshold for the specified project. The threshold determines which operations the Performance Advisor and Query Profiler considers slow. When enabled, MongoDB Cloud uses the average execution time for operations on your cluster to determine slow-running queries. As a result, the threshold is more pertinent to your cluster workload. The slow operation threshold is enabled by default for dedicated clusters (M10+). When disabled, MongoDB Cloud considers any operation that takes longer than 100 milliseconds to be slow. Note: To use this attribute, the requesting API Key must have the Project Owner role, if not it will show a warning and will return false. If you are not using this field, you don't need to take any action.
 	IsSlowOperationThresholdingEnabled *bool `json:"isSlowOperationThresholdingEnabled,omitempty" tf:"is_slow_operation_thresholding_enabled,omitempty"`
 
 	Limits []LimitsInitParameters `json:"limits,omitempty" tf:"limits,omitempty"`
 
+	// The name of the project you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the organization you want to create the project within.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -95,88 +116,119 @@ type ProjectInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Unique 24-hexadecimal digit string that identifies the Atlas user account to be granted the Project Owner role on the specified project. If you set this parameter, it overrides the default value of the oldest Organization Owner.
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
 
+	// Designates that this project can be used for government regions only.  If not set the project will default to standard regions.   You cannot deploy clusters across government and standard regions in the same project. AWS is the only cloud provider for AtlasGov.  For more information see MongoDB Atlas for Government.
 	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
 
+	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the project. See below.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Teams []TeamsInitParameters `json:"teams,omitempty" tf:"teams,omitempty"`
 
+	// Flag that indicates whether to create the project with default alert settings. This setting cannot be updated after project creation. By default, this flag is set to true.
 	WithDefaultAlertsSettings *bool `json:"withDefaultAlertsSettings,omitempty" tf:"with_default_alerts_settings,omitempty"`
 }
 
 type ProjectObservation struct {
+
+	// The number of Atlas clusters deployed in the project.
 	ClusterCount *float64 `json:"clusterCount,omitempty" tf:"cluster_count,omitempty"`
 
+	// The ISO-8601-formatted timestamp of when Atlas created the project.
 	Created *string `json:"created,omitempty" tf:"created,omitempty"`
 
+	// The project id.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// IP addresses in a project categorized by services. See IP Addresses. WARNING: This attribute is deprecated, use the mongodbatlas_project_ip_addresses data source instead.
 	IPAddresses *IPAddressesObservation `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Real Time Performance Panel for the project. If enabled, you can see real time metrics from your MongoDB database. By default, this flag is set to true.
 	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Schema Advisor for the project. If enabled, you receive customized recommendations to optimize your data model and enhance performance. Disable this setting to disable schema suggestions in the Performance Advisor and the Data Explorer. By default, this flag is set to true.
 	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
 
+	// (Deprecated)  Flag that enables MongoDB Cloud to use its slow operation threshold for the specified project. The threshold determines which operations the Performance Advisor and Query Profiler considers slow. When enabled, MongoDB Cloud uses the average execution time for operations on your cluster to determine slow-running queries. As a result, the threshold is more pertinent to your cluster workload. The slow operation threshold is enabled by default for dedicated clusters (M10+). When disabled, MongoDB Cloud considers any operation that takes longer than 100 milliseconds to be slow. Note: To use this attribute, the requesting API Key must have the Project Owner role, if not it will show a warning and will return false. If you are not using this field, you don't need to take any action.
 	IsSlowOperationThresholdingEnabled *bool `json:"isSlowOperationThresholdingEnabled,omitempty" tf:"is_slow_operation_thresholding_enabled,omitempty"`
 
 	Limits []LimitsObservation `json:"limits,omitempty" tf:"limits,omitempty"`
 
+	// The name of the project you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the organization you want to create the project within.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the Atlas user account to be granted the Project Owner role on the specified project. If you set this parameter, it overrides the default value of the oldest Organization Owner.
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
 
+	// Designates that this project can be used for government regions only.  If not set the project will default to standard regions.   You cannot deploy clusters across government and standard regions in the same project. AWS is the only cloud provider for AtlasGov.  For more information see MongoDB Atlas for Government.
 	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
 
+	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the project. See below.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	Teams []TeamsObservation `json:"teams,omitempty" tf:"teams,omitempty"`
 
+	// Flag that indicates whether to create the project with default alert settings. This setting cannot be updated after project creation. By default, this flag is set to true.
 	WithDefaultAlertsSettings *bool `json:"withDefaultAlertsSettings,omitempty" tf:"with_default_alerts_settings,omitempty"`
 }
 
 type ProjectParameters struct {
 
+	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	// +kubebuilder:validation:Optional
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Real Time Performance Panel for the project. If enabled, you can see real time metrics from your MongoDB database. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsRealtimePerformancePanelEnabled *bool `json:"isRealtimePerformancePanelEnabled,omitempty" tf:"is_realtime_performance_panel_enabled,omitempty"`
 
+	// Flag that indicates whether to enable Schema Advisor for the project. If enabled, you receive customized recommendations to optimize your data model and enhance performance. Disable this setting to disable schema suggestions in the Performance Advisor and the Data Explorer. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsSchemaAdvisorEnabled *bool `json:"isSchemaAdvisorEnabled,omitempty" tf:"is_schema_advisor_enabled,omitempty"`
 
+	// (Deprecated)  Flag that enables MongoDB Cloud to use its slow operation threshold for the specified project. The threshold determines which operations the Performance Advisor and Query Profiler considers slow. When enabled, MongoDB Cloud uses the average execution time for operations on your cluster to determine slow-running queries. As a result, the threshold is more pertinent to your cluster workload. The slow operation threshold is enabled by default for dedicated clusters (M10+). When disabled, MongoDB Cloud considers any operation that takes longer than 100 milliseconds to be slow. Note: To use this attribute, the requesting API Key must have the Project Owner role, if not it will show a warning and will return false. If you are not using this field, you don't need to take any action.
 	// +kubebuilder:validation:Optional
 	IsSlowOperationThresholdingEnabled *bool `json:"isSlowOperationThresholdingEnabled,omitempty" tf:"is_slow_operation_thresholding_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Limits []LimitsParameters `json:"limits,omitempty" tf:"limits,omitempty"`
 
+	// The name of the project you want to create.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the organization you want to create the project within.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -189,12 +241,15 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Unique 24-hexadecimal digit string that identifies the Atlas user account to be granted the Project Owner role on the specified project. If you set this parameter, it overrides the default value of the oldest Organization Owner.
 	// +kubebuilder:validation:Optional
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
 
+	// Designates that this project can be used for government regions only.  If not set the project will default to standard regions.   You cannot deploy clusters across government and standard regions in the same project. AWS is the only cloud provider for AtlasGov.  For more information see MongoDB Atlas for Government.
 	// +kubebuilder:validation:Optional
 	RegionUsageRestrictions *string `json:"regionUsageRestrictions,omitempty" tf:"region_usage_restrictions,omitempty"`
 
+	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the project. See below.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -202,6 +257,7 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	Teams []TeamsParameters `json:"teams,omitempty" tf:"teams,omitempty"`
 
+	// Flag that indicates whether to create the project with default alert settings. This setting cannot be updated after project creation. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	WithDefaultAlertsSettings *bool `json:"withDefaultAlertsSettings,omitempty" tf:"with_default_alerts_settings,omitempty"`
 }
@@ -218,26 +274,32 @@ type ServicesParameters struct {
 
 type TeamsInitParameters struct {
 
+	// Each string in the array represents a project role you want to assign to the team. Every user associated with the team inherits these roles. You must specify an array even if you are only associating a single role with the team. The MongoDB Documentation describes the roles a user can have.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
+	// The unique identifier of the team you want to associate with the project. The team and project must share the same parent organization.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 }
 
 type TeamsObservation struct {
 
+	// Each string in the array represents a project role you want to assign to the team. Every user associated with the team inherits these roles. You must specify an array even if you are only associating a single role with the team. The MongoDB Documentation describes the roles a user can have.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
+	// The unique identifier of the team you want to associate with the project. The team and project must share the same parent organization.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 }
 
 type TeamsParameters struct {
 
+	// Each string in the array represents a project role you want to assign to the team. Every user associated with the team inherits these roles. You must specify an array even if you are only associating a single role with the team. The MongoDB Documentation describes the roles a user can have.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RoleNames []*string `json:"roleNames" tf:"role_names,omitempty"`
 
+	// The unique identifier of the team you want to associate with the project. The team and project must share the same parent organization.
 	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId" tf:"team_id,omitempty"`
 }
@@ -269,7 +331,7 @@ type ProjectStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Project is the Schema for the Projects API. <no value>
+// Project is the Schema for the Projects API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

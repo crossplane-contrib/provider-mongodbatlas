@@ -14,43 +14,59 @@ import (
 )
 
 type AwsInitParameters struct {
+
+	// ARN of the IAM Role that Atlas assumes when accessing resources in your AWS account. This value is required after the creation (register of the role) as part of Set Up Unified AWS Access.
 	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
 }
 
 type AwsObservation struct {
+
+	// ARN of the IAM Role that Atlas assumes when accessing resources in your AWS account. This value is required after the creation (register of the role) as part of Set Up Unified AWS Access.
 	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
 }
 
 type AwsParameters struct {
 
+	// ARN of the IAM Role that Atlas assumes when accessing resources in your AWS account. This value is required after the creation (register of the role) as part of Set Up Unified AWS Access.
 	// +kubebuilder:validation:Optional
 	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn" tf:"iam_assumed_role_arn,omitempty"`
 }
 
 type AzureInitParameters struct {
+
+	// Azure Active Directory Application ID of Atlas.
 	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
 
+	// UUID string that identifies the Azure Service Principal.
 	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
 
+	// UUID String that identifies the Azure Active Directory Tenant ID.
 	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type AzureObservation struct {
+
+	// Azure Active Directory Application ID of Atlas.
 	AtlasAzureAppID *string `json:"atlasAzureAppId,omitempty" tf:"atlas_azure_app_id,omitempty"`
 
+	// UUID string that identifies the Azure Service Principal.
 	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
 
+	// UUID String that identifies the Azure Active Directory Tenant ID.
 	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type AzureParameters struct {
 
+	// Azure Active Directory Application ID of Atlas.
 	// +kubebuilder:validation:Optional
 	AtlasAzureAppID *string `json:"atlasAzureAppId" tf:"atlas_azure_app_id,omitempty"`
 
+	// UUID string that identifies the Azure Service Principal.
 	// +kubebuilder:validation:Optional
 	ServicePrincipalID *string `json:"servicePrincipalId" tf:"service_principal_id,omitempty"`
 
+	// UUID String that identifies the Azure Active Directory Tenant ID.
 	// +kubebuilder:validation:Optional
 	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
 }
@@ -73,6 +89,8 @@ type GCPInitParameters struct {
 }
 
 type GCPObservation struct {
+
+	// Email address for the Google Service Account created by Atlas.
 	ServiceAccountForAtlas *string `json:"serviceAccountForAtlas,omitempty" tf:"service_account_for_atlas,omitempty"`
 }
 
@@ -84,6 +102,7 @@ type ProviderAccessAuthorizationInitParameters struct {
 
 	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
+	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -96,24 +115,30 @@ type ProviderAccessAuthorizationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
 
 type ProviderAccessAuthorizationObservation struct {
+
+	// Date on which this role was authorized.
 	AuthorizedDate *string `json:"authorizedDate,omitempty" tf:"authorized_date,omitempty"`
 
 	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	Azure []AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
 
+	// Atlas features this AWS IAM role is linked to.
 	FeatureUsages []FeatureUsagesObservation `json:"featureUsages,omitempty" tf:"feature_usages,omitempty"`
 
 	GCP []GCPObservation `json:"gcp,omitempty" tf:"gcp,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
 
@@ -125,6 +150,7 @@ type ProviderAccessAuthorizationParameters struct {
 	// +kubebuilder:validation:Optional
 	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
+	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -138,6 +164,7 @@ type ProviderAccessAuthorizationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
@@ -169,7 +196,7 @@ type ProviderAccessAuthorizationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ProviderAccessAuthorization is the Schema for the ProviderAccessAuthorizations API. <no value>
+// ProviderAccessAuthorization is the Schema for the ProviderAccessAuthorizations API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -1,0 +1,27 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha3/advancedcluster
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: NAME OF CLUSTER
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    replicationSpecs:
+    - regionConfigs:
+      - analyticsSpecs:
+          instanceSize: M10
+          nodeCount: 1
+        electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1

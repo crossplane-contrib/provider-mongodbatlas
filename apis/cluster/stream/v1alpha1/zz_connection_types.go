@@ -14,131 +14,184 @@ import (
 )
 
 type AccessInitParameters struct {
+
+	// Id of the Private Link connection when type is PRIVATE_LINK.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type AccessObservation struct {
+
+	// Id of the Private Link connection when type is PRIVATE_LINK.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type AccessParameters struct {
 
+	// Id of the Private Link connection when type is PRIVATE_LINK.
 	// +kubebuilder:validation:Optional
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type AuthenticationInitParameters struct {
+
+	// Public identifier for the Kafka client.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// Secret known only to the Kafka client and the authorization server.
 	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
+	// Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
+	// SASL OAUTHBEARER authentication method. Value must be OIDC.
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
+	// Password of the account to connect to the Kafka cluster.
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Additional information to provide to the Kafka broker.
 	SaslOauthbearerExtensions *string `json:"saslOauthbearerExtensions,omitempty" tf:"sasl_oauthbearer_extensions,omitempty"`
 
+	// Scope of the access request to the broker specified by the Kafka clients.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
+	// OAUTH issuer (IdP provider) token endpoint HTTP(S) URI used to retrieve the token.
 	TokenEndpointURL *string `json:"tokenEndpointUrl,omitempty" tf:"token_endpoint_url,omitempty"`
 
+	// Username of the account to connect to the Kafka cluster.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthenticationObservation struct {
+
+	// Public identifier for the Kafka client.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
+	// SASL OAUTHBEARER authentication method. Value must be OIDC.
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
+	// Additional information to provide to the Kafka broker.
 	SaslOauthbearerExtensions *string `json:"saslOauthbearerExtensions,omitempty" tf:"sasl_oauthbearer_extensions,omitempty"`
 
+	// Scope of the access request to the broker specified by the Kafka clients.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
+	// OAUTH issuer (IdP provider) token endpoint HTTP(S) URI used to retrieve the token.
 	TokenEndpointURL *string `json:"tokenEndpointUrl,omitempty" tf:"token_endpoint_url,omitempty"`
 
+	// Username of the account to connect to the Kafka cluster.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthenticationParameters struct {
 
+	// Public identifier for the Kafka client.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// Secret known only to the Kafka client and the authorization server.
 	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
+	// Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.
 	// +kubebuilder:validation:Optional
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
+	// SASL OAUTHBEARER authentication method. Value must be OIDC.
 	// +kubebuilder:validation:Optional
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
+	// Password of the account to connect to the Kafka cluster.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Additional information to provide to the Kafka broker.
 	// +kubebuilder:validation:Optional
 	SaslOauthbearerExtensions *string `json:"saslOauthbearerExtensions,omitempty" tf:"sasl_oauthbearer_extensions,omitempty"`
 
+	// Scope of the access request to the broker specified by the Kafka clients.
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
+	// OAUTH issuer (IdP provider) token endpoint HTTP(S) URI used to retrieve the token.
 	// +kubebuilder:validation:Optional
 	TokenEndpointURL *string `json:"tokenEndpointUrl,omitempty" tf:"token_endpoint_url,omitempty"`
 
+	// Username of the account to connect to the Kafka cluster.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AwsInitParameters struct {
+
+	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 }
 
 type AwsObservation struct {
+
+	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 }
 
 type AwsParameters struct {
 
+	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
 	// +kubebuilder:validation:Optional
 	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
 }
 
 type ConnectionInitParameters struct {
+
+	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
 	Authentication *AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
+	// The configuration for AWS Lambda connection. See AWS
 	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Comma separated list of server addresses.
 	BootstrapServers *string `json:"bootstrapServers,omitempty" tf:"bootstrap_servers,omitempty"`
 
+	// Name of the cluster configured for this connection.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams instance. You must first enable the organization setting.
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
+	// A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
 
+	// Label that identifies the stream connection. In the case of the Sample type, this is the name of the sample source.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
+	// The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.
 	DBRoleToExecute *DBRoleToExecuteInitParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
+	// A map of key-value pairs for optional headers.
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
+	// Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
+	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
 	Networking *NetworkingInitParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -150,106 +203,145 @@ type ConnectionInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Authentication configuration for Schema Registry. See Schema Registry Authentication.
 	SchemaRegistryAuthentication *SchemaRegistryAuthenticationInitParameters `json:"schemaRegistryAuthentication,omitempty" tf:"schema_registry_authentication,omitempty"`
 
+	// The Schema Registry provider. Must be set to CONFLUENT.
 	SchemaRegistryProvider *string `json:"schemaRegistryProvider,omitempty" tf:"schema_registry_provider,omitempty"`
 
+	// List of Schema Registry endpoint URLs used by this connection. Each URL must use the http or https scheme and specify a valid host and optional port.
 	SchemaRegistryUrls []*string `json:"schemaRegistryUrls,omitempty" tf:"schema_registry_urls,omitempty"`
 
+	// Properties for the secure transport connection to Kafka. For SASL_SSL, this can include the trusted certificate to use. See security.
 	Security *SecurityInitParameters `json:"security,omitempty" tf:"security,omitempty"`
 
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// URL of the HTTPs endpoint that will be used for creating a connection.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Label that identifies the stream processing workspace.
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
 type ConnectionObservation struct {
+
+	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
 	Authentication *AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
+	// The configuration for AWS Lambda connection. See AWS
 	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Comma separated list of server addresses.
 	BootstrapServers *string `json:"bootstrapServers,omitempty" tf:"bootstrap_servers,omitempty"`
 
+	// Name of the cluster configured for this connection.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams instance. You must first enable the organization setting.
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
+	// A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
 
+	// Label that identifies the stream connection. In the case of the Sample type, this is the name of the sample source.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
+	// The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.
 	DBRoleToExecute *DBRoleToExecuteObservation `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
+	// A map of key-value pairs for optional headers.
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
+	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
 	Networking *NetworkingObservation `json:"networking,omitempty" tf:"networking,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Authentication configuration for Schema Registry. See Schema Registry Authentication.
 	SchemaRegistryAuthentication *SchemaRegistryAuthenticationObservation `json:"schemaRegistryAuthentication,omitempty" tf:"schema_registry_authentication,omitempty"`
 
+	// The Schema Registry provider. Must be set to CONFLUENT.
 	SchemaRegistryProvider *string `json:"schemaRegistryProvider,omitempty" tf:"schema_registry_provider,omitempty"`
 
+	// List of Schema Registry endpoint URLs used by this connection. Each URL must use the http or https scheme and specify a valid host and optional port.
 	SchemaRegistryUrls []*string `json:"schemaRegistryUrls,omitempty" tf:"schema_registry_urls,omitempty"`
 
+	// Properties for the secure transport connection to Kafka. For SASL_SSL, this can include the trusted certificate to use. See security.
 	Security *SecurityObservation `json:"security,omitempty" tf:"security,omitempty"`
 
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// URL of the HTTPs endpoint that will be used for creating a connection.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Label that identifies the stream processing workspace.
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
 type ConnectionParameters struct {
 
+	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
 	// +kubebuilder:validation:Optional
 	Authentication *AuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
+	// The configuration for AWS Lambda connection. See AWS
 	// +kubebuilder:validation:Optional
 	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Comma separated list of server addresses.
 	// +kubebuilder:validation:Optional
 	BootstrapServers *string `json:"bootstrapServers,omitempty" tf:"bootstrap_servers,omitempty"`
 
+	// Name of the cluster configured for this connection.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams instance. You must first enable the organization setting.
 	// +kubebuilder:validation:Optional
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
+	// A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
 
+	// Label that identifies the stream connection. In the case of the Sample type, this is the name of the sample source.
 	// +kubebuilder:validation:Optional
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
+	// The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.
 	// +kubebuilder:validation:Optional
 	DBRoleToExecute *DBRoleToExecuteParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
+	// A map of key-value pairs for optional headers.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
+	// Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
+	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
 	// +kubebuilder:validation:Optional
 	Networking *NetworkingParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -262,137 +354,181 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Authentication configuration for Schema Registry. See Schema Registry Authentication.
 	// +kubebuilder:validation:Optional
 	SchemaRegistryAuthentication *SchemaRegistryAuthenticationParameters `json:"schemaRegistryAuthentication,omitempty" tf:"schema_registry_authentication,omitempty"`
 
+	// The Schema Registry provider. Must be set to CONFLUENT.
 	// +kubebuilder:validation:Optional
 	SchemaRegistryProvider *string `json:"schemaRegistryProvider,omitempty" tf:"schema_registry_provider,omitempty"`
 
+	// List of Schema Registry endpoint URLs used by this connection. Each URL must use the http or https scheme and specify a valid host and optional port.
 	// +kubebuilder:validation:Optional
 	SchemaRegistryUrls []*string `json:"schemaRegistryUrls,omitempty" tf:"schema_registry_urls,omitempty"`
 
+	// Properties for the secure transport connection to Kafka. For SASL_SSL, this can include the trusted certificate to use. See security.
 	// +kubebuilder:validation:Optional
 	Security *SecurityParameters `json:"security,omitempty" tf:"security,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// URL of the HTTPs endpoint that will be used for creating a connection.
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Label that identifies the stream processing workspace.
 	// +kubebuilder:validation:Optional
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
 type DBRoleToExecuteInitParameters struct {
+
+	// The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type DBRoleToExecuteObservation struct {
+
+	// The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type DBRoleToExecuteParameters struct {
 
+	// The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role" tf:"role,omitempty"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type NetworkingInitParameters struct {
+
+	// Information about the networking access. See access.
 	Access *AccessInitParameters `json:"access,omitempty" tf:"access,omitempty"`
 }
 
 type NetworkingObservation struct {
+
+	// Information about the networking access. See access.
 	Access *AccessObservation `json:"access,omitempty" tf:"access,omitempty"`
 }
 
 type NetworkingParameters struct {
 
+	// Information about the networking access. See access.
 	// +kubebuilder:validation:Optional
 	Access *AccessParameters `json:"access" tf:"access,omitempty"`
 }
 
 type SchemaRegistryAuthenticationInitParameters struct {
+
+	// Password of the account to connect to the Kafka cluster.
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Username of the account to connect to the Kafka cluster.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type SchemaRegistryAuthenticationObservation struct {
+
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Username of the account to connect to the Kafka cluster.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type SchemaRegistryAuthenticationParameters struct {
 
+	// Password of the account to connect to the Kafka cluster.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Username of the account to connect to the Kafka cluster.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type SecurityInitParameters struct {
+
+	// A trusted, public x509 certificate for connecting to Kafka over SSL. String value of the certificate must be defined in the attribute.
 	BrokerPublicCertificate *string `json:"brokerPublicCertificate,omitempty" tf:"broker_public_certificate,omitempty"`
 
+	// Describes the transport type. Can be either SASL_PLAINTEXT or SASL_SSL.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 }
 
 type SecurityObservation struct {
+
+	// A trusted, public x509 certificate for connecting to Kafka over SSL. String value of the certificate must be defined in the attribute.
 	BrokerPublicCertificate *string `json:"brokerPublicCertificate,omitempty" tf:"broker_public_certificate,omitempty"`
 
+	// Describes the transport type. Can be either SASL_PLAINTEXT or SASL_SSL.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 }
 
 type SecurityParameters struct {
 
+	// A trusted, public x509 certificate for connecting to Kafka over SSL. String value of the certificate must be defined in the attribute.
 	// +kubebuilder:validation:Optional
 	BrokerPublicCertificate *string `json:"brokerPublicCertificate,omitempty" tf:"broker_public_certificate,omitempty"`
 
+	// Describes the transport type. Can be either SASL_PLAINTEXT or SASL_SSL.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 }
 
 type TimeoutsInitParameters struct {
 
+	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsObservation struct {
 
+	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsParameters struct {
 
+	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	// +kubebuilder:validation:Optional
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
@@ -425,7 +561,7 @@ type ConnectionStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Connection is the Schema for the Connections API. <no value>
+// Connection is the Schema for the Connections API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

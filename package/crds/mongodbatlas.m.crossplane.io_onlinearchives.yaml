@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: OnlineArchive is the Schema for the OnlineArchives API. <no value>
+        description: OnlineArchive is the Schema for the OnlineArchives API.
         properties:
           apiVersion:
             description: |-
@@ -59,66 +59,124 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: Name of the cluster that contains the collection.
                     type: string
                   collName:
+                    description: Name of the collection.
                     type: string
                   collectionType:
+                    description: Type of MongoDB collection that you want to return.
+                      This value can be "TIMESERIES" or "STANDARD". Default is "STANDARD".
                     type: string
                   criteria:
+                    description: Criteria to use for archiving data. See criteria.
                     items:
                       properties:
                         dateField:
+                          description: Indexed database parameter that stores the
+                            date that determines when data moves to the online archive.
+                            MongoDB Cloud archives the data when the current date
+                            exceeds the date in this database parameter plus the number
+                            of days specified through the expireAfterDays parameter.
                           type: string
                         dateFormat:
+                          description: 'Syntax used to write the date after which
+                            data moves to the online archive. Date can be expressed
+                            as ISO 8601 or Epoch timestamps. The Epoch timestamp can
+                            be expressed as nanoseconds, milliseconds, or seconds.
+                            You must set type to DATE if collectionType is TIMESERIES.
+                            Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS,
+                            EPOCH_NANOSECONDS.'
                           type: string
                         expireAfterDays:
+                          description: Number of days after the value in the criteria.dateField
+                            when MongoDB Cloud archives data in the specified cluster.
                           type: number
                         query:
+                          description: JSON query to use to select documents for archiving.
+                            Atlas uses the specified query with the db.collection.find(query)
+                            command. The empty document {} to return all documents
+                            is not supported.
                           type: string
                         type:
+                          description: Type of criteria (DATE, CUSTOM)
                           type: string
                       type: object
                     type: array
                   dataExpirationRule:
+                    description: Rule for specifying when data should be deleted from
+                      the archive. See data expiration rule.
                     items:
                       properties:
                         expireAfterDays:
+                          description: Number of days after the value in the criteria.dateField
+                            when MongoDB Cloud archives data in the specified cluster.
                           type: number
                       type: object
                     type: array
                   dataProcessRegion:
+                    description: Settings to configure the region where you wish to
+                      store your archived data. See data process region. This field
+                      is immutable hence cannot be updated.
                     items:
                       properties:
                         cloudProvider:
+                          description: Human-readable label that identifies the Cloud
+                            service provider where you wish to store your archived
+                            data. AZURE may be selected only if Azure is the Cloud
+                            service provider for the cluster and no AWS online archive
+                            has been created for the cluster.
                           type: string
                         region:
+                          description: Human-readable label that identifies the geographic
+                            location of the region where you wish to store your archived
+                            data. For allowed values, see MongoDB Atlas API documentation
                           type: string
                       type: object
                     type: array
                   dbName:
+                    description: Name of the database that contains the collection.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   partitionFields:
+                    description: (Recommended) Fields to use to partition data. You
+                      can specify up to two frequently queried fields (or up to three
+                      fields when one of them is date_field) to use for partitioning
+                      data. Queries that don’t contain the specified fields require
+                      a full collection scan of all archived documents, which takes
+                      longer and increases your costs. To learn more about how partition
+                      improves query performance, see Data Structure in S3. The value
+                      of a partition field can be up to a maximum of 700 characters.
+                      Documents with values exceeding 700 characters are not archived.
+                      See partition fields.
                     items:
                       properties:
                         fieldName:
+                          description: Human-readable label that identifies the parameter
+                            that MongoDB Cloud uses to partition data. To specify
+                            a nested parameter, use the dot notation.
                           type: string
                         order:
+                          description: Sequence in which MongoDB Cloud slices the
+                            collection data to create partitions. The resource expresses
+                            this sequence starting with zero. The value of the criteria.dateField
+                            parameter defaults as the first item in the partition
+                            sequence.
                           type: number
                       type: object
                     type: array
                   paused:
+                    description: State of the online archive. This is required for
+                      pausing an active online archive or resuming a paused online
+                      archive. If the collection has another active online archive,
+                      the resume request fails.
                     type: boolean
                   projectId:
+                    description: The unique ID for the project
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -203,25 +261,46 @@ spec:
                         type: object
                     type: object
                   schedule:
+                    description: Regular frequency and duration when archiving process
+                      occurs. See schedule.
                     items:
                       properties:
                         dayOfMonth:
+                          description: Day of the month when the scheduled archive
+                            starts. This field should be provided only when schedule
+                            type is MONTHLY.
                           type: number
                         dayOfWeek:
+                          description: Day of the week when the scheduled archive
+                            starts. The week starts with Monday (1) and ends with
+                            Sunday (7). This field should be provided only when schedule
+                            type is WEEKLY.
                           type: number
                         endHour:
+                          description: Hour of the day when the scheduled window to
+                            run one online archive ends.
                           type: number
                         endMinute:
+                          description: Minute of the hour when the scheduled window
+                            to run one online archive ends.
                           type: number
                         startHour:
+                          description: Hour of the day when the when the scheduled
+                            window to run one online archive starts.
                           type: number
                         startMinute:
+                          description: Minute of the hour when the scheduled window
+                            to run one online archive starts.
                           type: number
                         type:
+                          description: Type of criteria (DATE, CUSTOM)
                           type: string
                       type: object
                     type: array
                   syncCreation:
+                    description: Flag that indicates whether the provider will wait
+                      for the state of the online archive to reach IDLE or ACTIVE
+                      when creating an online archive. Defaults to false.
                     type: boolean
                 type: object
               initProvider:
@@ -238,66 +317,124 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: Name of the cluster that contains the collection.
                     type: string
                   collName:
+                    description: Name of the collection.
                     type: string
                   collectionType:
+                    description: Type of MongoDB collection that you want to return.
+                      This value can be "TIMESERIES" or "STANDARD". Default is "STANDARD".
                     type: string
                   criteria:
+                    description: Criteria to use for archiving data. See criteria.
                     items:
                       properties:
                         dateField:
+                          description: Indexed database parameter that stores the
+                            date that determines when data moves to the online archive.
+                            MongoDB Cloud archives the data when the current date
+                            exceeds the date in this database parameter plus the number
+                            of days specified through the expireAfterDays parameter.
                           type: string
                         dateFormat:
+                          description: 'Syntax used to write the date after which
+                            data moves to the online archive. Date can be expressed
+                            as ISO 8601 or Epoch timestamps. The Epoch timestamp can
+                            be expressed as nanoseconds, milliseconds, or seconds.
+                            You must set type to DATE if collectionType is TIMESERIES.
+                            Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS,
+                            EPOCH_NANOSECONDS.'
                           type: string
                         expireAfterDays:
+                          description: Number of days after the value in the criteria.dateField
+                            when MongoDB Cloud archives data in the specified cluster.
                           type: number
                         query:
+                          description: JSON query to use to select documents for archiving.
+                            Atlas uses the specified query with the db.collection.find(query)
+                            command. The empty document {} to return all documents
+                            is not supported.
                           type: string
                         type:
+                          description: Type of criteria (DATE, CUSTOM)
                           type: string
                       type: object
                     type: array
                   dataExpirationRule:
+                    description: Rule for specifying when data should be deleted from
+                      the archive. See data expiration rule.
                     items:
                       properties:
                         expireAfterDays:
+                          description: Number of days after the value in the criteria.dateField
+                            when MongoDB Cloud archives data in the specified cluster.
                           type: number
                       type: object
                     type: array
                   dataProcessRegion:
+                    description: Settings to configure the region where you wish to
+                      store your archived data. See data process region. This field
+                      is immutable hence cannot be updated.
                     items:
                       properties:
                         cloudProvider:
+                          description: Human-readable label that identifies the Cloud
+                            service provider where you wish to store your archived
+                            data. AZURE may be selected only if Azure is the Cloud
+                            service provider for the cluster and no AWS online archive
+                            has been created for the cluster.
                           type: string
                         region:
+                          description: Human-readable label that identifies the geographic
+                            location of the region where you wish to store your archived
+                            data. For allowed values, see MongoDB Atlas API documentation
                           type: string
                       type: object
                     type: array
                   dbName:
+                    description: Name of the database that contains the collection.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   partitionFields:
+                    description: (Recommended) Fields to use to partition data. You
+                      can specify up to two frequently queried fields (or up to three
+                      fields when one of them is date_field) to use for partitioning
+                      data. Queries that don’t contain the specified fields require
+                      a full collection scan of all archived documents, which takes
+                      longer and increases your costs. To learn more about how partition
+                      improves query performance, see Data Structure in S3. The value
+                      of a partition field can be up to a maximum of 700 characters.
+                      Documents with values exceeding 700 characters are not archived.
+                      See partition fields.
                     items:
                       properties:
                         fieldName:
+                          description: Human-readable label that identifies the parameter
+                            that MongoDB Cloud uses to partition data. To specify
+                            a nested parameter, use the dot notation.
                           type: string
                         order:
+                          description: Sequence in which MongoDB Cloud slices the
+                            collection data to create partitions. The resource expresses
+                            this sequence starting with zero. The value of the criteria.dateField
+                            parameter defaults as the first item in the partition
+                            sequence.
                           type: number
                       type: object
                     type: array
                   paused:
+                    description: State of the online archive. This is required for
+                      pausing an active online archive or resuming a paused online
+                      archive. If the collection has another active online archive,
+                      the resume request fails.
                     type: boolean
                   projectId:
+                    description: The unique ID for the project
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -382,25 +519,46 @@ spec:
                         type: object
                     type: object
                   schedule:
+                    description: Regular frequency and duration when archiving process
+                      occurs. See schedule.
                     items:
                       properties:
                         dayOfMonth:
+                          description: Day of the month when the scheduled archive
+                            starts. This field should be provided only when schedule
+                            type is MONTHLY.
                           type: number
                         dayOfWeek:
+                          description: Day of the week when the scheduled archive
+                            starts. The week starts with Monday (1) and ends with
+                            Sunday (7). This field should be provided only when schedule
+                            type is WEEKLY.
                           type: number
                         endHour:
+                          description: Hour of the day when the scheduled window to
+                            run one online archive ends.
                           type: number
                         endMinute:
+                          description: Minute of the hour when the scheduled window
+                            to run one online archive ends.
                           type: number
                         startHour:
+                          description: Hour of the day when the when the scheduled
+                            window to run one online archive starts.
                           type: number
                         startMinute:
+                          description: Minute of the hour when the scheduled window
+                            to run one online archive starts.
                           type: number
                         type:
+                          description: Type of criteria (DATE, CUSTOM)
                           type: string
                       type: object
                     type: array
                   syncCreation:
+                    description: Flag that indicates whether the provider will wait
+                      for the state of the online archive to reach IDLE or ACTIVE
+                      when creating an online archive. Defaults to false.
                     type: boolean
                 type: object
               managementPolicies:
@@ -484,95 +642,182 @@ spec:
               atProvider:
                 properties:
                   archiveId:
+                    description: ID of the online archive.
                     type: string
                   clusterName:
+                    description: Name of the cluster that contains the collection.
                     type: string
                   collName:
+                    description: Name of the collection.
                     type: string
                   collectionType:
+                    description: Type of MongoDB collection that you want to return.
+                      This value can be "TIMESERIES" or "STANDARD". Default is "STANDARD".
                     type: string
                   criteria:
+                    description: Criteria to use for archiving data. See criteria.
                     items:
                       properties:
                         dateField:
+                          description: Indexed database parameter that stores the
+                            date that determines when data moves to the online archive.
+                            MongoDB Cloud archives the data when the current date
+                            exceeds the date in this database parameter plus the number
+                            of days specified through the expireAfterDays parameter.
                           type: string
                         dateFormat:
+                          description: 'Syntax used to write the date after which
+                            data moves to the online archive. Date can be expressed
+                            as ISO 8601 or Epoch timestamps. The Epoch timestamp can
+                            be expressed as nanoseconds, milliseconds, or seconds.
+                            You must set type to DATE if collectionType is TIMESERIES.
+                            Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS,
+                            EPOCH_NANOSECONDS.'
                           type: string
                         expireAfterDays:
+                          description: Number of days after the value in the criteria.dateField
+                            when MongoDB Cloud archives data in the specified cluster.
                           type: number
                         query:
+                          description: JSON query to use to select documents for archiving.
+                            Atlas uses the specified query with the db.collection.find(query)
+                            command. The empty document {} to return all documents
+                            is not supported.
                           type: string
                         type:
+                          description: Type of criteria (DATE, CUSTOM)
                           type: string
                       type: object
                     type: array
                   dataExpirationRule:
+                    description: Rule for specifying when data should be deleted from
+                      the archive. See data expiration rule.
                     items:
                       properties:
                         expireAfterDays:
+                          description: Number of days after the value in the criteria.dateField
+                            when MongoDB Cloud archives data in the specified cluster.
                           type: number
                       type: object
                     type: array
                   dataProcessRegion:
+                    description: Settings to configure the region where you wish to
+                      store your archived data. See data process region. This field
+                      is immutable hence cannot be updated.
                     items:
                       properties:
                         cloudProvider:
+                          description: Human-readable label that identifies the Cloud
+                            service provider where you wish to store your archived
+                            data. AZURE may be selected only if Azure is the Cloud
+                            service provider for the cluster and no AWS online archive
+                            has been created for the cluster.
                           type: string
                         region:
+                          description: Human-readable label that identifies the geographic
+                            location of the region where you wish to store your archived
+                            data. For allowed values, see MongoDB Atlas API documentation
                           type: string
                       type: object
                     type: array
                   dbName:
+                    description: Name of the database that contains the collection.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   id:
                     type: string
                   partitionFields:
+                    description: (Recommended) Fields to use to partition data. You
+                      can specify up to two frequently queried fields (or up to three
+                      fields when one of them is date_field) to use for partitioning
+                      data. Queries that don’t contain the specified fields require
+                      a full collection scan of all archived documents, which takes
+                      longer and increases your costs. To learn more about how partition
+                      improves query performance, see Data Structure in S3. The value
+                      of a partition field can be up to a maximum of 700 characters.
+                      Documents with values exceeding 700 characters are not archived.
+                      See partition fields.
                     items:
                       properties:
                         fieldName:
+                          description: Human-readable label that identifies the parameter
+                            that MongoDB Cloud uses to partition data. To specify
+                            a nested parameter, use the dot notation.
                           type: string
                         fieldType:
+                          description: 'Data type of the parameter that that MongoDB
+                            Cloud uses to partition data. Partition parameters of
+                            type UUID must be of binary subtype 4. MongoDB Cloud skips
+                            partition parameters of type UUID with subtype 3. Valid
+                            values: date, int, long, objectId, string, uuid.'
                           type: string
                         order:
+                          description: Sequence in which MongoDB Cloud slices the
+                            collection data to create partitions. The resource expresses
+                            this sequence starting with zero. The value of the criteria.dateField
+                            parameter defaults as the first item in the partition
+                            sequence.
                           type: number
                       type: object
                     type: array
                   paused:
+                    description: State of the online archive. This is required for
+                      pausing an active online archive or resuming a paused online
+                      archive. If the collection has another active online archive,
+                      the resume request fails.
                     type: boolean
                   projectId:
+                    description: The unique ID for the project
                     type: string
                   schedule:
+                    description: Regular frequency and duration when archiving process
+                      occurs. See schedule.
                     items:
                       properties:
                         dayOfMonth:
+                          description: Day of the month when the scheduled archive
+                            starts. This field should be provided only when schedule
+                            type is MONTHLY.
                           type: number
                         dayOfWeek:
+                          description: Day of the week when the scheduled archive
+                            starts. The week starts with Monday (1) and ends with
+                            Sunday (7). This field should be provided only when schedule
+                            type is WEEKLY.
                           type: number
                         endHour:
+                          description: Hour of the day when the scheduled window to
+                            run one online archive ends.
                           type: number
                         endMinute:
+                          description: Minute of the hour when the scheduled window
+                            to run one online archive ends.
                           type: number
                         startHour:
+                          description: Hour of the day when the when the scheduled
+                            window to run one online archive starts.
                           type: number
                         startMinute:
+                          description: Minute of the hour when the scheduled window
+                            to run one online archive starts.
                           type: number
                         type:
+                          description: Type of criteria (DATE, CUSTOM)
                           type: string
                       type: object
                     type: array
                   state:
+                    description: 'Status of the online archive. Valid values are:
+                      Pending, Archiving, Idle, Pausing, Paused, Orphaned and Deleted'
                     type: string
                   syncCreation:
+                    description: Flag that indicates whether the provider will wait
+                      for the state of the online archive to reach IDLE or ACTIVE
+                      when creating an online archive. Defaults to false.
                     type: boolean
                 type: object
               conditions:

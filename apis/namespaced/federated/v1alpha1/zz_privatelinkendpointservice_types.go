@@ -15,12 +15,17 @@ import (
 )
 
 type PrivateLinkEndpointServiceInitParameters struct {
+
+	// Human-readable string to associate with this private endpoint.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
+	// Human-readable label to identify VPC endpoint DNS name. If defined, you must also specify a value for region.
 	CustomerEndpointDNSName *string `json:"customerEndpointDnsName,omitempty" tf:"customer_endpoint_dns_name,omitempty"`
 
+	// Unique 22-character alphanumeric string that identifies the private endpoint. See Atlas Data Federation supports Amazon Web Services private endpoints using the AWS PrivateLink feature.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -32,40 +37,54 @@ type PrivateLinkEndpointServiceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Human-readable label that identifies the cloud service provider.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Human-readable label to identify the region of VPC endpoint.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure. If defined, you must also specify a value for customer_endpoint_dns_name.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type PrivateLinkEndpointServiceObservation struct {
+
+	// Human-readable string to associate with this private endpoint.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
+	// Human-readable label to identify VPC endpoint DNS name. If defined, you must also specify a value for region.
 	CustomerEndpointDNSName *string `json:"customerEndpointDnsName,omitempty" tf:"customer_endpoint_dns_name,omitempty"`
 
+	// Unique 22-character alphanumeric string that identifies the private endpoint. See Atlas Data Federation supports Amazon Web Services private endpoints using the AWS PrivateLink feature.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Human-readable label that identifies the cloud service provider.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Human-readable label to identify the region of VPC endpoint.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure. If defined, you must also specify a value for customer_endpoint_dns_name.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Human-readable label that identifies the resource type associated with this private endpoint.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type PrivateLinkEndpointServiceParameters struct {
 
+	// Human-readable string to associate with this private endpoint.
 	// +kubebuilder:validation:Optional
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
+	// Human-readable label to identify VPC endpoint DNS name. If defined, you must also specify a value for region.
 	// +kubebuilder:validation:Optional
 	CustomerEndpointDNSName *string `json:"customerEndpointDnsName,omitempty" tf:"customer_endpoint_dns_name,omitempty"`
 
+	// Unique 22-character alphanumeric string that identifies the private endpoint. See Atlas Data Federation supports Amazon Web Services private endpoints using the AWS PrivateLink feature.
 	// +kubebuilder:validation:Optional
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -78,9 +97,11 @@ type PrivateLinkEndpointServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Human-readable label that identifies the cloud service provider.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Human-readable label to identify the region of VPC endpoint.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure. If defined, you must also specify a value for customer_endpoint_dns_name.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
@@ -112,7 +133,7 @@ type PrivateLinkEndpointServiceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// PrivateLinkEndpointService is the Schema for the PrivateLinkEndpointServices API. <no value>
+// PrivateLinkEndpointService is the Schema for the PrivateLinkEndpointServices API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

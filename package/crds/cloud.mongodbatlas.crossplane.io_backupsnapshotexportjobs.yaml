@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackupSnapshotExportJob is the Schema for the BackupSnapshotExportJobs
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -75,17 +75,31 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: Name of the Atlas cluster whose snapshot you want
+                      to export.
                     type: string
                   customData:
+                    description: Custom data to include in the metadata file named
+                      .complete that Atlas uploads to the bucket when the export job
+                      finishes. Custom data can be specified as key and value pairs.
                     items:
                       properties:
                         key:
+                          description: Required if you want to include custom data
+                            using custom_data in the metadata file uploaded to the
+                            bucket. Key to include in the metadata file that Atlas
+                            uploads to the bucket when the export job finishes.
                           type: string
                         value:
+                          description: Required if you specify key.
                           type: string
                       type: object
                     type: array
                   exportBucketId:
+                    description: Unique identifier of the AWS bucket to export the
+                      Cloud Backup snapshot to. If necessary, use the Get All Snapshot
+                      Export Buckets API to retrieve the IDs of all available export
+                      buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
                     type: string
                   exportBucketIdRef:
                     description: Reference to a BackupSnapshotExportBucket in cloud
@@ -164,6 +178,9 @@ spec:
                         type: object
                     type: object
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project which contains the Atlas cluster whose snapshot
+                      you want to export.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -242,6 +259,10 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Unique identifier of the Cloud Backup snapshot to
+                      export. If necessary, use the Get All Cloud Backups API to retrieve
+                      the list of snapshot IDs for a cluster or use the data source
+                      mongodbatlas_cloud_cloud_backup_snapshots
                     type: string
                   snapshotIdRef:
                     description: Reference to a BackupSnapshot in cloud to populate
@@ -334,17 +355,31 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: Name of the Atlas cluster whose snapshot you want
+                      to export.
                     type: string
                   customData:
+                    description: Custom data to include in the metadata file named
+                      .complete that Atlas uploads to the bucket when the export job
+                      finishes. Custom data can be specified as key and value pairs.
                     items:
                       properties:
                         key:
+                          description: Required if you want to include custom data
+                            using custom_data in the metadata file uploaded to the
+                            bucket. Key to include in the metadata file that Atlas
+                            uploads to the bucket when the export job finishes.
                           type: string
                         value:
+                          description: Required if you specify key.
                           type: string
                       type: object
                     type: array
                   exportBucketId:
+                    description: Unique identifier of the AWS bucket to export the
+                      Cloud Backup snapshot to. If necessary, use the Get All Snapshot
+                      Export Buckets API to retrieve the IDs of all available export
+                      buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
                     type: string
                   exportBucketIdRef:
                     description: Reference to a BackupSnapshotExportBucket in cloud
@@ -423,6 +458,9 @@ spec:
                         type: object
                     type: object
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project which contains the Atlas cluster whose snapshot
+                      you want to export.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -501,6 +539,10 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Unique identifier of the Cloud Backup snapshot to
+                      export. If necessary, use the Get All Cloud Backups API to retrieve
+                      the list of snapshot IDs for a cluster or use the data source
+                      mongodbatlas_cloud_cloud_backup_snapshots
                     type: string
                   snapshotIdRef:
                     description: Reference to a BackupSnapshot in cloud to populate
@@ -677,46 +719,80 @@ spec:
               atProvider:
                 properties:
                   clusterName:
+                    description: Name of the Atlas cluster whose snapshot you want
+                      to export.
                     type: string
                   components:
+                    description: Returned for sharded clusters only. Export job details
+                      for each replica set in the sharded cluster.
                     items:
                       properties:
                         exportId:
+                          description: Returned for sharded clusters only. Export
+                            job details for each replica set in the sharded cluster.
                           type: string
                         replicaSetName:
+                          description: Returned for sharded clusters only. Unique
+                            identifier of the export job for the replica set.
                           type: string
                       type: object
                     type: array
                   createdAt:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when the export job was created.
                     type: string
                   customData:
+                    description: Custom data to include in the metadata file named
+                      .complete that Atlas uploads to the bucket when the export job
+                      finishes. Custom data can be specified as key and value pairs.
                     items:
                       properties:
                         key:
+                          description: Required if you want to include custom data
+                            using custom_data in the metadata file uploaded to the
+                            bucket. Key to include in the metadata file that Atlas
+                            uploads to the bucket when the export job finishes.
                           type: string
                         value:
+                          description: Required if you specify key.
                           type: string
                       type: object
                     type: array
                   exportBucketId:
+                    description: Unique identifier of the AWS bucket to export the
+                      Cloud Backup snapshot to. If necessary, use the Get All Snapshot
+                      Export Buckets API to retrieve the IDs of all available export
+                      buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
                     type: string
                   exportJobId:
+                    description: Unique identifier of the export job.
                     type: string
                   exportStatusExportedCollections:
                     type: number
                   exportStatusTotalCollections:
                     type: number
                   finishedAt:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when the export job completes.
                     type: string
                   id:
                     type: string
                   prefix:
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project which contains the Atlas cluster whose snapshot
+                      you want to export.
                     type: string
                   snapshotId:
+                    description: Unique identifier of the Cloud Backup snapshot to
+                      export. If necessary, use the Get All Cloud Backups API to retrieve
+                      the list of snapshot IDs for a cluster or use the data source
+                      mongodbatlas_cloud_cloud_backup_snapshots
                     type: string
                   state:
+                    description: 'Status of the export job. Value can be one of the
+                      following:'
                     type: string
                 type: object
               conditions:

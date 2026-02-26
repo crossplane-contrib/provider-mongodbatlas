@@ -15,14 +15,19 @@ import (
 )
 
 type APIKeyInitParameters struct {
+
+	// Description of this Project API key.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	ProjectAssignment []ProjectAssignmentInitParameters `json:"projectAssignment,omitempty" tf:"project_assignment,omitempty"`
 }
 
 type APIKeyObservation struct {
+
+	// Unique identifier for this Project API key.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
+	// Description of this Project API key.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -34,6 +39,7 @@ type APIKeyObservation struct {
 
 type APIKeyParameters struct {
 
+	// Description of this Project API key.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -42,24 +48,32 @@ type APIKeyParameters struct {
 }
 
 type ProjectAssignmentInitParameters struct {
+
+	// Project ID to assign to Access Key
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// List of Project roles that the Programmatic API key needs to have. Ensure you provide: at least one role and ensure all roles are valid for the Project. You must specify an array even if you are only associating a single role with the Programmatic API key. The MongoDB Documentation describes the valid roles that can be assigned.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 }
 
 type ProjectAssignmentObservation struct {
+
+	// Project ID to assign to Access Key
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// List of Project roles that the Programmatic API key needs to have. Ensure you provide: at least one role and ensure all roles are valid for the Project. You must specify an array even if you are only associating a single role with the Programmatic API key. The MongoDB Documentation describes the valid roles that can be assigned.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 }
 
 type ProjectAssignmentParameters struct {
 
+	// Project ID to assign to Access Key
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
+	// List of Project roles that the Programmatic API key needs to have. Ensure you provide: at least one role and ensure all roles are valid for the Project. You must specify an array even if you are only associating a single role with the Programmatic API key. The MongoDB Documentation describes the valid roles that can be assigned.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RoleNames []*string `json:"roleNames" tf:"role_names,omitempty"`
@@ -92,7 +106,7 @@ type APIKeyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// APIKey is the Schema for the APIKeys API. <no value>
+// APIKey is the Schema for the APIKeys API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

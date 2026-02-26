@@ -15,12 +15,15 @@ import (
 
 type DeploymentInitParameters struct {
 
+	// (String) Label that identifies the cluster to return the search nodes for.
 	// Label that identifies the cluster to return the search nodes for.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -36,48 +39,61 @@ type DeploymentInitParameters struct {
 	// If true, the resource update is executed without waiting until the [state](#state_name-1) is `IDLE`, making the operation faster.
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 
+	// (Attributes List) List of settings that configure the search nodes for your cluster. This list is currently limited to defining a single element. (see below for nested schema)
 	Specs []SpecsInitParameters `json:"specs,omitempty" tf:"specs,omitempty"`
 
+	// (Attributes) (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type DeploymentObservation struct {
 
+	// (String) Label that identifies the cluster to return the search nodes for.
 	// Label that identifies the cluster to return the search nodes for.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// (String) Cloud service provider that manages your customer keys to provide an additional layer of Encryption At Rest for the cluster.
 	// Cloud service provider that manages your customer keys to provide an additional layer of Encryption At Rest for the cluster.
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
+	// hexadecimal digit string that identifies the search deployment.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// If true, the resource update is executed without waiting until the [state](#state_name-1) is `IDLE`, making the operation faster.
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 
+	// (Attributes List) List of settings that configure the search nodes for your cluster. This list is currently limited to defining a single element. (see below for nested schema)
 	Specs []SpecsObservation `json:"specs,omitempty" tf:"specs,omitempty"`
 
+	// readable label that indicates the current operating condition of this search deployment.
 	// Human-readable label that indicates the current operating condition of this search deployment.
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	// (Attributes) (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type DeploymentParameters struct {
 
+	// (String) Label that identifies the cluster to return the search nodes for.
 	// Label that identifies the cluster to return the search nodes for.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -95,37 +111,45 @@ type DeploymentParameters struct {
 	// +kubebuilder:validation:Optional
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 
+	// (Attributes List) List of settings that configure the search nodes for your cluster. This list is currently limited to defining a single element. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Specs []SpecsParameters `json:"specs,omitempty" tf:"specs,omitempty"`
 
+	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type SpecsInitParameters struct {
 
+	// (String) Hardware specification for the search node instance sizes. The MongoDB Atlas API describes the valid values. More details can also be found in the Search Node Documentation.
 	// Hardware specification for the search node instance sizes. The [MongoDB Atlas API](https://www.mongodb.com/docs/atlas/reference/api-resources-spec/#tag/Atlas-Search/operation/createAtlasSearchDeployment) describes the valid values. More details can also be found in the [Search Node Documentation](https://www.mongodb.com/docs/atlas/cluster-config/multi-cloud-distribution/#search-tier).
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// (Number) Number of search nodes in the cluster.
 	// Number of search nodes in the cluster.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type SpecsObservation struct {
 
+	// (String) Hardware specification for the search node instance sizes. The MongoDB Atlas API describes the valid values. More details can also be found in the Search Node Documentation.
 	// Hardware specification for the search node instance sizes. The [MongoDB Atlas API](https://www.mongodb.com/docs/atlas/reference/api-resources-spec/#tag/Atlas-Search/operation/createAtlasSearchDeployment) describes the valid values. More details can also be found in the [Search Node Documentation](https://www.mongodb.com/docs/atlas/cluster-config/multi-cloud-distribution/#search-tier).
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
+	// (Number) Number of search nodes in the cluster.
 	// Number of search nodes in the cluster.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 }
 
 type SpecsParameters struct {
 
+	// (String) Hardware specification for the search node instance sizes. The MongoDB Atlas API describes the valid values. More details can also be found in the Search Node Documentation.
 	// Hardware specification for the search node instance sizes. The [MongoDB Atlas API](https://www.mongodb.com/docs/atlas/reference/api-resources-spec/#tag/Atlas-Search/operation/createAtlasSearchDeployment) describes the valid values. More details can also be found in the [Search Node Documentation](https://www.mongodb.com/docs/atlas/cluster-config/multi-cloud-distribution/#search-tier).
 	// +kubebuilder:validation:Optional
 	InstanceSize *string `json:"instanceSize" tf:"instance_size,omitempty"`
 
+	// (Number) Number of search nodes in the cluster.
 	// Number of search nodes in the cluster.
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount" tf:"node_count,omitempty"`
@@ -133,38 +157,47 @@ type SpecsParameters struct {
 
 type TimeoutsInitParameters struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsObservation struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsParameters struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
 	// +kubebuilder:validation:Optional
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	// +kubebuilder:validation:Optional
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
@@ -197,7 +230,7 @@ type DeploymentStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Deployment is the Schema for the Deployments API. <no value>
+// Deployment is the Schema for the Deployments API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

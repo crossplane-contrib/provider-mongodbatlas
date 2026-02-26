@@ -14,24 +14,35 @@ import (
 )
 
 type BackupScheduleInitParameters struct {
+
+	// Flag that indicates whether MongoDB Cloud automatically exports Cloud Backup Snapshots to the Export Bucket. Value can be one of the following:
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
+	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// List that contains a document for each copy setting item in the desired backup policy. See below
 	CopySettings []CopySettingsInitParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
+	// Policy for automatically exporting Cloud Backup Snapshots. See below
 	Export []ExportInitParameters `json:"export,omitempty" tf:"export,omitempty"`
 
+	// Daily policy item. See below
 	PolicyItemDaily []BackupSchedulePolicyItemDailyInitParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
+	// Hourly policy item. See below
 	PolicyItemHourly []BackupSchedulePolicyItemHourlyInitParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
+	// Monthly policy item. See below
 	PolicyItemMonthly []BackupSchedulePolicyItemMonthlyInitParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
+	// Weekly policy item. See below
 	PolicyItemWeekly []BackupSchedulePolicyItemWeeklyInitParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	// Yearly policy item. See below
 	PolicyItemYearly []BackupSchedulePolicyItemYearlyInitParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -43,86 +54,121 @@ type BackupScheduleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.
 	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
+	// UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.
 	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
+	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
+	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 
+	// Specify true to use organization and project names instead of organization and project UUIDs in the path for the metadata files that Atlas uploads to your bucket after it finishes exporting the snapshots. To learn more about the metadata files that Atlas uploads, see Export Cloud Backup Snapshot.
 	UseOrgAndGroupNamesInExportPrefix *bool `json:"useOrgAndGroupNamesInExportPrefix,omitempty" tf:"use_org_and_group_names_in_export_prefix,omitempty"`
 }
 
 type BackupScheduleObservation struct {
+
+	// Flag that indicates whether MongoDB Cloud automatically exports Cloud Backup Snapshots to the Export Bucket. Value can be one of the following:
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
+	// Unique identifier of the Atlas cluster.
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
+	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// List that contains a document for each copy setting item in the desired backup policy. See below
 	CopySettings []CopySettingsObservation `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
+	// Policy for automatically exporting Cloud Backup Snapshots. See below
 	Export []ExportObservation `json:"export,omitempty" tf:"export,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique identifier of the backup policy.
 	IDPolicy *string `json:"idPolicy,omitempty" tf:"id_policy,omitempty"`
 
+	// Timestamp in the number of seconds that have elapsed since the UNIX epoch when Atlas takes the next snapshot.
 	NextSnapshot *string `json:"nextSnapshot,omitempty" tf:"next_snapshot,omitempty"`
 
+	// Daily policy item. See below
 	PolicyItemDaily []BackupSchedulePolicyItemDailyObservation `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
+	// Hourly policy item. See below
 	PolicyItemHourly []BackupSchedulePolicyItemHourlyObservation `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
+	// Monthly policy item. See below
 	PolicyItemMonthly []BackupSchedulePolicyItemMonthlyObservation `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
+	// Weekly policy item. See below
 	PolicyItemWeekly []BackupSchedulePolicyItemWeeklyObservation `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	// Yearly policy item. See below
 	PolicyItemYearly []BackupSchedulePolicyItemYearlyObservation `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.
 	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
+	// UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.
 	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
+	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
+	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 
+	// Specify true to use organization and project names instead of organization and project UUIDs in the path for the metadata files that Atlas uploads to your bucket after it finishes exporting the snapshots. To learn more about the metadata files that Atlas uploads, see Export Cloud Backup Snapshot.
 	UseOrgAndGroupNamesInExportPrefix *bool `json:"useOrgAndGroupNamesInExportPrefix,omitempty" tf:"use_org_and_group_names_in_export_prefix,omitempty"`
 }
 
 type BackupScheduleParameters struct {
 
+	// Flag that indicates whether MongoDB Cloud automatically exports Cloud Backup Snapshots to the Export Bucket. Value can be one of the following:
 	// +kubebuilder:validation:Optional
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
+	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// List that contains a document for each copy setting item in the desired backup policy. See below
 	// +kubebuilder:validation:Optional
 	CopySettings []CopySettingsParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
+	// Policy for automatically exporting Cloud Backup Snapshots. See below
 	// +kubebuilder:validation:Optional
 	Export []ExportParameters `json:"export,omitempty" tf:"export,omitempty"`
 
+	// Daily policy item. See below
 	// +kubebuilder:validation:Optional
 	PolicyItemDaily []BackupSchedulePolicyItemDailyParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
+	// Hourly policy item. See below
 	// +kubebuilder:validation:Optional
 	PolicyItemHourly []BackupSchedulePolicyItemHourlyParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
+	// Monthly policy item. See below
 	// +kubebuilder:validation:Optional
 	PolicyItemMonthly []BackupSchedulePolicyItemMonthlyParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
+	// Weekly policy item. See below
 	// +kubebuilder:validation:Optional
 	PolicyItemWeekly []BackupSchedulePolicyItemWeeklyParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	// Yearly policy item. See below
 	// +kubebuilder:validation:Optional
 	PolicyItemYearly []BackupSchedulePolicyItemYearlyParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -135,244 +181,339 @@ type BackupScheduleParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.
 	// +kubebuilder:validation:Optional
 	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
+	// UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.
 	// +kubebuilder:validation:Optional
 	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
+	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
 	// +kubebuilder:validation:Optional
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
+	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	// +kubebuilder:validation:Optional
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 
+	// Specify true to use organization and project names instead of organization and project UUIDs in the path for the metadata files that Atlas uploads to your bucket after it finishes exporting the snapshots. To learn more about the metadata files that Atlas uploads, see Export Cloud Backup Snapshot.
 	// +kubebuilder:validation:Optional
 	UseOrgAndGroupNamesInExportPrefix *bool `json:"useOrgAndGroupNamesInExportPrefix,omitempty" tf:"use_org_and_group_names_in_export_prefix,omitempty"`
 }
 
 type BackupSchedulePolicyItemDailyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (daily in this case). The only supported value for daily policies is 1 day.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.  Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the hourly policy item specifies a retention of two days, the daily retention policy must specify two days or greater.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemDailyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (daily in this case). The only supported value for daily policies is 1 day.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For daily policies, the frequency type is defined as daily. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.  Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the hourly policy item specifies a retention of two days, the daily retention policy must specify two days or greater.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemDailyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (daily in this case). The only supported value for daily policies is 1 day.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.  Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the hourly policy item specifies a retention of two days, the daily retention policy must specify two days or greater.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemHourlyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemHourlyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as hourly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemHourlyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemMonthlyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (monthly in this case). The supported values for weekly policies are
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Monthly policy must have retention days of at least 31 days or 5 weeks or 1 month. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the weekly policy item specifies a retention of two weeks, the montly retention policy must specify two weeks or greater.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemMonthlyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (monthly in this case). The supported values for weekly policies are
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For monthly policies, the frequency type is defined as monthly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Monthly policy must have retention days of at least 31 days or 5 weeks or 1 month. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the weekly policy item specifies a retention of two weeks, the montly retention policy must specify two weeks or greater.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemMonthlyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (monthly in this case). The supported values for weekly policies are
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Monthly policy must have retention days of at least 31 days or 5 weeks or 1 month. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the weekly policy item specifies a retention of two weeks, the montly retention policy must specify two weeks or greater.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemWeeklyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (weekly in this case). The supported values for weekly policies are 1 through 7, where 1 represents Monday and 7 represents Sunday.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Weekly policy must have retention of at least 7 days or 1 week. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the daily policy item specifies a retention of two weeks, the weekly retention policy must specify two weeks or greater.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemWeeklyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (weekly in this case). The supported values for weekly policies are 1 through 7, where 1 represents Monday and 7 represents Sunday.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For weekly policies, the frequency type is defined as weekly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Weekly policy must have retention of at least 7 days or 1 week. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the daily policy item specifies a retention of two weeks, the weekly retention policy must specify two weeks or greater.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemWeeklyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (weekly in this case). The supported values for weekly policies are 1 through 7, where 1 represents Monday and 7 represents Sunday.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Weekly policy must have retention of at least 7 days or 1 week. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the daily policy item specifies a retention of two weeks, the weekly retention policy must specify two weeks or greater.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemYearlyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (yearly in this case). The supported values for yearly policies are
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Yearly policy must have retention of at least 1 year.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemYearlyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (yearly in this case). The supported values for yearly policies are
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For yearly policies, the frequency type is defined as yearly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Yearly policy must have retention of at least 1 year.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemYearlyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (yearly in this case). The supported values for yearly policies are
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit. Yearly policy must have retention of at least 1 year.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type CopySettingsInitParameters struct {
+
+	// Human-readable label that identifies the cloud provider that stores the snapshot copy. i.e. "AWS" "AZURE" "GCP"
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// List that describes which types of snapshots to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
 	// +listType=set
 	Frequencies []*string `json:"frequencies,omitempty" tf:"frequencies,omitempty"`
 
+	// Target region to copy snapshots belonging to replicationSpecId to. Please supply the 'Atlas Region' which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/ 'regions' link
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// Flag that indicates whether to copy the oplogs to the target region. You can use the oplogs to perform point-in-time restores.
 	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the zone in a cluster. For global clusters, there can be multiple zones to choose from. For sharded clusters and replica set clusters, there is only one zone in the cluster. To find appropriate value for zone_id, do a GET request to Return One Cluster from One Project and consult the replicationSpecs array Return One Cluster From One Project. Alternately, use mongodbatlas_advanced_cluster data source or resource and reference replication_specs.#.zone_id.
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 }
 
 type CopySettingsObservation struct {
+
+	// Human-readable label that identifies the cloud provider that stores the snapshot copy. i.e. "AWS" "AZURE" "GCP"
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// List that describes which types of snapshots to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
 	// +listType=set
 	Frequencies []*string `json:"frequencies,omitempty" tf:"frequencies,omitempty"`
 
+	// Target region to copy snapshots belonging to replicationSpecId to. Please supply the 'Atlas Region' which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/ 'regions' link
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// Flag that indicates whether to copy the oplogs to the target region. You can use the oplogs to perform point-in-time restores.
 	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the zone in a cluster. For global clusters, there can be multiple zones to choose from. For sharded clusters and replica set clusters, there is only one zone in the cluster. To find appropriate value for zone_id, do a GET request to Return One Cluster from One Project and consult the replicationSpecs array Return One Cluster From One Project. Alternately, use mongodbatlas_advanced_cluster data source or resource and reference replication_specs.#.zone_id.
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 }
 
 type CopySettingsParameters struct {
 
+	// Human-readable label that identifies the cloud provider that stores the snapshot copy. i.e. "AWS" "AZURE" "GCP"
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// List that describes which types of snapshots to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Frequencies []*string `json:"frequencies,omitempty" tf:"frequencies,omitempty"`
 
+	// Target region to copy snapshots belonging to replicationSpecId to. Please supply the 'Atlas Region' which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/ 'regions' link
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// Flag that indicates whether to copy the oplogs to the target region. You can use the oplogs to perform point-in-time restores.
 	// +kubebuilder:validation:Optional
 	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the zone in a cluster. For global clusters, there can be multiple zones to choose from. For sharded clusters and replica set clusters, there is only one zone in the cluster. To find appropriate value for zone_id, do a GET request to Return One Cluster from One Project and consult the replicationSpecs array Return One Cluster From One Project. Alternately, use mongodbatlas_advanced_cluster data source or resource and reference replication_specs.#.zone_id.
 	// +kubebuilder:validation:Optional
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 }
 
 type ExportInitParameters struct {
+
+	// Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket export_bucket_id value.
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Frequency associated with the export snapshot item: weekly, monthly, yearly, daily (requires reaching out to Customer Support)
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 }
 
 type ExportObservation struct {
+
+	// Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket export_bucket_id value.
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Frequency associated with the export snapshot item: weekly, monthly, yearly, daily (requires reaching out to Customer Support)
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 }
 
 type ExportParameters struct {
 
+	// Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket export_bucket_id value.
 	// +kubebuilder:validation:Optional
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Frequency associated with the export snapshot item: weekly, monthly, yearly, daily (requires reaching out to Customer Support)
 	// +kubebuilder:validation:Optional
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 }
@@ -404,7 +545,7 @@ type BackupScheduleStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BackupSchedule is the Schema for the BackupSchedules API. <no value>
+// BackupSchedule is the Schema for the BackupSchedules API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

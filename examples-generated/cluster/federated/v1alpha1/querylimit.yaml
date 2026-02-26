@@ -1,0 +1,17 @@
+apiVersion: federated.mongodbatlas.crossplane.io/v1alpha1
+kind: QueryLimit
+metadata:
+  annotations:
+    meta.upbound.io/example-id: federated/v1alpha1/querylimit
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    limitName: bytesProcessed.weekly
+    overrunPolicy: BLOCK
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    tenantName: FederatedDatabseInstance0
+    value: 5147483648

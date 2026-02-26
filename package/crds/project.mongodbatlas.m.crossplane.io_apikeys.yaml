@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: APIKey is the Schema for the APIKeys API. <no value>
+        description: APIKey is the Schema for the APIKeys API.
         properties:
           apiVersion:
             description: |-
@@ -59,13 +59,21 @@ spec:
               forProvider:
                 properties:
                   description:
+                    description: Description of this Project API key.
                     type: string
                   projectAssignment:
                     items:
                       properties:
                         projectId:
+                          description: Project ID to assign to Access Key
                           type: string
                         roleNames:
+                          description: 'List of Project roles that the Programmatic
+                            API key needs to have. Ensure you provide: at least one
+                            role and ensure all roles are valid for the Project. You
+                            must specify an array even if you are only associating
+                            a single role with the Programmatic API key. The MongoDB
+                            Documentation describes the valid roles that can be assigned.'
                           items:
                             type: string
                           type: array
@@ -87,13 +95,21 @@ spec:
                   autoscaler.
                 properties:
                   description:
+                    description: Description of this Project API key.
                     type: string
                   projectAssignment:
                     items:
                       properties:
                         projectId:
+                          description: Project ID to assign to Access Key
                           type: string
                         roleNames:
+                          description: 'List of Project roles that the Programmatic
+                            API key needs to have. Ensure you provide: at least one
+                            role and ensure all roles are valid for the Project. You
+                            must specify an array even if you are only associating
+                            a single role with the Programmatic API key. The MongoDB
+                            Documentation describes the valid roles that can be assigned.'
                           items:
                             type: string
                           type: array
@@ -174,8 +190,10 @@ spec:
               atProvider:
                 properties:
                   apiKeyId:
+                    description: Unique identifier for this Project API key.
                     type: string
                   description:
+                    description: Description of this Project API key.
                     type: string
                   id:
                     type: string
@@ -183,8 +201,15 @@ spec:
                     items:
                       properties:
                         projectId:
+                          description: Project ID to assign to Access Key
                           type: string
                         roleNames:
+                          description: 'List of Project roles that the Programmatic
+                            API key needs to have. Ensure you provide: at least one
+                            role and ensure all roles are valid for the Project. You
+                            must specify an array even if you are only associating
+                            a single role with the Programmatic API key. The MongoDB
+                            Documentation describes the valid roles that can be assigned.'
                           items:
                             type: string
                           type: array

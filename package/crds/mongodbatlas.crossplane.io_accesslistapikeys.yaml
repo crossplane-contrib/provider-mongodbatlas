@@ -35,7 +35,6 @@ spec:
     schema:
       openAPIV3Schema:
         description: AccessListAPIKey is the Schema for the AccessListAPIKeys API.
-          <no value>
         properties:
           apiVersion:
             description: |-
@@ -74,6 +73,8 @@ spec:
               forProvider:
                 properties:
                   apiKeyId:
+                    description: Unique identifier for the Organization API Key for
+                      which you want to create a new access list entry.
                     type: string
                   apiKeyIdRef:
                     description: Reference to a APIKey in mongodbatlas to populate
@@ -152,10 +153,16 @@ spec:
                         type: object
                     type: object
                   cidrBlock:
+                    description: Range of IP addresses in CIDR notation to be added
+                      to the access list. Your access list entry can include only
+                      one cidrBlock, or one ipAddress.
                     type: string
                   ipAddress:
+                    description: Single IP address to be added to the access list.
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -248,6 +255,8 @@ spec:
                   autoscaler.
                 properties:
                   apiKeyId:
+                    description: Unique identifier for the Organization API Key for
+                      which you want to create a new access list entry.
                     type: string
                   apiKeyIdRef:
                     description: Reference to a APIKey in mongodbatlas to populate
@@ -326,10 +335,16 @@ spec:
                         type: object
                     type: object
                   cidrBlock:
+                    description: Range of IP addresses in CIDR notation to be added
+                      to the access list. Your access list entry can include only
+                      one cidrBlock, or one ipAddress.
                     type: string
                   ipAddress:
+                    description: Single IP address to be added to the access list.
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -500,14 +515,22 @@ spec:
               atProvider:
                 properties:
                   apiKeyId:
+                    description: Unique identifier for the Organization API Key for
+                      which you want to create a new access list entry.
                     type: string
                   cidrBlock:
+                    description: Range of IP addresses in CIDR notation to be added
+                      to the access list. Your access list entry can include only
+                      one cidrBlock, or one ipAddress.
                     type: string
                   id:
                     type: string
                   ipAddress:
+                    description: Single IP address to be added to the access list.
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                 type: object
               conditions:

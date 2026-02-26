@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Instance is the Schema for the Instances API. <no value>
+        description: Instance is the Schema for the Instances API.
         properties:
           apiVersion:
             description: |-
@@ -73,8 +73,15 @@ spec:
               forProvider:
                 properties:
                   autoIndexing:
+                    description: (Deprecated, Optional) Flag that indicates whether
+                      the serverless instance uses Serverless Auto Indexing. This
+                      parameter defaults to true.
                     type: boolean
                   continuousBackupEnabled:
+                    description: (Deprecated, Optional) Flag that indicates whether
+                      the serverless instance uses Serverless Continuous Backup. If
+                      this parameter is false or not used, the serverless instance
+                      uses Basic Backup.
                     type: boolean
                   links:
                     items:
@@ -86,8 +93,12 @@ spec:
                       type: object
                     type: array
                   name:
+                    description: Human-readable label that identifies the serverless
+                      instance.
                     type: string
                   projectId:
+                    description: The ID of the organization or project you want to
+                      create the serverless instance within.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -166,23 +177,42 @@ spec:
                         type: object
                     type: object
                   providerSettingsBackingProviderName:
+                    description: Cloud service provider on which MongoDB Cloud provisioned
+                      the serverless instance.
                     type: string
                   providerSettingsProviderName:
+                    description: Cloud service provider that applies to the provisioned
+                      the serverless instance.
                     type: string
                   providerSettingsRegionName:
+                    description: Human-readable label that identifies the physical
+                      location of your MongoDB serverless instance. The region you
+                      choose can affect network latency for clients accessing your
+                      databases.
                     type: string
                   stateName:
+                    description: Stage of deployment of this serverless instance when
+                      the resource made its request.
                     type: string
                   tags:
+                    description: Set that contains key-value pairs between 1 to 255
+                      characters in length for tagging and categorizing the cluster.
+                      See below.
                     items:
                       properties:
                         key:
+                          description: Constant that defines the set of the tag.
                           type: string
                         value:
+                          description: Variable that belongs to the set of the tag.
                           type: string
                       type: object
                     type: array
                   terminationProtectionEnabled:
+                    description: Flag that indicates whether termination protection
+                      is enabled on the cluster. If set to true, MongoDB Cloud won't
+                      delete the cluster. If set to false, MongoDB Cloud will delete
+                      the cluster.
                     type: boolean
                 type: object
               initProvider:
@@ -199,8 +229,15 @@ spec:
                   autoscaler.
                 properties:
                   autoIndexing:
+                    description: (Deprecated, Optional) Flag that indicates whether
+                      the serverless instance uses Serverless Auto Indexing. This
+                      parameter defaults to true.
                     type: boolean
                   continuousBackupEnabled:
+                    description: (Deprecated, Optional) Flag that indicates whether
+                      the serverless instance uses Serverless Continuous Backup. If
+                      this parameter is false or not used, the serverless instance
+                      uses Basic Backup.
                     type: boolean
                   links:
                     items:
@@ -212,8 +249,12 @@ spec:
                       type: object
                     type: array
                   name:
+                    description: Human-readable label that identifies the serverless
+                      instance.
                     type: string
                   projectId:
+                    description: The ID of the organization or project you want to
+                      create the serverless instance within.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -292,23 +333,42 @@ spec:
                         type: object
                     type: object
                   providerSettingsBackingProviderName:
+                    description: Cloud service provider on which MongoDB Cloud provisioned
+                      the serverless instance.
                     type: string
                   providerSettingsProviderName:
+                    description: Cloud service provider that applies to the provisioned
+                      the serverless instance.
                     type: string
                   providerSettingsRegionName:
+                    description: Human-readable label that identifies the physical
+                      location of your MongoDB serverless instance. The region you
+                      choose can affect network latency for clients accessing your
+                      databases.
                     type: string
                   stateName:
+                    description: Stage of deployment of this serverless instance when
+                      the resource made its request.
                     type: string
                   tags:
+                    description: Set that contains key-value pairs between 1 to 255
+                      characters in length for tagging and categorizing the cluster.
+                      See below.
                     items:
                       properties:
                         key:
+                          description: Constant that defines the set of the tag.
                           type: string
                         value:
+                          description: Variable that belongs to the set of the tag.
                           type: string
                       type: object
                     type: array
                   terminationProtectionEnabled:
+                    description: Flag that indicates whether termination protection
+                      is enabled on the cluster. If set to true, MongoDB Cloud won't
+                      delete the cluster. If set to false, MongoDB Cloud will delete
+                      the cluster.
                     type: boolean
                 type: object
               managementPolicies:
@@ -422,18 +482,33 @@ spec:
               atProvider:
                 properties:
                   autoIndexing:
+                    description: (Deprecated, Optional) Flag that indicates whether
+                      the serverless instance uses Serverless Auto Indexing. This
+                      parameter defaults to true.
                     type: boolean
                   connectionStringsPrivateEndpointSrv:
+                    description: List of Serverless Private Endpoint Connections
                     items:
                       type: string
                     type: array
                   connectionStringsStandardSrv:
+                    description: Public mongodb+srv:// connection string that you
+                      can use to connect to this serverless instance.
                     type: string
                   continuousBackupEnabled:
+                    description: (Deprecated, Optional) Flag that indicates whether
+                      the serverless instance uses Serverless Continuous Backup. If
+                      this parameter is false or not used, the serverless instance
+                      uses Basic Backup.
                     type: boolean
                   createDate:
+                    description: Timestamp that indicates when MongoDB Cloud created
+                      the serverless instance. The timestamp displays in the ISO 8601
+                      date and time format in UTC.
                     type: string
                   id:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the serverless instance.
                     type: string
                   links:
                     items:
@@ -445,29 +520,54 @@ spec:
                       type: object
                     type: array
                   mongoDbVersion:
+                    description: Version of MongoDB that the serverless instance runs,
+                      in <major version>.<minor version> format.
                     type: string
                   name:
+                    description: Human-readable label that identifies the serverless
+                      instance.
                     type: string
                   projectId:
+                    description: The ID of the organization or project you want to
+                      create the serverless instance within.
                     type: string
                   providerSettingsBackingProviderName:
+                    description: Cloud service provider on which MongoDB Cloud provisioned
+                      the serverless instance.
                     type: string
                   providerSettingsProviderName:
+                    description: Cloud service provider that applies to the provisioned
+                      the serverless instance.
                     type: string
                   providerSettingsRegionName:
+                    description: Human-readable label that identifies the physical
+                      location of your MongoDB serverless instance. The region you
+                      choose can affect network latency for clients accessing your
+                      databases.
                     type: string
                   stateName:
+                    description: Stage of deployment of this serverless instance when
+                      the resource made its request.
                     type: string
                   tags:
+                    description: Set that contains key-value pairs between 1 to 255
+                      characters in length for tagging and categorizing the cluster.
+                      See below.
                     items:
                       properties:
                         key:
+                          description: Constant that defines the set of the tag.
                           type: string
                         value:
+                          description: Variable that belongs to the set of the tag.
                           type: string
                       type: object
                     type: array
                   terminationProtectionEnabled:
+                    description: Flag that indicates whether termination protection
+                      is enabled on the cluster. If set to true, MongoDB Cloud won't
+                      delete the cluster. If set to false, MongoDB Cloud will delete
+                      the cluster.
                     type: boolean
                 type: object
               conditions:

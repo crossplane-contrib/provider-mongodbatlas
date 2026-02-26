@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Project is the Schema for the Projects API. <no value>
+        description: Project is the Schema for the Projects API.
         properties:
           apiVersion:
             description: |-
@@ -73,31 +73,83 @@ spec:
               forProvider:
                 properties:
                   isCollectDatabaseSpecificsStatisticsEnabled:
+                    description: Flag that indicates whether to enable statistics
+                      in cluster metrics collection for the project. By default, this
+                      flag is set to true.
                     type: boolean
                   isDataExplorerEnabled:
+                    description: Flag that indicates whether to enable Data Explorer
+                      for the project. If enabled, you can query your database with
+                      an easy to use interface.  When Data Explorer is disabled, you
+                      cannot terminate slow operations from the Real-Time Performance
+                      Panel or create indexes from the Performance Advisor. You can
+                      still view Performance Advisor recommendations, but you must
+                      create those indexes from mongosh. By default, this flag is
+                      set to true.
                     type: boolean
                   isExtendedStorageSizesEnabled:
+                    description: Flag that indicates whether to enable extended storage
+                      sizes for the specified project. Clusters with extended storage
+                      sizes must be on AWS or GCP, and cannot span multiple regions.
+                      When extending storage size, initial syncs and cross-project
+                      snapshot restores will be slow. This setting should only be
+                      used as a measure of temporary relief; consider sharding if
+                      more storage is required.
                     type: boolean
                   isPerformanceAdvisorEnabled:
+                    description: Flag that indicates whether to enable Performance
+                      Advisor and Profiler for the project. If enabled, you can analyze
+                      database logs to recommend performance improvements. By default,
+                      this flag is set to true.
                     type: boolean
                   isRealtimePerformancePanelEnabled:
+                    description: Flag that indicates whether to enable Real Time Performance
+                      Panel for the project. If enabled, you can see real time metrics
+                      from your MongoDB database. By default, this flag is set to
+                      true.
                     type: boolean
                   isSchemaAdvisorEnabled:
+                    description: Flag that indicates whether to enable Schema Advisor
+                      for the project. If enabled, you receive customized recommendations
+                      to optimize your data model and enhance performance. Disable
+                      this setting to disable schema suggestions in the Performance
+                      Advisor and the Data Explorer. By default, this flag is set
+                      to true.
                     type: boolean
                   isSlowOperationThresholdingEnabled:
+                    description: '(Deprecated)  Flag that enables MongoDB Cloud to
+                      use its slow operation threshold for the specified project.
+                      The threshold determines which operations the Performance Advisor
+                      and Query Profiler considers slow. When enabled, MongoDB Cloud
+                      uses the average execution time for operations on your cluster
+                      to determine slow-running queries. As a result, the threshold
+                      is more pertinent to your cluster workload. The slow operation
+                      threshold is enabled by default for dedicated clusters (M10+).
+                      When disabled, MongoDB Cloud considers any operation that takes
+                      longer than 100 milliseconds to be slow. Note: To use this attribute,
+                      the requesting API Key must have the Project Owner role, if
+                      not it will show a warning and will return false. If you are
+                      not using this field, you don''t need to take any action.'
                     type: boolean
                   limits:
                     items:
                       properties:
                         name:
+                          description: The name of the project you want to create.
                           type: string
                         value:
+                          description: Amount to set the limit to. Use the Project
+                            Limit Documentation under limitName parameter to verify
+                            the override limits.
                           type: number
                       type: object
                     type: array
                   name:
+                    description: The name of the project you want to create.
                     type: string
                   orgId:
+                    description: The ID of the organization you want to create the
+                      project within.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -176,27 +228,52 @@ spec:
                         type: object
                     type: object
                   projectOwnerId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Atlas user account to be granted the Project Owner role
+                      on the specified project. If you set this parameter, it overrides
+                      the default value of the oldest Organization Owner.
                     type: string
                   regionUsageRestrictions:
+                    description: Designates that this project can be used for government
+                      regions only.  If not set the project will default to standard
+                      regions.   You cannot deploy clusters across government and
+                      standard regions in the same project. AWS is the only cloud
+                      provider for AtlasGov.  For more information see MongoDB Atlas
+                      for Government.
                     type: string
                   tags:
                     additionalProperties:
                       type: string
+                    description: Map that contains key-value pairs between 1 to 255
+                      characters in length for tagging and categorizing the project.
+                      See below.
                     type: object
                     x-kubernetes-map-type: granular
                   teams:
                     items:
                       properties:
                         roleNames:
+                          description: Each string in the array represents a project
+                            role you want to assign to the team. Every user associated
+                            with the team inherits these roles. You must specify an
+                            array even if you are only associating a single role with
+                            the team. The MongoDB Documentation describes the roles
+                            a user can have.
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         teamId:
+                          description: The unique identifier of the team you want
+                            to associate with the project. The team and project must
+                            share the same parent organization.
                           type: string
                       type: object
                     type: array
                   withDefaultAlertsSettings:
+                    description: Flag that indicates whether to create the project
+                      with default alert settings. This setting cannot be updated
+                      after project creation. By default, this flag is set to true.
                     type: boolean
                 type: object
               initProvider:
@@ -213,31 +290,83 @@ spec:
                   autoscaler.
                 properties:
                   isCollectDatabaseSpecificsStatisticsEnabled:
+                    description: Flag that indicates whether to enable statistics
+                      in cluster metrics collection for the project. By default, this
+                      flag is set to true.
                     type: boolean
                   isDataExplorerEnabled:
+                    description: Flag that indicates whether to enable Data Explorer
+                      for the project. If enabled, you can query your database with
+                      an easy to use interface.  When Data Explorer is disabled, you
+                      cannot terminate slow operations from the Real-Time Performance
+                      Panel or create indexes from the Performance Advisor. You can
+                      still view Performance Advisor recommendations, but you must
+                      create those indexes from mongosh. By default, this flag is
+                      set to true.
                     type: boolean
                   isExtendedStorageSizesEnabled:
+                    description: Flag that indicates whether to enable extended storage
+                      sizes for the specified project. Clusters with extended storage
+                      sizes must be on AWS or GCP, and cannot span multiple regions.
+                      When extending storage size, initial syncs and cross-project
+                      snapshot restores will be slow. This setting should only be
+                      used as a measure of temporary relief; consider sharding if
+                      more storage is required.
                     type: boolean
                   isPerformanceAdvisorEnabled:
+                    description: Flag that indicates whether to enable Performance
+                      Advisor and Profiler for the project. If enabled, you can analyze
+                      database logs to recommend performance improvements. By default,
+                      this flag is set to true.
                     type: boolean
                   isRealtimePerformancePanelEnabled:
+                    description: Flag that indicates whether to enable Real Time Performance
+                      Panel for the project. If enabled, you can see real time metrics
+                      from your MongoDB database. By default, this flag is set to
+                      true.
                     type: boolean
                   isSchemaAdvisorEnabled:
+                    description: Flag that indicates whether to enable Schema Advisor
+                      for the project. If enabled, you receive customized recommendations
+                      to optimize your data model and enhance performance. Disable
+                      this setting to disable schema suggestions in the Performance
+                      Advisor and the Data Explorer. By default, this flag is set
+                      to true.
                     type: boolean
                   isSlowOperationThresholdingEnabled:
+                    description: '(Deprecated)  Flag that enables MongoDB Cloud to
+                      use its slow operation threshold for the specified project.
+                      The threshold determines which operations the Performance Advisor
+                      and Query Profiler considers slow. When enabled, MongoDB Cloud
+                      uses the average execution time for operations on your cluster
+                      to determine slow-running queries. As a result, the threshold
+                      is more pertinent to your cluster workload. The slow operation
+                      threshold is enabled by default for dedicated clusters (M10+).
+                      When disabled, MongoDB Cloud considers any operation that takes
+                      longer than 100 milliseconds to be slow. Note: To use this attribute,
+                      the requesting API Key must have the Project Owner role, if
+                      not it will show a warning and will return false. If you are
+                      not using this field, you don''t need to take any action.'
                     type: boolean
                   limits:
                     items:
                       properties:
                         name:
+                          description: The name of the project you want to create.
                           type: string
                         value:
+                          description: Amount to set the limit to. Use the Project
+                            Limit Documentation under limitName parameter to verify
+                            the override limits.
                           type: number
                       type: object
                     type: array
                   name:
+                    description: The name of the project you want to create.
                     type: string
                   orgId:
+                    description: The ID of the organization you want to create the
+                      project within.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -316,27 +445,52 @@ spec:
                         type: object
                     type: object
                   projectOwnerId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Atlas user account to be granted the Project Owner role
+                      on the specified project. If you set this parameter, it overrides
+                      the default value of the oldest Organization Owner.
                     type: string
                   regionUsageRestrictions:
+                    description: Designates that this project can be used for government
+                      regions only.  If not set the project will default to standard
+                      regions.   You cannot deploy clusters across government and
+                      standard regions in the same project. AWS is the only cloud
+                      provider for AtlasGov.  For more information see MongoDB Atlas
+                      for Government.
                     type: string
                   tags:
                     additionalProperties:
                       type: string
+                    description: Map that contains key-value pairs between 1 to 255
+                      characters in length for tagging and categorizing the project.
+                      See below.
                     type: object
                     x-kubernetes-map-type: granular
                   teams:
                     items:
                       properties:
                         roleNames:
+                          description: Each string in the array represents a project
+                            role you want to assign to the team. Every user associated
+                            with the team inherits these roles. You must specify an
+                            array even if you are only associating a single role with
+                            the team. The MongoDB Documentation describes the roles
+                            a user can have.
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         teamId:
+                          description: The unique identifier of the team you want
+                            to associate with the project. The team and project must
+                            share the same parent organization.
                           type: string
                       type: object
                     type: array
                   withDefaultAlertsSettings:
+                    description: Flag that indicates whether to create the project
+                      with default alert settings. This setting cannot be updated
+                      after project creation. By default, this flag is set to true.
                     type: boolean
                 type: object
               managementPolicies:
@@ -436,12 +590,19 @@ spec:
               atProvider:
                 properties:
                   clusterCount:
+                    description: The number of Atlas clusters deployed in the project.
                     type: number
                   created:
+                    description: The ISO-8601-formatted timestamp of when Atlas created
+                      the project.
                     type: string
                   id:
+                    description: The project id.
                     type: string
                   ipAddresses:
+                    description: 'IP addresses in a project categorized by services.
+                      See IP Addresses. WARNING: This attribute is deprecated, use
+                      the mongodbatlas_project_ip_addresses data source instead.'
                     properties:
                       services:
                         properties:
@@ -449,12 +610,26 @@ spec:
                             items:
                               properties:
                                 clusterName:
+                                  description: Human-readable label that identifies
+                                    the cluster.
                                   type: string
                                 inbound:
+                                  description: List of inbound IP addresses associated
+                                    with the cluster. If your network allows outbound
+                                    HTTP requests only to specific IP addresses, you
+                                    must allow access to the following IP addresses
+                                    so that your application can connect to your Atlas
+                                    cluster.
                                   items:
                                     type: string
                                   type: array
                                 outbound:
+                                  description: List of outbound IP addresses associated
+                                    with the cluster. If your network allows inbound
+                                    HTTP requests only from specific IP addresses,
+                                    you must allow access from the following IP addresses
+                                    so that your Atlas cluster can communicate with
+                                    your webhooks and KMS.
                                   items:
                                     type: string
                                   type: array
@@ -463,18 +638,63 @@ spec:
                         type: object
                     type: object
                   isCollectDatabaseSpecificsStatisticsEnabled:
+                    description: Flag that indicates whether to enable statistics
+                      in cluster metrics collection for the project. By default, this
+                      flag is set to true.
                     type: boolean
                   isDataExplorerEnabled:
+                    description: Flag that indicates whether to enable Data Explorer
+                      for the project. If enabled, you can query your database with
+                      an easy to use interface.  When Data Explorer is disabled, you
+                      cannot terminate slow operations from the Real-Time Performance
+                      Panel or create indexes from the Performance Advisor. You can
+                      still view Performance Advisor recommendations, but you must
+                      create those indexes from mongosh. By default, this flag is
+                      set to true.
                     type: boolean
                   isExtendedStorageSizesEnabled:
+                    description: Flag that indicates whether to enable extended storage
+                      sizes for the specified project. Clusters with extended storage
+                      sizes must be on AWS or GCP, and cannot span multiple regions.
+                      When extending storage size, initial syncs and cross-project
+                      snapshot restores will be slow. This setting should only be
+                      used as a measure of temporary relief; consider sharding if
+                      more storage is required.
                     type: boolean
                   isPerformanceAdvisorEnabled:
+                    description: Flag that indicates whether to enable Performance
+                      Advisor and Profiler for the project. If enabled, you can analyze
+                      database logs to recommend performance improvements. By default,
+                      this flag is set to true.
                     type: boolean
                   isRealtimePerformancePanelEnabled:
+                    description: Flag that indicates whether to enable Real Time Performance
+                      Panel for the project. If enabled, you can see real time metrics
+                      from your MongoDB database. By default, this flag is set to
+                      true.
                     type: boolean
                   isSchemaAdvisorEnabled:
+                    description: Flag that indicates whether to enable Schema Advisor
+                      for the project. If enabled, you receive customized recommendations
+                      to optimize your data model and enhance performance. Disable
+                      this setting to disable schema suggestions in the Performance
+                      Advisor and the Data Explorer. By default, this flag is set
+                      to true.
                     type: boolean
                   isSlowOperationThresholdingEnabled:
+                    description: '(Deprecated)  Flag that enables MongoDB Cloud to
+                      use its slow operation threshold for the specified project.
+                      The threshold determines which operations the Performance Advisor
+                      and Query Profiler considers slow. When enabled, MongoDB Cloud
+                      uses the average execution time for operations on your cluster
+                      to determine slow-running queries. As a result, the threshold
+                      is more pertinent to your cluster workload. The slow operation
+                      threshold is enabled by default for dedicated clusters (M10+).
+                      When disabled, MongoDB Cloud considers any operation that takes
+                      longer than 100 milliseconds to be slow. Note: To use this attribute,
+                      the requesting API Key must have the Project Owner role, if
+                      not it will show a warning and will return false. If you are
+                      not using this field, you don''t need to take any action.'
                     type: boolean
                   limits:
                     items:
@@ -486,37 +706,69 @@ spec:
                         maximumLimit:
                           type: number
                         name:
+                          description: The name of the project you want to create.
                           type: string
                         value:
+                          description: Amount to set the limit to. Use the Project
+                            Limit Documentation under limitName parameter to verify
+                            the override limits.
                           type: number
                       type: object
                     type: array
                   name:
+                    description: The name of the project you want to create.
                     type: string
                   orgId:
+                    description: The ID of the organization you want to create the
+                      project within.
                     type: string
                   projectOwnerId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Atlas user account to be granted the Project Owner role
+                      on the specified project. If you set this parameter, it overrides
+                      the default value of the oldest Organization Owner.
                     type: string
                   regionUsageRestrictions:
+                    description: Designates that this project can be used for government
+                      regions only.  If not set the project will default to standard
+                      regions.   You cannot deploy clusters across government and
+                      standard regions in the same project. AWS is the only cloud
+                      provider for AtlasGov.  For more information see MongoDB Atlas
+                      for Government.
                     type: string
                   tags:
                     additionalProperties:
                       type: string
+                    description: Map that contains key-value pairs between 1 to 255
+                      characters in length for tagging and categorizing the project.
+                      See below.
                     type: object
                     x-kubernetes-map-type: granular
                   teams:
                     items:
                       properties:
                         roleNames:
+                          description: Each string in the array represents a project
+                            role you want to assign to the team. Every user associated
+                            with the team inherits these roles. You must specify an
+                            array even if you are only associating a single role with
+                            the team. The MongoDB Documentation describes the roles
+                            a user can have.
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         teamId:
+                          description: The unique identifier of the team you want
+                            to associate with the project. The team and project must
+                            share the same parent organization.
                           type: string
                       type: object
                     type: array
                   withDefaultAlertsSettings:
+                    description: Flag that indicates whether to create the project
+                      with default alert settings. This setting cannot be updated
+                      after project creation. By default, this flag is set to true.
                     type: boolean
                 type: object
               conditions:

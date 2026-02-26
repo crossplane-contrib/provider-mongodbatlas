@@ -19,6 +19,7 @@ type BackupSettingsInitParameters struct {
 
 type BackupSettingsObservation struct {
 
+	// (Boolean) Flag that indicates whether backups are performed for this flex cluster. Backup uses flex cluster backups.
 	// Flag that indicates whether backups are performed for this flex cluster. Backup uses [flex cluster backups](https://www.mongodb.com/docs/atlas/backup/cloud-backup/flex-cluster-backup/).
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
@@ -31,9 +32,11 @@ type ConnectionStringsInitParameters struct {
 
 type ConnectionStringsObservation struct {
 
+	// (String) Public connection string that you can use to connect to this cluster. This connection string uses the mongodb:// protocol.
 	// Public connection string that you can use to connect to this cluster. This connection string uses the mongodb:// protocol.
 	Standard *string `json:"standard,omitempty" tf:"standard,omitempty"`
 
+	// (String) Public connection string that you can use to connect to this flex cluster. This connection string uses the mongodb+srv:// protocol.
 	// Public connection string that you can use to connect to this flex cluster. This connection string uses the `mongodb+srv://` protocol.
 	StandardSrv *string `json:"standardSrv,omitempty" tf:"standard_srv,omitempty"`
 }
@@ -43,12 +46,15 @@ type ConnectionStringsParameters struct {
 
 type FlexClusterInitParameters struct {
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// readable label that identifies the instance.
 	// Human-readable label that identifies the instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// hexadecimal character string that identifies the project.
 	// Unique 24-hexadecimal character string that identifies the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -61,71 +67,94 @@ type FlexClusterInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Attributes) Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	ProviderSettings *ProviderSettingsInitParameters `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
+	// value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// (Boolean) Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// (Attributes) (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type FlexClusterObservation struct {
+
+	// (Attributes) Flex backup configuration (see below for nested schema)
 	BackupSettings *BackupSettingsObservation `json:"backupSettings,omitempty" tf:"backup_settings,omitempty"`
 
+	// (String) Flex cluster topology.
 	// Flex cluster topology.
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
+	// (Attributes) Collection of Uniform Resource Locators that point to the MongoDB database. (see below for nested schema)
 	ConnectionStrings *ConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
 
+	// (String) Date and time when MongoDB Cloud created this instance. This parameter expresses its value in ISO 8601 format in UTC.
 	// Date and time when MongoDB Cloud created this instance. This parameter expresses its value in ISO 8601 format in UTC.
 	CreateDate *string `json:"createDate,omitempty" tf:"create_date,omitempty"`
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// hexadecimal digit string that identifies the instance.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) Version of MongoDB that the instance runs.
 	// Version of MongoDB that the instance runs.
 	MongoDBVersion *string `json:"mongoDbVersion,omitempty" tf:"mongo_db_version,omitempty"`
 
+	// readable label that identifies the instance.
 	// Human-readable label that identifies the instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// hexadecimal character string that identifies the project.
 	// Unique 24-hexadecimal character string that identifies the project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (Attributes) Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	ProviderSettings *ProviderSettingsObservation `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
+	// readable label that indicates the current operating condition of this instance.
 	// Human-readable label that indicates the current operating condition of this instance.
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	// value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// (Boolean) Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// (Attributes) (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
+	// (String) Method by which the cluster maintains the MongoDB versions.
 	// Method by which the cluster maintains the MongoDB versions.
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
 type FlexClusterParameters struct {
 
+	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// readable label that identifies the instance.
 	// Human-readable label that identifies the instance.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// hexadecimal character string that identifies the project.
 	// Unique 24-hexadecimal character string that identifies the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -139,52 +168,64 @@ type FlexClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Attributes) Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	ProviderSettings *ProviderSettingsParameters `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
+	// value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// (Boolean) Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type ProviderSettingsInitParameters struct {
 
+	// (String) Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
 	// Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
+	// readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
 	// Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws), [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/), and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
 
 type ProviderSettingsObservation struct {
 
+	// (String) Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
 	// Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
+	// (Number) Storage capacity available to the flex cluster expressed in gigabytes.
 	// Storage capacity available to the flex cluster expressed in gigabytes.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// readable label that identifies the cloud service provider.
 	// Human-readable label that identifies the cloud service provider.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
 	// Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws), [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/), and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
 
 type ProviderSettingsParameters struct {
 
+	// (String) Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
 	// Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
 	// +kubebuilder:validation:Optional
 	BackingProviderName *string `json:"backingProviderName" tf:"backing_provider_name,omitempty"`
 
+	// readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
 	// Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws), [GCP](https://docs.atlas.mongodb.com/reference/google-gcp/), and [Azure](https://docs.atlas.mongodb.com/reference/microsoft-azure/).
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName" tf:"region_name,omitempty"`
@@ -192,38 +233,47 @@ type ProviderSettingsParameters struct {
 
 type TimeoutsInitParameters struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsObservation struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsParameters struct {
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
 	// +kubebuilder:validation:Optional
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	// +kubebuilder:validation:Optional
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
@@ -256,7 +306,7 @@ type FlexClusterStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// FlexCluster is the Schema for the FlexClusters API. <no value>
+// FlexCluster is the Schema for the FlexClusters API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

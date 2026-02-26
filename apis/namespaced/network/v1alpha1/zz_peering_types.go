@@ -15,20 +15,28 @@ import (
 )
 
 type PeeringInitParameters struct {
+
+	// Specifies the AWS region where the peer VPC resides. For complete lists of supported regions, see Amazon Web Services.
 	AccepterRegionName *string `json:"accepterRegionName,omitempty" tf:"accepter_region_name,omitempty"`
 
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
+	// The Atlas GCP Project ID for the GCP VPC used by your atlas cluster that is needed to set up the reciprocal connection.
 	AtlasGCPProjectID *string `json:"atlasGcpProjectId,omitempty" tf:"atlas_gcp_project_id,omitempty"`
 
+	// Name of the GCP VPC used by your atlas cluster that is needed to set up the reciprocal connection.
 	AtlasVPCName *string `json:"atlasVpcName,omitempty" tf:"atlas_vpc_name,omitempty"`
 
+	// AWS Account ID of the owner of the peer VPC.
 	AwsAccountID *string `json:"awsAccountId,omitempty" tf:"aws_account_id,omitempty"`
 
+	// Unique identifier for an Azure AD directory.
 	AzureDirectoryID *string `json:"azureDirectoryId,omitempty" tf:"azure_directory_id,omitempty"`
 
+	// Unique identifier of the Azure subscription in which the VNet resides.
 	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
 
+	// Unique identifier of the MongoDB Atlas container for the provider (GCP) or provider/region (AWS, AZURE). You can create an MongoDB Atlas container using the network_container resource or it can be obtained from the cluster returned values if a cluster has been created before the first container.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/network/v1alpha1.Container
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
@@ -40,13 +48,17 @@ type PeeringInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ContainerIDSelector *v1.NamespacedSelector `json:"containerIdSelector,omitempty" tf:"-"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// GCP project ID of the owner of the network peer.
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
+	// Name of the network peer to which Atlas connects.
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
+	// The unique ID for the MongoDB Atlas project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -58,95 +70,131 @@ type PeeringInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud provider to whom the peering connection is being made. (Possible Values AWS, AZURE, GCP).
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Name of your Azure resource group.
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
+	// AWS VPC CIDR block or subnet.
 	RouteTableCidrBlock *string `json:"routeTableCidrBlock,omitempty" tf:"route_table_cidr_block,omitempty"`
 
+	// Unique identifier of the AWS peer VPC (Note: this is not the same as the Atlas AWS VPC that is returned by the network_container resource).
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
+	// Name of your Azure VNet.
 	VnetName *string `json:"vnetName,omitempty" tf:"vnet_name,omitempty"`
 }
 
 type PeeringObservation struct {
+
+	// Specifies the AWS region where the peer VPC resides. For complete lists of supported regions, see Amazon Web Services.
 	AccepterRegionName *string `json:"accepterRegionName,omitempty" tf:"accepter_region_name,omitempty"`
 
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
+	// The Atlas GCP Project ID for the GCP VPC used by your atlas cluster that is needed to set up the reciprocal connection.
 	AtlasGCPProjectID *string `json:"atlasGcpProjectId,omitempty" tf:"atlas_gcp_project_id,omitempty"`
 
 	AtlasID *string `json:"atlasId,omitempty" tf:"atlas_id,omitempty"`
 
+	// Name of the GCP VPC used by your atlas cluster that is needed to set up the reciprocal connection.
 	AtlasVPCName *string `json:"atlasVpcName,omitempty" tf:"atlas_vpc_name,omitempty"`
 
+	// AWS Account ID of the owner of the peer VPC.
 	AwsAccountID *string `json:"awsAccountId,omitempty" tf:"aws_account_id,omitempty"`
 
+	// Unique identifier for an Azure AD directory.
 	AzureDirectoryID *string `json:"azureDirectoryId,omitempty" tf:"azure_directory_id,omitempty"`
 
+	// Unique identifier of the Azure subscription in which the VNet resides.
 	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
 
+	// Unique identifier of the Atlas network peering container.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
+	// Unique identifier of the MongoDB Atlas container for the provider (GCP) or provider/region (AWS, AZURE). You can create an MongoDB Atlas container using the network_container resource or it can be obtained from the cluster returned values if a cluster has been created before the first container.
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// When "status" : "FAILED", Atlas provides a description of the error.
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
+	// Description of the Atlas error when status is Failed, Otherwise, Atlas returns null.
 	ErrorState *string `json:"errorState,omitempty" tf:"error_state,omitempty"`
 
+	// Error state, if any. The VPC peering connection error state value can be one of the following: REJECTED, EXPIRED, INVALID_ARGUMENT.
 	ErrorStateName *string `json:"errorStateName,omitempty" tf:"error_state_name,omitempty"`
 
+	// GCP project ID of the owner of the network peer.
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Name of the network peer to which Atlas connects.
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
+	// Unique identifier of the Atlas network peer.
 	PeerID *string `json:"peerId,omitempty" tf:"peer_id,omitempty"`
 
+	// The unique ID for the MongoDB Atlas project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Cloud provider to whom the peering connection is being made. (Possible Values AWS, AZURE, GCP).
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Name of your Azure resource group.
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
+	// AWS VPC CIDR block or subnet.
 	RouteTableCidrBlock *string `json:"routeTableCidrBlock,omitempty" tf:"route_table_cidr_block,omitempty"`
 
+	// Status of the Atlas network peering connection.  Azure/GCP: ADDING_PEER, AVAILABLE, FAILED, DELETING GCP Only:  WAITING_FOR_USER.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// (AWS Only) The VPC peering connection status value can be one of the following: INITIATING, PENDING_ACCEPTANCE, FAILED, FINALIZING, AVAILABLE, TERMINATING.
 	StatusName *string `json:"statusName,omitempty" tf:"status_name,omitempty"`
 
+	// Unique identifier of the AWS peer VPC (Note: this is not the same as the Atlas AWS VPC that is returned by the network_container resource).
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
+	// Name of your Azure VNet.
 	VnetName *string `json:"vnetName,omitempty" tf:"vnet_name,omitempty"`
 }
 
 type PeeringParameters struct {
 
+	// Specifies the AWS region where the peer VPC resides. For complete lists of supported regions, see Amazon Web Services.
 	// +kubebuilder:validation:Optional
 	AccepterRegionName *string `json:"accepterRegionName,omitempty" tf:"accepter_region_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
+	// The Atlas GCP Project ID for the GCP VPC used by your atlas cluster that is needed to set up the reciprocal connection.
 	// +kubebuilder:validation:Optional
 	AtlasGCPProjectID *string `json:"atlasGcpProjectId,omitempty" tf:"atlas_gcp_project_id,omitempty"`
 
+	// Name of the GCP VPC used by your atlas cluster that is needed to set up the reciprocal connection.
 	// +kubebuilder:validation:Optional
 	AtlasVPCName *string `json:"atlasVpcName,omitempty" tf:"atlas_vpc_name,omitempty"`
 
+	// AWS Account ID of the owner of the peer VPC.
 	// +kubebuilder:validation:Optional
 	AwsAccountID *string `json:"awsAccountId,omitempty" tf:"aws_account_id,omitempty"`
 
+	// Unique identifier for an Azure AD directory.
 	// +kubebuilder:validation:Optional
 	AzureDirectoryID *string `json:"azureDirectoryId,omitempty" tf:"azure_directory_id,omitempty"`
 
+	// Unique identifier of the Azure subscription in which the VNet resides.
 	// +kubebuilder:validation:Optional
 	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
 
+	// Unique identifier of the MongoDB Atlas container for the provider (GCP) or provider/region (AWS, AZURE). You can create an MongoDB Atlas container using the network_container resource or it can be obtained from the cluster returned values if a cluster has been created before the first container.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/network/v1alpha1.Container
 	// +kubebuilder:validation:Optional
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
@@ -159,16 +207,20 @@ type PeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	ContainerIDSelector *v1.NamespacedSelector `json:"containerIdSelector,omitempty" tf:"-"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// GCP project ID of the owner of the network peer.
 	// +kubebuilder:validation:Optional
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
+	// Name of the network peer to which Atlas connects.
 	// +kubebuilder:validation:Optional
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
+	// The unique ID for the MongoDB Atlas project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -181,18 +233,23 @@ type PeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud provider to whom the peering connection is being made. (Possible Values AWS, AZURE, GCP).
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Name of your Azure resource group.
 	// +kubebuilder:validation:Optional
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
+	// AWS VPC CIDR block or subnet.
 	// +kubebuilder:validation:Optional
 	RouteTableCidrBlock *string `json:"routeTableCidrBlock,omitempty" tf:"route_table_cidr_block,omitempty"`
 
+	// Unique identifier of the AWS peer VPC (Note: this is not the same as the Atlas AWS VPC that is returned by the network_container resource).
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
+	// Name of your Azure VNet.
 	// +kubebuilder:validation:Optional
 	VnetName *string `json:"vnetName,omitempty" tf:"vnet_name,omitempty"`
 }
@@ -224,7 +281,7 @@ type PeeringStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Peering is the Schema for the Peerings API. <no value>
+// Peering is the Schema for the Peerings API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

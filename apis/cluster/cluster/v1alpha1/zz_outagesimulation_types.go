@@ -14,36 +14,50 @@ import (
 )
 
 type OutageFiltersInitParameters struct {
+
+	// The cloud provider of the region that undergoes the outage simulation. Following values are supported:
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// The Atlas name of the region to undergo an outage simulation.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
 
 type OutageFiltersObservation struct {
+
+	// The cloud provider of the region that undergoes the outage simulation. Following values are supported:
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// The Atlas name of the region to undergo an outage simulation.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// The type of cluster outage simulation. Following values are supported:
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type OutageFiltersParameters struct {
 
+	// The cloud provider of the region that undergoes the outage simulation. Following values are supported:
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
 
+	// The Atlas name of the region to undergo an outage simulation.
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName" tf:"region_name,omitempty"`
 }
 
 type OutageSimulationInitParameters struct {
+
+	// Name of the Atlas Cluster that is/will undergoing outage simulation.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// (Minimum one required) List of settings that specify the type of cluster outage simulation.
 	OutageFilters []OutageFiltersInitParameters `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
+	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -57,36 +71,48 @@ type OutageSimulationInitParameters struct {
 }
 
 type OutageSimulationObservation struct {
+
+	// Name of the Atlas Cluster that is/will undergoing outage simulation.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Minimum one required) List of settings that specify the type of cluster outage simulation.
 	OutageFilters []OutageFiltersObservation `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
+	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Unique 24-hexadecimal character string that identifies the outage simulation.
 	SimulationID *string `json:"simulationId,omitempty" tf:"simulation_id,omitempty"`
 
+	// Date and time when MongoDB Cloud started the regional outage simulation.
 	StartRequestDate *string `json:"startRequestDate,omitempty" tf:"start_request_date,omitempty"`
 
+	// Current phase of the outage simulation:
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type OutageSimulationParameters struct {
 
+	// Name of the Atlas Cluster that is/will undergoing outage simulation.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// (Minimum one required) List of settings that specify the type of cluster outage simulation.
 	// +kubebuilder:validation:Optional
 	OutageFilters []OutageFiltersParameters `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
+	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -127,7 +153,7 @@ type OutageSimulationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// OutageSimulation is the Schema for the OutageSimulations API. <no value>
+// OutageSimulation is the Schema for the OutageSimulations API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

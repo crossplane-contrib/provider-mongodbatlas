@@ -15,22 +15,28 @@ import (
 
 type LogIntegrationInitParameters struct {
 
+	// readable label that identifies the S3 bucket name for storing log files.
 	// Human-readable label that identifies the S3 bucket name for storing log files.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
 	// Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
+	// side encryption . If not provided, uses bucket default encryption settings.
 	// AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// (Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
 	// Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
+	// directories based on the log type.
 	// S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -43,63 +49,78 @@ type LogIntegrationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
 	// Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LogIntegrationObservation struct {
 
+	// readable label that identifies the S3 bucket name for storing log files.
 	// Human-readable label that identifies the S3 bucket name for storing log files.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
 	// Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// character hexadecimal digit string that identifies the log integration configuration.
 	// Unique 24-character hexadecimal digit string that identifies the log integration configuration.
 	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
+	// side encryption . If not provided, uses bucket default encryption settings.
 	// AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// (Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
 	// Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
+	// directories based on the log type.
 	// S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
 	// Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LogIntegrationParameters struct {
 
+	// readable label that identifies the S3 bucket name for storing log files.
 	// Human-readable label that identifies the S3 bucket name for storing log files.
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
 	// Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
 	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
+	// side encryption . If not provided, uses bucket default encryption settings.
 	// AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// (Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
 	// Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
+	// directories based on the log type.
 	// S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
 	// +kubebuilder:validation:Optional
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -113,6 +134,7 @@ type LogIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
 	// Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -145,7 +167,7 @@ type LogIntegrationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// LogIntegration is the Schema for the LogIntegrations API. <no value>
+// LogIntegration is the Schema for the LogIntegrations API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -35,6 +35,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
+	"github.com/go-logr/logr"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	authv1 "k8s.io/api/authorization/v1"
@@ -114,6 +115,10 @@ func main() {
 		// *very* verbose even at info level, so we only provide it a real
 		// logger when we're running in debug mode.
 		ctrl.SetLogger(zl)
+	} else {
+		// controller-runtime v0.23+ requires SetLogger to be called, otherwise
+		// background goroutines (e.g. priority queue) will warn about missing logger.
+		ctrl.SetLogger(logr.Discard())
 	}
 
 	// currently, we configure the jitter to be the 5% of the poll interval

@@ -1,0 +1,15 @@
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: UserTeamAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/userteamassignment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    orgId: ${var.org_id}
+    teamIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    userId: ${var.user_id}

@@ -35,7 +35,6 @@ spec:
     schema:
       openAPIV3Schema:
         description: OutageSimulation is the Schema for the OutageSimulations API.
-          <no value>
         properties:
           apiVersion:
             description: |-
@@ -74,27 +73,32 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: Name of the Atlas Cluster that is/will undergoing
+                      outage simulation.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   outageFilters:
+                    description: (Minimum one required) List of settings that specify
+                      the type of cluster outage simulation.
                     items:
                       properties:
                         cloudProvider:
+                          description: 'The cloud provider of the region that undergoes
+                            the outage simulation. Following values are supported:'
                           type: string
                         regionName:
+                          description: The Atlas name of the region to undergo an
+                            outage simulation.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The unique ID for the project that contains the cluster
+                      that is/will undergoing outage simulation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -187,27 +191,32 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: Name of the Atlas Cluster that is/will undergoing
+                      outage simulation.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   outageFilters:
+                    description: (Minimum one required) List of settings that specify
+                      the type of cluster outage simulation.
                     items:
                       properties:
                         cloudProvider:
+                          description: 'The cloud provider of the region that undergoes
+                            the outage simulation. Following values are supported:'
                           type: string
                         regionName:
+                          description: The Atlas name of the region to undergo an
+                            outage simulation.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The unique ID for the project that contains the cluster
+                      that is/will undergoing outage simulation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -387,37 +396,49 @@ spec:
               atProvider:
                 properties:
                   clusterName:
+                    description: Name of the Atlas Cluster that is/will undergoing
+                      outage simulation.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   id:
                     type: string
                   outageFilters:
+                    description: (Minimum one required) List of settings that specify
+                      the type of cluster outage simulation.
                     items:
                       properties:
                         cloudProvider:
+                          description: 'The cloud provider of the region that undergoes
+                            the outage simulation. Following values are supported:'
                           type: string
                         regionName:
+                          description: The Atlas name of the region to undergo an
+                            outage simulation.
                           type: string
                         type:
+                          description: 'The type of cluster outage simulation. Following
+                            values are supported:'
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The unique ID for the project that contains the cluster
+                      that is/will undergoing outage simulation.
                     type: string
                   simulationId:
+                    description: Unique 24-hexadecimal character string that identifies
+                      the outage simulation.
                     type: string
                   startRequestDate:
+                    description: Date and time when MongoDB Cloud started the regional
+                      outage simulation.
                     type: string
                   state:
+                    description: 'Current phase of the outage simulation:'
                     type: string
                 type: object
               conditions:

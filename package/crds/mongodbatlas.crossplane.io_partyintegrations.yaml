@@ -35,7 +35,6 @@ spec:
     schema:
       openAPIV3Schema:
         description: PartyIntegration is the Schema for the PartyIntegrations API.
-          <no value>
         properties:
           apiVersion:
             description: |-
@@ -74,8 +73,7 @@ spec:
               forProvider:
                 properties:
                   apiKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your API Key.
                     properties:
                       key:
                         description: The key to select.
@@ -94,10 +92,10 @@ spec:
                   channelName:
                     type: string
                   enabled:
+                    description: Whether your cluster has Prometheus enabled.
                     type: boolean
                   microsoftTeamsWebhookUrlSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Microsoft Teams incoming webhook URL.
                     properties:
                       key:
                         description: The key to select.
@@ -114,8 +112,7 @@ spec:
                     - namespace
                     type: object
                   passwordSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Prometheus password.
                     properties:
                       key:
                         description: The key to select.
@@ -132,6 +129,8 @@ spec:
                     - namespace
                     type: object
                   projectId:
+                    description: The unique ID for the project to get all Third-Party
+                      service integrations
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -210,10 +209,12 @@ spec:
                         type: object
                     type: object
                   region:
+                    description: PagerDuty region that indicates the API Uniform Resource
+                      Locator (URL) to use, either "US" or "EU". PagerDuty will use
+                      "US" by default.
                     type: string
                   routingKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: An optional field for your Routing Key.
                     properties:
                       key:
                         description: The key to select.
@@ -230,8 +231,7 @@ spec:
                     - namespace
                     type: object
                   secretSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: An optional field for your webhook secret.
                     properties:
                       key:
                         description: The key to select.
@@ -248,14 +248,22 @@ spec:
                     - namespace
                     type: object
                   sendCollectionLatencyMetrics:
+                    description: 'Toggle sending collection latency metrics that includes
+                      database names and collection names and latency metrics on reads,
+                      writes, commands, and transactions. Default: false.'
                     type: boolean
                   sendDatabaseMetrics:
+                    description: 'Toggle sending database metrics that includes database
+                      names and metrics on the number of collections, storage size,
+                      and index size. Default: false.'
                     type: boolean
                   sendUserProvidedResourceTags:
+                    description: 'Toggle sending user provided group and cluster resource
+                      tags with the datadog metrics. Default: false.'
                     type: boolean
                   serviceDiscoverySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Indicates which service discovery method is used,
+                      either file or http.
                     properties:
                       key:
                         description: The key to select.
@@ -272,8 +280,7 @@ spec:
                     - namespace
                     type: object
                   serviceKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Service Key.
                     properties:
                       key:
                         description: The key to select.
@@ -292,12 +299,13 @@ spec:
                   teamName:
                     type: string
                   type:
+                    description: Third-Party Integration Settings type
                     type: string
                   url:
+                    description: Your webhook URL.
                     type: string
                   userNameSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Prometheus username.
                     properties:
                       key:
                         description: The key to select.
@@ -328,8 +336,7 @@ spec:
                   autoscaler.
                 properties:
                   apiKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your API Key.
                     properties:
                       key:
                         description: The key to select.
@@ -348,10 +355,10 @@ spec:
                   channelName:
                     type: string
                   enabled:
+                    description: Whether your cluster has Prometheus enabled.
                     type: boolean
                   microsoftTeamsWebhookUrlSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Microsoft Teams incoming webhook URL.
                     properties:
                       key:
                         description: The key to select.
@@ -368,8 +375,7 @@ spec:
                     - namespace
                     type: object
                   passwordSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Prometheus password.
                     properties:
                       key:
                         description: The key to select.
@@ -386,6 +392,8 @@ spec:
                     - namespace
                     type: object
                   projectId:
+                    description: The unique ID for the project to get all Third-Party
+                      service integrations
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -464,10 +472,12 @@ spec:
                         type: object
                     type: object
                   region:
+                    description: PagerDuty region that indicates the API Uniform Resource
+                      Locator (URL) to use, either "US" or "EU". PagerDuty will use
+                      "US" by default.
                     type: string
                   routingKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: An optional field for your Routing Key.
                     properties:
                       key:
                         description: The key to select.
@@ -484,8 +494,7 @@ spec:
                     - namespace
                     type: object
                   secretSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: An optional field for your webhook secret.
                     properties:
                       key:
                         description: The key to select.
@@ -502,14 +511,22 @@ spec:
                     - namespace
                     type: object
                   sendCollectionLatencyMetrics:
+                    description: 'Toggle sending collection latency metrics that includes
+                      database names and collection names and latency metrics on reads,
+                      writes, commands, and transactions. Default: false.'
                     type: boolean
                   sendDatabaseMetrics:
+                    description: 'Toggle sending database metrics that includes database
+                      names and metrics on the number of collections, storage size,
+                      and index size. Default: false.'
                     type: boolean
                   sendUserProvidedResourceTags:
+                    description: 'Toggle sending user provided group and cluster resource
+                      tags with the datadog metrics. Default: false.'
                     type: boolean
                   serviceDiscoverySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Indicates which service discovery method is used,
+                      either file or http.
                     properties:
                       key:
                         description: The key to select.
@@ -526,8 +543,7 @@ spec:
                     - namespace
                     type: object
                   serviceKeySecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Service Key.
                     properties:
                       key:
                         description: The key to select.
@@ -546,12 +562,13 @@ spec:
                   teamName:
                     type: string
                   type:
+                    description: Third-Party Integration Settings type
                     type: string
                   url:
+                    description: Your webhook URL.
                     type: string
                   userNameSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: Your Prometheus username.
                     properties:
                       key:
                         description: The key to select.
@@ -667,24 +684,41 @@ spec:
                   channelName:
                     type: string
                   enabled:
+                    description: Whether your cluster has Prometheus enabled.
                     type: boolean
                   id:
+                    description: Unique identifier of the integration.
                     type: string
                   projectId:
+                    description: The unique ID for the project to get all Third-Party
+                      service integrations
                     type: string
                   region:
+                    description: PagerDuty region that indicates the API Uniform Resource
+                      Locator (URL) to use, either "US" or "EU". PagerDuty will use
+                      "US" by default.
                     type: string
                   sendCollectionLatencyMetrics:
+                    description: 'Toggle sending collection latency metrics that includes
+                      database names and collection names and latency metrics on reads,
+                      writes, commands, and transactions. Default: false.'
                     type: boolean
                   sendDatabaseMetrics:
+                    description: 'Toggle sending database metrics that includes database
+                      names and metrics on the number of collections, storage size,
+                      and index size. Default: false.'
                     type: boolean
                   sendUserProvidedResourceTags:
+                    description: 'Toggle sending user provided group and cluster resource
+                      tags with the datadog metrics. Default: false.'
                     type: boolean
                   teamName:
                     type: string
                   type:
+                    description: Third-Party Integration Settings type
                     type: string
                   url:
+                    description: Your webhook URL.
                     type: string
                 type: object
               conditions:

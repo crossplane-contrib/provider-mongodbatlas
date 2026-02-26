@@ -1,0 +1,15 @@
+apiVersion: project.mongodbatlas.crossplane.io/v1alpha1
+kind: APIKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/apikey
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    description: Description of your API key
+    projectAssignment:
+    - projectId: 64259ee860c43338194b0f8e
+      roleNames:
+      - GROUP_OWNER

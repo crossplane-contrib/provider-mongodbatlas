@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Auditing is the Schema for the Auditings API. <no value>
+        description: Auditing is the Schema for the Auditings API.
         properties:
           apiVersion:
             description: |-
@@ -73,12 +73,26 @@ spec:
               forProvider:
                 properties:
                   auditAuthorizationSuccess:
+                    description: 'Indicates whether the auditing system captures successful
+                      authentication attempts for audit filters using the "atype"
+                      : "authCheck" auditing event. For more information, see auditAuthorizationSuccess.  Warning!
+                      Enabling Audit authorization successes can severely impact cluster
+                      performance. Enable this option with caution.'
                     type: boolean
                   auditFilter:
+                    description: JSON-formatted audit filter. For complete documentation
+                      on custom auditing filters, see Configure Audit Filters.
                     type: string
                   enabled:
+                    description: Denotes whether or not the project associated with
+                      the {project_id} has database auditing enabled.  Defaults to
+                      false.
                     type: boolean
                   projectId:
+                    description: 'The unique ID for the project to configure auditing.
+                      Note: When changing this value to a different project_id it
+                      will delete the current audit settings for the original project
+                      that was assigned to.'
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -171,12 +185,26 @@ spec:
                   autoscaler.
                 properties:
                   auditAuthorizationSuccess:
+                    description: 'Indicates whether the auditing system captures successful
+                      authentication attempts for audit filters using the "atype"
+                      : "authCheck" auditing event. For more information, see auditAuthorizationSuccess.  Warning!
+                      Enabling Audit authorization successes can severely impact cluster
+                      performance. Enable this option with caution.'
                     type: boolean
                   auditFilter:
+                    description: JSON-formatted audit filter. For complete documentation
+                      on custom auditing filters, see Configure Audit Filters.
                     type: string
                   enabled:
+                    description: Denotes whether or not the project associated with
+                      the {project_id} has database auditing enabled.  Defaults to
+                      false.
                     type: boolean
                   projectId:
+                    description: 'The unique ID for the project to configure auditing.
+                      Note: When changing this value to a different project_id it
+                      will delete the current audit settings for the original project
+                      that was assigned to.'
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -347,16 +375,32 @@ spec:
               atProvider:
                 properties:
                   auditAuthorizationSuccess:
+                    description: 'Indicates whether the auditing system captures successful
+                      authentication attempts for audit filters using the "atype"
+                      : "authCheck" auditing event. For more information, see auditAuthorizationSuccess.  Warning!
+                      Enabling Audit authorization successes can severely impact cluster
+                      performance. Enable this option with caution.'
                     type: boolean
                   auditFilter:
+                    description: JSON-formatted audit filter. For complete documentation
+                      on custom auditing filters, see Configure Audit Filters.
                     type: string
                   configurationType:
+                    description: 'Denotes the configuration method for the audit filter.
+                      Possible values are:'
                     type: string
                   enabled:
+                    description: Denotes whether or not the project associated with
+                      the {project_id} has database auditing enabled.  Defaults to
+                      false.
                     type: boolean
                   id:
                     type: string
                   projectId:
+                    description: 'The unique ID for the project to configure auditing.
+                      Note: When changing this value to a different project_id it
+                      will delete the current audit settings for the original project
+                      that was assigned to.'
                     type: string
                 type: object
               conditions:

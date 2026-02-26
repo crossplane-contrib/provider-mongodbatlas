@@ -14,140 +14,198 @@ import (
 )
 
 type SettingsIdentityProviderInitParameters struct {
+
+	// List that contains the domains associated with the identity provider.
 	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
 
+	// Identifier of the intended recipient of the token used in OIDC IdP.
 	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
 
+	// Indicates whether authorization is granted based on group membership or user ID. Valid values are GROUP or USER.
 	AuthorizationType *string `json:"authorizationType,omitempty" tf:"authorization_type,omitempty"`
 
+	// Client identifier that is assigned to an application by the OIDC Identity Provider.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// The description of the identity provider.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
+	// Identifier of the claim which contains OIDC IdP Group IDs in the token.
 	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
 
 	IdpType *string `json:"idpType,omitempty" tf:"idp_type,omitempty"`
 
+	// Unique string that identifies the issuer of the IdP.
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 
+	// Human-readable label that identifies the identity provider.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The protocol of the identity provider. Either SAML or OIDC.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
+	// SAML Authentication Request Protocol HTTP method binding (POST or REDIRECT) that Federated Authentication uses to send the authentication request. Atlas supports the following binding values:
 	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
 
+	// Scopes that MongoDB applications will request from the authorization endpoint used for OIDC IdPs.
 	RequestedScopes []*string `json:"requestedScopes,omitempty" tf:"requested_scopes,omitempty"`
 
+	// Signature algorithm that Federated Authentication uses to encrypt the identity provider signature.  Valid values include SHA-1 and SHA-256.
 	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
 
+	// Flag that indicates whether the identity provider has SSO debug enabled.
 	SsoDebugEnabled *bool `json:"ssoDebugEnabled,omitempty" tf:"sso_debug_enabled,omitempty"`
 
+	// Unique string that identifies the intended audience of the SAML assertion.
 	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 
+	// String enum that indicates whether the identity provider is active or not. Accepted values are ACTIVE or INACTIVE.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// Identifier of the claim which contains the user ID in the token used for OIDC IdPs.
+	// userClaim is required for OIDC IdP with authorizationType GROUP and USER.
 	UserClaim *string `json:"userClaim,omitempty" tf:"user_claim,omitempty"`
 }
 
 type SettingsIdentityProviderObservation struct {
+
+	// List that contains the domains associated with the identity provider.
 	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
 
+	// Identifier of the intended recipient of the token used in OIDC IdP.
 	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
 
+	// Indicates whether authorization is granted based on group membership or user ID. Valid values are GROUP or USER.
 	AuthorizationType *string `json:"authorizationType,omitempty" tf:"authorization_type,omitempty"`
 
+	// Client identifier that is assigned to an application by the OIDC Identity Provider.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// The description of the identity provider.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
+	// Identifier of the claim which contains OIDC IdP Group IDs in the token.
 	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the IdP.
 	IdpID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
 
 	IdpType *string `json:"idpType,omitempty" tf:"idp_type,omitempty"`
 
+	// Unique string that identifies the issuer of the IdP.
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 
+	// Human-readable label that identifies the identity provider.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Unique 20-hexadecimal digit string that identifies the IdP.
 	OktaIdpID *string `json:"oktaIdpId,omitempty" tf:"okta_idp_id,omitempty"`
 
+	// The protocol of the identity provider. Either SAML or OIDC.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
+	// SAML Authentication Request Protocol HTTP method binding (POST or REDIRECT) that Federated Authentication uses to send the authentication request. Atlas supports the following binding values:
 	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
 
+	// Scopes that MongoDB applications will request from the authorization endpoint used for OIDC IdPs.
 	RequestedScopes []*string `json:"requestedScopes,omitempty" tf:"requested_scopes,omitempty"`
 
+	// Signature algorithm that Federated Authentication uses to encrypt the identity provider signature.  Valid values include SHA-1 and SHA-256.
 	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
 
+	// Flag that indicates whether the identity provider has SSO debug enabled.
 	SsoDebugEnabled *bool `json:"ssoDebugEnabled,omitempty" tf:"sso_debug_enabled,omitempty"`
 
+	// Unique string that identifies the intended audience of the SAML assertion.
 	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 
+	// String enum that indicates whether the identity provider is active or not. Accepted values are ACTIVE or INACTIVE.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// Identifier of the claim which contains the user ID in the token used for OIDC IdPs.
+	// userClaim is required for OIDC IdP with authorizationType GROUP and USER.
 	UserClaim *string `json:"userClaim,omitempty" tf:"user_claim,omitempty"`
 }
 
 type SettingsIdentityProviderParameters struct {
 
+	// List that contains the domains associated with the identity provider.
 	// +kubebuilder:validation:Optional
 	AssociatedDomains []*string `json:"associatedDomains,omitempty" tf:"associated_domains,omitempty"`
 
+	// Identifier of the intended recipient of the token used in OIDC IdP.
 	// +kubebuilder:validation:Optional
 	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
 
+	// Indicates whether authorization is granted based on group membership or user ID. Valid values are GROUP or USER.
 	// +kubebuilder:validation:Optional
 	AuthorizationType *string `json:"authorizationType,omitempty" tf:"authorization_type,omitempty"`
 
+	// Client identifier that is assigned to an application by the OIDC Identity Provider.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// The description of the identity provider.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	// +kubebuilder:validation:Optional
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
+	// Identifier of the claim which contains OIDC IdP Group IDs in the token.
 	// +kubebuilder:validation:Optional
 	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IdpType *string `json:"idpType,omitempty" tf:"idp_type,omitempty"`
 
+	// Unique string that identifies the issuer of the IdP.
 	// +kubebuilder:validation:Optional
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 
+	// Human-readable label that identifies the identity provider.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The protocol of the identity provider. Either SAML or OIDC.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
+	// SAML Authentication Request Protocol HTTP method binding (POST or REDIRECT) that Federated Authentication uses to send the authentication request. Atlas supports the following binding values:
 	// +kubebuilder:validation:Optional
 	RequestBinding *string `json:"requestBinding,omitempty" tf:"request_binding,omitempty"`
 
+	// Scopes that MongoDB applications will request from the authorization endpoint used for OIDC IdPs.
 	// +kubebuilder:validation:Optional
 	RequestedScopes []*string `json:"requestedScopes,omitempty" tf:"requested_scopes,omitempty"`
 
+	// Signature algorithm that Federated Authentication uses to encrypt the identity provider signature.  Valid values include SHA-1 and SHA-256.
 	// +kubebuilder:validation:Optional
 	ResponseSignatureAlgorithm *string `json:"responseSignatureAlgorithm,omitempty" tf:"response_signature_algorithm,omitempty"`
 
+	// Flag that indicates whether the identity provider has SSO debug enabled.
 	// +kubebuilder:validation:Optional
 	SsoDebugEnabled *bool `json:"ssoDebugEnabled,omitempty" tf:"sso_debug_enabled,omitempty"`
 
+	// Unique string that identifies the intended audience of the SAML assertion.
 	// +kubebuilder:validation:Optional
 	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 
+	// String enum that indicates whether the identity provider is active or not. Accepted values are ACTIVE or INACTIVE.
 	// +kubebuilder:validation:Optional
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// Identifier of the claim which contains the user ID in the token used for OIDC IdPs.
+	// userClaim is required for OIDC IdP with authorizationType GROUP and USER.
 	// +kubebuilder:validation:Optional
 	UserClaim *string `json:"userClaim,omitempty" tf:"user_claim,omitempty"`
 }
@@ -179,7 +237,7 @@ type SettingsIdentityProviderStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// SettingsIdentityProvider is the Schema for the SettingsIdentityProviders API. <no value>
+// SettingsIdentityProvider is the Schema for the SettingsIdentityProviders API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

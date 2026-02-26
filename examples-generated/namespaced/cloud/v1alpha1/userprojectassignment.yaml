@@ -1,0 +1,18 @@
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: UserProjectAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/userprojectassignment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roles:
+    - GROUP_OWNER
+    - GROUP_DATA_ACCESS_ADMIN
+    username: ${var.user_email}

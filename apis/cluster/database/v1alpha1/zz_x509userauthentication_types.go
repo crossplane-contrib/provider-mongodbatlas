@@ -17,14 +17,20 @@ type CertificatesInitParameters struct {
 }
 
 type CertificatesObservation struct {
+
+	// Timestamp in ISO 8601 date and time format in UTC when Atlas created this X.509 certificate.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
+	// Unique identifier of the Atlas project to which this certificate belongs.
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
+	// Serial number of this certificate.
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Timestamp in ISO 8601 date and time format in UTC when this certificate expires.
 	NotAfter *string `json:"notAfter,omitempty" tf:"not_after,omitempty"`
 
+	// Fully distinguished name of the database user to which this certificate belongs. To learn more, see RFC 2253.
 	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
@@ -32,10 +38,14 @@ type CertificatesParameters struct {
 }
 
 type X509UserAuthenticationInitParameters struct {
+
+	// PEM string containing one or more customer CAs for database user authentication.
 	CustomerX509CasSecretRef *v1.SecretKeySelector `json:"customerX509CasSecretRef,omitempty" tf:"-"`
 
+	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
+	// Identifier for the Atlas project associated with the X.509 configuration.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -47,29 +57,39 @@ type X509UserAuthenticationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Username of the database user to create a certificate for.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type X509UserAuthenticationObservation struct {
+
+	// Array of objects where each details one unexpired database user certificate.
 	Certificates []CertificatesObservation `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
+	// Serial number of this certificate.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
+	// Identifier for the Atlas project associated with the X.509 configuration.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Username of the database user to create a certificate for.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type X509UserAuthenticationParameters struct {
 
+	// PEM string containing one or more customer CAs for database user authentication.
 	// +kubebuilder:validation:Optional
 	CustomerX509CasSecretRef *v1.SecretKeySelector `json:"customerX509CasSecretRef,omitempty" tf:"-"`
 
+	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	// +kubebuilder:validation:Optional
 	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
+	// Identifier for the Atlas project associated with the X.509 configuration.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -82,6 +102,7 @@ type X509UserAuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Username of the database user to create a certificate for.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
@@ -113,7 +134,7 @@ type X509UserAuthenticationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// X509UserAuthentication is the Schema for the X509UserAuthentications API. <no value>
+// X509UserAuthentication is the Schema for the X509UserAuthentications API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

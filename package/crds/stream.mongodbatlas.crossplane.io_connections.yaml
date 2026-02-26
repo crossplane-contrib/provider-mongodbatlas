@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Connection is the Schema for the Connections API. <no value>
+        description: Connection is the Schema for the Connections API.
         properties:
           apiVersion:
             description: |-
@@ -73,12 +73,16 @@ spec:
               forProvider:
                 properties:
                   authentication:
+                    description: User credentials required to connect to a Kafka cluster.
+                      Includes the authentication type, as well as the parameters
+                      for that authentication mode. See authentication.
                     properties:
                       clientId:
+                        description: Public identifier for the Kafka client.
                         type: string
                       clientSecretSecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: Secret known only to the Kafka client and the
+                          authorization server.
                         properties:
                           key:
                             description: The key to select.
@@ -95,12 +99,16 @@ spec:
                         - namespace
                         type: object
                       mechanism:
+                        description: Method of authentication. Value can be PLAIN,
+                          SCRAM-256, or SCRAM-512.
                         type: string
                       method:
+                        description: SASL OAUTHBEARER authentication method. Value
+                          must be OIDC.
                         type: string
                       passwordSecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: Password of the account to connect to the Kafka
+                          cluster.
                         properties:
                           key:
                             description: The key to select.
@@ -117,57 +125,103 @@ spec:
                         - namespace
                         type: object
                       saslOauthbearerExtensions:
+                        description: Additional information to provide to the Kafka
+                          broker.
                         type: string
                       scope:
+                        description: Scope of the access request to the broker specified
+                          by the Kafka clients.
                         type: string
                       tokenEndpointUrl:
+                        description: OAUTH issuer (IdP provider) token endpoint HTTP(S)
+                          URI used to retrieve the token.
                         type: string
                       username:
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   aws:
+                    description: The configuration for AWS Lambda connection. See
+                      AWS
                     properties:
                       roleArn:
+                        description: Amazon Resource Name (ARN) that identifies the
+                          Amazon Web Services (AWS) Identity and Access Management
+                          (IAM) role that MongoDB Cloud assumes when it accesses resources
+                          in your AWS account.
                         type: string
                     type: object
                   bootstrapServers:
+                    description: Comma separated list of server addresses.
                     type: string
                   clusterName:
+                    description: Name of the cluster configured for this connection.
                     type: string
                   clusterProjectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project that contains the configured cluster. Required if
+                      the ID does not match the project containing the streams instance.
+                      You must first enable the organization setting.
                     type: string
                   config:
                     additionalProperties:
                       type: string
+                    description: A map of Kafka key-value pairs for optional configuration.
+                      This is a flat object, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
+                    description: Label that identifies the stream connection. In the
+                      case of the Sample type, this is the name of the sample source.
                     type: string
                   dbRoleToExecute:
+                    description: The name of a Built in or Custom DB Role to connect
+                      to an Atlas Cluster. See DBRoleToExecute.
                     properties:
                       role:
+                        description: The name of the role to use. Value can be  atlasAdmin,
+                          readWriteAnyDatabase, or readAnyDatabase if type is set
+                          to BUILT_IN, or the name of a user-defined role if type
+                          is set to CUSTOM.
                         type: string
                       type:
+                        description: Type of connection. Can be AWSLambda, Cluster,
+                          Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                     type: object
                   headers:
                     additionalProperties:
                       type: string
+                    description: A map of key-value pairs for optional headers.
                     type: object
                     x-kubernetes-map-type: granular
                   instanceName:
+                    description: Label that identifies the stream processing workspace.
+                      Use workspace_name instead; this attribute will be removed in
+                      a future major version.
                     type: string
                   networking:
+                    description: Networking Access Type can either be PUBLIC (default)
+                      or VPC. See networking.
                     properties:
                       access:
+                        description: Information about the networking access. See
+                          access.
                         properties:
                           connectionId:
+                            description: Id of the Private Link connection when type
+                              is PRIVATE_LINK.
                             type: string
                           type:
+                            description: Type of connection. Can be AWSLambda, Cluster,
+                              Https, Kafka, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -246,10 +300,12 @@ spec:
                         type: object
                     type: object
                   schemaRegistryAuthentication:
+                    description: Authentication configuration for Schema Registry.
+                      See Schema Registry Authentication.
                     properties:
                       passwordSecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: Password of the account to connect to the Kafka
+                          cluster.
                         properties:
                           key:
                             description: The key to select.
@@ -266,43 +322,62 @@ spec:
                         - namespace
                         type: object
                       type:
+                        description: Type of connection. Can be AWSLambda, Cluster,
+                          Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                       username:
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   schemaRegistryProvider:
+                    description: The Schema Registry provider. Must be set to CONFLUENT.
                     type: string
                   schemaRegistryUrls:
+                    description: List of Schema Registry endpoint URLs used by this
+                      connection. Each URL must use the http or https scheme and specify
+                      a valid host and optional port.
                     items:
                       type: string
                     type: array
                   security:
+                    description: Properties for the secure transport connection to
+                      Kafka. For SASL_SSL, this can include the trusted certificate
+                      to use. See security.
                     properties:
                       brokerPublicCertificate:
+                        description: A trusted, public x509 certificate for connecting
+                          to Kafka over SSL. String value of the certificate must
+                          be defined in the attribute.
                         type: string
                       protocol:
+                        description: Describes the transport type. Can be either SASL_PLAINTEXT
+                          or SASL_SSL.
                         type: string
                     type: object
                   timeouts:
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `20m`.'
+                        description: |-
+                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `20m`.'
+                        description: |-
+                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
                         type: string
                     type: object
                   type:
+                    description: Type of connection. Can be AWSLambda, Cluster, Https,
+                      Kafka, Sample, or SchemaRegistry.
                     type: string
                   url:
+                    description: URL of the HTTPs endpoint that will be used for creating
+                      a connection.
                     type: string
                   workspaceName:
+                    description: Label that identifies the stream processing workspace.
                     type: string
                 type: object
               initProvider:
@@ -319,12 +394,16 @@ spec:
                   autoscaler.
                 properties:
                   authentication:
+                    description: User credentials required to connect to a Kafka cluster.
+                      Includes the authentication type, as well as the parameters
+                      for that authentication mode. See authentication.
                     properties:
                       clientId:
+                        description: Public identifier for the Kafka client.
                         type: string
                       clientSecretSecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: Secret known only to the Kafka client and the
+                          authorization server.
                         properties:
                           key:
                             description: The key to select.
@@ -341,12 +420,16 @@ spec:
                         - namespace
                         type: object
                       mechanism:
+                        description: Method of authentication. Value can be PLAIN,
+                          SCRAM-256, or SCRAM-512.
                         type: string
                       method:
+                        description: SASL OAUTHBEARER authentication method. Value
+                          must be OIDC.
                         type: string
                       passwordSecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: Password of the account to connect to the Kafka
+                          cluster.
                         properties:
                           key:
                             description: The key to select.
@@ -363,57 +446,103 @@ spec:
                         - namespace
                         type: object
                       saslOauthbearerExtensions:
+                        description: Additional information to provide to the Kafka
+                          broker.
                         type: string
                       scope:
+                        description: Scope of the access request to the broker specified
+                          by the Kafka clients.
                         type: string
                       tokenEndpointUrl:
+                        description: OAUTH issuer (IdP provider) token endpoint HTTP(S)
+                          URI used to retrieve the token.
                         type: string
                       username:
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   aws:
+                    description: The configuration for AWS Lambda connection. See
+                      AWS
                     properties:
                       roleArn:
+                        description: Amazon Resource Name (ARN) that identifies the
+                          Amazon Web Services (AWS) Identity and Access Management
+                          (IAM) role that MongoDB Cloud assumes when it accesses resources
+                          in your AWS account.
                         type: string
                     type: object
                   bootstrapServers:
+                    description: Comma separated list of server addresses.
                     type: string
                   clusterName:
+                    description: Name of the cluster configured for this connection.
                     type: string
                   clusterProjectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project that contains the configured cluster. Required if
+                      the ID does not match the project containing the streams instance.
+                      You must first enable the organization setting.
                     type: string
                   config:
                     additionalProperties:
                       type: string
+                    description: A map of Kafka key-value pairs for optional configuration.
+                      This is a flat object, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
+                    description: Label that identifies the stream connection. In the
+                      case of the Sample type, this is the name of the sample source.
                     type: string
                   dbRoleToExecute:
+                    description: The name of a Built in or Custom DB Role to connect
+                      to an Atlas Cluster. See DBRoleToExecute.
                     properties:
                       role:
+                        description: The name of the role to use. Value can be  atlasAdmin,
+                          readWriteAnyDatabase, or readAnyDatabase if type is set
+                          to BUILT_IN, or the name of a user-defined role if type
+                          is set to CUSTOM.
                         type: string
                       type:
+                        description: Type of connection. Can be AWSLambda, Cluster,
+                          Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                     type: object
                   headers:
                     additionalProperties:
                       type: string
+                    description: A map of key-value pairs for optional headers.
                     type: object
                     x-kubernetes-map-type: granular
                   instanceName:
+                    description: Label that identifies the stream processing workspace.
+                      Use workspace_name instead; this attribute will be removed in
+                      a future major version.
                     type: string
                   networking:
+                    description: Networking Access Type can either be PUBLIC (default)
+                      or VPC. See networking.
                     properties:
                       access:
+                        description: Information about the networking access. See
+                          access.
                         properties:
                           connectionId:
+                            description: Id of the Private Link connection when type
+                              is PRIVATE_LINK.
                             type: string
                           type:
+                            description: Type of connection. Can be AWSLambda, Cluster,
+                              Https, Kafka, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -492,10 +621,12 @@ spec:
                         type: object
                     type: object
                   schemaRegistryAuthentication:
+                    description: Authentication configuration for Schema Registry.
+                      See Schema Registry Authentication.
                     properties:
                       passwordSecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: Password of the account to connect to the Kafka
+                          cluster.
                         properties:
                           key:
                             description: The key to select.
@@ -512,43 +643,62 @@ spec:
                         - namespace
                         type: object
                       type:
+                        description: Type of connection. Can be AWSLambda, Cluster,
+                          Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                       username:
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   schemaRegistryProvider:
+                    description: The Schema Registry provider. Must be set to CONFLUENT.
                     type: string
                   schemaRegistryUrls:
+                    description: List of Schema Registry endpoint URLs used by this
+                      connection. Each URL must use the http or https scheme and specify
+                      a valid host and optional port.
                     items:
                       type: string
                     type: array
                   security:
+                    description: Properties for the secure transport connection to
+                      Kafka. For SASL_SSL, this can include the trusted certificate
+                      to use. See security.
                     properties:
                       brokerPublicCertificate:
+                        description: A trusted, public x509 certificate for connecting
+                          to Kafka over SSL. String value of the certificate must
+                          be defined in the attribute.
                         type: string
                       protocol:
+                        description: Describes the transport type. Can be either SASL_PLAINTEXT
+                          or SASL_SSL.
                         type: string
                     type: object
                   timeouts:
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `20m`.'
+                        description: |-
+                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `20m`.'
+                        description: |-
+                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
                         type: string
                     type: object
                   type:
+                    description: Type of connection. Can be AWSLambda, Cluster, Https,
+                      Kafka, Sample, or SchemaRegistry.
                     type: string
                   url:
+                    description: URL of the HTTPs endpoint that will be used for creating
+                      a connection.
                     type: string
                   workspaceName:
+                    description: Label that identifies the stream processing workspace.
                     type: string
                 type: object
               managementPolicies:
@@ -652,108 +802,183 @@ spec:
               atProvider:
                 properties:
                   authentication:
+                    description: User credentials required to connect to a Kafka cluster.
+                      Includes the authentication type, as well as the parameters
+                      for that authentication mode. See authentication.
                     properties:
                       clientId:
+                        description: Public identifier for the Kafka client.
                         type: string
                       mechanism:
+                        description: Method of authentication. Value can be PLAIN,
+                          SCRAM-256, or SCRAM-512.
                         type: string
                       method:
+                        description: SASL OAUTHBEARER authentication method. Value
+                          must be OIDC.
                         type: string
                       saslOauthbearerExtensions:
+                        description: Additional information to provide to the Kafka
+                          broker.
                         type: string
                       scope:
+                        description: Scope of the access request to the broker specified
+                          by the Kafka clients.
                         type: string
                       tokenEndpointUrl:
+                        description: OAUTH issuer (IdP provider) token endpoint HTTP(S)
+                          URI used to retrieve the token.
                         type: string
                       username:
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   aws:
+                    description: The configuration for AWS Lambda connection. See
+                      AWS
                     properties:
                       roleArn:
+                        description: Amazon Resource Name (ARN) that identifies the
+                          Amazon Web Services (AWS) Identity and Access Management
+                          (IAM) role that MongoDB Cloud assumes when it accesses resources
+                          in your AWS account.
                         type: string
                     type: object
                   bootstrapServers:
+                    description: Comma separated list of server addresses.
                     type: string
                   clusterName:
+                    description: Name of the cluster configured for this connection.
                     type: string
                   clusterProjectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project that contains the configured cluster. Required if
+                      the ID does not match the project containing the streams instance.
+                      You must first enable the organization setting.
                     type: string
                   config:
                     additionalProperties:
                       type: string
+                    description: A map of Kafka key-value pairs for optional configuration.
+                      This is a flat object, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
+                    description: Label that identifies the stream connection. In the
+                      case of the Sample type, this is the name of the sample source.
                     type: string
                   dbRoleToExecute:
+                    description: The name of a Built in or Custom DB Role to connect
+                      to an Atlas Cluster. See DBRoleToExecute.
                     properties:
                       role:
+                        description: The name of the role to use. Value can be  atlasAdmin,
+                          readWriteAnyDatabase, or readAnyDatabase if type is set
+                          to BUILT_IN, or the name of a user-defined role if type
+                          is set to CUSTOM.
                         type: string
                       type:
+                        description: Type of connection. Can be AWSLambda, Cluster,
+                          Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                     type: object
                   headers:
                     additionalProperties:
                       type: string
+                    description: A map of key-value pairs for optional headers.
                     type: object
                     x-kubernetes-map-type: granular
                   id:
                     type: string
                   instanceName:
+                    description: Label that identifies the stream processing workspace.
+                      Use workspace_name instead; this attribute will be removed in
+                      a future major version.
                     type: string
                   networking:
+                    description: Networking Access Type can either be PUBLIC (default)
+                      or VPC. See networking.
                     properties:
                       access:
+                        description: Information about the networking access. See
+                          access.
                         properties:
                           connectionId:
+                            description: Id of the Private Link connection when type
+                              is PRIVATE_LINK.
                             type: string
                           type:
+                            description: Type of connection. Can be AWSLambda, Cluster,
+                              Https, Kafka, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project.
                     type: string
                   schemaRegistryAuthentication:
+                    description: Authentication configuration for Schema Registry.
+                      See Schema Registry Authentication.
                     properties:
                       type:
+                        description: Type of connection. Can be AWSLambda, Cluster,
+                          Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                       username:
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   schemaRegistryProvider:
+                    description: The Schema Registry provider. Must be set to CONFLUENT.
                     type: string
                   schemaRegistryUrls:
+                    description: List of Schema Registry endpoint URLs used by this
+                      connection. Each URL must use the http or https scheme and specify
+                      a valid host and optional port.
                     items:
                       type: string
                     type: array
                   security:
+                    description: Properties for the secure transport connection to
+                      Kafka. For SASL_SSL, this can include the trusted certificate
+                      to use. See security.
                     properties:
                       brokerPublicCertificate:
+                        description: A trusted, public x509 certificate for connecting
+                          to Kafka over SSL. String value of the certificate must
+                          be defined in the attribute.
                         type: string
                       protocol:
+                        description: Describes the transport type. Can be either SASL_PLAINTEXT
+                          or SASL_SSL.
                         type: string
                     type: object
                   timeouts:
                     properties:
                       create:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `20m`.'
+                        description: |-
+                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
                         type: string
                       update:
-                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
-                          consisting of numbers and unit suffixes, such as "30s" or
-                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
-                          and "h" (hours). Default: `20m`.'
+                        description: |-
+                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
                         type: string
                     type: object
                   type:
+                    description: Type of connection. Can be AWSLambda, Cluster, Https,
+                      Kafka, Sample, or SchemaRegistry.
                     type: string
                   url:
+                    description: URL of the HTTPs endpoint that will be used for creating
+                      a connection.
                     type: string
                   workspaceName:
+                    description: Label that identifies the stream processing workspace.
                     type: string
                 type: object
               conditions:

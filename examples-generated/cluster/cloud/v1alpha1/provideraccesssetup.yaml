@@ -1,0 +1,14 @@
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: ProviderAccessSetup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/provideraccesssetup
+  labels:
+    testing.upbound.io/example-name: test_role
+  name: test-role
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS

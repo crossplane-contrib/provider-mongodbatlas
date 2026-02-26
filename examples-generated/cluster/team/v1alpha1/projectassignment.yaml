@@ -1,0 +1,15 @@
+apiVersion: team.mongodbatlas.crossplane.io/v1alpha1
+kind: ProjectAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: team/v1alpha1/projectassignment
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    projectId: ${var.project_id}
+    roleNames:
+    - GROUP_OWNER
+    - GROUP_DATA_ACCESS_ADMIN
+    teamId: ${var.team_id}

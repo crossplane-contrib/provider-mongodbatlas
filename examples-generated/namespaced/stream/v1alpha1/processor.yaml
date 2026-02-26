@@ -1,0 +1,119 @@
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Processor
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/processor
+  labels:
+    testing.upbound.io/example-name: stream-processor-sample-example
+  name: stream-processor-sample-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    pipeline: |-
+      ${jsonencode([
+          { "$source" = { "connectionName" = resource.mongodbatlas_stream_connection.example-sample.connection_name } },
+          { "$emit" = { "connectionName" : resource.mongodbatlas_stream_connection.example-cluster.connection_name, "db" : "sample", "coll" : "solar", "timeseries" : { "timeField" : "_ts" } } }
+        ])}
+    processorName: sampleProcessorName
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    state: STARTED
+    tier: SP30
+    workspaceName: ${mongodbatlas_stream_instance.example.instance_name}
+
+---
+
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/processor
+  labels:
+    testing.upbound.io/example-name: example-cluster
+  name: example-cluster
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterName: ${var.cluster_name}
+    connectionName: ClusterConnection
+    dbRoleToExecute:
+      role: atlasAdmin
+      type: BUILT_IN
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: Cluster
+    workspaceName: InstanceName
+
+---
+
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/processor
+  labels:
+    testing.upbound.io/example-name: example-kafka
+  name: example-kafka
+  namespace: crossplane-system
+spec:
+  forProvider:
+    authentication:
+      mechanism: PLAIN
+      passwordSecretRef:
+        key: example-key
+        name: example-secret
+      username: ${var.kafka_username}
+    bootstrapServers: localhost:9092,localhost:9092
+    config:
+      auto.offset.reset: earliest
+    connectionName: KafkaPlaintextConnection
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    security:
+      protocol: SASL_PLAINTEXT
+    type: Kafka
+    workspaceName: InstanceName
+
+---
+
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/processor
+  labels:
+    testing.upbound.io/example-name: example-sample
+  name: example-sample
+  namespace: crossplane-system
+spec:
+  forProvider:
+    connectionName: sample_stream_solar
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: Sample
+    workspaceName: InstanceName
+
+---
+
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/processor
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    dataProcessRegion:
+      cloudProvider: AWS
+      region: VIRGINIA_USA
+    instanceName: InstanceName
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

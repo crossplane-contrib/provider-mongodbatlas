@@ -15,39 +15,56 @@ import (
 )
 
 type RoleAssignmentsInitParameters struct {
+
+	// Unique identifier of the project to which you want the role mapping to apply.
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// Specifies the Roles that are attached to the Role Mapping. Available role IDs can be found on the User Roles
+	// Reference.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type RoleAssignmentsObservation struct {
+
+	// Unique identifier of the project to which you want the role mapping to apply.
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// Specifies the Roles that are attached to the Role Mapping. Available role IDs can be found on the User Roles
+	// Reference.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type RoleAssignmentsParameters struct {
 
+	// Unique identifier of the project to which you want the role mapping to apply.
 	// +kubebuilder:validation:Optional
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// Specifies the Roles that are attached to the Role Mapping. Available role IDs can be found on the User Roles
+	// Reference.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
 type RoleMappingInitParameters struct {
+
+	// Unique label that identifies the identity provider group to which this role mapping applies.
 	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
@@ -59,6 +76,7 @@ type RoleMappingInitParameters struct {
 	// +kubebuilder:validation:Optional
 	FederationSettingsIDSelector *v1.NamespacedSelector `json:"federationSettingsIdSelector,omitempty" tf:"-"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -70,28 +88,37 @@ type RoleMappingInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Atlas roles and the unique identifiers of the groups and organizations associated with each role.
 	RoleAssignments []RoleAssignmentsInitParameters `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
 }
 
 type RoleMappingObservation struct {
+
+	// Unique label that identifies the identity provider group to which this role mapping applies.
 	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// Atlas roles and the unique identifiers of the groups and organizations associated with each role.
 	RoleAssignments []RoleAssignmentsObservation `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies this role mapping.
 	RoleMappingID *string `json:"roleMappingId,omitempty" tf:"role_mapping_id,omitempty"`
 }
 
 type RoleMappingParameters struct {
 
+	// Unique label that identifies the identity provider group to which this role mapping applies.
 	// +kubebuilder:validation:Optional
 	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
@@ -104,6 +131,7 @@ type RoleMappingParameters struct {
 	// +kubebuilder:validation:Optional
 	FederationSettingsIDSelector *v1.NamespacedSelector `json:"federationSettingsIdSelector,omitempty" tf:"-"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -116,6 +144,7 @@ type RoleMappingParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Atlas roles and the unique identifiers of the groups and organizations associated with each role.
 	// +kubebuilder:validation:Optional
 	RoleAssignments []RoleAssignmentsParameters `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
 }
@@ -147,7 +176,7 @@ type RoleMappingStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// RoleMapping is the Schema for the RoleMappings API. <no value>
+// RoleMapping is the Schema for the RoleMappings API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

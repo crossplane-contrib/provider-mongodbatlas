@@ -34,8 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ResourcePolicy is the Schema for the ResourcePolicys API. <no
-          value>
+        description: ResourcePolicy is the Schema for the ResourcePolicys API.
         properties:
           apiVersion:
             description: |-
@@ -60,17 +59,19 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: Description of the Atlas resource policy.
+                    description: |-
+                      (String) Description of the Atlas resource policy.
+                      Description of the Atlas resource policy.
                     type: string
                   name:
-                    description: Human-readable label that describes the Atlas resource
-                      policy.
+                    description: |-
+                      readable label that describes the Atlas resource policy.
+                      Human-readable label that describes the Atlas resource policy.
                     type: string
                   orgId:
-                    description: Unique 24-hexadecimal digit string that identifies
-                      the organization that contains your projects. Use the [/orgs](#tag/Organizations/operation/listOrganizations)
-                      endpoint to retrieve all organizations to which the authenticated
-                      user has access.
+                    description: |-
+                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -155,11 +156,14 @@ spec:
                         type: object
                     type: object
                   policies:
+                    description: (Attributes List) List of policies that make up the
+                      Atlas resource policy. (see below for nested schema)
                     items:
                       properties:
                         body:
-                          description: A string that defines the permissions for the
-                            policy. The syntax used is the Cedar Policy language.
+                          description: |-
+                            (String) A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
+                            A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
                           type: string
                       type: object
                     type: array
@@ -178,17 +182,19 @@ spec:
                   autoscaler.
                 properties:
                   description:
-                    description: Description of the Atlas resource policy.
+                    description: |-
+                      (String) Description of the Atlas resource policy.
+                      Description of the Atlas resource policy.
                     type: string
                   name:
-                    description: Human-readable label that describes the Atlas resource
-                      policy.
+                    description: |-
+                      readable label that describes the Atlas resource policy.
+                      Human-readable label that describes the Atlas resource policy.
                     type: string
                   orgId:
-                    description: Unique 24-hexadecimal digit string that identifies
-                      the organization that contains your projects. Use the [/orgs](#tag/Organizations/operation/listOrganizations)
-                      endpoint to retrieve all organizations to which the authenticated
-                      user has access.
+                    description: |-
+                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -273,11 +279,14 @@ spec:
                         type: object
                     type: object
                   policies:
+                    description: (Attributes List) List of policies that make up the
+                      Atlas resource policy. (see below for nested schema)
                     items:
                       properties:
                         body:
-                          description: A string that defines the permissions for the
-                            policy. The syntax used is the Cedar Policy language.
+                          description: |-
+                            (String) A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
+                            A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
                           type: string
                       type: object
                     type: array
@@ -355,64 +364,85 @@ spec:
               atProvider:
                 properties:
                   createdByUser:
+                    description: (Attributes) The user that last updated the Atlas
+                      resource policy. (see below for nested schema)
                     properties:
                       id:
-                        description: Unique 24-hexadecimal character string that identifies
-                          a user.
+                        description: |-
+                          hexadecimal digit string that identifies an Atlas resource policy.
+                          Unique 24-hexadecimal character string that identifies a user.
                         type: string
                       name:
-                        description: Human-readable label that describes a user.
+                        description: |-
+                          readable label that describes the Atlas resource policy.
+                          Human-readable label that describes a user.
                         type: string
                     type: object
                   createdDate:
-                    description: Date and time in UTC when the Atlas resource policy
-                      was created.
+                    description: |-
+                      (String) Date and time in UTC when the Atlas resource policy was created.
+                      Date and time in UTC when the Atlas resource policy was created.
                     type: string
                   description:
-                    description: Description of the Atlas resource policy.
+                    description: |-
+                      (String) Description of the Atlas resource policy.
+                      Description of the Atlas resource policy.
                     type: string
                   id:
+                    description: hexadecimal digit string that identifies an Atlas
+                      resource policy.
                     type: string
                   lastUpdatedByUser:
+                    description: (Attributes) The user that last updated the Atlas
+                      resource policy. (see below for nested schema)
                     properties:
                       id:
-                        description: Unique 24-hexadecimal character string that identifies
-                          a user.
+                        description: |-
+                          hexadecimal digit string that identifies an Atlas resource policy.
+                          Unique 24-hexadecimal character string that identifies a user.
                         type: string
                       name:
-                        description: Human-readable label that describes a user.
+                        description: |-
+                          readable label that describes the Atlas resource policy.
+                          Human-readable label that describes a user.
                         type: string
                     type: object
                   lastUpdatedDate:
-                    description: Date and time in UTC when the Atlas resource policy
-                      was last updated.
+                    description: |-
+                      (String) Date and time in UTC when the Atlas resource policy was last updated.
+                      Date and time in UTC when the Atlas resource policy was last updated.
                     type: string
                   name:
-                    description: Human-readable label that describes the Atlas resource
-                      policy.
+                    description: |-
+                      readable label that describes the Atlas resource policy.
+                      Human-readable label that describes the Atlas resource policy.
                     type: string
                   orgId:
-                    description: Unique 24-hexadecimal digit string that identifies
-                      the organization that contains your projects. Use the [/orgs](#tag/Organizations/operation/listOrganizations)
-                      endpoint to retrieve all organizations to which the authenticated
-                      user has access.
+                    description: |-
+                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   policies:
+                    description: (Attributes List) List of policies that make up the
+                      Atlas resource policy. (see below for nested schema)
                     items:
                       properties:
                         body:
-                          description: A string that defines the permissions for the
-                            policy. The syntax used is the Cedar Policy language.
+                          description: |-
+                            (String) A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
+                            A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
                           type: string
                         id:
-                          description: Unique 24-hexadecimal character string that
-                            identifies the policy.
+                          description: |-
+                            hexadecimal digit string that identifies an Atlas resource policy.
+                            Unique 24-hexadecimal character string that identifies the policy.
                           type: string
                       type: object
                     type: array
                   version:
-                    description: A string that identifies the version of the Atlas
-                      resource policy.
+                    description: |-
+                      (String) A string that identifies the version of the Atlas resource policy.
+                      A string that identifies the version of the Atlas resource policy.
                     type: string
                 type: object
               conditions:

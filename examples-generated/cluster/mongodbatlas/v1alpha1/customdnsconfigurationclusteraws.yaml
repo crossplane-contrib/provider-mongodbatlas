@@ -1,0 +1,14 @@
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: CustomDNSConfigurationClusterAWS
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/customdnsconfigurationclusteraws
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    enabled: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

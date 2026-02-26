@@ -14,16 +14,22 @@ import (
 )
 
 type PartyIntegrationInitParameters struct {
+
+	// Your API Key.
 	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
+	// Whether your cluster has Prometheus enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Your Microsoft Teams incoming webhook URL.
 	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
+	// Your Prometheus password.
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// The unique ID for the project to get all Third-Party service integrations
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -35,72 +41,97 @@ type PartyIntegrationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// PagerDuty region that indicates the API Uniform Resource Locator (URL) to use, either "US" or "EU". PagerDuty will use "US" by default.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// An optional field for your Routing Key.
 	RoutingKeySecretRef *v1.SecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
 
+	// An optional field for your webhook secret.
 	SecretSecretRef *v1.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
+	// Toggle sending collection latency metrics that includes database names and collection names and latency metrics on reads, writes, commands, and transactions. Default: false.
 	SendCollectionLatencyMetrics *bool `json:"sendCollectionLatencyMetrics,omitempty" tf:"send_collection_latency_metrics,omitempty"`
 
+	// Toggle sending database metrics that includes database names and metrics on the number of collections, storage size, and index size. Default: false.
 	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
 
+	// Toggle sending user provided group and cluster resource tags with the datadog metrics. Default: false.
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
+	// Indicates which service discovery method is used, either file or http.
 	ServiceDiscoverySecretRef *v1.SecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
 
+	// Your Service Key.
 	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
 
+	// Third-Party Integration Settings type
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Your webhook URL.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Your Prometheus username.
 	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
 
 type PartyIntegrationObservation struct {
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
+	// Whether your cluster has Prometheus enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Unique identifier of the integration.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unique ID for the project to get all Third-Party service integrations
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// PagerDuty region that indicates the API Uniform Resource Locator (URL) to use, either "US" or "EU". PagerDuty will use "US" by default.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Toggle sending collection latency metrics that includes database names and collection names and latency metrics on reads, writes, commands, and transactions. Default: false.
 	SendCollectionLatencyMetrics *bool `json:"sendCollectionLatencyMetrics,omitempty" tf:"send_collection_latency_metrics,omitempty"`
 
+	// Toggle sending database metrics that includes database names and metrics on the number of collections, storage size, and index size. Default: false.
 	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
 
+	// Toggle sending user provided group and cluster resource tags with the datadog metrics. Default: false.
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
 
+	// Third-Party Integration Settings type
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Your webhook URL.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 
 type PartyIntegrationParameters struct {
 
+	// Your API Key.
 	// +kubebuilder:validation:Optional
 	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
+	// Whether your cluster has Prometheus enabled.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Your Microsoft Teams incoming webhook URL.
 	// +kubebuilder:validation:Optional
 	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
+	// Your Prometheus password.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// The unique ID for the project to get all Third-Party service integrations
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -113,39 +144,50 @@ type PartyIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// PagerDuty region that indicates the API Uniform Resource Locator (URL) to use, either "US" or "EU". PagerDuty will use "US" by default.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// An optional field for your Routing Key.
 	// +kubebuilder:validation:Optional
 	RoutingKeySecretRef *v1.SecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
 
+	// An optional field for your webhook secret.
 	// +kubebuilder:validation:Optional
 	SecretSecretRef *v1.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
+	// Toggle sending collection latency metrics that includes database names and collection names and latency metrics on reads, writes, commands, and transactions. Default: false.
 	// +kubebuilder:validation:Optional
 	SendCollectionLatencyMetrics *bool `json:"sendCollectionLatencyMetrics,omitempty" tf:"send_collection_latency_metrics,omitempty"`
 
+	// Toggle sending database metrics that includes database names and metrics on the number of collections, storage size, and index size. Default: false.
 	// +kubebuilder:validation:Optional
 	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
 
+	// Toggle sending user provided group and cluster resource tags with the datadog metrics. Default: false.
 	// +kubebuilder:validation:Optional
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
+	// Indicates which service discovery method is used, either file or http.
 	// +kubebuilder:validation:Optional
 	ServiceDiscoverySecretRef *v1.SecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
 
+	// Your Service Key.
 	// +kubebuilder:validation:Optional
 	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
 
+	// Third-Party Integration Settings type
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Your webhook URL.
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Your Prometheus username.
 	// +kubebuilder:validation:Optional
 	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
@@ -177,7 +219,7 @@ type PartyIntegrationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// PartyIntegration is the Schema for the PartyIntegrations API. <no value>
+// PartyIntegration is the Schema for the PartyIntegrations API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

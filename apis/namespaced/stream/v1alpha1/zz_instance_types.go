@@ -15,31 +15,43 @@ import (
 )
 
 type DataProcessRegionInitParameters struct {
+
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type DataProcessRegionObservation struct {
+
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type DataProcessRegionParameters struct {
 
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
 
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region" tf:"region,omitempty"`
 }
 
 type InstanceInitParameters struct {
+
+	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	DataProcessRegion *DataProcessRegionInitParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// Human-readable label that identifies the stream instance.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -51,31 +63,41 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Configuration options for an Atlas Stream Processing Instance. See stream config
 	StreamConfig *StreamConfigInitParameters `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 }
 
 type InstanceObservation struct {
+
+	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	DataProcessRegion *DataProcessRegionObservation `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// List that contains the hostnames assigned to the stream instance.
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Human-readable label that identifies the stream instance.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Configuration options for an Atlas Stream Processing Instance. See stream config
 	StreamConfig *StreamConfigObservation `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 }
 
 type InstanceParameters struct {
 
+	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	// +kubebuilder:validation:Optional
 	DataProcessRegion *DataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// Human-readable label that identifies the stream instance.
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -88,6 +110,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Configuration options for an Atlas Stream Processing Instance. See stream config
 	// +kubebuilder:validation:Optional
 	StreamConfig *StreamConfigParameters `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 }
@@ -95,12 +118,14 @@ type InstanceParameters struct {
 type StreamConfigInitParameters struct {
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
+	// Selected tier for the Stream Instance. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
 
 type StreamConfigObservation struct {
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
+	// Selected tier for the Stream Instance. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
 
@@ -109,6 +134,7 @@ type StreamConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
+	// Selected tier for the Stream Instance. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
 	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
@@ -140,7 +166,7 @@ type InstanceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Instance is the Schema for the Instances API. <no value>
+// Instance is the Schema for the Instances API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

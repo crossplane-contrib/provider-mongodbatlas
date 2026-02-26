@@ -14,33 +14,46 @@ import (
 )
 
 type CustomZoneMappingsInitParameters struct {
+
+	// The ISO location code to which you want to map a zone in your Global Cluster. You can find a list of all supported location codes here.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// The name of the zone in your Global Cluster that you want to map to location.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type CustomZoneMappingsObservation struct {
+
+	// The ISO location code to which you want to map a zone in your Global Cluster. You can find a list of all supported location codes here.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// The name of the zone in your Global Cluster that you want to map to location.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type CustomZoneMappingsParameters struct {
 
+	// The ISO location code to which you want to map a zone in your Global Cluster. You can find a list of all supported location codes here.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// The name of the zone in your Global Cluster that you want to map to location.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type GlobalClusterConfigInitParameters struct {
+
+	// The name of the Global Cluster.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Each element in the list maps one ISO location code to a zone in your Global Cluster. See Custom Zone Mapping below for more details.
 	CustomZoneMappings []CustomZoneMappingsInitParameters `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`
 
+	// Add a managed namespaces to a Global Cluster. For more information about managed namespaces, see Global Clusters. See Managed Namespace below for more details.
 	ManagedNamespaces []ManagedNamespacesInitParameters `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
 
+	// The unique ID for the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -54,31 +67,41 @@ type GlobalClusterConfigInitParameters struct {
 }
 
 type GlobalClusterConfigObservation struct {
+
+	// The name of the Global Cluster.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// A map of all custom zone mappings defined for the Global Cluster to replication_specs.*.zone_id. Atlas automatically maps each location code to the closest geographical zone. Custom zone mappings allow administrators to override these automatic mappings. If your Global Cluster does not have any custom zone mappings, this document is empty.
 	// +mapType=granular
 	CustomZoneMappingZoneID map[string]*string `json:"customZoneMappingZoneId,omitempty" tf:"custom_zone_mapping_zone_id,omitempty"`
 
+	// Each element in the list maps one ISO location code to a zone in your Global Cluster. See Custom Zone Mapping below for more details.
 	CustomZoneMappings []CustomZoneMappingsObservation `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Add a managed namespaces to a Global Cluster. For more information about managed namespaces, see Global Clusters. See Managed Namespace below for more details.
 	ManagedNamespaces []ManagedNamespacesObservation `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
 
+	// The unique ID for the project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type GlobalClusterConfigParameters struct {
 
+	// The name of the Global Cluster.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Each element in the list maps one ISO location code to a zone in your Global Cluster. See Custom Zone Mapping below for more details.
 	// +kubebuilder:validation:Optional
 	CustomZoneMappings []CustomZoneMappingsParameters `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`
 
+	// Add a managed namespaces to a Global Cluster. For more information about managed namespaces, see Global Clusters. See Managed Namespace below for more details.
 	// +kubebuilder:validation:Optional
 	ManagedNamespaces []ManagedNamespacesParameters `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
 
+	// The unique ID for the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -93,43 +116,60 @@ type GlobalClusterConfigParameters struct {
 }
 
 type ManagedNamespacesInitParameters struct {
+
+	// The name of the collection associated with the managed namespace.
 	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
 
+	// The custom shard key for the collection. Global Clusters require a compound shard key consisting of a location field and a user-selected second key, the custom shard key.
 	CustomShardKey *string `json:"customShardKey,omitempty" tf:"custom_shard_key,omitempty"`
 
+	// The name of the database containing the collection.
 	DB *string `json:"db,omitempty" tf:"db,omitempty"`
 
+	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding. This is only available for Atlas clusters with MongoDB v4.4 and later.
 	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
 
+	// Specifies whether the underlying index enforces a unique constraint. If omitted, defaults to false. You cannot specify true when using hashed shard keys.
 	IsShardKeyUnique *bool `json:"isShardKeyUnique,omitempty" tf:"is_shard_key_unique,omitempty"`
 }
 
 type ManagedNamespacesObservation struct {
+
+	// The name of the collection associated with the managed namespace.
 	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
 
+	// The custom shard key for the collection. Global Clusters require a compound shard key consisting of a location field and a user-selected second key, the custom shard key.
 	CustomShardKey *string `json:"customShardKey,omitempty" tf:"custom_shard_key,omitempty"`
 
+	// The name of the database containing the collection.
 	DB *string `json:"db,omitempty" tf:"db,omitempty"`
 
+	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding. This is only available for Atlas clusters with MongoDB v4.4 and later.
 	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
 
+	// Specifies whether the underlying index enforces a unique constraint. If omitted, defaults to false. You cannot specify true when using hashed shard keys.
 	IsShardKeyUnique *bool `json:"isShardKeyUnique,omitempty" tf:"is_shard_key_unique,omitempty"`
 }
 
 type ManagedNamespacesParameters struct {
 
+	// The name of the collection associated with the managed namespace.
 	// +kubebuilder:validation:Optional
 	Collection *string `json:"collection" tf:"collection,omitempty"`
 
+	// The custom shard key for the collection. Global Clusters require a compound shard key consisting of a location field and a user-selected second key, the custom shard key.
 	// +kubebuilder:validation:Optional
 	CustomShardKey *string `json:"customShardKey" tf:"custom_shard_key,omitempty"`
 
+	// The name of the database containing the collection.
 	// +kubebuilder:validation:Optional
 	DB *string `json:"db" tf:"db,omitempty"`
 
+	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding. This is only available for Atlas clusters with MongoDB v4.4 and later.
 	// +kubebuilder:validation:Optional
 	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
 
+	// Specifies whether the underlying index enforces a unique constraint. If omitted, defaults to false. You cannot specify true when using hashed shard keys.
 	// +kubebuilder:validation:Optional
 	IsShardKeyUnique *bool `json:"isShardKeyUnique,omitempty" tf:"is_shard_key_unique,omitempty"`
 }
@@ -161,7 +201,7 @@ type GlobalClusterConfigStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// GlobalClusterConfig is the Schema for the GlobalClusterConfigs API. <no value>
+// GlobalClusterConfig is the Schema for the GlobalClusterConfigs API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

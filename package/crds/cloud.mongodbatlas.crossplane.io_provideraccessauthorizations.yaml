@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProviderAccessAuthorization is the Schema for the ProviderAccessAuthorizations
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -78,6 +78,10 @@ spec:
                     items:
                       properties:
                         iamAssumedRoleArn:
+                          description: ARN of the IAM Role that Atlas assumes when
+                            accessing resources in your AWS account. This value is
+                            required after the creation (register of the role) as
+                            part of Set Up Unified AWS Access.
                           type: string
                       type: object
                     type: array
@@ -85,14 +89,22 @@ spec:
                     items:
                       properties:
                         atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
                           type: string
                         servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal.
                           type: string
                         tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: 'The unique ID for the project. WARNING: Changing
+                      the project_id will result in destruction of the existing authorization
+                      resource and the creation of a new authorization resource.'
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -171,6 +183,10 @@ spec:
                         type: object
                     type: object
                   roleId:
+                    description: 'The unique ID of this role returned by the mongodb
+                      atlas api. WARNING: Changing the role_id will result in destruction
+                      of the existing authorization resource and the creation of a
+                      new authorization resource.'
                     type: string
                 type: object
               initProvider:
@@ -190,6 +206,10 @@ spec:
                     items:
                       properties:
                         iamAssumedRoleArn:
+                          description: ARN of the IAM Role that Atlas assumes when
+                            accessing resources in your AWS account. This value is
+                            required after the creation (register of the role) as
+                            part of Set Up Unified AWS Access.
                           type: string
                       type: object
                     type: array
@@ -197,14 +217,22 @@ spec:
                     items:
                       properties:
                         atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
                           type: string
                         servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal.
                           type: string
                         tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: 'The unique ID for the project. WARNING: Changing
+                      the project_id will result in destruction of the existing authorization
+                      resource and the creation of a new authorization resource.'
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -283,6 +311,10 @@ spec:
                         type: object
                     type: object
                   roleId:
+                    description: 'The unique ID of this role returned by the mongodb
+                      atlas api. WARNING: Changing the role_id will result in destruction
+                      of the existing authorization resource and the creation of a
+                      new authorization resource.'
                     type: string
                 type: object
               managementPolicies:
@@ -383,11 +415,16 @@ spec:
               atProvider:
                 properties:
                   authorizedDate:
+                    description: Date on which this role was authorized.
                     type: string
                   aws:
                     items:
                       properties:
                         iamAssumedRoleArn:
+                          description: ARN of the IAM Role that Atlas assumes when
+                            accessing resources in your AWS account. This value is
+                            required after the creation (register of the role) as
+                            part of Set Up Unified AWS Access.
                           type: string
                       type: object
                     type: array
@@ -395,14 +432,20 @@ spec:
                     items:
                       properties:
                         atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
                           type: string
                         servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal.
                           type: string
                         tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID.
                           type: string
                       type: object
                     type: array
                   featureUsages:
+                    description: Atlas features this AWS IAM role is linked to.
                     items:
                       properties:
                         featureId:
@@ -418,14 +461,23 @@ spec:
                     items:
                       properties:
                         serviceAccountForAtlas:
+                          description: Email address for the Google Service Account
+                            created by Atlas.
                           type: string
                       type: object
                     type: array
                   id:
                     type: string
                   projectId:
+                    description: 'The unique ID for the project. WARNING: Changing
+                      the project_id will result in destruction of the existing authorization
+                      resource and the creation of a new authorization resource.'
                     type: string
                   roleId:
+                    description: 'The unique ID of this role returned by the mongodb
+                      atlas api. WARNING: Changing the role_id will result in destruction
+                      of the existing authorization resource and the creation of a
+                      new authorization resource.'
                     type: string
                 type: object
               conditions:

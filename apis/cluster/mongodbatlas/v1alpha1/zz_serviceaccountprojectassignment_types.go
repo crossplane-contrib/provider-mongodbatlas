@@ -15,9 +15,11 @@ import (
 
 type ServiceAccountProjectAssignmentInitParameters struct {
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -30,6 +32,7 @@ type ServiceAccountProjectAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Set of String) The Project permissions for the Service Account in the specified Project.
 	// The Project permissions for the Service Account in the specified Project.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -37,14 +40,17 @@ type ServiceAccountProjectAssignmentInitParameters struct {
 
 type ServiceAccountProjectAssignmentObservation struct {
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (Set of String) The Project permissions for the Service Account in the specified Project.
 	// The Project permissions for the Service Account in the specified Project.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -52,10 +58,12 @@ type ServiceAccountProjectAssignmentObservation struct {
 
 type ServiceAccountProjectAssignmentParameters struct {
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -69,6 +77,7 @@ type ServiceAccountProjectAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Set of String) The Project permissions for the Service Account in the specified Project.
 	// The Project permissions for the Service Account in the specified Project.
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -102,7 +111,7 @@ type ServiceAccountProjectAssignmentStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ServiceAccountProjectAssignment is the Schema for the ServiceAccountProjectAssignments API. <no value>
+// ServiceAccountProjectAssignment is the Schema for the ServiceAccountProjectAssignments API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Peering is the Schema for the Peerings API. <no value>
+        description: Peering is the Schema for the Peerings API.
         properties:
           apiVersion:
             description: |-
@@ -73,20 +73,35 @@ spec:
               forProvider:
                 properties:
                   accepterRegionName:
+                    description: Specifies the AWS region where the peer VPC resides.
+                      For complete lists of supported regions, see Amazon Web Services.
                     type: string
                   atlasCidrBlock:
                     type: string
                   atlasGcpProjectId:
+                    description: The Atlas GCP Project ID for the GCP VPC used by
+                      your atlas cluster that is needed to set up the reciprocal connection.
                     type: string
                   atlasVpcName:
+                    description: Name of the GCP VPC used by your atlas cluster that
+                      is needed to set up the reciprocal connection.
                     type: string
                   awsAccountId:
+                    description: AWS Account ID of the owner of the peer VPC.
                     type: string
                   azureDirectoryId:
+                    description: Unique identifier for an Azure AD directory.
                     type: string
                   azureSubscriptionId:
+                    description: Unique identifier of the Azure subscription in which
+                      the VNet resides.
                     type: string
                   containerId:
+                    description: Unique identifier of the MongoDB Atlas container
+                      for the provider (GCP) or provider/region (AWS, AZURE). You
+                      can create an MongoDB Atlas container using the network_container
+                      resource or it can be obtained from the cluster returned values
+                      if a cluster has been created before the first container.
                     type: string
                   containerIdRef:
                     description: Reference to a Container in network to populate containerId.
@@ -163,20 +178,18 @@ spec:
                         type: object
                     type: object
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   gcpProjectId:
+                    description: GCP project ID of the owner of the network peer.
                     type: string
                   networkName:
+                    description: Name of the network peer to which Atlas connects.
                     type: string
                   projectId:
+                    description: The unique ID for the MongoDB Atlas project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -255,14 +268,22 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Cloud provider to whom the peering connection is
+                      being made. (Possible Values AWS, AZURE, GCP).
                     type: string
                   resourceGroupName:
+                    description: Name of your Azure resource group.
                     type: string
                   routeTableCidrBlock:
+                    description: AWS VPC CIDR block or subnet.
                     type: string
                   vnetName:
+                    description: Name of your Azure VNet.
                     type: string
                   vpcId:
+                    description: 'Unique identifier of the AWS peer VPC (Note: this
+                      is not the same as the Atlas AWS VPC that is returned by the
+                      network_container resource).'
                     type: string
                 type: object
               initProvider:
@@ -279,20 +300,35 @@ spec:
                   autoscaler.
                 properties:
                   accepterRegionName:
+                    description: Specifies the AWS region where the peer VPC resides.
+                      For complete lists of supported regions, see Amazon Web Services.
                     type: string
                   atlasCidrBlock:
                     type: string
                   atlasGcpProjectId:
+                    description: The Atlas GCP Project ID for the GCP VPC used by
+                      your atlas cluster that is needed to set up the reciprocal connection.
                     type: string
                   atlasVpcName:
+                    description: Name of the GCP VPC used by your atlas cluster that
+                      is needed to set up the reciprocal connection.
                     type: string
                   awsAccountId:
+                    description: AWS Account ID of the owner of the peer VPC.
                     type: string
                   azureDirectoryId:
+                    description: Unique identifier for an Azure AD directory.
                     type: string
                   azureSubscriptionId:
+                    description: Unique identifier of the Azure subscription in which
+                      the VNet resides.
                     type: string
                   containerId:
+                    description: Unique identifier of the MongoDB Atlas container
+                      for the provider (GCP) or provider/region (AWS, AZURE). You
+                      can create an MongoDB Atlas container using the network_container
+                      resource or it can be obtained from the cluster returned values
+                      if a cluster has been created before the first container.
                     type: string
                   containerIdRef:
                     description: Reference to a Container in network to populate containerId.
@@ -369,20 +405,18 @@ spec:
                         type: object
                     type: object
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   gcpProjectId:
+                    description: GCP project ID of the owner of the network peer.
                     type: string
                   networkName:
+                    description: Name of the network peer to which Atlas connects.
                     type: string
                   projectId:
+                    description: The unique ID for the MongoDB Atlas project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -461,14 +495,22 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Cloud provider to whom the peering connection is
+                      being made. (Possible Values AWS, AZURE, GCP).
                     type: string
                   resourceGroupName:
+                    description: Name of your Azure resource group.
                     type: string
                   routeTableCidrBlock:
+                    description: AWS VPC CIDR block or subnet.
                     type: string
                   vnetName:
+                    description: Name of your Azure VNet.
                     type: string
                   vpcId:
+                    description: 'Unique identifier of the AWS peer VPC (Note: this
+                      is not the same as the Atlas AWS VPC that is returned by the
+                      network_container resource).'
                     type: string
                 type: object
               managementPolicies:
@@ -568,64 +610,99 @@ spec:
               atProvider:
                 properties:
                   accepterRegionName:
+                    description: Specifies the AWS region where the peer VPC resides.
+                      For complete lists of supported regions, see Amazon Web Services.
                     type: string
                   atlasCidrBlock:
                     type: string
                   atlasGcpProjectId:
+                    description: The Atlas GCP Project ID for the GCP VPC used by
+                      your atlas cluster that is needed to set up the reciprocal connection.
                     type: string
                   atlasId:
                     type: string
                   atlasVpcName:
+                    description: Name of the GCP VPC used by your atlas cluster that
+                      is needed to set up the reciprocal connection.
                     type: string
                   awsAccountId:
+                    description: AWS Account ID of the owner of the peer VPC.
                     type: string
                   azureDirectoryId:
+                    description: Unique identifier for an Azure AD directory.
                     type: string
                   azureSubscriptionId:
+                    description: Unique identifier of the Azure subscription in which
+                      the VNet resides.
                     type: string
                   connectionId:
+                    description: Unique identifier of the Atlas network peering container.
                     type: string
                   containerId:
+                    description: Unique identifier of the MongoDB Atlas container
+                      for the provider (GCP) or provider/region (AWS, AZURE). You
+                      can create an MongoDB Atlas container using the network_container
+                      resource or it can be obtained from the cluster returned values
+                      if a cluster has been created before the first container.
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   errorMessage:
+                    description: 'When "status" : "FAILED", Atlas provides a description
+                      of the error.'
                     type: string
                   errorState:
+                    description: Description of the Atlas error when status is Failed,
+                      Otherwise, Atlas returns null.
                     type: string
                   errorStateName:
+                    description: 'Error state, if any. The VPC peering connection
+                      error state value can be one of the following: REJECTED, EXPIRED,
+                      INVALID_ARGUMENT.'
                     type: string
                   gcpProjectId:
+                    description: GCP project ID of the owner of the network peer.
                     type: string
                   id:
                     type: string
                   networkName:
+                    description: Name of the network peer to which Atlas connects.
                     type: string
                   peerId:
+                    description: Unique identifier of the Atlas network peer.
                     type: string
                   projectId:
+                    description: The unique ID for the MongoDB Atlas project.
                     type: string
                   providerName:
+                    description: Cloud provider to whom the peering connection is
+                      being made. (Possible Values AWS, AZURE, GCP).
                     type: string
                   resourceGroupName:
+                    description: Name of your Azure resource group.
                     type: string
                   routeTableCidrBlock:
+                    description: AWS VPC CIDR block or subnet.
                     type: string
                   status:
+                    description: 'Status of the Atlas network peering connection.  Azure/GCP:
+                      ADDING_PEER, AVAILABLE, FAILED, DELETING GCP Only:  WAITING_FOR_USER.'
                     type: string
                   statusName:
+                    description: '(AWS Only) The VPC peering connection status value
+                      can be one of the following: INITIATING, PENDING_ACCEPTANCE,
+                      FAILED, FINALIZING, AVAILABLE, TERMINATING.'
                     type: string
                   vnetName:
+                    description: Name of your Azure VNet.
                     type: string
                   vpcId:
+                    description: 'Unique identifier of the AWS peer VPC (Note: this
+                      is not the same as the Atlas AWS VPC that is returned by the
+                      network_container resource).'
                     type: string
                 type: object
               conditions:

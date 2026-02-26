@@ -15,12 +15,17 @@ import (
 )
 
 type AuditingInitParameters struct {
+
+	// Indicates whether the auditing system captures successful authentication attempts for audit filters using the "atype" : "authCheck" auditing event. For more information, see auditAuthorizationSuccess.  Warning! Enabling Audit authorization successes can severely impact cluster performance. Enable this option with caution.
 	AuditAuthorizationSuccess *bool `json:"auditAuthorizationSuccess,omitempty" tf:"audit_authorization_success,omitempty"`
 
+	// JSON-formatted audit filter. For complete documentation on custom auditing filters, see Configure Audit Filters.
 	AuditFilter *string `json:"auditFilter,omitempty" tf:"audit_filter,omitempty"`
 
+	// Denotes whether or not the project associated with the {project_id} has database auditing enabled.  Defaults to false.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// The unique ID for the project to configure auditing. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -34,30 +39,40 @@ type AuditingInitParameters struct {
 }
 
 type AuditingObservation struct {
+
+	// Indicates whether the auditing system captures successful authentication attempts for audit filters using the "atype" : "authCheck" auditing event. For more information, see auditAuthorizationSuccess.  Warning! Enabling Audit authorization successes can severely impact cluster performance. Enable this option with caution.
 	AuditAuthorizationSuccess *bool `json:"auditAuthorizationSuccess,omitempty" tf:"audit_authorization_success,omitempty"`
 
+	// JSON-formatted audit filter. For complete documentation on custom auditing filters, see Configure Audit Filters.
 	AuditFilter *string `json:"auditFilter,omitempty" tf:"audit_filter,omitempty"`
 
+	// Denotes the configuration method for the audit filter. Possible values are:
 	ConfigurationType *string `json:"configurationType,omitempty" tf:"configuration_type,omitempty"`
 
+	// Denotes whether or not the project associated with the {project_id} has database auditing enabled.  Defaults to false.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unique ID for the project to configure auditing. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type AuditingParameters struct {
 
+	// Indicates whether the auditing system captures successful authentication attempts for audit filters using the "atype" : "authCheck" auditing event. For more information, see auditAuthorizationSuccess.  Warning! Enabling Audit authorization successes can severely impact cluster performance. Enable this option with caution.
 	// +kubebuilder:validation:Optional
 	AuditAuthorizationSuccess *bool `json:"auditAuthorizationSuccess,omitempty" tf:"audit_authorization_success,omitempty"`
 
+	// JSON-formatted audit filter. For complete documentation on custom auditing filters, see Configure Audit Filters.
 	// +kubebuilder:validation:Optional
 	AuditFilter *string `json:"auditFilter,omitempty" tf:"audit_filter,omitempty"`
 
+	// Denotes whether or not the project associated with the {project_id} has database auditing enabled.  Defaults to false.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// The unique ID for the project to configure auditing. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -98,7 +113,7 @@ type AuditingStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Auditing is the Schema for the Auditings API. <no value>
+// Auditing is the Schema for the Auditings API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

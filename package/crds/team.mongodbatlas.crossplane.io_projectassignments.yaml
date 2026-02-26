@@ -35,7 +35,6 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProjectAssignment is the Schema for the ProjectAssignments API.
-          <no value>
         properties:
           apiVersion:
             description: |-
@@ -75,19 +74,23 @@ spec:
                 properties:
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
                     type: string
                   roleNames:
-                    description: One or more project-level roles assigned to the team.
+                    description: |-
+                      level roles assigned to the team.
+                      One or more project-level roles assigned to the team.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamId:
-                    description: Unique 24-hexadecimal character string that identifies
-                      the team.
+                    description: |-
+                      hexadecimal character string that identifies the team.
+                      Unique 24-hexadecimal character string that identifies the team.
                     type: string
                 type: object
               initProvider:
@@ -105,19 +108,23 @@ spec:
                 properties:
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
                     type: string
                   roleNames:
-                    description: One or more project-level roles assigned to the team.
+                    description: |-
+                      level roles assigned to the team.
+                      One or more project-level roles assigned to the team.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamId:
-                    description: Unique 24-hexadecimal character string that identifies
-                      the team.
+                    description: |-
+                      hexadecimal character string that identifies the team.
+                      Unique 24-hexadecimal character string that identifies the team.
                     type: string
                 type: object
               managementPolicies:
@@ -228,19 +235,23 @@ spec:
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listprojects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
                     type: string
                   roleNames:
-                    description: One or more project-level roles assigned to the team.
+                    description: |-
+                      level roles assigned to the team.
+                      One or more project-level roles assigned to the team.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamId:
-                    description: Unique 24-hexadecimal character string that identifies
-                      the team.
+                    description: |-
+                      hexadecimal character string that identifies the team.
+                      Unique 24-hexadecimal character string that identifies the team.
                     type: string
                 type: object
               conditions:

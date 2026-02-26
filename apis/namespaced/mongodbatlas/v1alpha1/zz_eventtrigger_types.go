@@ -15,22 +15,30 @@ import (
 )
 
 type AwsEventbridgeInitParameters struct {
+
+	// AWS Account ID.
 	ConfigAccountID *string `json:"configAccountId,omitempty" tf:"config_account_id,omitempty"`
 
+	// Region of AWS Account.
 	ConfigRegion *string `json:"configRegion,omitempty" tf:"config_region,omitempty"`
 }
 
 type AwsEventbridgeObservation struct {
+
+	// AWS Account ID.
 	ConfigAccountID *string `json:"configAccountId,omitempty" tf:"config_account_id,omitempty"`
 
+	// Region of AWS Account.
 	ConfigRegion *string `json:"configRegion,omitempty" tf:"config_region,omitempty"`
 }
 
 type AwsEventbridgeParameters struct {
 
+	// AWS Account ID.
 	// +kubebuilder:validation:Optional
 	ConfigAccountID *string `json:"configAccountId,omitempty" tf:"config_account_id,omitempty"`
 
+	// Region of AWS Account.
 	// +kubebuilder:validation:Optional
 	ConfigRegion *string `json:"configRegion,omitempty" tf:"config_region,omitempty"`
 }
@@ -50,38 +58,55 @@ type EventProcessorsParameters struct {
 }
 
 type EventTriggerInitParameters struct {
+
+	// The ObjectID of your application.
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// Optional for DATABASE type. The name of the MongoDB collection that the trigger watches for change events. The collection must be part of the specified database.
 	ConfigCollection *string `json:"configCollection,omitempty" tf:"config_collection,omitempty"`
 
+	// Required for DATABASE type. The name of the MongoDB database to watch.
 	ConfigDatabase *string `json:"configDatabase,omitempty" tf:"config_database,omitempty"`
 
+	// Optional for DATABASE type. If true, indicates that UPDATE change events should include the most current majority-committed version of the modified document in the fullDocument field.
 	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
 
 	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
 
+	// Optional for DATABASE type. A $match expression document that MongoDB Realm includes in the underlying change stream pipeline for the trigger. This is useful when you want to filter change events beyond their operation type. The trigger will only fire if the expression evaluates to true for a given change event.
 	ConfigMatch *string `json:"configMatch,omitempty" tf:"config_match,omitempty"`
 
+	// Required for AUTHENTICATION type. The authentication operation type to listen for. Possible Values: LOGIN, CREATE, DELETE
 	ConfigOperationType *string `json:"configOperationType,omitempty" tf:"config_operation_type,omitempty"`
 
+	// Required for DATABASE type. The database event operation types to listen for. This must contain at least one value. Possible Values: INSERT, UPDATE, REPLACE, DELETE
 	ConfigOperationTypes []*string `json:"configOperationTypes,omitempty" tf:"config_operation_types,omitempty"`
 
+	// Optional for DATABASE type. A $project expression document that Realm uses to filter the fields that appear in change event objects.
 	ConfigProject *string `json:"configProject,omitempty" tf:"config_project,omitempty"`
 
+	// Required for AUTHENTICATION type. A list of one or more authentication provider id values. The trigger will only listen for authentication events produced by these providers.
 	ConfigProviders []*string `json:"configProviders,omitempty" tf:"config_providers,omitempty"`
 
+	// Required for SCHEDULED type. A cron expression that defines the trigger schedule.
 	ConfigSchedule *string `json:"configSchedule,omitempty" tf:"config_schedule,omitempty"`
 
+	// Required for DATABASE type. The ID of the MongoDB Service associated with the trigger.
 	ConfigServiceID *string `json:"configServiceId,omitempty" tf:"config_service_id,omitempty"`
 
+	// Default: false If true, the trigger is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
+	// An object where each field name is an event processor ID and each value is an object that configures its corresponding event processor. The following event processors are supported: AWS_EVENTBRIDGE For an example configuration object, see Send Trigger Events to AWS EventBridge.
 	EventProcessors []EventProcessorsInitParameters `json:"eventProcessors,omitempty" tf:"event_processors,omitempty"`
 
+	// The ID of the function associated with the trigger.
 	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
 
+	// The name of the trigger.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique ID for the project to create the trigger.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -93,109 +118,149 @@ type EventTriggerInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Only Available for Database Triggers. If true, event ordering is disabled and this trigger can process events in parallel. If false, event ordering is enabled and the trigger executes serially.
 	Unordered *bool `json:"unordered,omitempty" tf:"unordered,omitempty"`
 }
 
 type EventTriggerObservation struct {
+
+	// The ObjectID of your application.
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// Optional for DATABASE type. The name of the MongoDB collection that the trigger watches for change events. The collection must be part of the specified database.
 	ConfigCollection *string `json:"configCollection,omitempty" tf:"config_collection,omitempty"`
 
+	// Required for DATABASE type. The name of the MongoDB database to watch.
 	ConfigDatabase *string `json:"configDatabase,omitempty" tf:"config_database,omitempty"`
 
+	// Optional for DATABASE type. If true, indicates that UPDATE change events should include the most current majority-committed version of the modified document in the fullDocument field.
 	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
 
 	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
 
+	// Optional for DATABASE type. A $match expression document that MongoDB Realm includes in the underlying change stream pipeline for the trigger. This is useful when you want to filter change events beyond their operation type. The trigger will only fire if the expression evaluates to true for a given change event.
 	ConfigMatch *string `json:"configMatch,omitempty" tf:"config_match,omitempty"`
 
+	// Required for AUTHENTICATION type. The authentication operation type to listen for. Possible Values: LOGIN, CREATE, DELETE
 	ConfigOperationType *string `json:"configOperationType,omitempty" tf:"config_operation_type,omitempty"`
 
+	// Required for DATABASE type. The database event operation types to listen for. This must contain at least one value. Possible Values: INSERT, UPDATE, REPLACE, DELETE
 	ConfigOperationTypes []*string `json:"configOperationTypes,omitempty" tf:"config_operation_types,omitempty"`
 
+	// Optional for DATABASE type. A $project expression document that Realm uses to filter the fields that appear in change event objects.
 	ConfigProject *string `json:"configProject,omitempty" tf:"config_project,omitempty"`
 
+	// Required for AUTHENTICATION type. A list of one or more authentication provider id values. The trigger will only listen for authentication events produced by these providers.
 	ConfigProviders []*string `json:"configProviders,omitempty" tf:"config_providers,omitempty"`
 
+	// Required for SCHEDULED type. A cron expression that defines the trigger schedule.
 	ConfigSchedule *string `json:"configSchedule,omitempty" tf:"config_schedule,omitempty"`
 
+	// The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED
 	ConfigScheduleType *string `json:"configScheduleType,omitempty" tf:"config_schedule_type,omitempty"`
 
+	// Required for DATABASE type. The ID of the MongoDB Service associated with the trigger.
 	ConfigServiceID *string `json:"configServiceId,omitempty" tf:"config_service_id,omitempty"`
 
+	// Default: false If true, the trigger is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
+	// An object where each field name is an event processor ID and each value is an object that configures its corresponding event processor. The following event processors are supported: AWS_EVENTBRIDGE For an example configuration object, see Send Trigger Events to AWS EventBridge.
 	EventProcessors []EventProcessorsObservation `json:"eventProcessors,omitempty" tf:"event_processors,omitempty"`
 
+	// The ID of the function associated with the trigger.
 	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
 
+	// The name of the function associated with the trigger.
 	FunctionName *string `json:"functionName,omitempty" tf:"function_name,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The name of the trigger.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique ID for the project to create the trigger.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// The unique ID of the trigger.
 	TriggerID *string `json:"triggerId,omitempty" tf:"trigger_id,omitempty"`
 
+	// The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Only Available for Database Triggers. If true, event ordering is disabled and this trigger can process events in parallel. If false, event ordering is enabled and the trigger executes serially.
 	Unordered *bool `json:"unordered,omitempty" tf:"unordered,omitempty"`
 }
 
 type EventTriggerParameters struct {
 
+	// The ObjectID of your application.
 	// +kubebuilder:validation:Optional
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// Optional for DATABASE type. The name of the MongoDB collection that the trigger watches for change events. The collection must be part of the specified database.
 	// +kubebuilder:validation:Optional
 	ConfigCollection *string `json:"configCollection,omitempty" tf:"config_collection,omitempty"`
 
+	// Required for DATABASE type. The name of the MongoDB database to watch.
 	// +kubebuilder:validation:Optional
 	ConfigDatabase *string `json:"configDatabase,omitempty" tf:"config_database,omitempty"`
 
+	// Optional for DATABASE type. If true, indicates that UPDATE change events should include the most current majority-committed version of the modified document in the fullDocument field.
 	// +kubebuilder:validation:Optional
 	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
 
+	// Optional for DATABASE type. A $match expression document that MongoDB Realm includes in the underlying change stream pipeline for the trigger. This is useful when you want to filter change events beyond their operation type. The trigger will only fire if the expression evaluates to true for a given change event.
 	// +kubebuilder:validation:Optional
 	ConfigMatch *string `json:"configMatch,omitempty" tf:"config_match,omitempty"`
 
+	// Required for AUTHENTICATION type. The authentication operation type to listen for. Possible Values: LOGIN, CREATE, DELETE
 	// +kubebuilder:validation:Optional
 	ConfigOperationType *string `json:"configOperationType,omitempty" tf:"config_operation_type,omitempty"`
 
+	// Required for DATABASE type. The database event operation types to listen for. This must contain at least one value. Possible Values: INSERT, UPDATE, REPLACE, DELETE
 	// +kubebuilder:validation:Optional
 	ConfigOperationTypes []*string `json:"configOperationTypes,omitempty" tf:"config_operation_types,omitempty"`
 
+	// Optional for DATABASE type. A $project expression document that Realm uses to filter the fields that appear in change event objects.
 	// +kubebuilder:validation:Optional
 	ConfigProject *string `json:"configProject,omitempty" tf:"config_project,omitempty"`
 
+	// Required for AUTHENTICATION type. A list of one or more authentication provider id values. The trigger will only listen for authentication events produced by these providers.
 	// +kubebuilder:validation:Optional
 	ConfigProviders []*string `json:"configProviders,omitempty" tf:"config_providers,omitempty"`
 
+	// Required for SCHEDULED type. A cron expression that defines the trigger schedule.
 	// +kubebuilder:validation:Optional
 	ConfigSchedule *string `json:"configSchedule,omitempty" tf:"config_schedule,omitempty"`
 
+	// Required for DATABASE type. The ID of the MongoDB Service associated with the trigger.
 	// +kubebuilder:validation:Optional
 	ConfigServiceID *string `json:"configServiceId,omitempty" tf:"config_service_id,omitempty"`
 
+	// Default: false If true, the trigger is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
+	// An object where each field name is an event processor ID and each value is an object that configures its corresponding event processor. The following event processors are supported: AWS_EVENTBRIDGE For an example configuration object, see Send Trigger Events to AWS EventBridge.
 	// +kubebuilder:validation:Optional
 	EventProcessors []EventProcessorsParameters `json:"eventProcessors,omitempty" tf:"event_processors,omitempty"`
 
+	// The ID of the function associated with the trigger.
 	// +kubebuilder:validation:Optional
 	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
 
+	// The name of the trigger.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique ID for the project to create the trigger.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -208,9 +273,11 @@ type EventTriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// Only Available for Database Triggers. If true, event ordering is disabled and this trigger can process events in parallel. If false, event ordering is enabled and the trigger executes serially.
 	// +kubebuilder:validation:Optional
 	Unordered *bool `json:"unordered,omitempty" tf:"unordered,omitempty"`
 }
@@ -242,7 +309,7 @@ type EventTriggerStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// EventTrigger is the Schema for the EventTriggers API. <no value>
+// EventTrigger is the Schema for the EventTriggers API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

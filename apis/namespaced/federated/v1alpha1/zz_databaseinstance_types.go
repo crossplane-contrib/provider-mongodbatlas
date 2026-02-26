@@ -15,206 +15,286 @@ import (
 )
 
 type AwsInitParameters struct {
+
+	// Unique identifier of the role that the Federated Instance can use to access the data stores. If necessary, use the Atlas UI or API to retrieve the role ID. You must also specify the test_s3_bucket.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
+	// Name of the S3 data bucket that the provided role ID is authorized to access. You must also specify the role_id.
 	TestS3Bucket *string `json:"testS3Bucket,omitempty" tf:"test_s3_bucket,omitempty"`
 }
 
 type AwsObservation struct {
 	ExternalID *string `json:"externalId,omitempty" tf:"external_id,omitempty"`
 
+	// Amazon Resource Name (ARN) of the IAM Role that the Federated Database Instance assumes when accessing S3 Bucket data stores. The IAM Role must support the following actions against each S3 bucket:
 	IAMAssumedRoleArn *string `json:"iamAssumedRoleArn,omitempty" tf:"iam_assumed_role_arn,omitempty"`
 
+	// Amazon Resource Name (ARN) of the user that the Federated Database Instance assumes when accessing S3 Bucket data stores.
+	// * external_id - Unique identifier associated with the IAM Role that the Federated Database Instance assumes when accessing the data stores.
 	IAMUserArn *string `json:"iamUserArn,omitempty" tf:"iam_user_arn,omitempty"`
 
+	// Unique identifier of the role that the Federated Instance can use to access the data stores. If necessary, use the Atlas UI or API to retrieve the role ID. You must also specify the test_s3_bucket.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
+	// Name of the S3 data bucket that the provided role ID is authorized to access. You must also specify the role_id.
 	TestS3Bucket *string `json:"testS3Bucket,omitempty" tf:"test_s3_bucket,omitempty"`
 }
 
 type AwsParameters struct {
 
+	// Unique identifier of the role that the Federated Instance can use to access the data stores. If necessary, use the Atlas UI or API to retrieve the role ID. You must also specify the test_s3_bucket.
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
 
+	// Name of the S3 data bucket that the provided role ID is authorized to access. You must also specify the role_id.
 	// +kubebuilder:validation:Optional
 	TestS3Bucket *string `json:"testS3Bucket" tf:"test_s3_bucket,omitempty"`
 }
 
 type AzureInitParameters struct {
+
+	// Unique identifier of the role that the Federated Database Instance can use to access the data stores.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 }
 
 type AzureObservation struct {
 	AtlasAppID *string `json:"atlasAppId,omitempty" tf:"atlas_app_id,omitempty"`
 
+	// Unique identifier of the role that the Federated Database Instance can use to access the data stores.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
+	// Unique identifier of the Azure service principal that the Federated Database instance uses to access Azure Blob Storage.
 	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
 
+	// Unique identifier of the Azure Active Directory tenant where the service principal resides.
 	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type AzureParameters struct {
 
+	// Unique identifier of the role that the Federated Database Instance can use to access the data stores.
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
 }
 
 type CloudProviderConfigInitParameters struct {
+
+	// AWS provider of the cloud service where the Federated Database Instance can access the S3 Bucket.
 	Aws []AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Microsoft Azure provider of the cloud service where the Federated Database Instance can access Blob Storage.
 	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 }
 
 type CloudProviderConfigObservation struct {
+
+	// AWS provider of the cloud service where the Federated Database Instance can access the S3 Bucket.
 	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Microsoft Azure provider of the cloud service where the Federated Database Instance can access Blob Storage.
 	Azure []AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
 }
 
 type CloudProviderConfigParameters struct {
 
+	// AWS provider of the cloud service where the Federated Database Instance can access the S3 Bucket.
 	// +kubebuilder:validation:Optional
 	Aws []AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Microsoft Azure provider of the cloud service where the Federated Database Instance can access Blob Storage.
 	// +kubebuilder:validation:Optional
 	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 }
 
 type CollectionsInitParameters struct {
+
+	// Array of objects where each object represents a stores data store to map with the collection.
 	DataSources []DataSourcesInitParameters `json:"dataSources,omitempty" tf:"data_sources,omitempty"`
 
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type CollectionsObservation struct {
+
+	// Array of objects where each object represents a stores data store to map with the collection.
 	DataSources []DataSourcesObservation `json:"dataSources,omitempty" tf:"data_sources,omitempty"`
 
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type CollectionsParameters struct {
 
+	// Array of objects where each object represents a stores data store to map with the collection.
 	// +kubebuilder:validation:Optional
 	DataSources []DataSourcesParameters `json:"dataSources,omitempty" tf:"data_sources,omitempty"`
 
+	// Human-readable label of the tag.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type DataProcessRegionInitParameters struct {
+
+	// Name of the cloud service provider. Supported providers: AWS, AZURE.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Name of the region to which the Federated Instance routes client connections for data processing. See the documentation for the available region.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type DataProcessRegionObservation struct {
+
+	// Name of the cloud service provider. Supported providers: AWS, AZURE.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Name of the region to which the Federated Instance routes client connections for data processing. See the documentation for the available region.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type DataProcessRegionParameters struct {
 
+	// Name of the cloud service provider. Supported providers: AWS, AZURE.
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
 
+	// Name of the region to which the Federated Instance routes client connections for data processing. See the documentation for the available region.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region" tf:"region,omitempty"`
 }
 
 type DataSourcesInitParameters struct {
+
+	// Flag that validates the scheme in the specified URLs.
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
+	// Human-readable label that identifies the collection in the database.
 	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
 
+	// Regex pattern to use for creating the wildcard (*) collection.
 	CollectionRegex *string `json:"collectionRegex,omitempty" tf:"collection_regex,omitempty"`
 
+	// Human-readable label that identifies the database, which contains the collection in the cluster.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
+	// Regex pattern to use for creating the wildcard database.
 	DatabaseRegex *string `json:"databaseRegex,omitempty" tf:"database_regex,omitempty"`
 
+	// Human-readable label that identifies the dataset that Atlas generates for an ingestion pipeline run or Online Archive.
 	DatasetName *string `json:"datasetName,omitempty" tf:"dataset_name,omitempty"`
 
+	// Default format that Data Federation assumes if it encounters a file without an extension while searching the storeName.
 	DefaultFormat *string `json:"defaultFormat,omitempty" tf:"default_format,omitempty"`
 
+	// File path that controls how MongoDB Cloud searches for and parses files in the storeName before mapping them to a collection. Specify / to capture all files and folders from the prefix path.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
+	// Name for the field that includes the provenance of the documents in the results.
 	ProvenanceFieldName *string `json:"provenanceFieldName,omitempty" tf:"provenance_field_name,omitempty"`
 
+	// Name of a data store to map to the <collection>. Must match the name of an object in the stores array.
 	StoreName *string `json:"storeName,omitempty" tf:"store_name,omitempty"`
 
+	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
 	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
 type DataSourcesObservation struct {
+
+	// Flag that validates the scheme in the specified URLs.
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
+	// Human-readable label that identifies the collection in the database.
 	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
 
+	// Regex pattern to use for creating the wildcard (*) collection.
 	CollectionRegex *string `json:"collectionRegex,omitempty" tf:"collection_regex,omitempty"`
 
+	// Human-readable label that identifies the database, which contains the collection in the cluster.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
+	// Regex pattern to use for creating the wildcard database.
 	DatabaseRegex *string `json:"databaseRegex,omitempty" tf:"database_regex,omitempty"`
 
+	// Human-readable label that identifies the dataset that Atlas generates for an ingestion pipeline run or Online Archive.
 	DatasetName *string `json:"datasetName,omitempty" tf:"dataset_name,omitempty"`
 
+	// Default format that Data Federation assumes if it encounters a file without an extension while searching the storeName.
 	DefaultFormat *string `json:"defaultFormat,omitempty" tf:"default_format,omitempty"`
 
+	// File path that controls how MongoDB Cloud searches for and parses files in the storeName before mapping them to a collection. Specify / to capture all files and folders from the prefix path.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
+	// Name for the field that includes the provenance of the documents in the results.
 	ProvenanceFieldName *string `json:"provenanceFieldName,omitempty" tf:"provenance_field_name,omitempty"`
 
+	// Name of a data store to map to the <collection>. Must match the name of an object in the stores array.
 	StoreName *string `json:"storeName,omitempty" tf:"store_name,omitempty"`
 
+	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
 	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
 type DataSourcesParameters struct {
 
+	// Flag that validates the scheme in the specified URLs.
 	// +kubebuilder:validation:Optional
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
+	// Human-readable label that identifies the collection in the database.
 	// +kubebuilder:validation:Optional
 	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
 
+	// Regex pattern to use for creating the wildcard (*) collection.
 	// +kubebuilder:validation:Optional
 	CollectionRegex *string `json:"collectionRegex,omitempty" tf:"collection_regex,omitempty"`
 
+	// Human-readable label that identifies the database, which contains the collection in the cluster.
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
+	// Regex pattern to use for creating the wildcard database.
 	// +kubebuilder:validation:Optional
 	DatabaseRegex *string `json:"databaseRegex,omitempty" tf:"database_regex,omitempty"`
 
+	// Human-readable label that identifies the dataset that Atlas generates for an ingestion pipeline run or Online Archive.
 	// +kubebuilder:validation:Optional
 	DatasetName *string `json:"datasetName,omitempty" tf:"dataset_name,omitempty"`
 
+	// Default format that Data Federation assumes if it encounters a file without an extension while searching the storeName.
 	// +kubebuilder:validation:Optional
 	DefaultFormat *string `json:"defaultFormat,omitempty" tf:"default_format,omitempty"`
 
+	// File path that controls how MongoDB Cloud searches for and parses files in the storeName before mapping them to a collection. Specify / to capture all files and folders from the prefix path.
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
+	// Name for the field that includes the provenance of the documents in the results.
 	// +kubebuilder:validation:Optional
 	ProvenanceFieldName *string `json:"provenanceFieldName,omitempty" tf:"provenance_field_name,omitempty"`
 
+	// Name of a data store to map to the <collection>. Must match the name of an object in the stores array.
 	// +kubebuilder:validation:Optional
 	StoreName *string `json:"storeName,omitempty" tf:"store_name,omitempty"`
 
+	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
 	// +kubebuilder:validation:Optional
 	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
 type DatabaseInstanceInitParameters struct {
+
+	// Cloud provider linked to this data federated instance.
 	CloudProviderConfig []CloudProviderConfigInitParameters `json:"cloudProviderConfig,omitempty" tf:"cloud_provider_config,omitempty"`
 
+	// The cloud provider region to which the Federated Instance routes client connections for data processing.
 	DataProcessRegion []DataProcessRegionInitParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// Name of the Atlas Federated Database Instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique ID for the project to create a Federated Database Instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -226,42 +306,57 @@ type DatabaseInstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
 	StorageDatabases []StorageDatabasesInitParameters `json:"storageDatabases,omitempty" tf:"storage_databases,omitempty"`
 
+	// Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.
 	StorageStores []StorageStoresInitParameters `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
 }
 
 type DatabaseInstanceObservation struct {
+
+	// Cloud provider linked to this data federated instance.
 	CloudProviderConfig []CloudProviderConfigObservation `json:"cloudProviderConfig,omitempty" tf:"cloud_provider_config,omitempty"`
 
+	// The cloud provider region to which the Federated Instance routes client connections for data processing.
 	DataProcessRegion []DataProcessRegionObservation `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// The list of hostnames assigned to the Federated Database Instance. Each string in the array is a hostname assigned to the Federated Database Instance.
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Name of the Atlas Federated Database Instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique ID for the project to create a Federated Database Instance.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Current state of the Federated Database Instance:
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
 	StorageDatabases []StorageDatabasesObservation `json:"storageDatabases,omitempty" tf:"storage_databases,omitempty"`
 
+	// Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.
 	StorageStores []StorageStoresObservation `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
 }
 
 type DatabaseInstanceParameters struct {
 
+	// Cloud provider linked to this data federated instance.
 	// +kubebuilder:validation:Optional
 	CloudProviderConfig []CloudProviderConfigParameters `json:"cloudProviderConfig,omitempty" tf:"cloud_provider_config,omitempty"`
 
+	// The cloud provider region to which the Federated Instance routes client connections for data processing.
 	// +kubebuilder:validation:Optional
 	DataProcessRegion []DataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// Name of the Atlas Federated Database Instance.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique ID for the project to create a Federated Database Instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -274,9 +369,11 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
 	// +kubebuilder:validation:Optional
 	StorageDatabases []StorageDatabasesParameters `json:"storageDatabases,omitempty" tf:"storage_databases,omitempty"`
 
+	// Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.
 	// +kubebuilder:validation:Optional
 	StorageStores []StorageStoresParameters `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
 }
@@ -284,16 +381,20 @@ type DatabaseInstanceParameters struct {
 type ReadPreferenceInitParameters struct {
 	MaxStalenessSeconds *float64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
+	// Read preference mode that specifies to which replica set member to route the read requests.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// List that contains tag sets or tag specification documents.
 	TagSets []TagSetsInitParameters `json:"tagSets,omitempty" tf:"tag_sets,omitempty"`
 }
 
 type ReadPreferenceObservation struct {
 	MaxStalenessSeconds *float64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
+	// Read preference mode that specifies to which replica set member to route the read requests.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// List that contains tag sets or tag specification documents.
 	TagSets []TagSetsObservation `json:"tagSets,omitempty" tf:"tag_sets,omitempty"`
 }
 
@@ -302,39 +403,52 @@ type ReadPreferenceParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxStalenessSeconds *float64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
+	// Read preference mode that specifies to which replica set member to route the read requests.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// List that contains tag sets or tag specification documents.
 	// +kubebuilder:validation:Optional
 	TagSets []TagSetsParameters `json:"tagSets,omitempty" tf:"tag_sets,omitempty"`
 }
 
 type StorageDatabasesInitParameters struct {
+
+	// Array of objects where each object represents a collection and data sources that map to a stores data store.
 	Collections []CollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
 
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Array of objects where each object represents an aggregation pipeline on a collection. To learn more about views, see Views.
 	Views []ViewsInitParameters `json:"views,omitempty" tf:"views,omitempty"`
 }
 
 type StorageDatabasesObservation struct {
+
+	// Array of objects where each object represents a collection and data sources that map to a stores data store.
 	Collections []CollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
 
 	MaxWildcardCollections *float64 `json:"maxWildcardCollections,omitempty" tf:"max_wildcard_collections,omitempty"`
 
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Array of objects where each object represents an aggregation pipeline on a collection. To learn more about views, see Views.
 	Views []ViewsObservation `json:"views,omitempty" tf:"views,omitempty"`
 }
 
 type StorageDatabasesParameters struct {
 
+	// Array of objects where each object represents a collection and data sources that map to a stores data store.
 	// +kubebuilder:validation:Optional
 	Collections []CollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
 
+	// Human-readable label of the tag.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Array of objects where each object represents an aggregation pipeline on a collection. To learn more about views, see Views.
 	// +kubebuilder:validation:Optional
 	Views []ViewsParameters `json:"views,omitempty" tf:"views,omitempty"`
 }
@@ -342,64 +456,92 @@ type StorageDatabasesParameters struct {
 type StorageStoresInitParameters struct {
 	AdditionalStorageClasses []*string `json:"additionalStorageClasses,omitempty" tf:"additional_storage_classes,omitempty"`
 
+	// Flag that validates the scheme in the specified URLs.
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
+	// Name of the AWS S3 bucket.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// Human-readable label of the MongoDB Cloud cluster on which the store is based.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Default format that Data Federation assumes if it encounters a file without an extension while searching the storeName.
 	DefaultFormat *string `json:"defaultFormat,omitempty" tf:"default_format,omitempty"`
 
+	// The delimiter that separates storage_databases.#.collections.#.data_sources.#.path segments in the data store.
 	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
 
+	// Determines whether or not to use S3 tags on the files in the given path as additional partition attributes.
 	IncludeTags *bool `json:"includeTags,omitempty" tf:"include_tags,omitempty"`
 
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Prefix the Federated Database Instance applies when searching for files in the S3 bucket.
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
+	// The unique ID for the project to create a Federated Database Instance.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Defines where the data is stored.
 	Provider *string `json:"provider,omitempty" tf:"provider,omitempty"`
 
+	// Flag that indicates whether the bucket is public.
 	Public *string `json:"public,omitempty" tf:"public,omitempty"`
 
+	// MongoDB Cloud cluster read preference, which describes how to route read requests to the cluster.
 	ReadPreference []ReadPreferenceInitParameters `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 
+	// Name of the AWS region in which the S3 bucket is hosted.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
 	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
 type StorageStoresObservation struct {
 	AdditionalStorageClasses []*string `json:"additionalStorageClasses,omitempty" tf:"additional_storage_classes,omitempty"`
 
+	// Flag that validates the scheme in the specified URLs.
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
+	// Name of the AWS S3 bucket.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// Human-readable label of the MongoDB Cloud cluster on which the store is based.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Default format that Data Federation assumes if it encounters a file without an extension while searching the storeName.
 	DefaultFormat *string `json:"defaultFormat,omitempty" tf:"default_format,omitempty"`
 
+	// The delimiter that separates storage_databases.#.collections.#.data_sources.#.path segments in the data store.
 	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
 
+	// Determines whether or not to use S3 tags on the files in the given path as additional partition attributes.
 	IncludeTags *bool `json:"includeTags,omitempty" tf:"include_tags,omitempty"`
 
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Prefix the Federated Database Instance applies when searching for files in the S3 bucket.
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
+	// The unique ID for the project to create a Federated Database Instance.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Defines where the data is stored.
 	Provider *string `json:"provider,omitempty" tf:"provider,omitempty"`
 
+	// Flag that indicates whether the bucket is public.
 	Public *string `json:"public,omitempty" tf:"public,omitempty"`
 
+	// MongoDB Cloud cluster read preference, which describes how to route read requests to the cluster.
 	ReadPreference []ReadPreferenceObservation `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 
+	// Name of the AWS region in which the S3 bucket is hosted.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
 	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
@@ -408,80 +550,107 @@ type StorageStoresParameters struct {
 	// +kubebuilder:validation:Optional
 	AdditionalStorageClasses []*string `json:"additionalStorageClasses,omitempty" tf:"additional_storage_classes,omitempty"`
 
+	// Flag that validates the scheme in the specified URLs.
 	// +kubebuilder:validation:Optional
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
+	// Name of the AWS S3 bucket.
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// Human-readable label of the MongoDB Cloud cluster on which the store is based.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Default format that Data Federation assumes if it encounters a file without an extension while searching the storeName.
 	// +kubebuilder:validation:Optional
 	DefaultFormat *string `json:"defaultFormat,omitempty" tf:"default_format,omitempty"`
 
+	// The delimiter that separates storage_databases.#.collections.#.data_sources.#.path segments in the data store.
 	// +kubebuilder:validation:Optional
 	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
 
+	// Determines whether or not to use S3 tags on the files in the given path as additional partition attributes.
 	// +kubebuilder:validation:Optional
 	IncludeTags *bool `json:"includeTags,omitempty" tf:"include_tags,omitempty"`
 
+	// Human-readable label of the tag.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Prefix the Federated Database Instance applies when searching for files in the S3 bucket.
 	// +kubebuilder:validation:Optional
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
+	// The unique ID for the project to create a Federated Database Instance.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Defines where the data is stored.
 	// +kubebuilder:validation:Optional
 	Provider *string `json:"provider,omitempty" tf:"provider,omitempty"`
 
+	// Flag that indicates whether the bucket is public.
 	// +kubebuilder:validation:Optional
 	Public *string `json:"public,omitempty" tf:"public,omitempty"`
 
+	// MongoDB Cloud cluster read preference, which describes how to route read requests to the cluster.
 	// +kubebuilder:validation:Optional
 	ReadPreference []ReadPreferenceParameters `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 
+	// Name of the AWS region in which the S3 bucket is hosted.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
 	// +kubebuilder:validation:Optional
 	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
 }
 
 type TagSetsInitParameters struct {
+
+	// List of all tags within a tag set
 	Tags []TagsInitParameters `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type TagSetsObservation struct {
+
+	// List of all tags within a tag set
 	Tags []TagsObservation `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type TagSetsParameters struct {
 
+	// List of all tags within a tag set
 	// +kubebuilder:validation:Optional
 	Tags []TagsParameters `json:"tags" tf:"tags,omitempty"`
 }
 
 type TagsInitParameters struct {
+
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Value of the tag.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TagsObservation struct {
+
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Value of the tag.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TagsParameters struct {
 
+	// Human-readable label of the tag.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Value of the tag.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
@@ -490,10 +659,14 @@ type ViewsInitParameters struct {
 }
 
 type ViewsObservation struct {
+
+	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Aggregation pipeline stage(s) to apply to the source collection.
 	Pipeline *string `json:"pipeline,omitempty" tf:"pipeline,omitempty"`
 
+	// Name of the source collection for the view.
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
 
@@ -527,7 +700,7 @@ type DatabaseInstanceStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// DatabaseInstance is the Schema for the DatabaseInstances API. <no value>
+// DatabaseInstance is the Schema for the DatabaseInstances API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

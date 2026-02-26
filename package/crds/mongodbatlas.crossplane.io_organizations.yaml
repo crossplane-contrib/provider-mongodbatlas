@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Organization is the Schema for the Organizations API. <no value>
+        description: Organization is the Schema for the Organizations API.
         properties:
           apiVersion:
             description: |-
@@ -73,45 +73,104 @@ spec:
               forProvider:
                 properties:
                   apiAccessListRequired:
+                    description: Flag that indicates whether to require API operations
+                      to originate from an IP Address added to the API access list
+                      for the specified organization.
                     type: boolean
                   description:
+                    description: Programmatic API Key description. This attribute
+                      is required in creation and can't be updated later.
                     type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federation to link the newly created organization to. If
+                      specified, the proposed Organization Owner of the new organization
+                      must have the Organization Owner role in an organization associated
+                      with the federation. This attribute can't be updated after creation.
                     type: string
                   genAiFeaturesEnabled:
+                    description: Flag that indicates whether this organization has
+                      access to generative AI features. This setting only applies
+                      to Atlas Commercial and defaults to true. With this setting
+                      on, Project Owners may be able to enable or disable individual
+                      AI features at the project level. To learn more, see https://www.mongodb.com/docs/generative-ai-faq/.
                     type: boolean
                   multiFactorAuthRequired:
+                    description: 'Flag that indicates whether to require users to
+                      set up Multi-Factor Authentication (MFA) before accessing the
+                      specified organization. To learn more, see: https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/.'
                     type: boolean
                   name:
+                    description: The name of the organization.
                     type: string
                   orgOwnerId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Atlas user that you want to assign the Organization Owner
+                      role. This user must be a member of the same organization as
+                      the calling API key.  This is only required when authenticating
+                      with Programmatic API Keys. MongoDB Atlas Admin API - Get User
+                      By Username. This attribute is required in creation and can't
+                      be updated later.
                     type: string
                   restrictEmployeeAccess:
+                    description: 'Flag that indicates whether to block MongoDB Support
+                      from accessing Atlas infrastructure for any deployment in the
+                      specified organization without explicit permission. Once this
+                      setting is turned on, you can grant MongoDB Support a 24-hour
+                      bypass access to the Atlas deployment to resolve support issues.
+                      To learn more, see: https://www.mongodb.com/docs/atlas/security-restrict-support-access/.'
                     type: boolean
                   roleNames:
+                    description: List of Organization roles that the Programmatic
+                      API key needs to have. Ensure that you provide at least one
+                      role and ensure all roles are valid for the Organization.  You
+                      must specify an array even if you are only associating a single
+                      role with the Programmatic API key. The MongoDB Documentation
+                      describes the roles that you can assign to a Programmatic API
+                      key. This attribute is required in creation and can't be updated
+                      later.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   securityContact:
+                    description: String that specifies a single email address for
+                      the specified organization to receive security-related notifications.
+                      Specifying a security contact does not grant them authorization
+                      or access to Atlas for security decisions or approvals.
                     type: string
                   serviceAccount:
+                    description: Block to create a Service Account instead of a Programmatic
+                      API Key when creating the organization. The API does not allow
+                      creating both in the same request. Mutually exclusive with description
+                      and role_names. This block can't be updated after creation.
+                      See Service Account.
                     items:
                       properties:
                         description:
+                          description: Programmatic API Key description. This attribute
+                            is required in creation and can't be updated later.
                           type: string
                         name:
+                          description: The name of the organization.
                           type: string
                         roles:
+                          description: A list of organization-level roles for the
+                            Service Account.
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         secretExpiresAfterHours:
+                          description: The expiration time of the new Service Account
+                            secret, provided in hours. The minimum and maximum allowed
+                            expiration times are subject to change and are controlled
+                            by the organization's settings.
                           type: number
                       type: object
                     type: array
                   skipDefaultAlertsSettings:
+                    description: Defaults to true.
                     type: boolean
                 type: object
               initProvider:
@@ -128,45 +187,104 @@ spec:
                   autoscaler.
                 properties:
                   apiAccessListRequired:
+                    description: Flag that indicates whether to require API operations
+                      to originate from an IP Address added to the API access list
+                      for the specified organization.
                     type: boolean
                   description:
+                    description: Programmatic API Key description. This attribute
+                      is required in creation and can't be updated later.
                     type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federation to link the newly created organization to. If
+                      specified, the proposed Organization Owner of the new organization
+                      must have the Organization Owner role in an organization associated
+                      with the federation. This attribute can't be updated after creation.
                     type: string
                   genAiFeaturesEnabled:
+                    description: Flag that indicates whether this organization has
+                      access to generative AI features. This setting only applies
+                      to Atlas Commercial and defaults to true. With this setting
+                      on, Project Owners may be able to enable or disable individual
+                      AI features at the project level. To learn more, see https://www.mongodb.com/docs/generative-ai-faq/.
                     type: boolean
                   multiFactorAuthRequired:
+                    description: 'Flag that indicates whether to require users to
+                      set up Multi-Factor Authentication (MFA) before accessing the
+                      specified organization. To learn more, see: https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/.'
                     type: boolean
                   name:
+                    description: The name of the organization.
                     type: string
                   orgOwnerId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Atlas user that you want to assign the Organization Owner
+                      role. This user must be a member of the same organization as
+                      the calling API key.  This is only required when authenticating
+                      with Programmatic API Keys. MongoDB Atlas Admin API - Get User
+                      By Username. This attribute is required in creation and can't
+                      be updated later.
                     type: string
                   restrictEmployeeAccess:
+                    description: 'Flag that indicates whether to block MongoDB Support
+                      from accessing Atlas infrastructure for any deployment in the
+                      specified organization without explicit permission. Once this
+                      setting is turned on, you can grant MongoDB Support a 24-hour
+                      bypass access to the Atlas deployment to resolve support issues.
+                      To learn more, see: https://www.mongodb.com/docs/atlas/security-restrict-support-access/.'
                     type: boolean
                   roleNames:
+                    description: List of Organization roles that the Programmatic
+                      API key needs to have. Ensure that you provide at least one
+                      role and ensure all roles are valid for the Organization.  You
+                      must specify an array even if you are only associating a single
+                      role with the Programmatic API key. The MongoDB Documentation
+                      describes the roles that you can assign to a Programmatic API
+                      key. This attribute is required in creation and can't be updated
+                      later.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   securityContact:
+                    description: String that specifies a single email address for
+                      the specified organization to receive security-related notifications.
+                      Specifying a security contact does not grant them authorization
+                      or access to Atlas for security decisions or approvals.
                     type: string
                   serviceAccount:
+                    description: Block to create a Service Account instead of a Programmatic
+                      API Key when creating the organization. The API does not allow
+                      creating both in the same request. Mutually exclusive with description
+                      and role_names. This block can't be updated after creation.
+                      See Service Account.
                     items:
                       properties:
                         description:
+                          description: Programmatic API Key description. This attribute
+                            is required in creation and can't be updated later.
                           type: string
                         name:
+                          description: The name of the organization.
                           type: string
                         roles:
+                          description: A list of organization-level roles for the
+                            Service Account.
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         secretExpiresAfterHours:
+                          description: The expiration time of the new Service Account
+                            secret, provided in hours. The minimum and maximum allowed
+                            expiration times are subject to change and are controlled
+                            by the organization's settings.
                           type: number
                       type: object
                     type: array
                   skipDefaultAlertsSettings:
+                    description: Defaults to true.
                     type: boolean
                 type: object
               managementPolicies:
@@ -266,66 +384,143 @@ spec:
               atProvider:
                 properties:
                   apiAccessListRequired:
+                    description: Flag that indicates whether to require API operations
+                      to originate from an IP Address added to the API access list
+                      for the specified organization.
                     type: boolean
                   description:
+                    description: Programmatic API Key description. This attribute
+                      is required in creation and can't be updated later.
                     type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federation to link the newly created organization to. If
+                      specified, the proposed Organization Owner of the new organization
+                      must have the Organization Owner role in an organization associated
+                      with the federation. This attribute can't be updated after creation.
                     type: string
                   genAiFeaturesEnabled:
+                    description: Flag that indicates whether this organization has
+                      access to generative AI features. This setting only applies
+                      to Atlas Commercial and defaults to true. With this setting
+                      on, Project Owners may be able to enable or disable individual
+                      AI features at the project level. To learn more, see https://www.mongodb.com/docs/generative-ai-faq/.
                     type: boolean
                   id:
                     type: string
                   multiFactorAuthRequired:
+                    description: 'Flag that indicates whether to require users to
+                      set up Multi-Factor Authentication (MFA) before accessing the
+                      specified organization. To learn more, see: https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/.'
                     type: boolean
                   name:
+                    description: The name of the organization.
                     type: string
                   orgId:
+                    description: The organization id.
                     type: string
                   orgOwnerId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Atlas user that you want to assign the Organization Owner
+                      role. This user must be a member of the same organization as
+                      the calling API key.  This is only required when authenticating
+                      with Programmatic API Keys. MongoDB Atlas Admin API - Get User
+                      By Username. This attribute is required in creation and can't
+                      be updated later.
                     type: string
                   restrictEmployeeAccess:
+                    description: 'Flag that indicates whether to block MongoDB Support
+                      from accessing Atlas infrastructure for any deployment in the
+                      specified organization without explicit permission. Once this
+                      setting is turned on, you can grant MongoDB Support a 24-hour
+                      bypass access to the Atlas deployment to resolve support issues.
+                      To learn more, see: https://www.mongodb.com/docs/atlas/security-restrict-support-access/.'
                     type: boolean
                   roleNames:
+                    description: List of Organization roles that the Programmatic
+                      API key needs to have. Ensure that you provide at least one
+                      role and ensure all roles are valid for the Organization.  You
+                      must specify an array even if you are only associating a single
+                      role with the Programmatic API key. The MongoDB Documentation
+                      describes the roles that you can assign to a Programmatic API
+                      key. This attribute is required in creation and can't be updated
+                      later.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   securityContact:
+                    description: String that specifies a single email address for
+                      the specified organization to receive security-related notifications.
+                      Specifying a security contact does not grant them authorization
+                      or access to Atlas for security decisions or approvals.
                     type: string
                   serviceAccount:
+                    description: Block to create a Service Account instead of a Programmatic
+                      API Key when creating the organization. The API does not allow
+                      creating both in the same request. Mutually exclusive with description
+                      and role_names. This block can't be updated after creation.
+                      See Service Account.
                     items:
                       properties:
                         clientId:
+                          description: level credentials for subsequent operations.
                           type: string
                         createdAt:
+                          description: The date that the Service Account was created
+                            on. This parameter expresses its value in the ISO 8601
+                            timestamp format in UTC.
                           type: string
                         description:
+                          description: Programmatic API Key description. This attribute
+                            is required in creation and can't be updated later.
                           type: string
                         name:
+                          description: The name of the organization.
                           type: string
                         roles:
+                          description: A list of organization-level roles for the
+                            Service Account.
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         secretExpiresAfterHours:
+                          description: The expiration time of the new Service Account
+                            secret, provided in hours. The minimum and maximum allowed
+                            expiration times are subject to change and are controlled
+                            by the organization's settings.
                           type: number
                         secrets:
+                          description: A list of secrets associated with the specified
+                            Service Account. See Secrets.
                           items:
                             properties:
                               createdAt:
+                                description: The date that the Service Account was
+                                  created on. This parameter expresses its value in
+                                  the ISO 8601 timestamp format in UTC.
                                 type: string
                               expiresAt:
+                                description: The date for the expiration of the secret.
+                                  This parameter expresses its value in the ISO 8601
+                                  timestamp format in UTC.
                                 type: string
                               secret:
+                                description: (Sensitive) The secret for the Service
+                                  Account. It will be returned only the first time
+                                  after creation.
                                 type: string
                               secretId:
+                                description: Unique 24-hexadecimal digit string that
+                                  identifies the secret.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   skipDefaultAlertsSettings:
+                    description: Defaults to true.
                     type: boolean
                 type: object
               conditions:

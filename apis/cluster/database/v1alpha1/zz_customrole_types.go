@@ -14,22 +14,33 @@ import (
 )
 
 type ActionsInitParameters struct {
+
+	// Name of the privilege action. For a complete list of actions available in the Atlas API, see Custom Role Actions
+	// -> Note: The privilege actions available to the Custom Roles API resource represent a subset of the privilege actions available in the Atlas Custom Roles UI.
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// Contains information on where the action is granted. Each object in the array either indicates a database and collection on which the action is granted, or indicates that the action is granted on the cluster resource.
 	Resources []ResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
 type ActionsObservation struct {
+
+	// Name of the privilege action. For a complete list of actions available in the Atlas API, see Custom Role Actions
+	// -> Note: The privilege actions available to the Custom Roles API resource represent a subset of the privilege actions available in the Atlas Custom Roles UI.
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// Contains information on where the action is granted. Each object in the array either indicates a database and collection on which the action is granted, or indicates that the action is granted on the cluster resource.
 	Resources []ResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
 type ActionsParameters struct {
 
+	// Name of the privilege action. For a complete list of actions available in the Atlas API, see Custom Role Actions
+	// -> Note: The privilege actions available to the Custom Roles API resource represent a subset of the privilege actions available in the Atlas Custom Roles UI.
 	// +kubebuilder:validation:Optional
 	Action *string `json:"action" tf:"action,omitempty"`
 
+	// Contains information on where the action is granted. Each object in the array either indicates a database and collection on which the action is granted, or indicates that the action is granted on the cluster resource.
 	// +kubebuilder:validation:Optional
 	Resources []ResourcesParameters `json:"resources" tf:"resources,omitempty"`
 }
@@ -39,6 +50,7 @@ type CustomRoleInitParameters struct {
 
 	InheritedRoles []InheritedRolesInitParameters `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
 
+	// The unique ID for the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -50,6 +62,7 @@ type CustomRoleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Name of the custom role.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
@@ -60,8 +73,10 @@ type CustomRoleObservation struct {
 
 	InheritedRoles []InheritedRolesObservation `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
 
+	// The unique ID for the project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Name of the custom role.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
@@ -73,6 +88,7 @@ type CustomRoleParameters struct {
 	// +kubebuilder:validation:Optional
 	InheritedRoles []InheritedRolesParameters `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
 
+	// The unique ID for the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -85,55 +101,75 @@ type CustomRoleParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Name of the custom role.
 	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
 type InheritedRolesInitParameters struct {
+
+	// Database on which the action is granted. Use the empty string ("") to allow an action on all databases.
 	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
 
+	// Name of the custom role.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
 type InheritedRolesObservation struct {
+
+	// Database on which the action is granted. Use the empty string ("") to allow an action on all databases.
 	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
 
+	// Name of the custom role.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 }
 
 type InheritedRolesParameters struct {
 
+	// Database on which the action is granted. Use the empty string ("") to allow an action on all databases.
 	// +kubebuilder:validation:Optional
 	DatabaseName *string `json:"databaseName" tf:"database_name,omitempty"`
 
+	// Name of the custom role.
 	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName" tf:"role_name,omitempty"`
 }
 
 type ResourcesInitParameters struct {
+
+	// field.
 	Cluster *bool `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
+	// Collection on which the action is granted. If this value is an empty string, the action is granted on all collections within the database specified in the actions.resources.db field.
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
 
+	// Database on which the action is granted. Use the empty string ("") to allow an action on all databases.
 	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
 }
 
 type ResourcesObservation struct {
+
+	// field.
 	Cluster *bool `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
+	// Collection on which the action is granted. If this value is an empty string, the action is granted on all collections within the database specified in the actions.resources.db field.
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
 
+	// Database on which the action is granted. Use the empty string ("") to allow an action on all databases.
 	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
 }
 
 type ResourcesParameters struct {
 
+	// field.
 	// +kubebuilder:validation:Optional
 	Cluster *bool `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
+	// Collection on which the action is granted. If this value is an empty string, the action is granted on all collections within the database specified in the actions.resources.db field.
 	// +kubebuilder:validation:Optional
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
 
+	// Database on which the action is granted. Use the empty string ("") to allow an action on all databases.
 	// +kubebuilder:validation:Optional
 	DatabaseName *string `json:"databaseName,omitempty" tf:"database_name,omitempty"`
 }
@@ -165,7 +201,7 @@ type CustomRoleStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// CustomRole is the Schema for the CustomRoles API. <no value>
+// CustomRole is the Schema for the CustomRoles API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

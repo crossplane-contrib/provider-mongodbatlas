@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: RegionalMode is the Schema for the RegionalModes API. <no value>
+        description: RegionalMode is the Schema for the RegionalModes API.
         properties:
           apiVersion:
             description: |-
@@ -59,8 +59,16 @@ spec:
               forProvider:
                 properties:
                   enabled:
+                    description: 'Flag that indicates whether the regionalized private
+                      endpoint setting is enabled for the project.   Set this value
+                      to true to create more than one private endpoint in a cloud
+                      provider region to connect to multi-region and global Atlas
+                      sharded clusters. You can enable this setting only if your Atlas
+                      project contains no replica sets. You can''t disable this setting
+                      if you have:'
                     type: boolean
                   projectId:
+                    description: Unique identifier for the project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -159,8 +167,16 @@ spec:
                   autoscaler.
                 properties:
                   enabled:
+                    description: 'Flag that indicates whether the regionalized private
+                      endpoint setting is enabled for the project.   Set this value
+                      to true to create more than one private endpoint in a cloud
+                      provider region to connect to multi-region and global Atlas
+                      sharded clusters. You can enable this setting only if your Atlas
+                      project contains no replica sets. You can''t disable this setting
+                      if you have:'
                     type: boolean
                   projectId:
+                    description: Unique identifier for the project.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -309,10 +325,18 @@ spec:
               atProvider:
                 properties:
                   enabled:
+                    description: 'Flag that indicates whether the regionalized private
+                      endpoint setting is enabled for the project.   Set this value
+                      to true to create more than one private endpoint in a cloud
+                      provider region to connect to multi-region and global Atlas
+                      sharded clusters. You can enable this setting only if your Atlas
+                      project contains no replica sets. You can''t disable this setting
+                      if you have:'
                     type: boolean
                   id:
                     type: string
                   projectId:
+                    description: Unique identifier for the project.
                     type: string
                 type: object
               conditions:

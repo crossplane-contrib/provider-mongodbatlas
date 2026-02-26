@@ -35,7 +35,6 @@ spec:
     schema:
       openAPIV3Schema:
         description: OrgConfigSettings is the Schema for the OrgConfigSettingss API.
-          <no value>
         properties:
           apiVersion:
             description: |-
@@ -74,20 +73,35 @@ spec:
               forProvider:
                 properties:
                   dataAccessIdentityProviderIds:
+                    description: The collection of unique ids representing the identity
+                      providers that can be used for data access in this organization.
                     items:
                       type: string
                     type: array
                   domainAllowList:
+                    description: List that contains the approved domains from which
+                      organization users can log in.
                     items:
                       type: string
                     type: array
                   domainRestrictionEnabled:
+                    description: Flag that indicates whether domain restriction is
+                      enabled for the connected organization.
                     type: boolean
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
                     type: string
                   identityProviderId:
+                    description: 'Legacy 20-hexadecimal digit string that identifies
+                      the SAML access identity provider that this connected org config
+                      is associated with. Removing the attribute or providing the
+                      value "" will detach/remove the SAML identity provider. This
+                      id can be found in two ways:'
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -166,6 +180,8 @@ spec:
                         type: object
                     type: object
                   postAuthRoleGrants:
+                    description: List that contains the default roles granted to users
+                      who authenticate through the IdP in a connected organization.
                     items:
                       type: string
                     type: array
@@ -184,20 +200,35 @@ spec:
                   autoscaler.
                 properties:
                   dataAccessIdentityProviderIds:
+                    description: The collection of unique ids representing the identity
+                      providers that can be used for data access in this organization.
                     items:
                       type: string
                     type: array
                   domainAllowList:
+                    description: List that contains the approved domains from which
+                      organization users can log in.
                     items:
                       type: string
                     type: array
                   domainRestrictionEnabled:
+                    description: Flag that indicates whether domain restriction is
+                      enabled for the connected organization.
                     type: boolean
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
                     type: string
                   identityProviderId:
+                    description: 'Legacy 20-hexadecimal digit string that identifies
+                      the SAML access identity provider that this connected org config
+                      is associated with. Removing the attribute or providing the
+                      value "" will detach/remove the SAML identity provider. This
+                      id can be found in two ways:'
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -276,6 +307,8 @@ spec:
                         type: object
                     type: object
                   postAuthRoleGrants:
+                    description: List that contains the default roles granted to users
+                      who authenticate through the IdP in a connected organization.
                     items:
                       type: string
                     type: array
@@ -381,39 +414,68 @@ spec:
               atProvider:
                 properties:
                   dataAccessIdentityProviderIds:
+                    description: The collection of unique ids representing the identity
+                      providers that can be used for data access in this organization.
                     items:
                       type: string
                     type: array
                   domainAllowList:
+                    description: List that contains the approved domains from which
+                      organization users can log in.
                     items:
                       type: string
                     type: array
                   domainRestrictionEnabled:
+                    description: Flag that indicates whether domain restriction is
+                      enabled for the connected organization.
                     type: boolean
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
                     type: string
                   id:
                     type: string
                   identityProviderId:
+                    description: 'Legacy 20-hexadecimal digit string that identifies
+                      the SAML access identity provider that this connected org config
+                      is associated with. Removing the attribute or providing the
+                      value "" will detach/remove the SAML identity provider. This
+                      id can be found in two ways:'
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   postAuthRoleGrants:
+                    description: List that contains the default roles granted to users
+                      who authenticate through the IdP in a connected organization.
                     items:
                       type: string
                     type: array
                   userConflicts:
+                    description: List that contains the users who have an email address
+                      that doesn't match any domain on the allowed list. See below
                     items:
                       properties:
                         emailAddress:
+                          description: Email address of the the user that conflicts
+                            with selected domains.
                           type: string
                         federationSettingsId:
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the federated authentication configuration.
                           type: string
                         firstName:
+                          description: First name of the the user that conflicts with
+                            selected domains.
                           type: string
                         lastName:
+                          description: Last name of the the user that conflicts with
+                            selected domains.
                           type: string
                         userId:
+                          description: Name of the Atlas user that conflicts with
+                            selected domains.
                           type: string
                       type: object
                     type: array

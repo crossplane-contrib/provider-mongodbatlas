@@ -1,0 +1,19 @@
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: PartyIntegration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/partyintegration
+  labels:
+    testing.upbound.io/example-name: test_datadog
+  name: test-datadog
+spec:
+  forProvider:
+    apiKeySecretRef:
+      key: example-key
+      name: example-secret
+      namespace: crossplane-system
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: <REGION>
+    type: DATADOG

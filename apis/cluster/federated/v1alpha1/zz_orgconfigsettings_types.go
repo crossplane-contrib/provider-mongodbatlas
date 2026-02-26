@@ -14,16 +14,23 @@ import (
 )
 
 type OrgConfigSettingsInitParameters struct {
+
+	// The collection of unique ids representing the identity providers that can be used for data access in this organization.
 	DataAccessIdentityProviderIds []*string `json:"dataAccessIdentityProviderIds,omitempty" tf:"data_access_identity_provider_ids,omitempty"`
 
+	// List that contains the approved domains from which organization users can log in.
 	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
 
+	// Flag that indicates whether domain restriction is enabled for the connected organization.
 	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
+	// Legacy 20-hexadecimal digit string that identifies the SAML access identity provider that this connected org config is associated with. Removing the attribute or providing the value "" will detach/remove the SAML identity provider. This id can be found in two ways:
 	IdentityProviderID *string `json:"identityProviderId,omitempty" tf:"identity_provider_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -35,46 +42,62 @@ type OrgConfigSettingsInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// List that contains the default roles granted to users who authenticate through the IdP in a connected organization.
 	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
 }
 
 type OrgConfigSettingsObservation struct {
+
+	// The collection of unique ids representing the identity providers that can be used for data access in this organization.
 	DataAccessIdentityProviderIds []*string `json:"dataAccessIdentityProviderIds,omitempty" tf:"data_access_identity_provider_ids,omitempty"`
 
+	// List that contains the approved domains from which organization users can log in.
 	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
 
+	// Flag that indicates whether domain restriction is enabled for the connected organization.
 	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Legacy 20-hexadecimal digit string that identifies the SAML access identity provider that this connected org config is associated with. Removing the attribute or providing the value "" will detach/remove the SAML identity provider. This id can be found in two ways:
 	IdentityProviderID *string `json:"identityProviderId,omitempty" tf:"identity_provider_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// List that contains the default roles granted to users who authenticate through the IdP in a connected organization.
 	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
 
+	// List that contains the users who have an email address that doesn't match any domain on the allowed list. See below
 	UserConflicts []UserConflictsObservation `json:"userConflicts,omitempty" tf:"user_conflicts,omitempty"`
 }
 
 type OrgConfigSettingsParameters struct {
 
+	// The collection of unique ids representing the identity providers that can be used for data access in this organization.
 	// +kubebuilder:validation:Optional
 	DataAccessIdentityProviderIds []*string `json:"dataAccessIdentityProviderIds,omitempty" tf:"data_access_identity_provider_ids,omitempty"`
 
+	// List that contains the approved domains from which organization users can log in.
 	// +kubebuilder:validation:Optional
 	DomainAllowList []*string `json:"domainAllowList,omitempty" tf:"domain_allow_list,omitempty"`
 
+	// Flag that indicates whether domain restriction is enabled for the connected organization.
 	// +kubebuilder:validation:Optional
 	DomainRestrictionEnabled *bool `json:"domainRestrictionEnabled,omitempty" tf:"domain_restriction_enabled,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	// +kubebuilder:validation:Optional
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
+	// Legacy 20-hexadecimal digit string that identifies the SAML access identity provider that this connected org config is associated with. Removing the attribute or providing the value "" will detach/remove the SAML identity provider. This id can be found in two ways:
 	// +kubebuilder:validation:Optional
 	IdentityProviderID *string `json:"identityProviderId,omitempty" tf:"identity_provider_id,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -87,6 +110,7 @@ type OrgConfigSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// List that contains the default roles granted to users who authenticate through the IdP in a connected organization.
 	// +kubebuilder:validation:Optional
 	PostAuthRoleGrants []*string `json:"postAuthRoleGrants,omitempty" tf:"post_auth_role_grants,omitempty"`
 }
@@ -95,14 +119,20 @@ type UserConflictsInitParameters struct {
 }
 
 type UserConflictsObservation struct {
+
+	// Email address of the the user that conflicts with selected domains.
 	EmailAddress *string `json:"emailAddress,omitempty" tf:"email_address,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
 
+	// First name of the the user that conflicts with selected domains.
 	FirstName *string `json:"firstName,omitempty" tf:"first_name,omitempty"`
 
+	// Last name of the the user that conflicts with selected domains.
 	LastName *string `json:"lastName,omitempty" tf:"last_name,omitempty"`
 
+	// Name of the Atlas user that conflicts with selected domains.
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
 }
 
@@ -136,7 +166,7 @@ type OrgConfigSettingsStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// OrgConfigSettings is the Schema for the OrgConfigSettingss API. <no value>
+// OrgConfigSettings is the Schema for the OrgConfigSettingss API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

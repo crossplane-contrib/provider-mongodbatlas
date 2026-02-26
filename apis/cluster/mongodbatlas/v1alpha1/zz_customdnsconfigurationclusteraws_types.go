@@ -14,8 +14,11 @@ import (
 )
 
 type CustomDNSConfigurationClusterAWSInitParameters struct {
+
+	// Indicates whether the project's clusters deployed to AWS use custom DNS. If true, the Get All Clusters and Get One Cluster endpoints return the connectionStrings.private and connectionStrings.privateSrv fields for clusters deployed to AWS .
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Required 	Unique identifier for the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -29,18 +32,23 @@ type CustomDNSConfigurationClusterAWSInitParameters struct {
 }
 
 type CustomDNSConfigurationClusterAWSObservation struct {
+
+	// Indicates whether the project's clusters deployed to AWS use custom DNS. If true, the Get All Clusters and Get One Cluster endpoints return the connectionStrings.private and connectionStrings.privateSrv fields for clusters deployed to AWS .
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Required 	Unique identifier for the project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type CustomDNSConfigurationClusterAWSParameters struct {
 
+	// Indicates whether the project's clusters deployed to AWS use custom DNS. If true, the Get All Clusters and Get One Cluster endpoints return the connectionStrings.private and connectionStrings.privateSrv fields for clusters deployed to AWS .
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Required 	Unique identifier for the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -81,7 +89,7 @@ type CustomDNSConfigurationClusterAWSStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// CustomDNSConfigurationClusterAWS is the Schema for the CustomDNSConfigurationClusterAWSs API. <no value>
+// CustomDNSConfigurationClusterAWS is the Schema for the CustomDNSConfigurationClusterAWSs API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

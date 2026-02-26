@@ -15,30 +15,44 @@ import (
 )
 
 type BackupCompliancePolicyInitParameters struct {
+
+	// Email address of a security or legal representative for the Backup Compliance Policy who is authorized to update the Backup Compliance Policy settings.
 	AuthorizedEmail *string `json:"authorizedEmail,omitempty" tf:"authorized_email,omitempty"`
 
+	// First name of the user who authorized to update the Backup Compliance Policy settings.
 	AuthorizedUserFirstName *string `json:"authorizedUserFirstName,omitempty" tf:"authorized_user_first_name,omitempty"`
 
+	// Last name of the user who authorized to update the Backup Compliance Policy settings.
 	AuthorizedUserLastName *string `json:"authorizedUserLastName,omitempty" tf:"authorized_user_last_name,omitempty"`
 
+	// Flag that indicates whether to enable additional backup copies for the cluster. If unspecified, this value defaults to false.
 	CopyProtectionEnabled *bool `json:"copyProtectionEnabled,omitempty" tf:"copy_protection_enabled,omitempty"`
 
+	// Flag that indicates whether Encryption at Rest using Customer Key Management is required for all clusters with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled,omitempty" tf:"encryption_at_rest_enabled,omitempty"`
 
+	// Specifications for on-demand policy.
 	OnDemandPolicyItem []OnDemandPolicyItemInitParameters `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
+	// Flag that indicates whether the cluster uses Continuous Cloud Backups with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// Scheduled policy using a daily frequency type, see block fields.
 	PolicyItemDaily []PolicyItemDailyInitParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
+	// Scheduled policy using an hourly frequency type, see block fields.
 	PolicyItemHourly []PolicyItemHourlyInitParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
+	// Scheduled policy using a monthly frequency type, see block fields.
 	PolicyItemMonthly []PolicyItemMonthlyInitParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
+	// Scheduled policy using a weekly frequency type, see block fields.
 	PolicyItemWeekly []PolicyItemWeeklyInitParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	// Scheduled policy using a yearly frequency type, see block fields.
 	PolicyItemYearly []PolicyItemYearlyInitParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -50,85 +64,118 @@ type BackupCompliancePolicyInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Number of previous days that you can restore back to with Continuous Cloud Backup with a Backup Compliance Policy. You must specify a positive, non-zero integer, and the maximum retention window can't exceed the hourly retention time. This parameter applies only to Continuous Cloud Backups with a Backup Compliance Policy.
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 }
 
 type BackupCompliancePolicyObservation struct {
+
+	// Email address of a security or legal representative for the Backup Compliance Policy who is authorized to update the Backup Compliance Policy settings.
 	AuthorizedEmail *string `json:"authorizedEmail,omitempty" tf:"authorized_email,omitempty"`
 
+	// First name of the user who authorized to update the Backup Compliance Policy settings.
 	AuthorizedUserFirstName *string `json:"authorizedUserFirstName,omitempty" tf:"authorized_user_first_name,omitempty"`
 
+	// Last name of the user who authorized to update the Backup Compliance Policy settings.
 	AuthorizedUserLastName *string `json:"authorizedUserLastName,omitempty" tf:"authorized_user_last_name,omitempty"`
 
+	// Flag that indicates whether to enable additional backup copies for the cluster. If unspecified, this value defaults to false.
 	CopyProtectionEnabled *bool `json:"copyProtectionEnabled,omitempty" tf:"copy_protection_enabled,omitempty"`
 
+	// Flag that indicates whether Encryption at Rest using Customer Key Management is required for all clusters with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled,omitempty" tf:"encryption_at_rest_enabled,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Specifications for on-demand policy.
 	OnDemandPolicyItem []OnDemandPolicyItemObservation `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
+	// Flag that indicates whether the cluster uses Continuous Cloud Backups with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// Scheduled policy using a daily frequency type, see block fields.
 	PolicyItemDaily []PolicyItemDailyObservation `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
+	// Scheduled policy using an hourly frequency type, see block fields.
 	PolicyItemHourly []PolicyItemHourlyObservation `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
+	// Scheduled policy using a monthly frequency type, see block fields.
 	PolicyItemMonthly []PolicyItemMonthlyObservation `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
+	// Scheduled policy using a weekly frequency type, see block fields.
 	PolicyItemWeekly []PolicyItemWeeklyObservation `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	// Scheduled policy using a yearly frequency type, see block fields.
 	PolicyItemYearly []PolicyItemYearlyObservation `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Number of previous days that you can restore back to with Continuous Cloud Backup with a Backup Compliance Policy. You must specify a positive, non-zero integer, and the maximum retention window can't exceed the hourly retention time. This parameter applies only to Continuous Cloud Backups with a Backup Compliance Policy.
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
+	// Label that indicates the state of the Backup Compliance Policy settings. MongoDB Cloud ignores this setting when you enable or update the Backup Compliance Policy settings.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// ISO 8601 timestamp format in UTC that indicates when the user updated the Data Protection Policy settings. MongoDB Cloud ignores this setting when you enable or update the Backup Compliance Policy settings.
 	UpdatedDate *string `json:"updatedDate,omitempty" tf:"updated_date,omitempty"`
 
+	// Email address that identifies the user who updated the Backup Compliance Policy settings. MongoDB Cloud ignores this email setting when you enable or update the Backup Compliance Policy settings.
 	UpdatedUser *string `json:"updatedUser,omitempty" tf:"updated_user,omitempty"`
 }
 
 type BackupCompliancePolicyParameters struct {
 
+	// Email address of a security or legal representative for the Backup Compliance Policy who is authorized to update the Backup Compliance Policy settings.
 	// +kubebuilder:validation:Optional
 	AuthorizedEmail *string `json:"authorizedEmail,omitempty" tf:"authorized_email,omitempty"`
 
+	// First name of the user who authorized to update the Backup Compliance Policy settings.
 	// +kubebuilder:validation:Optional
 	AuthorizedUserFirstName *string `json:"authorizedUserFirstName,omitempty" tf:"authorized_user_first_name,omitempty"`
 
+	// Last name of the user who authorized to update the Backup Compliance Policy settings.
 	// +kubebuilder:validation:Optional
 	AuthorizedUserLastName *string `json:"authorizedUserLastName,omitempty" tf:"authorized_user_last_name,omitempty"`
 
+	// Flag that indicates whether to enable additional backup copies for the cluster. If unspecified, this value defaults to false.
 	// +kubebuilder:validation:Optional
 	CopyProtectionEnabled *bool `json:"copyProtectionEnabled,omitempty" tf:"copy_protection_enabled,omitempty"`
 
+	// Flag that indicates whether Encryption at Rest using Customer Key Management is required for all clusters with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	// +kubebuilder:validation:Optional
 	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled,omitempty" tf:"encryption_at_rest_enabled,omitempty"`
 
+	// Specifications for on-demand policy.
 	// +kubebuilder:validation:Optional
 	OnDemandPolicyItem []OnDemandPolicyItemParameters `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
+	// Flag that indicates whether the cluster uses Continuous Cloud Backups with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	// +kubebuilder:validation:Optional
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// Scheduled policy using a daily frequency type, see block fields.
 	// +kubebuilder:validation:Optional
 	PolicyItemDaily []PolicyItemDailyParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
+	// Scheduled policy using an hourly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
 	PolicyItemHourly []PolicyItemHourlyParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
+	// Scheduled policy using a monthly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
 	PolicyItemMonthly []PolicyItemMonthlyParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
+	// Scheduled policy using a weekly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
 	PolicyItemWeekly []PolicyItemWeeklyParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
+	// Scheduled policy using a yearly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
 	PolicyItemYearly []PolicyItemYearlyParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies your project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -141,198 +188,277 @@ type BackupCompliancePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Number of previous days that you can restore back to with Continuous Cloud Backup with a Backup Compliance Policy. You must specify a positive, non-zero integer, and the maximum retention window can't exceed the hourly retention time. This parameter applies only to Continuous Cloud Backups with a Backup Compliance Policy.
 	// +kubebuilder:validation:Optional
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 }
 
 type OnDemandPolicyItemInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type OnDemandPolicyItemObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as ondemand. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type OnDemandPolicyItemParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemDailyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemDailyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as ondemand. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemDailyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemHourlyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemHourlyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as ondemand. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemHourlyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemMonthlyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemMonthlyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as ondemand. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemMonthlyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemWeeklyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemWeeklyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as ondemand. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemWeeklyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemYearlyInitParameters struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemYearlyObservation struct {
+
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as ondemand. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier of the backup policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemYearlyParameters struct {
 
+	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
 	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
+	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit" tf:"retention_unit,omitempty"`
 
+	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
 	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
@@ -364,7 +490,7 @@ type BackupCompliancePolicyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BackupCompliancePolicy is the Schema for the BackupCompliancePolicys API. <no value>
+// BackupCompliancePolicy is the Schema for the BackupCompliancePolicys API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

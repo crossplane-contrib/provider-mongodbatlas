@@ -16,15 +16,19 @@ import (
 
 type ServiceAccountAccessListEntryInitParameters struct {
 
+	// (String) Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or ip_address, but not for both.
 	// Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or **ip_address**, but not for both.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// (String) IP address to be added to the access list. You can set a value for this parameter or cidr_block, but not for both.
 	// IP address to be added to the access list. You can set a value for this parameter or **cidr_block**, but not for both.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -40,47 +44,59 @@ type ServiceAccountAccessListEntryInitParameters struct {
 
 type ServiceAccountAccessListEntryObservation struct {
 
+	// (String) Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or ip_address, but not for both.
 	// Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or **ip_address**, but not for both.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// (String) Date the entry was added to the access list. This attribute expresses its value in the ISO 8601 timestamp format in UTC.
 	// Date the entry was added to the access list. This attribute expresses its value in the ISO 8601 timestamp format in UTC.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) IP address to be added to the access list. You can set a value for this parameter or cidr_block, but not for both.
 	// IP address to be added to the access list. You can set a value for this parameter or **cidr_block**, but not for both.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// (String) Network address that issued the most recent request to the API.
 	// Network address that issued the most recent request to the API.
 	LastUsedAddress *string `json:"lastUsedAddress,omitempty" tf:"last_used_address,omitempty"`
 
+	// (String) Date when the API received the most recent request that originated from this network address.
 	// Date when the API received the most recent request that originated from this network address.
 	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
 
+	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// (Number) The number of requests that has originated from this network address.
 	// The number of requests that has originated from this network address.
 	RequestCount *float64 `json:"requestCount,omitempty" tf:"request_count,omitempty"`
 }
 
 type ServiceAccountAccessListEntryParameters struct {
 
+	// (String) Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or ip_address, but not for both.
 	// Range of IP addresses in CIDR notation to be added to the access list. You can set a value for this parameter or **ip_address**, but not for both.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
+	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// (String) IP address to be added to the access list. You can set a value for this parameter or cidr_block, but not for both.
 	// IP address to be added to the access list. You can set a value for this parameter or **cidr_block**, but not for both.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
@@ -122,7 +138,7 @@ type ServiceAccountAccessListEntryStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ServiceAccountAccessListEntry is the Schema for the ServiceAccountAccessListEntrys API. <no value>
+// ServiceAccountAccessListEntry is the Schema for the ServiceAccountAccessListEntrys API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -1,0 +1,61 @@
+apiVersion: ldap.mongodbatlas.crossplane.io/v1alpha1
+kind: Verify
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ldap/v1alpha1/verify
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    bindPassword: PASSWORD
+    bindUsername: USERNAME
+    hostname: HOSTNAME
+    port: 636
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ldap/v1alpha1/verify
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    backupEnabled: true
+    clusterType: REPLICASET
+    name: NAME OF THE CLUSTER
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ldap/v1alpha1/verify
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    name: NAME OF THE PROJECT
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

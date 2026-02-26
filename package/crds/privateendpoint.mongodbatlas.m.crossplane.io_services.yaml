@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Service is the Schema for the Services API. <no value>
+        description: Service is the Schema for the Services API.
         properties:
           apiVersion:
             description: |-
@@ -59,31 +59,49 @@ spec:
               forProvider:
                 properties:
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   endpointServiceId:
+                    description: Unique identifier of the interface endpoint you created
+                      in your VPC. For AWS and AZURE, this is the interface endpoint
+                      identifier. For GCP port-mapped architecture, this is the forwarding
+                      rule name. For GCP legacy private endpoint architecture, this
+                      is the endpoint group name.
                     type: string
                   endpoints:
+                    description: 'Collection of individual private endpoints that
+                      comprise your endpoint group. Only for GCP legacy private endpoint
+                      architecture. Note: For the port-mapped architecture, this field
+                      is no longer used - use endpoint_service_id and private_endpoint_ip_address
+                      instead.'
                     items:
                       properties:
                         endpointName:
+                          description: Forwarding rule that corresponds to the endpoint
+                            you created.
                           type: string
                         ipAddress:
+                          description: Private IP address of the endpoint you created.
                           type: string
                       type: object
                     type: array
                   gcpProjectId:
+                    description: Unique identifier of the GCP project in which you
+                      created your endpoints. Required for  (both legacy and port-mapped
+                      architectures). Only for GCP.
                     type: string
                   privateEndpointIpAddress:
+                    description: Private IP address of the private endpoint network
+                      interface. Required for  For port-mapped architecture, this
+                      is required and is the IP address of the forwarding rule. For
+                      GCP legacy private endpoint architecture, this is not used.
                     type: string
                   privateLinkId:
+                    description: Unique identifier of the AWS, AZURE or GCP PrivateLink
+                      connection which is created by mongodbatlas_privatelink_endpoint
+                      resource.
                     type: string
                   privateLinkIdRef:
                     description: Reference to a Resource in privateendpoint to populate
@@ -168,6 +186,8 @@ spec:
                         type: object
                     type: object
                   projectId:
+                    description: Unique identifier for the project, also known as
+                      group_id in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -252,6 +272,8 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Cloud provider for which you want to create a private
+                      endpoint. Atlas accepts AWS, AZURE or GCP.
                     type: string
                 type: object
               initProvider:
@@ -268,31 +290,49 @@ spec:
                   autoscaler.
                 properties:
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   endpointServiceId:
+                    description: Unique identifier of the interface endpoint you created
+                      in your VPC. For AWS and AZURE, this is the interface endpoint
+                      identifier. For GCP port-mapped architecture, this is the forwarding
+                      rule name. For GCP legacy private endpoint architecture, this
+                      is the endpoint group name.
                     type: string
                   endpoints:
+                    description: 'Collection of individual private endpoints that
+                      comprise your endpoint group. Only for GCP legacy private endpoint
+                      architecture. Note: For the port-mapped architecture, this field
+                      is no longer used - use endpoint_service_id and private_endpoint_ip_address
+                      instead.'
                     items:
                       properties:
                         endpointName:
+                          description: Forwarding rule that corresponds to the endpoint
+                            you created.
                           type: string
                         ipAddress:
+                          description: Private IP address of the endpoint you created.
                           type: string
                       type: object
                     type: array
                   gcpProjectId:
+                    description: Unique identifier of the GCP project in which you
+                      created your endpoints. Required for  (both legacy and port-mapped
+                      architectures). Only for GCP.
                     type: string
                   privateEndpointIpAddress:
+                    description: Private IP address of the private endpoint network
+                      interface. Required for  For port-mapped architecture, this
+                      is required and is the IP address of the forwarding rule. For
+                      GCP legacy private endpoint architecture, this is not used.
                     type: string
                   privateLinkId:
+                    description: Unique identifier of the AWS, AZURE or GCP PrivateLink
+                      connection which is created by mongodbatlas_privatelink_endpoint
+                      resource.
                     type: string
                   privateLinkIdRef:
                     description: Reference to a Resource in privateendpoint to populate
@@ -377,6 +417,8 @@ spec:
                         type: object
                     type: object
                   projectId:
+                    description: Unique identifier for the project, also known as
+                      group_id in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -461,6 +503,8 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Cloud provider for which you want to create a private
+                      endpoint. Atlas accepts AWS, AZURE or GCP.
                     type: string
                 type: object
               managementPolicies:
@@ -536,69 +580,108 @@ spec:
               atProvider:
                 properties:
                   awsConnectionStatus:
+                    description: |-
+                      Status of the interface endpoint for AWS.
+                      Returns one of the following values:
                     type: string
                   azureStatus:
+                    description: |-
+                      Status of the interface endpoint for AZURE.
+                      Returns one of the following values:
                     type: string
                   deleteOnCreateTimeout:
-                    description: Indicates whether to delete the resource being created
-                      if a timeout is reached when waiting for completion. When set
-                      to `true` and timeout occurs, it triggers the deletion and returns
-                      immediately without waiting for deletion to complete. When set
-                      to `false`, the timeout will not trigger resource deletion.
-                      If you suspect a transient error when the value is `true`, wait
-                      before retrying to allow resource deletion to finish. Default
-                      is `true`.
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   deleteRequested:
+                    description: Indicates if Atlas received a request to remove the
+                      interface endpoint from the private endpoint connection.
                     type: boolean
                   endpointGroupName:
                     type: string
                   endpointServiceId:
+                    description: Unique identifier of the interface endpoint you created
+                      in your VPC. For AWS and AZURE, this is the interface endpoint
+                      identifier. For GCP port-mapped architecture, this is the forwarding
+                      rule name. For GCP legacy private endpoint architecture, this
+                      is the endpoint group name.
                     type: string
                   endpoints:
+                    description: 'Collection of individual private endpoints that
+                      comprise your endpoint group. Only for GCP legacy private endpoint
+                      architecture. Note: For the port-mapped architecture, this field
+                      is no longer used - use endpoint_service_id and private_endpoint_ip_address
+                      instead.'
                     items:
                       properties:
                         endpointName:
+                          description: Forwarding rule that corresponds to the endpoint
+                            you created.
                           type: string
                         ipAddress:
+                          description: Private IP address of the endpoint you created.
                           type: string
                         status:
+                          description: Status of the endpoint. Atlas returns one of
+                            the values shown above.
                           type: string
                       type: object
                     type: array
                   errorMessage:
+                    description: Error message pertaining to the interface endpoint.
+                      Returns null if there are no errors.
                     type: string
                   gcpEndpointStatus:
-                    description: Status of the GCP endpoint. Only populated for port-mapped
-                      architecture.
+                    description: |-
+                      Status of the individual endpoint. Only populated for port-mapped architecture. Returns one of the following values: INITIATING, AVAILABLE, FAILED, DELETING.
+                      Status of the GCP endpoint. Only populated for port-mapped architecture.
                     type: string
                   gcpProjectId:
+                    description: Unique identifier of the GCP project in which you
+                      created your endpoints. Required for  (both legacy and port-mapped
+                      architectures). Only for GCP.
                     type: string
                   gcpStatus:
+                    description: |-
+                      Status of the interface endpoint.
+                      Returns one of the following values:
                     type: string
                   id:
                     type: string
                   interfaceEndpointId:
+                    description: Unique identifier of the interface endpoint.
                     type: string
                   portMappingEnabled:
-                    description: Flag that indicates whether the underlying `privatelink_endpoint`
-                      resource uses GCP port-mapping. This is a read-only attribute
-                      that reflects the architecture type. When `true`, the endpoint
-                      service uses the port-mapped architecture. When `false`, it
-                      uses the GCP legacy private endpoint architecture. Only applicable
-                      for GCP provider.
+                    description: |-
+                      Flag that indicates whether the underlying privatelink_endpoint resource uses GCP port-mapping. This is a read-only attribute that reflects the architecture type. When true, the endpoint service uses the port-mapped architecture. When false, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+                      Flag that indicates whether the underlying `privatelink_endpoint` resource uses GCP port-mapping. This is a read-only attribute that reflects the architecture type. When `true`, the endpoint service uses the port-mapped architecture. When `false`, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
                     type: boolean
                   privateEndpointConnectionName:
+                    description: Name of the connection for this private endpoint
+                      that Atlas generates.
                     type: string
                   privateEndpointIpAddress:
+                    description: Private IP address of the private endpoint network
+                      interface. Required for  For port-mapped architecture, this
+                      is required and is the IP address of the forwarding rule. For
+                      GCP legacy private endpoint architecture, this is not used.
                     type: string
                   privateEndpointResourceId:
+                    description: Unique identifier of the private endpoint.
                     type: string
                   privateLinkId:
+                    description: Unique identifier of the AWS, AZURE or GCP PrivateLink
+                      connection which is created by mongodbatlas_privatelink_endpoint
+                      resource.
                     type: string
                   projectId:
+                    description: Unique identifier for the project, also known as
+                      group_id in the official documentation.
                     type: string
                   providerName:
+                    description: Cloud provider for which you want to create a private
+                      endpoint. Atlas accepts AWS, AZURE or GCP.
                     type: string
                 type: object
               conditions:

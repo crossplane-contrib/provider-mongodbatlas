@@ -15,9 +15,11 @@ import (
 
 type PrivatelinkEndpointInitParameters struct {
 
+	// (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	Arn *string `json:"arn,omitempty" tf:"arn,omitempty"`
 
+	// (String) The domain hostname. Required for the following provider and vendor combinations:
 	// The domain hostname. Required for the following provider and vendor combinations:
 	//
 	// * AWS provider with CONFLUENT vendor.
@@ -25,9 +27,11 @@ type PrivatelinkEndpointInitParameters struct {
 	// * AZURE provider with EVENTHUB or CONFLUENT vendor.
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
+	// Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	DNSSubDomain []*string `json:"dnsSubDomain,omitempty" tf:"dns_sub_domain,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.NOTE: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group or project id remains the same. The resource and corresponding endpoints use the term groups.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.<br>**NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group or project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
@@ -41,18 +45,23 @@ type PrivatelinkEndpointInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
 	// The region of the Provider’s cluster. See [AZURE](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/#stream-processing-instances) and [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/#stream-processing-instances) supported regions. When the vendor is `CONFLUENT`, this is the domain name of Confluent cluster. When the vendor is `MSK`, this is computed by the API from the provided `arn`.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
+	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
 	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
+	// (String) Vendor that manages the endpoint. The following are the vendor values per provider:
 	// Vendor that manages the endpoint. The following are the vendor values per provider:
 	//
 	// * **AWS**: MSK, CONFLUENT, and S3
@@ -65,9 +74,11 @@ type PrivatelinkEndpointInitParameters struct {
 
 type PrivatelinkEndpointObservation struct {
 
+	// (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	Arn *string `json:"arn,omitempty" tf:"arn,omitempty"`
 
+	// (String) The domain hostname. Required for the following provider and vendor combinations:
 	// The domain hostname. Required for the following provider and vendor combinations:
 	//
 	// * AWS provider with CONFLUENT vendor.
@@ -75,41 +86,54 @@ type PrivatelinkEndpointObservation struct {
 	// * AZURE provider with EVENTHUB or CONFLUENT vendor.
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
+	// Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	DNSSubDomain []*string `json:"dnsSubDomain,omitempty" tf:"dns_sub_domain,omitempty"`
 
+	// (String) Error message if the connection is in a failed state.
 	// Error message if the connection is in a failed state.
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
+	// (String) The ID of the Private Link connection.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) Interface endpoint ID that is created from the specified service endpoint ID.
 	// Interface endpoint ID that is created from the specified service endpoint ID.
 	InterfaceEndpointID *string `json:"interfaceEndpointId,omitempty" tf:"interface_endpoint_id,omitempty"`
 
+	// (String) Name of interface endpoint that is created from the specified service endpoint ID.
 	// Name of interface endpoint that is created from the specified service endpoint ID.
 	InterfaceEndpointName *string `json:"interfaceEndpointName,omitempty" tf:"interface_endpoint_name,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.NOTE: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group or project id remains the same. The resource and corresponding endpoints use the term groups.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.<br>**NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group or project id remains the same. The resource and corresponding endpoints use the term groups.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (String) Account ID from the cloud provider.
 	// Account ID from the cloud provider.
 	ProviderAccountID *string `json:"providerAccountId,omitempty" tf:"provider_account_id,omitempty"`
 
+	// (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
 	// The region of the Provider’s cluster. See [AZURE](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/#stream-processing-instances) and [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/#stream-processing-instances) supported regions. When the vendor is `CONFLUENT`, this is the domain name of Confluent cluster. When the vendor is `MSK`, this is computed by the API from the provided `arn`.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
+	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
 	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
+	// (String) Status of the connection.
 	// Status of the connection.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (String) Vendor that manages the endpoint. The following are the vendor values per provider:
 	// Vendor that manages the endpoint. The following are the vendor values per provider:
 	//
 	// * **AWS**: MSK, CONFLUENT, and S3
@@ -122,10 +146,12 @@ type PrivatelinkEndpointObservation struct {
 
 type PrivatelinkEndpointParameters struct {
 
+	// (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// +kubebuilder:validation:Optional
 	Arn *string `json:"arn,omitempty" tf:"arn,omitempty"`
 
+	// (String) The domain hostname. Required for the following provider and vendor combinations:
 	// The domain hostname. Required for the following provider and vendor combinations:
 	//
 	// * AWS provider with CONFLUENT vendor.
@@ -134,10 +160,12 @@ type PrivatelinkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
+	// Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// +kubebuilder:validation:Optional
 	DNSSubDomain []*string `json:"dnsSubDomain,omitempty" tf:"dns_sub_domain,omitempty"`
 
+	// hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.NOTE: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group or project id remains the same. The resource and corresponding endpoints use the term groups.
 	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.<br>**NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group or project id remains the same. The resource and corresponding endpoints use the term groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
@@ -152,22 +180,27 @@ type PrivatelinkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
 	// The region of the Provider’s cluster. See [AZURE](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/#stream-processing-instances) and [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/#stream-processing-instances) supported regions. When the vendor is `CONFLUENT`, this is the domain name of Confluent cluster. When the vendor is `MSK`, this is computed by the API from the provided `arn`.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// +kubebuilder:validation:Optional
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
+	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
 	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
 	// +kubebuilder:validation:Optional
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
+	// (String) Vendor that manages the endpoint. The following are the vendor values per provider:
 	// Vendor that manages the endpoint. The following are the vendor values per provider:
 	//
 	// * **AWS**: MSK, CONFLUENT, and S3
@@ -206,7 +239,7 @@ type PrivatelinkEndpointStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// PrivatelinkEndpoint is the Schema for the PrivatelinkEndpoints API. <no value>
+// PrivatelinkEndpoint is the Schema for the PrivatelinkEndpoints API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

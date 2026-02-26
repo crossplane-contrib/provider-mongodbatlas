@@ -44,7 +44,7 @@ var SkipTfResourceList = []string{
 //go:embed schema.json
 var providerSchema string
 
-// // go:embed provider-metadata.yaml
+//go:embed provider-metadata.yaml
 var providerMetadata string
 
 // GetProvider returns provider configuration
@@ -87,7 +87,7 @@ func GetProvider() *ujconfig.Provider {
 
 // GetProviderNamespaced returns provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			namespacedGvkOverride(),
 			identifierAssignedByMongoDBAtlas(),

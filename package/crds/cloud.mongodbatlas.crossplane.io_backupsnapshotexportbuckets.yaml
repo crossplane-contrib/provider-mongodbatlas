@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackupSnapshotExportBucket is the Schema for the BackupSnapshotExportBuckets
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -75,12 +75,20 @@ spec:
               forProvider:
                 properties:
                   bucketName:
+                    description: Name of the bucket that the provided role ID is authorized
+                      to access.
                     type: string
                   cloudProvider:
+                    description: Name of the provider of the cloud service where Atlas
+                      can access the S3 bucket.
                     type: string
                   iamRoleId:
+                    description: Unique identifier of the role that Atlas can use
+                      to access the bucket. Required if cloud_provider is set to AWS.
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -159,10 +167,18 @@ spec:
                         type: object
                     type: object
                   roleId:
+                    description: Unique identifier of the Azure Service Principal
+                      that Atlas can use to access the Azure Blob Storage Container.
+                      Required if cloud_provider is set to AZURE.
                     type: string
                   serviceUrl:
+                    description: URL that identifies the blob Endpoint of the Azure
+                      Blob Storage Account. Required if cloud_provider is set to AZURE.
                     type: string
                   tenantId:
+                    description: (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id
+                      is used instead and returned as an attribute. UUID that identifies
+                      the Azure Active Directory Tenant ID.
                     type: string
                 type: object
               initProvider:
@@ -179,12 +195,20 @@ spec:
                   autoscaler.
                 properties:
                   bucketName:
+                    description: Name of the bucket that the provided role ID is authorized
+                      to access.
                     type: string
                   cloudProvider:
+                    description: Name of the provider of the cloud service where Atlas
+                      can access the S3 bucket.
                     type: string
                   iamRoleId:
+                    description: Unique identifier of the role that Atlas can use
+                      to access the bucket. Required if cloud_provider is set to AWS.
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -263,10 +287,18 @@ spec:
                         type: object
                     type: object
                   roleId:
+                    description: Unique identifier of the Azure Service Principal
+                      that Atlas can use to access the Azure Blob Storage Container.
+                      Required if cloud_provider is set to AZURE.
                     type: string
                   serviceUrl:
+                    description: URL that identifies the blob Endpoint of the Azure
+                      Blob Storage Account. Required if cloud_provider is set to AZURE.
                     type: string
                   tenantId:
+                    description: (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id
+                      is used instead and returned as an attribute. UUID that identifies
+                      the Azure Active Directory Tenant ID.
                     type: string
                 type: object
               managementPolicies:
@@ -371,22 +403,39 @@ spec:
               atProvider:
                 properties:
                   bucketName:
+                    description: Name of the bucket that the provided role ID is authorized
+                      to access.
                     type: string
                   cloudProvider:
+                    description: Name of the provider of the cloud service where Atlas
+                      can access the S3 bucket.
                     type: string
                   exportBucketId:
+                    description: Unique identifier of the snapshot export bucket.
                     type: string
                   iamRoleId:
+                    description: Unique identifier of the role that Atlas can use
+                      to access the bucket. Required if cloud_provider is set to AWS.
                     type: string
                   id:
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster.
                     type: string
                   roleId:
+                    description: Unique identifier of the Azure Service Principal
+                      that Atlas can use to access the Azure Blob Storage Container.
+                      Required if cloud_provider is set to AZURE.
                     type: string
                   serviceUrl:
+                    description: URL that identifies the blob Endpoint of the Azure
+                      Blob Storage Account. Required if cloud_provider is set to AZURE.
                     type: string
                   tenantId:
+                    description: (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id
+                      is used instead and returned as an attribute. UUID that identifies
+                      the Azure Active Directory Tenant ID.
                     type: string
                 type: object
               conditions:

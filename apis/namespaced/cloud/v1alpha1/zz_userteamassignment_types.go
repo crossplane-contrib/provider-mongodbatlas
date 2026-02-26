@@ -19,9 +19,11 @@ type RolesProjectRoleAssignmentsInitParameters struct {
 
 type RolesProjectRoleAssignmentsObservation struct {
 
+	// hexadecimal digit string that identifies the project to which these roles belong.
 	// Unique 24-hexadecimal digit string that identifies the project to which these roles belong.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// level roles assigned to the MongoDB Cloud user.
 	// One or more project-level roles assigned to the MongoDB Cloud user.
 	// +listType=set
 	ProjectRoles []*string `json:"projectRoles,omitempty" tf:"project_roles,omitempty"`
@@ -32,9 +34,11 @@ type RolesProjectRoleAssignmentsParameters struct {
 
 type UserTeamAssignmentInitParameters struct {
 
+	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the /teams endpoint to retrieve all teams to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
@@ -47,69 +51,88 @@ type UserTeamAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	TeamIDSelector *v1.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
+	// hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
 }
 
 type UserTeamAssignmentObservation struct {
 
+	// character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
 	// Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
 	Country *string `json:"country,omitempty" tf:"country,omitempty"`
 
+	// (String) Date and time when MongoDB Cloud created the current account. This value is in the ISO 8601 timestamp format in UTC.
 	// Date and time when MongoDB Cloud created the current account. This value is in the ISO 8601 timestamp format in UTC.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
+	// (String) First or given name that belongs to the MongoDB Cloud user.
 	// First or given name that belongs to the MongoDB Cloud user.
 	FirstName *string `json:"firstName,omitempty" tf:"first_name,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) Date and time when MongoDB Cloud sent the invitation. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
 	// Date and time when MongoDB Cloud sent the invitation. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
 	InvitationCreatedAt *string `json:"invitationCreatedAt,omitempty" tf:"invitation_created_at,omitempty"`
 
+	// (String) Date and time when the invitation from MongoDB Cloud expires. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
 	// Date and time when the invitation from MongoDB Cloud expires. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC.
 	InvitationExpiresAt *string `json:"invitationExpiresAt,omitempty" tf:"invitation_expires_at,omitempty"`
 
+	// (String) Username of the MongoDB Cloud user who sent the invitation to join the organization.
 	// Username of the MongoDB Cloud user who sent the invitation to join the organization.
 	InviterUsername *string `json:"inviterUsername,omitempty" tf:"inviter_username,omitempty"`
 
+	// (String) Date and time when the current account last authenticated. This value is in the ISO 8601 timestamp format in UTC.
 	// Date and time when the current account last authenticated. This value is in the ISO 8601 timestamp format in UTC.
 	LastAuth *string `json:"lastAuth,omitempty" tf:"last_auth,omitempty"`
 
+	// (String) Last name, family name, or surname that belongs to the MongoDB Cloud user.
 	// Last name, family name, or surname that belongs to the MongoDB Cloud user.
 	LastName *string `json:"lastName,omitempty" tf:"last_name,omitempty"`
 
+	// (String) Mobile phone number that belongs to the MongoDB Cloud user.
 	// Mobile phone number that belongs to the MongoDB Cloud user.
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
+	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// (String) String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
 	// String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
 	OrgMembershipStatus *string `json:"orgMembershipStatus,omitempty" tf:"org_membership_status,omitempty"`
 
+	// (Attributes) Organization and project level roles to assign the MongoDB Cloud user within one organization. (see below for nested schema)
 	Roles *UserTeamAssignmentRolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
 
+	// hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the /teams endpoint to retrieve all teams to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 
+	// hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
 	// List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
 	// +listType=set
 	TeamIds []*string `json:"teamIds,omitempty" tf:"team_ids,omitempty"`
 
+	// hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
 
+	// (String) Email address that represents the username of the MongoDB Cloud user.
 	// Email address that represents the username of the MongoDB Cloud user.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type UserTeamAssignmentParameters struct {
 
+	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the /teams endpoint to retrieve all teams to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	// +kubebuilder:validation:Optional
@@ -123,6 +146,7 @@ type UserTeamAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	TeamIDSelector *v1.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
+	// hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	// +kubebuilder:validation:Optional
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
@@ -133,10 +157,12 @@ type UserTeamAssignmentRolesInitParameters struct {
 
 type UserTeamAssignmentRolesObservation struct {
 
+	// (Set of String) One or more organization level roles to assign the MongoDB Cloud user.
 	// One or more organization level roles to assign the MongoDB Cloud user.
 	// +listType=set
 	OrgRoles []*string `json:"orgRoles,omitempty" tf:"org_roles,omitempty"`
 
+	// (Attributes Set) List of project level role assignments to assign the MongoDB Cloud user. (see below for nested schema)
 	ProjectRoleAssignments []RolesProjectRoleAssignmentsObservation `json:"projectRoleAssignments,omitempty" tf:"project_role_assignments,omitempty"`
 }
 
@@ -170,7 +196,7 @@ type UserTeamAssignmentStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// UserTeamAssignment is the Schema for the UserTeamAssignments API. <no value>
+// UserTeamAssignment is the Schema for the UserTeamAssignments API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

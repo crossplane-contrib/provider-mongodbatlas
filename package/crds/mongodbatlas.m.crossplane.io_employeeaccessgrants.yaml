@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: EmployeeAccessGrant is the Schema for the EmployeeAccessGrants
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -60,18 +60,23 @@ spec:
               forProvider:
                 properties:
                   clusterName:
-                    description: Human-readable label that identifies this cluster.
+                    description: |-
+                      readable label that identifies this cluster.
+                      Human-readable label that identifies this cluster.
                     type: string
                   expirationTime:
-                    description: Expiration date for the employee access grant.
+                    description: |-
+                      (String) Expiration date for the employee access grant.
+                      Expiration date for the employee access grant.
                     type: string
                   grantType:
-                    description: Level of access to grant to MongoDB Employees. Possible
-                      values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or
-                      CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                    description: |-
+                      (String) Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                      Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -173,18 +178,23 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
-                    description: Human-readable label that identifies this cluster.
+                    description: |-
+                      readable label that identifies this cluster.
+                      Human-readable label that identifies this cluster.
                     type: string
                   expirationTime:
-                    description: Expiration date for the employee access grant.
+                    description: |-
+                      (String) Expiration date for the employee access grant.
+                      Expiration date for the employee access grant.
                     type: string
                   grantType:
-                    description: Level of access to grant to MongoDB Employees. Possible
-                      values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or
-                      CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                    description: |-
+                      (String) Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                      Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
@@ -349,20 +359,25 @@ spec:
               atProvider:
                 properties:
                   clusterName:
-                    description: Human-readable label that identifies this cluster.
+                    description: |-
+                      readable label that identifies this cluster.
+                      Human-readable label that identifies this cluster.
                     type: string
                   expirationTime:
-                    description: Expiration date for the employee access grant.
+                    description: |-
+                      (String) Expiration date for the employee access grant.
+                      Expiration date for the employee access grant.
                     type: string
                   grantType:
-                    description: Level of access to grant to MongoDB Employees. Possible
-                      values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or
-                      CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                    description: |-
+                      (String) Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                      Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
                     type: string
                   id:
                     type: string
                   projectId:
                     description: |-
+                      hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
 
                       **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.

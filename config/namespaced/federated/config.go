@@ -44,7 +44,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = group
 		r.Kind = "SettingsIdentityProvider"
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "federation_settings_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_federated_settings_org_config", func(r *config.Resource) {
@@ -68,7 +68,9 @@ func Configure(p *config.Provider) {
 				TerraformName: "mongodbatlas_organization",
 			},
 		}
+		// ID format: {federation_settings_id}-{org_id}-{role_mapping_id}
+		// All three segments are hex IDs (no dashes).
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "federation_settings_id", "org_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-", 1)
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 2, 0)
 	})
 }

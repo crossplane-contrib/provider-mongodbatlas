@@ -19,6 +19,6 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "project_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
 	})
 }

@@ -36,7 +36,7 @@ const (
 )
 
 // GetAttributeValue reads a string attribute from the specified map
-func GetAttributeValue(attrMap map[string]interface{}, attr string) (string, error) {
+func GetAttributeValue(attrMap map[string]any, attr string) (string, error) {
 	v, ok := attrMap[attr]
 	if !ok {
 		return "", errors.Errorf(errFmtNoAttribute, attr)
@@ -83,7 +83,7 @@ func Base64EncodeTokens(keyVal ...interface{}) (string, error) {
 // SetIdentifierFunc sets the identifier attribute `name` from a composite
 // external-name where the identifier resides at index 0 of a colon-delimited
 // string.
-func SetIdentifierFunc(base map[string]interface{}, externalName string) {
+func SetIdentifierFunc(base map[string]any, externalName string) {
 	parts := strings.Split(externalName, ":")
 	base["name"] = parts[0]
 }
@@ -114,20 +114,84 @@ func GetIDFromParamsAndExternalName(sep string, externalNameIndex int, params ..
 // ExternalNameFromSegment returns a GetExternalNameFn that splits the
 // resource ID by the given separator and returns the segment at the given
 // index. If no index is provided, it returns the last segment.
+//
+// WARNING: This function uses strings.Split which breaks when the target
+// segment itself contains the separator character (e.g., cluster names with
+// dashes). For those cases, use ExternalNameFromID instead.
+//
+// This function is safe when the extracted segment is a fixed-format value
+// that cannot contain the separator (e.g., hex IDs, enum values like AWS).
 func ExternalNameFromSegment(sep string, index ...int) func(tfstate map[string]any) (string, error) {
 	return func(tfstate map[string]any) (string, error) {
-		id, ok := tfstate["id"]
-		if !ok {
-			return "", errors.New("id attribute missing from state file")
-		}
-		idStr, ok := id.(string)
-		if !ok {
-			return "", errors.New("value of id needs to be string")
+		idStr, err := ExtractIDFromState(tfstate)
+		if err != nil {
+			return "", err
 		}
 		parts := strings.Split(idStr, sep)
 		if len(index) > 0 {
+			if index[0] >= len(parts) {
+				return "", fmt.Errorf("index %d out of range for ID %q split by %q into %d parts", index[0], idStr, sep, len(parts))
+			}
 			return parts[index[0]], nil
 		}
 		return parts[len(parts)-1], nil
 	}
+}
+
+// ExternalNameFromID extracts the external name from a composite Terraform
+// ID by skipping fixed-format segments from the left and right.
+//
+// skipLeft: number of segments to skip from the left (must not contain sep).
+// skipRight: number of segments to skip from the right (must not contain sep).
+//
+// Everything between the skipped segments is returned as the external name,
+// which may safely contain the separator character.
+//
+// Examples:
+//
+//	ExternalNameFromID("-", 1, 0)  on "507f-my-cluster"       -> "my-cluster"
+//	ExternalNameFromID("-", 1, 1)  on "507f-my-cluster-abc12" -> "my-cluster"
+//	ExternalNameFromID("-", 0, 1)  on "abc12-my-instance"     -> "abc12"
+//	ExternalNameFromID("/", 1, 0)  on "507f/my-value"         -> "my-value"
+func ExternalNameFromID(sep string, skipLeft, skipRight int) func(tfstate map[string]any) (string, error) {
+	return func(tfstate map[string]any) (string, error) {
+		idStr, err := ExtractIDFromState(tfstate)
+		if err != nil {
+			return "", err
+		}
+
+		result := idStr
+
+		// Skip fixed-format segments from the left.
+		for i := 0; i < skipLeft; i++ {
+			idx := strings.Index(result, sep)
+			if idx == -1 {
+				return "", fmt.Errorf("expected at least %d left segments in ID %q with separator %q", skipLeft, idStr, sep)
+			}
+			result = result[idx+len(sep):]
+		}
+
+		// Skip fixed-format segments from the right.
+		for i := 0; i < skipRight; i++ {
+			idx := strings.LastIndex(result, sep)
+			if idx == -1 {
+				return "", fmt.Errorf("expected at least %d right segments in ID %q with separator %q", skipRight, idStr, sep)
+			}
+			result = result[:idx]
+		}
+
+		return result, nil
+	}
+}
+
+func ExtractIDFromState(tfstate map[string]any) (string, error) {
+	id, ok := tfstate["id"]
+	if !ok {
+		return "", errors.New("id attribute missing from state file")
+	}
+	idStr, ok := id.(string)
+	if !ok {
+		return "", errors.New("value of id needs to be string")
+	}
+	return idStr, nil
 }

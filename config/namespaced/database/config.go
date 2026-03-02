@@ -17,14 +17,17 @@ func Configure(p *config.Provider) {
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"x509_type", "ldap_auth_type", "aws_iam_type"},
 		}
-		r.ExternalName.OmittedFields = []string{"username"}
-		r.ExternalName.SetIdentifierArgumentFn = func(base map[string]interface{}, externalName string) {
-			base["username"] = externalName
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
 		}
-		r.ExternalName.GetExternalNameFn = func(tfstate map[string]interface{}) (string, error) {
+		// The Terraform provider stores the state ID using EncodeStateID,
+		// which base64-encodes key:value pairs joined by dashes.
+		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
 			return tfstate["username"].(string), nil
 		}
-		r.ExternalName.GetIDFn = func(_ context.Context, _ string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
+		r.ExternalName.GetIDFn = func(_ context.Context, _ string, parameters map[string]any, _ map[string]any) (string, error) {
 			return common.Base64EncodeTokens("auth_database_name", parameters["auth_database_name"], "project_id", parameters["project_id"], "username", parameters["username"])
 		}
 	})

@@ -11,10 +11,21 @@ Install the provider by using the following command after changing the image tag
 to the [latest release](https://github.com/crossplane-contrib/provider-mongodbatlas/releases):
 
 ```
-kubectl crossplane install provider crossplane/provider-mongodbatlas:v0.1.0
+kubectl apply -f - <<EOF
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-mongodbatlas
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.0.0
+EOF
 ```
 
 You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-contrib/provider-mongodbatlas).
+
+## Importing a resource
+
+Refer to the [dedicated document](docs/import.md) for information about how to import existing resources.
 
 ## Developing
 
@@ -79,7 +90,7 @@ Please use the following to reach members of the community:
 
 `provider-mongodbatlas` is run according to the same
 [Governance](https://github.com/crossplane/crossplane/blob/master/GOVERNANCE.md)
-and [Ownership](https://github.com/crossplane/crossplane/blob/master/OWNERS.md)
+and [Ownership](OWNERS.md)
 structure as the core Crossplane project.
 
 ## Code of Conduct

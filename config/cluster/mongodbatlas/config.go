@@ -83,7 +83,7 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "org_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_team_project_assignment", func(r *config.Resource) {
@@ -106,7 +106,7 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "org_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_api_key_project_assignment", func(r *config.Resource) {
@@ -141,7 +141,7 @@ func Configure(p *config.Provider) {
 			},
 		}
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "project_id", "cloud_provider")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 2, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_event_trigger", func(r *config.Resource) {
@@ -154,7 +154,7 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "project_id", "app_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 2, 0)
 	})
 
 	// Configure configures the root group
@@ -178,7 +178,7 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "project_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_organization", func(r *config.Resource) {
@@ -239,7 +239,7 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "org_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account_secret", func(r *config.Resource) {
@@ -252,7 +252,7 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 2, "org_id", "client_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 2, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account_access_list_entry", func(r *config.Resource) {
@@ -307,7 +307,7 @@ func Configure(p *config.Provider) {
 			},
 		}
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "org_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_online_archive", func(r *config.Resource) {
@@ -319,6 +319,9 @@ func Configure(p *config.Provider) {
 			},
 		}
 
+		// ID format: {project_id}-{cluster_name}-{archive_id}
+		// cluster_name may contain dashes, but the extracted archive_id is a hex
+		// ID that never contains dashes, so Split+last is safe here.
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 2, "project_id", "cluster_name")
 		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
 	})
@@ -326,6 +329,9 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "AccessListAPIKey"
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"ip_address"},
+		}
 		r.References = config.References{
 			"org_id": {
 				TerraformName: "mongodbatlas_organization",

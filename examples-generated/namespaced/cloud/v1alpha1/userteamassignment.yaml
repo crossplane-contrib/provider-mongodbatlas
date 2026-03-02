@@ -9,7 +9,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    orgId: ${var.org_id}
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     teamIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example

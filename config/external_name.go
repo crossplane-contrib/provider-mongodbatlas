@@ -6,7 +6,7 @@ import "github.com/crossplane/upjet/v2/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_access_list_api_key":                                         config.IdentifierFromProvider,
-	"mongodbatlas_advanced_cluster":                                            config.TemplatedStringAsIdentifier("name", "{{ .parameters.project_id }}-{{ .parameters.name }}"),
+	"mongodbatlas_advanced_cluster":                                            config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}-{{ .parameters.name }}"),
 	"mongodbatlas_alert_configuration":                                         config.IdentifierFromProvider,
 	"mongodbatlas_api_key_project_assignment":                                  config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}/{{ .parameters.api_key_id }}"),
 	"mongodbatlas_api_key":                                                     config.IdentifierFromProvider,
@@ -23,10 +23,10 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_cloud_user_project_assignment":                               config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_team_assignment":                                  config.TemplatedStringAsIdentifier("", "{{ .parameters.org_id }}/{{ .parameters.team_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cluster_outage_simulation":                                   config.IdentifierFromProvider, // doesn't support import
-	"mongodbatlas_cluster":                                                     config.TemplatedStringAsIdentifier("name", "{{ .parameters.project_id }}-{{ .parameters.name }}"),
+	"mongodbatlas_cluster":                                                     config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}-{{ .parameters.name }}"),
 	"mongodbatlas_custom_db_role":                                              config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}/{{ .parameters.role_name }}"),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        config.ParameterAsIdentifier("project_id"),
-	"mongodbatlas_database_user":                                               config.NameAsIdentifier,
+	"mongodbatlas_database_user":                                               config.IdentifierFromProvider,
 	"mongodbatlas_encryption_at_rest":                                          config.ParameterAsIdentifier("project_id"),
 	"mongodbatlas_encryption_at_rest_private_endpoint":                         config.IdentifierFromProvider,
 	"mongodbatlas_event_trigger":                                               config.IdentifierFromProvider,
@@ -35,7 +35,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_federated_settings_identity_provider":                        config.IdentifierFromProvider,
 	"mongodbatlas_federated_settings_org_config":                               config.TemplatedStringAsIdentifier("", "{{ .parameters.federation_settings_id }}/{{ .parameters.org_id }}"),
 	"mongodbatlas_federated_settings_org_role_mapping":                         config.IdentifierFromProvider,
-	"mongodbatlas_flex_cluster":                                                config.TemplatedStringAsIdentifier("name", "{{ .parameters.project_id }}-{{ .parameters.name }}"),
+	"mongodbatlas_flex_cluster":                                                config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}-{{ .parameters.name }}"),
 	"mongodbatlas_global_cluster_config":                                       config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}/{{ .parameters.cluster_name }}"),
 	"mongodbatlas_ldap_configuration":                                          config.ParameterAsIdentifier("project_id"),
 	"mongodbatlas_ldap_verify":                                                 config.IdentifierFromProvider,
@@ -52,7 +52,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_privatelink_endpoint_service":                                config.IdentifierFromProvider,
 	"mongodbatlas_privatelink_endpoint":                                        config.IdentifierFromProvider,
 	"mongodbatlas_project_api_key":                                             config.IdentifierFromProvider,
-	"mongodbatlas_project_invitation":                                          config.TemplatedStringAsIdentifier("name", "{{ .parameters.project_id }}-{{ .parameters.username }}"),
+	"mongodbatlas_project_invitation":                                          config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}-{{ .parameters.username }}"),
 	"mongodbatlas_project_ip_access_list":                                      config.IdentifierFromProvider,
 	"mongodbatlas_project_service_account_access_list_entry":                   config.IdentifierFromProvider,
 	"mongodbatlas_project_service_account_secret":                              config.IdentifierFromProvider,
@@ -74,7 +74,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_stream_workspace":                                            config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}-{{ .parameters.workspace_name }}"),
 	"mongodbatlas_team_project_assignment":                                     config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}/{{ .parameters.team_id }}"),
 	"mongodbatlas_team":                                                        config.IdentifierFromProvider,
-	"mongodbatlas_third_party_integration":                                     config.TemplatedStringAsIdentifier("name", "{{ .parameters.project_id }}-{{ .parameters.type }}"),
+	"mongodbatlas_third_party_integration":                                     config.TemplatedStringAsIdentifier("", "{{ .parameters.project_id }}-{{ .parameters.type }}"),
 	"mongodbatlas_x509_authentication_database_user":                           config.ParameterAsIdentifier("project_id"),
 }
 

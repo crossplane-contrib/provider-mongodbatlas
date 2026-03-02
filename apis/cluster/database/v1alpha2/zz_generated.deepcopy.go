@@ -349,6 +349,11 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Username != nil {
+		in, out := &in.Username, &out.Username
+		*out = new(string)
+		**out = **in
+	}
 	if in.X509Type != nil {
 		in, out := &in.X509Type, &out.X509Type
 		*out = new(string)
@@ -457,6 +462,11 @@ func (in *UserObservation) DeepCopyInto(out *UserObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Username != nil {
+		in, out := &in.Username, &out.Username
+		*out = new(string)
+		**out = **in
+	}
 	if in.X509Type != nil {
 		in, out := &in.X509Type, &out.X509Type
 		*out = new(string)
@@ -542,6 +552,11 @@ func (in *UserParameters) DeepCopyInto(out *UserParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.Username != nil {
+		in, out := &in.Username, &out.Username
+		*out = new(string)
+		**out = **in
 	}
 	if in.X509Type != nil {
 		in, out := &in.X509Type, &out.X509Type

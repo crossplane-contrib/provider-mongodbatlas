@@ -15,7 +15,7 @@ func Configure(p *config.Provider) {
 			},
 		}
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "project_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_network_peering", func(r *config.Resource) {
@@ -27,8 +27,11 @@ func Configure(p *config.Provider) {
 				TerraformName: "mongodbatlas_project",
 			},
 		}
+		// ID format: {project_id}-{peering_id}-{provider_name}
+		// Both project_id and provider_name are fixed-format (hex and enum),
+		// so the peering_id (hex) is safely extracted from the middle.
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "project_id", "provider_name")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("-", 1)
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 1)
 	})
 
 }

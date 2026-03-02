@@ -12,7 +12,7 @@ spec:
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: user
-    username: ${mongodbatlas_database_user.user.username}
+    username: test-acc-username
 
 ---
 
@@ -36,4 +36,5 @@ spec:
     roles:
     - databaseName: admin
       roleName: atlasAdmin
+    username: myUsername
     x509Type: MANAGED

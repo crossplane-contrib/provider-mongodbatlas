@@ -135,7 +135,6 @@ type UserInitParameters struct {
 
 	// The unique ID for the project to create the database user.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -150,6 +149,9 @@ type UserInitParameters struct {
 	Roles []RolesInitParameters `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	Scopes []ScopesInitParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// Username for authenticating to MongoDB. USER_ARN or ROLE_ARN if aws_iam_type is USER or ROLE.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// X.509 method by which the provided username is authenticated. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
@@ -185,6 +187,9 @@ type UserObservation struct {
 	Roles []RolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	Scopes []ScopesObservation `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// Username for authenticating to MongoDB. USER_ARN or ROLE_ARN if aws_iam_type is USER or ROLE.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// X.509 method by which the provided username is authenticated. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
@@ -222,7 +227,6 @@ type UserParameters struct {
 
 	// The unique ID for the project to create the database user.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -240,6 +244,10 @@ type UserParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Scopes []ScopesParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// Username for authenticating to MongoDB. USER_ARN or ROLE_ARN if aws_iam_type is USER or ROLE.
+	// +kubebuilder:validation:Optional
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// X.509 method by which the provided username is authenticated. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	// +kubebuilder:validation:Optional
@@ -283,6 +291,7 @@ type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authDatabaseName) || (has(self.initProvider) && has(self.initProvider.authDatabaseName))",message="spec.forProvider.authDatabaseName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.username) || (has(self.initProvider) && has(self.initProvider.username))",message="spec.forProvider.username is a required parameter"
 	Spec   UserSpec   `json:"spec"`
 	Status UserStatus `json:"status,omitempty"`
 }

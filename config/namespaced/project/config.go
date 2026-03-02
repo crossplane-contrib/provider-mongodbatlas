@@ -130,7 +130,7 @@ func Configure(p *config.Provider) {
 			},
 		}
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 2, "project_id", "client_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 2, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account", func(r *config.Resource) {
@@ -143,6 +143,6 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "project_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromSegment("/")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 1, 0)
 	})
 }

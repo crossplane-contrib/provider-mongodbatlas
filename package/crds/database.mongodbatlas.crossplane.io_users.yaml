@@ -245,6 +245,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    description: Username for authenticating to MongoDB. USER_ARN
+                      or ROLE_ARN if aws_iam_type is USER or ROLE.
+                    type: string
                   x509Type:
                     description: 'X.509 method by which the provided username is authenticated.
                       If no value is given, Atlas uses the default value of NONE.
@@ -437,6 +441,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    description: Username for authenticating to MongoDB. USER_ARN
+                      or ROLE_ARN if aws_iam_type is USER or ROLE.
+                    type: string
                   x509Type:
                     description: 'X.509 method by which the provided username is authenticated.
                       If no value is given, Atlas uses the default value of NONE.
@@ -534,6 +542,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.authDatabaseName)
                 || (has(self.initProvider) && has(self.initProvider.authDatabaseName))'
+            - message: spec.forProvider.username is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.username)
+                || (has(self.initProvider) && has(self.initProvider.username))'
           status:
             description: UserStatus defines the observed state of User.
             properties:
@@ -620,6 +632,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    description: Username for authenticating to MongoDB. USER_ARN
+                      or ROLE_ARN if aws_iam_type is USER or ROLE.
+                    type: string
                   x509Type:
                     description: 'X.509 method by which the provided username is authenticated.
                       If no value is given, Atlas uses the default value of NONE.

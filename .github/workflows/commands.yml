@@ -1,7 +1,0 @@
-name: Comment Commands
-
-on: issue_comment
-
-jobs:
-  comment-commands:
-    uses: crossplane/uptest/.github/workflows/commands.yml@main

@@ -35,10 +35,16 @@ Run code-generation pipeline:
 go run cmd/generator/main.go
 ```
 
-Run against a Kubernetes cluster:
+Run against a Kubernetes cluster (out of cluster):
 
 ```console
 make run
+```
+
+or (deploying in-cluster):
+
+```console
+make local-deploy
 ```
 
 Review your code:

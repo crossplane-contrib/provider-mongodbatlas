@@ -2,7 +2,6 @@ package common
 
 import (
 	"context"
-	"encoding/base64"
 	"fmt"
 	"strings"
 
@@ -14,7 +13,6 @@ import (
 )
 
 const (
-	errUnevenCount = "argument count should be even: expecting key-value pairs"
 	// errFmtNoAttribute is an error string for not-found attributes
 	errFmtNoAttribute = `"attribute not found: %s`
 	// errFmtUnexpectedType is an error string for attribute map values of unexpected type
@@ -59,25 +57,6 @@ func ExtractResourceID() xpref.ExtractValueFn {
 		}
 		return tr.GetID()
 	}
-}
-
-// Base64EncodeTokens base64-encode key-value pairs using a colon
-// as a separator between them and concatenate pairs with hyphens
-func Base64EncodeTokens(keyVal ...interface{}) (string, error) {
-	if len(keyVal)%2 == 1 {
-		return "", errors.New(errUnevenCount)
-	}
-	result := ""
-	for i := 0; i < len(keyVal); i += 2 {
-		encodedPair := fmt.Sprintf("%s:%s", base64.StdEncoding.EncodeToString([]byte(keyVal[i].(string))), base64.StdEncoding.EncodeToString([]byte(keyVal[i+1].(string))))
-		switch result {
-		case "":
-			result = encodedPair
-		default:
-			result = fmt.Sprintf("%s-%s", result, encodedPair)
-		}
-	}
-	return result, nil
 }
 
 // SetIdentifierFunc sets the identifier attribute `name` from a composite

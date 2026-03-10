@@ -52,7 +52,7 @@ func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			clusterGvkOverride(),
-			identifierAssignedByMongoDBAtlas(),
+			ExternalNameConfigurations(),
 			clusterCommonReferencesOverride(),
 		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
@@ -90,7 +90,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			namespacedGvkOverride(),
-			identifierAssignedByMongoDBAtlas(),
+			ExternalNameConfigurations(),
 			namespacedCommonReferencesOverride(),
 		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{

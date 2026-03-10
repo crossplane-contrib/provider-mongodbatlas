@@ -24,6 +24,7 @@ ENV PLUGIN_DIR=/terraform/provider-mirror/registry.terraform.io/${TERRAFORM_PROV
 ENV TF_CLI_CONFIG_FILE=/terraform/.terraformrc
 ENV TF_FORK=0
 ENV NO_COLOR=1
+ENV TF_CLI_ARGS_import=-no-color
 
 RUN mkdir -p ${PLUGIN_DIR}
 

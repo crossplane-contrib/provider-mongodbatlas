@@ -98,3 +98,40 @@ The following resources do not support import:
 - `mongodbatlas_cluster_outage_simulation`
 - `mongodbatlas_search_index`
 - `mongodbatlas_stream_privatelink_endpoint`
+
+
+## Example
+
+To import an existing MongoDB Atlas resource into Crossplane, create a manifest with:
+
+1. The **required identity parameters** listed in the table above (under `spec.forProvider`).
+2. `managementPolicies: ["Observe"]` so Crossplane reads the remote state without modifying it.
+3. A `providerConfigRef` pointing to valid Atlas credentials.
+
+You do **not** need to set the `crossplane.io/external-name` annotation — the provider
+builds it automatically from the identity parameters and updates it after the first
+successful observe.
+
+### Importing a database user
+
+```yaml
+apiVersion: database.mongodbatlas.m.crossplane.io/v1alpha2
+kind: User
+metadata:
+  name: my-db-user            # any name you choose for the Crossplane resource
+spec:
+  forProvider:
+    authDatabaseName: admin    # must match the existing user's auth database
+    projectId: 00001111aaaabbbb55556666
+    username: my-user          # must match the existing username in Atlas
+  managementPolicies:
+    - Observe                  # read-only: Crossplane will not create or modify the user
+  providerConfigRef:
+    name: default
+    kind: ClusterProviderConfig
+```
+
+After applying, Crossplane will:
+- Set `crossplane.io/external-name` to the username (`my-user`).
+- Populate `status.atProvider` with the full remote state (roles, scopes, etc.).
+- Report the resource as `Ready` and `Synced` once the observe succeeds.

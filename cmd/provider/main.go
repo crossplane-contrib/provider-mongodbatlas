@@ -195,7 +195,7 @@ func main() {
 				MRStateMetrics:          stateMetrics,
 			},
 		},
-		Provider:       config.GetProvider(),
+		Provider:       config.GetidentifierFromProvider(),
 		SetupFn:        clients.TerraformSetupBuilder(cli.TerraformVersion, cli.ProviderSource, cli.ProviderVersion),
 		WorkspaceStore: terraform.NewWorkspaceStore(log),
 		PollJitter:     pollJitter,

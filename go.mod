@@ -11,6 +11,7 @@ require (
 	github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339
 	github.com/crossplane/upjet/v2 v2.2.0
 	github.com/go-logr/logr v1.4.3
+	github.com/iancoleman/strcase v0.2.0
 	github.com/pkg/errors v0.9.1
 	google.golang.org/grpc v1.79.2
 	k8s.io/api v0.35.2
@@ -67,7 +68,6 @@ require (
 	github.com/hashicorp/terraform-registry-address v0.2.5 // indirect
 	github.com/hashicorp/terraform-svchost v0.1.1 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
-	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

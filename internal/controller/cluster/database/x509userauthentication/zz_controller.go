@@ -39,6 +39,9 @@ func SetupGated(mgr ctrl.Manager, o tjcontroller.Options) error {
 func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	name := managed.ControllerName(v1alpha1.X509UserAuthentication_GroupVersionKind.String())
 	var initializers managed.InitializerChain
+	for _, i := range o.Provider.Resources["mongodbatlas_x509_authentication_database_user"].InitializerFns {
+		initializers = append(initializers, i(mgr.GetClient()))
+	}
 	initializers = append(initializers, managed.NewNameAsExternalName(mgr.GetClient()))
 	eventHandler := handler.NewEventHandler(handler.WithLogger(o.Logger.WithValues("gvk", v1alpha1.X509UserAuthentication_GroupVersionKind)))
 	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1alpha1.X509UserAuthentication_GroupVersionKind), tjcontroller.WithEventHandler(eventHandler))

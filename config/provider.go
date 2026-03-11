@@ -47,23 +47,25 @@ var providerSchema string
 //go:embed provider-metadata.yaml
 var providerMetadata string
 
-// defaultResourceOptions returns the common resource options shared by both
-// cluster and namespaced providers.
-func defaultResourceOptions() []ujconfig.ResourceOption {
-	return []ujconfig.ResourceOption{
-		func(r *ujconfig.Resource) {
-			if r.ShortGroup == resourcePrefix {
-				r.ShortGroup = ""
-			}
-		},
-		ExternalNameConfigurations(),
+// resetRootShortGroup clears the ShortGroup for resources in the root API group.
+// upjet defaults ShortGroup to the resource prefix; resources without a sub-group
+// must have it cleared so they land in the root mongodbatlas.crossplane.io group.
+func resetRootShortGroup() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
+		if r.ShortGroup == resourcePrefix {
+			r.ShortGroup = ""
+		}
 	}
 }
 
 // GetProvider returns provider configuration
-func GetProvider() *ujconfig.Provider {
+func GetidentifierFromProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithDefaultResourceOptions(defaultResourceOptions()...),
+		ujconfig.WithDefaultResourceOptions(
+			resetRootShortGroup(),
+			ExternalNameConfigurations(),
+			ExternalNameInitializers(),
+		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",
 		}),
@@ -97,7 +99,11 @@ func GetProvider() *ujconfig.Provider {
 // GetProviderNamespaced returns provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithDefaultResourceOptions(defaultResourceOptions()...),
+		ujconfig.WithDefaultResourceOptions(
+			resetRootShortGroup(),
+			ExternalNameConfigurations(),
+			ExternalNameInitializers(),
+		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",
 		}),

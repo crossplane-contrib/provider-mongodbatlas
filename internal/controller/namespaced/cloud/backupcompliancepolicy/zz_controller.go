@@ -39,6 +39,9 @@ func SetupGated(mgr ctrl.Manager, o tjcontroller.Options) error {
 func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	name := managed.ControllerName(v1alpha1.BackupCompliancePolicy_GroupVersionKind.String())
 	var initializers managed.InitializerChain
+	for _, i := range o.Provider.Resources["mongodbatlas_backup_compliance_policy"].InitializerFns {
+		initializers = append(initializers, i(mgr.GetClient()))
+	}
 	initializers = append(initializers, managed.NewNameAsExternalName(mgr.GetClient()))
 	eventHandler := handler.NewEventHandler(handler.WithLogger(o.Logger.WithValues("gvk", v1alpha1.BackupCompliancePolicy_GroupVersionKind)))
 	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1alpha1.BackupCompliancePolicy_GroupVersionKind), tjcontroller.WithEventHandler(eventHandler))

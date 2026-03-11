@@ -6,8 +6,8 @@
 
 // +kubebuilder:object:generate=true
 // +groupName=database.mongodbatlas.m.crossplane.io
-// +versionName=v1alpha2
-package v1alpha2
+// +versionName=v1alpha3
+package v1alpha3
 
 import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -17,7 +17,7 @@ import (
 // Package type metadata.
 const (
 	CRDGroup   = "database.mongodbatlas.m.crossplane.io"
-	CRDVersion = "v1alpha2"
+	CRDVersion = "v1alpha3"
 )
 
 var (

@@ -13,6 +13,7 @@ import (
 // Configure configures the root group
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster", func(r *config.Resource) {
+		r.Version = common.VersionV1Alpha2
 		r.UseAsync = true
 		r.Kind = "Cluster"
 		r.References = config.References{
@@ -23,6 +24,7 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
+		r.Version = common.VersionV1Alpha3
 		r.ShortGroup = ""
 		r.Kind = "AdvancedCluster"
 		r.UseAsync = true

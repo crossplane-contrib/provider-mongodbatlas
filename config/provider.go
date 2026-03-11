@@ -47,14 +47,23 @@ var providerSchema string
 //go:embed provider-metadata.yaml
 var providerMetadata string
 
+// defaultResourceOptions returns the common resource options shared by both
+// cluster and namespaced providers.
+func defaultResourceOptions() []ujconfig.ResourceOption {
+	return []ujconfig.ResourceOption{
+		func(r *ujconfig.Resource) {
+			if r.ShortGroup == resourcePrefix {
+				r.ShortGroup = ""
+			}
+		},
+		ExternalNameConfigurations(),
+	}
+}
+
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithDefaultResourceOptions(
-			clusterGvkOverride(),
-			ExternalNameConfigurations(),
-			clusterCommonReferencesOverride(),
-		),
+		ujconfig.WithDefaultResourceOptions(defaultResourceOptions()...),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",
 		}),
@@ -88,11 +97,7 @@ func GetProvider() *ujconfig.Provider {
 // GetProviderNamespaced returns provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithDefaultResourceOptions(
-			namespacedGvkOverride(),
-			ExternalNameConfigurations(),
-			namespacedCommonReferencesOverride(),
-		),
+		ujconfig.WithDefaultResourceOptions(defaultResourceOptions()...),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",
 		}),

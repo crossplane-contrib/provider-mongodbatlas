@@ -103,17 +103,7 @@ type ProviderAccessAuthorizationInitParameters struct {
 	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
-
-	// Reference to a Project in mongodbatlas to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
-
-	// Selector for a Project in mongodbatlas to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
@@ -151,18 +141,8 @@ type ProviderAccessAuthorizationParameters struct {
 	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
-
-	// Reference to a Project in mongodbatlas to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
-
-	// Selector for a Project in mongodbatlas to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	// +kubebuilder:validation:Optional
@@ -205,6 +185,7 @@ type ProviderAccessAuthorizationStatus struct {
 type ProviderAccessAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleId) || (has(self.initProvider) && has(self.initProvider.roleId))",message="spec.forProvider.roleId is a required parameter"
 	Spec   ProviderAccessAuthorizationSpec   `json:"spec"`
 	Status ProviderAccessAuthorizationStatus `json:"status,omitempty"`

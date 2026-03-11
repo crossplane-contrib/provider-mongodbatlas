@@ -1,8 +1,8 @@
-apiVersion: database.mongodbatlas.crossplane.io/v1alpha2
+apiVersion: database.mongodbatlas.crossplane.io/v1alpha3
 kind: User
 metadata:
   annotations:
-    meta.upbound.io/example-id: database/v1alpha2/user
+    meta.upbound.io/example-id: database/v1alpha3/user
   labels:
     testing.upbound.io/example-name: test
   name: test

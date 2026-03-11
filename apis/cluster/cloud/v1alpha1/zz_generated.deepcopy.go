@@ -4337,16 +4337,6 @@ func (in *ProviderAccessAuthorizationInitParameters) DeepCopyInto(out *ProviderA
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.RoleID != nil {
 		in, out := &in.RoleID, &out.RoleID
 		*out = new(string)
@@ -4480,16 +4470,6 @@ func (in *ProviderAccessAuthorizationParameters) DeepCopyInto(out *ProviderAcces
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleID != nil {
 		in, out := &in.RoleID, &out.RoleID

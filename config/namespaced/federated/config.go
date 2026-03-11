@@ -3,7 +3,7 @@ package federated
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
+	common "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
 )
 
 const group = "federated"

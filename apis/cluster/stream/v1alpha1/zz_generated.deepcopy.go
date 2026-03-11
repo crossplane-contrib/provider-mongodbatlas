@@ -1517,16 +1517,6 @@ func (in *PrivatelinkEndpointInitParameters) DeepCopyInto(out *PrivatelinkEndpoi
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.ProviderName != nil {
 		in, out := &in.ProviderName, &out.ProviderName
 		*out = new(string)
@@ -1732,16 +1722,6 @@ func (in *PrivatelinkEndpointParameters) DeepCopyInto(out *PrivatelinkEndpointPa
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.ProviderName != nil {
 		in, out := &in.ProviderName, &out.ProviderName

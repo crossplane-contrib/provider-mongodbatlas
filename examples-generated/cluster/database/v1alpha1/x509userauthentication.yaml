@@ -16,7 +16,7 @@ spec:
 
 ---
 
-apiVersion: database.mongodbatlas.crossplane.io/v1alpha2
+apiVersion: database.mongodbatlas.crossplane.io/v1alpha3
 kind: User
 metadata:
   annotations:

@@ -31,9 +31,7 @@ spec:
   forProvider:
     aws:
     - iamAssumedRoleArn: ${aws_iam_role.test_role.arn}
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: project-tf
+    projectId: ${mongodbatlas_project.project-tf.id}
     roleId: ${mongodbatlas_cloud_provider_access_setup.setup_only.role_id}
 
 ---

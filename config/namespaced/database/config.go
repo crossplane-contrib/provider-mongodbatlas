@@ -3,7 +3,7 @@ package database
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	"github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
 )
 
 const group = "database"
@@ -11,7 +11,7 @@ const group = "database"
 // Configure configures the root group
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_database_user", func(r *config.Resource) {
-		r.Version = common.VersionV1Alpha2
+		r.Version = common.VersionV1Alpha3
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"x509_type", "ldap_auth_type", "aws_iam_type"},
 		}

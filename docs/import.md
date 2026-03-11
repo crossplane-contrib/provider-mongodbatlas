@@ -31,8 +31,8 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_backup_compliance_policy` | `projectId` (**ref**) | |
 | `mongodbatlas_cloud_backup_schedule` | `projectId` (**ref**), `clusterName` | |
 | `mongodbatlas_cloud_backup_snapshot_export_bucket` | `projectId` (**ref**) | `bucketId` |
-| `mongodbatlas_cloud_backup_snapshot_export_job` | `projectId` (**ref**), `clusterName`, `snapshotId` (**ref**), `exportBucketId` (**ref**) | `jobId` |
-| `mongodbatlas_cloud_backup_snapshot_restore_job` | `projectId` (**ref**), `clusterName`, `snapshotId` (**ref**) | `jobId` |
+| `mongodbatlas_cloud_backup_snapshot_export_job` | `projectId` (**ref**), `clusterName` | `jobId` |
+| `mongodbatlas_cloud_backup_snapshot_restore_job` | `projectId` (**ref**), `clusterName` | `jobId` |
 | `mongodbatlas_cloud_backup_snapshot` | `projectId` (**ref**), `clusterName` | `snapshotId` |
 | `mongodbatlas_cloud_provider_access_setup` | `projectId` (**ref**), `providerName` | `roleId` |
 | `mongodbatlas_cloud_user_org_assignment` | `orgId` (**ref**), `username` | |
@@ -58,7 +58,7 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_maintenance_window` | `projectId` (**ref**) | |
 | `mongodbatlas_mongodb_employee_access_grant` | `projectId` (**ref**), `clusterName` | |
 | `mongodbatlas_network_container` | `projectId` (**ref**) | `containerId` |
-| `mongodbatlas_network_peering` | `projectId` (**ref**), `containerId` (**ref**), `providerName` | `peeringId` |
+| `mongodbatlas_network_peering` | `projectId` (**ref**), `providerName` | `peeringId` |
 | `mongodbatlas_online_archive` | `projectId` (**ref**), `clusterName` | `archiveId` |
 | `mongodbatlas_org_invitation` | `orgId` (**ref**), `username` | |
 | `mongodbatlas_organization` | n/a (requires ID) | `orgId` |
@@ -72,7 +72,7 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_project_service_account_access_list_entry` | `projectId` (**ref**), `clientId`, `ipAddress` or `cidrBlock` | |
 | `mongodbatlas_project_service_account_secret` | `projectId` (**ref**), `clientId` | `secretId` |
 | `mongodbatlas_project_service_account` | `projectId` (**ref**) | `clientId` |
-| `mongodbatlas_project` | `orgId` (**ref**) | |
+| `mongodbatlas_project` | | `projectId` |
 | `mongodbatlas_push_based_log_export` | `projectId` (**ref**) | |
 | `mongodbatlas_resource_policy` | `orgId` (**ref**) | `policyId` |
 | `mongodbatlas_search_deployment` | `projectId` (**ref**), `clusterName` | |

@@ -79,7 +79,7 @@ spec:
                     type: boolean
                   portMappingEnabled:
                     description: |-
-                      Flag that indicates whether this resource uses GCP port-mapping. When true, it uses the port-mapped architecture. When false or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+                      Flag that indicates whether this resource uses GCP port-mapping. When true, the resource uses port-mapped architecture. When false or unset, the resource uses GCP legacy private endpoint architecture. Only applicable for GCP provider.
                       Flag that indicates whether this resource uses GCP port-mapping. When `true`, it uses the port-mapped architecture. When `false` or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
                     type: boolean
                   projectId:
@@ -164,8 +164,8 @@ spec:
                     type: object
                   providerName:
                     description: Name of the cloud provider for which you want to
-                      create the private endpoint service. Atlas accepts AWS, AZURE
-                      or GCP.
+                      create the private endpoint service. Atlas accepts AWS, AZURE,
+                      GCP.
                     type: string
                   region:
                     description: |-
@@ -193,7 +193,7 @@ spec:
                     type: boolean
                   portMappingEnabled:
                     description: |-
-                      Flag that indicates whether this resource uses GCP port-mapping. When true, it uses the port-mapped architecture. When false or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+                      Flag that indicates whether this resource uses GCP port-mapping. When true, the resource uses port-mapped architecture. When false or unset, the resource uses GCP legacy private endpoint architecture. Only applicable for GCP provider.
                       Flag that indicates whether this resource uses GCP port-mapping. When `true`, it uses the port-mapped architecture. When `false` or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
                     type: boolean
                   projectId:
@@ -278,8 +278,8 @@ spec:
                     type: object
                   providerName:
                     description: Name of the cloud provider for which you want to
-                      create the private endpoint service. Atlas accepts AWS, AZURE
-                      or GCP.
+                      create the private endpoint service. Atlas accepts AWS, AZURE,
+                      GCP.
                     type: string
                   region:
                     description: |-
@@ -393,21 +393,20 @@ spec:
                       Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   endpointGroupNames:
-                    description: For port-mapped architectures, this is a list of
-                      private endpoint names associated with the private endpoint
-                      service. For GCP legacy private endpoint architectures, this
-                      is a list of the endpoint group names associated with the private
-                      endpoint service.
+                    description: List of private endpoint names associated with the
+                      private endpoint service for port-mapped architectures. For
+                      GCP legacy private endpoint architectures, this is a list of
+                      endpoint group names associated with the private endpoint service.
                     items:
                       type: string
                     type: array
                   endpointServiceName:
                     description: Name of the PrivateLink endpoint service in AWS.
-                      Returns null while the endpoint service is being created.
+                      Returns null while Atlas creates the endpoint service.
                     type: string
                   errorMessage:
-                    description: Error message pertaining to the private endpoint
-                      connection. Returns null if there are no errors.
+                    description: Error message for the private endpoint connection.
+                      Returns null if there are no errors.
                     type: string
                   id:
                     description: Use private_link_id instead to reference the private
@@ -421,7 +420,7 @@ spec:
                     type: array
                   portMappingEnabled:
                     description: |-
-                      Flag that indicates whether this resource uses GCP port-mapping. When true, it uses the port-mapped architecture. When false or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
+                      Flag that indicates whether this resource uses GCP port-mapping. When true, the resource uses port-mapped architecture. When false or unset, the resource uses GCP legacy private endpoint architecture. Only applicable for GCP provider.
                       Flag that indicates whether this resource uses GCP port-mapping. When `true`, it uses the port-mapped architecture. When `false` or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
                     type: boolean
                   privateEndpoints:
@@ -446,8 +445,8 @@ spec:
                     type: string
                   providerName:
                     description: Name of the cloud provider for which you want to
-                      create the private endpoint service. Atlas accepts AWS, AZURE
-                      or GCP.
+                      create the private endpoint service. Atlas accepts AWS, AZURE,
+                      GCP.
                     type: string
                   region:
                     description: |-
@@ -458,8 +457,8 @@ spec:
                     description: Region for the Private Service Connect endpoint service.
                     type: string
                   serviceAttachmentNames:
-                    description: For port-mapped architecture, this is a list containing
-                      one service attachment connected to the private endpoint service.
+                    description: List containing one service attachment connected
+                      to the private endpoint service for port-mapped architecture.
                       For GCP legacy private endpoint architecture, this is a list
                       of service attachments connected to the private endpoint service
                       (one per Atlas node). Returns an empty list while Atlas creates

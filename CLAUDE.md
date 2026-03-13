@@ -1,6 +1,6 @@
 # Crossplane Provider MongoDB Atlas
 
-Upjet-based Crossplane provider for MongoDB Atlas. Generates CRDs from the `mongodb/terraform-provider-mongodbatlas` (v2.7.0).
+Upjet-based Crossplane provider for MongoDB Atlas. Generates CRDs from the `mongodb/terraform-provider-mongodbatlas`.
 
 ## Project Structure
 

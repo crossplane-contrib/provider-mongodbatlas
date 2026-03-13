@@ -411,6 +411,7 @@ resources:
             backup_enabled: |-
                 - (Optional) Flag that indicates whether the cluster can perform backups.
                 If true, the cluster can perform backups. You must set this value to true for NVMe clusters.
+            bi_connector: state will migrate it to new value you only need to update parameter in your terraform file
             bi_connector_config: '- (Optional) Configuration settings applied to BI Connector for Atlas on this cluster. The MongoDB Connector for Business Intelligence for Atlas (BI Connector) is only available for M10 and larger clusters. The BI Connector is a powerful tool which provides users SQL-based access to their MongoDB databases. As a result, the BI Connector performs operations which may be CPU and memory intensive. Given the limited hardware resources on M10 and M20 cluster tiers, you may experience performance degradation of the cluster when enabling the BI Connector. If this occurs, upgrade to an M30 or larger cluster or disable the BI Connector. See below.'
             bi_connector_config.enabled: '- (Optional) Specifies whether or not BI Connector for Atlas is enabled on the cluster.'
             bi_connector_config.false: to disable BI Connector for Atlas.
@@ -463,7 +464,9 @@ resources:
             mongodbatlas_privatelink_endpoint_service: resources are fully applied. Add a depends_on = [mongodbatlas_privatelink_endpoint_service.example] to ensure connection_strings are available following terraform apply. If the expected connection string(s) do not contain a value, a terraform refresh may need to be performed to obtain the value. One can also view the status of the peered connection in the Atlas UI.
             name: '- (Required) Name of the cluster as it appears in Atlas. Once the cluster is created, its name cannot be changed. WARNING Changing the name will result in destruction of the existing cluster and the creation of a new cluster.'
             no_table_scan: '- (Optional) When true, the cluster disables the execution of any query that requires a collection scan to return results. When false, the cluster allows the execution of those operations.'
-            oplog_min_retention_hours: '- (Optional) Minimum retention window for cluster''s oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.'
+            oplog_min_retention_hours: |-
+                - (Optional) Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+                -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
             oplog_size_mb: '- (Optional) The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.'
             paused: |-
                 (Optional) - Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster. If you try to update a paused cluster you will get a CANNOT_UPDATE_PAUSED_CLUSTER error. See Considerations for Paused Clusters.
@@ -523,7 +526,7 @@ resources:
             replication_specs.zone_id: '- Unique 24-hexadecimal digit string that identifies the zone in a Global Cluster. If clusterType is GEOSHARDED, this value indicates the zone that the given shard belongs to and can be used to configure Global Cluster backup policies.'
             replication_specs.zone_name: '- (Optional) Name for the zone in a Global Cluster.'
             replication_specs[#].container_id: '- A key-value map of the Network Peering Container ID(s) for the configuration specified in region_configs. The Container ID is the id of the container created when the first cluster in the region (AWS/Azure) or project (GCP) was created.  The syntax is "providerName:regionName" = "containerId". Example AWS:US_EAST_1" = "61e0797dde08fb498ca11a71.'
-            retain_backups_enabled: '- (Optional) Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.'
+            retain_backups_enabled: '- (Optional) Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.'
             root_cert_type: '- (Optional) - Certificate Authority that MongoDB Atlas clusters use. You can specify ISRGROOTX1 (for ISRG Root X1).'
             sample_refresh_interval_bi_connector: '- (Optional) Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.'
             sample_size_bi_connector: '- (Optional) Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.'
@@ -537,6 +540,7 @@ resources:
             transaction_lifetime_limit_seconds: '- (Optional) Lifetime, in seconds, of multi-document transactions. Defaults to 60 seconds.'
             "true": to opt into the effective fields behavior
             update: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.'
+            use_aws_time_based_snapshot_copy_for_fast_initial_sync: '- (Optional) Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.'
             use_effective_fields: |-
                 - (Optional) Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
                 Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
@@ -2575,26 +2579,22 @@ resources:
                   "azure_key_vault_config": [
                     {
                       "azure_environment": "AZURE",
-                      "client_id": "${var.azure_client_id}",
                       "enabled": true,
                       "key_identifier": "${var.azure_key_identifier}",
                       "key_vault_name": "${var.azure_key_vault_name}",
                       "resource_group_name": "${var.azure_resource_group_name}",
-                      "secret": "${var.azure_client_secret}",
-                      "subscription_id": "${var.azure_subscription_id}",
-                      "tenant_id": "${var.azure_tenant_id}"
+                      "role_id": "${var.azure_role_id}",
+                      "subscription_id": "${var.azure_subscription_id}"
                     }
                   ],
                   "project_id": "${var.atlas_project_id}"
                 }
               references:
-                azure_key_vault_config.client_id: var.azure_client_id
                 azure_key_vault_config.key_identifier: var.azure_key_identifier
                 azure_key_vault_config.key_vault_name: var.azure_key_vault_name
                 azure_key_vault_config.resource_group_name: var.azure_resource_group_name
-                azure_key_vault_config.secret: var.azure_client_secret
+                azure_key_vault_config.role_id: var.azure_role_id
                 azure_key_vault_config.subscription_id: var.azure_subscription_id
-                azure_key_vault_config.tenant_id: var.azure_tenant_id
                 project_id: var.atlas_project_id
             - name: test
               manifest: |-
@@ -2634,7 +2634,7 @@ resources:
             azure_key_vault_config: (Block List) Details that define the configuration of Encryption at Rest using Azure Key Vault (AKV). (see below for nested schema)
             client_id: (String, Sensitive) Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
             customer_master_key_id: (String, Sensitive) Unique alphanumeric string that identifies the Amazon Web Services (AWS) Customer Master Key (CMK) you used to encrypt and decrypt the MongoDB master keys.
-            enabled: (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest using customer key management and remove the configuration details, pass only this parameter with a value of false.
+            enabled: (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). Setting this field to false might lead to an inconsistent Terraform state. To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
             enabled_for_search_nodes: (Boolean) Flag that indicates whether Encryption at Rest for Dedicated Search Nodes is enabled in the specified project.
             google_cloud_kms_config: (Block List) Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS). (see below for nested schema)
             id: (String) The ID of this resource.
@@ -3507,7 +3507,7 @@ resources:
               manifest: |-
                 {
                   "bucket_name": "${aws_s3_bucket.log_bucket.bucket}",
-                  "iam_role_id": "${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}",
+                  "iam_role_id": "${mongodbatlas_cloud_provider_access_authorization.auth.role_id}",
                   "log_types": [
                     "MONGOD_AUDIT"
                   ],
@@ -3517,10 +3517,10 @@ resources:
                 }
               references:
                 bucket_name: aws_s3_bucket.log_bucket.bucket
-                iam_role_id: mongodbatlas_cloud_provider_access_authorization.auth_role.role_id
+                iam_role_id: mongodbatlas_cloud_provider_access_authorization.auth.role_id
                 project_id: mongodbatlas_project.project.id
               dependencies:
-                mongodbatlas_cloud_provider_access_authorization.auth_role: |-
+                mongodbatlas_cloud_provider_access_authorization.auth: |-
                     {
                       "aws": [
                         {
@@ -3528,27 +3528,148 @@ resources:
                         }
                       ],
                       "project_id": "${mongodbatlas_project.project.id}",
-                      "role_id": "${mongodbatlas_cloud_provider_access_setup.setup_only.role_id}"
+                      "role_id": "${mongodbatlas_cloud_provider_access_setup.setup.role_id}"
                     }
-                mongodbatlas_cloud_provider_access_setup.setup_only: |-
+                mongodbatlas_cloud_provider_access_setup.setup: |-
                     {
                       "project_id": "${mongodbatlas_project.project.id}",
                       "provider_name": "AWS"
                     }
-                mongodbatlas_project.project: |-
+            - name: example
+              manifest: |-
+                {
+                  "bucket_name": "${google_storage_bucket.log_bucket.name}",
+                  "log_types": [
+                    "MONGOD"
+                  ],
+                  "prefix_path": "atlas-logs",
+                  "project_id": "${mongodbatlas_project.project.id}",
+                  "role_id": "${mongodbatlas_cloud_provider_access_authorization.auth.role_id}",
+                  "type": "GCS_LOG_EXPORT"
+                }
+              references:
+                bucket_name: google_storage_bucket.log_bucket.name
+                project_id: mongodbatlas_project.project.id
+                role_id: mongodbatlas_cloud_provider_access_authorization.auth.role_id
+              dependencies:
+                mongodbatlas_cloud_provider_access_authorization.auth: |-
                     {
-                      "name": "${var.atlas_project_name}",
-                      "org_id": "${var.atlas_org_id}"
+                      "project_id": "${mongodbatlas_project.project.id}",
+                      "role_id": "${mongodbatlas_cloud_provider_access_setup.setup.role_id}"
                     }
+                mongodbatlas_cloud_provider_access_setup.setup: |-
+                    {
+                      "project_id": "${mongodbatlas_project.project.id}",
+                      "provider_name": "GCP"
+                    }
+            - name: example
+              manifest: |-
+                {
+                  "log_types": [
+                    "MONGOD"
+                  ],
+                  "prefix_path": "atlas-logs",
+                  "project_id": "${mongodbatlas_project.project.id}",
+                  "role_id": "${mongodbatlas_cloud_provider_access_authorization.auth.role_id}",
+                  "storage_account_name": "${azurerm_storage_account.log_storage.name}",
+                  "storage_container_name": "${azurerm_storage_container.log_container.name}",
+                  "type": "AZURE_LOG_EXPORT"
+                }
+              references:
+                project_id: mongodbatlas_project.project.id
+                role_id: mongodbatlas_cloud_provider_access_authorization.auth.role_id
+                storage_account_name: azurerm_storage_account.log_storage.name
+                storage_container_name: azurerm_storage_container.log_container.name
+              dependencies:
+                mongodbatlas_cloud_provider_access_authorization.auth: |-
+                    {
+                      "azure": [
+                        {
+                          "atlas_azure_app_id": "${var.atlas_azure_app_id}",
+                          "service_principal_id": "${var.azure_service_principal_id}",
+                          "tenant_id": "${var.azure_tenant_id}"
+                        }
+                      ],
+                      "project_id": "${mongodbatlas_project.project.id}",
+                      "role_id": "${mongodbatlas_cloud_provider_access_setup.setup.role_id}"
+                    }
+                mongodbatlas_cloud_provider_access_setup.setup: |-
+                    {
+                      "azure_config": [
+                        {
+                          "atlas_azure_app_id": "${var.atlas_azure_app_id}",
+                          "service_principal_id": "${var.azure_service_principal_id}",
+                          "tenant_id": "${var.azure_tenant_id}"
+                        }
+                      ],
+                      "project_id": "${mongodbatlas_project.project.id}",
+                      "provider_name": "AZURE"
+                    }
+            - name: example
+              manifest: |-
+                {
+                  "api_key": "${var.datadog_api_key}",
+                  "log_types": [
+                    "MONGOD"
+                  ],
+                  "project_id": "${mongodbatlas_project.project.id}",
+                  "region": "${var.datadog_region}",
+                  "type": "DATADOG_LOG_EXPORT"
+                }
+              references:
+                api_key: var.datadog_api_key
+                project_id: mongodbatlas_project.project.id
+                region: var.datadog_region
+            - name: example
+              manifest: |-
+                {
+                  "hec_token": "${var.splunk_hec_token}",
+                  "hec_url": "${var.splunk_hec_url}",
+                  "log_types": [
+                    "MONGOD"
+                  ],
+                  "project_id": "${mongodbatlas_project.project.id}",
+                  "type": "SPLUNK_LOG_EXPORT"
+                }
+              references:
+                hec_token: var.splunk_hec_token
+                hec_url: var.splunk_hec_url
+                project_id: mongodbatlas_project.project.id
+            - name: example
+              manifest: |-
+                {
+                  "log_types": [
+                    "MONGOD"
+                  ],
+                  "otel_endpoint": "${var.otel_endpoint}",
+                  "otel_supplied_headers": "${var.otel_supplied_headers}",
+                  "project_id": "${mongodbatlas_project.project.id}",
+                  "type": "OTEL_LOG_EXPORT"
+                }
+              references:
+                otel_endpoint: var.otel_endpoint
+                otel_supplied_headers: var.otel_supplied_headers
+                project_id: mongodbatlas_project.project.id
         argumentDocs:
-            bucket_name: (String) Human-readable label that identifies the S3 bucket name for storing log files.
-            iam_role_id: (String) Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
+            api_key: (String, Sensitive) API key for authentication.
+            bucket_name: (String) Name of the bucket to store log files.
+            hec_token: (String, Sensitive) HTTP Event Collector (HEC) token for authentication.
+            hec_url: (String) HTTP Event Collector (HEC) endpoint URL.
+            iam_role_id: (String) Unique 24-character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
             integration_id: (String) Unique 24-character hexadecimal digit string that identifies the log integration configuration.
             kms_key: (String) AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
-            log_types: '(Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.'
-            prefix_path: (String) S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
+            log_types: (Set of String) Array of log types exported by this integration.
+            name: (String) Header name.
+            otel_endpoint: (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+            otel_supplied_headers: (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+            prefix_path: (String) Path prefix where the log files will be stored. Atlas will add further sub-directories based on the log type.
             project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
-            type: (String) Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
+            region: '(String) Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.'
+            role_id: (String) Unique 24-character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+            storage_account_name: (String) Storage account name where logs will be stored.
+            storage_container_name: (String) Storage container name for log files.
+            type: (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+            value: (String, Sensitive) Header value.
         importStatements: []
     mongodbatlas_maintenance_window:
         subCategory: Projects
@@ -4329,34 +4450,36 @@ resources:
             - name: this
               manifest: |-
                 {
-                  "project_id": "\u003cPROJECT-ID\u003e",
+                  "project_id": "${var.project_id}",
                   "provider_name": "AWS",
                   "region": "US_EAST_1"
                 }
+              references:
+                project_id: var.project_id
         argumentDocs:
             AVAILABLE: '- Atlas is creating the network load balancer and VPC endpoint service.'
-            DELETING: '- The AWS PrivateLink connection is being deleted.'
-            FAILED: '- A system failure has occurred.'
+            DELETING: '- Atlas is deleting the AWS PrivateLink connection.'
+            FAILED: '- A system failure occurred.'
             INITIATING: '- Atlas is creating the load balancer and the Private Link Service.'
             WAITING_FOR_USER: '- The Atlas network load balancer and VPC endpoint service are created and ready to receive connection requests. When you receive this status, create an interface endpoint to continue configuring the AWS PrivateLink connection.'
             delete_on_create_timeout: '- (Optional) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.'
-            endpoint_group_names: '- For port-mapped architectures, this is a list of private endpoint names associated with the private endpoint service. For GCP legacy private endpoint architectures, this is a list of the endpoint group names associated with the private endpoint service.'
-            endpoint_service_name: '- Name of the PrivateLink endpoint service in AWS. Returns null while the endpoint service is being created.'
-            error_message: '- Error message pertaining to the private endpoint connection. Returns null if there are no errors.'
+            endpoint_group_names: '- List of private endpoint names associated with the private endpoint service for port-mapped architectures. For GCP legacy private endpoint architectures, this is a list of endpoint group names associated with the private endpoint service.'
+            endpoint_service_name: '- Name of the PrivateLink endpoint service in AWS. Returns null while Atlas creates the endpoint service.'
+            error_message: '- Error message for the private endpoint connection. Returns null if there are no errors.'
             id: '- Terraform''s internal unique identifier. Use private_link_id instead to reference the private endpoint connection.'
             interface_endpoints: '- Unique identifiers of the interface endpoints in your VPC that you added to the AWS PrivateLink connection.'
-            port_mapping_enabled: '- (Optional) Flag that indicates whether this resource uses GCP port-mapping. When true, it uses the port-mapped architecture. When false or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.'
+            port_mapping_enabled: '- (Optional) Flag that indicates whether this resource uses GCP port-mapping. When true, the resource uses port-mapped architecture. When false or unset, the resource uses GCP legacy private endpoint architecture. Only applicable for GCP provider.'
             private_endpoints: '- All private endpoints that you have added to this Azure Private Link Service.'
             private_link_id: '- Unique identifier of the private endpoint connection.'
             private_link_service_name: '- Name of the Azure Private Link Service that Atlas manages.'
             private_link_service_resource_id: '- Resource ID of the Azure Private Link Service.'
             project_id: '- (Required) Unique identifier for the project, also known as group_id in the official documentation.'
-            provider_name: '- (Required) Name of the cloud provider for which you want to create the private endpoint service. Atlas accepts AWS, AZURE or GCP.'
+            provider_name: '- (Required) Name of the cloud provider for which you want to create the private endpoint service. Atlas accepts AWS, AZURE, GCP.'
             region: |-
                 - (Required) Cloud provider region in which you want to create the private endpoint connection.
                 Accepted values are: AWS regions, AZURE regions and GCP regions
             region_name: '- Region for the Private Service Connect endpoint service.'
-            service_attachment_names: '- For port-mapped architecture, this is a list containing one service attachment connected to the private endpoint service. For GCP legacy private endpoint architecture, this is a list of service attachments connected to the private endpoint service (one per Atlas node). Returns an empty list while Atlas creates the service attachments.'
+            service_attachment_names: '- List containing one service attachment connected to the private endpoint service for port-mapped architecture. For GCP legacy private endpoint architecture, this is a list of service attachments connected to the private endpoint service (one per Atlas node). Returns an empty list while Atlas creates the service attachments.'
             status: '- Status of the private endpoint connection. See the provider-specific status values below.'
             timeouts: '- (Optional) The duration to wait for Private Endpoint to be created or deleted. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 1h), delete (default: 1h). Learn more about timeouts.'
         importStatements: []
@@ -5724,6 +5847,7 @@ resources:
                 {
                   "timeouts": {
                     "create": "30m",
+                    "delete": "15m",
                     "update": "30m"
                   }
                 }
@@ -5744,6 +5868,7 @@ resources:
             connection_name: '- (Required) Label that identifies the stream connection. In the case of the Sample type, this is the name of the sample source.'
             create: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).'
             db_role_to_execute: '- The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.'
+            delete: '- (Optional) The maximum time to wait for the stream connection to be fully deleted. Defaults to 10m (10 minutes).'
             headers: '- A map of key-value pairs for optional headers.'
             instance_name: '- (Optional, Deprecated) Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.'
             mechanism: '- Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.'
@@ -6382,7 +6507,8 @@ resources:
             secret: '- An optional field for your webhook secret.'
             send_collection_latency_metrics: '- Toggle sending collection latency metrics that includes database names and collection names and latency metrics on reads, writes, commands, and transactions. Default: false.'
             send_database_metrics: '- Toggle sending database metrics that includes database names and metrics on the number of collections, storage size, and index size. Default: false.'
-            send_user_provided_resource_tags: '- Toggle sending user provided group and cluster resource tags with the datadog metrics. Default: false.'
+            send_query_stats_metrics: '- Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.'
+            send_user_provided_resource_tags: '- Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.'
             service_discovery: '- Indicates which service discovery method is used, either file or http.'
             service_key: '- Your Service Key.'
             type: '- (Required) Third-Party Integration Settings type'

@@ -15,25 +15,44 @@ import (
 
 type LogIntegrationInitParameters struct {
 
-	// readable label that identifies the S3 bucket name for storing log files.
-	// Human-readable label that identifies the S3 bucket name for storing log files.
+	// (String, Sensitive) API key for authentication.
+	// Required for type: DATADOG_LOG_EXPORT. API key for authentication.
+	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
+
+	// (String) Name of the bucket to store log files.
+	// Required for type: GCS_LOG_EXPORT, S3_LOG_EXPORT. Name of the bucket to store log files.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
-	// hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
-	// Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
+	// (String, Sensitive) HTTP Event Collector (HEC) token for authentication.
+	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) token for authentication.
+	HecTokenSecretRef *v1.SecretKeySelector `json:"hecTokenSecretRef,omitempty" tf:"-"`
+
+	// (String) HTTP Event Collector (HEC) endpoint URL.
+	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) endpoint URL.
+	HecURL *string `json:"hecUrl,omitempty" tf:"hec_url,omitempty"`
+
+	// character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
+	// Required for type: S3_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
 	// side encryption . If not provided, uses bucket default encryption settings.
-	// AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
+	// Optional for type: S3_LOG_EXPORT. AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
-	// (Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
-	// Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
+	// (Set of String) Array of log types exported by this integration.
+	// Array of log types exported by this integration.
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
+	// (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+	// Required for type: OTEL_LOG_EXPORT. OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
+
+	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+	OtelSuppliedHeaders []OtelSuppliedHeadersInitParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
+
 	// directories based on the log type.
-	// S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
+	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT, S3_LOG_EXPORT. Path prefix where the log files will be stored. Atlas will add further sub-directories based on the log type.
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
 	// hexadecimal digit string that identifies your project.
@@ -49,19 +68,39 @@ type LogIntegrationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
-	// Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
+	// (String) Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
+	// Required for type: DATADOG_LOG_EXPORT. Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// (String) Storage account name where logs will be stored.
+	// Required for type: AZURE_LOG_EXPORT. Storage account name where logs will be stored.
+	StorageAccountName *string `json:"storageAccountName,omitempty" tf:"storage_account_name,omitempty"`
+
+	// (String) Storage container name for log files.
+	// Required for type: AZURE_LOG_EXPORT. Storage container name for log files.
+	StorageContainerName *string `json:"storageContainerName,omitempty" tf:"storage_container_name,omitempty"`
+
+	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LogIntegrationObservation struct {
 
-	// readable label that identifies the S3 bucket name for storing log files.
-	// Human-readable label that identifies the S3 bucket name for storing log files.
+	// (String) Name of the bucket to store log files.
+	// Required for type: GCS_LOG_EXPORT, S3_LOG_EXPORT. Name of the bucket to store log files.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
-	// hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
-	// Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
+	// (String) HTTP Event Collector (HEC) endpoint URL.
+	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) endpoint URL.
+	HecURL *string `json:"hecUrl,omitempty" tf:"hec_url,omitempty"`
+
+	// character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
+	// Required for type: S3_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -71,52 +110,99 @@ type LogIntegrationObservation struct {
 	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
 	// side encryption . If not provided, uses bucket default encryption settings.
-	// AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
+	// Optional for type: S3_LOG_EXPORT. AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
-	// (Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
-	// Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
+	// (Set of String) Array of log types exported by this integration.
+	// Array of log types exported by this integration.
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
+	// (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+	// Required for type: OTEL_LOG_EXPORT. OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
+
+	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+	OtelSuppliedHeaders []OtelSuppliedHeadersObservation `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
+
 	// directories based on the log type.
-	// S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
+	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT, S3_LOG_EXPORT. Path prefix where the log files will be stored. Atlas will add further sub-directories based on the log type.
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
 	// hexadecimal digit string that identifies your project.
 	// Unique 24-hexadecimal digit string that identifies your project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
-	// Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
+	// (String) Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
+	// Required for type: DATADOG_LOG_EXPORT. Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// (String) Storage account name where logs will be stored.
+	// Required for type: AZURE_LOG_EXPORT. Storage account name where logs will be stored.
+	StorageAccountName *string `json:"storageAccountName,omitempty" tf:"storage_account_name,omitempty"`
+
+	// (String) Storage container name for log files.
+	// Required for type: AZURE_LOG_EXPORT. Storage container name for log files.
+	StorageContainerName *string `json:"storageContainerName,omitempty" tf:"storage_container_name,omitempty"`
+
+	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LogIntegrationParameters struct {
 
-	// readable label that identifies the S3 bucket name for storing log files.
-	// Human-readable label that identifies the S3 bucket name for storing log files.
+	// (String, Sensitive) API key for authentication.
+	// Required for type: DATADOG_LOG_EXPORT. API key for authentication.
+	// +kubebuilder:validation:Optional
+	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
+
+	// (String) Name of the bucket to store log files.
+	// Required for type: GCS_LOG_EXPORT, S3_LOG_EXPORT. Name of the bucket to store log files.
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
-	// hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
-	// Unique 24-hexadecimal digit string that identifies the AWS IAM role that MongoDB Cloud uses to access your S3 bucket.
+	// (String, Sensitive) HTTP Event Collector (HEC) token for authentication.
+	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) token for authentication.
+	// +kubebuilder:validation:Optional
+	HecTokenSecretRef *v1.SecretKeySelector `json:"hecTokenSecretRef,omitempty" tf:"-"`
+
+	// (String) HTTP Event Collector (HEC) endpoint URL.
+	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) endpoint URL.
+	// +kubebuilder:validation:Optional
+	HecURL *string `json:"hecUrl,omitempty" tf:"hec_url,omitempty"`
+
+	// character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
+	// Required for type: S3_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
 	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
 	// side encryption . If not provided, uses bucket default encryption settings.
-	// AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
+	// Optional for type: S3_LOG_EXPORT. AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
-	// (Set of String) Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
-	// Array of log types to export to S3. Valid values: MONGOD, MONGOS, MONGOD_AUDIT, MONGOS_AUDIT.
+	// (Set of String) Array of log types exported by this integration.
+	// Array of log types exported by this integration.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
+	// (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+	// Required for type: OTEL_LOG_EXPORT. OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+	// +kubebuilder:validation:Optional
+	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
+
+	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	OtelSuppliedHeaders []OtelSuppliedHeadersParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
+
 	// directories based on the log type.
-	// S3 directory path prefix where the log files will be stored. MongoDB Cloud will add further sub-directories based on the log type.
+	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT, S3_LOG_EXPORT. Path prefix where the log files will be stored. Atlas will add further sub-directories based on the log type.
 	// +kubebuilder:validation:Optional
 	PrefixPath *string `json:"prefixPath,omitempty" tf:"prefix_path,omitempty"`
 
@@ -134,10 +220,61 @@ type LogIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
-	// Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the log integration type.
+	// (String) Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
+	// Required for type: DATADOG_LOG_EXPORT. Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	// +kubebuilder:validation:Optional
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// (String) Storage account name where logs will be stored.
+	// Required for type: AZURE_LOG_EXPORT. Storage account name where logs will be stored.
+	// +kubebuilder:validation:Optional
+	StorageAccountName *string `json:"storageAccountName,omitempty" tf:"storage_account_name,omitempty"`
+
+	// (String) Storage container name for log files.
+	// Required for type: AZURE_LOG_EXPORT. Storage container name for log files.
+	// +kubebuilder:validation:Optional
+	StorageContainerName *string `json:"storageContainerName,omitempty" tf:"storage_container_name,omitempty"`
+
+	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type OtelSuppliedHeadersInitParameters struct {
+
+	// (String) Header name.
+	// Header name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (String, Sensitive) Header value.
+	// Header value.
+	ValueSecretRef v1.SecretKeySelector `json:"valueSecretRef" tf:"-"`
+}
+
+type OtelSuppliedHeadersObservation struct {
+
+	// (String) Header name.
+	// Header name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type OtelSuppliedHeadersParameters struct {
+
+	// (String) Header name.
+	// Header name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// (String, Sensitive) Header value.
+	// Header value.
+	// +kubebuilder:validation:Optional
+	ValueSecretRef v1.SecretKeySelector `json:"valueSecretRef" tf:"-"`
 }
 
 // LogIntegrationSpec defines the desired state of LogIntegration
@@ -176,10 +313,7 @@ type LogIntegrationStatus struct {
 type LogIntegration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bucketName) || (has(self.initProvider) && has(self.initProvider.bucketName))",message="spec.forProvider.bucketName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.iamRoleId) || (has(self.initProvider) && has(self.initProvider.iamRoleId))",message="spec.forProvider.iamRoleId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.logTypes) || (has(self.initProvider) && has(self.initProvider.logTypes))",message="spec.forProvider.logTypes is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.prefixPath) || (has(self.initProvider) && has(self.initProvider.prefixPath))",message="spec.forProvider.prefixPath is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || (has(self.initProvider) && has(self.initProvider.type))",message="spec.forProvider.type is a required parameter"
 	Spec   LogIntegrationSpec   `json:"spec"`
 	Status LogIntegrationStatus `json:"status,omitempty"`

@@ -257,9 +257,14 @@ spec:
                       names and metrics on the number of collections, storage size,
                       and index size. Default: false.'
                     type: boolean
+                  sendQueryStatsMetrics:
+                    description: 'Toggle sending query shape metrics that includes
+                      query hash and metrics on latency, execution frequency, documents
+                      returned, and timestamps. Default: false.'
+                    type: boolean
                   sendUserProvidedResourceTags:
                     description: 'Toggle sending user provided group and cluster resource
-                      tags with the datadog metrics. Default: false.'
+                      tags with the Datadog metrics. Default: false.'
                     type: boolean
                   serviceDiscoverySecretRef:
                     description: Indicates which service discovery method is used,
@@ -520,9 +525,14 @@ spec:
                       names and metrics on the number of collections, storage size,
                       and index size. Default: false.'
                     type: boolean
+                  sendQueryStatsMetrics:
+                    description: 'Toggle sending query shape metrics that includes
+                      query hash and metrics on latency, execution frequency, documents
+                      returned, and timestamps. Default: false.'
+                    type: boolean
                   sendUserProvidedResourceTags:
                     description: 'Toggle sending user provided group and cluster resource
-                      tags with the datadog metrics. Default: false.'
+                      tags with the Datadog metrics. Default: false.'
                     type: boolean
                   serviceDiscoverySecretRef:
                     description: Indicates which service discovery method is used,
@@ -708,9 +718,14 @@ spec:
                       names and metrics on the number of collections, storage size,
                       and index size. Default: false.'
                     type: boolean
+                  sendQueryStatsMetrics:
+                    description: 'Toggle sending query shape metrics that includes
+                      query hash and metrics on latency, execution frequency, documents
+                      returned, and timestamps. Default: false.'
+                    type: boolean
                   sendUserProvidedResourceTags:
                     description: 'Toggle sending user provided group and cluster resource
-                      tags with the datadog metrics. Default: false.'
+                      tags with the Datadog metrics. Default: false.'
                     type: boolean
                   teamName:
                     type: string

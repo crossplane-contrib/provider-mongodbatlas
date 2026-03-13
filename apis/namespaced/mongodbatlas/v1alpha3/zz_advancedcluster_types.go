@@ -134,7 +134,7 @@ type AdvancedClusterInitParameters struct {
 	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are only supported for AWS provisioned IOPS, or Azure regions that support Extended IOPS. See below.
 	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
-	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
 	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
 	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
 
@@ -153,6 +153,10 @@ type AdvancedClusterInitParameters struct {
 
 	// (Attributes) (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
+	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+	UseAwsTimeBasedSnapshotCopyForFastInitialSync *bool `json:"useAwsTimeBasedSnapshotCopyForFastInitialSync,omitempty" tf:"use_aws_time_based_snapshot_copy_for_fast_initial_sync,omitempty"`
 
 	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
 	// Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
@@ -295,7 +299,7 @@ type AdvancedClusterObservation struct {
 	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are only supported for AWS provisioned IOPS, or Azure regions that support Extended IOPS. See below.
 	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
-	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
 	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
 	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
 
@@ -318,6 +322,10 @@ type AdvancedClusterObservation struct {
 
 	// (Attributes) (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
+	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+	UseAwsTimeBasedSnapshotCopyForFastInitialSync *bool `json:"useAwsTimeBasedSnapshotCopyForFastInitialSync,omitempty" tf:"use_aws_time_based_snapshot_copy_for_fast_initial_sync,omitempty"`
 
 	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
 	// Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
@@ -468,7 +476,7 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
-	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
 	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
 	// +kubebuilder:validation:Optional
 	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
@@ -492,6 +500,11 @@ type AdvancedClusterParameters struct {
 	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
+	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+	// +kubebuilder:validation:Optional
+	UseAwsTimeBasedSnapshotCopyForFastInitialSync *bool `json:"useAwsTimeBasedSnapshotCopyForFastInitialSync,omitempty" tf:"use_aws_time_based_snapshot_copy_for_fast_initial_sync,omitempty"`
 
 	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
 	// Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
@@ -542,6 +555,7 @@ type AdvancedConfigurationInitParameters struct {
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
 	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+	// -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
 	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
@@ -603,6 +617,7 @@ type AdvancedConfigurationObservation struct {
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
 	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+	// -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
 	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
@@ -672,6 +687,7 @@ type AdvancedConfigurationParameters struct {
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
 	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+	// -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
 	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	// +kubebuilder:validation:Optional
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`

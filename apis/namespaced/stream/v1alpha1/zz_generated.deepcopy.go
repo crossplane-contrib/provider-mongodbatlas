@@ -2423,6 +2423,11 @@ func (in *TimeoutsInitParameters) DeepCopyInto(out *TimeoutsInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Delete != nil {
+		in, out := &in.Delete, &out.Delete
+		*out = new(string)
+		**out = **in
+	}
 	if in.Update != nil {
 		in, out := &in.Update, &out.Update
 		*out = new(string)
@@ -2448,6 +2453,11 @@ func (in *TimeoutsObservation) DeepCopyInto(out *TimeoutsObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Delete != nil {
+		in, out := &in.Delete, &out.Delete
+		*out = new(string)
+		**out = **in
+	}
 	if in.Update != nil {
 		in, out := &in.Update, &out.Update
 		*out = new(string)
@@ -2470,6 +2480,11 @@ func (in *TimeoutsParameters) DeepCopyInto(out *TimeoutsParameters) {
 	*out = *in
 	if in.Create != nil {
 		in, out := &in.Create, &out.Create
+		*out = new(string)
+		**out = **in
+	}
+	if in.Delete != nil {
+		in, out := &in.Delete, &out.Delete
 		*out = new(string)
 		**out = **in
 	}

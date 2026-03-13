@@ -21,7 +21,7 @@ func (mg *LogIntegration) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this LogIntegration
 func (tr *LogIntegration) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"api_key": "apiKeySecretRef", "hec_token": "hecTokenSecretRef", "otel_supplied_headers[*].value": "otelSuppliedHeaders[*].valueSecretRef"}
 }
 
 // GetObservation of this LogIntegration

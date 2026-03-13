@@ -11,7 +11,7 @@ export TERRAFORM_VERSION ?= 1.5.7
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
 export TERRAFORM_PROVIDER_SOURCE ?= mongodb/mongodbatlas
-export TERRAFORM_PROVIDER_VERSION ?= 2.7.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.8.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-$(PROJECT_NAME)
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/mongodb/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)
@@ -136,6 +136,7 @@ pull-docs:
 	@git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+generate.done: copy-examples
 
 .PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs check-terraform-version
 # ====================================================================================
@@ -263,6 +264,6 @@ vendor: modules.download
 vendor.check: modules.check
 
 # Copy examples-generated to examples
-generate.done:
+copy-examples:
 	@$(INFO) copying generated examples to examples
 	@cp -r examples-generated/* examples/ || $(FAIL)

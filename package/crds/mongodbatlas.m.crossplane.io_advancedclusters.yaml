@@ -114,6 +114,7 @@ spec:
                       oplogMinRetentionHours:
                         description: |-
                           Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+                          -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
                           Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
                         type: number
                       oplogSizeMb:
@@ -677,7 +678,7 @@ spec:
                     type: array
                   retainBackupsEnabled:
                     description: |-
-                      Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+                      Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
                       Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
                     type: boolean
                   rootCertType:
@@ -717,6 +718,11 @@ spec:
                           A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
                         type: string
                     type: object
+                  useAwsTimeBasedSnapshotCopyForFastInitialSync:
+                    description: |-
+                      Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+                      Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+                    type: boolean
                   useEffectiveFields:
                     description: |-
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
@@ -798,6 +804,7 @@ spec:
                       oplogMinRetentionHours:
                         description: |-
                           Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+                          -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
                           Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
                         type: number
                       oplogSizeMb:
@@ -1361,7 +1368,7 @@ spec:
                     type: array
                   retainBackupsEnabled:
                     description: |-
-                      Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+                      Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
                       Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
                     type: boolean
                   rootCertType:
@@ -1401,6 +1408,11 @@ spec:
                           A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
                         type: string
                     type: object
+                  useAwsTimeBasedSnapshotCopyForFastInitialSync:
+                    description: |-
+                      Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+                      Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+                    type: boolean
                   useEffectiveFields:
                     description: |-
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
@@ -1545,6 +1557,7 @@ spec:
                       oplogMinRetentionHours:
                         description: |-
                           Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+                          -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
                           Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
                         type: number
                       oplogSizeMb:
@@ -2154,7 +2167,7 @@ spec:
                     type: array
                   retainBackupsEnabled:
                     description: |-
-                      Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+                      Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
                       Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster.
                     type: boolean
                   rootCertType:
@@ -2199,6 +2212,11 @@ spec:
                           A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
                         type: string
                     type: object
+                  useAwsTimeBasedSnapshotCopyForFastInitialSync:
+                    description: |-
+                      Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+                      Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
+                    type: boolean
                   useEffectiveFields:
                     description: |-
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.

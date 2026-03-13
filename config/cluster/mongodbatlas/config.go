@@ -178,6 +178,13 @@ func Configure(p *config.Provider) {
 				TerraformName: "mongodbatlas_project",
 			},
 		}
+		// otel_supplied_headers is a list-of-objects field marked sensitive in the
+		// Terraform schema. The code generator only supports string-like sensitive
+		// fields, so we clear the flag here. The nested value field is still
+		// sensitive and will be handled by users via Kubernetes secrets.
+		if sch, ok := r.TerraformResource.Schema["otel_supplied_headers"]; ok {
+			sch.Sensitive = false
+		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "project_id")
 		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 1, 0)

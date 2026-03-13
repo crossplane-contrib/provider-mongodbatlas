@@ -506,6 +506,10 @@ type TimeoutsInitParameters struct {
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
+	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 10m (10 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `10m`.
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
+
 	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
@@ -516,6 +520,10 @@ type TimeoutsObservation struct {
 	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 10m (10 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `10m`.
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
 	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
@@ -528,6 +536,11 @@ type TimeoutsParameters struct {
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 10m (10 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `10m`.
+	// +kubebuilder:validation:Optional
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
 	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.

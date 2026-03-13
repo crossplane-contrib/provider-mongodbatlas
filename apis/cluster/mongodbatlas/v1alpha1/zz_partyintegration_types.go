@@ -56,7 +56,10 @@ type PartyIntegrationInitParameters struct {
 	// Toggle sending database metrics that includes database names and metrics on the number of collections, storage size, and index size. Default: false.
 	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
 
-	// Toggle sending user provided group and cluster resource tags with the datadog metrics. Default: false.
+	// Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.
+	SendQueryStatsMetrics *bool `json:"sendQueryStatsMetrics,omitempty" tf:"send_query_stats_metrics,omitempty"`
+
+	// Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
 	// Indicates which service discovery method is used, either file or http.
@@ -98,7 +101,10 @@ type PartyIntegrationObservation struct {
 	// Toggle sending database metrics that includes database names and metrics on the number of collections, storage size, and index size. Default: false.
 	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
 
-	// Toggle sending user provided group and cluster resource tags with the datadog metrics. Default: false.
+	// Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.
+	SendQueryStatsMetrics *bool `json:"sendQueryStatsMetrics,omitempty" tf:"send_query_stats_metrics,omitempty"`
+
+	// Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
@@ -164,7 +170,11 @@ type PartyIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	SendDatabaseMetrics *bool `json:"sendDatabaseMetrics,omitempty" tf:"send_database_metrics,omitempty"`
 
-	// Toggle sending user provided group and cluster resource tags with the datadog metrics. Default: false.
+	// Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.
+	// +kubebuilder:validation:Optional
+	SendQueryStatsMetrics *bool `json:"sendQueryStatsMetrics,omitempty" tf:"send_query_stats_metrics,omitempty"`
+
+	// Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.
 	// +kubebuilder:validation:Optional
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 

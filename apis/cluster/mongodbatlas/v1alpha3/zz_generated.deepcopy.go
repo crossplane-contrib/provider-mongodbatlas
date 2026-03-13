@@ -197,6 +197,11 @@ func (in *AdvancedClusterInitParameters) DeepCopyInto(out *AdvancedClusterInitPa
 		*out = new(TimeoutsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.UseAwsTimeBasedSnapshotCopyForFastInitialSync != nil {
+		in, out := &in.UseAwsTimeBasedSnapshotCopyForFastInitialSync, &out.UseAwsTimeBasedSnapshotCopyForFastInitialSync
+		*out = new(bool)
+		**out = **in
+	}
 	if in.UseEffectiveFields != nil {
 		in, out := &in.UseEffectiveFields, &out.UseEffectiveFields
 		*out = new(bool)
@@ -433,6 +438,11 @@ func (in *AdvancedClusterObservation) DeepCopyInto(out *AdvancedClusterObservati
 		*out = new(TimeoutsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.UseAwsTimeBasedSnapshotCopyForFastInitialSync != nil {
+		in, out := &in.UseAwsTimeBasedSnapshotCopyForFastInitialSync, &out.UseAwsTimeBasedSnapshotCopyForFastInitialSync
+		*out = new(bool)
+		**out = **in
+	}
 	if in.UseEffectiveFields != nil {
 		in, out := &in.UseEffectiveFields, &out.UseEffectiveFields
 		*out = new(bool)
@@ -611,6 +621,11 @@ func (in *AdvancedClusterParameters) DeepCopyInto(out *AdvancedClusterParameters
 		in, out := &in.Timeouts, &out.Timeouts
 		*out = new(TimeoutsParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.UseAwsTimeBasedSnapshotCopyForFastInitialSync != nil {
+		in, out := &in.UseAwsTimeBasedSnapshotCopyForFastInitialSync, &out.UseAwsTimeBasedSnapshotCopyForFastInitialSync
+		*out = new(bool)
+		**out = **in
 	}
 	if in.UseEffectiveFields != nil {
 		in, out := &in.UseEffectiveFields, &out.UseEffectiveFields

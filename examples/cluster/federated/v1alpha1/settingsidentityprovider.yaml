@@ -1,0 +1,20 @@
+apiVersion: federated.mongodbatlas.crossplane.io/v1alpha1
+kind: SettingsIdentityProvider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: federated/v1alpha1/settingsidentityprovider
+  labels:
+    testing.upbound.io/example-name: identity_provider
+  name: identity-provider
+spec:
+  forProvider:
+    associatedDomains:
+    - yourdomain.com
+    federationSettingsId: 627a9687f7f7f7f774de306f14
+    issuerUri: http://www.okta.com/exk17q7f7f7f7fp50h8
+    name: mongodb_federation_test
+    requestBinding: HTTP-POST
+    responseSignatureAlgorithm: SHA-256
+    ssoDebugEnabled: true
+    ssoUrl: https://mysso.oktapreview.com/app/mysso_terraformtestsso/exk17q7f7f7f7f50h8/sso/saml
+    status: ACTIVE

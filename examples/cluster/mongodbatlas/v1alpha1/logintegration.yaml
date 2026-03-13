@@ -1,0 +1,70 @@
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: LogIntegration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/logintegration
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    bucketName: ${aws_s3_bucket.log_bucket.bucket}
+    iamRoleId: ${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}
+    logTypes:
+    - MONGOD_AUDIT
+    prefixPath: atlas-logs
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project
+    type: S3_LOG_EXPORT
+
+---
+
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: ProviderAccessAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/logintegration
+  labels:
+    testing.upbound.io/example-name: auth_role
+  name: auth-role
+spec:
+  forProvider:
+    aws:
+    - iamAssumedRoleArn: ${aws_iam_role.atlas_role.arn}
+    projectId: ${mongodbatlas_project.project.id}
+    roleId: ${mongodbatlas_cloud_provider_access_setup.setup_only.role_id}
+
+---
+
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: ProviderAccessSetup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/logintegration
+  labels:
+    testing.upbound.io/example-name: setup_only
+  name: setup-only
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project
+    providerName: AWS
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/logintegration
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+spec:
+  forProvider:
+    name: ${var.atlas_project_name}
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

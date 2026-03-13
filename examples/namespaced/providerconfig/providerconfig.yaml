@@ -1,0 +1,24 @@
+apiVersion: mongodbatlas.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: provider-credentials
+      namespace: crossplane-system
+      key: credentials
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: provider-credentials
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  credentials: |
+    {
+      "publicKey": "your-public-key",
+      "privateKey": "your-private-key"
+    }

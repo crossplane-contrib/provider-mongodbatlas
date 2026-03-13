@@ -1,0 +1,117 @@
+apiVersion: privateendpoint.mongodbatlas.crossplane.io/v1alpha1
+kind: RegionalMode
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateendpoint/v1alpha1/regionalmode
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    enabled: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateendpoint/v1alpha1/regionalmode
+  labels:
+    testing.upbound.io/example-name: cluster_atlas
+  name: cluster-atlas
+spec:
+  forProvider:
+    backupEnabled: true
+    clusterType: GEOSHARDED
+    name: ${var.cluster_name}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M30
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: ${var.atlas_region_east}
+      - electableSpecs:
+          instanceSize: M30
+          nodeCount: 2
+        priority: 6
+        providerName: AWS
+        regionName: ${var.atlas_region_west}
+      zoneName: Zone 1
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M30
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: ${var.atlas_region_east}
+      - electableSpecs:
+          instanceSize: M30
+          nodeCount: 2
+        priority: 6
+        providerName: AWS
+        regionName: ${var.atlas_region_west}
+      zoneName: Zone 1
+
+---
+
+apiVersion: privateendpoint.mongodbatlas.crossplane.io/v1alpha1
+kind: Resource
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateendpoint/v1alpha1/regionalmode
+  labels:
+    testing.upbound.io/example-name: test_east
+  name: test-east
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: privateendpoint.mongodbatlas.crossplane.io/v1alpha1
+kind: Resource
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateendpoint/v1alpha1/regionalmode
+  labels:
+    testing.upbound.io/example-name: test_west
+  name: test-west
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS
+    region: US_WEST_1
+
+---
+
+apiVersion: privateendpoint.mongodbatlas.crossplane.io/v1alpha1
+kind: Service
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateendpoint/v1alpha1/regionalmode
+  labels:
+    testing.upbound.io/example-name: test_west
+  name: test-west
+spec:
+  forProvider:
+    endpointServiceId: ${aws_vpc_endpoint.test_west.id}
+    privateLinkIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_west
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_west
+    providerName: AWS

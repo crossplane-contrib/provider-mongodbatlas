@@ -1,0 +1,19 @@
+apiVersion: cluster.mongodbatlas.crossplane.io/v1alpha1
+kind: OutageSimulation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/outagesimulation
+  labels:
+    testing.upbound.io/example-name: outage_simulation
+  name: outage-simulation
+spec:
+  forProvider:
+    clusterName: Cluster0
+    outageFilters:
+    - cloudProvider: AWS
+      regionName: US_EAST_1
+    - cloudProvider: AWS
+      regionName: US_EAST_2
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

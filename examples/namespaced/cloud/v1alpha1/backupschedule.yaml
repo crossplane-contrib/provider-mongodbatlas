@@ -1,0 +1,54 @@
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: BackupSchedule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupschedule
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterName: NAME OF CLUSTER
+    policyItemDaily:
+    - frequencyInterval: 1
+      retentionUnit: days
+      retentionValue: 2
+    policyItemHourly:
+    - frequencyInterval: 1
+      retentionUnit: days
+      retentionValue: 1
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_cluster
+    referenceHourOfDay: 3
+    referenceMinuteOfHour: 45
+    restoreWindowDays: 4
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupschedule
+  labels:
+    testing.upbound.io/example-name: my_cluster
+  name: my-cluster
+  namespace: crossplane-system
+spec:
+  forProvider:
+    backupEnabled: true
+    clusterType: REPLICASET
+    name: clusterTest
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: EU_CENTRAL_1

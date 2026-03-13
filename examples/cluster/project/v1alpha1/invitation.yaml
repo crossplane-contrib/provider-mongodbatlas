@@ -1,0 +1,16 @@
+apiVersion: project.mongodbatlas.crossplane.io/v1alpha1
+kind: Invitation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/invitation
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roles:
+    - GROUP_DATA_ACCESS_READ_WRITE
+    username: test-acc-username

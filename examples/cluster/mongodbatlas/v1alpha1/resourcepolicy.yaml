@@ -1,0 +1,25 @@
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: ResourcePolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/resourcepolicy
+  labels:
+    testing.upbound.io/example-name: project_ip_access_list
+  name: project-ip-access-list
+spec:
+  forProvider:
+    description: Forbids access from anywhere
+    name: forbid-access-from-anywhere
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    policies:
+    - body: |2
+                forbid (
+                        principal,
+                        action == ResourcePolicy::Action::"project.ipAccessList.modify",
+                        resource
+                )
+                        when {
+                        context.project.ipAccessList.contains(ip("0.0.0.0/0"))
+                };

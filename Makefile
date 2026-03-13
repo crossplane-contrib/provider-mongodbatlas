@@ -261,3 +261,8 @@ help-special: crossplane.help
 # TODO(negz): Update CI to use these targets.
 vendor: modules.download
 vendor.check: modules.check
+
+# Copy examples-generated to examples
+generate.done:
+	@$(INFO) copying generated examples to examples
+	@cp -r examples-generated/* examples/ || $(FAIL)

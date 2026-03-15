@@ -90,8 +90,15 @@ spec:
                       query must conform to RFC4515 and RFC 4516. If you do not provide
                       a query template, Atlas attempts to use the default value: {USER}?memberOf?base.'
                     type: string
+                  autoGenerateBindPassword:
+                    description: |-
+                      The password used to authenticate the bind_username.
+                      If true, the bind password will be auto-generated and stored in the Secret referenced by the bindPasswordSecretRef field.
+                    type: boolean
                   bindPasswordSecretRef:
-                    description: The password used to authenticate the bind_username.
+                    description: |-
+                      The password used to authenticate the bind_username.
+                      Password to authenticate the bind user. If you set autoGenerateBindPassword to true, the Secret referenced here will be created or updated with the generated password if it does not already contain one.
                     properties:
                       key:
                         description: The key to select.
@@ -273,7 +280,9 @@ spec:
                       a query template, Atlas attempts to use the default value: {USER}?memberOf?base.'
                     type: string
                   bindPasswordSecretRef:
-                    description: The password used to authenticate the bind_username.
+                    description: |-
+                      The password used to authenticate the bind_username.
+                      Password to authenticate the bind user. If you set autoGenerateBindPassword to true, the Secret referenced here will be created or updated with the generated password if it does not already contain one.
                     properties:
                       key:
                         description: The key to select.

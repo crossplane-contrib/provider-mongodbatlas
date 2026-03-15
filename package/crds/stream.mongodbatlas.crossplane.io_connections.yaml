@@ -141,6 +141,16 @@ spec:
                           cluster.
                         type: string
                     type: object
+                  autoGeneratePassword:
+                    description: |-
+                      Password of the account to connect to the Kafka cluster.
+                      If true, the authentication password will be auto-generated and stored in the Secret referenced by the authentication.passwordSecretRef field.
+                    type: boolean
+                  autoGenerateSchemaRegistryPassword:
+                    description: |-
+                      Password of the account to connect to the Kafka cluster.
+                      If true, the schema registry authentication password will be auto-generated and stored in the Secret referenced by the schemaRegistryAuthentication.passwordSecretRef field.
+                    type: boolean
                   aws:
                     description: The configuration for AWS Lambda connection. See
                       AWS

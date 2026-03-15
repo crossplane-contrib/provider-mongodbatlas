@@ -300,6 +300,18 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Authentication *AuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
+	// Password of the account to connect to the Kafka cluster.
+	// If true, the authentication password will be auto-generated and stored in the Secret referenced by the authentication.passwordSecretRef field.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	AutoGeneratePassword *bool `json:"autoGeneratePassword,omitempty" tf:"-"`
+
+	// Password of the account to connect to the Kafka cluster.
+	// If true, the schema registry authentication password will be auto-generated and stored in the Secret referenced by the schemaRegistryAuthentication.passwordSecretRef field.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	AutoGenerateSchemaRegistryPassword *bool `json:"autoGenerateSchemaRegistryPassword,omitempty" tf:"-"`
+
 	// The configuration for AWS Lambda connection. See AWS
 	// +kubebuilder:validation:Optional
 	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`

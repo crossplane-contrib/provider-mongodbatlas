@@ -492,6 +492,11 @@ func (in *UserParameters) DeepCopyInto(out *UserParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoGeneratePassword != nil {
+		in, out := &in.AutoGeneratePassword, &out.AutoGeneratePassword
+		*out = new(bool)
+		**out = **in
+	}
 	if in.AwsIAMType != nil {
 		in, out := &in.AwsIAMType, &out.AwsIAMType
 		*out = new(string)

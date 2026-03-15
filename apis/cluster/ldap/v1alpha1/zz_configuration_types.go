@@ -25,6 +25,7 @@ type ConfigurationInitParameters struct {
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
 	// The password used to authenticate the bind_username.
+	// Password to authenticate the bind user. If you set autoGenerateBindPassword to true, the Secret referenced here will be created or updated with the generated password if it does not already contain one.
 	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
@@ -102,6 +103,13 @@ type ConfigurationParameters struct {
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
 	// The password used to authenticate the bind_username.
+	// If true, the bind password will be auto-generated and stored in the Secret referenced by the bindPasswordSecretRef field.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	AutoGenerateBindPassword *bool `json:"autoGenerateBindPassword,omitempty" tf:"-"`
+
+	// The password used to authenticate the bind_username.
+	// Password to authenticate the bind user. If you set autoGenerateBindPassword to true, the Secret referenced here will be created or updated with the generated password if it does not already contain one.
 	// +kubebuilder:validation:Optional
 	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 

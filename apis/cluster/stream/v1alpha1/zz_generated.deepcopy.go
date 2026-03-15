@@ -686,6 +686,16 @@ func (in *ConnectionParameters) DeepCopyInto(out *ConnectionParameters) {
 		*out = new(AuthenticationParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AutoGeneratePassword != nil {
+		in, out := &in.AutoGeneratePassword, &out.AutoGeneratePassword
+		*out = new(bool)
+		**out = **in
+	}
+	if in.AutoGenerateSchemaRegistryPassword != nil {
+		in, out := &in.AutoGenerateSchemaRegistryPassword, &out.AutoGenerateSchemaRegistryPassword
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Aws != nil {
 		in, out := &in.Aws, &out.Aws
 		*out = new(AwsParameters)

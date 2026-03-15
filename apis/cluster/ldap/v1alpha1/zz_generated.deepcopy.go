@@ -230,6 +230,11 @@ func (in *ConfigurationParameters) DeepCopyInto(out *ConfigurationParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoGenerateBindPassword != nil {
+		in, out := &in.AutoGenerateBindPassword, &out.AutoGenerateBindPassword
+		*out = new(bool)
+		**out = **in
+	}
 	in.BindPasswordSecretRef.DeepCopyInto(&out.BindPasswordSecretRef)
 	if in.BindUsername != nil {
 		in, out := &in.BindUsername, &out.BindUsername

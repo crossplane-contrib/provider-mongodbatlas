@@ -6,10 +6,19 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/password"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	xpref "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/resource"
+	corev1 "k8s.io/api/core/v1"
 )
 
 const (
@@ -17,8 +26,9 @@ const (
 	errFmtNoAttribute = `"attribute not found: %s`
 	// errFmtUnexpectedType is an error string for attribute map values of unexpected type
 	errFmtUnexpectedType = `unexpected type for attribute %s: Expecting a string`
+	errGetPasswordSecret = "cannot get password secret: %w"
 
-	commonConfigPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
+	commonConfigPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 	// ExtractResourceIDFuncPath holds the MongoDBAtlas resource ID extractor func name
 	ExtractResourceIDFuncPath = commonConfigPackagePath + ".ExtractResourceID()"
 
@@ -173,4 +183,67 @@ func ExtractIDFromState(tfstate map[string]any) (string, error) {
 		return "", errors.New("value of id needs to be string")
 	}
 	return idStr, nil
+}
+
+// PasswordGenerator returns an InitializerFn that will generate a password
+// for a resource if the toggle field is set to true and the secret referenced
+// by the secretRefFieldPath is not found or does not have content corresponding
+// to the password key.
+func PasswordGenerator(secretRefFieldPath, toggleFieldPath string) config.NewInitializerFn { //nolint:gocyclo
+	return func(client client.Client) managed.Initializer {
+		return managed.InitializerFn(func(ctx context.Context, mg xpresource.Managed) error {
+			paved, err := fieldpath.PaveObject(mg)
+			if err != nil {
+				return fmt.Errorf("cannot pave object: %w", err)
+			}
+			sel := &v1.SecretKeySelector{}
+			if err := paved.GetValueInto(secretRefFieldPath, sel); err != nil {
+				if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
+					return fmt.Errorf("cannot unmarshal %s into a secret key selector: %w", secretRefFieldPath, err)
+				}
+				return nil
+			}
+			s := &corev1.Secret{}
+			if err := client.Get(ctx, types.NamespacedName{Namespace: sel.Namespace, Name: sel.Name}, s); xpresource.IgnoreNotFound(err) != nil {
+				return fmt.Errorf(errGetPasswordSecret, err)
+			}
+			if err == nil && len(s.Data[sel.Key]) != 0 {
+				// Password is already set.
+				return nil
+			}
+			// At this point, either the secret doesn't exist, or it doesn't
+			// have the password filled.
+			if gen, err := paved.GetBool(toggleFieldPath); err != nil || !gen {
+				// If there is error, then we return that.
+				// If the toggle field is not set to true, then we return nil.
+				// Because we don't want to generate a password if the user
+				// doesn't want to.
+				if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
+					return fmt.Errorf("cannot get the value of %s: %w", toggleFieldPath, err)
+				}
+				return nil
+			}
+			pw, err := password.Generate()
+			if err != nil {
+				return fmt.Errorf("cannot generate password: %w", err)
+			}
+			s.SetName(sel.Name)
+			s.SetNamespace(sel.Namespace)
+			if !meta.WasCreated(s) {
+				// We don't want to own the Secret if it is created by someone
+				// else, otherwise the deletion of the managed resource will
+				// delete the Secret that we didn't create in the first place.
+				meta.AddOwnerReference(s, meta.AsOwner(meta.TypedReferenceTo(mg, mg.GetObjectKind().GroupVersionKind())))
+			}
+			if s.Data == nil {
+				s.Data = make(map[string][]byte, 1)
+			}
+			s.Data[sel.Key] = []byte(pw)
+			err = xpresource.NewAPIPatchingApplicator(client).Apply(ctx, s)
+			if err != nil {
+				return fmt.Errorf("cannot apply password secret: %w", err)
+			}
+			return nil
+		})
+	}
 }

@@ -15,7 +15,7 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_database_user", func(r *config.Resource) {
 		r.Version = common.VersionV1Alpha3
 		r.LateInitializer = config.LateInitializer{
-			IgnoredFields: []string{"x509_type", "ldap_auth_type", "aws_iam_type"},
+			IgnoredFields: []string{"x509_type", "ldap_auth_type", "aws_iam_type", "auto_generate_password"},
 		}
 		r.References = config.References{
 			"project_id": {

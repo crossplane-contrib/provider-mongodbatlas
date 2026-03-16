@@ -203,8 +203,12 @@ func PasswordGenerator(secretRefFieldPath, toggleFieldPath string) config.NewIni
 				}
 				return nil
 			}
+			ns := sel.Namespace
+			if ns == "" {
+				ns = mg.GetNamespace()
+			}
 			s := &corev1.Secret{}
-			if err := client.Get(ctx, types.NamespacedName{Namespace: sel.Namespace, Name: sel.Name}, s); xpresource.IgnoreNotFound(err) != nil {
+			if err := client.Get(ctx, types.NamespacedName{Namespace: ns, Name: sel.Name}, s); xpresource.IgnoreNotFound(err) != nil {
 				return fmt.Errorf(errGetPasswordSecret, err)
 			}
 			if err == nil && len(s.Data[sel.Key]) != 0 {
@@ -228,7 +232,7 @@ func PasswordGenerator(secretRefFieldPath, toggleFieldPath string) config.NewIni
 				return fmt.Errorf("cannot generate password: %w", err)
 			}
 			s.SetName(sel.Name)
-			s.SetNamespace(sel.Namespace)
+			s.SetNamespace(ns)
 			if !meta.WasCreated(s) {
 				// We don't want to own the Secret if it is created by someone
 				// else, otherwise the deletion of the managed resource will

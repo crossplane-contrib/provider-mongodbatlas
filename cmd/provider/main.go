@@ -145,7 +145,7 @@ func main() {
 			xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
 		}
 		// we probably don't need this condition but just to be on the
-		// safe side, if we are missing any kingpin machinery details...
+		// safe side, if we are missing any kong machinery details...
 		if xpCertsDir != "" {
 			cli.CertsDir = certsDir(xpCertsDir)
 		}

@@ -204,63 +204,86 @@ func PasswordGenerator(byopSecretRefPath, writeConnectionSecretPath string) conf
 			if err != nil {
 				return fmt.Errorf("cannot pave object: %w", err)
 			}
-
-			// BYOP: if passwordSecretRef is already set, use it as-is.
-			byopSel := &v1.SecretKeySelector{}
-			if err := paved.GetValueInto(byopSecretRefPath, byopSel); err == nil && byopSel.Name != "" {
-				return nil
-			} else if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
-				return fmt.Errorf("cannot read %s: %w", byopSecretRefPath, err)
-			}
-
-			// Auto-generate: check writeConnectionSecretToRef.
-			connRef := &v1.SecretReference{}
-			if err := paved.GetValueInto(writeConnectionSecretPath, connRef); err != nil {
-				if fieldpath.IsNotFound(err) {
-					return nil
-				}
-				return fmt.Errorf("cannot read %s: %w", writeConnectionSecretPath, err)
-			}
-			if connRef.Name == "" {
-				return nil
-			}
-
-			ns := connRef.Namespace
-			if ns == "" {
-				ns = mg.GetNamespace()
-			}
-
-			const passwordKey = "password"
-			s := &corev1.Secret{}
-			getErr := cl.Get(ctx, types.NamespacedName{Namespace: ns, Name: connRef.Name}, s)
-			if xpresource.IgnoreNotFound(getErr) != nil {
-				return fmt.Errorf("cannot get connection secret: %w", getErr)
-			}
-			if getErr == nil && len(s.Data[passwordKey]) != 0 {
-				// Password already exists; ensure passwordSecretRef points to it.
-				return setPasswordSecretRef(ctx, cl, mg, connRef.Name, ns, passwordKey)
-			}
-
-			// Generate and write the password.
-			pw, err := password.Generate()
+			byop, err := checkBYOP(paved, byopSecretRefPath)
 			if err != nil {
-				return fmt.Errorf("cannot generate password: %w", err)
+				return err
 			}
-			s.SetName(connRef.Name)
-			s.SetNamespace(ns)
-			if !meta.WasCreated(s) {
-				meta.AddOwnerReference(s, meta.AsOwner(meta.TypedReferenceTo(mg, mg.GetObjectKind().GroupVersionKind())))
+			if byop {
+				return nil
 			}
-			if s.Data == nil {
-				s.Data = make(map[string][]byte, 1)
+			name, ns, err := resolveConnRef(paved, writeConnectionSecretPath, mg.GetNamespace())
+			if err != nil || name == "" {
+				return err
 			}
-			s.Data[passwordKey] = []byte(pw)
-			if err := xpresource.NewAPIPatchingApplicator(cl).Apply(ctx, s); err != nil {
-				return fmt.Errorf("cannot apply password secret: %w", err)
-			}
-			return setPasswordSecretRef(ctx, cl, mg, connRef.Name, ns, passwordKey)
+			return reconcilePassword(ctx, cl, mg, name, ns)
 		})
 	}
+}
+
+// checkBYOP returns true when the field at path contains a non-empty SecretKeySelector name.
+func checkBYOP(paved *fieldpath.Paved, path string) (bool, error) {
+	sel := &v1.SecretKeySelector{}
+	if err := paved.GetValueInto(path, sel); err == nil {
+		return sel.Name != "", nil
+	} else if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
+		return false, fmt.Errorf("cannot read %s: %w", path, err)
+	}
+	return false, nil
+}
+
+// resolveConnRef reads writeConnectionSecretToRef from the paved object and
+// returns the secret name and namespace (falling back to defaultNS when unset).
+// Returns an empty name when the field is not configured.
+func resolveConnRef(paved *fieldpath.Paved, path, defaultNS string) (name, ns string, err error) {
+	connRef := &v1.SecretReference{}
+	if err := paved.GetValueInto(path, connRef); err != nil {
+		if fieldpath.IsNotFound(err) {
+			return "", "", nil
+		}
+		return "", "", fmt.Errorf("cannot read %s: %w", path, err)
+	}
+	ns = connRef.Namespace
+	if ns == "" {
+		ns = defaultNS
+	}
+	return connRef.Name, ns, nil
+}
+
+// reconcilePassword ensures the connection secret contains a password and that
+// passwordSecretRef on the managed resource points to it.
+func reconcilePassword(ctx context.Context, cl client.Client, mg xpresource.Managed, name, ns string) error {
+	const passwordKey = "password"
+	s := &corev1.Secret{}
+	getErr := cl.Get(ctx, types.NamespacedName{Namespace: ns, Name: name}, s)
+	if xpresource.IgnoreNotFound(getErr) != nil {
+		return fmt.Errorf("cannot get connection secret: %w", getErr)
+	}
+	if getErr == nil && len(s.Data[passwordKey]) != 0 {
+		return setPasswordSecretRef(ctx, cl, mg, name, ns, passwordKey)
+	}
+	return generateAndApply(ctx, cl, mg, s, name, ns, passwordKey)
+}
+
+// generateAndApply generates a random password, writes it to the secret, and
+// sets passwordSecretRef on the managed resource.
+func generateAndApply(ctx context.Context, cl client.Client, mg xpresource.Managed, s *corev1.Secret, name, ns, key string) error {
+	pw, err := password.Generate()
+	if err != nil {
+		return fmt.Errorf("cannot generate password: %w", err)
+	}
+	s.SetName(name)
+	s.SetNamespace(ns)
+	if !meta.WasCreated(s) {
+		meta.AddOwnerReference(s, meta.AsOwner(meta.TypedReferenceTo(mg, mg.GetObjectKind().GroupVersionKind())))
+	}
+	if s.Data == nil {
+		s.Data = make(map[string][]byte, 1)
+	}
+	s.Data[key] = []byte(pw)
+	if err := xpresource.NewAPIPatchingApplicator(cl).Apply(ctx, s); err != nil {
+		return fmt.Errorf("cannot apply password secret: %w", err)
+	}
+	return setPasswordSecretRef(ctx, cl, mg, name, ns, key)
 }
 
 // setPasswordSecretRef sets the passwordSecretRef on the managed resource to

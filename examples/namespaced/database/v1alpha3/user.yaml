@@ -1,8 +1,3 @@
-# Example 1: Bring Your Own Password (BYOP)
-# Set spec.forProvider.passwordSecretRef to reference an existing Secret that
-# contains the password. The provider uses it as-is and does not auto-generate
-# anything. Do NOT set spec.writeConnectionSecretToRef for password purposes in
-# this mode.
 apiVersion: database.mongodbatlas.m.crossplane.io/v1alpha3
 kind: User
 metadata:
@@ -19,8 +14,8 @@ spec:
     - key: My Key
       value: My Value
     passwordSecretRef:
-      key: password
-      name: my-db-user-password
+      key: example-key
+      name: example-secret
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
@@ -32,31 +27,6 @@ spec:
     scopes:
     - name: My cluster name
       type: CLUSTER
+    - name: My second cluster name
+      type: CLUSTER
     username: test-acc-username
----
-# Example 2: Auto-generated password
-# Omit spec.forProvider.passwordSecretRef and set spec.writeConnectionSecretToRef
-# instead. The provider generates a random password, writes it to that Secret
-# under the "password" key, and wires things up automatically.
-apiVersion: database.mongodbatlas.m.crossplane.io/v1alpha3
-kind: User
-metadata:
-  annotations:
-    meta.upbound.io/example-id: database/v1alpha3/user
-  labels:
-    testing.upbound.io/example-name: test-autogen
-  name: test-autogen
-  namespace: crossplane-system
-spec:
-  writeConnectionSecretToRef:
-    name: db-user-credentials
-    namespace: crossplane-system
-  forProvider:
-    authDatabaseName: admin
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    roles:
-    - databaseName: dbforApp
-      roleName: readWrite
-    username: test-acc-username-autogen

@@ -132,7 +132,7 @@ type UserInitParameters struct {
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
 	// User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-	// Password for the database user. If you set autoGeneratePassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
+	// Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The unique ID for the project to create the database user.
@@ -204,12 +204,6 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthDatabaseName *string `json:"authDatabaseName,omitempty" tf:"auth_database_name,omitempty"`
 
-	// User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-	// If true, the password will be auto-generated and stored in the Secret referenced by the passwordSecretRef field.
-	// +upjet:crd:field:TFTag=-
-	// +kubebuilder:validation:Optional
-	AutoGeneratePassword *bool `json:"autoGeneratePassword,omitempty" tf:"-"`
-
 	// If this value is set, the new database user authenticates with AWS IAM credentials. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	// +kubebuilder:validation:Optional
 	AwsIAMType *string `json:"awsIamType,omitempty" tf:"aws_iam_type,omitempty"`
@@ -230,7 +224,7 @@ type UserParameters struct {
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
 	// User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-	// Password for the database user. If you set autoGeneratePassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
+	// Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 

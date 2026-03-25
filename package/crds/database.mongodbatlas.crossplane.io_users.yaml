@@ -77,11 +77,6 @@ spec:
                       Database against which Atlas authenticates the user. A user must provide both a username and authentication database to log into MongoDB.
                       Accepted values include:
                     type: string
-                  autoGeneratePassword:
-                    description: |-
-                      User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-                      If true, the password will be auto-generated and stored in the Secret referenced by the passwordSecretRef field.
-                    type: boolean
                   awsIamType:
                     description: 'If this value is set, the new database user authenticates
                       with AWS IAM credentials. If no value is given, Atlas uses the
@@ -114,7 +109,7 @@ spec:
                   passwordSecretRef:
                     description: |-
                       User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-                      Password for the database user. If you set autoGeneratePassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
+                      Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
                     properties:
                       key:
                         description: The key to select.
@@ -310,7 +305,7 @@ spec:
                   passwordSecretRef:
                     description: |-
                       User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-                      Password for the database user. If you set autoGeneratePassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
+                      Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
                     properties:
                       key:
                         description: The key to select.

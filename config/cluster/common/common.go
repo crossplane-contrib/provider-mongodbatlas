@@ -26,7 +26,6 @@ const (
 	errFmtNoAttribute = `"attribute not found: %s`
 	// errFmtUnexpectedType is an error string for attribute map values of unexpected type
 	errFmtUnexpectedType = `unexpected type for attribute %s: Expecting a string`
-	errGetPasswordSecret = "cannot get password secret: %w"
 
 	commonConfigPackagePath = "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 	// ExtractResourceIDFuncPath holds the MongoDBAtlas resource ID extractor func name
@@ -185,69 +184,98 @@ func ExtractIDFromState(tfstate map[string]any) (string, error) {
 	return idStr, nil
 }
 
-// PasswordGenerator returns an InitializerFn that will generate a password
-// for a resource if the toggle field is set to true and the secret referenced
-// by the secretRefFieldPath is not found or does not have content corresponding
-// to the password key.
-func PasswordGenerator(secretRefFieldPath, toggleFieldPath string) config.NewInitializerFn { //nolint:gocyclo
-	return func(client client.Client) managed.Initializer {
+// PasswordSecretRefSetter is implemented by managed resources that expose a
+// PasswordSecretRef field in their forProvider spec.
+type PasswordSecretRefSetter interface {
+	SetPasswordSecretRef(ref *v1.SecretKeySelector)
+}
+
+// PasswordGenerator returns an InitializerFn with the following behavior:
+//   - BYOP mode: if byopSecretRefPath is already set on the managed resource,
+//     the referenced secret is used as-is and no password is generated.
+//   - Auto-generate mode: if writeConnectionSecretPath is set, a password is
+//     generated and written to that secret under the "password" key. The
+//     byopSecretRefPath field is then set on the managed resource to point to
+//     the same secret so Terraform can inject it as the password parameter.
+func PasswordGenerator(byopSecretRefPath, writeConnectionSecretPath string) config.NewInitializerFn {
+	return func(cl client.Client) managed.Initializer {
 		return managed.InitializerFn(func(ctx context.Context, mg xpresource.Managed) error {
 			paved, err := fieldpath.PaveObject(mg)
 			if err != nil {
 				return fmt.Errorf("cannot pave object: %w", err)
 			}
-			sel := &v1.SecretKeySelector{}
-			if err := paved.GetValueInto(secretRefFieldPath, sel); err != nil {
-				if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
-					return fmt.Errorf("cannot unmarshal %s into a secret key selector: %w", secretRefFieldPath, err)
+
+			// BYOP: if passwordSecretRef is already set, use it as-is.
+			byopSel := &v1.SecretKeySelector{}
+			if err := paved.GetValueInto(byopSecretRefPath, byopSel); err == nil && byopSel.Name != "" {
+				return nil
+			} else if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
+				return fmt.Errorf("cannot read %s: %w", byopSecretRefPath, err)
+			}
+
+			// Auto-generate: check writeConnectionSecretToRef.
+			connRef := &v1.SecretReference{}
+			if err := paved.GetValueInto(writeConnectionSecretPath, connRef); err != nil {
+				if fieldpath.IsNotFound(err) {
+					return nil
 				}
+				return fmt.Errorf("cannot read %s: %w", writeConnectionSecretPath, err)
+			}
+			if connRef.Name == "" {
 				return nil
 			}
-			ns := sel.Namespace
+
+			ns := connRef.Namespace
 			if ns == "" {
 				ns = mg.GetNamespace()
 			}
+
+			const passwordKey = "password"
 			s := &corev1.Secret{}
-			if err := client.Get(ctx, types.NamespacedName{Namespace: ns, Name: sel.Name}, s); xpresource.IgnoreNotFound(err) != nil {
-				return fmt.Errorf(errGetPasswordSecret, err)
+			getErr := cl.Get(ctx, types.NamespacedName{Namespace: ns, Name: connRef.Name}, s)
+			if xpresource.IgnoreNotFound(getErr) != nil {
+				return fmt.Errorf("cannot get connection secret: %w", getErr)
 			}
-			if err == nil && len(s.Data[sel.Key]) != 0 {
-				// Password is already set.
-				return nil
+			if getErr == nil && len(s.Data[passwordKey]) != 0 {
+				// Password already exists; ensure passwordSecretRef points to it.
+				return setPasswordSecretRef(ctx, cl, mg, connRef.Name, ns, passwordKey)
 			}
-			// At this point, either the secret doesn't exist, or it doesn't
-			// have the password filled.
-			if gen, err := paved.GetBool(toggleFieldPath); err != nil || !gen {
-				// If there is error, then we return that.
-				// If the toggle field is not set to true, then we return nil.
-				// Because we don't want to generate a password if the user
-				// doesn't want to.
-				if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
-					return fmt.Errorf("cannot get the value of %s: %w", toggleFieldPath, err)
-				}
-				return nil
-			}
+
+			// Generate and write the password.
 			pw, err := password.Generate()
 			if err != nil {
 				return fmt.Errorf("cannot generate password: %w", err)
 			}
-			s.SetName(sel.Name)
+			s.SetName(connRef.Name)
 			s.SetNamespace(ns)
 			if !meta.WasCreated(s) {
-				// We don't want to own the Secret if it is created by someone
-				// else, otherwise the deletion of the managed resource will
-				// delete the Secret that we didn't create in the first place.
 				meta.AddOwnerReference(s, meta.AsOwner(meta.TypedReferenceTo(mg, mg.GetObjectKind().GroupVersionKind())))
 			}
 			if s.Data == nil {
 				s.Data = make(map[string][]byte, 1)
 			}
-			s.Data[sel.Key] = []byte(pw)
-			err = xpresource.NewAPIPatchingApplicator(client).Apply(ctx, s)
-			if err != nil {
+			s.Data[passwordKey] = []byte(pw)
+			if err := xpresource.NewAPIPatchingApplicator(cl).Apply(ctx, s); err != nil {
 				return fmt.Errorf("cannot apply password secret: %w", err)
 			}
-			return nil
+			return setPasswordSecretRef(ctx, cl, mg, connRef.Name, ns, passwordKey)
 		})
 	}
+}
+
+// setPasswordSecretRef sets the passwordSecretRef on the managed resource to
+// point to the given secret/key, then persists the change via client.Update.
+func setPasswordSecretRef(ctx context.Context, cl client.Client, mg xpresource.Managed, name, namespace, key string) error {
+	setter, ok := mg.(PasswordSecretRefSetter)
+	if !ok {
+		return nil
+	}
+	setter.SetPasswordSecretRef(&v1.SecretKeySelector{
+		SecretReference: v1.SecretReference{Name: name, Namespace: namespace},
+		Key:             key,
+	})
+	if err := cl.Update(ctx, mg); err != nil {
+		return fmt.Errorf("cannot update managed resource with password secret ref: %w", err)
+	}
+	return nil
 }

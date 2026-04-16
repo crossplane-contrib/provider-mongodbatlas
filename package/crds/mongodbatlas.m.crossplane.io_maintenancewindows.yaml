@@ -86,7 +86,7 @@ spec:
                     type: number
                   projectId:
                     description: The unique identifier of the project for the Maintenance
-                      Window.
+                      Window, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -227,7 +227,7 @@ spec:
                     type: number
                   projectId:
                     description: The unique identifier of the project for the Maintenance
-                      Window.
+                      Window, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -434,7 +434,7 @@ spec:
                     type: number
                   projectId:
                     description: The unique identifier of the project for the Maintenance
-                      Window.
+                      Window, also known as groupId in the official documentation.
                     type: string
                   protectedHours:
                     description: Defines the time period during which there will be

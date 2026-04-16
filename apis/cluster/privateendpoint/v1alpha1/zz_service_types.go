@@ -75,7 +75,7 @@ type ServiceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateLinkIDSelector *v1.Selector `json:"privateLinkIdSelector,omitempty" tf:"-"`
 
-	// Unique identifier for the project, also known as group_id in the official documentation.
+	// Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -151,7 +151,7 @@ type ServiceObservation struct {
 	// Unique identifier of the AWS, AZURE or GCP PrivateLink connection which is created by mongodbatlas_privatelink_endpoint resource.
 	PrivateLinkID *string `json:"privateLinkId,omitempty" tf:"private_link_id,omitempty"`
 
-	// Unique identifier for the project, also known as group_id in the official documentation.
+	// Unique identifier for the project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Cloud provider for which you want to create a private endpoint. Atlas accepts AWS, AZURE or GCP.
@@ -194,7 +194,7 @@ type ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateLinkIDSelector *v1.Selector `json:"privateLinkIdSelector,omitempty" tf:"-"`
 
-	// Unique identifier for the project, also known as group_id in the official documentation.
+	// Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

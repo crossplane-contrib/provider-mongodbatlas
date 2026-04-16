@@ -26,7 +26,7 @@ type BackupSnapshotInitParameters struct {
 	// Description of the on-demand snapshot.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The unique identifier of the project for the Atlas cluster.
+	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -74,7 +74,7 @@ type BackupSnapshotObservation struct {
 	// Version of the MongoDB server.
 	MongodVersion *string `json:"mongodVersion,omitempty" tf:"mongod_version,omitempty"`
 
-	// The unique identifier of the project for the Atlas cluster.
+	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Label given to the replica set from which Atlas took this snapshot. Atlas returns this parameter when type is replicaSet.
@@ -117,7 +117,7 @@ type BackupSnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The unique identifier of the project for the Atlas cluster.
+	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

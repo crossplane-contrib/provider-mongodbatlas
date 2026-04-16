@@ -408,6 +408,8 @@ resources:
             STANDARD: volume types can't exceed the default IOPS rate for the selected volume size.
             TENANT: '- M0 multi-tenant cluster. Use replication_specs.[0].region_configs[0].backing_provider_name to set the cloud service provider.'
             accept_data_risks_and_force_replica_set_reconfig: '- (Optional) If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.'
+            advanced_configuration.oplog_min_retention_hours: to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
+            apply: twice. First set advanced_configuration.oplog_min_retention_hours to 0 and apply. Then set disk_gb_enabled to false and apply again.
             backup_enabled: |-
                 - (Optional) Flag that indicates whether the cluster can perform backups.
                 If true, the cluster can perform backups. You must set this value to true for NVMe clusters.
@@ -448,6 +450,7 @@ resources:
             default_write_concern: '- (Optional) Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.'
             delete: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.'
             delete_on_create_timeout: '- (Optional) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.'
+            disk_gb_enabled: to false, Atlas requires advanced_configuration.oplog_min_retention_hours to be 0 (which disables minimum oplog retention, see MongoDB documentation) on the server. If it is still non-zero, the API responds with OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING (HTTP 400).
             effective_electable_specs: ', effective_analytics_specs, and effective_read_only_specs for actual values'
             electable_specs: ', analytics_specs, read_only_specs) behavior:'
             encryption_at_rest_provider: '- (Optional) Possible values are AWS, GCP, AZURE or NONE.  Only needed if you desire to manage the keys, see Encryption at Rest using Customer Key Management for complete documentation.  You must configure encryption at rest for the Atlas project before enabling it on any cluster in the project. For Documentation, see AWS, GCP and Azure. Requirements are if replication_specs[#].region_configs[#].<type>Specs.instance_size is M10 or greater and backup_enabled is false or omitted.'
@@ -464,9 +467,7 @@ resources:
             mongodbatlas_privatelink_endpoint_service: resources are fully applied. Add a depends_on = [mongodbatlas_privatelink_endpoint_service.example] to ensure connection_strings are available following terraform apply. If the expected connection string(s) do not contain a value, a terraform refresh may need to be performed to obtain the value. One can also view the status of the peered connection in the Atlas UI.
             name: '- (Required) Name of the cluster as it appears in Atlas. Once the cluster is created, its name cannot be changed. WARNING Changing the name will result in destruction of the existing cluster and the creation of a new cluster.'
             no_table_scan: '- (Optional) When true, the cluster disables the execution of any query that requires a collection scan to return results. When false, the cluster allows the execution of those operations.'
-            oplog_min_retention_hours: |-
-                - (Optional) Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
-                -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
+            oplog_min_retention_hours: '- (Optional) Minimum retention window for cluster''s oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to null will retain the last applied value rather than reverting to the default value. To disable this setting, check the MongoDB documentation for the specific value to use (currently 0).'
             oplog_size_mb: '- (Optional) The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.'
             paused: |-
                 (Optional) - Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster. If you try to update a paused cluster you will get a CANNOT_UPDATE_PAUSED_CLUSTER error. See Considerations for Paused Clusters.
@@ -476,7 +477,7 @@ resources:
             pinned_fcv.expiration_date: '- (Required) Expiration date of the fixed FCV. This value is in the ISO 8601 timestamp format (e.g. "2024-12-04T16:25:00Z"). Note that this field cannot exceed 4 weeks from the pinned date.'
             pinned_fcv.version: '- Feature compatibility version of the cluster.'
             pit_enabled: '- (Optional) Flag that indicates if the cluster uses Continuous Cloud Backup.'
-            project_id: '- (Required) Unique ID for the project to create the cluster.'
+            project_id: '- (Required) Unique ID for the project to create the cluster, also known as groupId in the official documentation.'
             redact_client_log_data: '- (Optional) Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.'
             region_configs: objects (your cluster is multi-region or multi-cloud), they must have priorities in descending order. The highest priority is 7.
             region_configs.provider_name: |-
@@ -499,7 +500,7 @@ resources:
             replication_specs.region_configs.analytics_auto_scaling.compute_max_instance_size: '- (Optional) Maximum instance size to which your cluster can automatically scale (such as M40). Atlas requires this parameter if replication_specs[#].region_configs[#].analytics_auto_scaling.compute_enabled is true.'
             replication_specs.region_configs.analytics_auto_scaling.compute_min_instance_size: '- (Optional) Minimum instance size to which your cluster can automatically scale (such as M10). Atlas requires this parameter if replication_specs[#].region_configs[#].analytics_auto_scaling.compute_scale_down_enabled is true.'
             replication_specs.region_configs.analytics_auto_scaling.compute_scale_down_enabled: '- (Optional) Flag that indicates whether the instance size may scale down. Atlas requires this parameter if replication_specs[#].region_configs[#].analytics_auto_scaling.compute_enabled : true. If you enable this option, specify a value for replication_specs[#].region_configs[#].analytics_auto_scaling.compute_min_instance_size.'
-            replication_specs.region_configs.analytics_auto_scaling.disk_gb_enabled: '- (Optional) Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.'
+            replication_specs.region_configs.analytics_auto_scaling.disk_gb_enabled: '- (Optional) Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.'
             replication_specs.region_configs.analytics_specs: '- (Optional) Hardware specifications for analytics nodes needed in the region. Analytics nodes handle analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only and can never become the primary. If you don''t specify this parameter, no analytics nodes deploy to this region. See below.'
             replication_specs.region_configs.analytics_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can''t set this attribute for a multi-cloud cluster.'
             replication_specs.region_configs.analytics_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.'
@@ -511,7 +512,7 @@ resources:
             replication_specs.region_configs.auto_scaling.compute_max_instance_size: '- (Optional) Maximum instance size to which your cluster can automatically scale (such as M40). Atlas requires this parameter if replication_specs[#].region_configs[#].auto_scaling.compute_enabled is true.'
             replication_specs.region_configs.auto_scaling.compute_min_instance_size: '- (Optional) Minimum instance size to which your cluster can automatically scale (such as M10). Atlas requires this parameter if replication_specs[#].region_configs[#].auto_scaling.compute_scale_down_enabled is true.'
             replication_specs.region_configs.auto_scaling.compute_scale_down_enabled: '- (Optional) Flag that indicates whether the instance size may scale down. Atlas requires this parameter if replication_specs[#].region_configs[#].auto_scaling.compute_enabled : true. If you enable this option, specify a value for replication_specs[#].region_configs[#].auto_scaling.compute_min_instance_size.'
-            replication_specs.region_configs.auto_scaling.disk_gb_enabled: '- (Optional) Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.'
+            replication_specs.region_configs.auto_scaling.disk_gb_enabled: '- (Optional) Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.'
             replication_specs.region_configs.backing_provider_name: '- (Optional) Cloud service provider on which you provision the host for a multi-tenant cluster. Use this only when the provider_name is TENANT and instance_size is M0, or when the provider_name is FLEX.'
             replication_specs.region_configs.effective_analytics_specs: '- (Computed) Effective hardware specifications for analytics nodes in the region, reflecting actual Atlas-managed values including auto-scaling changes. Available in the mongodbatlas_advanced_cluster data source. See below.'
             replication_specs.region_configs.effective_electable_specs: '- (Computed) Effective hardware specifications for electable nodes in the region, reflecting actual Atlas-managed values including auto-scaling changes. Available in the mongodbatlas_advanced_cluster data source. See below.'
@@ -715,7 +716,7 @@ resources:
                 Accepted values are:
             ops_genie_api_key: '- Opsgenie API Key. Required for the OPS_GENIE notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.'
             ops_genie_region: '- Region that indicates which API URL to use. Accepted regions are: US ,EU. The default Opsgenie region is US.'
-            project_id: '- (Required) The ID of the project where the alert configuration will create.'
+            project_id: '- (Required) The ID of the project where the alert configuration will create, also known as groupId in the official documentation.'
             roles: |-
                 - Optional. One or more roles that receive the configured alert. If you include this field, Atlas sends alerts only to users assigned the roles you specify in the array. If you omit this field, Atlas sends alerts to users assigned any role. This parameter is only valid if type_name is set to ORG, GROUP, or USER.
                 Accepted values are:
@@ -842,7 +843,7 @@ resources:
                     }
         argumentDocs:
             api_key_id: (String) Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             roles: (Set of String) Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
         importStatements: []
     mongodbatlas_auditing:
@@ -863,7 +864,7 @@ resources:
             audit_filter: '- JSON-formatted audit filter. For complete documentation on custom auditing filters, see Configure Audit Filters.'
             configuration_type: '- Denotes the configuration method for the audit filter. Possible values are:'
             enabled: '- Denotes whether or not the project associated with the {project_id} has database auditing enabled.  Defaults to false.'
-            project_id: '- (Required) The unique ID for the project to configure auditing. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.'
+            project_id: '- (Required) The unique ID for the project to configure auditing, also known as groupId in the official documentation. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.'
         importStatements: []
     mongodbatlas_backup_compliance_policy:
         subCategory: Cloud Backups
@@ -1008,7 +1009,7 @@ resources:
             policy_item_monthly: '- Scheduled policy using a monthly frequency type, see block fields.'
             policy_item_weekly: '- Scheduled policy using a weekly frequency type, see block fields.'
             policy_item_yearly: '- Scheduled policy using a yearly frequency type, see block fields.'
-            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project.'
+            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.'
             restore_window_days: '- Number of previous days that you can restore back to with Continuous Cloud Backup with a Backup Compliance Policy. You must specify a positive, non-zero integer, and the maximum retention window can''t exceed the hourly retention time. This parameter applies only to Continuous Cloud Backups with a Backup Compliance Policy.'
             retention_unit: '- Scope of the backup policy item: days, weeks, months, or years.'
             retention_value: '- Value to associate with retention_unit.'
@@ -1280,7 +1281,7 @@ resources:
             policy_item_yearly.id: '- Unique identifier of the backup policy item.'
             policy_item_yearly.retention_unit: '- Scope of the backup policy item: days, weeks, months, or years.'
             policy_item_yearly.retention_value: '- Value to associate with retention_unit. Yearly policy must have retention of at least 1 year.'
-            project_id: '- (Required) The unique identifier of the project for the Atlas cluster.'
+            project_id: '- (Required) The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.'
             reference_hour_of_day: '- (Optional) UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.'
             reference_minute_of_hour: '- (Optional) UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.'
             restore_window_days: '- (Optional) Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.'
@@ -1356,7 +1357,7 @@ resources:
             members.id: '- Unique identifier for the sharded cluster snapshot.'
             members.replica_set_name: '- Label given to a shard or config server from which Atlas took this snapshot.'
             mongod_version: '- Version of the MongoDB server.'
-            project_id: '- (Required) The unique identifier of the project for the Atlas cluster.'
+            project_id: '- (Required) The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.'
             replica_set_name: '- Label given to the replica set from which Atlas took this snapshot. Atlas returns this parameter when type is replicaSet.'
             retention_in_days: '- (Required) The number of days that Atlas should retain the on-demand snapshot. Must be at least 1.'
             snapshot_id: '- Unique identifier of the snapshot.'
@@ -1394,7 +1395,7 @@ resources:
             cloud_provider: '- (Required) Name of the provider of the cloud service where Atlas can access the S3 bucket.'
             export_bucket_id: '- Unique identifier of the snapshot export bucket.'
             iam_role_id: '- Unique identifier of the role that Atlas can use to access the bucket. Required if cloud_provider is set to AWS.'
-            project_id: '- (Required) The unique identifier of the project for the Atlas cluster.'
+            project_id: '- (Required) The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.'
             role_id: '- Unique identifier of the Azure Service Principal that Atlas can use to access the Azure Blob Storage Container. Required if cloud_provider is set to AZURE.'
             service_url: '- URL that identifies the blob Endpoint of the Azure Blob Storage Account. Required if cloud_provider is set to AZURE.'
             tenant_id: '- (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id is used instead and returned as an attribute. UUID that identifies the Azure Active Directory Tenant ID.'
@@ -1448,7 +1449,7 @@ resources:
             finished_at: '- Timestamp in ISO 8601 date and time format in UTC when the export job completes.'
             key: '- (Required) Required if you want to include custom data using custom_data in the metadata file uploaded to the bucket. Key to include in the metadata file that Atlas uploads to the bucket when the export job finishes.'
             'prefix ': '- Full path on the cloud provider bucket to the folder where the snapshot is exported. The path is in the following format:/exported_snapshots/{ORG-NAME}/{PROJECT-NAME}/{CLUSTER-NAME}/{SNAPSHOT-INITIATION-DATE}/{TIMESTAMP}'
-            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export.'
+            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export, also known as groupId in the official documentation.'
             snapshot_id: '- (Required) Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots'
             state: '- Status of the export job. Value can be one of the following:'
             value: '- (Required) Required if you specify key.'
@@ -1634,7 +1635,7 @@ resources:
             pointInTimeUTCSeconds: |-
                 - Timestamp in the number of seconds that have elapsed since the UNIX epoch from which you want to restore this snapshot.
                 Two conditions apply to this parameter:
-            project_id: '- (Required) The unique identifier of the project for the Atlas cluster whose snapshot you want to restore.'
+            project_id: '- (Required) The unique identifier of the project for the Atlas cluster whose snapshot you want to restore, also known as groupId in the official documentation.'
             snapshot_id: '- Optional setting for pointInTime configuration. Unique identifier of the snapshot to restore.'
             snapshot_restore_job_id: '- The unique identifier of the restore job.'
             target_cluster_name: "-\tName of the target Atlas cluster to which the restore job restores the snapshot. Only visible if deliveryType is automated."
@@ -1720,7 +1721,7 @@ resources:
             iam_assumed_role_arn: '- (Required) ARN of the IAM Role that Atlas assumes when accessing resources in your AWS account. This value is required after the creation (register of the role) as part of Set Up Unified AWS Access.'
             id: '- Unique identifier used by terraform for internal management.'
             mongodbatlas_cloud_provider_access_authorization: ', helps to perform the authorization using the role_id of the first resource.'
-            project_id: '- (Required) The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.'
+            project_id: '- (Required) The unique ID for the project, also known as groupId in the official documentation. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.'
             role_id: '- (Required) The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.'
             service_account_for_atlas: '- Email address for the Google Service Account created by Atlas.'
             service_principal_id: '- (Required) UUID string that identifies the Azure Service Principal.'
@@ -1768,7 +1769,7 @@ resources:
             id: '- Unique identifier used by terraform for internal management.'
             last_updated_date: '- Date and time when this Azure Service Principal was last updated. This parameter expresses its value in the ISO 8601 timestamp format in UTC.'
             mongodbatlas_cloud_provider_access_setup: ', only generates the initial configuration (create, delete operations).'
-            project_id: '- (Required) The unique ID for the project'
+            project_id: '- (Required) The unique ID for the project, also known as groupId in the official documentation'
             provider_name: '- (Required) The cloud provider for which to create a new role. Currently, AWS, AZURE and GCP are supported. WARNING Changing the provider_name will result in destruction of the existing resource and the creation of a new resource.'
             role_id: of the first resource.
             service_account_for_atlas: '- The GCP service account email that Atlas uses.'
@@ -1846,7 +1847,7 @@ resources:
             last_name: (String) Last name, family name, or surname that belongs to the MongoDB Cloud user.
             mobile_number: (String) Mobile phone number that belongs to the MongoDB Cloud user.
             org_membership_status: (String) String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             roles: (Set of String) One or more project-level roles to assign the MongoDB Cloud user.
             user_id: (String) Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
             username: (String) Email address that represents the username of the MongoDB Cloud user.
@@ -2150,7 +2151,7 @@ resources:
             oplog_size_mb: '- (Optional) The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.'
             pinned_fcv.version: '- Feature compatibility version of the cluster.'
             priority: is 0.
-            project_id: '- (Required) The unique ID for the project to create the cluster.'
+            project_id: '- (Required) The unique ID for the project to create the cluster, also known as groupId in the official documentation.'
             provider_instance_size_name: '- (Required) Atlas provides different instance sizes, each with a default storage capacity and RAM size. The instance size you select is used for all the data-bearing servers in your cluster. See Create a Cluster providerSettings.instanceSizeName for valid values and default resources.'
             provider_name: '- (Required) Cloud service provider on which the servers are provisioned.'
             read_only_nodes: '- (Optional) Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.'
@@ -2218,7 +2219,7 @@ resources:
             delete_on_create_timeout: '- (Optional) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.'
             id: '- The Terraform''s unique identifier used internally for state management.'
             outage_filters: '- (Minimum one required) List of settings that specify the type of cluster outage simulation.'
-            project_id: '- (Required) The unique ID for the project that contains the cluster that is/will undergoing outage simulation.'
+            project_id: '- (Required) The unique ID for the project that contains the cluster that is/will undergoing outage simulation, also known as groupId in the official documentation.'
             region_name: '- (Required) The Atlas name of the region to undergo an outage simulation.'
             simulation_id: '- Unique 24-hexadecimal character string that identifies the outage simulation.'
             start_request_date: '- Date and time when MongoDB Cloud started the regional outage simulation.'
@@ -2348,7 +2349,7 @@ resources:
             actions.resources.collection: and actions.resources.db fields.
             database_name: (Required) Database on which the inherited role is granted.
             id: '- Unique identifier used for terraform for internal manages and can be used to import.'
-            project_id: '- (Required) The unique ID for the project.'
+            project_id: '- (Required) The unique ID for the project, also known as groupId in the official documentation.'
             resources: '- (Required) Contains information on where the action is granted. Each object in the array either indicates a database and collection on which the action is granted, or indicates that the action is granted on the cluster resource.'
             resources.#.cluster: (Optional) Set to true to indicate that the action is granted on the cluster resource.
             resources.#.collection_name: '- (Optional) Collection on which the action is granted. If this value is an empty string, the action is granted on all collections within the database specified in the actions.resources.db field.'
@@ -2368,7 +2369,7 @@ resources:
                 }
         argumentDocs:
             enabled: '- (Required) Indicates whether the project''s clusters deployed to AWS use custom DNS. If true, the Get All Clusters and Get One Cluster endpoints return the connectionStrings.private and connectionStrings.privateSrv fields for clusters deployed to AWS .'
-            project_id: "- Required \tUnique identifier for the project."
+            project_id: "- Required \tUnique identifier for the project, also known as groupId in the official documentation."
         importStatements: []
     mongodbatlas_database_user:
         subCategory: Database Users
@@ -2500,7 +2501,7 @@ resources:
             name: '- (Required) Name of the cluster or Atlas Data Federation that the user has access to.'
             oidc_auth_type: '- (Optional) Human-readable label that indicates whether the new database user authenticates with OIDC (OpenID Connect) federated authentication. If no value is given, Atlas uses the default value of NONE. The accepted types are:'
             password: '- (Required) User''s initial password. A value is required to create the database user, however the argument may be removed from your Terraform configuration after user creation without impacting the user, password or Terraform management. If you do change management of the password to outside of Terraform it is advised to remove the argument from the Terraform configuration. IMPORTANT --- Passwords may show up in Terraform related logs and it will be stored in the Terraform state file as plain-text. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.'
-            project_id: '- (Required) The unique ID for the project to create the database user.'
+            project_id: '- (Required) The unique ID for the project to create the database user, also known as groupId in the official documentation.'
             role_name: '- (Required) Name of the role to grant. See Create a Database User roles.roleName for valid values and restrictions.'
             roles: "- (Required) \tList of user’s roles and the databases / collections on which the roles apply. A role allows the user to perform particular actions on the specified database. A role on the admin database can include privileges that apply to the other databases as well. See Roles below for more details."
             type: '- (Required) Type of resource that the user has access to. See Database User API for the list of valid values.'
@@ -2641,7 +2642,7 @@ resources:
             key_identifier: (String, Sensitive) Web address with a unique key that identifies for your Azure Key Vault.
             key_vault_name: (String) Unique string that identifies the Azure Key Vault that contains your key.
             key_version_resource_id: (String, Sensitive) Resource path that displays the key version resource ID for your Google Cloud KMS.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             region: (String) Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
             require_private_networking: (Boolean) Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
             resource_group_name: (String) Name of the Azure resource group that contains your Azure Key Vault.
@@ -2726,7 +2727,7 @@ resources:
             error_message: (String) Error message for failures associated with the Encryption At Rest private endpoint.
             id: (String) Unique 24-hexadecimal digit string that identifies the Private Endpoint Service.
             private_endpoint_connection_name: (String) Connection name of the Azure Private Endpoint.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             region_name: (String) Cloud provider region in which the Encryption At Rest private endpoint is located.
             status: (String) State of the Encryption At Rest private endpoint.
             timeouts: (Attributes) (see below for nested schema)
@@ -2848,7 +2849,7 @@ resources:
             function_name: '- The name of the function associated with the trigger.'
             id: '- Terraform''s unique identifier used internally for state management.'
             name: '- (Required) The name of the trigger.'
-            project_id: '- (Required) The unique ID for the project to create the trigger.'
+            project_id: '- (Required) The unique ID for the project to create the trigger, also known as groupId in the official documentation.'
             trigger_id: '- The unique ID of the trigger.'
             type: '- (Required) The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED'
             unordered: '- Only Available for Database Triggers. If true, event ordering is disabled and this trigger can process events in parallel. If false, event ordering is enabled and the trigger executes serially.'
@@ -3037,7 +3038,7 @@ resources:
                 * external_id - Unique identifier associated with the IAM Role that the Federated Database Instance assumes when accessing the data stores.
             id: '- The Terraform''s unique identifier used internally for state management.'
             name: '- (Required) Name of the Atlas Federated Database Instance.'
-            project_id: '- (Required) The unique ID for the project to create a Federated Database Instance.'
+            project_id: '- (Required) The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.'
             service_principal_id: '- Unique identifier of the Azure service principal that the Federated Database instance uses to access Azure Blob Storage.'
             state: '- Current state of the Federated Database Instance:'
             storage_databases: '- Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.'
@@ -3110,7 +3111,7 @@ resources:
             maximumLimit: '- Maximum value of the limit.'
             name: '- Name that identifies the user-managed limit to modify.'
             overrun_policy: '- (Required) String enum that identifies action to take when the usage limit is exceeded. If limit span is set to QUERY, this is ignored because MongoDB Cloud stops the query when it exceeds the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"'
-            project_id: '- (Required) The unique ID for the project to create a Federated Database Instance.'
+            project_id: '- (Required) The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.'
             tenant_name: '- (Required) Name of the Atlas Federated Database Instance.'
             value: '- (Required) Amount to set the limit to.'
         importStatements: []
@@ -3371,7 +3372,7 @@ resources:
             is_shard_key_unique: '- (Optional) Specifies whether the underlying index enforces a unique constraint. If omitted, defaults to false. You cannot specify true when using hashed shard keys.'
             location: '- (Required) The ISO location code to which you want to map a zone in your Global Cluster. You can find a list of all supported location codes here.'
             managed_namespaces: '- (Optional) Add a managed namespaces to a Global Cluster. For more information about managed namespaces, see Global Clusters. See Managed Namespace below for more details.'
-            project_id: '- (Required) The unique ID for the project.'
+            project_id: '- (Required) The unique ID for the project, also known as groupId in the official documentation.'
             zone: '- (Required) The name of the zone in your Global Cluster that you want to map to location.'
         importStatements: []
     mongodbatlas_ldap_configuration:
@@ -3432,7 +3433,7 @@ resources:
             ca_certificate: '- (Optional) CA certificate used to verify the identify of the LDAP server. Self-signed certificates are allowed.'
             hostname: '- (Required) The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.'
             port: '- (Optional) The port to which the LDAP server listens for client connections. Default: 636'
-            project_id: '- (Required) The unique ID for the project to configure LDAP.'
+            project_id: '- (Required) The unique ID for the project to configure LDAP, also known as groupId in the official documentation.'
             user_to_dn_mapping: '- (Optional) Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.'
             user_to_dn_mapping.0.ldap_query: '- (Optional) An LDAP query formatting template that inserts the LDAP name matched by the match regular expression into an LDAP query URI as specified by RFC 4515 and RFC 4516. Each numeric value is replaced by the corresponding regular expression capture group extracted from the LDAP username that matched the match regular expression.'
             user_to_dn_mapping.0.match: '- (Optional) A regular expression to match against a provided LDAP username. Each parenthesis-enclosed section represents a regular expression capture group used by the substitution or ldap_query template.'
@@ -3493,7 +3494,7 @@ resources:
             hostname: '- (Required) The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.'
             links: '- One or more links to sub-resources. The relations in the URLs are explained in the Web Linking Specification.'
             port: '- (Optional) The port to which the LDAP server listens for client connections. Default: 636'
-            project_id: '- (Required) The unique ID for the project to configure LDAP.'
+            project_id: '- (Required) The unique ID for the project to configure LDAP, also known as groupId in the official documentation.'
             request_id: '- The unique identifier for the request to verify the LDAP over TLS/SSL configuration.'
             status: '- The current status of the LDAP over TLS/SSL configuration. One of the following values: PENDING, SUCCESS, and FAILED.'
             validations: '- Array of validation messages related to the verification of the provided LDAP over TLS/SSL configuration details. The array contains a document for each test that Atlas runs. Atlas stops running tests after the first failure. The following return values can be seen here: Values'
@@ -3663,7 +3664,7 @@ resources:
             otel_endpoint: (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
             otel_supplied_headers: (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
             prefix_path: (String) Path prefix where the log files will be stored. Atlas will add further sub-directories based on the log type.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             region: '(String) Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.'
             role_id: (String) Unique 24-character hexadecimal string that identifies the Atlas Cloud Provider Access role.
             storage_account_name: (String) Storage account name where logs will be stored.
@@ -3713,7 +3714,7 @@ resources:
             end_hour_of_day: '- Zero-based integer that represents the end hour of the day for the protected hours window.'
             hour_of_day: '- (Required) Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project''s configured timezone.'
             number_of_deferrals: '- Number of times the current maintenance event for this project has been deferred, there can be a maximum of 2 deferrals.'
-            project_id: '- The unique identifier of the project for the Maintenance Window.'
+            project_id: '- The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.'
             protected_hours: '- (Optional) Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.'
             start_asap: '- Flag indicating whether project maintenance has been directed to start immediately. If requested, this field returns true from the time the request was made until the time the maintenance event completes.'
             start_hour_of_day: '- Zero-based integer that represents the beginning hour of the day for the protected hours window.'
@@ -3739,7 +3740,7 @@ resources:
             cluster_name: (String) Human-readable label that identifies this cluster.
             expiration_time: (String) Expiration date for the employee access grant.
             grant_type: (String) Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
         importStatements: []
     mongodbatlas_network_container:
         subCategory: Network Peering
@@ -3780,7 +3781,7 @@ resources:
             gcp_project_id: '- Unique identifier of the GCP project in which the network peer resides. Returns null. This value is populated once you create a new network peering connection with the network peering resource.'
             id: '- Terraform''s unique identifier used internally for state management.'
             network_name: '- Unique identifier of the Network Peering connection in the Atlas project. Returns null. This value is populated once you create a new network peering connection with the network peering resource.'
-            project_id: '- (Required) Unique identifier for the Atlas project for this Network Peering Container.'
+            project_id: '- (Required) Unique identifier for the Atlas project for this Network Peering Container, also known as groupId in the official documentation.'
             provider_name: '- (Required GCP and AZURE, Optional but recommended for AWS) Cloud provider for this Network Peering connection.  Accepted values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter to AWS.'
             provisioned: '- Indicates whether the project has Network Peering connections deployed in the container.'
             region: '- (Required AZURE only) Atlas region where the container resides, see the reference list for Atlas Azure region names Azure.'
@@ -4073,7 +4074,7 @@ resources:
             id: '- Terraform''s unique identifier used internally for state management.'
             network_name: '- (Required - GCP) Name of the network peer to which Atlas connects.'
             peer_id: '- Unique identifier of the Atlas network peer.'
-            project_id: '- (Required) The unique ID for the MongoDB Atlas project.'
+            project_id: '- (Required) The unique ID for the MongoDB Atlas project, also known as groupId in the official documentation.'
             provider_name: '- (Required) Cloud provider to whom the peering connection is being made. (Possible Values AWS, AZURE, GCP).'
             resource_group_name: '- (Required - AZURE) Name of your Azure resource group.'
             route_table_cidr_block: '- (Required - AWS) AWS VPC CIDR block or subnet.'
@@ -4215,7 +4216,7 @@ resources:
             order: '- Sequence in which MongoDB Cloud slices the collection data to create partitions. The resource expresses this sequence starting with zero. The value of the criteria.dateField parameter defaults as the first item in the partition sequence.'
             partition_fields: '- (Recommended) Fields to use to partition data. You can specify up to two frequently queried fields (or up to three fields when one of them is date_field) to use for partitioning data. Queries that don’t contain the specified fields require a full collection scan of all archived documents, which takes longer and increases your costs. To learn more about how partition improves query performance, see Data Structure in S3. The value of a partition field can be up to a maximum of 700 characters. Documents with values exceeding 700 characters are not archived. See partition fields.'
             paused: '- (Optional) State of the online archive. This is required for pausing an active online archive or resuming a paused online archive. If the collection has another active online archive, the resume request fails.'
-            project_id: '- (Required) The unique ID for the project'
+            project_id: '- (Required) The unique ID for the project, also known as groupId in the official documentation'
             query: '- JSON query to use to select documents for archiving. Atlas uses the specified query with the db.collection.find(query) command. The empty document {} to return all documents is not supported.'
             region: '- Human-readable label that identifies the geographic location of the region where you wish to store your archived data. For allowed values, see MongoDB Atlas API documentation'
             schedule: '- Regular frequency and duration when archiving process occurs. See schedule.'
@@ -4439,7 +4440,7 @@ resources:
             enabled: '- (Optional) Flag that indicates whether the regionalized private endpoint setting is enabled for the project.   Set this value to true to create more than one private endpoint in a cloud provider region to connect to multi-region and global Atlas sharded clusters. You can enable this setting only if your Atlas project contains no replica sets. You can''t disable this setting if you have:'
             mongodbatlas_advanced_cluster.cluster_atlas.connection_strings: will differ based on the value of mongodbatlas_private_endpoint_regional_mode.test.enabled.
             mongodbatlas_advanced_cluster.cluster_atlas.depends_on: '- Make your cluster dependent on the project''s mongodbatlas_private_endpoint_regional_mode as well as any relevant mongodbatlas_privatelink_endpoint_service resources.  See an example.'
-            project_id: '- (Required) Unique identifier for the project.'
+            project_id: '- (Required) Unique identifier for the project, also known as groupId in the official documentation.'
             timeouts: '- (Optional) The duration to wait for the Private Endpoint Regional Mode to be created, updated, or deleted. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 3h), update (default: 3h), delete (default: 3h). Learn more about timeouts.'
         importStatements: []
     mongodbatlas_privatelink_endpoint:
@@ -4473,7 +4474,7 @@ resources:
             private_link_id: '- Unique identifier of the private endpoint connection.'
             private_link_service_name: '- Name of the Azure Private Link Service that Atlas manages.'
             private_link_service_resource_id: '- Resource ID of the Azure Private Link Service.'
-            project_id: '- (Required) Unique identifier for the project, also known as group_id in the official documentation.'
+            project_id: '- (Required) Unique identifier for the project, also known as groupId in the official documentation.'
             provider_name: '- (Required) Name of the cloud provider for which you want to create the private endpoint service. Atlas accepts AWS, AZURE, GCP.'
             region: |-
                 - (Required) Cloud provider region in which you want to create the private endpoint connection.
@@ -4730,7 +4731,7 @@ resources:
             private_endpoint_ip_address: '- (Optional) Private IP address of the private endpoint network interface. Required for  For port-mapped architecture, this is required and is the IP address of the forwarding rule. For GCP legacy private endpoint architecture, this is not used.'
             private_endpoint_resource_id: '- Unique identifier of the private endpoint.'
             private_link_id: '- (Required) Unique identifier of the AWS, AZURE or GCP PrivateLink connection which is created by mongodbatlas_privatelink_endpoint resource.'
-            project_id: '- (Required) Unique identifier for the project, also known as group_id in the official documentation.'
+            project_id: '- (Required) Unique identifier for the project, also known as groupId in the official documentation.'
             provider_name: '- (Required) Cloud provider for which you want to create a private endpoint. Atlas accepts AWS, AZURE or GCP.'
             status: '- Status of the endpoint. Atlas returns one of the values shown above.'
             timeouts: '- (Optional) The duration to wait for the Private Endpoint Service to be created or deleted. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 2h), delete (default: 2h). Learn more about timeouts.'
@@ -4776,7 +4777,7 @@ resources:
             comment: '- (Optional) Human-readable string to associate with this private endpoint.'
             customer_endpoint_dns_name: '- (Optional) Human-readable label to identify VPC endpoint DNS name. If defined, you must also specify a value for region.'
             endpoint_id: (Required) - Unique 22-character alphanumeric string that identifies the private endpoint. See Atlas Data Federation supports Amazon Web Services private endpoints using the AWS PrivateLink feature.
-            project_id: (Required) - Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (Required) - Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             provider_name: (Required) - Human-readable label that identifies the cloud service provider.
             region: '-  Human-readable label to identify the region of VPC endpoint.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure. If defined, you must also specify a value for customer_endpoint_dns_name.'
             timeouts: '- (Optional) The duration to wait for the Private Endpoint Service resource for Data Federation and Online Archive to be created or deleted. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 2h), delete (default: 2h). Learn more about timeouts.'
@@ -4879,7 +4880,7 @@ resources:
         argumentDocs:
             api_key_id: '- Unique identifier for this Project API key.'
             description: '- (Required) Description of this Project API key.'
-            project_assignment.project_id: '- (Required) Project ID to assign to Access Key'
+            project_assignment.project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.'
             project_assignment.role_names: '- (Required) List of Project roles that the Programmatic API key needs to have. Ensure you provide: at least one role and ensure all roles are valid for the Project. You must specify an array even if you are only associating a single role with the Programmatic API key. The MongoDB Documentation describes the valid roles that can be assigned.'
         importStatements: []
     mongodbatlas_project_invitation:
@@ -4912,7 +4913,7 @@ resources:
             id: '- Autogenerated Unique ID for this resource.'
             invitation_id: '- Unique 24-hexadecimal digit string that identifies the invitation in Atlas.'
             inviter_username: '- Atlas user who invited username to the project.'
-            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user.'
+            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user, also known as groupId in the official documentation.'
             roles: '- (Required) List of Atlas roles to assign to the invited user. If the user accepts the invitation, Atlas assigns these roles to them. Refer to the MongoDB Documentation for information on valid roles.'
             username: '- (Required) Email address to which Atlas sent the invitation. The user uses this email address as their Atlas username if they accept this invitation.'
         importStatements: []
@@ -4976,7 +4977,7 @@ resources:
             delete: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
             id: (String) Unique identifier used for terraform for internal management.
             ip_address: (String) Single IP address to be added to the access list. Mutually exclusive with cidr_block and aws_security_group.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             read: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
             timeouts: (Attributes) (see below for nested schema)
         importStatements: []
@@ -5006,7 +5007,7 @@ resources:
             last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
             masked_secret_value: (String) The masked Service Account secret.
             name: (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             roles: (Set of String) A list of project-level roles for the Service Account.
             secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
             secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
@@ -5102,7 +5103,7 @@ resources:
             expires_at: (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
             last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
             masked_secret_value: (String) The masked Service Account secret.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
             secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
             secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
@@ -5153,7 +5154,7 @@ resources:
             delete_on_create_timeout: (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
             iam_role_id: (String) ID of the AWS IAM role that is used to write to the S3 bucket.
             prefix_path: (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             state: (String) Describes whether or not the feature is enabled and what status it is in.
             timeouts: (Attributes) (see below for nested schema)
             update: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 15m.'
@@ -5276,7 +5277,7 @@ resources:
             id: (String) Unique 24-hexadecimal digit string that identifies the search deployment.
             instance_size: (String) Hardware specification for the search node instance sizes. The MongoDB Atlas API describes the valid values. More details can also be found in the Search Node Documentation.
             node_count: (Number) Number of search nodes in the cluster.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             skip_wait_on_update: (Boolean) If true, the resource update is executed without waiting until the state is IDLE, making the operation faster. This might cause update errors to go unnoticed and lead to non-empty plans at the next terraform execution.
             specs: (Attributes List) List of settings that configure the search nodes for your cluster. This list is currently limited to defining a single element. (see below for nested schema)
             state_name: (String) Human-readable label that indicates the current operating condition of this search deployment.
@@ -5388,7 +5389,7 @@ resources:
             originalTokens: '- Specifies whether to include or omit the original tokens in the output of the token filter. Value can be one of the following:'
             pattern: '- (Required) A regular expression to match against.'
             porter: (The original Porter English stemming algorithm.)
-            project_id: '- (Required) The ID of the organization or project you want to create the search index within.'
+            project_id: '- (Required) The ID of the organization or project you want to create the search index within, also known as groupId in the official documentation.'
             replacement: '- (Required) Replacement string to substitute wherever a matching pattern occurs.'
             search_analyzer: '- Analyzer to use when searching the index. Defaults to lucene.standard'
             source_collection: '- (Required) Name of the source MongoDB collection for the synonyms. Documents in this collection must be in the format described in the Synonyms Source Collection Documents.'
@@ -5434,7 +5435,7 @@ resources:
             key: '- (Required) Constant that defines the set of the tag.'
             mongo_db_version: '- Version of MongoDB that the serverless instance runs, in <major version>.<minor version> format.'
             name: '- (Required) Human-readable label that identifies the serverless instance.'
-            project_id: '- (Required) The ID of the organization or project you want to create the serverless instance within.'
+            project_id: '- (Required) The ID of the organization or project you want to create the serverless instance within, also known as groupId in the official documentation.'
             provider_settings_backing_provider_name: '- (Required) Cloud service provider on which MongoDB Cloud provisioned the serverless instance.'
             provider_settings_provider_name: '- (Required) Cloud service provider that applies to the provisioned the serverless instance.'
             provider_settings_region_name: |-
@@ -5565,7 +5566,7 @@ resources:
                     }
         argumentDocs:
             client_id: (String) The Client ID of the Service Account.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             roles: (Set of String) The Project permissions for the Service Account in the specified Project.
         importStatements: []
     mongodbatlas_service_account_secret:
@@ -5656,7 +5657,7 @@ resources:
                 }
               references:
                 project_id: var.project_id
-            - name: example-kafka-oauthbearer
+            - name: example_kafka_oauthbearer
               manifest: |-
                 {
                   "authentication": {
@@ -5714,6 +5715,26 @@ resources:
             - name: test
               manifest: |-
                 {
+                  "azure": {
+                    "region": "\u003cAZURE_REGION\u003e",
+                    "service_principal_id": "\u003cAZURE_SERVICE_PRINCIPAL_ID\u003e",
+                    "storage_account_name": "\u003cAZURE_STORAGE_ACCOUNT_NAME\u003e"
+                  },
+                  "connection_name": "AzureBlobStorageConnection",
+                  "networking": {
+                    "access": {
+                      "type": "PUBLIC"
+                    }
+                  },
+                  "project_id": "${var.project_id}",
+                  "type": "AzureBlobStorage",
+                  "workspace_name": "NewWorkspace"
+                }
+              references:
+                project_id: var.project_id
+            - name: test
+              manifest: |-
+                {
                   "aws": {
                     "role_arn": "arn:aws:iam::\u003cAWS_ACCOUNT_ID\u003e:role/lambdaRole"
                   },
@@ -5724,7 +5745,35 @@ resources:
                 }
               references:
                 project_id: var.project_id
-            - name: example-https
+            - name: example_gcp_pubsub
+              manifest: |-
+                {
+                  "connection_name": "GCPPubSubConnection",
+                  "depends_on": [
+                    "${mongodbatlas_cloud_provider_access_authorization.gcp_auth}"
+                  ],
+                  "gcp": {
+                    "service_account_id": "${mongodbatlas_cloud_provider_access_setup.gcp_setup.gcp_config[0].service_account_for_atlas}"
+                  },
+                  "project_id": "${var.project_id}",
+                  "type": "GCPPubSub",
+                  "workspace_name": "${mongodbatlas_stream_workspace.example.workspace_name}"
+                }
+              references:
+                project_id: var.project_id
+                workspace_name: mongodbatlas_stream_workspace.example.workspace_name
+              dependencies:
+                mongodbatlas_cloud_provider_access_authorization.gcp_auth: |-
+                    {
+                      "project_id": "${var.project_id}",
+                      "role_id": "${mongodbatlas_cloud_provider_access_setup.gcp_setup.role_id}"
+                    }
+                mongodbatlas_cloud_provider_access_setup.gcp_setup: |-
+                    {
+                      "project_id": "${var.project_id}",
+                      "provider_name": "GCP"
+                    }
+            - name: example_https
               manifest: |-
                 {
                   "connection_name": "https_connection_tf_new",
@@ -5740,7 +5789,7 @@ resources:
               references:
                 project_id: var.project_id
                 workspace_name: mongodbatlas_stream_workspace.example.workspace_name
-            - name: example-schema-registry
+            - name: example_schema_registry
               manifest: |-
                 {
                   "connection_name": "SchemaRegistryConnection",
@@ -5760,7 +5809,7 @@ resources:
               references:
                 project_id: var.project_id
                 workspace_name: mongodbatlas_stream_workspace.example.workspace_name
-            - name: example-schema-registry-sasl
+            - name: example_schema_registry_sasl
               manifest: |-
                 {
                   "connection_name": "SchemaRegistryConnectionSASL",
@@ -5857,6 +5906,7 @@ resources:
             access: '- Information about the networking access. See access.'
             authentication: '- User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.'
             aws: '- The configuration for AWS Lambda connection. See AWS'
+            azure: '- The configuration for Azure Blob Storage connection. See Azure.'
             bootstrap_servers: '- Comma separated list of server addresses.'
             broker_public_certificate: '- A trusted, public x509 certificate for connecting to Kafka over SSL. String value of the certificate must be defined in the attribute.'
             client_id: '- Public identifier for the Kafka client.'
@@ -5869,14 +5919,16 @@ resources:
             create: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).'
             db_role_to_execute: '- The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.'
             delete: '- (Optional) The maximum time to wait for the stream connection to be fully deleted. Defaults to 10m (10 minutes).'
+            gcp: '- The configuration for GCP Pub/Sub connection. See GCP'
             headers: '- A map of key-value pairs for optional headers.'
             instance_name: '- (Optional, Deprecated) Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.'
             mechanism: '- Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.'
             method: '- SASL OAUTHBEARER authentication method. Value must be OIDC.'
             networking: '- Networking Access Type can either be PUBLIC (default) or VPC. See networking.'
             password: '- Password of the account to connect to the Kafka cluster.'
-            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project.'
+            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.'
             protocol: '- Describes the transport type. Can be either SASL_PLAINTEXT or SASL_SSL.'
+            region: '- (Optional) Azure region where the storage account is located, specified as a valid Azure region name (for example, eastus, westeurope).'
             role: '- The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.'
             role_arn: '- Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.'
             sasl_oauthbearer_extensions: '- Additional information to provide to the Kafka broker.'
@@ -5885,8 +5937,11 @@ resources:
             schema_registry_urls: '- List of Schema Registry endpoint URLs used by this connection. Each URL must use the http or https scheme and specify a valid host and optional port.'
             scope: '- Scope of the access request to the broker specified by the Kafka clients.'
             security: '- Properties for the secure transport connection to Kafka. For SASL_SSL, this can include the trusted certificate to use. See security.'
+            service_account_id: '- Email address of the Google Cloud Platform (GCP) service account that Atlas Streams uses to connect to GCP Pub/Sub resources.'
+            service_principal_id: '- (Required) UUID that identifies the Azure Service Principal used to access the Azure Blob Storage account.'
+            storage_account_name: '- (Required) Name of the Azure Storage account to use. Must be lowercase, 3-24 characters, and contain only letters and numbers.'
             token_endpoint_url: '-  OAUTH issuer (IdP provider) token endpoint HTTP(S) URI used to retrieve the token.'
-            type: '- (Required) Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.'
+            type: '- (Required) Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.'
             update: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).'
             url: '- URL of the HTTPs endpoint that will be used for creating a connection.'
             username: '- Username of the account to connect to the Kafka cluster.'
@@ -5914,7 +5969,7 @@ resources:
             data_process_region: '- (Required) Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.'
             hostnames: '- List that contains the hostnames assigned to the stream instance.'
             instance_name: '- (Required) Human-readable label that identifies the stream instance.'
-            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project.'
+            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.'
             region: '- (Required) Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.'
             stream_config: '- (Optional) Configuration options for an Atlas Stream Processing Instance. See stream config'
             tier: '- (Required) Selected tier for the Stream Instance. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.'
@@ -6175,7 +6230,7 @@ resources:
             id: (String) The ID of the Private Link connection.
             interface_endpoint_id: (String) Interface endpoint ID that is created from the specified service endpoint ID.
             interface_endpoint_name: (String) Name of interface endpoint that is created from the specified service endpoint ID.
-            project_id: '(String) Unique 24-hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.NOTE: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group or project id remains the same. The resource and corresponding endpoints use the term groups.'
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             provider_account_id: (String) Account ID from the cloud provider.
             provider_name: (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
             region: (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
@@ -6389,7 +6444,7 @@ resources:
             options: (Attributes) Optional configuration for the stream processor. (see below for nested schema)
             pipeline: (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
             processor_name: (String) Label that identifies the stream processor.
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             state: (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
             stats: (String) The stats associated with the stream processor. Refer to the MongoDB Atlas Docs for more information.
             tier: (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
@@ -6430,7 +6485,7 @@ resources:
             data_process_region: '- (Required) Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.'
             hostnames: '- List that contains the hostnames assigned to the stream workspace.'
             max_tier_size: '- (Optional) Max tier size for the Stream Workspace. Configures Memory / VCPU allowances.'
-            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project.'
+            project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.'
             region: '- (Required) Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.'
             stream_config: '- (Optional) Configuration options for an Atlas Stream Processing Instance. See stream config'
             tier: '- (Optional) Selected tier for the Stream Workspace. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.'
@@ -6478,7 +6533,7 @@ resources:
                 project_id: var.project_id
                 team_id: var.team_id
         argumentDocs:
-            project_id: (String) Unique 24-hexadecimal digit string that identifies your project. Use the /groups endpoint to retrieve all projects to which the authenticated user has access.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             role_names: (Set of String) One or more project-level roles assigned to the team.
             team_id: (String) Unique 24-hexadecimal character string that identifies the team.
         importStatements: []
@@ -6501,7 +6556,7 @@ resources:
             id: '- Unique identifier of the integration.'
             microsoft_teams_webhook_url: '-  Your Microsoft Teams incoming webhook URL.'
             password: '- Your Prometheus password.'
-            project_id: '- (Required) The unique ID for the project to get all Third-Party service integrations'
+            project_id: '- (Required) The unique ID for the project to get all Third-Party service integrations, also known as groupId in the official documentation'
             region: (Required) - PagerDuty region that indicates the API Uniform Resource Locator (URL) to use, either "US" or "EU". PagerDuty will use "US" by default.
             routing_key: '- An optional field for your Routing Key.'
             secret: '- An optional field for your webhook secret.'
@@ -6586,6 +6641,6 @@ resources:
             current_certificate: '- Contains the last X.509 certificate and private key created for a database user.'
             customer_x509_cas: '- (Optional) PEM string containing one or more customer CAs for database user authentication.'
             months_until_expiration: '- (Required) A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.'
-            project_id: '- (Required) Identifier for the Atlas project associated with the X.509 configuration.'
+            project_id: '- (Required) Identifier for the Atlas project associated with the X.509 configuration, also known as groupId in the official documentation.'
             username: '- (Optional) Username of the database user to create a certificate for.'
         importStatements: []

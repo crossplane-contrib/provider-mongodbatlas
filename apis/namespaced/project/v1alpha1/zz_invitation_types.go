@@ -16,7 +16,7 @@ import (
 
 type InvitationInitParameters struct {
 
-	// Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user.
+	// Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -53,7 +53,7 @@ type InvitationObservation struct {
 	// Atlas user who invited username to the project.
 	InviterUsername *string `json:"inviterUsername,omitempty" tf:"inviter_username,omitempty"`
 
-	// Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user.
+	// Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// List of Atlas roles to assign to the invited user. If the user accepts the invitation, Atlas assigns these roles to them. Refer to the MongoDB Documentation for information on valid roles.
@@ -66,7 +66,7 @@ type InvitationObservation struct {
 
 type InvitationParameters struct {
 
-	// Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user.
+	// Unique 24-hexadecimal digit string that identifies the project to which you want to invite a user, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

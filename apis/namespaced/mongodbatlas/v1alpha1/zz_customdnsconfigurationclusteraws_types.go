@@ -19,7 +19,7 @@ type CustomDNSConfigurationClusterAWSInitParameters struct {
 	// Indicates whether the project's clusters deployed to AWS use custom DNS. If true, the Get All Clusters and Get One Cluster endpoints return the connectionStrings.private and connectionStrings.privateSrv fields for clusters deployed to AWS .
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// Required 	Unique identifier for the project.
+	// Required 	Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -39,7 +39,7 @@ type CustomDNSConfigurationClusterAWSObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Required 	Unique identifier for the project.
+	// Required 	Unique identifier for the project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
@@ -49,7 +49,7 @@ type CustomDNSConfigurationClusterAWSParameters struct {
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// Required 	Unique identifier for the project.
+	// Required 	Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

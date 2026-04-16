@@ -135,7 +135,7 @@ type UserInitParameters struct {
 	// Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// The unique ID for the project to create the database user.
+	// The unique ID for the project to create the database user, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -182,7 +182,7 @@ type UserObservation struct {
 	// Human-readable label that indicates whether the new database user authenticates with OIDC (OpenID Connect) federated authentication. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
-	// The unique ID for the project to create the database user.
+	// The unique ID for the project to create the database user, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// List of user’s roles and the databases / collections on which the roles apply. A role allows the user to perform particular actions on the specified database. A role on the admin database can include privileges that apply to the other databases as well. See Roles below for more details.
@@ -228,7 +228,7 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// The unique ID for the project to create the database user.
+	// The unique ID for the project to create the database user, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

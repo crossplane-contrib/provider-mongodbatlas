@@ -22,7 +22,7 @@ type BackupSnapshotRestoreJobInitParameters struct {
 	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	DeliveryTypeConfig []DeliveryTypeConfigInitParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
-	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore.
+	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -75,7 +75,7 @@ type BackupSnapshotRestoreJobObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore.
+	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Optional setting for pointInTime configuration. Unique identifier of the snapshot to restore.
@@ -98,7 +98,7 @@ type BackupSnapshotRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	DeliveryTypeConfig []DeliveryTypeConfigParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
-	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore.
+	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

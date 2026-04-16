@@ -30,7 +30,7 @@ type MaintenanceWindowInitParameters struct {
 	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
-	// The unique identifier of the project for the Maintenance Window.
+	// The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -68,7 +68,7 @@ type MaintenanceWindowObservation struct {
 	// Number of times the current maintenance event for this project has been deferred, there can be a maximum of 2 deferrals.
 	NumberOfDeferrals *float64 `json:"numberOfDeferrals,omitempty" tf:"number_of_deferrals,omitempty"`
 
-	// The unique identifier of the project for the Maintenance Window.
+	// The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.
@@ -103,7 +103,7 @@ type MaintenanceWindowParameters struct {
 	// +kubebuilder:validation:Optional
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
-	// The unique identifier of the project for the Maintenance Window.
+	// The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

@@ -54,7 +54,7 @@ type GlobalClusterConfigInitParameters struct {
 	// Add a managed namespaces to a Global Cluster. For more information about managed namespaces, see Global Clusters. See Managed Namespace below for more details.
 	ManagedNamespaces []ManagedNamespacesInitParameters `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
 
-	// The unique ID for the project.
+	// The unique ID for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -84,7 +84,7 @@ type GlobalClusterConfigObservation struct {
 	// Add a managed namespaces to a Global Cluster. For more information about managed namespaces, see Global Clusters. See Managed Namespace below for more details.
 	ManagedNamespaces []ManagedNamespacesObservation `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
 
-	// The unique ID for the project.
+	// The unique ID for the project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
@@ -102,7 +102,7 @@ type GlobalClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ManagedNamespaces []ManagedNamespacesParameters `json:"managedNamespaces,omitempty" tf:"managed_namespaces,omitempty"`
 
-	// The unique ID for the project.
+	// The unique ID for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

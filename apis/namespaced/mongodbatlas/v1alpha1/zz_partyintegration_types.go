@@ -30,7 +30,7 @@ type PartyIntegrationInitParameters struct {
 	// Your Prometheus password.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// The unique ID for the project to get all Third-Party service integrations
+	// The unique ID for the project to get all Third-Party service integrations, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -90,7 +90,7 @@ type PartyIntegrationObservation struct {
 	// Unique identifier of the integration.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique ID for the project to get all Third-Party service integrations
+	// The unique ID for the project to get all Third-Party service integrations, also known as groupId in the official documentation
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// PagerDuty region that indicates the API Uniform Resource Locator (URL) to use, either "US" or "EU". PagerDuty will use "US" by default.
@@ -138,7 +138,7 @@ type PartyIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// The unique ID for the project to get all Third-Party service integrations
+	// The unique ID for the project to get all Third-Party service integrations, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

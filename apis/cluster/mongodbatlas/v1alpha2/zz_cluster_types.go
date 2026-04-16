@@ -265,7 +265,7 @@ type ClusterInitParameters struct {
 	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
-	// The unique ID for the project to create the cluster.
+	// The unique ID for the project to create the cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -417,7 +417,7 @@ type ClusterObservation struct {
 	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
-	// The unique ID for the project to create the cluster.
+	// The unique ID for the project to create the cluster, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Maximum instance size to which your cluster can automatically scale (e.g., M40). Required if autoScaling.compute.enabled is true.
@@ -566,7 +566,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
-	// The unique ID for the project to create the cluster.
+	// The unique ID for the project to create the cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

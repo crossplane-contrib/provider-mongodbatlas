@@ -176,7 +176,8 @@ spec:
                       the resume request fails.
                     type: boolean
                   projectId:
-                    description: The unique ID for the project
+                    description: The unique ID for the project, also known as groupId
+                      in the official documentation
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -434,7 +435,8 @@ spec:
                       the resume request fails.
                     type: boolean
                   projectId:
-                    description: The unique ID for the project
+                    description: The unique ID for the project, also known as groupId
+                      in the official documentation
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -771,7 +773,8 @@ spec:
                       the resume request fails.
                     type: boolean
                   projectId:
-                    description: The unique ID for the project
+                    description: The unique ID for the project, also known as groupId
+                      in the official documentation
                     type: string
                   schedule:
                     description: Regular frequency and duration when archiving process

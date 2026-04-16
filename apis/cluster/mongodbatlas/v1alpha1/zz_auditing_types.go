@@ -24,7 +24,7 @@ type AuditingInitParameters struct {
 	// Denotes whether or not the project associated with the {project_id} has database auditing enabled.  Defaults to false.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// The unique ID for the project to configure auditing. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
+	// The unique ID for the project to configure auditing, also known as groupId in the official documentation. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -53,7 +53,7 @@ type AuditingObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique ID for the project to configure auditing. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
+	// The unique ID for the project to configure auditing, also known as groupId in the official documentation. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
@@ -71,7 +71,7 @@ type AuditingParameters struct {
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// The unique ID for the project to configure auditing. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
+	// The unique ID for the project to configure auditing, also known as groupId in the official documentation. Note: When changing this value to a different project_id it will delete the current audit settings for the original project that was assigned to.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

@@ -67,9 +67,18 @@ spec:
                       query must conform to RFC4515 and RFC 4516. If you do not provide
                       a query template, Atlas attempts to use the default value: {USER}?memberOf?base.'
                     type: string
-                  bindPassword:
+                  bindPasswordSecretRef:
                     description: The password used to authenticate the bind_username.
-                    type: string
+                    properties:
+                      key:
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
                   bindUsername:
                     description: The user DN that Atlas uses to connect to the LDAP
                       server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
@@ -88,7 +97,8 @@ spec:
                       connections. Default: 636'
                     type: number
                   projectId:
-                    description: The unique ID for the project to configure LDAP.
+                    description: The unique ID for the project to configure LDAP,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -195,9 +205,18 @@ spec:
                       query must conform to RFC4515 and RFC 4516. If you do not provide
                       a query template, Atlas attempts to use the default value: {USER}?memberOf?base.'
                     type: string
-                  bindPassword:
+                  bindPasswordSecretRef:
                     description: The password used to authenticate the bind_username.
-                    type: string
+                    properties:
+                      key:
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
                   bindUsername:
                     description: The user DN that Atlas uses to connect to the LDAP
                       server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
@@ -216,7 +235,8 @@ spec:
                       connections. Default: 636'
                     type: number
                   projectId:
-                    description: The unique ID for the project to configure LDAP.
+                    description: The unique ID for the project to configure LDAP,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -300,6 +320,8 @@ spec:
                             type: string
                         type: object
                     type: object
+                required:
+                - bindPasswordSecretRef
                 type: object
               managementPolicies:
                 default:
@@ -360,10 +382,9 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.bindPassword is a required parameter
+            - message: spec.forProvider.bindPasswordSecretRef is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.bindPassword)
-                || (has(self.initProvider) && has(self.initProvider.bindPassword))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.bindPasswordSecretRef)'
             - message: spec.forProvider.bindUsername is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.bindUsername)
@@ -389,9 +410,6 @@ spec:
                       to the host specified with hostname. The formatting for the
                       query must conform to RFC4515 and RFC 4516. If you do not provide
                       a query template, Atlas attempts to use the default value: {USER}?memberOf?base.'
-                    type: string
-                  bindPassword:
-                    description: The password used to authenticate the bind_username.
                     type: string
                   bindUsername:
                     description: The user DN that Atlas uses to connect to the LDAP
@@ -424,7 +442,8 @@ spec:
                       connections. Default: 636'
                     type: number
                   projectId:
-                    description: The unique ID for the project to configure LDAP.
+                    description: The unique ID for the project to configure LDAP,
+                      also known as groupId in the official documentation.
                     type: string
                   requestId:
                     description: The unique identifier for the request to verify the

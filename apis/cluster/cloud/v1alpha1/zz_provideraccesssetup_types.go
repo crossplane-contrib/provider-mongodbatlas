@@ -91,7 +91,7 @@ type ProviderAccessSetupInitParameters struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// The unique ID for the project
+	// The unique ID for the project, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -130,7 +130,7 @@ type ProviderAccessSetupObservation struct {
 	// Date and time when this Azure Service Principal was last updated. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	LastUpdatedDate *string `json:"lastUpdatedDate,omitempty" tf:"last_updated_date,omitempty"`
 
-	// The unique ID for the project
+	// The unique ID for the project, also known as groupId in the official documentation
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The cloud provider for which to create a new role. Currently, AWS, AZURE and GCP are supported. WARNING Changing the provider_name will result in destruction of the existing resource and the creation of a new resource.
@@ -151,7 +151,7 @@ type ProviderAccessSetupParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// The unique ID for the project
+	// The unique ID for the project, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

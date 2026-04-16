@@ -51,7 +51,7 @@ type CustomRoleInitParameters struct {
 
 	InheritedRoles []InheritedRolesInitParameters `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
 
-	// The unique ID for the project.
+	// The unique ID for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -74,7 +74,7 @@ type CustomRoleObservation struct {
 
 	InheritedRoles []InheritedRolesObservation `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
 
-	// The unique ID for the project.
+	// The unique ID for the project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the custom role.
@@ -89,7 +89,7 @@ type CustomRoleParameters struct {
 	// +kubebuilder:validation:Optional
 	InheritedRoles []InheritedRolesParameters `json:"inheritedRoles,omitempty" tf:"inherited_roles,omitempty"`
 
-	// The unique ID for the project.
+	// The unique ID for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

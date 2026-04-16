@@ -74,7 +74,8 @@ spec:
                 properties:
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies
-                      the project to which you want to invite a user.
+                      the project to which you want to invite a user, also known as
+                      groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -182,7 +183,8 @@ spec:
                 properties:
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies
-                      the project to which you want to invite a user.
+                      the project to which you want to invite a user, also known as
+                      groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -396,7 +398,8 @@ spec:
                     type: string
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies
-                      the project to which you want to invite a user.
+                      the project to which you want to invite a user, also known as
+                      groupId in the official documentation.
                     type: string
                   roles:
                     description: List of Atlas roles to assign to the invited user.

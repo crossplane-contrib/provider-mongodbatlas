@@ -325,7 +325,7 @@ spec:
                     type: array
                   projectId:
                     description: The ID of the project where the alert configuration
-                      will create.
+                      will create, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -714,7 +714,7 @@ spec:
                     type: array
                   projectId:
                     description: The ID of the project where the alert configuration
-                      will create.
+                      will create, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -1040,7 +1040,7 @@ spec:
                     type: array
                   projectId:
                     description: The ID of the project where the alert configuration
-                      will create.
+                      will create, also known as groupId in the official documentation.
                     type: string
                   severityOverride:
                     description: Severity of the event. For the list of accepted values

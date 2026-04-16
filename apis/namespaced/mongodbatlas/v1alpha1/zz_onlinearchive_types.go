@@ -154,7 +154,7 @@ type OnlineArchiveInitParameters struct {
 	// State of the online archive. This is required for pausing an active online archive or resuming a paused online archive. If the collection has another active online archive, the resume request fails.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
-	// The unique ID for the project
+	// The unique ID for the project, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -211,7 +211,7 @@ type OnlineArchiveObservation struct {
 	// State of the online archive. This is required for pausing an active online archive or resuming a paused online archive. If the collection has another active online archive, the resume request fails.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
-	// The unique ID for the project
+	// The unique ID for the project, also known as groupId in the official documentation
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Regular frequency and duration when archiving process occurs. See schedule.
@@ -267,7 +267,7 @@ type OnlineArchiveParameters struct {
 	// +kubebuilder:validation:Optional
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
-	// The unique ID for the project
+	// The unique ID for the project, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

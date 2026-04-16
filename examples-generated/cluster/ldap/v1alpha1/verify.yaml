@@ -8,7 +8,10 @@ metadata:
   name: test
 spec:
   forProvider:
-    bindPassword: PASSWORD
+    bindPasswordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: crossplane-system
     bindUsername: USERNAME
     hostname: HOSTNAME
     port: 636

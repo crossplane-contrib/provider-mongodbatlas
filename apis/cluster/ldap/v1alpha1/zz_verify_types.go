@@ -45,7 +45,7 @@ type VerifyInitParameters struct {
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
 	// The password used to authenticate the bind_username.
-	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
+	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
@@ -59,7 +59,7 @@ type VerifyInitParameters struct {
 	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The unique ID for the project to configure LDAP.
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -76,9 +76,6 @@ type VerifyObservation struct {
 
 	// An LDAP query template that Atlas executes to obtain the LDAP groups to which the authenticated user belongs. Used only for user authorization. Use the {USER} placeholder in the URL to substitute the authenticated username. The query is relative to the host specified with hostname. The formatting for the query must conform to RFC4515 and RFC 4516. If you do not provide a query template, Atlas attempts to use the default value: {USER}?memberOf?base.
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
-
-	// The password used to authenticate the bind_username.
-	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
@@ -97,7 +94,7 @@ type VerifyObservation struct {
 	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The unique ID for the project to configure LDAP.
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The unique identifier for the request to verify the LDAP over TLS/SSL configuration.
@@ -118,7 +115,7 @@ type VerifyParameters struct {
 
 	// The password used to authenticate the bind_username.
 	// +kubebuilder:validation:Optional
-	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
+	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	// +kubebuilder:validation:Optional
@@ -136,7 +133,7 @@ type VerifyParameters struct {
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The unique ID for the project to configure LDAP.
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -186,7 +183,7 @@ type VerifyStatus struct {
 type Verify struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindPassword) || (has(self.initProvider) && has(self.initProvider.bindPassword))",message="spec.forProvider.bindPassword is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindPasswordSecretRef)",message="spec.forProvider.bindPasswordSecretRef is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindUsername) || (has(self.initProvider) && has(self.initProvider.bindUsername))",message="spec.forProvider.bindUsername is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hostname) || (has(self.initProvider) && has(self.initProvider.hostname))",message="spec.forProvider.hostname is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port) || (has(self.initProvider) && has(self.initProvider.port))",message="spec.forProvider.port is a required parameter"

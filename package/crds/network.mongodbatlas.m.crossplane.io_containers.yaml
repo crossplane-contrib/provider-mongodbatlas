@@ -67,7 +67,8 @@ spec:
                     type: string
                   projectId:
                     description: Unique identifier for the Atlas project for this
-                      Network Peering Container.
+                      Network Peering Container, also known as groupId in the official
+                      documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -195,7 +196,8 @@ spec:
                     type: string
                   projectId:
                     description: Unique identifier for the Atlas project for this
-                      Network Peering Container.
+                      Network Peering Container, also known as groupId in the official
+                      documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -399,7 +401,8 @@ spec:
                     type: string
                   projectId:
                     description: Unique identifier for the Atlas project for this
-                      Network Peering Container.
+                      Network Peering Container, also known as groupId in the official
+                      documentation.
                     type: string
                   providerName:
                     description: Cloud provider for this Network Peering connection.  Accepted

@@ -84,7 +84,7 @@ spec:
                     type: boolean
                   projectId:
                     description: Unique identifier for the project, also known as
-                      group_id in the official documentation.
+                      groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -198,7 +198,7 @@ spec:
                     type: boolean
                   projectId:
                     description: Unique identifier for the project, also known as
-                      group_id in the official documentation.
+                      groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -441,7 +441,7 @@ spec:
                     type: string
                   projectId:
                     description: Unique identifier for the project, also known as
-                      group_id in the official documentation.
+                      groupId in the official documentation.
                     type: string
                   providerName:
                     description: Name of the cloud provider for which you want to

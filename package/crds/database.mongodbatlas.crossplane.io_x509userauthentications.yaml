@@ -97,7 +97,8 @@ spec:
                     type: number
                   projectId:
                     description: Identifier for the Atlas project associated with
-                      the X.509 configuration.
+                      the X.509 configuration, also known as groupId in the official
+                      documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -217,7 +218,8 @@ spec:
                     type: number
                   projectId:
                     description: Identifier for the Atlas project associated with
-                      the X.509 configuration.
+                      the X.509 configuration, also known as groupId in the official
+                      documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -428,7 +430,8 @@ spec:
                     type: number
                   projectId:
                     description: Identifier for the Atlas project associated with
-                      the X.509 configuration.
+                      the X.509 configuration, also known as groupId in the official
+                      documentation.
                     type: string
                   username:
                     description: Username of the database user to create a certificate

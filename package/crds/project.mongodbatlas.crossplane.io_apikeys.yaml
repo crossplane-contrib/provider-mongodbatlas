@@ -79,7 +79,8 @@ spec:
                     items:
                       properties:
                         projectId:
-                          description: Project ID to assign to Access Key
+                          description: Unique 24-hexadecimal digit string that identifies
+                            your project, also known as groupId in the official documentation.
                           type: string
                         roleNames:
                           description: 'List of Project roles that the Programmatic
@@ -115,7 +116,8 @@ spec:
                     items:
                       properties:
                         projectId:
-                          description: Project ID to assign to Access Key
+                          description: Unique 24-hexadecimal digit string that identifies
+                            your project, also known as groupId in the official documentation.
                           type: string
                         roleNames:
                           description: 'List of Project roles that the Programmatic
@@ -243,7 +245,8 @@ spec:
                     items:
                       properties:
                         projectId:
-                          description: Project ID to assign to Access Key
+                          description: Unique 24-hexadecimal digit string that identifies
+                            your project, also known as groupId in the official documentation.
                           type: string
                         roleNames:
                           description: 'List of Project roles that the Programmatic

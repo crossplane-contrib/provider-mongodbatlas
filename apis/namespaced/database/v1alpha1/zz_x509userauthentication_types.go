@@ -46,7 +46,7 @@ type X509UserAuthenticationInitParameters struct {
 	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
-	// Identifier for the Atlas project associated with the X.509 configuration.
+	// Identifier for the Atlas project associated with the X.509 configuration, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -73,7 +73,7 @@ type X509UserAuthenticationObservation struct {
 	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
-	// Identifier for the Atlas project associated with the X.509 configuration.
+	// Identifier for the Atlas project associated with the X.509 configuration, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Username of the database user to create a certificate for.
@@ -90,7 +90,7 @@ type X509UserAuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
-	// Identifier for the Atlas project associated with the X.509 configuration.
+	// Identifier for the Atlas project associated with the X.509 configuration, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

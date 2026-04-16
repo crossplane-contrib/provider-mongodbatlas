@@ -57,7 +57,7 @@ type PeeringInitParameters struct {
 	// Name of the network peer to which Atlas connects.
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
-	// The unique ID for the MongoDB Atlas project.
+	// The unique ID for the MongoDB Atlas project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -139,7 +139,7 @@ type PeeringObservation struct {
 	// Unique identifier of the Atlas network peer.
 	PeerID *string `json:"peerId,omitempty" tf:"peer_id,omitempty"`
 
-	// The unique ID for the MongoDB Atlas project.
+	// The unique ID for the MongoDB Atlas project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Cloud provider to whom the peering connection is being made. (Possible Values AWS, AZURE, GCP).
@@ -219,7 +219,7 @@ type PeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
-	// The unique ID for the MongoDB Atlas project.
+	// The unique ID for the MongoDB Atlas project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

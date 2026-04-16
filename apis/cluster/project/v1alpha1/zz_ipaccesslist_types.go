@@ -31,8 +31,8 @@ type IPAccessListInitParameters struct {
 	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies your project.
-	// Unique 24-hexadecimal digit string that identifies your project.
+	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -68,8 +68,8 @@ type IPAccessListObservation struct {
 	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies your project.
-	// Unique 24-hexadecimal digit string that identifies your project.
+	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// (Attributes) (see below for nested schema)
@@ -98,8 +98,8 @@ type IPAccessListParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies your project.
-	// Unique 24-hexadecimal digit string that identifies your project.
+	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

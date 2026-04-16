@@ -102,7 +102,7 @@ type ProviderAccessAuthorizationInitParameters struct {
 
 	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
-	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
+	// The unique ID for the project, also known as groupId in the official documentation. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
@@ -125,7 +125,7 @@ type ProviderAccessAuthorizationObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
+	// The unique ID for the project, also known as groupId in the official documentation. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
@@ -140,7 +140,7 @@ type ProviderAccessAuthorizationParameters struct {
 	// +kubebuilder:validation:Optional
 	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
-	// The unique ID for the project. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
+	// The unique ID for the project, also known as groupId in the official documentation. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 

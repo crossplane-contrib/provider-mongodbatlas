@@ -57,7 +57,7 @@ type OutageSimulationInitParameters struct {
 	// (Minimum one required) List of settings that specify the type of cluster outage simulation.
 	OutageFilters []OutageFiltersInitParameters `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
-	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation.
+	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -84,7 +84,7 @@ type OutageSimulationObservation struct {
 	// (Minimum one required) List of settings that specify the type of cluster outage simulation.
 	OutageFilters []OutageFiltersObservation `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
-	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation.
+	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Unique 24-hexadecimal character string that identifies the outage simulation.
@@ -112,7 +112,7 @@ type OutageSimulationParameters struct {
 	// +kubebuilder:validation:Optional
 	OutageFilters []OutageFiltersParameters `json:"outageFilters,omitempty" tf:"outage_filters,omitempty"`
 
-	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation.
+	// The unique ID for the project that contains the cluster that is/will undergoing outage simulation, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

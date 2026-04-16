@@ -105,7 +105,7 @@ type EventTriggerInitParameters struct {
 	// The name of the trigger.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The unique ID for the project to create the trigger.
+	// The unique ID for the project to create the trigger, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -181,7 +181,7 @@ type EventTriggerObservation struct {
 	// The name of the trigger.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The unique ID for the project to create the trigger.
+	// The unique ID for the project to create the trigger, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The unique ID of the trigger.
@@ -259,7 +259,7 @@ type EventTriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The unique ID for the project to create the trigger.
+	// The unique ID for the project to create the trigger, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

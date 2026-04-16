@@ -89,10 +89,11 @@ spec:
                       false.
                     type: boolean
                   projectId:
-                    description: 'The unique ID for the project to configure auditing.
-                      Note: When changing this value to a different project_id it
-                      will delete the current audit settings for the original project
-                      that was assigned to.'
+                    description: 'The unique ID for the project to configure auditing,
+                      also known as groupId in the official documentation. Note: When
+                      changing this value to a different project_id it will delete
+                      the current audit settings for the original project that was
+                      assigned to.'
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -201,10 +202,11 @@ spec:
                       false.
                     type: boolean
                   projectId:
-                    description: 'The unique ID for the project to configure auditing.
-                      Note: When changing this value to a different project_id it
-                      will delete the current audit settings for the original project
-                      that was assigned to.'
+                    description: 'The unique ID for the project to configure auditing,
+                      also known as groupId in the official documentation. Note: When
+                      changing this value to a different project_id it will delete
+                      the current audit settings for the original project that was
+                      assigned to.'
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -397,10 +399,11 @@ spec:
                   id:
                     type: string
                   projectId:
-                    description: 'The unique ID for the project to configure auditing.
-                      Note: When changing this value to a different project_id it
-                      will delete the current audit settings for the original project
-                      that was assigned to.'
+                    description: 'The unique ID for the project to configure auditing,
+                      also known as groupId in the official documentation. Note: When
+                      changing this value to a different project_id it will delete
+                      the current audit settings for the original project that was
+                      assigned to.'
                     type: string
                 type: object
               conditions:

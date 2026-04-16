@@ -104,7 +104,8 @@ spec:
                       type: object
                     type: array
                   projectId:
-                    description: The unique ID for the project.
+                    description: The unique ID for the project, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -251,7 +252,8 @@ spec:
                       type: object
                     type: array
                   projectId:
-                    description: The unique ID for the project.
+                    description: The unique ID for the project, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -455,7 +457,8 @@ spec:
                       type: object
                     type: array
                   projectId:
-                    description: The unique ID for the project.
+                    description: The unique ID for the project, also known as groupId
+                      in the official documentation.
                     type: string
                   roleName:
                     description: Name of the custom role.

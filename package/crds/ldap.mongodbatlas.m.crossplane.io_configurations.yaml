@@ -113,7 +113,8 @@ spec:
                       connections. Default: 636'
                     type: number
                   projectId:
-                    description: The unique ID for the project to configure LDAP.
+                    description: The unique ID for the project to configure LDAP,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -298,7 +299,8 @@ spec:
                       connections. Default: 636'
                     type: number
                   projectId:
-                    description: The unique ID for the project to configure LDAP.
+                    description: The unique ID for the project to configure LDAP,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -539,7 +541,8 @@ spec:
                       connections. Default: 636'
                     type: number
                   projectId:
-                    description: The unique ID for the project to configure LDAP.
+                    description: The unique ID for the project to configure LDAP,
+                      also known as groupId in the official documentation.
                     type: string
                   userToDnMapping:
                     description: Maps an LDAP username for authentication to an LDAP

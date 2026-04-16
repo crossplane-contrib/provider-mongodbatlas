@@ -18,7 +18,7 @@ type AccessInitParameters struct {
 	// Id of the Private Link connection when type is PRIVATE_LINK.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -27,7 +27,7 @@ type AccessObservation struct {
 	// Id of the Private Link connection when type is PRIVATE_LINK.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -37,7 +37,7 @@ type AccessParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -154,6 +154,45 @@ type AwsParameters struct {
 	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
 }
 
+type AzureInitParameters struct {
+
+	// Azure region where the storage account is located, specified as a valid Azure region name (for example, eastus, westeurope).
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// UUID that identifies the Azure Service Principal used to access the Azure Blob Storage account.
+	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
+
+	// Name of the Azure Storage account to use. Must be lowercase, 3-24 characters, and contain only letters and numbers.
+	StorageAccountName *string `json:"storageAccountName,omitempty" tf:"storage_account_name,omitempty"`
+}
+
+type AzureObservation struct {
+
+	// Azure region where the storage account is located, specified as a valid Azure region name (for example, eastus, westeurope).
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// UUID that identifies the Azure Service Principal used to access the Azure Blob Storage account.
+	ServicePrincipalID *string `json:"servicePrincipalId,omitempty" tf:"service_principal_id,omitempty"`
+
+	// Name of the Azure Storage account to use. Must be lowercase, 3-24 characters, and contain only letters and numbers.
+	StorageAccountName *string `json:"storageAccountName,omitempty" tf:"storage_account_name,omitempty"`
+}
+
+type AzureParameters struct {
+
+	// Azure region where the storage account is located, specified as a valid Azure region name (for example, eastus, westeurope).
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// UUID that identifies the Azure Service Principal used to access the Azure Blob Storage account.
+	// +kubebuilder:validation:Optional
+	ServicePrincipalID *string `json:"servicePrincipalId" tf:"service_principal_id,omitempty"`
+
+	// Name of the Azure Storage account to use. Must be lowercase, 3-24 characters, and contain only letters and numbers.
+	// +kubebuilder:validation:Optional
+	StorageAccountName *string `json:"storageAccountName" tf:"storage_account_name,omitempty"`
+}
+
 type ConnectionInitParameters struct {
 
 	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
@@ -161,6 +200,9 @@ type ConnectionInitParameters struct {
 
 	// The configuration for AWS Lambda connection. See AWS
 	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// The configuration for Azure Blob Storage connection. See Azure.
+	Azure *AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// Comma separated list of server addresses.
 	BootstrapServers *string `json:"bootstrapServers,omitempty" tf:"bootstrap_servers,omitempty"`
@@ -181,6 +223,9 @@ type ConnectionInitParameters struct {
 	// The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.
 	DBRoleToExecute *DBRoleToExecuteInitParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
+	// The configuration for GCP Pub/Sub connection. See GCP
+	GCP *GCPInitParameters `json:"gcp,omitempty" tf:"gcp,omitempty"`
+
 	// A map of key-value pairs for optional headers.
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
@@ -191,7 +236,7 @@ type ConnectionInitParameters struct {
 	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
 	Networking *NetworkingInitParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
-	// Unique 24-hexadecimal digit string that identifies your project.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -217,7 +262,7 @@ type ConnectionInitParameters struct {
 
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// URL of the HTTPs endpoint that will be used for creating a connection.
@@ -234,6 +279,9 @@ type ConnectionObservation struct {
 
 	// The configuration for AWS Lambda connection. See AWS
 	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// The configuration for Azure Blob Storage connection. See Azure.
+	Azure *AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// Comma separated list of server addresses.
 	BootstrapServers *string `json:"bootstrapServers,omitempty" tf:"bootstrap_servers,omitempty"`
@@ -254,6 +302,9 @@ type ConnectionObservation struct {
 	// The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.
 	DBRoleToExecute *DBRoleToExecuteObservation `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
+	// The configuration for GCP Pub/Sub connection. See GCP
+	GCP *GCPObservation `json:"gcp,omitempty" tf:"gcp,omitempty"`
+
 	// A map of key-value pairs for optional headers.
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
@@ -266,7 +317,7 @@ type ConnectionObservation struct {
 	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
 	Networking *NetworkingObservation `json:"networking,omitempty" tf:"networking,omitempty"`
 
-	// Unique 24-hexadecimal digit string that identifies your project.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Authentication configuration for Schema Registry. See Schema Registry Authentication.
@@ -283,7 +334,7 @@ type ConnectionObservation struct {
 
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// URL of the HTTPs endpoint that will be used for creating a connection.
@@ -315,6 +366,10 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// The configuration for Azure Blob Storage connection. See Azure.
+	// +kubebuilder:validation:Optional
+	Azure *AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
+
 	// Comma separated list of server addresses.
 	// +kubebuilder:validation:Optional
 	BootstrapServers *string `json:"bootstrapServers,omitempty" tf:"bootstrap_servers,omitempty"`
@@ -340,6 +395,10 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	DBRoleToExecute *DBRoleToExecuteParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
+	// The configuration for GCP Pub/Sub connection. See GCP
+	// +kubebuilder:validation:Optional
+	GCP *GCPParameters `json:"gcp,omitempty" tf:"gcp,omitempty"`
+
 	// A map of key-value pairs for optional headers.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -353,7 +412,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Networking *NetworkingParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
-	// Unique 24-hexadecimal digit string that identifies your project.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -385,7 +444,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -403,7 +462,7 @@ type DBRoleToExecuteInitParameters struct {
 	// The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -412,7 +471,7 @@ type DBRoleToExecuteObservation struct {
 	// The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -422,9 +481,28 @@ type DBRoleToExecuteParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role" tf:"role,omitempty"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type GCPInitParameters struct {
+
+	// Email address of the Google Cloud Platform (GCP) service account that Atlas Streams uses to connect to GCP Pub/Sub resources.
+	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
+}
+
+type GCPObservation struct {
+
+	// Email address of the Google Cloud Platform (GCP) service account that Atlas Streams uses to connect to GCP Pub/Sub resources.
+	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
+}
+
+type GCPParameters struct {
+
+	// Email address of the Google Cloud Platform (GCP) service account that Atlas Streams uses to connect to GCP Pub/Sub resources.
+	// +kubebuilder:validation:Optional
+	ServiceAccountID *string `json:"serviceAccountId" tf:"service_account_id,omitempty"`
 }
 
 type NetworkingInitParameters struct {
@@ -451,7 +529,7 @@ type SchemaRegistryAuthenticationInitParameters struct {
 	// Password of the account to connect to the Kafka cluster.
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Username of the account to connect to the Kafka cluster.
@@ -460,7 +538,7 @@ type SchemaRegistryAuthenticationInitParameters struct {
 
 type SchemaRegistryAuthenticationObservation struct {
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Username of the account to connect to the Kafka cluster.
@@ -473,7 +551,7 @@ type SchemaRegistryAuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// Type of connection. Can be AWSLambda, Cluster, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 

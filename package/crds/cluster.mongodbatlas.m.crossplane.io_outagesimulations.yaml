@@ -84,7 +84,8 @@ spec:
                     type: array
                   projectId:
                     description: The unique ID for the project that contains the cluster
-                      that is/will undergoing outage simulation.
+                      that is/will undergoing outage simulation, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -208,7 +209,8 @@ spec:
                     type: array
                   projectId:
                     description: The unique ID for the project that contains the cluster
-                      that is/will undergoing outage simulation.
+                      that is/will undergoing outage simulation, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -397,7 +399,8 @@ spec:
                     type: array
                   projectId:
                     description: The unique ID for the project that contains the cluster
-                      that is/will undergoing outage simulation.
+                      that is/will undergoing outage simulation, also known as groupId
+                      in the official documentation.
                     type: string
                   simulationId:
                     description: Unique 24-hexadecimal character string that identifies

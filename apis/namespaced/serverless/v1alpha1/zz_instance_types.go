@@ -27,7 +27,7 @@ type InstanceInitParameters struct {
 	// Human-readable label that identifies the serverless instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The ID of the organization or project you want to create the serverless instance within.
+	// The ID of the organization or project you want to create the serverless instance within, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -86,7 +86,7 @@ type InstanceObservation struct {
 	// Human-readable label that identifies the serverless instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The ID of the organization or project you want to create the serverless instance within.
+	// The ID of the organization or project you want to create the serverless instance within, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Cloud service provider on which MongoDB Cloud provisioned the serverless instance.
@@ -125,7 +125,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The ID of the organization or project you want to create the serverless instance within.
+	// The ID of the organization or project you want to create the serverless instance within, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

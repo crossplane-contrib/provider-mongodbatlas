@@ -23,7 +23,7 @@ type ResourceInitParameters struct {
 	// Flag that indicates whether this resource uses GCP port-mapping. When `true`, it uses the port-mapped architecture. When `false` or unset, it uses the GCP legacy private endpoint architecture. Only applicable for GCP provider.
 	PortMappingEnabled *bool `json:"portMappingEnabled,omitempty" tf:"port_mapping_enabled,omitempty"`
 
-	// Unique identifier for the project, also known as group_id in the official documentation.
+	// Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -80,7 +80,7 @@ type ResourceObservation struct {
 	// Resource ID of the Azure Private Link Service.
 	PrivateLinkServiceResourceID *string `json:"privateLinkServiceResourceId,omitempty" tf:"private_link_service_resource_id,omitempty"`
 
-	// Unique identifier for the project, also known as group_id in the official documentation.
+	// Unique identifier for the project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the cloud provider for which you want to create the private endpoint service. Atlas accepts AWS, AZURE, GCP.
@@ -112,7 +112,7 @@ type ResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	PortMappingEnabled *bool `json:"portMappingEnabled,omitempty" tf:"port_mapping_enabled,omitempty"`
 
-	// Unique identifier for the project, also known as group_id in the official documentation.
+	// Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

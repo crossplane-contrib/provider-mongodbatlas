@@ -95,10 +95,8 @@ type AdvancedClusterInitParameters struct {
 	// Flag that indicates whether the cluster uses continuous cloud backups.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
-	// Unique ID for the project to create the cluster.
-	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
-	//
-	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
+	// Unique ID for the project to create the cluster, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -269,10 +267,8 @@ type AdvancedClusterObservation struct {
 	// Flag that indicates whether the cluster uses continuous cloud backups.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
-	// Unique ID for the project to create the cluster.
-	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
-	//
-	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
+	// Unique ID for the project to create the cluster, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
@@ -433,10 +429,8 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
-	// Unique ID for the project to create the cluster.
-	// Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access.
-	//
-	// **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups.
+	// Unique ID for the project to create the cluster, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -553,9 +547,8 @@ type AdvancedConfigurationInitParameters struct {
 	// Flag that indicates whether the cluster disables executing any query that requires a collection scan to return results.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
-	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
-	// -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
-	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+	// scaling does not prevent the error.
+	// Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
 	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
@@ -615,9 +608,8 @@ type AdvancedConfigurationObservation struct {
 	// Flag that indicates whether the cluster disables executing any query that requires a collection scan to return results.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
-	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
-	// -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
-	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+	// scaling does not prevent the error.
+	// Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
 	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
@@ -685,9 +677,8 @@ type AdvancedConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
-	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
-	// -> NOTE:  A minimum oplog retention is required when seeking to change a cluster's class to Local NVMe SSD. To learn more and for latest guidance see oplogMinRetentionHours
-	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
+	// scaling does not prevent the error.
+	// Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
 	// +kubebuilder:validation:Optional
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
@@ -738,8 +729,14 @@ type AnalyticsAutoScalingInitParameters struct {
 	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
-	// Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.
-	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to `false`.
+	//
+	// To set `disk_gb_enabled` to `false`, Atlas requires **advanced_configuration.oplog_min_retention_hours** to be `0` on the server. If it is still non-zero, the API responds with `OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING` (HTTP 400).
+	//
+	// Cluster updates are applied before process arguments, so setting **advanced_configuration.oplog_min_retention_hours** to `0` in the same `apply` as disabling disk auto-scaling does not prevent the error.
+	//
+	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
@@ -764,8 +761,14 @@ type AnalyticsAutoScalingObservation struct {
 	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
-	// Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.
-	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to `false`.
+	//
+	// To set `disk_gb_enabled` to `false`, Atlas requires **advanced_configuration.oplog_min_retention_hours** to be `0` on the server. If it is still non-zero, the API responds with `OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING` (HTTP 400).
+	//
+	// Cluster updates are applied before process arguments, so setting **advanced_configuration.oplog_min_retention_hours** to `0` in the same `apply` as disabling disk auto-scaling does not prevent the error.
+	//
+	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
@@ -794,8 +797,14 @@ type AnalyticsAutoScalingParameters struct {
 	// +kubebuilder:validation:Optional
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
-	// Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.
-	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to `false`.
+	//
+	// To set `disk_gb_enabled` to `false`, Atlas requires **advanced_configuration.oplog_min_retention_hours** to be `0` on the server. If it is still non-zero, the API responds with `OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING` (HTTP 400).
+	//
+	// Cluster updates are applied before process arguments, so setting **advanced_configuration.oplog_min_retention_hours** to `0` in the same `apply` as disabling disk auto-scaling does not prevent the error.
+	//
+	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	// +kubebuilder:validation:Optional
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
@@ -964,8 +973,14 @@ type AutoScalingInitParameters struct {
 	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
-	// Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.
-	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to `false`.
+	//
+	// To set `disk_gb_enabled` to `false`, Atlas requires **advanced_configuration.oplog_min_retention_hours** to be `0` on the server. If it is still non-zero, the API responds with `OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING` (HTTP 400).
+	//
+	// Cluster updates are applied before process arguments, so setting **advanced_configuration.oplog_min_retention_hours** to `0` in the same `apply` as disabling disk auto-scaling does not prevent the error.
+	//
+	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
@@ -990,8 +1005,14 @@ type AutoScalingObservation struct {
 	// Flag that indicates whether the instance size may scale down. MongoDB Cloud requires this parameter if `"replicationSpecs[n].regionConfigs[m].autoScaling.compute.enabled" : true`. If you enable this option, specify a value for **replicationSpecs[n].regionConfigs[m].autoScaling.compute.minInstanceSize**.
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
-	// Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.
-	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to `false`.
+	//
+	// To set `disk_gb_enabled` to `false`, Atlas requires **advanced_configuration.oplog_min_retention_hours** to be `0` on the server. If it is still non-zero, the API responds with `OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING` (HTTP 400).
+	//
+	// Cluster updates are applied before process arguments, so setting **advanced_configuration.oplog_min_retention_hours** to `0` in the same `apply` as disabling disk auto-scaling does not prevent the error.
+	//
+	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }
 
@@ -1020,8 +1041,14 @@ type AutoScalingParameters struct {
 	// +kubebuilder:validation:Optional
 	ComputeScaleDownEnabled *bool `json:"computeScaleDownEnabled,omitempty" tf:"compute_scale_down_enabled,omitempty"`
 
-	// Flag that indicates whether this cluster enables disk auto-scaling. This parameter defaults to false.
-	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.
+	// Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to `false`.
+	//
+	// To set `disk_gb_enabled` to `false`, Atlas requires **advanced_configuration.oplog_min_retention_hours** to be `0` on the server. If it is still non-zero, the API responds with `OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING` (HTTP 400).
+	//
+	// Cluster updates are applied before process arguments, so setting **advanced_configuration.oplog_min_retention_hours** to `0` in the same `apply` as disabling disk auto-scaling does not prevent the error.
+	//
+	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	// +kubebuilder:validation:Optional
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
 }

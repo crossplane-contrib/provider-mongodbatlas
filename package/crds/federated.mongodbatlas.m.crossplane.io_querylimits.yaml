@@ -75,7 +75,7 @@ spec:
                     type: string
                   projectId:
                     description: The unique ID for the project to create a Federated
-                      Database Instance.
+                      Database Instance, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -196,7 +196,7 @@ spec:
                     type: string
                   projectId:
                     description: The unique ID for the project to create a Federated
-                      Database Instance.
+                      Database Instance, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -391,7 +391,7 @@ spec:
                     type: string
                   projectId:
                     description: The unique ID for the project to create a Federated
-                      Database Instance.
+                      Database Instance, also known as groupId in the official documentation.
                     type: string
                   tenantName:
                     description: Name of the Atlas Federated Database Instance.

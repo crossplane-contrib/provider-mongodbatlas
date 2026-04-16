@@ -240,7 +240,7 @@ spec:
                     type: array
                   projectId:
                     description: The unique identifier of the project for the Atlas
-                      cluster.
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -545,7 +545,7 @@ spec:
                     type: array
                   projectId:
                     description: The unique identifier of the project for the Atlas
-                      cluster.
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -968,7 +968,7 @@ spec:
                     type: array
                   projectId:
                     description: The unique identifier of the project for the Atlas
-                      cluster.
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   referenceHourOfDay:
                     description: UTC Hour of day between 0 and 23, inclusive, representing

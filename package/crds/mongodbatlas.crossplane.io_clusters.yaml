@@ -320,7 +320,8 @@ spec:
                       to true.'
                     type: boolean
                   projectId:
-                    description: The unique ID for the project to create the cluster.
+                    description: The unique ID for the project to create the cluster,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -830,7 +831,8 @@ spec:
                       to true.'
                     type: boolean
                   projectId:
-                    description: The unique ID for the project to create the cluster.
+                    description: The unique ID for the project to create the cluster,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -1567,7 +1569,8 @@ spec:
                       to true.'
                     type: boolean
                   projectId:
-                    description: The unique ID for the project to create the cluster.
+                    description: The unique ID for the project to create the cluster,
+                      also known as groupId in the official documentation.
                     type: string
                   providerAutoScalingComputeMaxInstanceSize:
                     description: Maximum instance size to which your cluster can automatically

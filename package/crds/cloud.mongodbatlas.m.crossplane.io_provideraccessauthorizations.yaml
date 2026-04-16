@@ -88,9 +88,10 @@ spec:
                       type: object
                     type: array
                   projectId:
-                    description: 'The unique ID for the project. WARNING: Changing
-                      the project_id will result in destruction of the existing authorization
-                      resource and the creation of a new authorization resource.'
+                    description: 'The unique ID for the project, also known as groupId
+                      in the official documentation. WARNING: Changing the project_id
+                      will result in destruction of the existing authorization resource
+                      and the creation of a new authorization resource.'
                     type: string
                   roleId:
                     description: 'The unique ID of this role returned by the mongodb
@@ -140,9 +141,10 @@ spec:
                       type: object
                     type: array
                   projectId:
-                    description: 'The unique ID for the project. WARNING: Changing
-                      the project_id will result in destruction of the existing authorization
-                      resource and the creation of a new authorization resource.'
+                    description: 'The unique ID for the project, also known as groupId
+                      in the official documentation. WARNING: Changing the project_id
+                      will result in destruction of the existing authorization resource
+                      and the creation of a new authorization resource.'
                     type: string
                   roleId:
                     description: 'The unique ID of this role returned by the mongodb
@@ -279,9 +281,10 @@ spec:
                   id:
                     type: string
                   projectId:
-                    description: 'The unique ID for the project. WARNING: Changing
-                      the project_id will result in destruction of the existing authorization
-                      resource and the creation of a new authorization resource.'
+                    description: 'The unique ID for the project, also known as groupId
+                      in the official documentation. WARNING: Changing the project_id
+                      will result in destruction of the existing authorization resource
+                      and the creation of a new authorization resource.'
                     type: string
                   roleId:
                     description: 'The unique ID of this role returned by the mongodb

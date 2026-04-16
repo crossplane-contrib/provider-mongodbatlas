@@ -293,7 +293,7 @@ type DatabaseInstanceInitParameters struct {
 	// Name of the Atlas Federated Database Instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The unique ID for the project to create a Federated Database Instance.
+	// The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -328,7 +328,7 @@ type DatabaseInstanceObservation struct {
 	// Name of the Atlas Federated Database Instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The unique ID for the project to create a Federated Database Instance.
+	// The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Current state of the Federated Database Instance:
@@ -355,7 +355,7 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The unique ID for the project to create a Federated Database Instance.
+	// The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -479,7 +479,7 @@ type StorageStoresInitParameters struct {
 	// Prefix the Federated Database Instance applies when searching for files in the S3 bucket.
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
-	// The unique ID for the project to create a Federated Database Instance.
+	// The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Defines where the data is stored.
@@ -525,7 +525,7 @@ type StorageStoresObservation struct {
 	// Prefix the Federated Database Instance applies when searching for files in the S3 bucket.
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
-	// The unique ID for the project to create a Federated Database Instance.
+	// The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Defines where the data is stored.
@@ -581,7 +581,7 @@ type StorageStoresParameters struct {
 	// +kubebuilder:validation:Optional
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
-	// The unique ID for the project to create a Federated Database Instance.
+	// The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 

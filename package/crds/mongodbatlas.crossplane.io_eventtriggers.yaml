@@ -162,7 +162,8 @@ spec:
                     description: The name of the trigger.
                     type: string
                   projectId:
-                    description: The unique ID for the project to create the trigger.
+                    description: The unique ID for the project to create the trigger,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -354,7 +355,8 @@ spec:
                     description: The name of the trigger.
                     type: string
                   projectId:
-                    description: The unique ID for the project to create the trigger.
+                    description: The unique ID for the project to create the trigger,
+                      also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -646,7 +648,8 @@ spec:
                     description: The name of the trigger.
                     type: string
                   projectId:
-                    description: The unique ID for the project to create the trigger.
+                    description: The unique ID for the project to create the trigger,
+                      also known as groupId in the official documentation.
                     type: string
                   triggerId:
                     description: The unique ID of the trigger.

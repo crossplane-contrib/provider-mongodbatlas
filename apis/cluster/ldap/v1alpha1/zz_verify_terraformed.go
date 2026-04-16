@@ -21,7 +21,7 @@ func (mg *Verify) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Verify
 func (tr *Verify) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"bind_password": "bindPasswordSecretRef"}
 }
 
 // GetObservation of this Verify

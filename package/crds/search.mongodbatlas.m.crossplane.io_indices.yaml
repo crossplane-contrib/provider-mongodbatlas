@@ -108,7 +108,8 @@ spec:
                     type: number
                   projectId:
                     description: The ID of the organization or project you want to
-                      create the search index within.
+                      create the search index within, also known as groupId in the
+                      official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -304,7 +305,8 @@ spec:
                     type: number
                   projectId:
                     description: The ID of the organization or project you want to
-                      create the search index within.
+                      create the search index within, also known as groupId in the
+                      official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -572,7 +574,8 @@ spec:
                     type: number
                   projectId:
                     description: The ID of the organization or project you want to
-                      create the search index within.
+                      create the search index within, also known as groupId in the
+                      official documentation.
                     type: string
                   searchAnalyzer:
                     description: Analyzer to use when searching the index. Defaults

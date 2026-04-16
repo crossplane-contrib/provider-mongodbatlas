@@ -82,7 +82,8 @@ spec:
                       AWS .
                     type: boolean
                   projectId:
-                    description: "Required \tUnique identifier for the project."
+                    description: "Required \tUnique identifier for the project, also
+                      known as groupId in the official documentation."
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -182,7 +183,8 @@ spec:
                       AWS .
                     type: boolean
                   projectId:
-                    description: "Required \tUnique identifier for the project."
+                    description: "Required \tUnique identifier for the project, also
+                      known as groupId in the official documentation."
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -368,7 +370,8 @@ spec:
                   id:
                     type: string
                   projectId:
-                    description: "Required \tUnique identifier for the project."
+                    description: "Required \tUnique identifier for the project, also
+                      known as groupId in the official documentation."
                     type: string
                 type: object
               conditions:

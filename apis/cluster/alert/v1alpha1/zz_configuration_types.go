@@ -27,7 +27,7 @@ type ConfigurationInitParameters struct {
 
 	Notification []NotificationInitParameters `json:"notification,omitempty" tf:"notification,omitempty"`
 
-	// The ID of the project where the alert configuration will create.
+	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -67,7 +67,7 @@ type ConfigurationObservation struct {
 
 	Notification []NotificationObservation `json:"notification,omitempty" tf:"notification,omitempty"`
 
-	// The ID of the project where the alert configuration will create.
+	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
@@ -98,7 +98,7 @@ type ConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Notification []NotificationParameters `json:"notification,omitempty" tf:"notification,omitempty"`
 
-	// The ID of the project where the alert configuration will create.
+	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

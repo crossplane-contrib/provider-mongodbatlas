@@ -49,7 +49,7 @@ type APIKeyParameters struct {
 
 type ProjectAssignmentInitParameters struct {
 
-	// Project ID to assign to Access Key
+	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// List of Project roles that the Programmatic API key needs to have. Ensure you provide: at least one role and ensure all roles are valid for the Project. You must specify an array even if you are only associating a single role with the Programmatic API key. The MongoDB Documentation describes the valid roles that can be assigned.
@@ -59,7 +59,7 @@ type ProjectAssignmentInitParameters struct {
 
 type ProjectAssignmentObservation struct {
 
-	// Project ID to assign to Access Key
+	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// List of Project roles that the Programmatic API key needs to have. Ensure you provide: at least one role and ensure all roles are valid for the Project. You must specify an array even if you are only associating a single role with the Programmatic API key. The MongoDB Documentation describes the valid roles that can be assigned.
@@ -69,7 +69,7 @@ type ProjectAssignmentObservation struct {
 
 type ProjectAssignmentParameters struct {
 
-	// Project ID to assign to Access Key
+	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 

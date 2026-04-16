@@ -19,7 +19,7 @@ type ContainerInitParameters struct {
 	// CIDR block that Atlas uses for the Network Peering containers in your project.  Atlas uses the specified CIDR block for all other Network Peering connections created in the project. The Atlas CIDR block must be at least a /24 and at most a /21 in one of the following private networks:
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
-	// Unique identifier for the Atlas project for this Network Peering Container.
+	// Unique identifier for the Atlas project for this Network Peering Container, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -63,7 +63,7 @@ type ContainerObservation struct {
 	// Unique identifier of the Network Peering connection in the Atlas project. Returns null. This value is populated once you create a new network peering connection with the network peering resource.
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
-	// Unique identifier for the Atlas project for this Network Peering Container.
+	// Unique identifier for the Atlas project for this Network Peering Container, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Cloud provider for this Network Peering connection.  Accepted values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter to AWS.
@@ -94,7 +94,7 @@ type ContainerParameters struct {
 	// +kubebuilder:validation:Optional
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
-	// Unique identifier for the Atlas project for this Network Peering Container.
+	// Unique identifier for the Atlas project for this Network Peering Container, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

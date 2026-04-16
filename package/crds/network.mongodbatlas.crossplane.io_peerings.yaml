@@ -189,7 +189,8 @@ spec:
                     description: Name of the network peer to which Atlas connects.
                     type: string
                   projectId:
-                    description: The unique ID for the MongoDB Atlas project.
+                    description: The unique ID for the MongoDB Atlas project, also
+                      known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -416,7 +417,8 @@ spec:
                     description: Name of the network peer to which Atlas connects.
                     type: string
                   projectId:
-                    description: The unique ID for the MongoDB Atlas project.
+                    description: The unique ID for the MongoDB Atlas project, also
+                      known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -675,7 +677,8 @@ spec:
                     description: Unique identifier of the Atlas network peer.
                     type: string
                   projectId:
-                    description: The unique ID for the MongoDB Atlas project.
+                    description: The unique ID for the MongoDB Atlas project, also
+                      known as groupId in the official documentation.
                     type: string
                   providerName:
                     description: Cloud provider to whom the peering connection is

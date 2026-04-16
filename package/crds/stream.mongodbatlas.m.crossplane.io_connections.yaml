@@ -138,6 +138,25 @@ spec:
                           in your AWS account.
                         type: string
                     type: object
+                  azure:
+                    description: The configuration for Azure Blob Storage connection.
+                      See Azure.
+                    properties:
+                      region:
+                        description: Azure region where the storage account is located,
+                          specified as a valid Azure region name (for example, eastus,
+                          westeurope).
+                        type: string
+                      servicePrincipalId:
+                        description: UUID that identifies the Azure Service Principal
+                          used to access the Azure Blob Storage account.
+                        type: string
+                      storageAccountName:
+                        description: Name of the Azure Storage account to use. Must
+                          be lowercase, 3-24 characters, and contain only letters
+                          and numbers.
+                        type: string
+                    type: object
                   bootstrapServers:
                     description: Comma separated list of server addresses.
                     type: string
@@ -172,8 +191,18 @@ spec:
                           is set to CUSTOM.
                         type: string
                       type:
-                        description: Type of connection. Can be AWSLambda, Cluster,
-                          Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        type: string
+                    type: object
+                  gcp:
+                    description: The configuration for GCP Pub/Sub connection. See
+                      GCP
+                    properties:
+                      serviceAccountId:
+                        description: Email address of the Google Cloud Platform (GCP)
+                          service account that Atlas Streams uses to connect to GCP
+                          Pub/Sub resources.
                         type: string
                     type: object
                   headers:
@@ -200,14 +229,14 @@ spec:
                               is PRIVATE_LINK.
                             type: string
                           type:
-                            description: Type of connection. Can be AWSLambda, Cluster,
-                              Https, Kafka, Sample, or SchemaRegistry.
+                            description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                              Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies
-                      your project.
+                      your project, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -309,8 +338,8 @@ spec:
                         - name
                         type: object
                       type:
-                        description: Type of connection. Can be AWSLambda, Cluster,
-                          Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                       username:
                         description: Username of the account to connect to the Kafka
@@ -361,8 +390,8 @@ spec:
                         type: string
                     type: object
                   type:
-                    description: Type of connection. Can be AWSLambda, Cluster, Https,
-                      Kafka, Sample, or SchemaRegistry.
+                    description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                      Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                     type: string
                   url:
                     description: URL of the HTTPs endpoint that will be used for creating
@@ -455,6 +484,25 @@ spec:
                           in your AWS account.
                         type: string
                     type: object
+                  azure:
+                    description: The configuration for Azure Blob Storage connection.
+                      See Azure.
+                    properties:
+                      region:
+                        description: Azure region where the storage account is located,
+                          specified as a valid Azure region name (for example, eastus,
+                          westeurope).
+                        type: string
+                      servicePrincipalId:
+                        description: UUID that identifies the Azure Service Principal
+                          used to access the Azure Blob Storage account.
+                        type: string
+                      storageAccountName:
+                        description: Name of the Azure Storage account to use. Must
+                          be lowercase, 3-24 characters, and contain only letters
+                          and numbers.
+                        type: string
+                    type: object
                   bootstrapServers:
                     description: Comma separated list of server addresses.
                     type: string
@@ -489,8 +537,18 @@ spec:
                           is set to CUSTOM.
                         type: string
                       type:
-                        description: Type of connection. Can be AWSLambda, Cluster,
-                          Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        type: string
+                    type: object
+                  gcp:
+                    description: The configuration for GCP Pub/Sub connection. See
+                      GCP
+                    properties:
+                      serviceAccountId:
+                        description: Email address of the Google Cloud Platform (GCP)
+                          service account that Atlas Streams uses to connect to GCP
+                          Pub/Sub resources.
                         type: string
                     type: object
                   headers:
@@ -517,14 +575,14 @@ spec:
                               is PRIVATE_LINK.
                             type: string
                           type:
-                            description: Type of connection. Can be AWSLambda, Cluster,
-                              Https, Kafka, Sample, or SchemaRegistry.
+                            description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                              Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies
-                      your project.
+                      your project, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -626,8 +684,8 @@ spec:
                         - name
                         type: object
                       type:
-                        description: Type of connection. Can be AWSLambda, Cluster,
-                          Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                       username:
                         description: Username of the account to connect to the Kafka
@@ -678,8 +736,8 @@ spec:
                         type: string
                     type: object
                   type:
-                    description: Type of connection. Can be AWSLambda, Cluster, Https,
-                      Kafka, Sample, or SchemaRegistry.
+                    description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                      Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                     type: string
                   url:
                     description: URL of the HTTPs endpoint that will be used for creating
@@ -805,6 +863,25 @@ spec:
                           in your AWS account.
                         type: string
                     type: object
+                  azure:
+                    description: The configuration for Azure Blob Storage connection.
+                      See Azure.
+                    properties:
+                      region:
+                        description: Azure region where the storage account is located,
+                          specified as a valid Azure region name (for example, eastus,
+                          westeurope).
+                        type: string
+                      servicePrincipalId:
+                        description: UUID that identifies the Azure Service Principal
+                          used to access the Azure Blob Storage account.
+                        type: string
+                      storageAccountName:
+                        description: Name of the Azure Storage account to use. Must
+                          be lowercase, 3-24 characters, and contain only letters
+                          and numbers.
+                        type: string
+                    type: object
                   bootstrapServers:
                     description: Comma separated list of server addresses.
                     type: string
@@ -839,8 +916,18 @@ spec:
                           is set to CUSTOM.
                         type: string
                       type:
-                        description: Type of connection. Can be AWSLambda, Cluster,
-                          Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        type: string
+                    type: object
+                  gcp:
+                    description: The configuration for GCP Pub/Sub connection. See
+                      GCP
+                    properties:
+                      serviceAccountId:
+                        description: Email address of the Google Cloud Platform (GCP)
+                          service account that Atlas Streams uses to connect to GCP
+                          Pub/Sub resources.
                         type: string
                     type: object
                   headers:
@@ -869,22 +956,22 @@ spec:
                               is PRIVATE_LINK.
                             type: string
                           type:
-                            description: Type of connection. Can be AWSLambda, Cluster,
-                              Https, Kafka, Sample, or SchemaRegistry.
+                            description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                              Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies
-                      your project.
+                      your project, also known as groupId in the official documentation.
                     type: string
                   schemaRegistryAuthentication:
                     description: Authentication configuration for Schema Registry.
                       See Schema Registry Authentication.
                     properties:
                       type:
-                        description: Type of connection. Can be AWSLambda, Cluster,
-                          Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                         type: string
                       username:
                         description: Username of the account to connect to the Kafka
@@ -935,8 +1022,8 @@ spec:
                         type: string
                     type: object
                   type:
-                    description: Type of connection. Can be AWSLambda, Cluster, Https,
-                      Kafka, Sample, or SchemaRegistry.
+                    description: Type of connection. Can be AWSLambda, AzureBlobStorage,
+                      Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
                     type: string
                   url:
                     description: URL of the HTTPs endpoint that will be used for creating

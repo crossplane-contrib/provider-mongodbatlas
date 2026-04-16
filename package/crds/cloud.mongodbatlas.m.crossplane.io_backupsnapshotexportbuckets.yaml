@@ -74,7 +74,7 @@ spec:
                     type: string
                   projectId:
                     description: The unique identifier of the project for the Atlas
-                      cluster.
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -200,7 +200,7 @@ spec:
                     type: string
                   projectId:
                     description: The unique identifier of the project for the Atlas
-                      cluster.
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -391,7 +391,7 @@ spec:
                     type: string
                   projectId:
                     description: The unique identifier of the project for the Atlas
-                      cluster.
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   roleId:
                     description: Unique identifier of the Azure Service Principal

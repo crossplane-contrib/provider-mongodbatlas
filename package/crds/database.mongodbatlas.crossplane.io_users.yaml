@@ -127,7 +127,7 @@ spec:
                     type: object
                   projectId:
                     description: The unique ID for the project to create the database
-                      user.
+                      user, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -323,7 +323,7 @@ spec:
                     type: object
                   projectId:
                     description: The unique ID for the project to create the database
-                      user.
+                      user, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -590,7 +590,7 @@ spec:
                     type: string
                   projectId:
                     description: The unique ID for the project to create the database
-                      user.
+                      user, also known as groupId in the official documentation.
                     type: string
                   roles:
                     description: List of user’s roles and the databases / collections

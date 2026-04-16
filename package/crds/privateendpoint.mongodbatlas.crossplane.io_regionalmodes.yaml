@@ -82,7 +82,8 @@ spec:
                       if you have:'
                     type: boolean
                   projectId:
-                    description: Unique identifier for the project.
+                    description: Unique identifier for the project, also known as
+                      groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -184,7 +185,8 @@ spec:
                       if you have:'
                     type: boolean
                   projectId:
-                    description: Unique identifier for the project.
+                    description: Unique identifier for the project, also known as
+                      groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -366,7 +368,8 @@ spec:
                   id:
                     type: string
                   projectId:
-                    description: Unique identifier for the project.
+                    description: Unique identifier for the project, also known as
+                      groupId in the official documentation.
                     type: string
                 type: object
               conditions:

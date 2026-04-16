@@ -9,7 +9,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    bindPassword: PASSWORD
+    bindPasswordSecretRef:
+      key: example-key
+      name: example-secret
     bindUsername: USERNAME
     hostname: HOSTNAME
     port: 636

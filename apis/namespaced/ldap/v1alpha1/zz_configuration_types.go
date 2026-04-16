@@ -41,7 +41,7 @@ type ConfigurationInitParameters struct {
 	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The unique ID for the project to configure LDAP.
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -82,7 +82,7 @@ type ConfigurationObservation struct {
 	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The unique ID for the project to configure LDAP.
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
@@ -130,7 +130,7 @@ type ConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The unique ID for the project to configure LDAP.
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

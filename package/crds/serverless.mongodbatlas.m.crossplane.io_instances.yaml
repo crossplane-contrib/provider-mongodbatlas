@@ -84,7 +84,8 @@ spec:
                     type: string
                   projectId:
                     description: The ID of the organization or project you want to
-                      create the serverless instance within.
+                      create the serverless instance within, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -246,7 +247,8 @@ spec:
                     type: string
                   projectId:
                     description: The ID of the organization or project you want to
-                      create the serverless instance within.
+                      create the serverless instance within, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -499,7 +501,8 @@ spec:
                     type: string
                   projectId:
                     description: The ID of the organization or project you want to
-                      create the serverless instance within.
+                      create the serverless instance within, also known as groupId
+                      in the official documentation.
                     type: string
                   providerSettingsBackingProviderName:
                     description: Cloud service provider on which MongoDB Cloud provisioned

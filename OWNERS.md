@@ -13,3 +13,5 @@ maintainers, and reviewers.
 
 * Hendrik Leppelsack ([Henni](https://github.com/Henni))
 * J. Fernández ([fernandezcuesta](https://github.com/fernandezcuesta))
+* Javier Gascón ([javier-gascon](https://github.com/javier-gascon))
+

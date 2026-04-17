@@ -9,7 +9,7 @@ on:
 
 env:
   # Common versions
-  GO_VERSION: "1.25.8"
+  GO_VERSION: "1.25.9"
   GOLANGCI_VERSION: "v2.11.4"
   DOCKER_BUILDX_VERSION: "v0.33.0"
 
@@ -136,10 +136,10 @@ jobs:
         run: make -j2 test
 
       - name: Publish Unit Test Coverage
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v6
         with:
           flags: unittests
-          file: _output/tests/linux_amd64/coverage.txt
+          files: _output/tests/linux_amd64/coverage.txt
 
   local-deploy:
     runs-on: ubuntu-24.04

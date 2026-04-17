@@ -12,7 +12,7 @@ require (
 	github.com/crossplane/upjet/v2 v2.2.0
 	github.com/go-logr/logr v1.4.3
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.37.0
-	github.com/iancoleman/strcase v0.2.0
+	github.com/iancoleman/strcase v0.3.0
 	github.com/pkg/errors v0.9.1
 	google.golang.org/grpc v1.79.2
 	k8s.io/api v0.35.2

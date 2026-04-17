@@ -7,6 +7,9 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *BackupCompliancePolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *BackupSchedule) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -22,19 +25,16 @@ func (tr *BackupSnapshotExportJob) Hub() {}
 func (tr *BackupSnapshotRestoreJob) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *ProviderAccess) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ProviderAccessAuthorization) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ProviderAccessSetup) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *ProviderSnapshot) Hub() {}
+func (tr *UserOrgAssignment) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *ProviderSnapshotBackupPolicy) Hub() {}
+func (tr *UserProjectAssignment) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *ProviderSnapshotRestoreJob) Hub() {}
+func (tr *UserTeamAssignment) Hub() {}

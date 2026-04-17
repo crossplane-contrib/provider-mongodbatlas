@@ -30,6 +30,8 @@ type ValidationsInitParameters struct {
 }
 
 type ValidationsObservation struct {
+
+	// The current status of the LDAP over TLS/SSL configuration. One of the following values: PENDING, SUCCESS, and FAILED.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	ValidationType *string `json:"validationType,omitempty" tf:"validation_type,omitempty"`
@@ -39,20 +41,27 @@ type ValidationsParameters struct {
 }
 
 type VerifyInitParameters struct {
+
+	// An LDAP query template that Atlas executes to obtain the LDAP groups to which the authenticated user belongs. Used only for user authorization. Use the {USER} placeholder in the URL to substitute the authenticated username. The query is relative to the host specified with hostname. The formatting for the query must conform to RFC4515 and RFC 4516. If you do not provide a query template, Atlas attempts to use the default value: {USER}?memberOf?base.
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
-	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
+	// The password used to authenticate the bind_username.
+	BindPasswordSecretRef v1.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
+	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
+	// CA certificate used to verify the identify of the LDAP server. Self-signed certificates are allowed.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
+	// The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -65,53 +74,68 @@ type VerifyInitParameters struct {
 }
 
 type VerifyObservation struct {
+
+	// An LDAP query template that Atlas executes to obtain the LDAP groups to which the authenticated user belongs. Used only for user authorization. Use the {USER} placeholder in the URL to substitute the authenticated username. The query is relative to the host specified with hostname. The formatting for the query must conform to RFC4515 and RFC 4516. If you do not provide a query template, Atlas attempts to use the default value: {USER}?memberOf?base.
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
-	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
-
+	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
+	// CA certificate used to verify the identify of the LDAP server. Self-signed certificates are allowed.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
+	// The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// One or more links to sub-resources. The relations in the URLs are explained in the Web Linking Specification.
 	Links []LinksObservation `json:"links,omitempty" tf:"links,omitempty"`
 
+	// The port to which the LDAP server listens for client connections. Default: 636
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// The unique identifier for the request to verify the LDAP over TLS/SSL configuration.
 	RequestID *string `json:"requestId,omitempty" tf:"request_id,omitempty"`
 
+	// The current status of the LDAP over TLS/SSL configuration. One of the following values: PENDING, SUCCESS, and FAILED.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// Array of validation messages related to the verification of the provided LDAP over TLS/SSL configuration details. The array contains a document for each test that Atlas runs. Atlas stops running tests after the first failure. The following return values can be seen here: Values
 	Validations []ValidationsObservation `json:"validations,omitempty" tf:"validations,omitempty"`
 }
 
 type VerifyParameters struct {
 
+	// An LDAP query template that Atlas executes to obtain the LDAP groups to which the authenticated user belongs. Used only for user authorization. Use the {USER} placeholder in the URL to substitute the authenticated username. The query is relative to the host specified with hostname. The formatting for the query must conform to RFC4515 and RFC 4516. If you do not provide a query template, Atlas attempts to use the default value: {USER}?memberOf?base.
 	// +kubebuilder:validation:Optional
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
+	// The password used to authenticate the bind_username.
 	// +kubebuilder:validation:Optional
-	BindPassword *string `json:"bindPassword,omitempty" tf:"bind_password,omitempty"`
+	BindPasswordSecretRef v1.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
+	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	// +kubebuilder:validation:Optional
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
 
+	// CA certificate used to verify the identify of the LDAP server. Self-signed certificates are allowed.
 	// +kubebuilder:validation:Optional
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
+	// The hostname or IP address of the LDAP server. The server must be visible to the internet or connected to your Atlas cluster with VPC Peering.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// The port to which the LDAP server listens for client connections. Default: 636
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -151,7 +175,7 @@ type VerifyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Verify is the Schema for the Verifys API. <no value>
+// Verify is the Schema for the Verifys API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -160,7 +184,7 @@ type VerifyStatus struct {
 type Verify struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindPassword) || (has(self.initProvider) && has(self.initProvider.bindPassword))",message="spec.forProvider.bindPassword is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindPasswordSecretRef)",message="spec.forProvider.bindPasswordSecretRef is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bindUsername) || (has(self.initProvider) && has(self.initProvider.bindUsername))",message="spec.forProvider.bindUsername is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hostname) || (has(self.initProvider) && has(self.initProvider.hostname))",message="spec.forProvider.hostname is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port) || (has(self.initProvider) && has(self.initProvider.port))",message="spec.forProvider.port is a required parameter"

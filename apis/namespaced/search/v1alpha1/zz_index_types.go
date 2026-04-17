@@ -15,24 +15,42 @@ import (
 )
 
 type IndexInitParameters struct {
+
+	// Analyzer to use when creating the index. Defaults to lucene.standard
 	Analyzer *string `json:"analyzer,omitempty" tf:"analyzer,omitempty"`
 
+	// Custom analyzers to use in this index. This is an array of JSON objects.
 	Analyzers *string `json:"analyzers,omitempty" tf:"analyzers,omitempty"`
 
+	// The name of the cluster where you want to create the search index within.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Name of the collection the index is on. NOTE: The collection must exist before creating the index.
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
 
+	// Name of the database the collection is in.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
+	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
+
+	// Indicates whether the search index uses dynamic or static mapping. For default dynamic mapping, set the value to true. For static mapping, specify the fields to index using mappings_fields. Mutually exclusive with mappings_dynamic_config.
 	MappingsDynamic *bool `json:"mappingsDynamic,omitempty" tf:"mappings_dynamic,omitempty"`
 
+	// JSON object for mappings.dynamic when using configurable dynamic. See the MongoDB documentation for further information on Static and Dynamic Mapping. Mutually exclusive with mappings_dynamic.
+	MappingsDynamicConfig *string `json:"mappingsDynamicConfig,omitempty" tf:"mappings_dynamic_config,omitempty"`
+
+	// attribute is required in search indexes when mappings_dynamic is false. This field needs to be a JSON string in order to be decoded correctly.
 	MappingsFields *string `json:"mappingsFields,omitempty" tf:"mappings_fields,omitempty"`
 
+	// The name of the search index you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Number of index partitions. Allowed values are [1, 2, 4]. Default value is 1.
+	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
+
+	// The ID of the organization or project you want to create the search index within, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -43,75 +61,136 @@ type IndexInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Analyzer to use when searching the index. Defaults to lucene.standard
 	SearchAnalyzer *string `json:"searchAnalyzer,omitempty" tf:"search_analyzer,omitempty"`
 
-	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+	// String that can be "true" (store all fields), "false" (default, don't store any field), or a JSON string that contains the list of fields to store (include) or not store (exclude) on Atlas Search. To learn more, see Stored Source Fields.
+	StoredSource *string `json:"storedSource,omitempty" tf:"stored_source,omitempty"`
 
+	// Synonyms mapping definition to use in this index.
 	Synonyms []SynonymsInitParameters `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	// Type of index: search or vectorSearch. Default type is search.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// One or more blocks defining configurable dynamic type sets. Atlas only persists/returns typeSets when mappings.dynamic is an object referencing a typeSet name.
+	TypeSets []TypeSetsInitParameters `json:"typeSets,omitempty" tf:"type_sets,omitempty"`
 
 	WaitForIndexBuildCompletion *bool `json:"waitForIndexBuildCompletion,omitempty" tf:"wait_for_index_build_completion,omitempty"`
 }
 
 type IndexObservation struct {
+
+	// Analyzer to use when creating the index. Defaults to lucene.standard
 	Analyzer *string `json:"analyzer,omitempty" tf:"analyzer,omitempty"`
 
+	// Custom analyzers to use in this index. This is an array of JSON objects.
 	Analyzers *string `json:"analyzers,omitempty" tf:"analyzers,omitempty"`
 
+	// The name of the cluster where you want to create the search index within.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Name of the collection the index is on. NOTE: The collection must exist before creating the index.
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
 
+	// Name of the database the collection is in.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unique identifier of the Atlas Search index.
 	IndexID *string `json:"indexId,omitempty" tf:"index_id,omitempty"`
 
+	// Indicates whether the search index uses dynamic or static mapping. For default dynamic mapping, set the value to true. For static mapping, specify the fields to index using mappings_fields. Mutually exclusive with mappings_dynamic_config.
 	MappingsDynamic *bool `json:"mappingsDynamic,omitempty" tf:"mappings_dynamic,omitempty"`
 
+	// JSON object for mappings.dynamic when using configurable dynamic. See the MongoDB documentation for further information on Static and Dynamic Mapping. Mutually exclusive with mappings_dynamic.
+	MappingsDynamicConfig *string `json:"mappingsDynamicConfig,omitempty" tf:"mappings_dynamic_config,omitempty"`
+
+	// attribute is required in search indexes when mappings_dynamic is false. This field needs to be a JSON string in order to be decoded correctly.
 	MappingsFields *string `json:"mappingsFields,omitempty" tf:"mappings_fields,omitempty"`
 
+	// The name of the search index you want to create.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Number of index partitions. Allowed values are [1, 2, 4]. Default value is 1.
+	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
+
+	// The ID of the organization or project you want to create the search index within, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Analyzer to use when searching the index. Defaults to lucene.standard
 	SearchAnalyzer *string `json:"searchAnalyzer,omitempty" tf:"search_analyzer,omitempty"`
 
+	// Current status of the index.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// String that can be "true" (store all fields), "false" (default, don't store any field), or a JSON string that contains the list of fields to store (include) or not store (exclude) on Atlas Search. To learn more, see Stored Source Fields.
+	StoredSource *string `json:"storedSource,omitempty" tf:"stored_source,omitempty"`
+
+	// Synonyms mapping definition to use in this index.
 	Synonyms []SynonymsObservation `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	// Type of index: search or vectorSearch. Default type is search.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// One or more blocks defining configurable dynamic type sets. Atlas only persists/returns typeSets when mappings.dynamic is an object referencing a typeSet name.
+	TypeSets []TypeSetsObservation `json:"typeSets,omitempty" tf:"type_sets,omitempty"`
 
 	WaitForIndexBuildCompletion *bool `json:"waitForIndexBuildCompletion,omitempty" tf:"wait_for_index_build_completion,omitempty"`
 }
 
 type IndexParameters struct {
 
+	// Analyzer to use when creating the index. Defaults to lucene.standard
 	// +kubebuilder:validation:Optional
 	Analyzer *string `json:"analyzer,omitempty" tf:"analyzer,omitempty"`
 
+	// Custom analyzers to use in this index. This is an array of JSON objects.
 	// +kubebuilder:validation:Optional
 	Analyzers *string `json:"analyzers,omitempty" tf:"analyzers,omitempty"`
 
+	// The name of the cluster where you want to create the search index within.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Name of the collection the index is on. NOTE: The collection must exist before creating the index.
 	// +kubebuilder:validation:Optional
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
 
+	// Name of the database the collection is in.
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
+	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	// +kubebuilder:validation:Optional
+	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
+
+	// Indicates whether the search index uses dynamic or static mapping. For default dynamic mapping, set the value to true. For static mapping, specify the fields to index using mappings_fields. Mutually exclusive with mappings_dynamic_config.
 	// +kubebuilder:validation:Optional
 	MappingsDynamic *bool `json:"mappingsDynamic,omitempty" tf:"mappings_dynamic,omitempty"`
 
+	// JSON object for mappings.dynamic when using configurable dynamic. See the MongoDB documentation for further information on Static and Dynamic Mapping. Mutually exclusive with mappings_dynamic.
+	// +kubebuilder:validation:Optional
+	MappingsDynamicConfig *string `json:"mappingsDynamicConfig,omitempty" tf:"mappings_dynamic_config,omitempty"`
+
+	// attribute is required in search indexes when mappings_dynamic is false. This field needs to be a JSON string in order to be decoded correctly.
 	// +kubebuilder:validation:Optional
 	MappingsFields *string `json:"mappingsFields,omitempty" tf:"mappings_fields,omitempty"`
 
+	// The name of the search index you want to create.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Number of index partitions. Allowed values are [1, 2, 4]. Default value is 1.
+	// +kubebuilder:validation:Optional
+	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
+
+	// The ID of the organization or project you want to create the search index within, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -123,45 +202,96 @@ type IndexParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Analyzer to use when searching the index. Defaults to lucene.standard
 	// +kubebuilder:validation:Optional
 	SearchAnalyzer *string `json:"searchAnalyzer,omitempty" tf:"search_analyzer,omitempty"`
 
+	// String that can be "true" (store all fields), "false" (default, don't store any field), or a JSON string that contains the list of fields to store (include) or not store (exclude) on Atlas Search. To learn more, see Stored Source Fields.
 	// +kubebuilder:validation:Optional
-	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+	StoredSource *string `json:"storedSource,omitempty" tf:"stored_source,omitempty"`
 
+	// Synonyms mapping definition to use in this index.
 	// +kubebuilder:validation:Optional
 	Synonyms []SynonymsParameters `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	// Type of index: search or vectorSearch. Default type is search.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// One or more blocks defining configurable dynamic type sets. Atlas only persists/returns typeSets when mappings.dynamic is an object referencing a typeSet name.
+	// +kubebuilder:validation:Optional
+	TypeSets []TypeSetsParameters `json:"typeSets,omitempty" tf:"type_sets,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	WaitForIndexBuildCompletion *bool `json:"waitForIndexBuildCompletion,omitempty" tf:"wait_for_index_build_completion,omitempty"`
 }
 
 type SynonymsInitParameters struct {
+
+	// Analyzer to use when creating the index. Defaults to lucene.standard
 	Analyzer *string `json:"analyzer,omitempty" tf:"analyzer,omitempty"`
 
+	// Name of the type set.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Name of the source MongoDB collection for the synonyms. Documents in this collection must be in the format described in the Synonyms Source Collection Documents.
 	SourceCollection *string `json:"sourceCollection,omitempty" tf:"source_collection,omitempty"`
 }
 
 type SynonymsObservation struct {
+
+	// Analyzer to use when creating the index. Defaults to lucene.standard
 	Analyzer *string `json:"analyzer,omitempty" tf:"analyzer,omitempty"`
 
+	// Name of the type set.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Name of the source MongoDB collection for the synonyms. Documents in this collection must be in the format described in the Synonyms Source Collection Documents.
 	SourceCollection *string `json:"sourceCollection,omitempty" tf:"source_collection,omitempty"`
 }
 
 type SynonymsParameters struct {
 
+	// Analyzer to use when creating the index. Defaults to lucene.standard
 	// +kubebuilder:validation:Optional
 	Analyzer *string `json:"analyzer" tf:"analyzer,omitempty"`
 
+	// Name of the type set.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Name of the source MongoDB collection for the synonyms. Documents in this collection must be in the format described in the Synonyms Source Collection Documents.
 	// +kubebuilder:validation:Optional
 	SourceCollection *string `json:"sourceCollection" tf:"source_collection,omitempty"`
+}
+
+type TypeSetsInitParameters struct {
+
+	// Name of the type set.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// JSON array describing the types.
+	Types *string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type TypeSetsObservation struct {
+
+	// Name of the type set.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// JSON array describing the types.
+	Types *string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type TypeSetsParameters struct {
+
+	// Name of the type set.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// JSON array describing the types.
+	// +kubebuilder:validation:Optional
+	Types *string `json:"types,omitempty" tf:"types,omitempty"`
 }
 
 // IndexSpec defines the desired state of Index
@@ -191,7 +321,7 @@ type IndexStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Index is the Schema for the Indexs API. <no value>
+// Index is the Schema for the Indexs API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -200,7 +330,6 @@ type IndexStatus struct {
 type Index struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.analyzer) || (has(self.initProvider) && has(self.initProvider.analyzer))",message="spec.forProvider.analyzer is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.collectionName) || (has(self.initProvider) && has(self.initProvider.collectionName))",message="spec.forProvider.collectionName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.database) || (has(self.initProvider) && has(self.initProvider.database))",message="spec.forProvider.database is a required parameter"

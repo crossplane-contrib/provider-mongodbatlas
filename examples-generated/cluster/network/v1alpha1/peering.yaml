@@ -1,0 +1,40 @@
+apiVersion: network.mongodbatlas.crossplane.io/v1alpha1
+kind: Peering
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/peering
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    accepterRegionName: us-east-1
+    awsAccountId: abc123abc123
+    containerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS
+    routeTableCidrBlock: 192.168.0.0/24
+    vpcId: vpc-abc123abc123
+
+---
+
+apiVersion: network.mongodbatlas.crossplane.io/v1alpha1
+kind: Container
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/peering
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    atlasCidrBlock: 10.8.0.0/21
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS
+    regionName: US_EAST_1

@@ -1,0 +1,17 @@
+apiVersion: stream.mongodbatlas.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    dataProcessRegion:
+      cloudProvider: AWS
+      region: VIRGINIA_USA
+    instanceName: InstanceName
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -15,14 +15,18 @@ import (
 )
 
 type BackupSnapshotExportBucketInitParameters struct {
+
+	// Name of the bucket that the provided role ID is authorized to access.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// Name of the provider of the cloud service where Atlas can access the S3 bucket.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Unique identifier of the role that Atlas can use to access the bucket. Required if cloud_provider is set to AWS.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -32,35 +36,62 @@ type BackupSnapshotExportBucketInitParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// Unique identifier of the Azure Service Principal that Atlas can use to access the Azure Blob Storage Container. Required if cloud_provider is set to AZURE.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// URL that identifies the blob Endpoint of the Azure Blob Storage Account. Required if cloud_provider is set to AZURE.
+	ServiceURL *string `json:"serviceUrl,omitempty" tf:"service_url,omitempty"`
+
+	// (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id is used instead and returned as an attribute. UUID that identifies the Azure Active Directory Tenant ID.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type BackupSnapshotExportBucketObservation struct {
+
+	// Name of the bucket that the provided role ID is authorized to access.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// Name of the provider of the cloud service where Atlas can access the S3 bucket.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Unique identifier of the snapshot export bucket.
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Unique identifier of the role that Atlas can use to access the bucket. Required if cloud_provider is set to AWS.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Unique identifier of the Azure Service Principal that Atlas can use to access the Azure Blob Storage Container. Required if cloud_provider is set to AZURE.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// URL that identifies the blob Endpoint of the Azure Blob Storage Account. Required if cloud_provider is set to AZURE.
+	ServiceURL *string `json:"serviceUrl,omitempty" tf:"service_url,omitempty"`
+
+	// (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id is used instead and returned as an attribute. UUID that identifies the Azure Active Directory Tenant ID.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type BackupSnapshotExportBucketParameters struct {
 
+	// Name of the bucket that the provided role ID is authorized to access.
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// Name of the provider of the cloud service where Atlas can access the S3 bucket.
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
+	// Unique identifier of the role that Atlas can use to access the bucket. Required if cloud_provider is set to AWS.
 	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -71,6 +102,18 @@ type BackupSnapshotExportBucketParameters struct {
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// Unique identifier of the Azure Service Principal that Atlas can use to access the Azure Blob Storage Container. Required if cloud_provider is set to AZURE.
+	// +kubebuilder:validation:Optional
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// URL that identifies the blob Endpoint of the Azure Blob Storage Account. Required if cloud_provider is set to AZURE.
+	// +kubebuilder:validation:Optional
+	ServiceURL *string `json:"serviceUrl,omitempty" tf:"service_url,omitempty"`
+
+	// (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id is used instead and returned as an attribute. UUID that identifies the Azure Active Directory Tenant ID.
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 // BackupSnapshotExportBucketSpec defines the desired state of BackupSnapshotExportBucket
@@ -100,7 +143,7 @@ type BackupSnapshotExportBucketStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BackupSnapshotExportBucket is the Schema for the BackupSnapshotExportBuckets API. <no value>
+// BackupSnapshotExportBucket is the Schema for the BackupSnapshotExportBuckets API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -111,7 +154,6 @@ type BackupSnapshotExportBucket struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bucketName) || (has(self.initProvider) && has(self.initProvider.bucketName))",message="spec.forProvider.bucketName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cloudProvider) || (has(self.initProvider) && has(self.initProvider.cloudProvider))",message="spec.forProvider.cloudProvider is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.iamRoleId) || (has(self.initProvider) && has(self.initProvider.iamRoleId))",message="spec.forProvider.iamRoleId is a required parameter"
 	Spec   BackupSnapshotExportBucketSpec   `json:"spec"`
 	Status BackupSnapshotExportBucketStatus `json:"status,omitempty"`
 }

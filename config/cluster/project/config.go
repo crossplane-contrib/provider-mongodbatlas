@@ -18,26 +18,43 @@ package project
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	"github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
+	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 )
+
+const group = "project"
 
 // Configure configures the root group
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_project", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.SetIdentifierArgumentFn = common.SetIdentifierFunc
-		r.ExternalName.GetExternalNameFn = getExternalNameFunc
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			parts := strings.Split(externalName, ":")
-			if len(parts) != 2 {
-				return "", nil
-			}
-			return parts[1], nil
+		r.References = config.References{
+			"org_id": {
+				TerraformName: "mongodbatlas_organization",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_invitation", func(r *config.Resource) {
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"ip_address"},
+		}
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
 		}
 	})
 
@@ -45,9 +62,87 @@ func Configure(p *config.Provider) {
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
 		}
-	})
-}
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
 
-func getExternalNameFunc(tfstate map[string]interface{}) (string, error) {
-	return fmt.Sprintf("%s:%s", tfstate["name"], tfstate["id"]), nil
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+			project, ok := parameters["project_id"]
+			if !ok {
+				return "", errors.New("project_id missing from parameters")
+			}
+			ip, ok := parameters["ip_address"]
+			if !ok {
+				ip, ok = parameters["cidr_block"]
+				if !ok {
+					return "", errors.New("either ip_address or cidr_block parameters must be set")
+				}
+			}
+			return fmt.Sprintf("%s-%s", project, ip), nil
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_service_account_access_list_entry", func(r *config.Resource) {
+		r.ShortGroup = group
+		r.Kind = "ServiceAccountAccessListEntry"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+			client, ok := parameters["client_id"]
+			if !ok {
+				return "", errors.New("client_id missing from parameters")
+			}
+			project, ok := parameters["project_id"]
+			if !ok {
+				return "", errors.New("project_id missing from parameters")
+			}
+			ip, ok := parameters["ip_address"]
+			if !ok {
+				ip, ok = parameters["cidr_block"]
+				if !ok {
+					return "", errors.New("either ip_address or cidr_block parameters must be set")
+				}
+			}
+			return fmt.Sprintf("%s-%s-%s", project, client, ip), nil
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_service_account_secret", func(r *config.Resource) {
+		r.ShortGroup = group
+		r.Kind = "ServiceAccountSecret"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 2, "project_id", "client_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 2, 0)
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_service_account", func(r *config.Resource) {
+		r.ShortGroup = group
+		r.Kind = "ServiceAccount"
+		r.References = config.References{
+			"project_id": {
+				TerraformName: "mongodbatlas_project",
+			},
+		}
+
+		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "project_id")
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 1, 0)
+	})
 }

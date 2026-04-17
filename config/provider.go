@@ -1,7 +1,3 @@
-/*
-Copyright 2021 Upbound Inc.
-*/
-
 package config
 
 import (
@@ -10,13 +6,29 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
+	alertCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/alert"
+	cloudCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/cloud"
 	databaseCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/database"
+	federatedCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/federated"
+	ldapCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/ldap"
 	mongodbatlasCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/mongodbatlas"
+	networkCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/network"
+	privateCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/privateendpoint"
 	projectCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/project"
+	searchCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/search"
+	streamCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/stream"
 
+	alertNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/alert"
+	cloudnamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/cloud"
 	databaseNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/database"
+	federatedNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/federated"
+	ldapNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/ldap"
 	mongodbatlasNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/mongodbatlas"
+	networkNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/network"
+	privateNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/privateendpoint"
 	projectNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/project"
+	searchNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/search"
+	streamNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/stream"
 )
 
 const (
@@ -32,28 +44,50 @@ var SkipTfResourceList = []string{
 //go:embed schema.json
 var providerSchema string
 
-// // go:embed provider-metadata.yaml
-// var providerMetadata string
+//go:embed provider-metadata.yaml
+var providerMetadata string
+
+// resetRootShortGroup clears the ShortGroup for resources in the root API group.
+// upjet defaults ShortGroup to the resource prefix; resources without a sub-group
+// must have it cleared so they land in the root mongodbatlas.crossplane.io group.
+func resetRootShortGroup() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
+		if r.ShortGroup == resourcePrefix {
+			r.ShortGroup = ""
+		}
+	}
+}
 
 // GetProvider returns provider configuration
-func GetProvider() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
-		ujconfig.WithSkipList(SkipTfResourceList),
-		// ujconfig.WithIncludeList(ExternalNameConfigured()),
-		ujconfig.WithShortName("mongodbatlas"),
-		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithRootGroup("mongodbatlas.crossplane.io"),
+func GetidentifierFromProvider() *ujconfig.Provider {
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
-			clusterGvkOverride(),
-			identifierAssignedByMongoDBAtlas(),
-			clusterCommonReferencesOverride(),
-		))
+			resetRootShortGroup(),
+			ExternalNameConfigurations(),
+			ExternalNameInitializers(),
+		),
+		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
+			ManagedResourceNamespace: "crossplane-system",
+		}),
+		ujconfig.WithFeaturesPackage("internal/features"),
+		ujconfig.WithIncludeList(ExternalNameConfigured()),
+		ujconfig.WithRootGroup("mongodbatlas.crossplane.io"),
+		ujconfig.WithShortName("mongodbatlas"),
+		ujconfig.WithSkipList(SkipTfResourceList),
+	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
+		alertCluster.Configure,
+		cloudCluster.Configure,
 		databaseCluster.Configure,
+		federatedCluster.Configure,
+		ldapCluster.Configure,
 		mongodbatlasCluster.Configure,
+		networkCluster.Configure,
+		privateCluster.Configure,
 		projectCluster.Configure,
+		searchCluster.Configure,
+		streamCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -64,23 +98,34 @@ func GetProvider() *ujconfig.Provider {
 
 // GetProviderNamespaced returns provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
-		ujconfig.WithSkipList(SkipTfResourceList),
-		// ujconfig.WithIncludeList(ExternalNameConfigured()),
-		ujconfig.WithShortName("mongodbatlas"),
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
+		ujconfig.WithDefaultResourceOptions(
+			resetRootShortGroup(),
+			ExternalNameConfigurations(),
+			ExternalNameInitializers(),
+		),
+		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
+			ManagedResourceNamespace: "crossplane-system",
+		}),
+		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithRootGroup("mongodbatlas.m.crossplane.io"),
-		ujconfig.WithDefaultResourceOptions(
-			namespacedGvkOverride(),
-			identifierAssignedByMongoDBAtlas(),
-			namespacedCommonReferencesOverride(),
-		))
+		ujconfig.WithShortName("mongodbatlas"),
+		ujconfig.WithSkipList(SkipTfResourceList),
+	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
+		alertNamespaced.Configure,
+		cloudnamespaced.Configure,
 		databaseNamespaced.Configure,
+		federatedNamespaced.Configure,
+		ldapNamespaced.Configure,
 		mongodbatlasNamespaced.Configure,
+		networkNamespaced.Configure,
+		privateNamespaced.Configure,
 		projectNamespaced.Configure,
+		searchNamespaced.Configure,
+		streamNamespaced.Configure,
 	} {
 		configure(pc)
 	}

@@ -1,0 +1,114 @@
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: BackupCompliancePolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupcompliancepolicy
+  labels:
+    testing.upbound.io/example-name: backup_policy
+  name: backup-policy
+  namespace: crossplane-system
+spec:
+  forProvider:
+    authorizedEmail: user@email.com
+    authorizedUserFirstName: First
+    authorizedUserLastName: Last
+    copyProtectionEnabled: false
+    encryptionAtRestEnabled: false
+    onDemandPolicyItem:
+    - frequencyInterval: 1
+      retentionUnit: days
+      retentionValue: 3
+    pitEnabled: false
+    policyItemDaily:
+    - frequencyInterval: 1
+      retentionUnit: days
+      retentionValue: 7
+    policyItemHourly:
+    - frequencyInterval: 1
+      retentionUnit: days
+      retentionValue: 7
+    policyItemMonthly:
+    - frequencyInterval: 1
+      retentionUnit: months
+      retentionValue: 12
+    policyItemWeekly:
+    - frequencyInterval: 1
+      retentionUnit: weeks
+      retentionValue: 4
+    policyItemYearly:
+    - frequencyInterval: 1
+      retentionUnit: years
+      retentionValue: 1
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    restoreWindowDays: 7
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupcompliancepolicy
+  labels:
+    testing.upbound.io/example-name: my_cluster
+  name: my-cluster
+  namespace: crossplane-system
+spec:
+  forProvider:
+    backupEnabled: true
+    clusterType: REPLICASET
+    name: clusterTest
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: ${var.region}
+
+---
+
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: BackupSchedule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupcompliancepolicy
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterName: clusterTest
+    policyItemDaily:
+    - frequencyInterval: 1
+      retentionUnit: days
+      retentionValue: 7
+    policyItemHourly:
+    - frequencyInterval: 1
+      retentionUnit: days
+      retentionValue: 7
+    policyItemMonthly:
+    - frequencyInterval: 1
+      retentionUnit: months
+      retentionValue: 12
+    policyItemWeekly:
+    - frequencyInterval: 1
+      retentionUnit: weeks
+      retentionValue: 4
+    policyItemYearly:
+    - frequencyInterval: 1
+      retentionUnit: years
+      retentionValue: 1
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_cluster
+    referenceHourOfDay: 3
+    referenceMinuteOfHour: 45
+    restoreWindowDays: 4

@@ -1,9 +1,0 @@
-apiVersion: mongodbatlas.crossplane.io/v1alpha1
-kind: Project
-metadata:
-  name: example-project
-spec:
-  forProvider:
-    orgId: "<mongodb atlas organization ID>"
-  providerConfigRef:
-    name: default

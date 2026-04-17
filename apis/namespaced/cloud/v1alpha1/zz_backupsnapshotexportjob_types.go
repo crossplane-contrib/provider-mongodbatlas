@@ -15,14 +15,27 @@ import (
 )
 
 type BackupSnapshotExportJobInitParameters struct {
+
+	// Name of the Atlas cluster whose snapshot you want to export.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.
 	CustomData []CustomDataInitParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
 
+	// Unique identifier of the AWS bucket to export the Cloud Backup snapshot to. If necessary, use the Get All Snapshot Export Buckets API to retrieve the IDs of all available export buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshotExportBucket
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDRef *v1.NamespacedReference `json:"exportBucketIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDSelector *v1.NamespacedSelector `json:"exportBucketIdSelector,omitempty" tf:"-"`
+
+	// Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -33,54 +46,85 @@ type BackupSnapshotExportJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type BackupSnapshotExportJobObservation struct {
+
+	// Name of the Atlas cluster whose snapshot you want to export.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Returned for sharded clusters only. Export job details for each replica set in the sharded cluster.
 	Components []ComponentsObservation `json:"components,omitempty" tf:"components,omitempty"`
 
+	// Timestamp in ISO 8601 date and time format in UTC when the export job was created.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
+	// Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.
 	CustomData []CustomDataObservation `json:"customData,omitempty" tf:"custom_data,omitempty"`
 
-	ErrMsg *string `json:"errMsg,omitempty" tf:"err_msg,omitempty"`
-
+	// Unique identifier of the AWS bucket to export the Cloud Backup snapshot to. If necessary, use the Get All Snapshot Export Buckets API to retrieve the IDs of all available export buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Unique identifier of the export job.
 	ExportJobID *string `json:"exportJobId,omitempty" tf:"export_job_id,omitempty"`
 
 	ExportStatusExportedCollections *float64 `json:"exportStatusExportedCollections,omitempty" tf:"export_status_exported_collections,omitempty"`
 
 	ExportStatusTotalCollections *float64 `json:"exportStatusTotalCollections,omitempty" tf:"export_status_total_collections,omitempty"`
 
+	// Timestamp in ISO 8601 date and time format in UTC when the export job completes.
 	FinishedAt *string `json:"finishedAt,omitempty" tf:"finished_at,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
+	// Status of the export job. Value can be one of the following:
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type BackupSnapshotExportJobParameters struct {
 
+	// Name of the Atlas cluster whose snapshot you want to export.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.
 	// +kubebuilder:validation:Optional
 	CustomData []CustomDataParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
 
+	// Unique identifier of the AWS bucket to export the Cloud Backup snapshot to. If necessary, use the Get All Snapshot Export Buckets API to retrieve the IDs of all available export buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshotExportBucket
 	// +kubebuilder:validation:Optional
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
 
+	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDRef *v1.NamespacedReference `json:"exportBucketIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDSelector *v1.NamespacedSelector `json:"exportBucketIdSelector,omitempty" tf:"-"`
+
+	// Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -92,16 +136,29 @@ type BackupSnapshotExportJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type ComponentsInitParameters struct {
 }
 
 type ComponentsObservation struct {
+
+	// Returned for sharded clusters only. Export job details for each replica set in the sharded cluster.
 	ExportID *string `json:"exportId,omitempty" tf:"export_id,omitempty"`
 
+	// Returned for sharded clusters only. Unique identifier of the export job for the replica set.
 	ReplicaSetName *string `json:"replicaSetName,omitempty" tf:"replica_set_name,omitempty"`
 }
 
@@ -109,22 +166,30 @@ type ComponentsParameters struct {
 }
 
 type CustomDataInitParameters struct {
+
+	// Required if you want to include custom data using custom_data in the metadata file uploaded to the bucket. Key to include in the metadata file that Atlas uploads to the bucket when the export job finishes.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// Required if you specify key.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type CustomDataObservation struct {
+
+	// Required if you want to include custom data using custom_data in the metadata file uploaded to the bucket. Key to include in the metadata file that Atlas uploads to the bucket when the export job finishes.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// Required if you specify key.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type CustomDataParameters struct {
 
+	// Required if you want to include custom data using custom_data in the metadata file uploaded to the bucket. Key to include in the metadata file that Atlas uploads to the bucket when the export job finishes.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
+	// Required if you specify key.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -156,7 +221,7 @@ type BackupSnapshotExportJobStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BackupSnapshotExportJob is the Schema for the BackupSnapshotExportJobs API. <no value>
+// BackupSnapshotExportJob is the Schema for the BackupSnapshotExportJobs API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -166,9 +231,6 @@ type BackupSnapshotExportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.customData) || (has(self.initProvider) && has(self.initProvider.customData))",message="spec.forProvider.customData is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.exportBucketId) || (has(self.initProvider) && has(self.initProvider.exportBucketId))",message="spec.forProvider.exportBucketId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotId) || (has(self.initProvider) && has(self.initProvider.snapshotId))",message="spec.forProvider.snapshotId is a required parameter"
 	Spec   BackupSnapshotExportJobSpec   `json:"spec"`
 	Status BackupSnapshotExportJobStatus `json:"status,omitempty"`
 }

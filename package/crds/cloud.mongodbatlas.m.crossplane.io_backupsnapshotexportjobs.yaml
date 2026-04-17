@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: backupsnapshotexportjobs.cloud.mongodbatlas.m.crossplane.io
 spec:
   group: cloud.mongodbatlas.m.crossplane.io
@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackupSnapshotExportJob is the Schema for the BackupSnapshotExportJobs
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -61,19 +61,118 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: Name of the Atlas cluster whose snapshot you want
+                      to export.
                     type: string
                   customData:
+                    description: Custom data to include in the metadata file named
+                      .complete that Atlas uploads to the bucket when the export job
+                      finishes. Custom data can be specified as key and value pairs.
                     items:
                       properties:
                         key:
+                          description: Required if you want to include custom data
+                            using custom_data in the metadata file uploaded to the
+                            bucket. Key to include in the metadata file that Atlas
+                            uploads to the bucket when the export job finishes.
                           type: string
                         value:
+                          description: Required if you specify key.
                           type: string
                       type: object
                     type: array
                   exportBucketId:
+                    description: Unique identifier of the AWS bucket to export the
+                      Cloud Backup snapshot to. If necessary, use the Get All Snapshot
+                      Export Buckets API to retrieve the IDs of all available export
+                      buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
                     type: string
+                  exportBucketIdRef:
+                    description: Reference to a BackupSnapshotExportBucket in cloud
+                      to populate exportBucketId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  exportBucketIdSelector:
+                    description: Selector for a BackupSnapshotExportBucket in cloud
+                      to populate exportBucketId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project which contains the Atlas cluster whose snapshot
+                      you want to export, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -158,7 +257,93 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Unique identifier of the Cloud Backup snapshot to
+                      export. If necessary, use the Get All Cloud Backups API to retrieve
+                      the list of snapshot IDs for a cluster or use the data source
+                      mongodbatlas_cloud_cloud_backup_snapshots
                     type: string
+                  snapshotIdRef:
+                    description: Reference to a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  snapshotIdSelector:
+                    description: Selector for a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -174,19 +359,118 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: Name of the Atlas cluster whose snapshot you want
+                      to export.
                     type: string
                   customData:
+                    description: Custom data to include in the metadata file named
+                      .complete that Atlas uploads to the bucket when the export job
+                      finishes. Custom data can be specified as key and value pairs.
                     items:
                       properties:
                         key:
+                          description: Required if you want to include custom data
+                            using custom_data in the metadata file uploaded to the
+                            bucket. Key to include in the metadata file that Atlas
+                            uploads to the bucket when the export job finishes.
                           type: string
                         value:
+                          description: Required if you specify key.
                           type: string
                       type: object
                     type: array
                   exportBucketId:
+                    description: Unique identifier of the AWS bucket to export the
+                      Cloud Backup snapshot to. If necessary, use the Get All Snapshot
+                      Export Buckets API to retrieve the IDs of all available export
+                      buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
                     type: string
+                  exportBucketIdRef:
+                    description: Reference to a BackupSnapshotExportBucket in cloud
+                      to populate exportBucketId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  exportBucketIdSelector:
+                    description: Selector for a BackupSnapshotExportBucket in cloud
+                      to populate exportBucketId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project which contains the Atlas cluster whose snapshot
+                      you want to export, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -271,7 +555,93 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Unique identifier of the Cloud Backup snapshot to
+                      export. If necessary, use the Get All Cloud Backups API to retrieve
+                      the list of snapshot IDs for a cluster or use the data source
+                      mongodbatlas_cloud_cloud_backup_snapshots
                     type: string
+                  snapshotIdRef:
+                    description: Reference to a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  snapshotIdSelector:
+                    description: Selector for a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -336,18 +706,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
                 || (has(self.initProvider) && has(self.initProvider.clusterName))'
-            - message: spec.forProvider.customData is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.customData)
-                || (has(self.initProvider) && has(self.initProvider.customData))'
-            - message: spec.forProvider.exportBucketId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.exportBucketId)
-                || (has(self.initProvider) && has(self.initProvider.exportBucketId))'
-            - message: spec.forProvider.snapshotId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.snapshotId)
-                || (has(self.initProvider) && has(self.initProvider.snapshotId))'
           status:
             description: BackupSnapshotExportJobStatus defines the observed state
               of BackupSnapshotExportJob.
@@ -355,48 +713,80 @@ spec:
               atProvider:
                 properties:
                   clusterName:
+                    description: Name of the Atlas cluster whose snapshot you want
+                      to export.
                     type: string
                   components:
+                    description: Returned for sharded clusters only. Export job details
+                      for each replica set in the sharded cluster.
                     items:
                       properties:
                         exportId:
+                          description: Returned for sharded clusters only. Export
+                            job details for each replica set in the sharded cluster.
                           type: string
                         replicaSetName:
+                          description: Returned for sharded clusters only. Unique
+                            identifier of the export job for the replica set.
                           type: string
                       type: object
                     type: array
                   createdAt:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when the export job was created.
                     type: string
                   customData:
+                    description: Custom data to include in the metadata file named
+                      .complete that Atlas uploads to the bucket when the export job
+                      finishes. Custom data can be specified as key and value pairs.
                     items:
                       properties:
                         key:
+                          description: Required if you want to include custom data
+                            using custom_data in the metadata file uploaded to the
+                            bucket. Key to include in the metadata file that Atlas
+                            uploads to the bucket when the export job finishes.
                           type: string
                         value:
+                          description: Required if you specify key.
                           type: string
                       type: object
                     type: array
-                  errMsg:
-                    type: string
                   exportBucketId:
+                    description: Unique identifier of the AWS bucket to export the
+                      Cloud Backup snapshot to. If necessary, use the Get All Snapshot
+                      Export Buckets API to retrieve the IDs of all available export
+                      buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets
                     type: string
                   exportJobId:
+                    description: Unique identifier of the export job.
                     type: string
                   exportStatusExportedCollections:
                     type: number
                   exportStatusTotalCollections:
                     type: number
                   finishedAt:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when the export job completes.
                     type: string
                   id:
                     type: string
                   prefix:
                     type: string
                   projectId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the project which contains the Atlas cluster whose snapshot
+                      you want to export, also known as groupId in the official documentation.
                     type: string
                   snapshotId:
+                    description: Unique identifier of the Cloud Backup snapshot to
+                      export. If necessary, use the Get All Cloud Backups API to retrieve
+                      the list of snapshot IDs for a cluster or use the data source
+                      mongodbatlas_cloud_cloud_backup_snapshots
                     type: string
                   state:
+                    description: 'Status of the export job. Value can be one of the
+                      following:'
                     type: string
                 type: object
               conditions:

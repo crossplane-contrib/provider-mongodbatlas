@@ -14,168 +14,260 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
-type ClusterAdvancedConfigurationInitParameters struct {
+type AdvancedConfigurationInitParameters struct {
+
+	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively.expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when tls_cipher_config_mode is set to CUSTOM.
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
+	// Default level of acknowledgment requested from MongoDB for read operations set for this cluster. (DEPRECATED) MongoDB 6.0 and later clusters default to local. To use a custom read concern level, please refer to your driver documentation.
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
+	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
+	// (DEPRECATED)  When true, documents can only be updated or inserted if, for all indexed fields on the target collection, the corresponding index entries do not exceed 1024 bytes. When false, mongod writes documents that exceed the limit but does not index them.
 	FailIndexKeyTooLong *bool `json:"failIndexKeyTooLong,omitempty" tf:"fail_index_key_too_long,omitempty"`
 
+	// When true, the cluster allows execution of operations that perform server-side executions of JavaScript. When false, the cluster disables execution of those operations.
 	JavascriptEnabled *bool `json:"javascriptEnabled,omitempty" tf:"javascript_enabled,omitempty"`
 
+	// Sets the minimum Transport Layer Security (TLS) version the cluster accepts for incoming connections. Valid values are:
 	MinimumEnabledTLSProtocol *string `json:"minimumEnabledTlsProtocol,omitempty" tf:"minimum_enabled_tls_protocol,omitempty"`
 
+	// When true, the cluster disables the execution of any query that requires a collection scan to return results. When false, the cluster allows the execution of those operations.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
+	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
+	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
 	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
+	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
+	// Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// The TLS cipher suite configuration mode. Valid values include CUSTOM or DEFAULT. The DEFAULT mode uses the default cipher suites. The CUSTOM mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to DEFAULT.
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	// Lifetime, in seconds, of multi-document transactions. Defaults to 60 seconds.
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
-type ClusterAdvancedConfigurationObservation struct {
+type AdvancedConfigurationObservation struct {
+
+	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively.expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when tls_cipher_config_mode is set to CUSTOM.
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
+	// Default level of acknowledgment requested from MongoDB for read operations set for this cluster. (DEPRECATED) MongoDB 6.0 and later clusters default to local. To use a custom read concern level, please refer to your driver documentation.
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
+	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
+	// (DEPRECATED)  When true, documents can only be updated or inserted if, for all indexed fields on the target collection, the corresponding index entries do not exceed 1024 bytes. When false, mongod writes documents that exceed the limit but does not index them.
 	FailIndexKeyTooLong *bool `json:"failIndexKeyTooLong,omitempty" tf:"fail_index_key_too_long,omitempty"`
 
+	// When true, the cluster allows execution of operations that perform server-side executions of JavaScript. When false, the cluster disables execution of those operations.
 	JavascriptEnabled *bool `json:"javascriptEnabled,omitempty" tf:"javascript_enabled,omitempty"`
 
+	// Sets the minimum Transport Layer Security (TLS) version the cluster accepts for incoming connections. Valid values are:
 	MinimumEnabledTLSProtocol *string `json:"minimumEnabledTlsProtocol,omitempty" tf:"minimum_enabled_tls_protocol,omitempty"`
 
+	// When true, the cluster disables the execution of any query that requires a collection scan to return results. When false, the cluster allows the execution of those operations.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
+	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
+	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
 	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
+	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
+	// Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// The TLS cipher suite configuration mode. Valid values include CUSTOM or DEFAULT. The DEFAULT mode uses the default cipher suites. The CUSTOM mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to DEFAULT.
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	// Lifetime, in seconds, of multi-document transactions. Defaults to 60 seconds.
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
-type ClusterAdvancedConfigurationParameters struct {
+type AdvancedConfigurationParameters struct {
 
+	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively.expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
+	// +kubebuilder:validation:Optional
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+
+	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when tls_cipher_config_mode is set to CUSTOM.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+
+	// Default level of acknowledgment requested from MongoDB for read operations set for this cluster. (DEPRECATED) MongoDB 6.0 and later clusters default to local. To use a custom read concern level, please refer to your driver documentation.
 	// +kubebuilder:validation:Optional
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
 
+	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.
 	// +kubebuilder:validation:Optional
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
+	// (DEPRECATED)  When true, documents can only be updated or inserted if, for all indexed fields on the target collection, the corresponding index entries do not exceed 1024 bytes. When false, mongod writes documents that exceed the limit but does not index them.
 	// +kubebuilder:validation:Optional
 	FailIndexKeyTooLong *bool `json:"failIndexKeyTooLong,omitempty" tf:"fail_index_key_too_long,omitempty"`
 
+	// When true, the cluster allows execution of operations that perform server-side executions of JavaScript. When false, the cluster disables execution of those operations.
 	// +kubebuilder:validation:Optional
 	JavascriptEnabled *bool `json:"javascriptEnabled,omitempty" tf:"javascript_enabled,omitempty"`
 
+	// Sets the minimum Transport Layer Security (TLS) version the cluster accepts for incoming connections. Valid values are:
 	// +kubebuilder:validation:Optional
 	MinimumEnabledTLSProtocol *string `json:"minimumEnabledTlsProtocol,omitempty" tf:"minimum_enabled_tls_protocol,omitempty"`
 
+	// When true, the cluster disables the execution of any query that requires a collection scan to return results. When false, the cluster allows the execution of those operations.
 	// +kubebuilder:validation:Optional
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
+	// Minimum retention window for cluster's oplog expressed in hours. A value of null indicates that the cluster uses the default minimum oplog window that MongoDB Cloud calculates.
 	// +kubebuilder:validation:Optional
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
+	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
 	// +kubebuilder:validation:Optional
 	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
+	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	// +kubebuilder:validation:Optional
 	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
+	// Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	// +kubebuilder:validation:Optional
 	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+
+	// The TLS cipher suite configuration mode. Valid values include CUSTOM or DEFAULT. The DEFAULT mode uses the default cipher suites. The CUSTOM mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to DEFAULT.
+	// +kubebuilder:validation:Optional
+	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
+
+	// Lifetime, in seconds, of multi-document transactions. Defaults to 60 seconds.
+	// +kubebuilder:validation:Optional
+	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
-type ClusterBiConnectorConfigInitParameters struct {
+type BiConnectorConfigInitParameters struct {
+
+	// Specifies whether or not BI Connector for Atlas is enabled on the cluster.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
-type ClusterBiConnectorConfigObservation struct {
+type BiConnectorConfigObservation struct {
+
+	// Specifies whether or not BI Connector for Atlas is enabled on the cluster.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
-type ClusterBiConnectorConfigParameters struct {
+type BiConnectorConfigParameters struct {
 
+	// Specifies whether or not BI Connector for Atlas is enabled on the cluster.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
 	// +kubebuilder:validation:Optional
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
-}
-
-type ClusterConnectionStringsInitParameters struct {
-}
-
-type ClusterConnectionStringsObservation struct {
-
-	// +mapType=granular
-	AwsPrivateLink map[string]*string `json:"awsPrivateLink,omitempty" tf:"aws_private_link,omitempty"`
-
-	// +mapType=granular
-	AwsPrivateLinkSrv map[string]*string `json:"awsPrivateLinkSrv,omitempty" tf:"aws_private_link_srv,omitempty"`
-
-	Private *string `json:"private,omitempty" tf:"private,omitempty"`
-
-	PrivateEndpoint []ConnectionStringsPrivateEndpointObservation `json:"privateEndpoint,omitempty" tf:"private_endpoint,omitempty"`
-
-	PrivateSrv *string `json:"privateSrv,omitempty" tf:"private_srv,omitempty"`
-
-	Standard *string `json:"standard,omitempty" tf:"standard,omitempty"`
-
-	StandardSrv *string `json:"standardSrv,omitempty" tf:"standard_srv,omitempty"`
-}
-
-type ClusterConnectionStringsParameters struct {
 }
 
 type ClusterInitParameters struct {
-	AdvancedConfiguration []ClusterAdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
+	// If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.
+	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
+
+	AdvancedConfiguration []AdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+
+	// Specifies whether cluster tier auto-scaling is enabled. The default is false.
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
 
+	// Set to true to enable the cluster tier to scale down. This option is only available if autoScaling.compute.enabled is true.
 	AutoScalingComputeScaleDownEnabled *bool `json:"autoScalingComputeScaleDownEnabled,omitempty" tf:"auto_scaling_compute_scale_down_enabled,omitempty"`
 
+	// Specifies whether disk auto-scaling is enabled. The default is false.
 	AutoScalingDiskGbEnabled *bool `json:"autoScalingDiskGbEnabled,omitempty" tf:"auto_scaling_disk_gb_enabled,omitempty"`
 
+	// Cloud service provider on which the server for a multi-tenant cluster is provisioned.
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
+	// Legacy Backup - Set to true to enable Atlas legacy backups for the cluster.
+	// Important - MongoDB deprecated the Legacy Backup feature. Clusters that use Legacy Backup can continue to use it. MongoDB recommends using Cloud Backups.
 	// Clusters running MongoDB FCV 4.2 or later and any new Atlas clusters of any type do not support this parameter
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
-	// +mapType=granular
-	BiConnector map[string]*string `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
+	// Specifies BI Connector for Atlas configuration on this cluster. BI Connector for Atlas is only available for M10+ clusters. See BI Connector below for more details.
+	BiConnectorConfig []BiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
-	BiConnectorConfig []ClusterBiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
-
+	// , to enable Cloud Backup.  If you create a new Atlas cluster and set backup_enabled to true, the Provider will respond with an error.  This change doesn’t affect existing clusters that use legacy backups.
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
 
+	// Specifies the type of the cluster that you want to modify. You cannot convert a sharded cluster deployment to a replica set deployment.
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
+	// Capacity, in gigabytes, of the host’s root volume. Increase this number to add capacity, up to a maximum possible value of 4096 (i.e., 4 TB). This value must be a positive integer.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// Possible values are AWS, GCP, AZURE or NONE.  Only needed if you desire to manage the keys, see Encryption at Rest using Customer Key Management for complete documentation.  You must configure encryption at rest for the Atlas project before enabling it on any cluster in the project. For complete documentation on configuring Encryption at Rest, see Encryption at Rest using Customer Key Management. Requires M10 or greater. and for legacy backups, backup_enabled, to be false or omitted. Note: Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default.
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
-	Labels []ClusterLabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
+	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Version of the cluster to deploy. Atlas supports all the MongoDB versions that have not reached End of Live for M10+ clusters. If omitted, Atlas deploys the cluster with the default version. For more details, see documentation. Atlas always deploys the cluster with the latest stable release of the specified version. See Release Notes for latest Current Stable Release.
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Name of the cluster as it appears in Atlas. Once the cluster is created, its name cannot be changed. WARNING Changing the name will result in destruction of the existing cluster and the creation of a new cluster.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
+	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
 	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
+	// Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
+	// NOTE Pause lasts for up to 30 days. If you don't resume the cluster within 30 days, Atlas resumes the cluster.   If you prefer to allow the automated change of state to unpaused use:
+	// lifecycle { ignore_changes = [paused] }
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
+	// Pins the Feature Compatibility Version (FCV) to the current MongoDB version with a provided expiration date. To unpin the FCV the pinned_fcv attribute must be removed. This operation can take several minutes as the request processes through the MongoDB data plane. Once FCV is unpinned it will not be possible to downgrade the mongo_db_major_version. It is advised that updates to pinned_fcv are done isolated from other cluster changes. If a plan contains multiple changes, the FCV change will be applied first. If FCV is unpinned past the expiration date the pinned_fcv attribute must be removed. The following knowledge hub article and FCV documentation can be referenced for more details. See below.
+	PinnedFcv []PinnedFcvInitParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+
+	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// The unique ID for the project to create the cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -186,205 +278,297 @@ type ClusterInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Maximum instance size to which your cluster can automatically scale (e.g., M40). Required if autoScaling.compute.enabled is true.
 	ProviderAutoScalingComputeMaxInstanceSize *string `json:"providerAutoScalingComputeMaxInstanceSize,omitempty" tf:"provider_auto_scaling_compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale (e.g., M10). Required if autoScaling.compute.scaleDownEnabled is true.
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
 
-	ProviderBackupEnabled *bool `json:"providerBackupEnabled,omitempty" tf:"provider_backup_enabled,omitempty"`
-
+	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
 	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
+	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
 
+	// (Deprecated) The Flag is always true. Flag that indicates whether the Amazon EBS encryption feature encrypts the host's root volume for both data at rest within the volume and for data moving between the volume and the cluster. Note: This setting is always enabled for clusters with local NVMe SSDs. Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default..
 	ProviderEncryptEBSVolume *bool `json:"providerEncryptEbsVolume,omitempty" tf:"provider_encrypt_ebs_volume,omitempty"`
 
+	// Atlas provides different instance sizes, each with a default storage capacity and RAM size. The instance size you select is used for all the data-bearing servers in your cluster. See Create a Cluster providerSettings.instanceSizeName for valid values and default resources.
 	ProviderInstanceSizeName *string `json:"providerInstanceSizeName,omitempty" tf:"provider_instance_size_name,omitempty"`
 
+	// Cloud service provider on which the servers are provisioned.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
+	// Do not specify this field when creating a multi-region cluster using the replicationSpec document or a Global Cluster with the replicationSpecs array.
 	ProviderRegionName *string `json:"providerRegionName,omitempty" tf:"provider_region_name,omitempty"`
 
+	// (AWS - Optional) The type of the volume. The possible values are: STANDARD and PROVISIONED.  PROVISIONED is ONLY required if setting IOPS higher than the default instance IOPS.
+	// -> NOTE: STANDARD is not available for NVME clusters.
 	ProviderVolumeType *string `json:"providerVolumeType,omitempty" tf:"provider_volume_type,omitempty"`
 
+	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. The log redaction field is updated via an Atlas API call after cluster creation. Consequently, there may be a brief period during resource creation when log redaction is not yet enabled. To ensure complete log redaction from the outset, use mongodbatlas_advanced_cluster.
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
+	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
-	ReplicationSpecs []ClusterReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+	// Configuration for cluster regions.  See Replication Spec below for more details.
+	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
+	Tags []TagsInitParameters `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// - Release cadence that Atlas uses for this cluster. This parameter defaults to LTS. If you set this field to CONTINUOUS, you must omit the mongo_db_major_version field. Atlas accepts:
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
-type ClusterLabelsInitParameters struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ClusterLabelsObservation struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ClusterLabelsParameters struct {
-
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
 type ClusterObservation struct {
-	AdvancedConfiguration []ClusterAdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
+	// If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.
+	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
+
+	AdvancedConfiguration []AdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+
+	// Specifies whether cluster tier auto-scaling is enabled. The default is false.
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
 
+	// Set to true to enable the cluster tier to scale down. This option is only available if autoScaling.compute.enabled is true.
 	AutoScalingComputeScaleDownEnabled *bool `json:"autoScalingComputeScaleDownEnabled,omitempty" tf:"auto_scaling_compute_scale_down_enabled,omitempty"`
 
+	// Specifies whether disk auto-scaling is enabled. The default is false.
 	AutoScalingDiskGbEnabled *bool `json:"autoScalingDiskGbEnabled,omitempty" tf:"auto_scaling_disk_gb_enabled,omitempty"`
 
+	// Cloud service provider on which the server for a multi-tenant cluster is provisioned.
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
+	// Legacy Backup - Set to true to enable Atlas legacy backups for the cluster.
+	// Important - MongoDB deprecated the Legacy Backup feature. Clusters that use Legacy Backup can continue to use it. MongoDB recommends using Cloud Backups.
 	// Clusters running MongoDB FCV 4.2 or later and any new Atlas clusters of any type do not support this parameter
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
-	// +mapType=granular
-	BiConnector map[string]*string `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
+	// Specifies BI Connector for Atlas configuration on this cluster. BI Connector for Atlas is only available for M10+ clusters. See BI Connector below for more details.
+	BiConnectorConfig []BiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
-	BiConnectorConfig []ClusterBiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
-
+	// , to enable Cloud Backup.  If you create a new Atlas cluster and set backup_enabled to true, the Provider will respond with an error.  This change doesn’t affect existing clusters that use legacy backups.
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
 
+	// The cluster ID.
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
+	// Specifies the type of the cluster that you want to modify. You cannot convert a sharded cluster deployment to a replica set deployment.
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
-	ConnectionStrings []ClusterConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
+	// Set of connection strings that your applications use to connect to this cluster. More information in Connection-strings. Use the parameters in this object to connect your applications to this cluster. To learn more about the formats of connection strings, see Connection String Options. NOTE: Atlas returns the contents of this object after the cluster is operational, not while it builds the cluster.
+	ConnectionStrings []ConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
 
+	// The Container ID is the id of the container created when the first cluster in the region (AWS/Azure) or project (GCP) was created.
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
+	// Capacity, in gigabytes, of the host’s root volume. Increase this number to add capacity, up to a maximum possible value of 4096 (i.e., 4 TB). This value must be a positive integer.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// Possible values are AWS, GCP, AZURE or NONE.  Only needed if you desire to manage the keys, see Encryption at Rest using Customer Key Management for complete documentation.  You must configure encryption at rest for the Atlas project before enabling it on any cluster in the project. For complete documentation on configuring Encryption at Rest, see Encryption at Rest using Customer Key Management. Requires M10 or greater. and for legacy backups, backup_enabled, to be false or omitted. Note: Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default.
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
+	// Unique identifer of the replication document for a zone in a Global Cluster. This value corresponds to the legacy sharding schema (no independent shard scaling) and is different from the Shard ID you may see in the Atlas UI.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	Labels []ClusterLabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
+	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Version of the cluster to deploy. Atlas supports all the MongoDB versions that have not reached End of Live for M10+ clusters. If omitted, Atlas deploys the cluster with the default version. For more details, see documentation. Atlas always deploys the cluster with the latest stable release of the specified version. See Release Notes for latest Current Stable Release.
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Version of MongoDB the cluster runs, in major-version.minor-version format.
 	MongoDBVersion *string `json:"mongoDbVersion,omitempty" tf:"mongo_db_version,omitempty"`
 
+	// Base connection string for the cluster. Atlas only displays this field after the cluster is operational, not while it builds the cluster.
 	MongoURI *string `json:"mongoUri,omitempty" tf:"mongo_uri,omitempty"`
 
+	// Lists when the connection string was last updated. The connection string changes, for example, if you change a replica set to a sharded cluster.
 	MongoURIUpdated *string `json:"mongoUriUpdated,omitempty" tf:"mongo_uri_updated,omitempty"`
 
+	// connection string for connecting to the Atlas cluster. Includes the replicaSet, ssl, and authSource query parameters in the connection string with values appropriate for the cluster.
 	MongoURIWithOptions *string `json:"mongoUriWithOptions,omitempty" tf:"mongo_uri_with_options,omitempty"`
 
+	// Name of the cluster as it appears in Atlas. Once the cluster is created, its name cannot be changed. WARNING Changing the name will result in destruction of the existing cluster and the creation of a new cluster.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
+	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
 	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
+	// Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
+	// NOTE Pause lasts for up to 30 days. If you don't resume the cluster within 30 days, Atlas resumes the cluster.   If you prefer to allow the automated change of state to unpaused use:
+	// lifecycle { ignore_changes = [paused] }
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
+	// Pins the Feature Compatibility Version (FCV) to the current MongoDB version with a provided expiration date. To unpin the FCV the pinned_fcv attribute must be removed. This operation can take several minutes as the request processes through the MongoDB data plane. Once FCV is unpinned it will not be possible to downgrade the mongo_db_major_version. It is advised that updates to pinned_fcv are done isolated from other cluster changes. If a plan contains multiple changes, the FCV change will be applied first. If FCV is unpinned past the expiration date the pinned_fcv attribute must be removed. The following knowledge hub article and FCV documentation can be referenced for more details. See below.
+	PinnedFcv []PinnedFcvObservation `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+
+	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// The unique ID for the project to create the cluster, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Maximum instance size to which your cluster can automatically scale (e.g., M40). Required if autoScaling.compute.enabled is true.
 	ProviderAutoScalingComputeMaxInstanceSize *string `json:"providerAutoScalingComputeMaxInstanceSize,omitempty" tf:"provider_auto_scaling_compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale (e.g., M10). Required if autoScaling.compute.scaleDownEnabled is true.
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
 
-	ProviderBackupEnabled *bool `json:"providerBackupEnabled,omitempty" tf:"provider_backup_enabled,omitempty"`
-
+	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
 	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
+	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
 
+	// (Deprecated) The Flag is always true. Flag that indicates whether the Amazon EBS encryption feature encrypts the host's root volume for both data at rest within the volume and for data moving between the volume and the cluster. Note: This setting is always enabled for clusters with local NVMe SSDs. Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default..
 	ProviderEncryptEBSVolume *bool `json:"providerEncryptEbsVolume,omitempty" tf:"provider_encrypt_ebs_volume,omitempty"`
 
 	ProviderEncryptEBSVolumeFlag *bool `json:"providerEncryptEbsVolumeFlag,omitempty" tf:"provider_encrypt_ebs_volume_flag,omitempty"`
 
+	// Atlas provides different instance sizes, each with a default storage capacity and RAM size. The instance size you select is used for all the data-bearing servers in your cluster. See Create a Cluster providerSettings.instanceSizeName for valid values and default resources.
 	ProviderInstanceSizeName *string `json:"providerInstanceSizeName,omitempty" tf:"provider_instance_size_name,omitempty"`
 
+	// Cloud service provider on which the servers are provisioned.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
+	// Do not specify this field when creating a multi-region cluster using the replicationSpec document or a Global Cluster with the replicationSpecs array.
 	ProviderRegionName *string `json:"providerRegionName,omitempty" tf:"provider_region_name,omitempty"`
 
+	// (AWS - Optional) The type of the volume. The possible values are: STANDARD and PROVISIONED.  PROVISIONED is ONLY required if setting IOPS higher than the default instance IOPS.
+	// -> NOTE: STANDARD is not available for NVME clusters.
 	ProviderVolumeType *string `json:"providerVolumeType,omitempty" tf:"provider_volume_type,omitempty"`
 
+	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. The log redaction field is updated via an Atlas API call after cluster creation. Consequently, there may be a brief period during resource creation when log redaction is not yet enabled. To ensure complete log redaction from the outset, use mongodbatlas_advanced_cluster.
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
+	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
-	ReplicationSpecs []ClusterReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+	// Configuration for cluster regions.  See Replication Spec below for more details.
+	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	// current snapshot schedule and retention settings for the cluster.
 	SnapshotBackupPolicy []SnapshotBackupPolicyObservation `json:"snapshotBackupPolicy,omitempty" tf:"snapshot_backup_policy,omitempty"`
 
+	// Connection string for connecting to the Atlas cluster. The +srv modifier forces the connection to use TLS/SSL. See the mongoURI for additional options.
 	SrvAddress *string `json:"srvAddress,omitempty" tf:"srv_address,omitempty"`
 
+	// Current state of the cluster. The possible states are:
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
+	Tags []TagsObservation `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// - Release cadence that Atlas uses for this cluster. This parameter defaults to LTS. If you set this field to CONTINUOUS, you must omit the mongo_db_major_version field. Atlas accepts:
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
 type ClusterParameters struct {
 
+	// If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.
+	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
 	// +kubebuilder:validation:Optional
-	AdvancedConfiguration []ClusterAdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	AdvancedConfiguration []AdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
+
+	// Specifies whether cluster tier auto-scaling is enabled. The default is false.
 	// +kubebuilder:validation:Optional
 	AutoScalingComputeEnabled *bool `json:"autoScalingComputeEnabled,omitempty" tf:"auto_scaling_compute_enabled,omitempty"`
 
+	// Set to true to enable the cluster tier to scale down. This option is only available if autoScaling.compute.enabled is true.
 	// +kubebuilder:validation:Optional
 	AutoScalingComputeScaleDownEnabled *bool `json:"autoScalingComputeScaleDownEnabled,omitempty" tf:"auto_scaling_compute_scale_down_enabled,omitempty"`
 
+	// Specifies whether disk auto-scaling is enabled. The default is false.
 	// +kubebuilder:validation:Optional
 	AutoScalingDiskGbEnabled *bool `json:"autoScalingDiskGbEnabled,omitempty" tf:"auto_scaling_disk_gb_enabled,omitempty"`
 
+	// Cloud service provider on which the server for a multi-tenant cluster is provisioned.
 	// +kubebuilder:validation:Optional
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
+	// Legacy Backup - Set to true to enable Atlas legacy backups for the cluster.
+	// Important - MongoDB deprecated the Legacy Backup feature. Clusters that use Legacy Backup can continue to use it. MongoDB recommends using Cloud Backups.
 	// Clusters running MongoDB FCV 4.2 or later and any new Atlas clusters of any type do not support this parameter
 	// +kubebuilder:validation:Optional
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
+	// Specifies BI Connector for Atlas configuration on this cluster. BI Connector for Atlas is only available for M10+ clusters. See BI Connector below for more details.
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	BiConnector map[string]*string `json:"biConnector,omitempty" tf:"bi_connector,omitempty"`
+	BiConnectorConfig []BiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	BiConnectorConfig []ClusterBiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
-
+	// , to enable Cloud Backup.  If you create a new Atlas cluster and set backup_enabled to true, the Provider will respond with an error.  This change doesn’t affect existing clusters that use legacy backups.
 	// +kubebuilder:validation:Optional
 	CloudBackup *bool `json:"cloudBackup,omitempty" tf:"cloud_backup,omitempty"`
 
+	// Specifies the type of the cluster that you want to modify. You cannot convert a sharded cluster deployment to a replica set deployment.
 	// +kubebuilder:validation:Optional
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
+	// Capacity, in gigabytes, of the host’s root volume. Increase this number to add capacity, up to a maximum possible value of 4096 (i.e., 4 TB). This value must be a positive integer.
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// Possible values are AWS, GCP, AZURE or NONE.  Only needed if you desire to manage the keys, see Encryption at Rest using Customer Key Management for complete documentation.  You must configure encryption at rest for the Atlas project before enabling it on any cluster in the project. For complete documentation on configuring Encryption at Rest, see Encryption at Rest using Customer Key Management. Requires M10 or greater. and for legacy backups, backup_enabled, to be false or omitted. Note: Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default.
 	// +kubebuilder:validation:Optional
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
 	// +kubebuilder:validation:Optional
-	Labels []ClusterLabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Version of the cluster to deploy. Atlas supports all the MongoDB versions that have not reached End of Live for M10+ clusters. If omitted, Atlas deploys the cluster with the default version. For more details, see documentation. Atlas always deploys the cluster with the latest stable release of the specified version. See Release Notes for latest Current Stable Release.
 	// +kubebuilder:validation:Optional
 	MongoDBMajorVersion *string `json:"mongoDbMajorVersion,omitempty" tf:"mongo_db_major_version,omitempty"`
 
+	// Name of the cluster as it appears in Atlas. Once the cluster is created, its name cannot be changed. WARNING Changing the name will result in destruction of the existing cluster and the creation of a new cluster.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
+	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
 	// +kubebuilder:validation:Optional
 	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
+	// Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
+	// NOTE Pause lasts for up to 30 days. If you don't resume the cluster within 30 days, Atlas resumes the cluster.   If you prefer to allow the automated change of state to unpaused use:
+	// lifecycle { ignore_changes = [paused] }
 	// +kubebuilder:validation:Optional
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
+	// Pins the Feature Compatibility Version (FCV) to the current MongoDB version with a provided expiration date. To unpin the FCV the pinned_fcv attribute must be removed. This operation can take several minutes as the request processes through the MongoDB data plane. Once FCV is unpinned it will not be possible to downgrade the mongo_db_major_version. It is advised that updates to pinned_fcv are done isolated from other cluster changes. If a plan contains multiple changes, the FCV change will be applied first. If FCV is unpinned past the expiration date the pinned_fcv attribute must be removed. The following knowledge hub article and FCV documentation can be referenced for more details. See below.
+	// +kubebuilder:validation:Optional
+	PinnedFcv []PinnedFcvParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
+
+	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
 	// +kubebuilder:validation:Optional
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
+	// The unique ID for the project to create the cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -396,106 +580,176 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Maximum instance size to which your cluster can automatically scale (e.g., M40). Required if autoScaling.compute.enabled is true.
 	// +kubebuilder:validation:Optional
 	ProviderAutoScalingComputeMaxInstanceSize *string `json:"providerAutoScalingComputeMaxInstanceSize,omitempty" tf:"provider_auto_scaling_compute_max_instance_size,omitempty"`
 
+	// Minimum instance size to which your cluster can automatically scale (e.g., M10). Required if autoScaling.compute.scaleDownEnabled is true.
 	// +kubebuilder:validation:Optional
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	ProviderBackupEnabled *bool `json:"providerBackupEnabled,omitempty" tf:"provider_backup_enabled,omitempty"`
-
+	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
 	// +kubebuilder:validation:Optional
 	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
+	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
 	// +kubebuilder:validation:Optional
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
 
+	// (Deprecated) The Flag is always true. Flag that indicates whether the Amazon EBS encryption feature encrypts the host's root volume for both data at rest within the volume and for data moving between the volume and the cluster. Note: This setting is always enabled for clusters with local NVMe SSDs. Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default..
 	// +kubebuilder:validation:Optional
 	ProviderEncryptEBSVolume *bool `json:"providerEncryptEbsVolume,omitempty" tf:"provider_encrypt_ebs_volume,omitempty"`
 
+	// Atlas provides different instance sizes, each with a default storage capacity and RAM size. The instance size you select is used for all the data-bearing servers in your cluster. See Create a Cluster providerSettings.instanceSizeName for valid values and default resources.
 	// +kubebuilder:validation:Optional
 	ProviderInstanceSizeName *string `json:"providerInstanceSizeName,omitempty" tf:"provider_instance_size_name,omitempty"`
 
+	// Cloud service provider on which the servers are provisioned.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
+	// Do not specify this field when creating a multi-region cluster using the replicationSpec document or a Global Cluster with the replicationSpecs array.
 	// +kubebuilder:validation:Optional
 	ProviderRegionName *string `json:"providerRegionName,omitempty" tf:"provider_region_name,omitempty"`
 
+	// (AWS - Optional) The type of the volume. The possible values are: STANDARD and PROVISIONED.  PROVISIONED is ONLY required if setting IOPS higher than the default instance IOPS.
+	// -> NOTE: STANDARD is not available for NVME clusters.
 	// +kubebuilder:validation:Optional
 	ProviderVolumeType *string `json:"providerVolumeType,omitempty" tf:"provider_volume_type,omitempty"`
 
+	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. The log redaction field is updated via an Atlas API call after cluster creation. Consequently, there may be a brief period during resource creation when log redaction is not yet enabled. To ensure complete log redaction from the outset, use mongodbatlas_advanced_cluster.
+	// +kubebuilder:validation:Optional
+	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
+
+	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
 	// +kubebuilder:validation:Optional
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
+	// Configuration for cluster regions.  See Replication Spec below for more details.
 	// +kubebuilder:validation:Optional
-	ReplicationSpecs []ClusterReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
+	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
+	// -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
+	// Flag that indicates whether to retain backup snapshots for the deleted dedicated cluster
+	// +kubebuilder:validation:Optional
+	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
+
+	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
+	// +kubebuilder:validation:Optional
+	Tags []TagsParameters `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// - Release cadence that Atlas uses for this cluster. This parameter defaults to LTS. If you set this field to CONTINUOUS, you must omit the mongo_db_major_version field. Atlas accepts:
 	// +kubebuilder:validation:Optional
 	VersionReleaseSystem *string `json:"versionReleaseSystem,omitempty" tf:"version_release_system,omitempty"`
 }
 
-type ClusterReplicationSpecsInitParameters struct {
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
-
-	RegionsConfig []RegionsConfigInitParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
-
-	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+type ConnectionStringsInitParameters struct {
 }
 
-type ClusterReplicationSpecsObservation struct {
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+type ConnectionStringsObservation struct {
 
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	// Network-peering-endpoint-aware mongodb://connection strings for each interface VPC endpoint you configured to connect to this cluster. Returned only if you created a network peering connection to this cluster.
+	Private *string `json:"private,omitempty" tf:"private,omitempty"`
 
-	RegionsConfig []RegionsConfigObservation `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
+	// Private endpoint connection strings. Each object describes the connection strings you can use to connect to this cluster through a private endpoint. Atlas returns this parameter only if you deployed a private endpoint to all regions to which you deployed this cluster's nodes.
+	PrivateEndpoint []PrivateEndpointObservation `json:"privateEndpoint,omitempty" tf:"private_endpoint,omitempty"`
 
-	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+	// Network-peering-endpoint-aware mongodb+srv://connection strings for each interface VPC endpoint you configured to connect to this cluster. Returned only if you created a network peering connection to this cluster.
+	PrivateSrv *string `json:"privateSrv,omitempty" tf:"private_srv,omitempty"`
+
+	// Public mongodb:// connection string for this cluster.
+	Standard *string `json:"standard,omitempty" tf:"standard,omitempty"`
+
+	// Public mongodb+srv:// connection string for this cluster. The mongodb+srv protocol tells the driver to look up the seed list of hosts in DNS. Atlas synchronizes this list with the nodes in a cluster. If the connection string uses this URI format, you don’t need to append the seed list or change the URI if the nodes change. Use this URI format if your driver supports it. If it doesn’t  , use connectionStrings.standard.
+	StandardSrv *string `json:"standardSrv,omitempty" tf:"standard_srv,omitempty"`
 }
 
-type ClusterReplicationSpecsParameters struct {
+type ConnectionStringsParameters struct {
+}
 
+type EndpointsInitParameters struct {
+}
+
+type EndpointsObservation struct {
+
+	// Unique identifier of the private endpoint.
+	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
+
+	// Cloud service provider on which the servers are provisioned.
+	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
+
+	// Region to which you deployed the private endpoint.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type EndpointsParameters struct {
+}
+
+type LabelsInitParameters struct {
+
+	// Constant that defines the set of the tag.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Variable that belongs to the set of the tag.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LabelsObservation struct {
+
+	// Constant that defines the set of the tag.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Variable that belongs to the set of the tag.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LabelsParameters struct {
+
+	// Constant that defines the set of the tag.
 	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// Variable that belongs to the set of the tag.
 	// +kubebuilder:validation:Optional
-	NumShards *float64 `json:"numShards" tf:"num_shards,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	RegionsConfig []RegionsConfigParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type ConnectionStringsPrivateEndpointInitParameters struct {
+type PinnedFcvInitParameters struct {
+
+	// Expiration date of the fixed FCV. This value is in the ISO 8601 timestamp format (e.g. "2024-12-04T16:25:00Z"). Note that this field cannot exceed 4 weeks from the pinned date.
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
 }
 
-type ConnectionStringsPrivateEndpointObservation struct {
-	ConnectionString *string `json:"connectionString,omitempty" tf:"connection_string,omitempty"`
+type PinnedFcvObservation struct {
 
-	Endpoints []PrivateEndpointEndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
+	// Expiration date of the fixed FCV. This value is in the ISO 8601 timestamp format (e.g. "2024-12-04T16:25:00Z"). Note that this field cannot exceed 4 weeks from the pinned date.
+	ExpirationDate *string `json:"expirationDate,omitempty" tf:"expiration_date,omitempty"`
 
-	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
-
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	// Feature compatibility version of the cluster.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type ConnectionStringsPrivateEndpointParameters struct {
+type PinnedFcvParameters struct {
+
+	// Expiration date of the fixed FCV. This value is in the ISO 8601 timestamp format (e.g. "2024-12-04T16:25:00Z"). Note that this field cannot exceed 4 weeks from the pinned date.
+	// +kubebuilder:validation:Optional
+	ExpirationDate *string `json:"expirationDate" tf:"expiration_date,omitempty"`
 }
 
 type PoliciesInitParameters struct {
 }
 
 type PoliciesObservation struct {
+
+	// Unique identifier for this policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// A list of specifications for a policy.
 	PolicyItem []PolicyItemObservation `json:"policyItem,omitempty" tf:"policy_item,omitempty"`
 }
 
@@ -506,98 +760,221 @@ type PolicyItemInitParameters struct {
 }
 
 type PolicyItemObservation struct {
+
+	// The frequency interval for a set of snapshots.
 	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
+	// A type of frequency (hourly, daily, weekly, monthly).
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
 
+	// Unique identifier for this policy item.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unit of time in which snapshot retention is measured (days, weeks, months).
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
+	// The number of days, weeks, or months the snapshot is retained.
 	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemParameters struct {
 }
 
-type PrivateEndpointEndpointsInitParameters struct {
+type PrivateEndpointInitParameters struct {
 }
 
-type PrivateEndpointEndpointsObservation struct {
-	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
+type PrivateEndpointObservation struct {
 
-	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
+	// Private-endpoint-aware mongodb://connection string for this private endpoint.
+	ConnectionString *string `json:"connectionString,omitempty" tf:"connection_string,omitempty"`
 
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// Private endpoint through which you connect to Atlas when you use connection_strings.#.private_endpoint.#.connection_string or connection_strings.#.private_endpoint.#.srv_connection_string
+	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
+
+	// Private-endpoint-aware mongodb+srv:// connection string for this private endpoint. The mongodb+srv protocol tells the driver to look up the seed list of hosts in DNS . Atlas synchronizes this list with the nodes in a cluster. If the connection string uses this URI format, you don't need to: Append the seed list or Change the URI if the nodes change. Use this URI format if your driver supports it. If it doesn't, use connection_strings.#.private_endpoint.#.connection_string
+	SrvConnectionString *string `json:"srvConnectionString,omitempty" tf:"srv_connection_string,omitempty"`
+
+	// Private endpoint-aware connection string optimized for sharded clusters that uses the mongodb+srv:// protocol to connect to MongoDB Cloud through a private endpoint. If the connection string uses this Uniform Resource Identifier (URI) format, you don't need to change the Uniform Resource Identifier (URI) if the nodes change. Use this Uniform Resource Identifier (URI) format if your application and Atlas cluster support it. If it doesn't, use and consult the documentation for connectionStrings.privateEndpoint.#.srvConnectionString.
+	SrvShardOptimizedConnectionString *string `json:"srvShardOptimizedConnectionString,omitempty" tf:"srv_shard_optimized_connection_string,omitempty"`
+
+	// Type of MongoDB process that you connect to with the connection strings. Atlas returns MONGOD for replica sets, or MONGOS for sharded clusters.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type PrivateEndpointEndpointsParameters struct {
+type PrivateEndpointParameters struct {
 }
 
 type RegionsConfigInitParameters struct {
+
+	// The number of analytics nodes for Atlas to deploy to the region. Analytics nodes are useful for handling analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only, and can never become the primary. If you do not specify this option, no analytics nodes are deployed to the region.
 	AnalyticsNodes *float64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
 
+	// Number of electable nodes for Atlas to deploy to the region. Electable nodes can become the primary and can facilitate local reads.
 	ElectableNodes *float64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
 
+	// is 0.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.
 	ReadOnlyNodes *float64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
 
+	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
 
 type RegionsConfigObservation struct {
+
+	// The number of analytics nodes for Atlas to deploy to the region. Analytics nodes are useful for handling analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only, and can never become the primary. If you do not specify this option, no analytics nodes are deployed to the region.
 	AnalyticsNodes *float64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
 
+	// Number of electable nodes for Atlas to deploy to the region. Electable nodes can become the primary and can facilitate local reads.
 	ElectableNodes *float64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
 
+	// is 0.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.
 	ReadOnlyNodes *float64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
 
+	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
 
 type RegionsConfigParameters struct {
 
+	// The number of analytics nodes for Atlas to deploy to the region. Analytics nodes are useful for handling analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only, and can never become the primary. If you do not specify this option, no analytics nodes are deployed to the region.
 	// +kubebuilder:validation:Optional
 	AnalyticsNodes *float64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
 
+	// Number of electable nodes for Atlas to deploy to the region. Electable nodes can become the primary and can facilitate local reads.
 	// +kubebuilder:validation:Optional
 	ElectableNodes *float64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
 
+	// is 0.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.
 	// +kubebuilder:validation:Optional
 	ReadOnlyNodes *float64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
 
+	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName" tf:"region_name,omitempty"`
+}
+
+type ReplicationSpecsInitParameters struct {
+
+	// Unique identifier for this policy item.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
+	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
+	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+
+	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
+	RegionsConfig []RegionsConfigInitParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
+
+	// Name for the zone in a Global Cluster.
+	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+}
+
+type ReplicationSpecsObservation struct {
+
+	// Unique identifier for this policy item.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
+	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
+	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+
+	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
+	RegionsConfig []RegionsConfigObservation `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
+
+	// Name for the zone in a Global Cluster.
+	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+}
+
+type ReplicationSpecsParameters struct {
+
+	// Unique identifier for this policy item.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
+	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
+	// +kubebuilder:validation:Optional
+	NumShards *float64 `json:"numShards" tf:"num_shards,omitempty"`
+
+	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
+	// +kubebuilder:validation:Optional
+	RegionsConfig []RegionsConfigParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
+
+	// Name for the zone in a Global Cluster.
+	// +kubebuilder:validation:Optional
+	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
 }
 
 type SnapshotBackupPolicyInitParameters struct {
 }
 
 type SnapshotBackupPolicyObservation struct {
+
+	// Unique identifier of the Atlas cluster.
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
+	// Name of the Atlas cluster that contains the snapshot backup policy.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// UTC ISO 8601 formatted point in time when Atlas will take the next snapshot.
 	NextSnapshot *string `json:"nextSnapshot,omitempty" tf:"next_snapshot,omitempty"`
 
+	// A list of policy definitions for the cluster.
 	Policies []PoliciesObservation `json:"policies,omitempty" tf:"policies,omitempty"`
 
+	// UTC Hour of day between 0 and 23 representing which hour of the day that Atlas takes a snapshot.
 	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
+	// UTC Minute of day between 0 and 59 representing which minute of the referenceHourOfDay that Atlas takes the snapshot.
 	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
+	// Specifies a restore window in days for the cloud provider backup to maintain.
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
+	// Specifies it's true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 }
 
 type SnapshotBackupPolicyParameters struct {
+}
+
+type TagsInitParameters struct {
+
+	// Constant that defines the set of the tag.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Variable that belongs to the set of the tag.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TagsObservation struct {
+
+	// Constant that defines the set of the tag.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Variable that belongs to the set of the tag.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TagsParameters struct {
+
+	// Constant that defines the set of the tag.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// Variable that belongs to the set of the tag.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // ClusterSpec defines the desired state of Cluster
@@ -627,7 +1004,7 @@ type ClusterStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Cluster is the Schema for the Clusters API. <no value>
+// Cluster is the Schema for the Clusters API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -636,6 +1013,7 @@ type ClusterStatus struct {
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerInstanceSizeName) || (has(self.initProvider) && has(self.initProvider.providerInstanceSizeName))",message="spec.forProvider.providerInstanceSizeName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
 	Spec   ClusterSpec   `json:"spec"`

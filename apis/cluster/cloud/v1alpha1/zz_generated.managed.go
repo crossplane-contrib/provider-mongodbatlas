@@ -7,6 +7,56 @@ package v1alpha1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
+// GetCondition of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this BackupCompliancePolicy.
+func (mg *BackupCompliancePolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this BackupSchedule.
 func (mg *BackupSchedule) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -257,56 +307,6 @@ func (mg *BackupSnapshotRestoreJob) SetWriteConnectionSecretToReference(r *xpv1.
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderAccess.
-func (mg *ProviderAccess) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
-	return mg.Status.GetCondition(ct)
-}
-
-// GetDeletionPolicy of this ProviderAccess.
-func (mg *ProviderAccess) GetDeletionPolicy() xpv1.DeletionPolicy {
-	return mg.Spec.DeletionPolicy
-}
-
-// GetManagementPolicies of this ProviderAccess.
-func (mg *ProviderAccess) GetManagementPolicies() xpv1.ManagementPolicies {
-	return mg.Spec.ManagementPolicies
-}
-
-// GetProviderConfigReference of this ProviderAccess.
-func (mg *ProviderAccess) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
-}
-
-// GetWriteConnectionSecretToReference of this ProviderAccess.
-func (mg *ProviderAccess) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
-}
-
-// SetConditions of this ProviderAccess.
-func (mg *ProviderAccess) SetConditions(c ...xpv1.Condition) {
-	mg.Status.SetConditions(c...)
-}
-
-// SetDeletionPolicy of this ProviderAccess.
-func (mg *ProviderAccess) SetDeletionPolicy(r xpv1.DeletionPolicy) {
-	mg.Spec.DeletionPolicy = r
-}
-
-// SetManagementPolicies of this ProviderAccess.
-func (mg *ProviderAccess) SetManagementPolicies(r xpv1.ManagementPolicies) {
-	mg.Spec.ManagementPolicies = r
-}
-
-// SetProviderConfigReference of this ProviderAccess.
-func (mg *ProviderAccess) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
-}
-
-// SetWriteConnectionSecretToReference of this ProviderAccess.
-func (mg *ProviderAccess) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
-}
-
 // GetCondition of this ProviderAccessAuthorization.
 func (mg *ProviderAccessAuthorization) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -407,152 +407,152 @@ func (mg *ProviderAccessSetup) SetWriteConnectionSecretToReference(r *xpv1.Secre
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicies of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicies of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this ProviderSnapshot.
-func (mg *ProviderSnapshot) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this UserOrgAssignment.
+func (mg *UserOrgAssignment) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicies of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicies of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this ProviderSnapshotBackupPolicy.
-func (mg *ProviderSnapshotBackupPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this UserProjectAssignment.
+func (mg *UserProjectAssignment) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicies of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicies of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this ProviderSnapshotRestoreJob.
-func (mg *ProviderSnapshotRestoreJob) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this UserTeamAssignment.
+func (mg *UserTeamAssignment) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

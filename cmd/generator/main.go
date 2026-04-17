@@ -1,7 +1,3 @@
-/*
-Copyright 2021 Upbound Inc.
-*/
-
 package main
 
 import (
@@ -23,5 +19,5 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("cannot calculate the absolute path with %s", rootDir))
 	}
-	pipeline.Run(config.GetProvider(), config.GetProviderNamespaced(), absRootDir)
+	pipeline.Run(config.GetidentifierFromProvider(), config.GetProviderNamespaced(), absRootDir)
 }

@@ -1,0 +1,63 @@
+apiVersion: search.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Deployment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: search/v1alpha1/deployment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterName: NAME OF CLUSTER
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    specs:
+    - instanceSize: S20_HIGHCPU_NVME
+      nodeCount: 2
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: search/v1alpha1/deployment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: ClusterExample
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: search/v1alpha1/deployment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: project-name
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

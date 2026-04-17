@@ -60,22 +60,6 @@ func (in *ConfigurationInitParameters) DeepCopyInto(out *ConfigurationInitParame
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.MetricThreshold != nil {
-		in, out := &in.MetricThreshold, &out.MetricThreshold
-		*out = make(map[string]*string, len(*in))
-		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
-		}
-	}
 	if in.MetricThresholdConfig != nil {
 		in, out := &in.MetricThresholdConfig, &out.MetricThresholdConfig
 		*out = make([]MetricThresholdConfigInitParameters, len(*in))
@@ -105,21 +89,10 @@ func (in *ConfigurationInitParameters) DeepCopyInto(out *ConfigurationInitParame
 		*out = new(v1.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Threshold != nil {
-		in, out := &in.Threshold, &out.Threshold
-		*out = make(map[string]*string, len(*in))
-		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
-		}
+	if in.SeverityOverride != nil {
+		in, out := &in.SeverityOverride, &out.SeverityOverride
+		*out = new(string)
+		**out = **in
 	}
 	if in.ThresholdConfig != nil {
 		in, out := &in.ThresholdConfig, &out.ThresholdConfig
@@ -207,22 +180,6 @@ func (in *ConfigurationObservation) DeepCopyInto(out *ConfigurationObservation) 
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.MetricThreshold != nil {
-		in, out := &in.MetricThreshold, &out.MetricThreshold
-		*out = make(map[string]*string, len(*in))
-		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
-		}
-	}
 	if in.MetricThresholdConfig != nil {
 		in, out := &in.MetricThresholdConfig, &out.MetricThresholdConfig
 		*out = make([]MetricThresholdConfigObservation, len(*in))
@@ -242,21 +199,10 @@ func (in *ConfigurationObservation) DeepCopyInto(out *ConfigurationObservation) 
 		*out = new(string)
 		**out = **in
 	}
-	if in.Threshold != nil {
-		in, out := &in.Threshold, &out.Threshold
-		*out = make(map[string]*string, len(*in))
-		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
-		}
+	if in.SeverityOverride != nil {
+		in, out := &in.SeverityOverride, &out.SeverityOverride
+		*out = new(string)
+		**out = **in
 	}
 	if in.ThresholdConfig != nil {
 		in, out := &in.ThresholdConfig, &out.ThresholdConfig
@@ -302,22 +248,6 @@ func (in *ConfigurationParameters) DeepCopyInto(out *ConfigurationParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.MetricThreshold != nil {
-		in, out := &in.MetricThreshold, &out.MetricThreshold
-		*out = make(map[string]*string, len(*in))
-		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
-		}
-	}
 	if in.MetricThresholdConfig != nil {
 		in, out := &in.MetricThresholdConfig, &out.MetricThresholdConfig
 		*out = make([]MetricThresholdConfigParameters, len(*in))
@@ -347,21 +277,10 @@ func (in *ConfigurationParameters) DeepCopyInto(out *ConfigurationParameters) {
 		*out = new(v1.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Threshold != nil {
-		in, out := &in.Threshold, &out.Threshold
-		*out = make(map[string]*string, len(*in))
-		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
-		}
+	if in.SeverityOverride != nil {
+		in, out := &in.SeverityOverride, &out.SeverityOverride
+		*out = new(string)
+		**out = **in
 	}
 	if in.ThresholdConfig != nil {
 		in, out := &in.ThresholdConfig, &out.ThresholdConfig
@@ -665,14 +584,9 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 		*out = new(bool)
 		**out = **in
 	}
-	if in.FlowName != nil {
-		in, out := &in.FlowName, &out.FlowName
+	if in.IntegrationID != nil {
+		in, out := &in.IntegrationID, &out.IntegrationID
 		*out = new(string)
-		**out = **in
-	}
-	if in.FlowdockAPITokenSecretRef != nil {
-		in, out := &in.FlowdockAPITokenSecretRef, &out.FlowdockAPITokenSecretRef
-		*out = new(v1.LocalSecretKeySelector)
 		**out = **in
 	}
 	if in.IntervalMin != nil {
@@ -690,6 +604,11 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.NotifierID != nil {
+		in, out := &in.NotifierID, &out.NotifierID
+		*out = new(string)
+		**out = **in
+	}
 	if in.OpsGenieAPIKeySecretRef != nil {
 		in, out := &in.OpsGenieAPIKeySecretRef, &out.OpsGenieAPIKeySecretRef
 		*out = new(v1.LocalSecretKeySelector)
@@ -697,11 +616,6 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 	}
 	if in.OpsGenieRegion != nil {
 		in, out := &in.OpsGenieRegion, &out.OpsGenieRegion
-		*out = new(string)
-		**out = **in
-	}
-	if in.OrgName != nil {
-		in, out := &in.OrgName, &out.OrgName
 		*out = new(string)
 		**out = **in
 	}
@@ -801,8 +715,8 @@ func (in *NotificationObservation) DeepCopyInto(out *NotificationObservation) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.FlowName != nil {
-		in, out := &in.FlowName, &out.FlowName
+	if in.IntegrationID != nil {
+		in, out := &in.IntegrationID, &out.IntegrationID
 		*out = new(string)
 		**out = **in
 	}
@@ -816,13 +730,13 @@ func (in *NotificationObservation) DeepCopyInto(out *NotificationObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.OpsGenieRegion != nil {
-		in, out := &in.OpsGenieRegion, &out.OpsGenieRegion
+	if in.NotifierID != nil {
+		in, out := &in.NotifierID, &out.NotifierID
 		*out = new(string)
 		**out = **in
 	}
-	if in.OrgName != nil {
-		in, out := &in.OrgName, &out.OrgName
+	if in.OpsGenieRegion != nil {
+		in, out := &in.OpsGenieRegion, &out.OpsGenieRegion
 		*out = new(string)
 		**out = **in
 	}
@@ -912,14 +826,9 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.FlowName != nil {
-		in, out := &in.FlowName, &out.FlowName
+	if in.IntegrationID != nil {
+		in, out := &in.IntegrationID, &out.IntegrationID
 		*out = new(string)
-		**out = **in
-	}
-	if in.FlowdockAPITokenSecretRef != nil {
-		in, out := &in.FlowdockAPITokenSecretRef, &out.FlowdockAPITokenSecretRef
-		*out = new(v1.LocalSecretKeySelector)
 		**out = **in
 	}
 	if in.IntervalMin != nil {
@@ -937,6 +846,11 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.NotifierID != nil {
+		in, out := &in.NotifierID, &out.NotifierID
+		*out = new(string)
+		**out = **in
+	}
 	if in.OpsGenieAPIKeySecretRef != nil {
 		in, out := &in.OpsGenieAPIKeySecretRef, &out.OpsGenieAPIKeySecretRef
 		*out = new(v1.LocalSecretKeySelector)
@@ -944,11 +858,6 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 	}
 	if in.OpsGenieRegion != nil {
 		in, out := &in.OpsGenieRegion, &out.OpsGenieRegion
-		*out = new(string)
-		**out = **in
-	}
-	if in.OrgName != nil {
-		in, out := &in.OrgName, &out.OrgName
 		*out = new(string)
 		**out = **in
 	}

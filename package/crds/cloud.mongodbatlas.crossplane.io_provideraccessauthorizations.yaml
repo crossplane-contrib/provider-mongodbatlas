@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: provideraccessauthorizations.cloud.mongodbatlas.crossplane.io
 spec:
   group: cloud.mongodbatlas.crossplane.io
@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProviderAccessAuthorization is the Schema for the ProviderAccessAuthorizations
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -78,88 +78,40 @@ spec:
                     items:
                       properties:
                         iamAssumedRoleArn:
+                          description: ARN of the IAM Role that Atlas assumes when
+                            accessing resources in your AWS account. This value is
+                            required after the creation (register of the role) as
+                            part of Set Up Unified AWS Access.
+                          type: string
+                      type: object
+                    type: array
+                  azure:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
+                          type: string
+                        servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal.
+                          type: string
+                        tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: 'The unique ID for the project, also known as groupId
+                      in the official documentation. WARNING: Changing the project_id
+                      will result in destruction of the existing authorization resource
+                      and the creation of a new authorization resource.'
                     type: string
-                  projectIdRef:
-                    description: Reference to a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  projectIdSelector:
-                    description: Selector for a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
                   roleId:
+                    description: 'The unique ID of this role returned by the mongodb
+                      atlas api. WARNING: Changing the role_id will result in destruction
+                      of the existing authorization resource and the creation of a
+                      new authorization resource.'
                     type: string
                 type: object
               initProvider:
@@ -179,88 +131,40 @@ spec:
                     items:
                       properties:
                         iamAssumedRoleArn:
+                          description: ARN of the IAM Role that Atlas assumes when
+                            accessing resources in your AWS account. This value is
+                            required after the creation (register of the role) as
+                            part of Set Up Unified AWS Access.
+                          type: string
+                      type: object
+                    type: array
+                  azure:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
+                          type: string
+                        servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal.
+                          type: string
+                        tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: 'The unique ID for the project, also known as groupId
+                      in the official documentation. WARNING: Changing the project_id
+                      will result in destruction of the existing authorization resource
+                      and the creation of a new authorization resource.'
                     type: string
-                  projectIdRef:
-                    description: Reference to a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  projectIdSelector:
-                    description: Selector for a Project in mongodbatlas to populate
-                      projectId.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
                   roleId:
+                    description: 'The unique ID of this role returned by the mongodb
+                      atlas api. WARNING: Changing the role_id will result in destruction
+                      of the existing authorization resource and the creation of a
+                      new authorization resource.'
                     type: string
                 type: object
               managementPolicies:
@@ -350,6 +254,10 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
+            - message: spec.forProvider.projectId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
+                || (has(self.initProvider) && has(self.initProvider.projectId))'
             - message: spec.forProvider.roleId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.roleId)
@@ -361,15 +269,37 @@ spec:
               atProvider:
                 properties:
                   authorizedDate:
+                    description: Date on which this role was authorized.
                     type: string
                   aws:
                     items:
                       properties:
                         iamAssumedRoleArn:
+                          description: ARN of the IAM Role that Atlas assumes when
+                            accessing resources in your AWS account. This value is
+                            required after the creation (register of the role) as
+                            part of Set Up Unified AWS Access.
+                          type: string
+                      type: object
+                    type: array
+                  azure:
+                    items:
+                      properties:
+                        atlasAzureAppId:
+                          description: Azure Active Directory Application ID of Atlas.
+                          type: string
+                        servicePrincipalId:
+                          description: UUID string that identifies the Azure Service
+                            Principal.
+                          type: string
+                        tenantId:
+                          description: UUID String that identifies the Azure Active
+                            Directory Tenant ID.
                           type: string
                       type: object
                     type: array
                   featureUsages:
+                    description: Atlas features this AWS IAM role is linked to.
                     items:
                       properties:
                         featureId:
@@ -381,11 +311,28 @@ spec:
                           type: string
                       type: object
                     type: array
+                  gcp:
+                    items:
+                      properties:
+                        serviceAccountForAtlas:
+                          description: Email address for the Google Service Account
+                            created by Atlas.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     type: string
                   projectId:
+                    description: 'The unique ID for the project, also known as groupId
+                      in the official documentation. WARNING: Changing the project_id
+                      will result in destruction of the existing authorization resource
+                      and the creation of a new authorization resource.'
                     type: string
                   roleId:
+                    description: 'The unique ID of this role returned by the mongodb
+                      atlas api. WARNING: Changing the role_id will result in destruction
+                      of the existing authorization resource and the creation of a
+                      new authorization resource.'
                     type: string
                 type: object
               conditions:

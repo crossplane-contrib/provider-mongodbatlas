@@ -1,0 +1,18 @@
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: UserOrgAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/userorgassignment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roles:
+      orgRoles:
+      - ORG_MEMBER
+    username: ${var.user_email}

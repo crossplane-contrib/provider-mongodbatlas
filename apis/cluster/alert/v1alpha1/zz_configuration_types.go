@@ -14,21 +14,21 @@ import (
 )
 
 type ConfigurationInitParameters struct {
+
+	// It is not required, but If the attribute is omitted, by default will be false, and the configuration would be disabled. You must set true to enable the configuration.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// The type of event that will trigger an alert.
 	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
 
 	Matcher []MatcherInitParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
-
-	// +mapType=granular
-	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
 
 	MetricThresholdConfig []MetricThresholdConfigInitParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
 	Notification []NotificationInitParameters `json:"notification,omitempty" tf:"notification,omitempty"`
 
+	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -39,47 +39,53 @@ type ConfigurationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// +mapType=granular
-	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
+	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
 	ThresholdConfig []ThresholdConfigInitParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 }
 
 type ConfigurationObservation struct {
+
+	// Unique identifier for the alert configuration.
 	AlertConfigurationID *string `json:"alertConfigurationId,omitempty" tf:"alert_configuration_id,omitempty"`
 
+	// Timestamp in ISO 8601 date and time format in UTC when this alert configuration was created.
 	Created *string `json:"created,omitempty" tf:"created,omitempty"`
 
+	// It is not required, but If the attribute is omitted, by default will be false, and the configuration would be disabled. You must set true to enable the configuration.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// The type of event that will trigger an alert.
 	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	Matcher []MatcherObservation `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
-	// +mapType=granular
-	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
-
 	MetricThresholdConfig []MetricThresholdConfigObservation `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
 	Notification []NotificationObservation `json:"notification,omitempty" tf:"notification,omitempty"`
 
+	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// +mapType=granular
-	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
+	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
 	ThresholdConfig []ThresholdConfigObservation `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 
+	// Timestamp in ISO 8601 date and time format in UTC when this alert configuration was last updated.
 	Updated *string `json:"updated,omitempty" tf:"updated,omitempty"`
 }
 
 type ConfigurationParameters struct {
 
+	// It is not required, but If the attribute is omitted, by default will be false, and the configuration would be disabled. You must set true to enable the configuration.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// The type of event that will trigger an alert.
 	// +kubebuilder:validation:Optional
 	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
 
@@ -87,17 +93,13 @@ type ConfigurationParameters struct {
 	Matcher []MatcherParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	MetricThreshold map[string]*string `json:"metricThreshold,omitempty" tf:"metric_threshold,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	MetricThresholdConfig []MetricThresholdConfigParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Notification []NotificationParameters `json:"notification,omitempty" tf:"notification,omitempty"`
 
+	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -109,272 +111,393 @@ type ConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	Threshold map[string]*string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ThresholdConfig []ThresholdConfigParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 }
 
 type MatcherInitParameters struct {
+
+	// Name of the field in the target object to match on.
 	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
 
+	// The operator to test the field’s value.
+	// Accepted values are:
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Value to test with the specified operator. If field_name is set to TYPE_NAME, you can match on the following values:
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type MatcherObservation struct {
+
+	// Name of the field in the target object to match on.
 	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
 
+	// The operator to test the field’s value.
+	// Accepted values are:
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Value to test with the specified operator. If field_name is set to TYPE_NAME, you can match on the following values:
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type MatcherParameters struct {
 
+	// Name of the field in the target object to match on.
 	// +kubebuilder:validation:Optional
-	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+	FieldName *string `json:"fieldName" tf:"field_name,omitempty"`
 
+	// The operator to test the field’s value.
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
+	// Value to test with the specified operator. If field_name is set to TYPE_NAME, you can match on the following values:
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type MetricThresholdConfigInitParameters struct {
+
+	// Name of the metric to check. The full list being quite large, please refer to atlas docs here for general metrics and here for serverless metrics
 	MetricName *string `json:"metricName,omitempty" tf:"metric_name,omitempty"`
 
+	// This must be set to AVERAGE. Atlas computes the current metric value as an average.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// The operator to test the field’s value.
+	// Accepted values are:
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Threshold value outside of which an alert will be triggered.
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// The units for the threshold value. Depends on the type of metric.
+	// Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
 	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
 type MetricThresholdConfigObservation struct {
+
+	// Name of the metric to check. The full list being quite large, please refer to atlas docs here for general metrics and here for serverless metrics
 	MetricName *string `json:"metricName,omitempty" tf:"metric_name,omitempty"`
 
+	// This must be set to AVERAGE. Atlas computes the current metric value as an average.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// The operator to test the field’s value.
+	// Accepted values are:
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Threshold value outside of which an alert will be triggered.
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// The units for the threshold value. Depends on the type of metric.
+	// Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
 	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
 type MetricThresholdConfigParameters struct {
 
+	// Name of the metric to check. The full list being quite large, please refer to atlas docs here for general metrics and here for serverless metrics
 	// +kubebuilder:validation:Optional
-	MetricName *string `json:"metricName,omitempty" tf:"metric_name,omitempty"`
+	MetricName *string `json:"metricName" tf:"metric_name,omitempty"`
 
+	// This must be set to AVERAGE. Atlas computes the current metric value as an average.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// The operator to test the field’s value.
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Threshold value outside of which an alert will be triggered.
 	// +kubebuilder:validation:Optional
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// The units for the threshold value. Depends on the type of metric.
+	// Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
 	// +kubebuilder:validation:Optional
 	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
 type NotificationInitParameters struct {
+
+	// Slack API token. Required for the SLACK notifications type. If the token later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
 	APITokenSecretRef *v1.SecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
 
+	// Slack channel name. Required for the SLACK notifications type.
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
+	// Datadog API Key. Found in the Datadog dashboard. Required for the DATADOG notifications type.
 	DatadogAPIKeySecretRef *v1.SecretKeySelector `json:"datadogApiKeySecretRef,omitempty" tf:"-"`
 
+	// Region that indicates which API URL to use. See the datadogRegion field in the notifications request parameter of MongoDB API Alert Configuration documentation for more details. The default Datadog region is US.
 	DatadogRegion *string `json:"datadogRegion,omitempty" tf:"datadog_region,omitempty"`
 
+	// Number of minutes to wait after an alert condition is detected before sending out the first notification.
 	DelayMin *float64 `json:"delayMin,omitempty" tf:"delay_min,omitempty"`
 
+	// Email address to which alert notifications are sent. Required for the EMAIL notifications type.
 	EmailAddress *string `json:"emailAddress,omitempty" tf:"email_address,omitempty"`
 
+	// Flag indicating email notifications should be sent. This flag is only valid if type_name is set to ORG, GROUP, or USER.
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
+	// The ID of the associated integration, the credentials of which to use for requests.
+	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
-	FlowdockAPITokenSecretRef *v1.SecretKeySelector `json:"flowdockApiTokenSecretRef,omitempty" tf:"-"`
-
+	// Number of minutes to wait between successive notifications for unacknowledged alerts that are not resolved. The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and OPS_GENIE notifications do not return this value. The notification interval must be configured and managed within each external service.
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
+	// Microsoft Teams Webhook Uniform Resource Locator (URL) that MongoDB Cloud needs to send this notification via Microsoft Teams. Required if type_name is MICROSOFT_TEAMS. If the URL later becomes invalid, MongoDB Cloud sends an email to the project owners. If the key remains invalid, MongoDB Cloud removes it.
 	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
+	// Mobile number to which alert notifications are sent. Required for the SMS notifications type.
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
+	// The notifier ID is a system-generated unique identifier assigned to each notification method. This is needed when updating third-party notifications without requiring explicit authentication credentials.
+	NotifierID *string `json:"notifierId,omitempty" tf:"notifier_id,omitempty"`
+
+	// Opsgenie API Key. Required for the OPS_GENIE notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
 	OpsGenieAPIKeySecretRef *v1.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
 
+	// Region that indicates which API URL to use. Accepted regions are: US ,EU. The default Opsgenie region is US.
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
 
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
-
+	// Optional. One or more roles that receive the configured alert. If you include this field, Atlas sends alerts only to users assigned the roles you specify in the array. If you omit this field, Atlas sends alerts to users assigned any role. This parameter is only valid if type_name is set to ORG, GROUP, or USER.
+	// Accepted values are:
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
+	// Flag indicating if text message notifications should be sent to this user's mobile phone. This flag is only valid if type_name is set to ORG, GROUP, or USER.
 	SMSEnabled *bool `json:"smsEnabled,omitempty" tf:"sms_enabled,omitempty"`
 
+	// PagerDuty service key. Required for the PAGER_DUTY notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
+	// Unique identifier of a team.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 
+	// Type of alert notification.
+	// Accepted values are:
 	TypeName *string `json:"typeName,omitempty" tf:"type_name,omitempty"`
 
+	// Name of the Atlas user to which to send notifications. Only a user in the project that owns the alert configuration is allowed here. Required for the USER notifications type.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
+	// VictorOps API key. Required for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	VictorOpsAPIKeySecretRef *v1.SecretKeySelector `json:"victorOpsApiKeySecretRef,omitempty" tf:"-"`
 
+	// VictorOps routing key. Optional for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	VictorOpsRoutingKeySecretRef *v1.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
 
+	// Optional authentication secret for the WEBHOOK notifications type.
 	WebhookSecretSecretRef *v1.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
 
+	// Target URL  for the WEBHOOK notifications type.
 	WebhookURLSecretRef *v1.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
 }
 
 type NotificationObservation struct {
+
+	// Slack channel name. Required for the SLACK notifications type.
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
+	// Region that indicates which API URL to use. See the datadogRegion field in the notifications request parameter of MongoDB API Alert Configuration documentation for more details. The default Datadog region is US.
 	DatadogRegion *string `json:"datadogRegion,omitempty" tf:"datadog_region,omitempty"`
 
+	// Number of minutes to wait after an alert condition is detected before sending out the first notification.
 	DelayMin *float64 `json:"delayMin,omitempty" tf:"delay_min,omitempty"`
 
+	// Email address to which alert notifications are sent. Required for the EMAIL notifications type.
 	EmailAddress *string `json:"emailAddress,omitempty" tf:"email_address,omitempty"`
 
+	// Flag indicating email notifications should be sent. This flag is only valid if type_name is set to ORG, GROUP, or USER.
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
+	// The ID of the associated integration, the credentials of which to use for requests.
+	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
+	// Number of minutes to wait between successive notifications for unacknowledged alerts that are not resolved. The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and OPS_GENIE notifications do not return this value. The notification interval must be configured and managed within each external service.
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
+	// Mobile number to which alert notifications are sent. Required for the SMS notifications type.
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
+	// The notifier ID is a system-generated unique identifier assigned to each notification method. This is needed when updating third-party notifications without requiring explicit authentication credentials.
+	NotifierID *string `json:"notifierId,omitempty" tf:"notifier_id,omitempty"`
+
+	// Region that indicates which API URL to use. Accepted regions are: US ,EU. The default Opsgenie region is US.
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
 
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
-
+	// Optional. One or more roles that receive the configured alert. If you include this field, Atlas sends alerts only to users assigned the roles you specify in the array. If you omit this field, Atlas sends alerts to users assigned any role. This parameter is only valid if type_name is set to ORG, GROUP, or USER.
+	// Accepted values are:
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
+	// Flag indicating if text message notifications should be sent to this user's mobile phone. This flag is only valid if type_name is set to ORG, GROUP, or USER.
 	SMSEnabled *bool `json:"smsEnabled,omitempty" tf:"sms_enabled,omitempty"`
 
+	// Unique identifier of a team.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 
+	// Label for the team that receives this notification.
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
 
+	// Type of alert notification.
+	// Accepted values are:
 	TypeName *string `json:"typeName,omitempty" tf:"type_name,omitempty"`
 
+	// Name of the Atlas user to which to send notifications. Only a user in the project that owns the alert configuration is allowed here. Required for the USER notifications type.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type NotificationParameters struct {
 
+	// Slack API token. Required for the SLACK notifications type. If the token later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
 	// +kubebuilder:validation:Optional
 	APITokenSecretRef *v1.SecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
 
+	// Slack channel name. Required for the SLACK notifications type.
 	// +kubebuilder:validation:Optional
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
+	// Datadog API Key. Found in the Datadog dashboard. Required for the DATADOG notifications type.
 	// +kubebuilder:validation:Optional
 	DatadogAPIKeySecretRef *v1.SecretKeySelector `json:"datadogApiKeySecretRef,omitempty" tf:"-"`
 
+	// Region that indicates which API URL to use. See the datadogRegion field in the notifications request parameter of MongoDB API Alert Configuration documentation for more details. The default Datadog region is US.
 	// +kubebuilder:validation:Optional
 	DatadogRegion *string `json:"datadogRegion,omitempty" tf:"datadog_region,omitempty"`
 
+	// Number of minutes to wait after an alert condition is detected before sending out the first notification.
 	// +kubebuilder:validation:Optional
 	DelayMin *float64 `json:"delayMin,omitempty" tf:"delay_min,omitempty"`
 
+	// Email address to which alert notifications are sent. Required for the EMAIL notifications type.
 	// +kubebuilder:validation:Optional
 	EmailAddress *string `json:"emailAddress,omitempty" tf:"email_address,omitempty"`
 
+	// Flag indicating email notifications should be sent. This flag is only valid if type_name is set to ORG, GROUP, or USER.
 	// +kubebuilder:validation:Optional
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
+	// The ID of the associated integration, the credentials of which to use for requests.
 	// +kubebuilder:validation:Optional
-	FlowName *string `json:"flowName,omitempty" tf:"flow_name,omitempty"`
+	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	FlowdockAPITokenSecretRef *v1.SecretKeySelector `json:"flowdockApiTokenSecretRef,omitempty" tf:"-"`
-
+	// Number of minutes to wait between successive notifications for unacknowledged alerts that are not resolved. The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and OPS_GENIE notifications do not return this value. The notification interval must be configured and managed within each external service.
 	// +kubebuilder:validation:Optional
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
+	// Microsoft Teams Webhook Uniform Resource Locator (URL) that MongoDB Cloud needs to send this notification via Microsoft Teams. Required if type_name is MICROSOFT_TEAMS. If the URL later becomes invalid, MongoDB Cloud sends an email to the project owners. If the key remains invalid, MongoDB Cloud removes it.
 	// +kubebuilder:validation:Optional
 	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
+	// Mobile number to which alert notifications are sent. Required for the SMS notifications type.
 	// +kubebuilder:validation:Optional
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
+	// The notifier ID is a system-generated unique identifier assigned to each notification method. This is needed when updating third-party notifications without requiring explicit authentication credentials.
+	// +kubebuilder:validation:Optional
+	NotifierID *string `json:"notifierId,omitempty" tf:"notifier_id,omitempty"`
+
+	// Opsgenie API Key. Required for the OPS_GENIE notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
 	// +kubebuilder:validation:Optional
 	OpsGenieAPIKeySecretRef *v1.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
 
+	// Region that indicates which API URL to use. Accepted regions are: US ,EU. The default Opsgenie region is US.
 	// +kubebuilder:validation:Optional
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	OrgName *string `json:"orgName,omitempty" tf:"org_name,omitempty"`
-
+	// Optional. One or more roles that receive the configured alert. If you include this field, Atlas sends alerts only to users assigned the roles you specify in the array. If you omit this field, Atlas sends alerts to users assigned any role. This parameter is only valid if type_name is set to ORG, GROUP, or USER.
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
+	// Flag indicating if text message notifications should be sent to this user's mobile phone. This flag is only valid if type_name is set to ORG, GROUP, or USER.
 	// +kubebuilder:validation:Optional
 	SMSEnabled *bool `json:"smsEnabled,omitempty" tf:"sms_enabled,omitempty"`
 
+	// PagerDuty service key. Required for the PAGER_DUTY notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	// +kubebuilder:validation:Optional
 	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
+	// Unique identifier of a team.
 	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 
+	// Type of alert notification.
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
-	TypeName *string `json:"typeName,omitempty" tf:"type_name,omitempty"`
+	TypeName *string `json:"typeName" tf:"type_name,omitempty"`
 
+	// Name of the Atlas user to which to send notifications. Only a user in the project that owns the alert configuration is allowed here. Required for the USER notifications type.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
+	// VictorOps API key. Required for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	// +kubebuilder:validation:Optional
 	VictorOpsAPIKeySecretRef *v1.SecretKeySelector `json:"victorOpsApiKeySecretRef,omitempty" tf:"-"`
 
+	// VictorOps routing key. Optional for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	// +kubebuilder:validation:Optional
 	VictorOpsRoutingKeySecretRef *v1.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
 
+	// Optional authentication secret for the WEBHOOK notifications type.
 	// +kubebuilder:validation:Optional
 	WebhookSecretSecretRef *v1.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
 
+	// Target URL  for the WEBHOOK notifications type.
 	// +kubebuilder:validation:Optional
 	WebhookURLSecretRef *v1.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
 }
 
 type ThresholdConfigInitParameters struct {
+
+	// The operator to test the field’s value.
+	// Accepted values are:
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Threshold value outside of which an alert will be triggered.
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// The units for the threshold value. Depends on the type of metric.
+	// Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
 	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
 type ThresholdConfigObservation struct {
+
+	// The operator to test the field’s value.
+	// Accepted values are:
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Threshold value outside of which an alert will be triggered.
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// The units for the threshold value. Depends on the type of metric.
+	// Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
 	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
 
 type ThresholdConfigParameters struct {
 
+	// The operator to test the field’s value.
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// Threshold value outside of which an alert will be triggered.
 	// +kubebuilder:validation:Optional
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// The units for the threshold value. Depends on the type of metric.
+	// Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
 	// +kubebuilder:validation:Optional
 	Units *string `json:"units,omitempty" tf:"units,omitempty"`
 }
@@ -406,7 +529,7 @@ type ConfigurationStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Configuration is the Schema for the Configurations API. <no value>
+// Configuration is the Schema for the Configurations API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -416,7 +539,6 @@ type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.eventType) || (has(self.initProvider) && has(self.initProvider.eventType))",message="spec.forProvider.eventType is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.notification) || (has(self.initProvider) && has(self.initProvider.notification))",message="spec.forProvider.notification is a required parameter"
 	Spec   ConfigurationSpec   `json:"spec"`
 	Status ConfigurationStatus `json:"status,omitempty"`
 }

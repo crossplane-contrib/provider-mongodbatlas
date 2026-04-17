@@ -1,0 +1,38 @@
+apiVersion: ldap.mongodbatlas.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ldap/v1alpha1/configuration
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    authenticationEnabled: true
+    bindPasswordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: crossplane-system
+    bindUsername: USERNAME
+    hostname: HOSTNAME
+    port: 636
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ldap/v1alpha1/configuration
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    name: NAME OF THE PROJECT
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

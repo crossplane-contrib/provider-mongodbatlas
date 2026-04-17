@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: invitations.org.mongodbatlas.crossplane.io
 spec:
   group: org.mongodbatlas.crossplane.io
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Invitation is the Schema for the Invitations API. <no value>
+        description: Invitation is the Schema for the Invitations API.
         properties:
           apiVersion:
             description: |-
@@ -73,18 +73,104 @@ spec:
               forProvider:
                 properties:
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization to which you want to invite a user.
                     type: string
+                  orgIdRef:
+                    description: Reference to a Organization in mongodbatlas to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in mongodbatlas to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   roles:
+                    description: Atlas roles to assign to the invited user. If the
+                      user accepts the invitation, Atlas assigns these roles to them.
+                      The MongoDB Documentation describes the roles a user can have.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamsIds:
+                    description: An array of unique 24-hexadecimal digit strings that
+                      identify the teams that the user was invited to join.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   username:
+                    description: Email address of the invited user. This is the address
+                      to which Atlas sends the invite. If the user accepts the invitation,
+                      they log in to Atlas with this username.
                     type: string
                 type: object
               initProvider:
@@ -101,18 +187,104 @@ spec:
                   autoscaler.
                 properties:
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization to which you want to invite a user.
                     type: string
+                  orgIdRef:
+                    description: Reference to a Organization in mongodbatlas to populate
+                      orgId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  orgIdSelector:
+                    description: Selector for a Organization in mongodbatlas to populate
+                      orgId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   roles:
+                    description: Atlas roles to assign to the invited user. If the
+                      user accepts the invitation, Atlas assigns these roles to them.
+                      The MongoDB Documentation describes the roles a user can have.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamsIds:
+                    description: An array of unique 24-hexadecimal digit strings that
+                      identify the teams that the user was invited to join.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   username:
+                    description: Email address of the invited user. This is the address
+                      to which Atlas sends the invite. If the user accepts the invitation,
+                      they log in to Atlas with this username.
                     type: string
                 type: object
               managementPolicies:
@@ -202,10 +374,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.orgId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.orgId)
-                || (has(self.initProvider) && has(self.initProvider.orgId))'
             - message: spec.forProvider.roles is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.roles)
@@ -220,28 +388,48 @@ spec:
               atProvider:
                 properties:
                   createdAt:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when Atlas sent the invitation.
                     type: string
                   expiresAt:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when the invitation expires. Users have 30 days to accept an
+                      invitation.
                     type: string
                   id:
+                    description: Autogenerated unique string that identifies this
+                      resource.
                     type: string
                   invitationId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the invitation in Atlas.
                     type: string
                   inviterUsername:
+                    description: Atlas user who invited username to the organization.
                     type: string
                   orgId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization to which you want to invite a user.
                     type: string
                   roles:
+                    description: Atlas roles to assign to the invited user. If the
+                      user accepts the invitation, Atlas assigns these roles to them.
+                      The MongoDB Documentation describes the roles a user can have.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamsIds:
+                    description: An array of unique 24-hexadecimal digit strings that
+                      identify the teams that the user was invited to join.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   username:
+                    description: Email address of the invited user. This is the address
+                      to which Atlas sends the invite. If the user accepts the invitation,
+                      they log in to Atlas with this username.
                     type: string
                 type: object
               conditions:

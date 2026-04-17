@@ -1,0 +1,28 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha2
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha2/cluster
+  labels:
+    testing.upbound.io/example-name: cluster-test
+  name: cluster-test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    autoScalingDiskGbEnabled: true
+    cloudBackup: true
+    clusterType: REPLICASET
+    mongoDbMajorVersion: "7.0"
+    name: cluster-test
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerInstanceSizeName: M40
+    providerName: AWS
+    replicationSpecs:
+    - numShards: 1
+      regionsConfig:
+      - electableNodes: 3
+        priority: 7
+        readOnlyNodes: 0
+        regionName: US_EAST_1

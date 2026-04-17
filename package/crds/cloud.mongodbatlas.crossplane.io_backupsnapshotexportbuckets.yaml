@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: backupsnapshotexportbuckets.cloud.mongodbatlas.crossplane.io
 spec:
   group: cloud.mongodbatlas.crossplane.io
@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackupSnapshotExportBucket is the Schema for the BackupSnapshotExportBuckets
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -75,12 +75,20 @@ spec:
               forProvider:
                 properties:
                   bucketName:
+                    description: Name of the bucket that the provided role ID is authorized
+                      to access.
                     type: string
                   cloudProvider:
+                    description: Name of the provider of the cloud service where Atlas
+                      can access the S3 bucket.
                     type: string
                   iamRoleId:
+                    description: Unique identifier of the role that Atlas can use
+                      to access the bucket. Required if cloud_provider is set to AWS.
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -158,6 +166,20 @@ spec:
                             type: string
                         type: object
                     type: object
+                  roleId:
+                    description: Unique identifier of the Azure Service Principal
+                      that Atlas can use to access the Azure Blob Storage Container.
+                      Required if cloud_provider is set to AZURE.
+                    type: string
+                  serviceUrl:
+                    description: URL that identifies the blob Endpoint of the Azure
+                      Blob Storage Account. Required if cloud_provider is set to AZURE.
+                    type: string
+                  tenantId:
+                    description: (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id
+                      is used instead and returned as an attribute. UUID that identifies
+                      the Azure Active Directory Tenant ID.
+                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -173,12 +195,20 @@ spec:
                   autoscaler.
                 properties:
                   bucketName:
+                    description: Name of the bucket that the provided role ID is authorized
+                      to access.
                     type: string
                   cloudProvider:
+                    description: Name of the provider of the cloud service where Atlas
+                      can access the S3 bucket.
                     type: string
                   iamRoleId:
+                    description: Unique identifier of the role that Atlas can use
+                      to access the bucket. Required if cloud_provider is set to AWS.
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -256,6 +286,20 @@ spec:
                             type: string
                         type: object
                     type: object
+                  roleId:
+                    description: Unique identifier of the Azure Service Principal
+                      that Atlas can use to access the Azure Blob Storage Container.
+                      Required if cloud_provider is set to AZURE.
+                    type: string
+                  serviceUrl:
+                    description: URL that identifies the blob Endpoint of the Azure
+                      Blob Storage Account. Required if cloud_provider is set to AZURE.
+                    type: string
+                  tenantId:
+                    description: (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id
+                      is used instead and returned as an attribute. UUID that identifies
+                      the Azure Active Directory Tenant ID.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -352,10 +396,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.cloudProvider)
                 || (has(self.initProvider) && has(self.initProvider.cloudProvider))'
-            - message: spec.forProvider.iamRoleId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.iamRoleId)
-                || (has(self.initProvider) && has(self.initProvider.iamRoleId))'
           status:
             description: BackupSnapshotExportBucketStatus defines the observed state
               of BackupSnapshotExportBucket.
@@ -363,16 +403,39 @@ spec:
               atProvider:
                 properties:
                   bucketName:
+                    description: Name of the bucket that the provided role ID is authorized
+                      to access.
                     type: string
                   cloudProvider:
+                    description: Name of the provider of the cloud service where Atlas
+                      can access the S3 bucket.
                     type: string
                   exportBucketId:
+                    description: Unique identifier of the snapshot export bucket.
                     type: string
                   iamRoleId:
+                    description: Unique identifier of the role that Atlas can use
+                      to access the bucket. Required if cloud_provider is set to AWS.
                     type: string
                   id:
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
+                    type: string
+                  roleId:
+                    description: Unique identifier of the Azure Service Principal
+                      that Atlas can use to access the Azure Blob Storage Container.
+                      Required if cloud_provider is set to AZURE.
+                    type: string
+                  serviceUrl:
+                    description: URL that identifies the blob Endpoint of the Azure
+                      Blob Storage Account. Required if cloud_provider is set to AZURE.
+                    type: string
+                  tenantId:
+                    description: (Deprecated) This field is ignored; the mongodbatlas_cloud_provider_access_authorization.azure.tenant_id
+                      is used instead and returned as an attribute. UUID that identifies
+                      the Azure Active Directory Tenant ID.
                     type: string
                 type: object
               conditions:

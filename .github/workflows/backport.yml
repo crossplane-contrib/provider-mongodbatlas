@@ -7,9 +7,18 @@ on:
   # be able to review PRs before this runs makes this fairly safe.
   # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
   pull_request_target:
-    types: [closed]
-  # See also commands.yml for the /backport triggered variant of this workflow.
+    types:
+      - closed
 
 jobs:
-  backport:
-    uses: crossplane-contrib/provider-workflows/.github/workflows/backport.yml@main
+  open-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - name: Open Backport PR
+        uses: korthout/backport-action@4aaf0e03a94ff0a619c9a511b61aeb42adea5b02 # v4

@@ -15,15 +15,15 @@ import (
 )
 
 type BackupSnapshotRestoreJobInitParameters struct {
+
+	// The name of the Atlas cluster whose snapshot you want to restore.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +mapType=granular
-	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
-
+	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	DeliveryTypeConfig []DeliveryTypeConfigInitParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -34,54 +34,72 @@ type BackupSnapshotRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Optional setting for pointInTime configuration. Unique identifier of the snapshot to restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type BackupSnapshotRestoreJobObservation struct {
+
+	// Indicates whether the restore job was canceled.
 	Cancelled *bool `json:"cancelled,omitempty" tf:"cancelled,omitempty"`
 
+	// The name of the Atlas cluster whose snapshot you want to restore.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
-
-	// +mapType=granular
-	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
-
+	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	DeliveryTypeConfig []DeliveryTypeConfigObservation `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
+	// One or more URLs for the compressed snapshot files for manual download. Only visible if deliveryType is download.
 	DeliveryURL []*string `json:"deliveryUrl,omitempty" tf:"delivery_url,omitempty"`
 
+	// Indicates whether the restore job expired.
 	Expired *bool `json:"expired,omitempty" tf:"expired,omitempty"`
 
+	// UTC ISO 8601 formatted point in time when the restore job expires.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
+	// Indicates whether the restore job failed.
+	Failed *bool `json:"failed,omitempty" tf:"failed,omitempty"`
+
+	// UTC ISO 8601 formatted point in time when the restore job completed.
 	FinishedAt *string `json:"finishedAt,omitempty" tf:"finished_at,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Optional setting for pointInTime configuration. Unique identifier of the snapshot to restore.
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
+	// The unique identifier of the restore job.
 	SnapshotRestoreJobID *string `json:"snapshotRestoreJobId,omitempty" tf:"snapshot_restore_job_id,omitempty"`
 
+	// Timestamp in ISO 8601 date and time format in UTC when the snapshot associated to snapshotId was taken.
 	Timestamp *string `json:"timestamp,omitempty" tf:"timestamp,omitempty"`
 }
 
 type BackupSnapshotRestoreJobParameters struct {
 
+	// The name of the Atlas cluster whose snapshot you want to restore.
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	DeliveryType map[string]*string `json:"deliveryType,omitempty" tf:"delivery_type,omitempty"`
-
+	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	// +kubebuilder:validation:Optional
 	DeliveryTypeConfig []DeliveryTypeConfigParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
 
+	// The unique identifier of the project for the Atlas cluster whose snapshot you want to restore, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -93,69 +111,102 @@ type BackupSnapshotRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Optional setting for pointInTime configuration. Unique identifier of the snapshot to restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type DeliveryTypeConfigInitParameters struct {
+
+	// Set to true to use the automated configuration.
 	Automated *bool `json:"automated,omitempty" tf:"automated,omitempty"`
 
+	// Set to true to use the download configuration.
 	Download *bool `json:"download,omitempty" tf:"download,omitempty"`
 
+	// Optional setting for pointInTime configuration. Oplog operation number from which to you want to restore this snapshot. This is the second part of an Oplog timestamp. Used in conjunction with oplog_ts.
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
+	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which to you want to restore this snapshot. This is the first part of an Oplog timestamp.
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
 	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which you want to restore this snapshot. Used instead of oplog settings.
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
+	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
+	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 }
 
 type DeliveryTypeConfigObservation struct {
+
+	// Set to true to use the automated configuration.
 	Automated *bool `json:"automated,omitempty" tf:"automated,omitempty"`
 
+	// Set to true to use the download configuration.
 	Download *bool `json:"download,omitempty" tf:"download,omitempty"`
 
+	// Optional setting for pointInTime configuration. Oplog operation number from which to you want to restore this snapshot. This is the second part of an Oplog timestamp. Used in conjunction with oplog_ts.
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
+	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which to you want to restore this snapshot. This is the first part of an Oplog timestamp.
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
 	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which you want to restore this snapshot. Used instead of oplog settings.
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
+	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
+	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 }
 
 type DeliveryTypeConfigParameters struct {
 
+	// Set to true to use the automated configuration.
 	// +kubebuilder:validation:Optional
 	Automated *bool `json:"automated,omitempty" tf:"automated,omitempty"`
 
+	// Set to true to use the download configuration.
 	// +kubebuilder:validation:Optional
 	Download *bool `json:"download,omitempty" tf:"download,omitempty"`
 
+	// Optional setting for pointInTime configuration. Oplog operation number from which to you want to restore this snapshot. This is the second part of an Oplog timestamp. Used in conjunction with oplog_ts.
 	// +kubebuilder:validation:Optional
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
+	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which to you want to restore this snapshot. This is the first part of an Oplog timestamp.
 	// +kubebuilder:validation:Optional
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which you want to restore this snapshot. Used instead of oplog settings.
 	// +kubebuilder:validation:Optional
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
+	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	// +kubebuilder:validation:Optional
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
+	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	// +kubebuilder:validation:Optional
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 }
@@ -187,7 +238,7 @@ type BackupSnapshotRestoreJobStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BackupSnapshotRestoreJob is the Schema for the BackupSnapshotRestoreJobs API. <no value>
+// BackupSnapshotRestoreJob is the Schema for the BackupSnapshotRestoreJobs API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -197,7 +248,6 @@ type BackupSnapshotRestoreJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotId) || (has(self.initProvider) && has(self.initProvider.snapshotId))",message="spec.forProvider.snapshotId is a required parameter"
 	Spec   BackupSnapshotRestoreJobSpec   `json:"spec"`
 	Status BackupSnapshotRestoreJobStatus `json:"status,omitempty"`
 }

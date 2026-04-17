@@ -7,6 +7,19 @@ spec:
   credentials:
     source: Secret
     secretRef:
-      name: example-creds
+      name: provider-credentials
       namespace: crossplane-system
       key: credentials
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: provider-credentials
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  credentials: |
+    {
+      "publicKey": "your-public-key",
+      "privateKey": "your-private-key"
+    }

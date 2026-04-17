@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: users.database.mongodbatlas.crossplane.io
 spec:
   group: database.mongodbatlas.crossplane.io
@@ -31,10 +31,10 @@ spec:
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
-    name: v1alpha2
+    name: v1alpha3
     schema:
       openAPIV3Schema:
-        description: User is the Schema for the Users API. <no value>
+        description: User is the Schema for the Users API.
         properties:
           apiVersion:
             description: |-
@@ -73,25 +73,43 @@ spec:
               forProvider:
                 properties:
                   authDatabaseName:
+                    description: |-
+                      Database against which Atlas authenticates the user. A user must provide both a username and authentication database to log into MongoDB.
+                      Accepted values include:
                     type: string
                   awsIamType:
+                    description: 'If this value is set, the new database user authenticates
+                      with AWS IAM credentials. If no value is given, Atlas uses the
+                      default value of NONE. The accepted types are:'
                     type: string
-                  databaseName:
+                  description:
+                    description: Description of this database user.
                     type: string
                   labels:
                     items:
                       properties:
                         key:
+                          description: The key that you want to write.
                           type: string
                         value:
+                          description: The value that you want to write.
                           type: string
                       type: object
                     type: array
                   ldapAuthType:
+                    description: Method by which the provided username is authenticated.
+                      If no value is given, Atlas uses the default value of NONE.
+                    type: string
+                  oidcAuthType:
+                    description: 'Human-readable label that indicates whether the
+                      new database user authenticates with OIDC (OpenID Connect) federated
+                      authentication. If no value is given, Atlas uses the default
+                      value of NONE. The accepted types are:'
                     type: string
                   passwordSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: |-
+                      User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
+                      Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
                     properties:
                       key:
                         description: The key to select.
@@ -108,6 +126,8 @@ spec:
                     - namespace
                     type: object
                   projectId:
+                    description: The unique ID for the project to create the database
+                      user, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -186,13 +206,29 @@ spec:
                         type: object
                     type: object
                   roles:
+                    description: List of user’s roles and the databases / collections
+                      on which the roles apply. A role allows the user to perform
+                      particular actions on the specified database. A role on the
+                      admin database can include privileges that apply to the other
+                      databases as well. See Roles below for more details.
                     items:
                       properties:
                         collectionName:
+                          description: Collection for which the role applies. You
+                            can specify a collection for the read and readWrite roles.
+                            If you do not specify a collection for read and readWrite,
+                            the role applies to all collections in the database (excluding
+                            some collections in the system. database).
                           type: string
                         databaseName:
+                          description: Database on which the user has the specified
+                            role. A role on the admin database can include privileges
+                            that apply to the other databases. This field should be
+                            set to admin for a custom MongoDB role.
                           type: string
                         roleName:
+                          description: Name of the role to grant. See Create a Database
+                            User roles.roleName for valid values and restrictions.
                           type: string
                       type: object
                     type: array
@@ -200,12 +236,23 @@ spec:
                     items:
                       properties:
                         name:
+                          description: Name of the cluster or Atlas Data Federation
+                            that the user has access to.
                           type: string
                         type:
+                          description: Type of resource that the user has access to.
+                            See Database User API for the list of valid values.
                           type: string
                       type: object
                     type: array
+                  username:
+                    description: Username for authenticating to MongoDB. USER_ARN
+                      or ROLE_ARN if aws_iam_type is USER or ROLE.
+                    type: string
                   x509Type:
+                    description: 'X.509 method by which the provided username is authenticated.
+                      If no value is given, Atlas uses the default value of NONE.
+                      The accepted types are:'
                     type: string
                 type: object
               initProvider:
@@ -222,25 +269,43 @@ spec:
                   autoscaler.
                 properties:
                   authDatabaseName:
+                    description: |-
+                      Database against which Atlas authenticates the user. A user must provide both a username and authentication database to log into MongoDB.
+                      Accepted values include:
                     type: string
                   awsIamType:
+                    description: 'If this value is set, the new database user authenticates
+                      with AWS IAM credentials. If no value is given, Atlas uses the
+                      default value of NONE. The accepted types are:'
                     type: string
-                  databaseName:
+                  description:
+                    description: Description of this database user.
                     type: string
                   labels:
                     items:
                       properties:
                         key:
+                          description: The key that you want to write.
                           type: string
                         value:
+                          description: The value that you want to write.
                           type: string
                       type: object
                     type: array
                   ldapAuthType:
+                    description: Method by which the provided username is authenticated.
+                      If no value is given, Atlas uses the default value of NONE.
+                    type: string
+                  oidcAuthType:
+                    description: 'Human-readable label that indicates whether the
+                      new database user authenticates with OIDC (OpenID Connect) federated
+                      authentication. If no value is given, Atlas uses the default
+                      value of NONE. The accepted types are:'
                     type: string
                   passwordSecretRef:
-                    description: A SecretKeySelector is a reference to a secret key
-                      in an arbitrary namespace.
+                    description: |-
+                      User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
+                      Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
                     properties:
                       key:
                         description: The key to select.
@@ -257,6 +322,8 @@ spec:
                     - namespace
                     type: object
                   projectId:
+                    description: The unique ID for the project to create the database
+                      user, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -335,13 +402,29 @@ spec:
                         type: object
                     type: object
                   roles:
+                    description: List of user’s roles and the databases / collections
+                      on which the roles apply. A role allows the user to perform
+                      particular actions on the specified database. A role on the
+                      admin database can include privileges that apply to the other
+                      databases as well. See Roles below for more details.
                     items:
                       properties:
                         collectionName:
+                          description: Collection for which the role applies. You
+                            can specify a collection for the read and readWrite roles.
+                            If you do not specify a collection for read and readWrite,
+                            the role applies to all collections in the database (excluding
+                            some collections in the system. database).
                           type: string
                         databaseName:
+                          description: Database on which the user has the specified
+                            role. A role on the admin database can include privileges
+                            that apply to the other databases. This field should be
+                            set to admin for a custom MongoDB role.
                           type: string
                         roleName:
+                          description: Name of the role to grant. See Create a Database
+                            User roles.roleName for valid values and restrictions.
                           type: string
                       type: object
                     type: array
@@ -349,12 +432,23 @@ spec:
                     items:
                       properties:
                         name:
+                          description: Name of the cluster or Atlas Data Federation
+                            that the user has access to.
                           type: string
                         type:
+                          description: Type of resource that the user has access to.
+                            See Database User API for the list of valid values.
                           type: string
                       type: object
                     type: array
+                  username:
+                    description: Username for authenticating to MongoDB. USER_ARN
+                      or ROLE_ARN if aws_iam_type is USER or ROLE.
+                    type: string
                   x509Type:
+                    description: 'X.509 method by which the provided username is authenticated.
+                      If no value is given, Atlas uses the default value of NONE.
+                      The accepted types are:'
                     type: string
                 type: object
               managementPolicies:
@@ -444,44 +538,84 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.roles is a required parameter
+            - message: spec.forProvider.authDatabaseName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.roles)
-                || (has(self.initProvider) && has(self.initProvider.roles))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.authDatabaseName)
+                || (has(self.initProvider) && has(self.initProvider.authDatabaseName))'
+            - message: spec.forProvider.username is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.username)
+                || (has(self.initProvider) && has(self.initProvider.username))'
           status:
             description: UserStatus defines the observed state of User.
             properties:
               atProvider:
                 properties:
                   authDatabaseName:
+                    description: |-
+                      Database against which Atlas authenticates the user. A user must provide both a username and authentication database to log into MongoDB.
+                      Accepted values include:
                     type: string
                   awsIamType:
+                    description: 'If this value is set, the new database user authenticates
+                      with AWS IAM credentials. If no value is given, Atlas uses the
+                      default value of NONE. The accepted types are:'
                     type: string
-                  databaseName:
+                  description:
+                    description: Description of this database user.
                     type: string
                   id:
+                    description: The database user's name.
                     type: string
                   labels:
                     items:
                       properties:
                         key:
+                          description: The key that you want to write.
                           type: string
                         value:
+                          description: The value that you want to write.
                           type: string
                       type: object
                     type: array
                   ldapAuthType:
+                    description: Method by which the provided username is authenticated.
+                      If no value is given, Atlas uses the default value of NONE.
+                    type: string
+                  oidcAuthType:
+                    description: 'Human-readable label that indicates whether the
+                      new database user authenticates with OIDC (OpenID Connect) federated
+                      authentication. If no value is given, Atlas uses the default
+                      value of NONE. The accepted types are:'
                     type: string
                   projectId:
+                    description: The unique ID for the project to create the database
+                      user, also known as groupId in the official documentation.
                     type: string
                   roles:
+                    description: List of user’s roles and the databases / collections
+                      on which the roles apply. A role allows the user to perform
+                      particular actions on the specified database. A role on the
+                      admin database can include privileges that apply to the other
+                      databases as well. See Roles below for more details.
                     items:
                       properties:
                         collectionName:
+                          description: Collection for which the role applies. You
+                            can specify a collection for the read and readWrite roles.
+                            If you do not specify a collection for read and readWrite,
+                            the role applies to all collections in the database (excluding
+                            some collections in the system. database).
                           type: string
                         databaseName:
+                          description: Database on which the user has the specified
+                            role. A role on the admin database can include privileges
+                            that apply to the other databases. This field should be
+                            set to admin for a custom MongoDB role.
                           type: string
                         roleName:
+                          description: Name of the role to grant. See Create a Database
+                            User roles.roleName for valid values and restrictions.
                           type: string
                       type: object
                     type: array
@@ -489,12 +623,23 @@ spec:
                     items:
                       properties:
                         name:
+                          description: Name of the cluster or Atlas Data Federation
+                            that the user has access to.
                           type: string
                         type:
+                          description: Type of resource that the user has access to.
+                            See Database User API for the list of valid values.
                           type: string
                       type: object
                     type: array
+                  username:
+                    description: Username for authenticating to MongoDB. USER_ARN
+                      or ROLE_ARN if aws_iam_type is USER or ROLE.
+                    type: string
                   x509Type:
+                    description: 'X.509 method by which the provided username is authenticated.
+                      If no value is given, Atlas uses the default value of NONE.
+                      The accepted types are:'
                     type: string
                 type: object
               conditions:

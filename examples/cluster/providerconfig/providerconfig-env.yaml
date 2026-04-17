@@ -1,0 +1,12 @@
+apiVersion: mongodbatlas.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Environment
+    env:
+      name: MONGODBATLAS_CREDENTIALS
+# The environment variable must contain the credentials JSON:
+#   MONGODBATLAS_CREDENTIALS='{"publicKey":"your-public-key","privateKey":"your-private-key"}'
+# Set this on the provider pod via a DeploymentRuntimeConfig.

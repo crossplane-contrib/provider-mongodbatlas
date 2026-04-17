@@ -1,0 +1,33 @@
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: ProviderAccessAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/provideraccessauthorization
+  labels:
+    testing.upbound.io/example-name: auth_role
+  name: auth-role
+  namespace: crossplane-system
+spec:
+  forProvider:
+    aws:
+    - iamAssumedRoleArn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/test-user-role
+    projectId: ${mongodbatlas_cloud_provider_access_setup.setup_only.project_id}
+    roleId: ${mongodbatlas_cloud_provider_access_setup.setup_only.role_id}
+
+---
+
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: ProviderAccessSetup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/provideraccessauthorization
+  labels:
+    testing.upbound.io/example-name: setup_only
+  name: setup-only
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS

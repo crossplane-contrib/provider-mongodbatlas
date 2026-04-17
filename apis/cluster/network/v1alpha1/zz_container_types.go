@@ -14,10 +14,12 @@ import (
 )
 
 type ContainerInitParameters struct {
+
+	// CIDR block that Atlas uses for the Network Peering containers in your project.  Atlas uses the specified CIDR block for all other Network Peering connections created in the project. The Atlas CIDR block must be at least a /24 and at most a /21 in one of the following private networks:
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
+	// Unique identifier for the Atlas project for this Network Peering Container, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Reference to a Project in mongodbatlas to populate projectId.
@@ -28,52 +30,71 @@ type ContainerInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud provider for this Network Peering connection.  Accepted values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter to AWS.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Atlas region where the container resides, see the reference list for Atlas Azure region names Azure.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The Atlas AWS region name for where this container will exist, see the reference list for Atlas AWS region names AWS.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// Atlas regions where the container resides. Provide this field only if you provide an atlas_cidr_block smaller than /18. GCP Regions values.
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 }
 
 type ContainerObservation struct {
+
+	// CIDR block that Atlas uses for the Network Peering containers in your project.  Atlas uses the specified CIDR block for all other Network Peering connections created in the project. The Atlas CIDR block must be at least a /24 and at most a /21 in one of the following private networks:
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
+	// Unique identifier of the Azure subscription in which the VNet resides.
 	AzureSubscriptionID *string `json:"azureSubscriptionId,omitempty" tf:"azure_subscription_id,omitempty"`
 
+	// The Network Peering Container ID.
 	ContainerID *string `json:"containerId,omitempty" tf:"container_id,omitempty"`
 
+	// Unique identifier of the GCP project in which the network peer resides. Returns null. This value is populated once you create a new network peering connection with the network peering resource.
 	GCPProjectID *string `json:"gcpProjectId,omitempty" tf:"gcp_project_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Unique identifier of the Network Peering connection in the Atlas project. Returns null. This value is populated once you create a new network peering connection with the network peering resource.
 	NetworkName *string `json:"networkName,omitempty" tf:"network_name,omitempty"`
 
+	// Unique identifier for the Atlas project for this Network Peering Container, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Cloud provider for this Network Peering connection.  Accepted values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter to AWS.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Indicates whether the project has Network Peering connections deployed in the container.
 	Provisioned *bool `json:"provisioned,omitempty" tf:"provisioned,omitempty"`
 
+	// Atlas region where the container resides, see the reference list for Atlas Azure region names Azure.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The Atlas AWS region name for where this container will exist, see the reference list for Atlas AWS region names AWS.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// Atlas regions where the container resides. Provide this field only if you provide an atlas_cidr_block smaller than /18. GCP Regions values.
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 
+	// Unique identifier of Atlas' AWS VPC.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
+	// The name of the Azure VNet. Returns null. This value is populated once you create a new network peering connection with the network peering resource.
 	VnetName *string `json:"vnetName,omitempty" tf:"vnet_name,omitempty"`
 }
 
 type ContainerParameters struct {
 
+	// CIDR block that Atlas uses for the Network Peering containers in your project.  Atlas uses the specified CIDR block for all other Network Peering connections created in the project. The Atlas CIDR block must be at least a /24 and at most a /21 in one of the following private networks:
 	// +kubebuilder:validation:Optional
 	AtlasCidrBlock *string `json:"atlasCidrBlock,omitempty" tf:"atlas_cidr_block,omitempty"`
 
+	// Unique identifier for the Atlas project for this Network Peering Container, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -85,15 +106,19 @@ type ContainerParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Cloud provider for this Network Peering connection.  Accepted values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter to AWS.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
+	// Atlas region where the container resides, see the reference list for Atlas Azure region names Azure.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The Atlas AWS region name for where this container will exist, see the reference list for Atlas AWS region names AWS.
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// Atlas regions where the container resides. Provide this field only if you provide an atlas_cidr_block smaller than /18. GCP Regions values.
 	// +kubebuilder:validation:Optional
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 }
@@ -125,7 +150,7 @@ type ContainerStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Container is the Schema for the Containers API. <no value>
+// Container is the Schema for the Containers API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

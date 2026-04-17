@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: settingsidentityproviders.federated.mongodbatlas.m.crossplane.io
 spec:
   group: federated.mongodbatlas.m.crossplane.io
@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: SettingsIdentityProvider is the Schema for the SettingsIdentityProviders
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -61,24 +61,80 @@ spec:
               forProvider:
                 properties:
                   associatedDomains:
+                    description: List that contains the domains associated with the
+                      identity provider.
                     items:
                       type: string
                     type: array
+                  audience:
+                    description: Identifier of the intended recipient of the token
+                      used in OIDC IdP.
+                    type: string
+                  authorizationType:
+                    description: Indicates whether authorization is granted based
+                      on group membership or user ID. Valid values are GROUP or USER.
+                    type: string
+                  clientId:
+                    description: Client identifier that is assigned to an application
+                      by the OIDC Identity Provider.
+                    type: string
+                  description:
+                    description: The description of the identity provider.
+                    type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
+                    type: string
+                  groupsClaim:
+                    description: Identifier of the claim which contains OIDC IdP Group
+                      IDs in the token.
+                    type: string
+                  idpType:
                     type: string
                   issuerUri:
+                    description: Unique string that identifies the issuer of the IdP.
                     type: string
                   name:
+                    description: Human-readable label that identifies the identity
+                      provider.
+                    type: string
+                  protocol:
+                    description: The protocol of the identity provider. Either SAML
+                      or OIDC.
                     type: string
                   requestBinding:
+                    description: 'SAML Authentication Request Protocol HTTP method
+                      binding (POST or REDIRECT) that Federated Authentication uses
+                      to send the authentication request. Atlas supports the following
+                      binding values:'
                     type: string
+                  requestedScopes:
+                    description: Scopes that MongoDB applications will request from
+                      the authorization endpoint used for OIDC IdPs.
+                    items:
+                      type: string
+                    type: array
                   responseSignatureAlgorithm:
+                    description: Signature algorithm that Federated Authentication
+                      uses to encrypt the identity provider signature.  Valid values
+                      include SHA-1 and SHA-256.
                     type: string
                   ssoDebugEnabled:
+                    description: Flag that indicates whether the identity provider
+                      has SSO debug enabled.
                     type: boolean
                   ssoUrl:
+                    description: Unique string that identifies the intended audience
+                      of the SAML assertion.
                     type: string
                   status:
+                    description: String enum that indicates whether the identity provider
+                      is active or not. Accepted values are ACTIVE or INACTIVE.
+                    type: string
+                  userClaim:
+                    description: |-
+                      Identifier of the claim which contains the user ID in the token used for OIDC IdPs.
+                      userClaim is required for OIDC IdP with authorizationType GROUP and USER.
                     type: string
                 type: object
               initProvider:
@@ -95,24 +151,80 @@ spec:
                   autoscaler.
                 properties:
                   associatedDomains:
+                    description: List that contains the domains associated with the
+                      identity provider.
                     items:
                       type: string
                     type: array
+                  audience:
+                    description: Identifier of the intended recipient of the token
+                      used in OIDC IdP.
+                    type: string
+                  authorizationType:
+                    description: Indicates whether authorization is granted based
+                      on group membership or user ID. Valid values are GROUP or USER.
+                    type: string
+                  clientId:
+                    description: Client identifier that is assigned to an application
+                      by the OIDC Identity Provider.
+                    type: string
+                  description:
+                    description: The description of the identity provider.
+                    type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
+                    type: string
+                  groupsClaim:
+                    description: Identifier of the claim which contains OIDC IdP Group
+                      IDs in the token.
+                    type: string
+                  idpType:
                     type: string
                   issuerUri:
+                    description: Unique string that identifies the issuer of the IdP.
                     type: string
                   name:
+                    description: Human-readable label that identifies the identity
+                      provider.
+                    type: string
+                  protocol:
+                    description: The protocol of the identity provider. Either SAML
+                      or OIDC.
                     type: string
                   requestBinding:
+                    description: 'SAML Authentication Request Protocol HTTP method
+                      binding (POST or REDIRECT) that Federated Authentication uses
+                      to send the authentication request. Atlas supports the following
+                      binding values:'
                     type: string
+                  requestedScopes:
+                    description: Scopes that MongoDB applications will request from
+                      the authorization endpoint used for OIDC IdPs.
+                    items:
+                      type: string
+                    type: array
                   responseSignatureAlgorithm:
+                    description: Signature algorithm that Federated Authentication
+                      uses to encrypt the identity provider signature.  Valid values
+                      include SHA-1 and SHA-256.
                     type: string
                   ssoDebugEnabled:
+                    description: Flag that indicates whether the identity provider
+                      has SSO debug enabled.
                     type: boolean
                   ssoUrl:
+                    description: Unique string that identifies the intended audience
+                      of the SAML assertion.
                     type: string
                   status:
+                    description: String enum that indicates whether the identity provider
+                      is active or not. Accepted values are ACTIVE or INACTIVE.
+                    type: string
+                  userClaim:
+                    description: |-
+                      Identifier of the claim which contains the user ID in the token used for OIDC IdPs.
+                      userClaim is required for OIDC IdP with authorizationType GROUP and USER.
                     type: string
                 type: object
               managementPolicies:
@@ -186,26 +298,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
                 || (has(self.initProvider) && has(self.initProvider.name))'
-            - message: spec.forProvider.requestBinding is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.requestBinding)
-                || (has(self.initProvider) && has(self.initProvider.requestBinding))'
-            - message: spec.forProvider.responseSignatureAlgorithm is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.responseSignatureAlgorithm)
-                || (has(self.initProvider) && has(self.initProvider.responseSignatureAlgorithm))'
-            - message: spec.forProvider.ssoDebugEnabled is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.ssoDebugEnabled)
-                || (has(self.initProvider) && has(self.initProvider.ssoDebugEnabled))'
-            - message: spec.forProvider.ssoUrl is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.ssoUrl)
-                || (has(self.initProvider) && has(self.initProvider.ssoUrl))'
-            - message: spec.forProvider.status is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.status)
-                || (has(self.initProvider) && has(self.initProvider.status))'
           status:
             description: SettingsIdentityProviderStatus defines the observed state
               of SettingsIdentityProvider.
@@ -213,28 +305,90 @@ spec:
               atProvider:
                 properties:
                   associatedDomains:
+                    description: List that contains the domains associated with the
+                      identity provider.
                     items:
                       type: string
                     type: array
+                  audience:
+                    description: Identifier of the intended recipient of the token
+                      used in OIDC IdP.
+                    type: string
+                  authorizationType:
+                    description: Indicates whether authorization is granted based
+                      on group membership or user ID. Valid values are GROUP or USER.
+                    type: string
+                  clientId:
+                    description: Client identifier that is assigned to an application
+                      by the OIDC Identity Provider.
+                    type: string
+                  description:
+                    description: The description of the identity provider.
+                    type: string
                   federationSettingsId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the federated authentication configuration.
+                    type: string
+                  groupsClaim:
+                    description: Identifier of the claim which contains OIDC IdP Group
+                      IDs in the token.
                     type: string
                   id:
                     type: string
+                  idpId:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the IdP.
+                    type: string
+                  idpType:
+                    type: string
                   issuerUri:
+                    description: Unique string that identifies the issuer of the IdP.
                     type: string
                   name:
+                    description: Human-readable label that identifies the identity
+                      provider.
                     type: string
                   oktaIdpId:
+                    description: Unique 20-hexadecimal digit string that identifies
+                      the IdP.
+                    type: string
+                  protocol:
+                    description: The protocol of the identity provider. Either SAML
+                      or OIDC.
                     type: string
                   requestBinding:
+                    description: 'SAML Authentication Request Protocol HTTP method
+                      binding (POST or REDIRECT) that Federated Authentication uses
+                      to send the authentication request. Atlas supports the following
+                      binding values:'
                     type: string
+                  requestedScopes:
+                    description: Scopes that MongoDB applications will request from
+                      the authorization endpoint used for OIDC IdPs.
+                    items:
+                      type: string
+                    type: array
                   responseSignatureAlgorithm:
+                    description: Signature algorithm that Federated Authentication
+                      uses to encrypt the identity provider signature.  Valid values
+                      include SHA-1 and SHA-256.
                     type: string
                   ssoDebugEnabled:
+                    description: Flag that indicates whether the identity provider
+                      has SSO debug enabled.
                     type: boolean
                   ssoUrl:
+                    description: Unique string that identifies the intended audience
+                      of the SAML assertion.
                     type: string
                   status:
+                    description: String enum that indicates whether the identity provider
+                      is active or not. Accepted values are ACTIVE or INACTIVE.
+                    type: string
+                  userClaim:
+                    description: |-
+                      Identifier of the claim which contains the user ID in the token used for OIDC IdPs.
+                      userClaim is required for OIDC IdP with authorizationType GROUP and USER.
                     type: string
                 type: object
               conditions:

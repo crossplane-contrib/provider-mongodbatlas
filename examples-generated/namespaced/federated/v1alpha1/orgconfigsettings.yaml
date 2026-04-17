@@ -1,0 +1,23 @@
+apiVersion: federated.mongodbatlas.m.crossplane.io/v1alpha1
+kind: OrgConfigSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: federated/v1alpha1/orgconfigsettings
+  labels:
+    testing.upbound.io/example-name: org_connection
+  name: org-connection
+  namespace: crossplane-system
+spec:
+  forProvider:
+    dataAccessIdentityProviderIds:
+    - 64d613677e1ad50839cce4db
+    domainAllowList:
+    - mydomain.com
+    domainRestrictionEnabled: false
+    federationSettingsId: 627a9687f7f7f7f774de306f14
+    identityProviderId: 0oaqyt9fc2ySTWnA0357
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    postAuthRoleGrants:
+    - ORG_MEMBER

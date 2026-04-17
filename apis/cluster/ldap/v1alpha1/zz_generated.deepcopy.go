@@ -230,6 +230,11 @@ func (in *ConfigurationParameters) DeepCopyInto(out *ConfigurationParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoGenerateBindPassword != nil {
+		in, out := &in.AutoGenerateBindPassword, &out.AutoGenerateBindPassword
+		*out = new(bool)
+		**out = **in
+	}
 	in.BindPasswordSecretRef.DeepCopyInto(&out.BindPasswordSecretRef)
 	if in.BindUsername != nil {
 		in, out := &in.BindUsername, &out.BindUsername
@@ -555,11 +560,7 @@ func (in *VerifyInitParameters) DeepCopyInto(out *VerifyInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.BindPassword != nil {
-		in, out := &in.BindPassword, &out.BindPassword
-		*out = new(string)
-		**out = **in
-	}
+	in.BindPasswordSecretRef.DeepCopyInto(&out.BindPasswordSecretRef)
 	if in.BindUsername != nil {
 		in, out := &in.BindUsername, &out.BindUsername
 		*out = new(string)
@@ -647,11 +648,6 @@ func (in *VerifyObservation) DeepCopyInto(out *VerifyObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.BindPassword != nil {
-		in, out := &in.BindPassword, &out.BindPassword
-		*out = new(string)
-		**out = **in
-	}
 	if in.BindUsername != nil {
 		in, out := &in.BindUsername, &out.BindUsername
 		*out = new(string)
@@ -726,11 +722,7 @@ func (in *VerifyParameters) DeepCopyInto(out *VerifyParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.BindPassword != nil {
-		in, out := &in.BindPassword, &out.BindPassword
-		*out = new(string)
-		**out = **in
-	}
+	in.BindPasswordSecretRef.DeepCopyInto(&out.BindPasswordSecretRef)
 	if in.BindUsername != nil {
 		in, out := &in.BindUsername, &out.BindUsername
 		*out = new(string)

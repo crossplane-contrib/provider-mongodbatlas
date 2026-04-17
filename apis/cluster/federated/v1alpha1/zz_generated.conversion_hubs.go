@@ -7,10 +7,19 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *DatabaseInstance) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *OrgConfigSettings) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PrivateLinkEndpointService) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *QueryLimit) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *RoleMapping) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *SettingsIdentityProvider) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SettingsOrgConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SettingsOrgRoleMapping) Hub() {}

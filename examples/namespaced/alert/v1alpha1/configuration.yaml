@@ -1,0 +1,34 @@
+apiVersion: alert.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alert/v1alpha1/configuration
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    enabled: true
+    eventType: OUTSIDE_METRIC_THRESHOLD
+    matcher:
+    - fieldName: HOSTNAME_AND_PORT
+      operator: EQUALS
+      value: SECONDARY
+    metricThresholdConfig:
+    - metricName: ASSERT_REGULAR
+      mode: AVERAGE
+      operator: LESS_THAN
+      threshold: 99
+      units: RAW
+    notification:
+    - delayMin: 0
+      emailEnabled: true
+      intervalMin: 5
+      roles:
+      - GROUP_CLUSTER_MANAGER
+      smsEnabled: false
+      typeName: GROUP
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

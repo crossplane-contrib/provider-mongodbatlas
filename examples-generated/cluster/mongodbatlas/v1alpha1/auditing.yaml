@@ -1,0 +1,17 @@
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: Auditing
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/auditing
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    auditAuthorizationSuccess: false
+    auditFilter: '{ ''atype'': ''authenticate'', ''param'': {   ''user'': ''auditAdmin'',   ''db'':
+      ''admin'',   ''mechanism'': ''SCRAM-SHA-1'' }}'
+    enabled: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

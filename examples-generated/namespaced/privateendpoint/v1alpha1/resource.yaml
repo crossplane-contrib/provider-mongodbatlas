@@ -1,0 +1,16 @@
+apiVersion: privateendpoint.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Resource
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateendpoint/v1alpha1/resource
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS
+    region: US_EAST_1

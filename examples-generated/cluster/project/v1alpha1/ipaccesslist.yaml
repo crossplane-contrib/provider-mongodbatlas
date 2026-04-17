@@ -1,0 +1,15 @@
+apiVersion: project.mongodbatlas.crossplane.io/v1alpha1
+kind: IPAccessList
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/ipaccesslist
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    cidrBlock: 1.2.3.4/32
+    comment: cidr block test
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

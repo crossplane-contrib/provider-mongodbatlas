@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: backupschedules.cloud.mongodbatlas.m.crossplane.io
 spec:
   group: cloud.mongodbatlas.m.crossplane.io
@@ -34,8 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: BackupSchedule is the Schema for the BackupSchedules API. <no
-          value>
+        description: BackupSchedule is the Schema for the BackupSchedules API.
         properties:
           apiVersion:
             description: |-
@@ -60,81 +59,188 @@ spec:
               forProvider:
                 properties:
                   autoExportEnabled:
+                    description: 'Flag that indicates whether MongoDB Cloud automatically
+                      exports Cloud Backup Snapshots to the Export Bucket. Value can
+                      be one of the following:'
                     type: boolean
                   clusterName:
+                    description: The name of the Atlas cluster that contains the snapshot
+                      backup policy you want to retrieve.
                     type: string
                   copySettings:
+                    description: List that contains a document for each copy setting
+                      item in the desired backup policy. See below
                     items:
                       properties:
                         cloudProvider:
+                          description: Human-readable label that identifies the cloud
+                            provider that stores the snapshot copy. i.e. "AWS" "AZURE"
+                            "GCP"
                           type: string
                         frequencies:
+                          description: List that describes which types of snapshots
+                            to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         regionName:
-                          type: string
-                        replicationSpecId:
+                          description: Target region to copy snapshots belonging to
+                            replicationSpecId to. Please supply the 'Atlas Region'
+                            which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/
+                            'regions' link
                           type: string
                         shouldCopyOplogs:
+                          description: Flag that indicates whether to copy the oplogs
+                            to the target region. You can use the oplogs to perform
+                            point-in-time restores.
                           type: boolean
+                        zoneId:
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the zone in a cluster. For global clusters, there can
+                            be multiple zones to choose from. For sharded clusters
+                            and replica set clusters, there is only one zone in the
+                            cluster. To find appropriate value for zone_id, do a GET
+                            request to Return One Cluster from One Project and consult
+                            the replicationSpecs array Return One Cluster From One
+                            Project. Alternately, use mongodbatlas_advanced_cluster
+                            data source or resource and reference replication_specs.#.zone_id.
+                          type: string
                       type: object
                     type: array
                   export:
+                    description: Policy for automatically exporting Cloud Backup Snapshots.
+                      See below
                     items:
                       properties:
                         exportBucketId:
+                          description: Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket
+                            export_bucket_id value.
                           type: string
                         frequencyType:
+                          description: 'Frequency associated with the export snapshot
+                            item: weekly, monthly, yearly, daily (requires reaching
+                            out to Customer Support)'
                           type: string
                       type: object
                     type: array
                   policyItemDaily:
+                    description: Daily policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (daily in this case).
+                            The only supported value for daily policies is 1 day.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit.  Note
+                            that for less frequent policy items, Atlas requires that
+                            you specify a retention period greater than or equal to
+                            the retention period specified for more frequent policy
+                            items. For example: If the hourly policy item specifies
+                            a retention of two days, the daily retention policy must
+                            specify two days or greater.'
                           type: number
                       type: object
                     type: array
                   policyItemHourly:
+                    description: Hourly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemMonthly:
+                    description: Monthly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (monthly in this case).
+                            The supported values for weekly policies are
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit. Monthly
+                            policy must have retention days of at least 31 days or
+                            5 weeks or 1 month. Note that for less frequent policy
+                            items, Atlas requires that you specify a retention period
+                            greater than or equal to the retention period specified
+                            for more frequent policy items. For example: If the weekly
+                            policy item specifies a retention of two weeks, the montly
+                            retention policy must specify two weeks or greater.'
                           type: number
                       type: object
                     type: array
                   policyItemWeekly:
+                    description: Weekly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (weekly in this case).
+                            The supported values for weekly policies are 1 through
+                            7, where 1 represents Monday and 7 represents Sunday.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit. Weekly
+                            policy must have retention of at least 7 days or 1 week.
+                            Note that for less frequent policy items, Atlas requires
+                            that you specify a retention period greater than or equal
+                            to the retention period specified for more frequent policy
+                            items. For example: If the daily policy item specifies
+                            a retention of two weeks, the weekly retention policy
+                            must specify two weeks or greater.'
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
+                    description: Yearly policy item. See below
+                    items:
+                      properties:
+                        frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (yearly in this case).
+                            The supported values for yearly policies are
+                          type: number
+                        retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
+                          type: string
+                        retentionValue:
+                          description: Value to associate with retention_unit. Yearly
+                            policy must have retention of at least 1 year.
                           type: number
                       type: object
                     type: array
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -219,14 +325,29 @@ spec:
                         type: object
                     type: object
                   referenceHourOfDay:
+                    description: UTC Hour of day between 0 and 23, inclusive, representing
+                      which hour of the day that Atlas takes snapshots for backup
+                      policy items.
                     type: number
                   referenceMinuteOfHour:
+                    description: UTC Minutes after reference_hour_of_day that Atlas
+                      takes snapshots for backup policy items. Must be between 0 and
+                      59, inclusive.
                     type: number
                   restoreWindowDays:
+                    description: Number of days back in time you can restore to with
+                      point-in-time accuracy. Must be a positive, non-zero integer.
                     type: number
                   updateSnapshots:
+                    description: Specify true to apply the retention changes in the
+                      updated backup policy to snapshots that Atlas took previously.
                     type: boolean
                   useOrgAndGroupNamesInExportPrefix:
+                    description: Specify true to use organization and project names
+                      instead of organization and project UUIDs in the path for the
+                      metadata files that Atlas uploads to your bucket after it finishes
+                      exporting the snapshots. To learn more about the metadata files
+                      that Atlas uploads, see Export Cloud Backup Snapshot.
                     type: boolean
                 type: object
               initProvider:
@@ -243,81 +364,188 @@ spec:
                   autoscaler.
                 properties:
                   autoExportEnabled:
+                    description: 'Flag that indicates whether MongoDB Cloud automatically
+                      exports Cloud Backup Snapshots to the Export Bucket. Value can
+                      be one of the following:'
                     type: boolean
                   clusterName:
+                    description: The name of the Atlas cluster that contains the snapshot
+                      backup policy you want to retrieve.
                     type: string
                   copySettings:
+                    description: List that contains a document for each copy setting
+                      item in the desired backup policy. See below
                     items:
                       properties:
                         cloudProvider:
+                          description: Human-readable label that identifies the cloud
+                            provider that stores the snapshot copy. i.e. "AWS" "AZURE"
+                            "GCP"
                           type: string
                         frequencies:
+                          description: List that describes which types of snapshots
+                            to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         regionName:
-                          type: string
-                        replicationSpecId:
+                          description: Target region to copy snapshots belonging to
+                            replicationSpecId to. Please supply the 'Atlas Region'
+                            which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/
+                            'regions' link
                           type: string
                         shouldCopyOplogs:
+                          description: Flag that indicates whether to copy the oplogs
+                            to the target region. You can use the oplogs to perform
+                            point-in-time restores.
                           type: boolean
+                        zoneId:
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the zone in a cluster. For global clusters, there can
+                            be multiple zones to choose from. For sharded clusters
+                            and replica set clusters, there is only one zone in the
+                            cluster. To find appropriate value for zone_id, do a GET
+                            request to Return One Cluster from One Project and consult
+                            the replicationSpecs array Return One Cluster From One
+                            Project. Alternately, use mongodbatlas_advanced_cluster
+                            data source or resource and reference replication_specs.#.zone_id.
+                          type: string
                       type: object
                     type: array
                   export:
+                    description: Policy for automatically exporting Cloud Backup Snapshots.
+                      See below
                     items:
                       properties:
                         exportBucketId:
+                          description: Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket
+                            export_bucket_id value.
                           type: string
                         frequencyType:
+                          description: 'Frequency associated with the export snapshot
+                            item: weekly, monthly, yearly, daily (requires reaching
+                            out to Customer Support)'
                           type: string
                       type: object
                     type: array
                   policyItemDaily:
+                    description: Daily policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (daily in this case).
+                            The only supported value for daily policies is 1 day.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit.  Note
+                            that for less frequent policy items, Atlas requires that
+                            you specify a retention period greater than or equal to
+                            the retention period specified for more frequent policy
+                            items. For example: If the hourly policy item specifies
+                            a retention of two days, the daily retention policy must
+                            specify two days or greater.'
                           type: number
                       type: object
                     type: array
                   policyItemHourly:
+                    description: Hourly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemMonthly:
+                    description: Monthly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (monthly in this case).
+                            The supported values for weekly policies are
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit. Monthly
+                            policy must have retention days of at least 31 days or
+                            5 weeks or 1 month. Note that for less frequent policy
+                            items, Atlas requires that you specify a retention period
+                            greater than or equal to the retention period specified
+                            for more frequent policy items. For example: If the weekly
+                            policy item specifies a retention of two weeks, the montly
+                            retention policy must specify two weeks or greater.'
                           type: number
                       type: object
                     type: array
                   policyItemWeekly:
+                    description: Weekly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (weekly in this case).
+                            The supported values for weekly policies are 1 through
+                            7, where 1 represents Monday and 7 represents Sunday.
                           type: number
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit. Weekly
+                            policy must have retention of at least 7 days or 1 week.
+                            Note that for less frequent policy items, Atlas requires
+                            that you specify a retention period greater than or equal
+                            to the retention period specified for more frequent policy
+                            items. For example: If the daily policy item specifies
+                            a retention of two weeks, the weekly retention policy
+                            must specify two weeks or greater.'
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
+                    description: Yearly policy item. See below
+                    items:
+                      properties:
+                        frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (yearly in this case).
+                            The supported values for yearly policies are
+                          type: number
+                        retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
+                          type: string
+                        retentionValue:
+                          description: Value to associate with retention_unit. Yearly
+                            policy must have retention of at least 1 year.
                           type: number
                       type: object
                     type: array
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -402,14 +630,29 @@ spec:
                         type: object
                     type: object
                   referenceHourOfDay:
+                    description: UTC Hour of day between 0 and 23, inclusive, representing
+                      which hour of the day that Atlas takes snapshots for backup
+                      policy items.
                     type: number
                   referenceMinuteOfHour:
+                    description: UTC Minutes after reference_hour_of_day that Atlas
+                      takes snapshots for backup policy items. Must be between 0 and
+                      59, inclusive.
                     type: number
                   restoreWindowDays:
+                    description: Number of days back in time you can restore to with
+                      point-in-time accuracy. Must be a positive, non-zero integer.
                     type: number
                   updateSnapshots:
+                    description: Specify true to apply the retention changes in the
+                      updated backup policy to snapshots that Atlas took previously.
                     type: boolean
                   useOrgAndGroupNamesInExportPrefix:
+                    description: Specify true to use organization and project names
+                      instead of organization and project UUIDs in the path for the
+                      metadata files that Atlas uploads to your bucket after it finishes
+                      exporting the snapshots. To learn more about the metadata files
+                      that Atlas uploads, see Export Cloud Backup Snapshot.
                     type: boolean
                 type: object
               managementPolicies:
@@ -481,115 +724,276 @@ spec:
               atProvider:
                 properties:
                   autoExportEnabled:
+                    description: 'Flag that indicates whether MongoDB Cloud automatically
+                      exports Cloud Backup Snapshots to the Export Bucket. Value can
+                      be one of the following:'
                     type: boolean
                   clusterId:
+                    description: Unique identifier of the Atlas cluster.
                     type: string
                   clusterName:
+                    description: The name of the Atlas cluster that contains the snapshot
+                      backup policy you want to retrieve.
                     type: string
                   copySettings:
+                    description: List that contains a document for each copy setting
+                      item in the desired backup policy. See below
                     items:
                       properties:
                         cloudProvider:
+                          description: Human-readable label that identifies the cloud
+                            provider that stores the snapshot copy. i.e. "AWS" "AZURE"
+                            "GCP"
                           type: string
                         frequencies:
+                          description: List that describes which types of snapshots
+                            to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
                         regionName:
-                          type: string
-                        replicationSpecId:
+                          description: Target region to copy snapshots belonging to
+                            replicationSpecId to. Please supply the 'Atlas Region'
+                            which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/
+                            'regions' link
                           type: string
                         shouldCopyOplogs:
+                          description: Flag that indicates whether to copy the oplogs
+                            to the target region. You can use the oplogs to perform
+                            point-in-time restores.
                           type: boolean
+                        zoneId:
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the zone in a cluster. For global clusters, there can
+                            be multiple zones to choose from. For sharded clusters
+                            and replica set clusters, there is only one zone in the
+                            cluster. To find appropriate value for zone_id, do a GET
+                            request to Return One Cluster from One Project and consult
+                            the replicationSpecs array Return One Cluster From One
+                            Project. Alternately, use mongodbatlas_advanced_cluster
+                            data source or resource and reference replication_specs.#.zone_id.
+                          type: string
                       type: object
                     type: array
                   export:
+                    description: Policy for automatically exporting Cloud Backup Snapshots.
+                      See below
                     items:
                       properties:
                         exportBucketId:
+                          description: Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket
+                            export_bucket_id value.
                           type: string
                         frequencyType:
+                          description: 'Frequency associated with the export snapshot
+                            item: weekly, monthly, yearly, daily (requires reaching
+                            out to Customer Support)'
                           type: string
                       type: object
                     type: array
                   id:
+                    description: Unique identifier of the backup policy item.
                     type: string
                   idPolicy:
+                    description: Unique identifier of the backup policy.
                     type: string
                   nextSnapshot:
+                    description: Timestamp in the number of seconds that have elapsed
+                      since the UNIX epoch when Atlas takes the next snapshot.
                     type: string
                   policyItemDaily:
+                    description: Daily policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (daily in this case).
+                            The only supported value for daily policies is 1 day.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For daily policies, the frequency type is defined
+                            as daily. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit.  Note
+                            that for less frequent policy items, Atlas requires that
+                            you specify a retention period greater than or equal to
+                            the retention period specified for more frequent policy
+                            items. For example: If the hourly policy item specifies
+                            a retention of two days, the daily retention policy must
+                            specify two days or greater.'
                           type: number
                       type: object
                     type: array
                   policyItemHourly:
+                    description: Hourly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (hourly in this case).
+                            The supported values for hourly policies are 1, 2, 4,
+                            6, 8 or 12 hours. Note that 12 hours is the only accepted
+                            value for NVMe clusters.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For hourly policies, the frequency type is defined
+                            as hourly. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: Value to associate with retention_unit.
                           type: number
                       type: object
                     type: array
                   policyItemMonthly:
+                    description: Monthly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (monthly in this case).
+                            The supported values for weekly policies are
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For monthly policies, the frequency type is defined
+                            as monthly. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit. Monthly
+                            policy must have retention days of at least 31 days or
+                            5 weeks or 1 month. Note that for less frequent policy
+                            items, Atlas requires that you specify a retention period
+                            greater than or equal to the retention period specified
+                            for more frequent policy items. For example: If the weekly
+                            policy item specifies a retention of two weeks, the montly
+                            retention policy must specify two weeks or greater.'
                           type: number
                       type: object
                     type: array
                   policyItemWeekly:
+                    description: Weekly policy item. See below
                     items:
                       properties:
                         frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (weekly in this case).
+                            The supported values for weekly policies are 1 through
+                            7, where 1 represents Monday and 7 represents Sunday.
                           type: number
                         frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For weekly policies, the frequency type is defined
+                            as weekly. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
                           type: string
                         id:
+                          description: Unique identifier of the backup policy item.
                           type: string
                         retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
                           type: string
                         retentionValue:
+                          description: 'Value to associate with retention_unit. Weekly
+                            policy must have retention of at least 7 days or 1 week.
+                            Note that for less frequent policy items, Atlas requires
+                            that you specify a retention period greater than or equal
+                            to the retention period specified for more frequent policy
+                            items. For example: If the daily policy item specifies
+                            a retention of two weeks, the weekly retention policy
+                            must specify two weeks or greater.'
+                          type: number
+                      type: object
+                    type: array
+                  policyItemYearly:
+                    description: Yearly policy item. See below
+                    items:
+                      properties:
+                        frequencyInterval:
+                          description: Desired frequency of the new backup policy
+                            item specified by frequency_type (yearly in this case).
+                            The supported values for yearly policies are
+                          type: number
+                        frequencyType:
+                          description: Frequency associated with the backup policy
+                            item. For yearly policies, the frequency type is defined
+                            as yearly. Note that this is a read-only value and not
+                            required in plan files - its value is implied from the
+                            policy resource type.
+                          type: string
+                        id:
+                          description: Unique identifier of the backup policy item.
+                          type: string
+                        retentionUnit:
+                          description: 'Scope of the backup policy item: days, weeks,
+                            months, or years.'
+                          type: string
+                        retentionValue:
+                          description: Value to associate with retention_unit. Yearly
+                            policy must have retention of at least 1 year.
                           type: number
                       type: object
                     type: array
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   referenceHourOfDay:
+                    description: UTC Hour of day between 0 and 23, inclusive, representing
+                      which hour of the day that Atlas takes snapshots for backup
+                      policy items.
                     type: number
                   referenceMinuteOfHour:
+                    description: UTC Minutes after reference_hour_of_day that Atlas
+                      takes snapshots for backup policy items. Must be between 0 and
+                      59, inclusive.
                     type: number
                   restoreWindowDays:
+                    description: Number of days back in time you can restore to with
+                      point-in-time accuracy. Must be a positive, non-zero integer.
                     type: number
                   updateSnapshots:
+                    description: Specify true to apply the retention changes in the
+                      updated backup policy to snapshots that Atlas took previously.
                     type: boolean
                   useOrgAndGroupNamesInExportPrefix:
+                    description: Specify true to use organization and project names
+                      instead of organization and project UUIDs in the path for the
+                      metadata files that Atlas uploads to your bucket after it finishes
+                      exporting the snapshots. To learn more about the metadata files
+                      that Atlas uploads, see Export Cloud Backup Snapshot.
                     type: boolean
                 type: object
               conditions:

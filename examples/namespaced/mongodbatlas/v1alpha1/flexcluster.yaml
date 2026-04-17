@@ -1,0 +1,19 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: FlexCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/flexcluster
+  labels:
+    testing.upbound.io/example-name: example-cluster
+  name: example-cluster
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: ${var.cluster_name}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerSettings:
+      backingProviderName: AWS
+      regionName: US_EAST_1
+    terminationProtectionEnabled: true

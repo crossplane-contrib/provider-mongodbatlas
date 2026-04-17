@@ -1,0 +1,17 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: EmployeeAccessGrant
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/employeeaccessgrant
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterName: ${var.cluster_name}
+    expirationTime: "2025-01-01T12:00:00Z"
+    grantType: CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

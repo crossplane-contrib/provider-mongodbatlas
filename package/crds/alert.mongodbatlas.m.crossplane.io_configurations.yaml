@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: configurations.alert.mongodbatlas.m.crossplane.io
 spec:
   group: alert.mongodbatlas.m.crossplane.io
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Configuration is the Schema for the Configurations API. <no value>
+        description: Configuration is the Schema for the Configurations API.
         properties:
           apiVersion:
             description: |-
@@ -59,37 +59,57 @@ spec:
               forProvider:
                 properties:
                   enabled:
+                    description: It is not required, but If the attribute is omitted,
+                      by default will be false, and the configuration would be disabled.
+                      You must set true to enable the configuration.
                     type: boolean
                   eventType:
+                    description: The type of event that will trigger an alert.
                     type: string
                   matcher:
                     items:
                       properties:
                         fieldName:
+                          description: Name of the field in the target object to match
+                            on.
                           type: string
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         value:
+                          description: 'Value to test with the specified operator.
+                            If field_name is set to TYPE_NAME, you can match on the
+                            following values:'
                           type: string
                       type: object
                     type: array
-                  metricThreshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   metricThresholdConfig:
                     items:
                       properties:
                         metricName:
+                          description: Name of the metric to check. The full list
+                            being quite large, please refer to atlas docs here for
+                            general metrics and here for serverless metrics
                           type: string
                         mode:
+                          description: This must be set to AVERAGE. Atlas computes
+                            the current metric value as an average.
                           type: string
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         threshold:
+                          description: Threshold value outside of which an alert will
+                            be triggered.
                           type: number
                         units:
+                          description: |-
+                            The units for the threshold value. Depends on the type of metric.
+                            Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
                           type: string
                       type: object
                     type: array
@@ -97,9 +117,10 @@ spec:
                     items:
                       properties:
                         apiTokenSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Slack API token. Required for the SLACK notifications
+                            type. If the token later becomes invalid, Atlas sends
+                            an email to the project owner and eventually removes the
+                            token.
                           properties:
                             key:
                               type: string
@@ -111,11 +132,12 @@ spec:
                           - name
                           type: object
                         channelName:
+                          description: Slack channel name. Required for the SLACK
+                            notifications type.
                           type: string
                         datadogApiKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Datadog API Key. Found in the Datadog dashboard.
+                            Required for the DATADOG notifications type.
                           properties:
                             key:
                               type: string
@@ -127,35 +149,43 @@ spec:
                           - name
                           type: object
                         datadogRegion:
+                          description: Region that indicates which API URL to use.
+                            See the datadogRegion field in the notifications request
+                            parameter of MongoDB API Alert Configuration documentation
+                            for more details. The default Datadog region is US.
                           type: string
                         delayMin:
+                          description: Number of minutes to wait after an alert condition
+                            is detected before sending out the first notification.
                           type: number
                         emailAddress:
+                          description: Email address to which alert notifications
+                            are sent. Required for the EMAIL notifications type.
                           type: string
                         emailEnabled:
+                          description: Flag indicating email notifications should
+                            be sent. This flag is only valid if type_name is set to
+                            ORG, GROUP, or USER.
                           type: boolean
-                        flowName:
+                        integrationId:
+                          description: The ID of the associated integration, the credentials
+                            of which to use for requests.
                           type: string
-                        flowdockApiTokenSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
-                          properties:
-                            key:
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          type: object
                         intervalMin:
+                          description: Number of minutes to wait between successive
+                            notifications for unacknowledged alerts that are not resolved.
+                            The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and
+                            OPS_GENIE notifications do not return this value. The
+                            notification interval must be configured and managed within
+                            each external service.
                           type: number
                         microsoftTeamsWebhookUrlSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Microsoft Teams Webhook Uniform Resource Locator
+                            (URL) that MongoDB Cloud needs to send this notification
+                            via Microsoft Teams. Required if type_name is MICROSOFT_TEAMS.
+                            If the URL later becomes invalid, MongoDB Cloud sends
+                            an email to the project owners. If the key remains invalid,
+                            MongoDB Cloud removes it.
                           properties:
                             key:
                               type: string
@@ -167,11 +197,20 @@ spec:
                           - name
                           type: object
                         mobileNumber:
+                          description: Mobile number to which alert notifications
+                            are sent. Required for the SMS notifications type.
+                          type: string
+                        notifierId:
+                          description: The notifier ID is a system-generated unique
+                            identifier assigned to each notification method. This
+                            is needed when updating third-party notifications without
+                            requiring explicit authentication credentials.
                           type: string
                         opsGenieApiKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Opsgenie API Key. Required for the OPS_GENIE
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the token.
                           properties:
                             key:
                               type: string
@@ -183,17 +222,22 @@ spec:
                           - name
                           type: object
                         opsGenieRegion:
-                          type: string
-                        orgName:
+                          description: 'Region that indicates which API URL to use.
+                            Accepted regions are: US ,EU. The default Opsgenie region
+                            is US.'
                           type: string
                         roles:
+                          description: |-
+                            Optional. One or more roles that receive the configured alert. If you include this field, Atlas sends alerts only to users assigned the roles you specify in the array. If you omit this field, Atlas sends alerts to users assigned any role. This parameter is only valid if type_name is set to ORG, GROUP, or USER.
+                            Accepted values are:
                           items:
                             type: string
                           type: array
                         serviceKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: PagerDuty service key. Required for the PAGER_DUTY
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the key.
                           properties:
                             key:
                               type: string
@@ -205,17 +249,28 @@ spec:
                           - name
                           type: object
                         smsEnabled:
+                          description: Flag indicating if text message notifications
+                            should be sent to this user's mobile phone. This flag
+                            is only valid if type_name is set to ORG, GROUP, or USER.
                           type: boolean
                         teamId:
+                          description: Unique identifier of a team.
                           type: string
                         typeName:
+                          description: |-
+                            Type of alert notification.
+                            Accepted values are:
                           type: string
                         username:
+                          description: Name of the Atlas user to which to send notifications.
+                            Only a user in the project that owns the alert configuration
+                            is allowed here. Required for the USER notifications type.
                           type: string
                         victorOpsApiKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: VictorOps API key. Required for the VICTOR_OPS
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the key.
                           properties:
                             key:
                               type: string
@@ -227,9 +282,10 @@ spec:
                           - name
                           type: object
                         victorOpsRoutingKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: VictorOps routing key. Optional for the VICTOR_OPS
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the key.
                           properties:
                             key:
                               type: string
@@ -241,9 +297,8 @@ spec:
                           - name
                           type: object
                         webhookSecretSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Optional authentication secret for the WEBHOOK
+                            notifications type.
                           properties:
                             key:
                               type: string
@@ -255,9 +310,7 @@ spec:
                           - name
                           type: object
                         webhookUrlSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Target URL  for the WEBHOOK notifications type.
                           properties:
                             key:
                               type: string
@@ -271,6 +324,8 @@ spec:
                       type: object
                     type: array
                   projectId:
+                    description: The ID of the project where the alert configuration
+                      will create, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -354,19 +409,27 @@ spec:
                             type: string
                         type: object
                     type: object
-                  threshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
+                  severityOverride:
+                    description: Severity of the event. For the list of accepted values
+                      please read the Create One Alert Configuration in One Project
+                      API documentation.
+                    type: string
                   thresholdConfig:
                     items:
                       properties:
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         threshold:
+                          description: Threshold value outside of which an alert will
+                            be triggered.
                           type: number
                         units:
+                          description: |-
+                            The units for the threshold value. Depends on the type of metric.
+                            Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
                           type: string
                       type: object
                     type: array
@@ -385,37 +448,57 @@ spec:
                   autoscaler.
                 properties:
                   enabled:
+                    description: It is not required, but If the attribute is omitted,
+                      by default will be false, and the configuration would be disabled.
+                      You must set true to enable the configuration.
                     type: boolean
                   eventType:
+                    description: The type of event that will trigger an alert.
                     type: string
                   matcher:
                     items:
                       properties:
                         fieldName:
+                          description: Name of the field in the target object to match
+                            on.
                           type: string
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         value:
+                          description: 'Value to test with the specified operator.
+                            If field_name is set to TYPE_NAME, you can match on the
+                            following values:'
                           type: string
                       type: object
                     type: array
-                  metricThreshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   metricThresholdConfig:
                     items:
                       properties:
                         metricName:
+                          description: Name of the metric to check. The full list
+                            being quite large, please refer to atlas docs here for
+                            general metrics and here for serverless metrics
                           type: string
                         mode:
+                          description: This must be set to AVERAGE. Atlas computes
+                            the current metric value as an average.
                           type: string
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         threshold:
+                          description: Threshold value outside of which an alert will
+                            be triggered.
                           type: number
                         units:
+                          description: |-
+                            The units for the threshold value. Depends on the type of metric.
+                            Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
                           type: string
                       type: object
                     type: array
@@ -423,9 +506,10 @@ spec:
                     items:
                       properties:
                         apiTokenSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Slack API token. Required for the SLACK notifications
+                            type. If the token later becomes invalid, Atlas sends
+                            an email to the project owner and eventually removes the
+                            token.
                           properties:
                             key:
                               type: string
@@ -437,11 +521,12 @@ spec:
                           - name
                           type: object
                         channelName:
+                          description: Slack channel name. Required for the SLACK
+                            notifications type.
                           type: string
                         datadogApiKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Datadog API Key. Found in the Datadog dashboard.
+                            Required for the DATADOG notifications type.
                           properties:
                             key:
                               type: string
@@ -453,35 +538,43 @@ spec:
                           - name
                           type: object
                         datadogRegion:
+                          description: Region that indicates which API URL to use.
+                            See the datadogRegion field in the notifications request
+                            parameter of MongoDB API Alert Configuration documentation
+                            for more details. The default Datadog region is US.
                           type: string
                         delayMin:
+                          description: Number of minutes to wait after an alert condition
+                            is detected before sending out the first notification.
                           type: number
                         emailAddress:
+                          description: Email address to which alert notifications
+                            are sent. Required for the EMAIL notifications type.
                           type: string
                         emailEnabled:
+                          description: Flag indicating email notifications should
+                            be sent. This flag is only valid if type_name is set to
+                            ORG, GROUP, or USER.
                           type: boolean
-                        flowName:
+                        integrationId:
+                          description: The ID of the associated integration, the credentials
+                            of which to use for requests.
                           type: string
-                        flowdockApiTokenSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
-                          properties:
-                            key:
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          type: object
                         intervalMin:
+                          description: Number of minutes to wait between successive
+                            notifications for unacknowledged alerts that are not resolved.
+                            The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and
+                            OPS_GENIE notifications do not return this value. The
+                            notification interval must be configured and managed within
+                            each external service.
                           type: number
                         microsoftTeamsWebhookUrlSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Microsoft Teams Webhook Uniform Resource Locator
+                            (URL) that MongoDB Cloud needs to send this notification
+                            via Microsoft Teams. Required if type_name is MICROSOFT_TEAMS.
+                            If the URL later becomes invalid, MongoDB Cloud sends
+                            an email to the project owners. If the key remains invalid,
+                            MongoDB Cloud removes it.
                           properties:
                             key:
                               type: string
@@ -493,11 +586,20 @@ spec:
                           - name
                           type: object
                         mobileNumber:
+                          description: Mobile number to which alert notifications
+                            are sent. Required for the SMS notifications type.
+                          type: string
+                        notifierId:
+                          description: The notifier ID is a system-generated unique
+                            identifier assigned to each notification method. This
+                            is needed when updating third-party notifications without
+                            requiring explicit authentication credentials.
                           type: string
                         opsGenieApiKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Opsgenie API Key. Required for the OPS_GENIE
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the token.
                           properties:
                             key:
                               type: string
@@ -509,17 +611,22 @@ spec:
                           - name
                           type: object
                         opsGenieRegion:
-                          type: string
-                        orgName:
+                          description: 'Region that indicates which API URL to use.
+                            Accepted regions are: US ,EU. The default Opsgenie region
+                            is US.'
                           type: string
                         roles:
+                          description: |-
+                            Optional. One or more roles that receive the configured alert. If you include this field, Atlas sends alerts only to users assigned the roles you specify in the array. If you omit this field, Atlas sends alerts to users assigned any role. This parameter is only valid if type_name is set to ORG, GROUP, or USER.
+                            Accepted values are:
                           items:
                             type: string
                           type: array
                         serviceKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: PagerDuty service key. Required for the PAGER_DUTY
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the key.
                           properties:
                             key:
                               type: string
@@ -531,17 +638,28 @@ spec:
                           - name
                           type: object
                         smsEnabled:
+                          description: Flag indicating if text message notifications
+                            should be sent to this user's mobile phone. This flag
+                            is only valid if type_name is set to ORG, GROUP, or USER.
                           type: boolean
                         teamId:
+                          description: Unique identifier of a team.
                           type: string
                         typeName:
+                          description: |-
+                            Type of alert notification.
+                            Accepted values are:
                           type: string
                         username:
+                          description: Name of the Atlas user to which to send notifications.
+                            Only a user in the project that owns the alert configuration
+                            is allowed here. Required for the USER notifications type.
                           type: string
                         victorOpsApiKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: VictorOps API key. Required for the VICTOR_OPS
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the key.
                           properties:
                             key:
                               type: string
@@ -553,9 +671,10 @@ spec:
                           - name
                           type: object
                         victorOpsRoutingKeySecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: VictorOps routing key. Optional for the VICTOR_OPS
+                            notifications type. If the key later becomes invalid,
+                            Atlas sends an email to the project owner and eventually
+                            removes the key.
                           properties:
                             key:
                               type: string
@@ -567,9 +686,8 @@ spec:
                           - name
                           type: object
                         webhookSecretSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Optional authentication secret for the WEBHOOK
+                            notifications type.
                           properties:
                             key:
                               type: string
@@ -581,9 +699,7 @@ spec:
                           - name
                           type: object
                         webhookUrlSecretRef:
-                          description: |-
-                            A LocalSecretKeySelector is a reference to a secret key
-                            in the same namespace with the referencing object.
+                          description: Target URL  for the WEBHOOK notifications type.
                           properties:
                             key:
                               type: string
@@ -597,6 +713,8 @@ spec:
                       type: object
                     type: array
                   projectId:
+                    description: The ID of the project where the alert configuration
+                      will create, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -680,19 +798,27 @@ spec:
                             type: string
                         type: object
                     type: object
-                  threshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
+                  severityOverride:
+                    description: Severity of the event. For the list of accepted values
+                      please read the Create One Alert Configuration in One Project
+                      API documentation.
+                    type: string
                   thresholdConfig:
                     items:
                       properties:
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         threshold:
+                          description: Threshold value outside of which an alert will
+                            be triggered.
                           type: number
                         units:
+                          description: |-
+                            The units for the threshold value. Depends on the type of metric.
+                            Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
                           type: string
                       type: object
                     type: array
@@ -760,22 +886,25 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.eventType)
                 || (has(self.initProvider) && has(self.initProvider.eventType))'
-            - message: spec.forProvider.notification is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.notification)
-                || (has(self.initProvider) && has(self.initProvider.notification))'
           status:
             description: ConfigurationStatus defines the observed state of Configuration.
             properties:
               atProvider:
                 properties:
                   alertConfigurationId:
+                    description: Unique identifier for the alert configuration.
                     type: string
                   created:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when this alert configuration was created.
                     type: string
                   enabled:
+                    description: It is not required, but If the attribute is omitted,
+                      by default will be false, and the configuration would be disabled.
+                      You must set true to enable the configuration.
                     type: boolean
                   eventType:
+                    description: The type of event that will trigger an alert.
                     type: string
                   id:
                     type: string
@@ -783,30 +912,46 @@ spec:
                     items:
                       properties:
                         fieldName:
+                          description: Name of the field in the target object to match
+                            on.
                           type: string
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         value:
+                          description: 'Value to test with the specified operator.
+                            If field_name is set to TYPE_NAME, you can match on the
+                            following values:'
                           type: string
                       type: object
                     type: array
-                  metricThreshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   metricThresholdConfig:
                     items:
                       properties:
                         metricName:
+                          description: Name of the metric to check. The full list
+                            being quite large, please refer to atlas docs here for
+                            general metrics and here for serverless metrics
                           type: string
                         mode:
+                          description: This must be set to AVERAGE. Atlas computes
+                            the current metric value as an average.
                           type: string
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         threshold:
+                          description: Threshold value outside of which an alert will
+                            be triggered.
                           type: number
                         units:
+                          description: |-
+                            The units for the threshold value. Depends on the type of metric.
+                            Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
                           type: string
                       type: object
                     type: array
@@ -814,60 +959,116 @@ spec:
                     items:
                       properties:
                         channelName:
+                          description: Slack channel name. Required for the SLACK
+                            notifications type.
                           type: string
                         datadogRegion:
+                          description: Region that indicates which API URL to use.
+                            See the datadogRegion field in the notifications request
+                            parameter of MongoDB API Alert Configuration documentation
+                            for more details. The default Datadog region is US.
                           type: string
                         delayMin:
+                          description: Number of minutes to wait after an alert condition
+                            is detected before sending out the first notification.
                           type: number
                         emailAddress:
+                          description: Email address to which alert notifications
+                            are sent. Required for the EMAIL notifications type.
                           type: string
                         emailEnabled:
+                          description: Flag indicating email notifications should
+                            be sent. This flag is only valid if type_name is set to
+                            ORG, GROUP, or USER.
                           type: boolean
-                        flowName:
+                        integrationId:
+                          description: The ID of the associated integration, the credentials
+                            of which to use for requests.
                           type: string
                         intervalMin:
+                          description: Number of minutes to wait between successive
+                            notifications for unacknowledged alerts that are not resolved.
+                            The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and
+                            OPS_GENIE notifications do not return this value. The
+                            notification interval must be configured and managed within
+                            each external service.
                           type: number
                         mobileNumber:
+                          description: Mobile number to which alert notifications
+                            are sent. Required for the SMS notifications type.
+                          type: string
+                        notifierId:
+                          description: The notifier ID is a system-generated unique
+                            identifier assigned to each notification method. This
+                            is needed when updating third-party notifications without
+                            requiring explicit authentication credentials.
                           type: string
                         opsGenieRegion:
-                          type: string
-                        orgName:
+                          description: 'Region that indicates which API URL to use.
+                            Accepted regions are: US ,EU. The default Opsgenie region
+                            is US.'
                           type: string
                         roles:
+                          description: |-
+                            Optional. One or more roles that receive the configured alert. If you include this field, Atlas sends alerts only to users assigned the roles you specify in the array. If you omit this field, Atlas sends alerts to users assigned any role. This parameter is only valid if type_name is set to ORG, GROUP, or USER.
+                            Accepted values are:
                           items:
                             type: string
                           type: array
                         smsEnabled:
+                          description: Flag indicating if text message notifications
+                            should be sent to this user's mobile phone. This flag
+                            is only valid if type_name is set to ORG, GROUP, or USER.
                           type: boolean
                         teamId:
+                          description: Unique identifier of a team.
                           type: string
                         teamName:
+                          description: Label for the team that receives this notification.
                           type: string
                         typeName:
+                          description: |-
+                            Type of alert notification.
+                            Accepted values are:
                           type: string
                         username:
+                          description: Name of the Atlas user to which to send notifications.
+                            Only a user in the project that owns the alert configuration
+                            is allowed here. Required for the USER notifications type.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The ID of the project where the alert configuration
+                      will create, also known as groupId in the official documentation.
                     type: string
-                  threshold:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
+                  severityOverride:
+                    description: Severity of the event. For the list of accepted values
+                      please read the Create One Alert Configuration in One Project
+                      API documentation.
+                    type: string
                   thresholdConfig:
                     items:
                       properties:
                         operator:
+                          description: |-
+                            The operator to test the field’s value.
+                            Accepted values are:
                           type: string
                         threshold:
+                          description: Threshold value outside of which an alert will
+                            be triggered.
                           type: number
                         units:
+                          description: |-
+                            The units for the threshold value. Depends on the type of metric.
+                            Refer to the MongoDB API Alert Configuration documentation for a list of accepted values.
                           type: string
                       type: object
                     type: array
                   updated:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when this alert configuration was last updated.
                     type: string
                 type: object
               conditions:

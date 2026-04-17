@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: backupsnapshots.cloud.mongodbatlas.crossplane.io
 spec:
   group: cloud.mongodbatlas.crossplane.io
@@ -34,8 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: BackupSnapshot is the Schema for the BackupSnapshots API. <no
-          value>
+        description: BackupSnapshot is the Schema for the BackupSnapshots API.
         properties:
           apiVersion:
             description: |-
@@ -74,10 +73,20 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: The name of the Atlas cluster that contains the snapshots
+                      you want to retrieve.
                     type: string
+                  deleteOnCreateTimeout:
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    type: boolean
                   description:
+                    description: Description of the on-demand snapshot.
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -156,6 +165,8 @@ spec:
                         type: object
                     type: object
                   retentionInDays:
+                    description: The number of days that Atlas should retain the on-demand
+                      snapshot. Must be at least 1.
                     type: number
                 type: object
               initProvider:
@@ -172,10 +183,20 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: The name of the Atlas cluster that contains the snapshots
+                      you want to retrieve.
                     type: string
+                  deleteOnCreateTimeout:
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    type: boolean
                   description:
+                    description: Description of the on-demand snapshot.
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -254,6 +275,8 @@ spec:
                         type: object
                     type: object
                   retentionInDays:
+                    description: The number of days that Atlas should retain the on-demand
+                      snapshot. Must be at least 1.
                     type: number
                 type: object
               managementPolicies:
@@ -361,51 +384,94 @@ spec:
               atProvider:
                 properties:
                   cloudProvider:
+                    description: Cloud provider that stores this snapshot. Atlas returns
+                      this parameter when type is replicaSet.
                     type: string
                   clusterName:
+                    description: The name of the Atlas cluster that contains the snapshots
+                      you want to retrieve.
                     type: string
                   createdAt:
+                    description: UTC ISO 8601 formatted point in time when Atlas took
+                      the snapshot.
                     type: string
+                  deleteOnCreateTimeout:
+                    description: |-
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    type: boolean
                   description:
+                    description: Description of the on-demand snapshot.
                     type: string
                   expiresAt:
+                    description: UTC ISO 8601 formatted point in time when Atlas will
+                      delete the snapshot.
                     type: string
                   id:
                     type: string
                   masterKeyUuid:
+                    description: Unique ID of the AWS KMS Customer Master Key used
+                      to encrypt the snapshot. Only visible for clusters using Encryption
+                      at Rest via Customer KMS.
                     type: string
                   members:
+                    description: Block of List of snapshots and the cloud provider
+                      where the snapshots are stored. Atlas returns this parameter
+                      when type is shardedCluster. See below
                     items:
                       properties:
                         cloudProvider:
+                          description: Cloud provider that stores this snapshot.
                           type: string
                         id:
+                          description: Unique identifier for the sharded cluster snapshot.
                           type: string
                         replicaSetName:
+                          description: Label given to a shard or config server from
+                            which Atlas took this snapshot.
                           type: string
                       type: object
                     type: array
                   mongodVersion:
+                    description: Version of the MongoDB server.
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster, also known as groupId in the official documentation.
                     type: string
                   replicaSetName:
+                    description: Label given to the replica set from which Atlas took
+                      this snapshot. Atlas returns this parameter when type is replicaSet.
                     type: string
                   retentionInDays:
+                    description: The number of days that Atlas should retain the on-demand
+                      snapshot. Must be at least 1.
                     type: number
                   snapshotId:
+                    description: Unique identifier of the snapshot.
                     type: string
                   snapshotIds:
+                    description: Unique identifiers of the snapshots created for the
+                      shards and config server for a sharded cluster. Atlas returns
+                      this parameter when type is shardedCluster. These identifiers
+                      should match those given in the members[#].id parameters. This
+                      allows you to map a snapshot to its shard or config server name.
                     items:
                       type: string
                     type: array
                   snapshotType:
+                    description: Specified the type of snapshot. Valid values are
+                      onDemand and scheduled.
                     type: string
                   status:
+                    description: 'Current status of the snapshot. One of the following
+                      values will be returned: queued, inProgress, completed, failed.'
                     type: string
                   storageSizeBytes:
+                    description: Specifies the size of the snapshot in bytes.
                     type: number
                   type:
+                    description: 'Specifies the type of cluster: replicaSet or shardedCluster.'
                     type: string
                 type: object
               conditions:

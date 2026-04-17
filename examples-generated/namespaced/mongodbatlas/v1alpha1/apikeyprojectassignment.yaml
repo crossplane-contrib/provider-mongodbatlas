@@ -1,0 +1,96 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: APIKeyProjectAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/apikeyprojectassignment
+  labels:
+    testing.upbound.io/example-name: first_assignment
+  name: first-assignment
+  namespace: crossplane-system
+spec:
+  forProvider:
+    apiKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: first_project
+    roles:
+    - GROUP_OWNER
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: AccessListAPIKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    apiKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    cidrBlock: 0.0.0.0/1
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: APIKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: Test API Key
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roleNames:
+    - ORG_READ_ONLY
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
+  labels:
+    testing.upbound.io/example-name: first_project
+  name: first-project
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: First Project
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
+  labels:
+    testing.upbound.io/example-name: second_project
+  name: second-project
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: Second Project
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

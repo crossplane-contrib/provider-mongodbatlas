@@ -8,7 +8,6 @@ package v1alpha1
 import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1"
-	common "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -23,7 +22,7 @@ func (mg *Configuration) ResolveReferences(ctx context.Context, c client.Reader)
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
-		Extract:      common.ExtractResourceID(),
+		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectIDRef,
 		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
@@ -40,7 +39,7 @@ func (mg *Configuration) ResolveReferences(ctx context.Context, c client.Reader)
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
-		Extract:      common.ExtractResourceID(),
+		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectIDRef,
 		Selector:     mg.Spec.InitProvider.ProjectIDSelector,

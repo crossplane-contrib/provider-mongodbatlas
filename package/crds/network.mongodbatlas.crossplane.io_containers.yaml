@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: containers.network.mongodbatlas.crossplane.io
 spec:
   group: network.mongodbatlas.crossplane.io
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Container is the Schema for the Containers API. <no value>
+        description: Container is the Schema for the Containers API.
         properties:
           apiVersion:
             description: |-
@@ -73,8 +73,16 @@ spec:
               forProvider:
                 properties:
                   atlasCidrBlock:
+                    description: 'CIDR block that Atlas uses for the Network Peering
+                      containers in your project.  Atlas uses the specified CIDR block
+                      for all other Network Peering connections created in the project.
+                      The Atlas CIDR block must be at least a /24 and at most a /21
+                      in one of the following private networks:'
                     type: string
                   projectId:
+                    description: Unique identifier for the Atlas project for this
+                      Network Peering Container, also known as groupId in the official
+                      documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -153,12 +161,23 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Cloud provider for this Network Peering connection.  Accepted
+                      values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter
+                      to AWS.
                     type: string
                   region:
+                    description: Atlas region where the container resides, see the
+                      reference list for Atlas Azure region names Azure.
                     type: string
                   regionName:
+                    description: The Atlas AWS region name for where this container
+                      will exist, see the reference list for Atlas AWS region names
+                      AWS.
                     type: string
                   regions:
+                    description: Atlas regions where the container resides. Provide
+                      this field only if you provide an atlas_cidr_block smaller than
+                      /18. GCP Regions values.
                     items:
                       type: string
                     type: array
@@ -177,8 +196,16 @@ spec:
                   autoscaler.
                 properties:
                   atlasCidrBlock:
+                    description: 'CIDR block that Atlas uses for the Network Peering
+                      containers in your project.  Atlas uses the specified CIDR block
+                      for all other Network Peering connections created in the project.
+                      The Atlas CIDR block must be at least a /24 and at most a /21
+                      in one of the following private networks:'
                     type: string
                   projectId:
+                    description: Unique identifier for the Atlas project for this
+                      Network Peering Container, also known as groupId in the official
+                      documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -257,12 +284,23 @@ spec:
                         type: object
                     type: object
                   providerName:
+                    description: Cloud provider for this Network Peering connection.  Accepted
+                      values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter
+                      to AWS.
                     type: string
                   region:
+                    description: Atlas region where the container resides, see the
+                      reference list for Atlas Azure region names Azure.
                     type: string
                   regionName:
+                    description: The Atlas AWS region name for where this container
+                      will exist, see the reference list for Atlas AWS region names
+                      AWS.
                     type: string
                   regions:
+                    description: Atlas regions where the container resides. Provide
+                      this field only if you provide an atlas_cidr_block smaller than
+                      /18. GCP Regions values.
                     items:
                       type: string
                     type: array
@@ -364,34 +402,70 @@ spec:
               atProvider:
                 properties:
                   atlasCidrBlock:
+                    description: 'CIDR block that Atlas uses for the Network Peering
+                      containers in your project.  Atlas uses the specified CIDR block
+                      for all other Network Peering connections created in the project.
+                      The Atlas CIDR block must be at least a /24 and at most a /21
+                      in one of the following private networks:'
                     type: string
                   azureSubscriptionId:
+                    description: Unique identifier of the Azure subscription in which
+                      the VNet resides.
                     type: string
                   containerId:
+                    description: The Network Peering Container ID.
                     type: string
                   gcpProjectId:
+                    description: Unique identifier of the GCP project in which the
+                      network peer resides. Returns null. This value is populated
+                      once you create a new network peering connection with the network
+                      peering resource.
                     type: string
                   id:
                     type: string
                   networkName:
+                    description: Unique identifier of the Network Peering connection
+                      in the Atlas project. Returns null. This value is populated
+                      once you create a new network peering connection with the network
+                      peering resource.
                     type: string
                   projectId:
+                    description: Unique identifier for the Atlas project for this
+                      Network Peering Container, also known as groupId in the official
+                      documentation.
                     type: string
                   providerName:
+                    description: Cloud provider for this Network Peering connection.  Accepted
+                      values are GCP, AWS, AZURE. If omitted, Atlas sets this parameter
+                      to AWS.
                     type: string
                   provisioned:
+                    description: Indicates whether the project has Network Peering
+                      connections deployed in the container.
                     type: boolean
                   region:
+                    description: Atlas region where the container resides, see the
+                      reference list for Atlas Azure region names Azure.
                     type: string
                   regionName:
+                    description: The Atlas AWS region name for where this container
+                      will exist, see the reference list for Atlas AWS region names
+                      AWS.
                     type: string
                   regions:
+                    description: Atlas regions where the container resides. Provide
+                      this field only if you provide an atlas_cidr_block smaller than
+                      /18. GCP Regions values.
                     items:
                       type: string
                     type: array
                   vnetName:
+                    description: The name of the Azure VNet. Returns null. This value
+                      is populated once you create a new network peering connection
+                      with the network peering resource.
                     type: string
                   vpcId:
+                    description: Unique identifier of Atlas' AWS VPC.
                     type: string
                 type: object
               conditions:

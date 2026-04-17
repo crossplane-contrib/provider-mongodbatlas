@@ -1,0 +1,32 @@
+apiVersion: database.mongodbatlas.m.crossplane.io/v1alpha3
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha3/user
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    authDatabaseName: admin
+    labels:
+    - key: My Key
+      value: My Value
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roles:
+    - databaseName: dbforApp
+      roleName: readWrite
+    - databaseName: admin
+      roleName: readAnyDatabase
+    scopes:
+    - name: My cluster name
+      type: CLUSTER
+    - name: My second cluster name
+      type: CLUSTER
+    username: test-acc-username

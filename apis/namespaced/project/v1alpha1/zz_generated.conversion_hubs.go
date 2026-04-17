@@ -14,3 +14,12 @@ func (tr *Invitation) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *IPAccessList) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceAccount) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceAccountAccessListEntry) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceAccountSecret) Hub() {}

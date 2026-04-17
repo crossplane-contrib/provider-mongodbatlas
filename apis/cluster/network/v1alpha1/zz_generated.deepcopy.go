@@ -390,6 +390,21 @@ func (in *PeeringInitParameters) DeepCopyInto(out *PeeringInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ContainerIDRef != nil {
+		in, out := &in.ContainerIDRef, &out.ContainerIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ContainerIDSelector != nil {
+		in, out := &in.ContainerIDSelector, &out.ContainerIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DeleteOnCreateTimeout != nil {
+		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
+		*out = new(bool)
+		**out = **in
+	}
 	if in.GCPProjectID != nil {
 		in, out := &in.GCPProjectID, &out.GCPProjectID
 		*out = new(string)
@@ -537,6 +552,11 @@ func (in *PeeringObservation) DeepCopyInto(out *PeeringObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeleteOnCreateTimeout != nil {
+		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ErrorMessage != nil {
 		in, out := &in.ErrorMessage, &out.ErrorMessage
 		*out = new(string)
@@ -665,6 +685,21 @@ func (in *PeeringParameters) DeepCopyInto(out *PeeringParameters) {
 	if in.ContainerID != nil {
 		in, out := &in.ContainerID, &out.ContainerID
 		*out = new(string)
+		**out = **in
+	}
+	if in.ContainerIDRef != nil {
+		in, out := &in.ContainerIDRef, &out.ContainerIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ContainerIDSelector != nil {
+		in, out := &in.ContainerIDSelector, &out.ContainerIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DeleteOnCreateTimeout != nil {
+		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
+		*out = new(bool)
 		**out = **in
 	}
 	if in.GCPProjectID != nil {

@@ -1,0 +1,27 @@
+apiVersion: database.mongodbatlas.crossplane.io/v1alpha1
+kind: CustomRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/customrole
+  labels:
+    testing.upbound.io/example-name: test_role
+  name: test-role
+spec:
+  forProvider:
+    actions:
+    - action: UPDATE
+      resources:
+      - collectionName: ""
+        databaseName: anyDatabase
+    - action: INSERT
+      resources:
+      - collectionName: ""
+        databaseName: anyDatabase
+    - action: REMOVE
+      resources:
+      - collectionName: ""
+        databaseName: anyDatabase
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roleName: myCustomRole

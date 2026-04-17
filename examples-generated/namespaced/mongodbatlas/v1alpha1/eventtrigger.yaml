@@ -1,0 +1,38 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: EventTrigger
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/eventtrigger
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: crossplane-system
+spec:
+  forProvider:
+    appId: APPLICATION ID
+    configCollection: COLLECTION NAME
+    configDatabase: DATABASE NAME
+    configFullDocument: false
+    configFullDocumentBefore: false
+    configMatch: |
+      {
+        "updateDescription.updatedFields": {
+          "status": "blocked"
+        }
+      }
+    configOperationTypes:
+    - INSERT
+    - UPDATE
+    configProject: '{"updateDescription.updatedFields":{"status":"blocked"}}'
+    configServiceId: SERVICE ID
+    disabled: false
+    eventProcessors:
+    - awsEventbridge:
+      - configAccountId: AWS ACCOUNT ID
+        configRegion: AWS REGIOn
+    functionId: FUNCTION ID
+    name: NAME OF THE TRIGGER
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    type: DATABASE

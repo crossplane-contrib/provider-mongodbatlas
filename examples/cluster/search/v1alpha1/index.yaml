@@ -1,0 +1,20 @@
+apiVersion: search.mongodbatlas.crossplane.io/v1alpha1
+kind: Index
+metadata:
+  annotations:
+    meta.upbound.io/example-id: search/v1alpha1/index
+  labels:
+    testing.upbound.io/example-name: test-basic-search-index
+  name: test-basic-search-index
+spec:
+  forProvider:
+    analyzer: lucene.standard
+    clusterName: <CLUSTER_NAME>
+    collectionName: collection_test
+    database: database_test
+    mappingsDynamic: true
+    name: test-basic-search-index
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    searchAnalyzer: lucene.standard

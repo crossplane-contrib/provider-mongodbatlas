@@ -8,7 +8,6 @@ package v1alpha1
 import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1"
-	common "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -23,7 +22,7 @@ func (mg *Container) ResolveReferences(ctx context.Context, c client.Reader) err
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
-		Extract:      common.ExtractResourceID(),
+		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectIDRef,
 		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
@@ -40,7 +39,7 @@ func (mg *Container) ResolveReferences(ctx context.Context, c client.Reader) err
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
-		Extract:      common.ExtractResourceID(),
+		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectIDRef,
 		Selector:     mg.Spec.InitProvider.ProjectIDSelector,
@@ -66,8 +65,25 @@ func (mg *Peering) ResolveReferences(ctx context.Context, c client.Reader) error
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ContainerID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ContainerIDRef,
+		Selector:     mg.Spec.ForProvider.ContainerIDSelector,
+		To: reference.To{
+			List:    &ContainerList{},
+			Managed: &Container{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ContainerID")
+	}
+	mg.Spec.ForProvider.ContainerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ContainerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
-		Extract:      common.ExtractResourceID(),
+		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectIDRef,
 		Selector:     mg.Spec.ForProvider.ProjectIDSelector,
@@ -83,8 +99,25 @@ func (mg *Peering) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ContainerID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ContainerIDRef,
+		Selector:     mg.Spec.InitProvider.ContainerIDSelector,
+		To: reference.To{
+			List:    &ContainerList{},
+			Managed: &Container{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ContainerID")
+	}
+	mg.Spec.InitProvider.ContainerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ContainerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
-		Extract:      common.ExtractResourceID(),
+		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectIDRef,
 		Selector:     mg.Spec.InitProvider.ProjectIDSelector,

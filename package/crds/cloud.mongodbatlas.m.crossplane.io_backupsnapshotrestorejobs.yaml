@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: backupsnapshotrestorejobs.cloud.mongodbatlas.m.crossplane.io
 spec:
   group: cloud.mongodbatlas.m.crossplane.io
@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackupSnapshotRestoreJob is the Schema for the BackupSnapshotRestoreJobs
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -61,34 +61,57 @@ spec:
               forProvider:
                 properties:
                   clusterName:
+                    description: The name of the Atlas cluster whose snapshot you
+                      want to restore.
                     type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   deliveryTypeConfig:
+                    description: 'Type of restore job to create. Possible configurations
+                      are: download, automated, or pointInTime only one must be set
+                      it in true.'
                     items:
                       properties:
                         automated:
+                          description: Set to true to use the automated configuration.
                           type: boolean
                         download:
+                          description: Set to true to use the download configuration.
                           type: boolean
                         oplogInc:
+                          description: Optional setting for pointInTime configuration.
+                            Oplog operation number from which to you want to restore
+                            this snapshot. This is the second part of an Oplog timestamp.
+                            Used in conjunction with oplog_ts.
                           type: number
                         oplogTs:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which to you want to restore this
+                            snapshot. This is the first part of an Oplog timestamp.
                           type: number
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which you want to restore this snapshot.
+                            Used instead of oplog settings.
                           type: number
                         targetClusterName:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                         targetProjectId:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster whose snapshot you want to restore, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -173,7 +196,91 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Optional setting for pointInTime configuration. Unique
+                      identifier of the snapshot to restore.
                     type: string
+                  snapshotIdRef:
+                    description: Reference to a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  snapshotIdSelector:
+                    description: Selector for a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -189,34 +296,57 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
+                    description: The name of the Atlas cluster whose snapshot you
+                      want to restore.
                     type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   deliveryTypeConfig:
+                    description: 'Type of restore job to create. Possible configurations
+                      are: download, automated, or pointInTime only one must be set
+                      it in true.'
                     items:
                       properties:
                         automated:
+                          description: Set to true to use the automated configuration.
                           type: boolean
                         download:
+                          description: Set to true to use the download configuration.
                           type: boolean
                         oplogInc:
+                          description: Optional setting for pointInTime configuration.
+                            Oplog operation number from which to you want to restore
+                            this snapshot. This is the second part of an Oplog timestamp.
+                            Used in conjunction with oplog_ts.
                           type: number
                         oplogTs:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which to you want to restore this
+                            snapshot. This is the first part of an Oplog timestamp.
                           type: number
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which you want to restore this snapshot.
+                            Used instead of oplog settings.
                           type: number
                         targetClusterName:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                         targetProjectId:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                       type: object
                     type: array
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster whose snapshot you want to restore, also known as groupId
+                      in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -301,7 +431,91 @@ spec:
                         type: object
                     type: object
                   snapshotId:
+                    description: Optional setting for pointInTime configuration. Unique
+                      identifier of the snapshot to restore.
                     type: string
+                  snapshotIdRef:
+                    description: Reference to a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  snapshotIdSelector:
+                    description: Selector for a BackupSnapshot in cloud to populate
+                      snapshotId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -366,10 +580,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
                 || (has(self.initProvider) && has(self.initProvider.clusterName))'
-            - message: spec.forProvider.snapshotId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.snapshotId)
-                || (has(self.initProvider) && has(self.initProvider.snapshotId))'
           status:
             description: BackupSnapshotRestoreJobStatus defines the observed state
               of BackupSnapshotRestoreJob.
@@ -377,56 +587,93 @@ spec:
               atProvider:
                 properties:
                   cancelled:
+                    description: Indicates whether the restore job was canceled.
                     type: boolean
                   clusterName:
+                    description: The name of the Atlas cluster whose snapshot you
+                      want to restore.
                     type: string
-                  createdAt:
-                    type: string
-                  deliveryType:
-                    additionalProperties:
-                      type: string
-                    type: object
-                    x-kubernetes-map-type: granular
                   deliveryTypeConfig:
+                    description: 'Type of restore job to create. Possible configurations
+                      are: download, automated, or pointInTime only one must be set
+                      it in true.'
                     items:
                       properties:
                         automated:
+                          description: Set to true to use the automated configuration.
                           type: boolean
                         download:
+                          description: Set to true to use the download configuration.
                           type: boolean
                         oplogInc:
+                          description: Optional setting for pointInTime configuration.
+                            Oplog operation number from which to you want to restore
+                            this snapshot. This is the second part of an Oplog timestamp.
+                            Used in conjunction with oplog_ts.
                           type: number
                         oplogTs:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which to you want to restore this
+                            snapshot. This is the first part of an Oplog timestamp.
                           type: number
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
+                          description: Optional setting for pointInTime configuration.
+                            Timestamp in the number of seconds that have elapsed since
+                            the UNIX epoch from which you want to restore this snapshot.
+                            Used instead of oplog settings.
                           type: number
                         targetClusterName:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                         targetProjectId:
+                          description: Name of the target Atlas cluster to which the
+                            restore job restores the snapshot. Required for automated
+                            and pointInTime.
                           type: string
                       type: object
                     type: array
                   deliveryUrl:
+                    description: One or more URLs for the compressed snapshot files
+                      for manual download. Only visible if deliveryType is download.
                     items:
                       type: string
                     type: array
                   expired:
+                    description: Indicates whether the restore job expired.
                     type: boolean
                   expiresAt:
+                    description: UTC ISO 8601 formatted point in time when the restore
+                      job expires.
                     type: string
+                  failed:
+                    description: Indicates whether the restore job failed.
+                    type: boolean
                   finishedAt:
+                    description: UTC ISO 8601 formatted point in time when the restore
+                      job completed.
                     type: string
                   id:
                     type: string
                   projectId:
+                    description: The unique identifier of the project for the Atlas
+                      cluster whose snapshot you want to restore, also known as groupId
+                      in the official documentation.
                     type: string
                   snapshotId:
+                    description: Optional setting for pointInTime configuration. Unique
+                      identifier of the snapshot to restore.
                     type: string
                   snapshotRestoreJobId:
+                    description: The unique identifier of the restore job.
                     type: string
                   timestamp:
+                    description: Timestamp in ISO 8601 date and time format in UTC
+                      when the snapshot associated to snapshotId was taken.
                     type: string
                 type: object
               conditions:

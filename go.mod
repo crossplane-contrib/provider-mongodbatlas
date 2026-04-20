@@ -7,7 +7,7 @@ tool golang.org/x/tools/cmd/goimports
 require (
 	dario.cat/mergo v1.0.2
 	github.com/alecthomas/kong v1.15.0
-	github.com/crossplane/crossplane-runtime/v2 v2.2.0
+	github.com/crossplane/crossplane-runtime/v2 v2.2.1
 	github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339
 	github.com/crossplane/upjet/v2 v2.2.1-0.20260414070754-c6d5213346ac
 	github.com/go-logr/logr v1.4.3

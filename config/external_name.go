@@ -86,7 +86,7 @@ var externalNameConfigs = map[string]externalNameEntry{
 	"mongodbatlas_cloud_user_team_assignment":                                  templated("{{ .parameters.org_id }}/{{ .parameters.team_id }}/{{ .parameters.username }}", "username"),
 	"mongodbatlas_cluster_outage_simulation":                                   identifierFromProvider(), // doesn't support import
 	"mongodbatlas_cluster":                                                     templated("{{ .parameters.project_id }}-{{ .parameters.name }}", "name"),
-	"mongodbatlas_custom_db_role":                                              templated("{{ .parameters.project_id }}/{{ .parameters.role_name }}", "role_name"),
+	"mongodbatlas_custom_db_role":                                              templated("{{ .parameters.project_id }}-{{ .parameters.role_name }}", "role_name"),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        templated("{{ .parameters.project_id }}", "project_id"),
 	"mongodbatlas_database_user":                                               templated("{{ .parameters.project_id }}/{{ .parameters.username }}/{{ .parameters.auth_database_name }}", "username"),
 	"mongodbatlas_encryption_at_rest":                                          templated("{{ .parameters.project_id }}", "project_id"),

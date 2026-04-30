@@ -2,11 +2,22 @@
 
 This document describes the minimum parameters needed to import `provider-mongodbatlas` resources.
 
-Typically you use the `crossplane.io/external-name` annotation to tell Crossplane which is the ID of
-a given resource, so it can internally _import_ the resource.
+The provider supports two ways to identify an existing resource for import:
 
-In this provider, this is managed automatically by Crossplane: you do not need to set it manually.
-Just set the required parameters in the resource `spec` and Crossplane handles the rest.
+## Option A: by parameters (recommended)
+
+Set the required identity parameters in `spec.forProvider`.
+The provider computes the Terraform ID internally and writes it into the `crossplane.io/external-name`
+annotation after the first successful observe.
+You do not need to set the annotation manually.
+
+## Option B: by annotation
+Set `crossplane.io/external-name` directly to the full Terraform ID.
+The provider uses that value as-is and skips template rendering.
+Useful when you only have the ID and do not want to populate every identity parameter, or when adopting a resource
+without binding it to specific `forProvider` values.
+
+If both are set, parameters take precedence: the rendered Terraform ID overwrites the annotation after the first observe.
 
 Parameters marked with **ref** support `Ref`/`Selector` fields for cross-resource references (e.g. `projectIdRef`, `projectIdSelector`).
 
@@ -100,19 +111,62 @@ The following resources do not support import:
 - `mongodbatlas_stream_privatelink_endpoint`
 
 
-## Example
+## Terraform ID format (for Option B)
 
-To import an existing MongoDB Atlas resource into Crossplane, create a manifest with:
+When importing via the `crossplane.io/external-name` annotation, the value must be the
+full Terraform ID. The format mirrors the identity-parameter list, joined by the
+separator below.
+
+| Resource | Annotation value (`crossplane.io/external-name`) |
+|----------|--------------------------------------------------|
+| `mongodbatlas_advanced_cluster` | `<projectId>-<name>` |
+| `mongodbatlas_api_key_project_assignment` | `<projectId>/<apiKeyId>` |
+| `mongodbatlas_backup_compliance_policy` | `<projectId>` |
+| `mongodbatlas_cloud_backup_schedule` | `<projectId>/<clusterName>` |
+| `mongodbatlas_cloud_user_org_assignment` | `<orgId>/<username>` |
+| `mongodbatlas_cloud_user_project_assignment` | `<projectId>/<username>` |
+| `mongodbatlas_cloud_user_team_assignment` | `<orgId>/<teamId>/<username>` |
+| `mongodbatlas_cluster` | `<projectId>-<name>` |
+| `mongodbatlas_custom_db_role` | `<projectId>-<roleName>` |
+| `mongodbatlas_custom_dns_configuration_cluster_aws` | `<projectId>` |
+| `mongodbatlas_database_user` | `<projectId>/<username>/<authDatabaseName>` |
+| `mongodbatlas_encryption_at_rest` | `<projectId>` |
+| `mongodbatlas_federated_database_instance` | `<projectId>--<name>` |
+| `mongodbatlas_federated_query_limit` | `<projectId>--<tenantName>--<limitName>` |
+| `mongodbatlas_federated_settings_org_config` | `<federationSettingsId>/<orgId>` |
+| `mongodbatlas_flex_cluster` | `<projectId>-<name>` |
+| `mongodbatlas_global_cluster_config` | `<projectId>/<clusterName>` |
+| `mongodbatlas_ldap_configuration` | `<projectId>` |
+| `mongodbatlas_maintenance_window` | `<projectId>` |
+| `mongodbatlas_mongodb_employee_access_grant` | `<projectId>/<clusterName>` |
+| `mongodbatlas_org_invitation` | `<orgId>-<username>` |
+| `mongodbatlas_private_endpoint_regional_mode` | `<projectId>` |
+| `mongodbatlas_privatelink_endpoint_service_data_federation_online_archive` | `<projectId>--<endpointId>` |
+| `mongodbatlas_project_invitation` | `<projectId>-<username>` |
+| `mongodbatlas_push_based_log_export` | `<projectId>` |
+| `mongodbatlas_search_deployment` | `<projectId>-<clusterName>` |
+| `mongodbatlas_service_account_project_assignment` | `<projectId>/<clientId>` |
+| `mongodbatlas_stream_connection` | `<workspaceName>-<projectId>-<connectionName>` |
+| `mongodbatlas_stream_instance` | `<projectId>-<instanceName>` |
+| `mongodbatlas_stream_processor` | `<instanceName>-<projectId>-<processorName>` |
+| `mongodbatlas_stream_workspace` | `<projectId>-<workspaceName>` |
+| `mongodbatlas_team_project_assignment` | `<projectId>/<teamId>` |
+| `mongodbatlas_third_party_integration` | `<projectId>-<type>` |
+| `mongodbatlas_x509_authentication_database_user` | `<projectId>` |
+
+Resources not listed here either use a provider-assigned ID (see the **External Name**
+column above — set the annotation to that value) or use a single parameter as ID
+(e.g. `mongodbatlas_project` uses `projectId`).
+
+## Examples
+
+### Option A — import by parameters
+
+Create a manifest with:
 
 1. The **required identity parameters** listed in the table above (under `spec.forProvider`).
 2. `managementPolicies: ["Observe"]` so Crossplane reads the remote state without modifying it.
 3. A `providerConfigRef` pointing to valid Atlas credentials.
-
-You do **not** need to set the `crossplane.io/external-name` annotation — the provider
-builds it automatically from the identity parameters and updates it after the first
-successful observe.
-
-### Importing a database user
 
 ```yaml
 apiVersion: database.mongodbatlas.m.crossplane.io/v1alpha2
@@ -132,6 +186,34 @@ spec:
 ```
 
 After applying, Crossplane will:
-- Set `crossplane.io/external-name` to the username (`my-user`).
+- Render the Terraform ID from the parameters (`00001111aaaabbbb55556666/my-user/admin`)
+  and write it to `crossplane.io/external-name` after the first successful observe.
 - Populate `status.atProvider` with the full remote state (roles, scopes, etc.).
 - Report the resource as `Ready` and `Synced` once the observe succeeds.
+
+### Option B — import by external-name annotation
+
+Set the annotation to the full Terraform ID and omit the identity parameters from
+`spec.forProvider`. CRD schema validation still applies, so any field marked
+`required` in the generated CRD must be present — check the CRD before relying on
+this path for a given resource.
+
+```yaml
+apiVersion: database.mongodbatlas.m.crossplane.io/v1alpha2
+kind: User
+metadata:
+  name: my-db-user
+  annotations:
+    crossplane.io/external-name: 00001111aaaabbbb55556666/my-user/admin
+spec:
+  forProvider: {}              # template parameters omitted; ID comes from annotation
+  managementPolicies:
+    - Observe
+  providerConfigRef:
+    name: default
+    kind: ClusterProviderConfig
+```
+
+The provider uses the annotation value directly as the Terraform ID. After observe,
+`status.atProvider` is populated with the full remote state (which includes
+`projectId`, `username`, `authDatabaseName`, etc.).

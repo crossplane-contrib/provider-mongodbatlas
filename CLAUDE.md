@@ -67,5 +67,3 @@ Each `externalNameEntry` carries an `initCRDField` (the camelCase `forProvider` 
 - Resources in sub-groups set `r.ShortGroup = "groupname"` explicitly in their configurator
 - Version constants (`VersionV1Alpha2`, `VersionV1Alpha3`) live in `config/cluster/common/common.go` and `config/namespaced/common/common.go`
 - The Dockerfile sets `NO_COLOR=1` and `TF_CLI_ARGS_import=-no-color` to suppress ANSI in terraform output
-
-@.claude/wiz-claude.md

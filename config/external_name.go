@@ -65,7 +65,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_project_service_account_access_list_entry":                   config.IdentifierFromProvider,
 	"mongodbatlas_project_service_account_secret":                              config.IdentifierFromProvider,
 	"mongodbatlas_project_service_account":                                     config.IdentifierFromProvider,
-	"mongodbatlas_project":                                                     config.ParameterAsIdentifier("project_id"),
+	"mongodbatlas_project":                                                     config.IdentifierFromProvider,
 	"mongodbatlas_push_based_log_export":                                       templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_resource_policy":                                             config.IdentifierFromProvider,
 	"mongodbatlas_search_deployment":                                           templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.cluster_name }}"),

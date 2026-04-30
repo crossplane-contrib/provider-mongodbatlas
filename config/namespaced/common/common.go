@@ -273,8 +273,9 @@ func generateAndApply(ctx context.Context, cl client.Client, mg xpresource.Manag
 	}
 	s.SetName(name)
 	s.SetNamespace(ns)
+	s.Type = xpresource.SecretTypeConnection
 	if !meta.WasCreated(s) {
-		meta.AddOwnerReference(s, meta.AsOwner(meta.TypedReferenceTo(mg, mg.GetObjectKind().GroupVersionKind())))
+		meta.AddOwnerReference(s, meta.AsController(meta.TypedReferenceTo(mg, mg.GetObjectKind().GroupVersionKind())))
 	}
 	if s.Data == nil {
 		s.Data = make(map[string][]byte, 1)

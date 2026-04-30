@@ -64,7 +64,6 @@ func GetidentifierFromProvider() *ujconfig.Provider {
 		ujconfig.WithDefaultResourceOptions(
 			resetRootShortGroup(),
 			ExternalNameConfigurations(),
-			ExternalNameInitializers(),
 		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",
@@ -102,7 +101,6 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		ujconfig.WithDefaultResourceOptions(
 			resetRootShortGroup(),
 			ExternalNameConfigurations(),
-			ExternalNameInitializers(),
 		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",

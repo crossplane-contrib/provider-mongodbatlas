@@ -12,7 +12,6 @@ require (
 	github.com/crossplane/upjet/v2 v2.2.1-0.20260414070754-c6d5213346ac
 	github.com/go-logr/logr v1.4.3
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.37.0
-	github.com/iancoleman/strcase v0.2.0
 	github.com/pkg/errors v0.9.1
 	google.golang.org/grpc v1.80.0
 	k8s.io/api v0.35.4
@@ -79,6 +78,7 @@ require (
 	github.com/hashicorp/terraform-registry-address v0.2.5 // indirect
 	github.com/hashicorp/terraform-svchost v0.1.1 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
+	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect

@@ -57,7 +57,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_organization":                                                config.IdentifierFromProvider,
 	"mongodbatlas_private_endpoint_regional_mode":                              templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive": templatedStringAsIdentifier("{{ .parameters.project_id }}--{{ .parameters.endpoint_id }}"),
-	"mongodbatlas_privatelink_endpoint_service":                                config.IdentifierFromProvider,
+	"mongodbatlas_privatelink_endpoint_service":                                encodedStateID([]string{"project_id", "private_link_id", "endpoint_service_id", "provider_name"}, "endpoint_service_id"),
 	"mongodbatlas_privatelink_endpoint":                                        config.IdentifierFromProvider,
 	"mongodbatlas_project_api_key":                                             config.IdentifierFromProvider,
 	"mongodbatlas_project_invitation":                                          config.IdentifierFromProvider,

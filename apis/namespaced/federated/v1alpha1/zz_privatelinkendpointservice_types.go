@@ -17,15 +17,22 @@ import (
 type PrivateLinkEndpointServiceInitParameters struct {
 
 	// Human-readable string to associate with this private endpoint.
+	// Human-readable string to associate with this private endpoint.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
 	// Human-readable label to identify VPC endpoint DNS name. If defined, you must also specify a value for region.
+	// Human-readable DNS name to identify the customer's endpoint. If defined, you must also specify a value for `region`.
 	CustomerEndpointDNSName *string `json:"customerEndpointDnsName,omitempty" tf:"customer_endpoint_dns_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
 	// Unique 22-character alphanumeric string that identifies the private endpoint. See Atlas Data Federation supports Amazon Web Services private endpoints using the AWS PrivateLink feature.
+	// Unique 22-character alphanumeric string that identifies the private endpoint.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -38,34 +45,46 @@ type PrivateLinkEndpointServiceInitParameters struct {
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Human-readable label that identifies the cloud service provider.
+	// Human-readable label that identifies the cloud service provider. Atlas Data Federation supports `AWS`.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
 	// Human-readable label to identify the region of VPC endpoint.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure. If defined, you must also specify a value for customer_endpoint_dns_name.
+	// Human-readable region label for the customer's endpoint. If defined, you must also specify a value for `customer_endpoint_dns_name`.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type PrivateLinkEndpointServiceObservation struct {
 
 	// Human-readable string to associate with this private endpoint.
+	// Human-readable string to associate with this private endpoint.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
 	// Human-readable label to identify VPC endpoint DNS name. If defined, you must also specify a value for region.
+	// Human-readable DNS name to identify the customer's endpoint. If defined, you must also specify a value for `region`.
 	CustomerEndpointDNSName *string `json:"customerEndpointDnsName,omitempty" tf:"customer_endpoint_dns_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
 	// Unique 22-character alphanumeric string that identifies the private endpoint. See Atlas Data Federation supports Amazon Web Services private endpoints using the AWS PrivateLink feature.
+	// Unique 22-character alphanumeric string that identifies the private endpoint.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Human-readable label that identifies the cloud service provider.
+	// Human-readable label that identifies the cloud service provider. Atlas Data Federation supports `AWS`.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
 	// Human-readable label to identify the region of VPC endpoint.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure. If defined, you must also specify a value for customer_endpoint_dns_name.
+	// Human-readable region label for the customer's endpoint. If defined, you must also specify a value for `customer_endpoint_dns_name`.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Human-readable label that identifies the resource type associated with this private endpoint.
 	// Human-readable label that identifies the resource type associated with this private endpoint.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -73,18 +92,26 @@ type PrivateLinkEndpointServiceObservation struct {
 type PrivateLinkEndpointServiceParameters struct {
 
 	// Human-readable string to associate with this private endpoint.
+	// Human-readable string to associate with this private endpoint.
 	// +kubebuilder:validation:Optional
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
 	// Human-readable label to identify VPC endpoint DNS name. If defined, you must also specify a value for region.
+	// Human-readable DNS name to identify the customer's endpoint. If defined, you must also specify a value for `region`.
 	// +kubebuilder:validation:Optional
 	CustomerEndpointDNSName *string `json:"customerEndpointDnsName,omitempty" tf:"customer_endpoint_dns_name,omitempty"`
 
+	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+	// +kubebuilder:validation:Optional
+	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
 	// Unique 22-character alphanumeric string that identifies the private endpoint. See Atlas Data Federation supports Amazon Web Services private endpoints using the AWS PrivateLink feature.
+	// Unique 22-character alphanumeric string that identifies the private endpoint.
 	// +kubebuilder:validation:Optional
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -98,10 +125,12 @@ type PrivateLinkEndpointServiceParameters struct {
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Human-readable label that identifies the cloud service provider.
+	// Human-readable label that identifies the cloud service provider. Atlas Data Federation supports `AWS`.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
 	// Human-readable label to identify the region of VPC endpoint.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure. If defined, you must also specify a value for customer_endpoint_dns_name.
+	// Human-readable region label for the customer's endpoint. If defined, you must also specify a value for `customer_endpoint_dns_name`.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.21.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: privatelinkendpoints.stream.mongodbatlas.crossplane.io
 spec:
   group: stream.mongodbatlas.crossplane.io
@@ -86,6 +86,10 @@ spec:
                       * AWS provider with CONFLUENT vendor.
 
                       * AZURE provider with EVENTHUB or CONFLUENT vendor.
+
+                      * AZURE provider with AZURE_BLOB_STORAGE vendor. This should follow the format `{storageAccount}.blob.core.windows.net`.
+
+                      * For GCP provider with PUBSUB vendor, the API computes this process.
                     type: string
                   dnsSubDomain:
                     description: |-
@@ -118,8 +122,8 @@ spec:
                     type: array
                   serviceEndpointId:
                     description: |-
-                      (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
-                      For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
+                      (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
+                      For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
                     type: string
                   vendor:
                     description: |-
@@ -128,9 +132,9 @@ spec:
 
                       * **AWS**: MSK, CONFLUENT, and S3
 
-                      * **Azure**: EVENTHUB and CONFLUENT
+                      * **Azure**: EVENTHUB, CONFLUENT, and AZURE_BLOB_STORAGE
 
-                      * **GCP**: CONFLUENT
+                      * **GCP**: CONFLUENT and PUBSUB
                     type: string
                 type: object
               initProvider:
@@ -159,6 +163,10 @@ spec:
                       * AWS provider with CONFLUENT vendor.
 
                       * AZURE provider with EVENTHUB or CONFLUENT vendor.
+
+                      * AZURE provider with AZURE_BLOB_STORAGE vendor. This should follow the format `{storageAccount}.blob.core.windows.net`.
+
+                      * For GCP provider with PUBSUB vendor, the API computes this process.
                     type: string
                   dnsSubDomain:
                     description: |-
@@ -191,8 +199,8 @@ spec:
                     type: array
                   serviceEndpointId:
                     description: |-
-                      (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
-                      For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
+                      (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
+                      For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
                     type: string
                   vendor:
                     description: |-
@@ -201,9 +209,9 @@ spec:
 
                       * **AWS**: MSK, CONFLUENT, and S3
 
-                      * **Azure**: EVENTHUB and CONFLUENT
+                      * **Azure**: EVENTHUB, CONFLUENT, and AZURE_BLOB_STORAGE
 
-                      * **GCP**: CONFLUENT
+                      * **GCP**: CONFLUENT and PUBSUB
                     type: string
                 type: object
               managementPolicies:
@@ -323,6 +331,10 @@ spec:
                       * AWS provider with CONFLUENT vendor.
 
                       * AZURE provider with EVENTHUB or CONFLUENT vendor.
+
+                      * AZURE provider with AZURE_BLOB_STORAGE vendor. This should follow the format `{storageAccount}.blob.core.windows.net`.
+
+                      * For GCP provider with PUBSUB vendor, the API computes this process.
                     type: string
                   dnsSubDomain:
                     description: |-
@@ -378,8 +390,8 @@ spec:
                     type: array
                   serviceEndpointId:
                     description: |-
-                      (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
-                      For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
+                      (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
+                      For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
                     type: string
                   state:
                     description: |-
@@ -393,9 +405,9 @@ spec:
 
                       * **AWS**: MSK, CONFLUENT, and S3
 
-                      * **Azure**: EVENTHUB and CONFLUENT
+                      * **Azure**: EVENTHUB, CONFLUENT, and AZURE_BLOB_STORAGE
 
-                      * **GCP**: CONFLUENT
+                      * **GCP**: CONFLUENT and PUBSUB
                     type: string
                 type: object
               conditions:

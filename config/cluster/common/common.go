@@ -222,26 +222,31 @@ func ExternalNameFromStateField(fields ...string) func(tfstate map[string]any) (
 	}
 }
 
+func stateString(tfstate map[string]any, key string) (string, bool) {
+	v, ok := tfstate[key].(string)
+	return v, ok && v != ""
+}
+
 // ExternalNameFromAccessListState returns a GetExternalNameFn for access list
 // entry resources. When "id" is present, returns it directly. Otherwise
 // constructs "{scopeID}-{client_id}-{ip_address_or_cidr}" from state fields.
 func ExternalNameFromAccessListState(scopeField string) func(tfstate map[string]any) (string, error) {
 	return func(tfstate map[string]any) (string, error) {
-		if id, ok := tfstate["id"].(string); ok && id != "" {
+		if id, ok := stateString(tfstate, "id"); ok {
 			return id, nil
 		}
-		scope, ok := tfstate[scopeField].(string)
-		if !ok || scope == "" {
+		scope, ok := stateString(tfstate, scopeField)
+		if !ok {
 			return "", fmt.Errorf("%s not found in Terraform state", scopeField)
 		}
-		client, ok := tfstate["client_id"].(string)
-		if !ok || client == "" {
+		client, ok := stateString(tfstate, "client_id")
+		if !ok {
 			return "", errors.New("client_id not found in Terraform state")
 		}
-		ip, ok := tfstate["ip_address"].(string)
-		if !ok || ip == "" {
-			ip, ok = tfstate["cidr_block"].(string)
-			if !ok || ip == "" {
+		ip, ok := stateString(tfstate, "ip_address")
+		if !ok {
+			ip, ok = stateString(tfstate, "cidr_block")
+			if !ok {
 				return "", errors.New("neither ip_address nor cidr_block found in Terraform state")
 			}
 		}

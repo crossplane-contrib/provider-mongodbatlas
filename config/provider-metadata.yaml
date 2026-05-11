@@ -1285,6 +1285,7 @@ resources:
             reference_hour_of_day: '- (Optional) UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.'
             reference_minute_of_hour: '- (Optional) UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.'
             restore_window_days: '- (Optional) Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.'
+            skip_destroy: '- (Optional) Flag that, when set to true, causes the provider to remove the resource from Terraform state on destroy without calling the Atlas API to delete the backup schedule. The schedule remains in Atlas and is removed when the cluster is deleted. This is useful when a Backup Compliance Policy prevents deleting the backup schedule, allowing terraform destroy to succeed. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.'
             update_snapshots: '- (Optional) Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.'
             use_org_and_group_names_in_export_prefix: '- Specify true to use organization and project names instead of organization and project UUIDs in the path for the metadata files that Atlas uploads to your bucket after it finishes exporting the snapshots. To learn more about the metadata files that Atlas uploads, see Export Cloud Backup Snapshot.'
         importStatements: []
@@ -3021,6 +3022,7 @@ resources:
         argumentDocs:
             ACTIVE: '- The Federated Database Instance is active and verified. You can query the data stores associated with the Federated Database Instance.'
             DELETED: '- The Federated Database Instance was deleted.'
+            apply: ', this field may be empty as Atlas populates it asynchronously. In that case, run terraform apply -refresh-only after the initial apply to update the state with the populated hostnames, then run terraform apply again if you have downstream resources that consume this value.'
             atlas_azure_app_id: '- Unique identifier of the Azure Active Directory application associated with the service principal.'
             cloud_provider_config: '- (Optional) Cloud provider linked to this data federated instance.'
             cloud_provider_config.aws: '- AWS provider of the cloud service where the Federated Database Instance can access the S3 Bucket.'
@@ -3038,6 +3040,9 @@ resources:
                 * external_id - Unique identifier associated with the IAM Role that the Federated Database Instance assumes when accessing the data stores.
             id: '- The Terraform''s unique identifier used internally for state management.'
             name: '- (Required) Name of the Atlas Federated Database Instance.'
+            private_endpoint_hostnames: '- The list of private endpoint hostnames assigned to the Federated Database Instance.'
+            private_endpoint_hostnames.#.hostname: '-  Human-readable label that identifies the host.'
+            private_endpoint_hostnames.#.private_endpoint: '- Human-readable label that identifies the private endpoint.'
             project_id: '- (Required) The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.'
             service_principal_id: '- Unique identifier of the Azure service principal that the Federated Database instance uses to access Azure Blob Storage.'
             state: '- Current state of the Federated Database Instance:'
@@ -3514,12 +3519,14 @@ resources:
                   ],
                   "prefix_path": "atlas-logs",
                   "project_id": "${mongodbatlas_project.project.id}",
-                  "type": "S3_LOG_EXPORT"
+                  "type": "S3_LOG_EXPORT",
+                  "use_legacy_path_structure": "${var.use_legacy_path_structure}"
                 }
               references:
                 bucket_name: aws_s3_bucket.log_bucket.bucket
                 iam_role_id: mongodbatlas_cloud_provider_access_authorization.auth.role_id
                 project_id: mongodbatlas_project.project.id
+                use_legacy_path_structure: var.use_legacy_path_structure
               dependencies:
                 mongodbatlas_cloud_provider_access_authorization.auth: |-
                     {
@@ -3670,6 +3677,7 @@ resources:
             storage_account_name: (String) Storage account name where logs will be stored.
             storage_container_name: (String) Storage container name for log files.
             type: (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+            use_legacy_path_structure: '(Boolean) When true, uses the legacy daily-folder path structure compatible with Push-Based Log Export: {prefix}/{cluster}/{hostname}/{logType}/{YYYY-MM-DD}/{timestamp}-{logType}.log. When false (default), uses the flat timestamped structure: {prefix}/{cluster}/{hostname}/{logType}/{timestamp}-{logType}.log.'
             value: (String, Sensitive) Header value.
         importStatements: []
     mongodbatlas_maintenance_window:
@@ -4457,6 +4465,19 @@ resources:
                 }
               references:
                 project_id: var.project_id
+            - name: cross_region
+              manifest: |-
+                {
+                  "project_id": "${var.project_id}",
+                  "provider_name": "AWS",
+                  "region": "US_EAST_1",
+                  "supported_remote_regions": [
+                    "EU_WEST_1",
+                    "AP_SOUTHEAST_1"
+                  ]
+                }
+              references:
+                project_id: var.project_id
         argumentDocs:
             AVAILABLE: '- Atlas is creating the network load balancer and VPC endpoint service.'
             DELETING: '- Atlas is deleting the AWS PrivateLink connection.'
@@ -4482,7 +4503,8 @@ resources:
             region_name: '- Region for the Private Service Connect endpoint service.'
             service_attachment_names: '- List containing one service attachment connected to the private endpoint service for port-mapped architecture. For GCP legacy private endpoint architecture, this is a list of service attachments connected to the private endpoint service (one per Atlas node). Returns an empty list while Atlas creates the service attachments.'
             status: '- Status of the private endpoint connection. See the provider-specific status values below.'
-            timeouts: '- (Optional) The duration to wait for Private Endpoint to be created or deleted. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 1h), delete (default: 1h). Learn more about timeouts.'
+            supported_remote_regions: '- (Optional) List of additional AWS regions that can connect to the endpoint service. Regions must be specified in Atlas format (e.g., US_EAST_1). Only applicable for AWS provider. The region_name is supported by default and must not be included.'
+            timeouts: '- (Optional) The duration to wait for Private Endpoint to be created, updated, or deleted. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 1h), update (default: 1h), delete (default: 1h). Learn more about timeouts.'
         importStatements: []
     mongodbatlas_privatelink_endpoint_service:
         subCategory: Private Endpoint Services
@@ -4492,17 +4514,17 @@ resources:
             - name: this
               manifest: |-
                 {
-                  "endpoint_service_id": "${aws_vpc_endpoint.ptfe_service.id}",
+                  "endpoint_service_id": "${aws_vpc_endpoint.this.id}",
                   "private_link_id": "${mongodbatlas_privatelink_endpoint.this.private_link_id}",
                   "project_id": "${mongodbatlas_privatelink_endpoint.this.project_id}",
                   "provider_name": "AWS"
                 }
               references:
-                endpoint_service_id: aws_vpc_endpoint.ptfe_service.id
+                endpoint_service_id: aws_vpc_endpoint.this.id
                 private_link_id: mongodbatlas_privatelink_endpoint.this.private_link_id
                 project_id: mongodbatlas_privatelink_endpoint.this.project_id
               dependencies:
-                aws_vpc_endpoint.ptfe_service: |-
+                aws_vpc_endpoint.this: |-
                     {
                       "security_group_ids": [
                         "sg-3f238186"
@@ -4519,6 +4541,42 @@ resources:
                       "project_id": "\u003cPROJECT_ID\u003e",
                       "provider_name": "AWS",
                       "region": "US_EAST_1"
+                    }
+            - name: this
+              manifest: |-
+                {
+                  "endpoint_service_id": "${aws_vpc_endpoint.this.id}",
+                  "private_link_id": "${mongodbatlas_privatelink_endpoint.this.private_link_id}",
+                  "project_id": "${mongodbatlas_privatelink_endpoint.this.project_id}",
+                  "provider_name": "AWS"
+                }
+              references:
+                endpoint_service_id: aws_vpc_endpoint.this.id
+                private_link_id: mongodbatlas_privatelink_endpoint.this.private_link_id
+                project_id: mongodbatlas_privatelink_endpoint.this.project_id
+              dependencies:
+                aws_vpc_endpoint.this: |-
+                    {
+                      "region": "us-east-1",
+                      "security_group_ids": [
+                        "sg-3f238186"
+                      ],
+                      "service_name": "${mongodbatlas_privatelink_endpoint.this.endpoint_service_name}",
+                      "service_region": "eu-west-1",
+                      "subnet_ids": [
+                        "subnet-de0406d2"
+                      ],
+                      "vpc_endpoint_type": "Interface",
+                      "vpc_id": "vpc-7fc0a543"
+                    }
+                mongodbatlas_privatelink_endpoint.this: |-
+                    {
+                      "project_id": "\u003cPROJECT_ID\u003e",
+                      "provider_name": "AWS",
+                      "region": "EU_WEST_1",
+                      "supported_remote_regions": [
+                        "US_EAST_1"
+                      ]
                     }
             - name: this
               manifest: |-
@@ -5410,7 +5468,8 @@ resources:
             type_sets.types: '- (Optional) JSON array describing the types.'
             types: 'of character filters:'
             wait_for_index_build_completion: '- (Optional) Wait for search index to achieve Active status before terraform considers resource built.'
-        importStatements: []
+        importStatements:
+            - terraform import mongodbatlas_search_index.test {project_id}--{cluster_name}--{index_id}
     mongodbatlas_serverless_instance:
         subCategory: Clusters
         name: mongodbatlas_serverless_instance
@@ -5773,6 +5832,62 @@ resources:
                       "project_id": "${var.project_id}",
                       "provider_name": "GCP"
                     }
+            - name: example_gcp_pubsub_psc
+              manifest: |-
+                {
+                  "connection_name": "GCPPubSubPSCConnection",
+                  "depends_on": [
+                    "${mongodbatlas_cloud_provider_access_authorization.gcp_auth}"
+                  ],
+                  "gcp": {
+                    "service_account_id": "${mongodbatlas_cloud_provider_access_setup.gcp_setup.gcp_config[0].service_account_for_atlas}"
+                  },
+                  "networking": {
+                    "access": {
+                      "connection_id": "${mongodbatlas_stream_privatelink_endpoint.gcp_pubsub.id}",
+                      "type": "PRIVATE_LINK"
+                    }
+                  },
+                  "project_id": "${var.project_id}",
+                  "type": "GCPPubSub",
+                  "workspace_name": "${mongodbatlas_stream_workspace.example.workspace_name}"
+                }
+              references:
+                project_id: var.project_id
+                workspace_name: mongodbatlas_stream_workspace.example.workspace_name
+              dependencies:
+                mongodbatlas_cloud_provider_access_authorization.gcp_auth: |-
+                    {
+                      "project_id": "${var.project_id}",
+                      "role_id": "${mongodbatlas_cloud_provider_access_setup.gcp_setup.role_id}"
+                    }
+                mongodbatlas_cloud_provider_access_setup.gcp_setup: |-
+                    {
+                      "project_id": "${var.project_id}",
+                      "provider_name": "GCP"
+                    }
+            - name: example_azure_blob_private_link
+              manifest: |-
+                {
+                  "azure": {
+                    "region": "\u003cAZURE_REGION\u003e",
+                    "service_principal_id": "\u003cAZURE_SERVICE_PRINCIPAL_ID\u003e",
+                    "storage_account_name": "\u003cAZURE_STORAGE_ACCOUNT_NAME\u003e"
+                  },
+                  "connection_name": "AzureBlobStoragePLConnection",
+                  "networking": {
+                    "access": {
+                      "connection_id": "${mongodbatlas_stream_privatelink_endpoint.azure_blob.id}",
+                      "type": "PRIVATE_LINK"
+                    }
+                  },
+                  "project_id": "${var.project_id}",
+                  "type": "AzureBlobStorage",
+                  "workspace_name": "${mongodbatlas_stream_workspace.example.workspace_name}"
+                }
+              references:
+                project_id: var.project_id
+                workspace_name: mongodbatlas_stream_workspace.example.workspace_name
             - name: example_https
               manifest: |-
                 {
@@ -5918,7 +6033,7 @@ resources:
             connection_name: '- (Required) Label that identifies the stream connection. In the case of the Sample type, this is the name of the sample source.'
             create: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).'
             db_role_to_execute: '- The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.'
-            delete: '- (Optional) The maximum time to wait for the stream connection to be fully deleted. Defaults to 10m (10 minutes).'
+            delete: '- (Optional) The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).'
             gcp: '- The configuration for GCP Pub/Sub connection. See GCP'
             headers: '- A map of key-value pairs for optional headers.'
             instance_name: '- (Optional, Deprecated) Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.'
@@ -6222,7 +6337,83 @@ resources:
                 dns_sub_domain: var.confluent_dns_subdomains
                 project_id: var.project_id
                 region: var.gcp_region
+            - name: gcp_pubsub
+              manifest: |-
+                {
+                  "depends_on": [
+                    "${mongodbatlas_advanced_cluster.cluster}"
+                  ],
+                  "project_id": "${var.project_id}",
+                  "provider_name": "GCP",
+                  "region": "${var.gcp_region}",
+                  "vendor": "PUBSUB"
+                }
+              references:
+                project_id: var.project_id
+                region: var.gcp_region
+              dependencies:
+                mongodbatlas_advanced_cluster.cluster: |-
+                    {
+                      "cluster_type": "REPLICASET",
+                      "name": "${var.cluster_name}",
+                      "project_id": "${var.project_id}",
+                      "replication_specs": [
+                        {
+                          "region_configs": [
+                            {
+                              "electable_specs": {
+                                "instance_size": "M10",
+                                "node_count": 3
+                              },
+                              "priority": 7,
+                              "provider_name": "GCP",
+                              "region_name": "US_EAST_4"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+            - name: this
+              manifest: |-
+                {
+                  "depends_on": [
+                    "${mongodbatlas_advanced_cluster.cluster}",
+                    "${azurerm_private_endpoint.blob_endpoint}"
+                  ],
+                  "dns_domain": "${var.storage_account_name}.blob.core.windows.net",
+                  "project_id": "${var.project_id}",
+                  "provider_name": "AZURE",
+                  "region": "${var.atlas_region}",
+                  "service_endpoint_id": "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.azure_resource_group}/providers/Microsoft.Storage/storageAccounts/${var.storage_account_name}",
+                  "vendor": "AZURE_BLOB_STORAGE"
+                }
+              references:
+                project_id: var.project_id
+                region: var.atlas_region
+              dependencies:
+                mongodbatlas_advanced_cluster.cluster: |-
+                    {
+                      "cluster_type": "REPLICASET",
+                      "name": "${var.cluster_name}",
+                      "project_id": "${var.project_id}",
+                      "replication_specs": [
+                        {
+                          "region_configs": [
+                            {
+                              "electable_specs": {
+                                "instance_size": "M10",
+                                "node_count": 3
+                              },
+                              "priority": 7,
+                              "provider_name": "AZURE",
+                              "region_name": "US_EAST_2"
+                            }
+                          ]
+                        }
+                      ]
+                    }
         argumentDocs:
+            '{storageAccount}.blob.core.windows.net': .
             arn: (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
             dns_domain: '(String) The domain hostname. Required for the following provider and vendor combinations:'
             dns_sub_domain: (List of String) Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
@@ -6235,7 +6426,7 @@ resources:
             provider_name: (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
             region: (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
             service_attachment_uris: (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
-            service_endpoint_id: (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
+            service_endpoint_id: (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
             state: (String) Status of the connection.
             vendor: '(String) Vendor that manages the endpoint. The following are the vendor values per provider:'
         importStatements: []

@@ -87,6 +87,10 @@ type LogIntegrationInitParameters struct {
 	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// folder path structure compatible with Push-Based Log Export: {prefix}/{cluster}/{hostname}/{logType}/{YYYY-MM-DD}/{timestamp}-{logType}.log. When false (default), uses the flat timestamped structure: {prefix}/{cluster}/{hostname}/{logType}/{timestamp}-{logType}.log.
+	// Optional for type: S3_LOG_EXPORT. When true, uses the legacy daily-folder path structure compatible with Push-Based Log Export: `{prefix}/{cluster}/{hostname}/{logType}/{YYYY-MM-DD}/{timestamp}-{logType}.log`. When false (default), uses the flat timestamped structure: `{prefix}/{cluster}/{hostname}/{logType}/{timestamp}-{logType}.log`.
+	UseLegacyPathStructure *bool `json:"useLegacyPathStructure,omitempty" tf:"use_legacy_path_structure,omitempty"`
 }
 
 type LogIntegrationObservation struct {
@@ -152,6 +156,10 @@ type LogIntegrationObservation struct {
 	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// folder path structure compatible with Push-Based Log Export: {prefix}/{cluster}/{hostname}/{logType}/{YYYY-MM-DD}/{timestamp}-{logType}.log. When false (default), uses the flat timestamped structure: {prefix}/{cluster}/{hostname}/{logType}/{timestamp}-{logType}.log.
+	// Optional for type: S3_LOG_EXPORT. When true, uses the legacy daily-folder path structure compatible with Push-Based Log Export: `{prefix}/{cluster}/{hostname}/{logType}/{YYYY-MM-DD}/{timestamp}-{logType}.log`. When false (default), uses the flat timestamped structure: `{prefix}/{cluster}/{hostname}/{logType}/{timestamp}-{logType}.log`.
+	UseLegacyPathStructure *bool `json:"useLegacyPathStructure,omitempty" tf:"use_legacy_path_structure,omitempty"`
 }
 
 type LogIntegrationParameters struct {
@@ -244,6 +252,11 @@ type LogIntegrationParameters struct {
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// folder path structure compatible with Push-Based Log Export: {prefix}/{cluster}/{hostname}/{logType}/{YYYY-MM-DD}/{timestamp}-{logType}.log. When false (default), uses the flat timestamped structure: {prefix}/{cluster}/{hostname}/{logType}/{timestamp}-{logType}.log.
+	// Optional for type: S3_LOG_EXPORT. When true, uses the legacy daily-folder path structure compatible with Push-Based Log Export: `{prefix}/{cluster}/{hostname}/{logType}/{YYYY-MM-DD}/{timestamp}-{logType}.log`. When false (default), uses the flat timestamped structure: `{prefix}/{cluster}/{hostname}/{logType}/{timestamp}-{logType}.log`.
+	// +kubebuilder:validation:Optional
+	UseLegacyPathStructure *bool `json:"useLegacyPathStructure,omitempty" tf:"use_legacy_path_structure,omitempty"`
 }
 
 type OtelSuppliedHeadersInitParameters struct {

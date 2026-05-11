@@ -95,16 +95,16 @@ linters:
         text: (unnamedResult|exitAfterDefer)
       - linters:
           - gocritic
-        text: '(hugeParam|rangeValCopy):'
+        text: "(hugeParam|rangeValCopy):"
       - linters:
           - staticcheck
-        text: 'SA3000:'
+        text: "SA3000:"
       - linters:
           - gosec
-        text: 'G101:'
+        text: "G101:"
       - linters:
           - gosec
-        text: 'G104:'
+        text: "G104:"
     paths:
       - zz_\..+\.go$
       - third_party$

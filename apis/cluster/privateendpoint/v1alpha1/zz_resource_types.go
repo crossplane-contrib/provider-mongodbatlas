@@ -41,6 +41,11 @@ type ResourceInitParameters struct {
 	// Cloud provider region in which you want to create the private endpoint connection.
 	// Accepted values are: AWS regions, AZURE regions and GCP regions
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// List of additional AWS regions that can connect to the endpoint service. Regions must be specified in Atlas format (e.g., US_EAST_1). Only applicable for AWS provider. The region_name is supported by default and must not be included.
+	// List of additional AWS regions that can connect to the endpoint service. Regions must be specified in Atlas format (e.g., `US_EAST_1`). Only applicable for AWS provider. The `region_name` is supported by default and must not be included.
+	// +listType=set
+	SupportedRemoteRegions []*string `json:"supportedRemoteRegions,omitempty" tf:"supported_remote_regions,omitempty"`
 }
 
 type ResourceObservation struct {
@@ -98,6 +103,11 @@ type ResourceObservation struct {
 
 	// Status of the private endpoint connection. See the provider-specific status values below.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// List of additional AWS regions that can connect to the endpoint service. Regions must be specified in Atlas format (e.g., US_EAST_1). Only applicable for AWS provider. The region_name is supported by default and must not be included.
+	// List of additional AWS regions that can connect to the endpoint service. Regions must be specified in Atlas format (e.g., `US_EAST_1`). Only applicable for AWS provider. The `region_name` is supported by default and must not be included.
+	// +listType=set
+	SupportedRemoteRegions []*string `json:"supportedRemoteRegions,omitempty" tf:"supported_remote_regions,omitempty"`
 }
 
 type ResourceParameters struct {
@@ -133,6 +143,12 @@ type ResourceParameters struct {
 	// Accepted values are: AWS regions, AZURE regions and GCP regions
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// List of additional AWS regions that can connect to the endpoint service. Regions must be specified in Atlas format (e.g., US_EAST_1). Only applicable for AWS provider. The region_name is supported by default and must not be included.
+	// List of additional AWS regions that can connect to the endpoint service. Regions must be specified in Atlas format (e.g., `US_EAST_1`). Only applicable for AWS provider. The `region_name` is supported by default and must not be included.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	SupportedRemoteRegions []*string `json:"supportedRemoteRegions,omitempty" tf:"supported_remote_regions,omitempty"`
 }
 
 // ResourceSpec defines the desired state of Resource

@@ -184,6 +184,71 @@ func ExtractIDFromState(tfstate map[string]any) (string, error) {
 	return idStr, nil
 }
 
+// ExternalNameFromIDOrState wraps ExternalNameFromID with a fallback for
+// TPF-based resources where "id" is absent from the TF schema. When "id"
+// exists in the state, it behaves identically to ExternalNameFromID. When
+// "id" is missing, it reads stateField directly from the Terraform state.
+func ExternalNameFromIDOrState(sep string, skipLeft, skipRight int, stateField string) func(tfstate map[string]any) (string, error) {
+	fromID := ExternalNameFromID(sep, skipLeft, skipRight)
+	return func(tfstate map[string]any) (string, error) {
+		if _, ok := tfstate["id"]; ok {
+			return fromID(tfstate)
+		}
+		v, ok := tfstate[stateField].(string)
+		if !ok || v == "" {
+			return "", fmt.Errorf("%s not found in Terraform state", stateField)
+		}
+		return v, nil
+	}
+}
+
+// ExternalNameFromStateField returns a GetExternalNameFn that reads the given
+// field directly from the Terraform state when "id" is absent, or falls back
+// to IDAsExternalName when "id" is present.
+func ExternalNameFromStateField(fields ...string) func(tfstate map[string]any) (string, error) {
+	return func(tfstate map[string]any) (string, error) {
+		if id, ok := tfstate["id"].(string); ok && id != "" {
+			return id, nil
+		}
+		parts := make([]string, len(fields))
+		for i, f := range fields {
+			v, ok := tfstate[f].(string)
+			if !ok || v == "" {
+				return "", fmt.Errorf("%s not found in Terraform state", f)
+			}
+			parts[i] = v
+		}
+		return strings.Join(parts, "-"), nil
+	}
+}
+
+// ExternalNameFromAccessListState returns a GetExternalNameFn for access list
+// entry resources. When "id" is present, returns it directly. Otherwise
+// constructs "{scopeID}-{client_id}-{ip_address_or_cidr}" from state fields.
+func ExternalNameFromAccessListState(scopeField string) func(tfstate map[string]any) (string, error) {
+	return func(tfstate map[string]any) (string, error) {
+		if id, ok := tfstate["id"].(string); ok && id != "" {
+			return id, nil
+		}
+		scope, ok := tfstate[scopeField].(string)
+		if !ok || scope == "" {
+			return "", fmt.Errorf("%s not found in Terraform state", scopeField)
+		}
+		client, ok := tfstate["client_id"].(string)
+		if !ok || client == "" {
+			return "", errors.New("client_id not found in Terraform state")
+		}
+		ip, ok := tfstate["ip_address"].(string)
+		if !ok || ip == "" {
+			ip, ok = tfstate["cidr_block"].(string)
+			if !ok || ip == "" {
+				return "", errors.New("neither ip_address nor cidr_block found in Terraform state")
+			}
+		}
+		return fmt.Sprintf("%s-%s-%s", scope, client, ip), nil
+	}
+}
+
 // PasswordSecretRefSetter is implemented by managed resources that expose a
 // PasswordSecretRef field (LocalSecretKeySelector) in their forProvider spec.
 type PasswordSecretRefSetter interface {

@@ -15,18 +15,18 @@ import (
 var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_access_list_api_key":                                         config.IdentifierFromProvider,
 	"mongodbatlas_advanced_cluster":                                            templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.name }}"),
-	"mongodbatlas_alert_configuration":                                         config.IdentifierFromProvider,
+	"mongodbatlas_alert_configuration":                                         encodedStateID([]string{"project_id"}, "id"),
 	"mongodbatlas_api_key_project_assignment":                                  templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.api_key_id }}"),
 	"mongodbatlas_api_key":                                                     config.IdentifierFromProvider,
 	"mongodbatlas_auditing":                                                    config.IdentifierFromProvider,
 	"mongodbatlas_backup_compliance_policy":                                    encodedStateID([]string{"project_id"}, "project_id"),
 	"mongodbatlas_cloud_backup_schedule":                                       encodedStateID([]string{"project_id", "cluster_name"}, "cluster_name"),
-	"mongodbatlas_cloud_backup_snapshot_export_bucket":                         config.IdentifierFromProvider,
-	"mongodbatlas_cloud_backup_snapshot_export_job":                            config.IdentifierFromProvider,
-	"mongodbatlas_cloud_backup_snapshot_restore_job":                           config.IdentifierFromProvider,
-	"mongodbatlas_cloud_backup_snapshot":                                       config.IdentifierFromProvider,
+	"mongodbatlas_cloud_backup_snapshot_export_bucket":                         encodedStateID([]string{"project_id"}, "id"),
+	"mongodbatlas_cloud_backup_snapshot_export_job":                            encodedStateID([]string{"project_id", "cluster_name"}, "export_job_id"),
+	"mongodbatlas_cloud_backup_snapshot_restore_job":                           encodedStateID([]string{"project_id", "cluster_name"}, "snapshot_restore_job_id"),
+	"mongodbatlas_cloud_backup_snapshot":                                       encodedStateID([]string{"project_id", "cluster_name"}, "snapshot_id"),
 	"mongodbatlas_cloud_provider_access_authorization":                         config.IdentifierFromProvider, // doesn't support import
-	"mongodbatlas_cloud_provider_access_setup":                                 config.IdentifierFromProvider,
+	"mongodbatlas_cloud_provider_access_setup":                                 encodedStateID([]string{"project_id", "provider_name"}, "id"),
 	"mongodbatlas_cloud_user_org_assignment":                                   templatedStringAsIdentifier("{{ .parameters.org_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_project_assignment":                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_team_assignment":                                  templatedStringAsIdentifier("{{ .parameters.org_id }}/{{ .parameters.team_id }}/{{ .parameters.username }}"),
@@ -50,15 +50,15 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_log_integration":                                             config.IdentifierFromProvider,
 	"mongodbatlas_maintenance_window":                                          templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_mongodb_employee_access_grant":                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.cluster_name }}"),
-	"mongodbatlas_network_container":                                           config.IdentifierFromProvider,
-	"mongodbatlas_network_peering":                                             config.IdentifierFromProvider,
+	"mongodbatlas_network_container":                                           encodedStateID([]string{"project_id"}, "container_id"),
+	"mongodbatlas_network_peering":                                             encodedStateID([]string{"project_id", "provider_name"}, "peer_id"),
 	"mongodbatlas_online_archive":                                              config.IdentifierFromProvider,
 	"mongodbatlas_org_invitation":                                              config.IdentifierFromProvider,
 	"mongodbatlas_organization":                                                config.IdentifierFromProvider,
 	"mongodbatlas_private_endpoint_regional_mode":                              templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive": templatedStringAsIdentifier("{{ .parameters.project_id }}--{{ .parameters.endpoint_id }}"),
-	"mongodbatlas_privatelink_endpoint_service":                                config.IdentifierFromProvider,
-	"mongodbatlas_privatelink_endpoint":                                        config.IdentifierFromProvider,
+	"mongodbatlas_privatelink_endpoint_service":                                encodedStateID([]string{"project_id", "private_link_id", "endpoint_service_id", "provider_name"}, "endpoint_service_id"),
+	"mongodbatlas_privatelink_endpoint":                                        encodedStateID([]string{"project_id", "provider_name", "region"}, "private_link_id"),
 	"mongodbatlas_project_api_key":                                             config.IdentifierFromProvider,
 	"mongodbatlas_project_invitation":                                          config.IdentifierFromProvider,
 	"mongodbatlas_project_ip_access_list":                                      config.IdentifierFromProvider,
@@ -69,8 +69,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_push_based_log_export":                                       templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_resource_policy":                                             config.IdentifierFromProvider,
 	"mongodbatlas_search_deployment":                                           templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.cluster_name }}"),
-	"mongodbatlas_search_index":                                                config.IdentifierFromProvider, // doesn't support import
-	"mongodbatlas_serverless_instance":                                         config.IdentifierFromProvider,
+	"mongodbatlas_search_index":                                                encodedStateID([]string{"project_id", "cluster_name"}, "index_id"), // doesn't support import
+	"mongodbatlas_serverless_instance":                                         encodedStateID([]string{"project_id", "name"}, "name"),
 	"mongodbatlas_service_account_access_list_entry":                           config.IdentifierFromProvider,
 	"mongodbatlas_service_account_project_assignment":                          templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.client_id }}"),
 	"mongodbatlas_service_account_secret":                                      config.IdentifierFromProvider,
@@ -108,6 +108,8 @@ func templatedStringAsIdentifier(template string) config.ExternalName {
 	e.IdentifierFields = nil
 
 	origGetIDFn := e.GetIDFn
+	origGetExternalNameFn := e.GetExternalNameFn
+
 	e.GetIDFn = func(ctx context.Context, externalName string, parameters, providerConfig map[string]any) (string, error) {
 		if hasAllParams(parameters, identifierFields) {
 			return origGetIDFn(ctx, externalName, parameters, providerConfig)
@@ -117,6 +119,17 @@ func templatedStringAsIdentifier(template string) config.ExternalName {
 		}
 		return "", errors.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name annotation is empty", identifierFields)
 	}
+
+	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+		if _, ok := tfstate["id"]; ok {
+			return origGetExternalNameFn(tfstate)
+		}
+		// TPF-based resources in the Atlas TF provider don't include "id" in
+		// their schema. Reconstruct the external name by rendering the template
+		// with parameter values read directly from the Terraform state.
+		return origGetIDFn(context.Background(), "", tfstate, nil)
+	}
+
 	return e
 }
 
@@ -175,22 +188,23 @@ func encodedStateID(fields []string, externalNameKey string) config.ExternalName
 	return encodedStateIDMapped(m, externalNameKey)
 }
 
-// encodedStateIDMapped builds a config.ExternalName for SDK-based Atlas resources
-// whose TF provider uses conversion.EncodeStateID / DecodeStateID for d.Id().
-// See internal/common/conversion in TF Atlas provider for further implementation details.
-
-// fieldMapping maps forProvider param names to EncodeStateID map keys
-// (e.g. {"name": "cluster_name"} when the TF schema field differs from the state key).
-// externalNameKey is the decoded state key whose value is stored in the
-// crossplane.io/external-name annotation after the first successful observe.
+// encodedStateIDMapped builds a config.ExternalName for Atlas resources whose
+// TF provider uses conversion.EncodeStateID / DecodeStateID for d.Id().
 //
-// GetIDFn: if all mapped params are present, encodes them into an Atlas state ID;
-// otherwise falls back to the annotation value.
-// GetExternalNameFn: decodes the TF state id and extracts externalNameKey.
+// fieldMapping maps forProvider param names to EncodeStateID map keys
+// (e.g. {"name": "cluster_name"} when the TF schema field differs from the
+// state key). externalNameKey is the decoded state key whose value is stored
+// in the crossplane.io/external-name annotation after the first successful
+// observe.
+//
+// If externalNameKey is already in fieldMapping, all encoded keys come from
+// forProvider parameters. If not (provider-assigned / computed field), the
+// external name annotation supplies the missing value when reconstructing
+// the encoded state ID.
 func encodedStateIDMapped(fieldMapping map[string]string, externalNameKey string) config.ExternalName {
 	paramNames := slices.Sorted(maps.Keys(fieldMapping))
 
-	e := config.ExternalName{
+	return config.ExternalName{
 		DisableNameInitializer: false,
 		OmittedFields:          []string{},
 		IdentifierFields:       nil,
@@ -198,14 +212,16 @@ func encodedStateIDMapped(fieldMapping map[string]string, externalNameKey string
 		},
 		GetIDFn: func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
 			if hasAllParams(parameters, paramNames) {
-				m := make(map[string]string, len(fieldMapping))
+				m := make(map[string]string, len(fieldMapping)+1)
 				for param, stateKey := range fieldMapping {
 					m[stateKey] = parameters[param].(string)
+				}
+				if _, ok := m[externalNameKey]; !ok && externalName != "" {
+					m[externalNameKey] = externalName
 				}
 				return encodeAtlasStateID(m), nil
 			}
 			if externalName != "" {
-				// forProvider missing params, or still not resolved: falling back to external-name annotation
 				return externalName, nil
 			}
 			return "", errors.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name annotation is empty", paramNames)
@@ -222,7 +238,6 @@ func encodedStateIDMapped(fieldMapping map[string]string, externalNameKey string
 			return id, nil
 		},
 	}
-	return e
 }
 
 // hasAllParams returns true if every field in fields is present and non-empty

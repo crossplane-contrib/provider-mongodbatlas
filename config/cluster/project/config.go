@@ -119,6 +119,7 @@ func Configure(p *config.Provider) {
 			}
 			return fmt.Sprintf("%s-%s-%s", project, client, ip), nil
 		}
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromAccessListState("project_id")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account_secret", func(r *config.Resource) {
@@ -130,7 +131,7 @@ func Configure(p *config.Provider) {
 			},
 		}
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 2, "project_id", "client_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 2, 0)
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromIDOrState("/", 2, 0, "secret_id")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account", func(r *config.Resource) {
@@ -143,6 +144,6 @@ func Configure(p *config.Provider) {
 		}
 
 		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("/", 1, "project_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("/", 1, 0)
+		r.ExternalName.GetExternalNameFn = common.ExternalNameFromIDOrState("/", 1, 0, "client_id")
 	})
 }

@@ -2,8 +2,6 @@ package alert
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
-
-	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
 )
 
 const group = "alert"
@@ -17,8 +15,5 @@ func Configure(p *config.Provider) {
 				TerraformName: "mongodbatlas_project",
 			},
 		}
-
-		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "project_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
 	})
 }

@@ -48,5 +48,3 @@ jobs:
         run: make xpkg.append VERSION=${{ inputs.version }}
         env:
           GO_REQUIRED_VERSION: ${{ inputs.go-version }}
-          XPKG_MIRROR_ACCESS_ID: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
-          XPKG_MIRROR_TOKEN: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}

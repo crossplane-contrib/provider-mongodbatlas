@@ -329,6 +329,9 @@ type DatabaseInstanceObservation struct {
 	// Name of the Atlas Federated Database Instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The list of private endpoint hostnames assigned to the Federated Database Instance.
+	PrivateEndpointHostnames []PrivateEndpointHostnamesObservation `json:"privateEndpointHostnames,omitempty" tf:"private_endpoint_hostnames,omitempty"`
+
 	// The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -376,6 +379,21 @@ type DatabaseInstanceParameters struct {
 	// Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.
 	// +kubebuilder:validation:Optional
 	StorageStores []StorageStoresParameters `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
+}
+
+type PrivateEndpointHostnamesInitParameters struct {
+}
+
+type PrivateEndpointHostnamesObservation struct {
+
+	// Human-readable label that identifies the host.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Human-readable label that identifies the private endpoint.
+	PrivateEndpoint *string `json:"privateEndpoint,omitempty" tf:"private_endpoint,omitempty"`
+}
+
+type PrivateEndpointHostnamesParameters struct {
 }
 
 type ReadPreferenceInitParameters struct {

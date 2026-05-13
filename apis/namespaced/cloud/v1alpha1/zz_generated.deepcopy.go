@@ -852,6 +852,11 @@ func (in *BackupScheduleInitParameters) DeepCopyInto(out *BackupScheduleInitPara
 		*out = new(float64)
 		**out = **in
 	}
+	if in.SkipDestroy != nil {
+		in, out := &in.SkipDestroy, &out.SkipDestroy
+		*out = new(bool)
+		**out = **in
+	}
 	if in.UpdateSnapshots != nil {
 		in, out := &in.UpdateSnapshots, &out.UpdateSnapshots
 		*out = new(bool)
@@ -1008,6 +1013,11 @@ func (in *BackupScheduleObservation) DeepCopyInto(out *BackupScheduleObservation
 		*out = new(float64)
 		**out = **in
 	}
+	if in.SkipDestroy != nil {
+		in, out := &in.SkipDestroy, &out.SkipDestroy
+		*out = new(bool)
+		**out = **in
+	}
 	if in.UpdateSnapshots != nil {
 		in, out := &in.UpdateSnapshots, &out.UpdateSnapshots
 		*out = new(bool)
@@ -1120,6 +1130,11 @@ func (in *BackupScheduleParameters) DeepCopyInto(out *BackupScheduleParameters) 
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SkipDestroy != nil {
+		in, out := &in.SkipDestroy, &out.SkipDestroy
+		*out = new(bool)
 		**out = **in
 	}
 	if in.UpdateSnapshots != nil {

@@ -64,6 +64,9 @@ type BackupScheduleInitParameters struct {
 	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
+	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
+	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
+
 	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 
@@ -123,6 +126,9 @@ type BackupScheduleObservation struct {
 
 	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+
+	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
+	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
 
 	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
@@ -193,6 +199,10 @@ type BackupScheduleParameters struct {
 	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
 	// +kubebuilder:validation:Optional
 	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+
+	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
+	// +kubebuilder:validation:Optional
+	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
 
 	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	// +kubebuilder:validation:Optional

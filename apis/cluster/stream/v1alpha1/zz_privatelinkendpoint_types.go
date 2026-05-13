@@ -25,6 +25,10 @@ type PrivatelinkEndpointInitParameters struct {
 	// * AWS provider with CONFLUENT vendor.
 	//
 	// * AZURE provider with EVENTHUB or CONFLUENT vendor.
+	//
+	// * AZURE provider with AZURE_BLOB_STORAGE vendor. This should follow the format `{storageAccount}.blob.core.windows.net`.
+	//
+	// * For GCP provider with PUBSUB vendor, the API computes this process.
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
 	// Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
@@ -47,8 +51,8 @@ type PrivatelinkEndpointInitParameters struct {
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
-	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
-	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
+	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
+	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
 	// (String) Vendor that manages the endpoint. The following are the vendor values per provider:
@@ -56,9 +60,9 @@ type PrivatelinkEndpointInitParameters struct {
 	//
 	// * **AWS**: MSK, CONFLUENT, and S3
 	//
-	// * **Azure**: EVENTHUB and CONFLUENT
+	// * **Azure**: EVENTHUB, CONFLUENT, and AZURE_BLOB_STORAGE
 	//
-	// * **GCP**: CONFLUENT
+	// * **GCP**: CONFLUENT and PUBSUB
 	Vendor *string `json:"vendor,omitempty" tf:"vendor,omitempty"`
 }
 
@@ -74,6 +78,10 @@ type PrivatelinkEndpointObservation struct {
 	// * AWS provider with CONFLUENT vendor.
 	//
 	// * AZURE provider with EVENTHUB or CONFLUENT vendor.
+	//
+	// * AZURE provider with AZURE_BLOB_STORAGE vendor. This should follow the format `{storageAccount}.blob.core.windows.net`.
+	//
+	// * For GCP provider with PUBSUB vendor, the API computes this process.
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
 	// Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
@@ -115,8 +123,8 @@ type PrivatelinkEndpointObservation struct {
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
-	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
-	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
+	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
+	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
 	// (String) Status of the connection.
@@ -128,9 +136,9 @@ type PrivatelinkEndpointObservation struct {
 	//
 	// * **AWS**: MSK, CONFLUENT, and S3
 	//
-	// * **Azure**: EVENTHUB and CONFLUENT
+	// * **Azure**: EVENTHUB, CONFLUENT, and AZURE_BLOB_STORAGE
 	//
-	// * **GCP**: CONFLUENT
+	// * **GCP**: CONFLUENT and PUBSUB
 	Vendor *string `json:"vendor,omitempty" tf:"vendor,omitempty"`
 }
 
@@ -147,6 +155,10 @@ type PrivatelinkEndpointParameters struct {
 	// * AWS provider with CONFLUENT vendor.
 	//
 	// * AZURE provider with EVENTHUB or CONFLUENT vendor.
+	//
+	// * AZURE provider with AZURE_BLOB_STORAGE vendor. This should follow the format `{storageAccount}.blob.core.windows.net`.
+	//
+	// * For GCP provider with PUBSUB vendor, the API computes this process.
 	// +kubebuilder:validation:Optional
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
@@ -175,8 +187,8 @@ type PrivatelinkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
-	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name.
-	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html).
+	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
+	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
 	// +kubebuilder:validation:Optional
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
@@ -185,9 +197,9 @@ type PrivatelinkEndpointParameters struct {
 	//
 	// * **AWS**: MSK, CONFLUENT, and S3
 	//
-	// * **Azure**: EVENTHUB and CONFLUENT
+	// * **Azure**: EVENTHUB, CONFLUENT, and AZURE_BLOB_STORAGE
 	//
-	// * **GCP**: CONFLUENT
+	// * **GCP**: CONFLUENT and PUBSUB
 	// +kubebuilder:validation:Optional
 	Vendor *string `json:"vendor,omitempty" tf:"vendor,omitempty"`
 }

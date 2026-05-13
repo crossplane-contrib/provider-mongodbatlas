@@ -1,13 +1,13 @@
 # MongoDBAtlas Provider
 
-[![1.1.0](https://img.shields.io/badge/v1.1.0-green)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v2.12.0)
+[![${VERSION}](https://img.shields.io/badge/v${VERSION}-green)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v${TERRAFORM_PROVIDER_VERSION})
 
 `provider-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
 is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 MongoDBAtlas API.
 
-[![Upstream Terraform Provider](https://img.shields.io/badge/upstream_terraform_provider-v2.12.0-blue?logo=terraform)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v2.12.0)
+[![Upstream Terraform Provider](https://img.shields.io/badge/upstream_terraform_provider-v${TERRAFORM_PROVIDER_VERSION}-blue?logo=terraform)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v${TERRAFORM_PROVIDER_VERSION})
 
 ## Getting Started
 
@@ -21,7 +21,7 @@ kind: Provider
 metadata:
   name: provider-mongodbatlas
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:1.1.0
+  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:${VERSION}
 EOF
 ```
 

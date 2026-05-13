@@ -1,6 +1,4 @@
-# MongoDBAtlas Provider
-
-[![1.1.0](https://img.shields.io/badge/v1.1.0-green)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v2.12.0)
+# MongoDBAtlas Provider [![1.1.0](https://img.shields.io/badge/v1.1.0-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.1.0)
 
 `provider-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
 is built using [Upjet](https://github.com/crossplane/upjet) code

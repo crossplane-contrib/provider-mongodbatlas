@@ -6,6 +6,8 @@ cover.out
 /.vendor-new
 .DS_Store
 /.go-version
+/extensions/*
+!/extensions/icons
 
 # ignore IDE folders
 .vscode/

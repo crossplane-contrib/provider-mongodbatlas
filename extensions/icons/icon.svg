@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="65px" height="65px" viewBox="0 0 65 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Application Icons/mongodb-atlas</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="65" height="65" rx="16"></rect>
+    </defs>
+    <g id="Application-Icons/mongodb-atlas" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Mask-Copy" fill="#001E2B" fill-rule="nonzero" xlink:href="#path-1"></use>
+        <g id="Group-17" transform="translate(22.525, 12)">
+            <path d="M19.4027325,19.3450704 C19.9808726,25.6971831 17.090172,31.2793427 10.7306308,36.0915493 L10.1524907,41 L8.9962105,41 L8.41807039,36.0915493 C2.44395592,31.471831 -0.350387946,25.8896714 0.0350387946,19.3450704 C0.420465535,12.8004695 3.60023614,6.35211268 9.57435061,0 C15.5484651,6.54460094 18.8245924,12.9929577 19.4027325,19.3450704 Z" id="Path-5" fill="#00ED64"></path>
+            <polygon id="Path-8" fill="#001E2B" points="9.475 14 10.475 33.8648649 9.475 35 8.475 33.8648649"></polygon>
+        </g>
+    </g>
+</svg>

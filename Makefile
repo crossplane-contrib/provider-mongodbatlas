@@ -267,3 +267,45 @@ vendor.check: modules.check
 copy-examples:
 	@$(INFO) copying generated examples to examples
 	@cp -r examples-generated/* examples/ || $(FAIL)
+
+# ====================================================================================
+# Package Extensions (readme, SBOM)
+# See: https://docs.upbound.io/manuals/marketplace/packages/#add-documentation-icons-and-other-assets-to-your-package
+
+EXTENSIONS_DIR := $(ROOT_DIR)/extensions
+SYFT_VERSION ?= 1.44.0
+SYFT := $(TOOLS_HOST_DIR)/syft-$(SYFT_VERSION)
+UP := $(TOOLS_HOST_DIR)/up-$(UP_VERSION)
+
+$(SYFT):
+	@$(INFO) installing syft $(SYFT_VERSION)
+	@mkdir -p $(TOOLS_HOST_DIR)
+	@curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b $(TOOLS_HOST_DIR) v$(SYFT_VERSION) || $(FAIL)
+	@mv $(TOOLS_HOST_DIR)/syft $(SYFT)
+	@$(OK) installing syft $(SYFT_VERSION)
+
+$(UP):
+	@$(INFO) installing up $(UP_VERSION)
+	@mkdir -p $(TOOLS_HOST_DIR)
+	@curl -fsSLo $(UP) https://cli.upbound.io/$(UP_CHANNEL)/$(UP_VERSION)/bin/$(SAFEHOST_PLATFORM)/up || $(FAIL)
+	@chmod +x $(UP)
+	@$(OK) installing up $(UP_VERSION)
+
+sbom: $(SYFT)
+	@$(INFO) Generating SPDX SBOM
+	@mkdir -p $(EXTENSIONS_DIR)/sbom
+	@$(SYFT) scan dir:. --source-name $(PROJECT_NAME) --source-version $(VERSION) -o spdx-json=$(EXTENSIONS_DIR)/sbom/sbom.spdx.json
+	@$(OK) SBOM generated at $(EXTENSIONS_DIR)/sbom/sbom.spdx.json
+
+xpkg.extensions: sbom
+	@$(INFO) Preparing package extensions
+	@mkdir -p $(EXTENSIONS_DIR)/readme
+	@cp $(ROOT_DIR)/README.md $(EXTENSIONS_DIR)/readme/readme.md
+	@$(OK) Package extensions prepared at $(EXTENSIONS_DIR)
+
+xpkg.append: xpkg.extensions $(UP)
+	@$(INFO) Appending extensions to $(XPKG_REG_ORGS)/$(PROJECT_NAME):$(VERSION)
+	@$(UP) alpha xpkg append --extensions-root=$(EXTENSIONS_DIR) $(XPKG_REG_ORGS)/$(PROJECT_NAME):$(VERSION) || $(FAIL)
+	@$(OK) Appended extensions to $(XPKG_REG_ORGS)/$(PROJECT_NAME):$(VERSION)
+
+.PHONY: sbom xpkg.extensions xpkg.append

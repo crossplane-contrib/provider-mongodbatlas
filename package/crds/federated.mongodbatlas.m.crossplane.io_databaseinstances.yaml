@@ -897,6 +897,20 @@ spec:
                   name:
                     description: Name of the Atlas Federated Database Instance.
                     type: string
+                  privateEndpointHostnames:
+                    description: The list of private endpoint hostnames assigned to
+                      the Federated Database Instance.
+                    items:
+                      properties:
+                        hostname:
+                          description: Human-readable label that identifies the host.
+                          type: string
+                        privateEndpoint:
+                          description: Human-readable label that identifies the private
+                            endpoint.
+                          type: string
+                      type: object
+                    type: array
                   projectId:
                     description: The unique ID for the project to create a Federated
                       Database Instance, also known as groupId in the official documentation.

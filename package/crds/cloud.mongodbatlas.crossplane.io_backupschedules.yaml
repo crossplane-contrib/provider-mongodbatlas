@@ -346,6 +346,11 @@ spec:
                     description: Number of days back in time you can restore to with
                       point-in-time accuracy. Must be a positive, non-zero integer.
                     type: number
+                  skipDestroy:
+                    description: The schedule remains in Atlas and is removed when
+                      the cluster is deleted. Defaults to false. See the Delete a
+                      Cluster with Backup Compliance Policy guide.
+                    type: boolean
                   updateSnapshots:
                     description: Specify true to apply the retention changes in the
                       updated backup policy to snapshots that Atlas took previously.
@@ -645,6 +650,11 @@ spec:
                     description: Number of days back in time you can restore to with
                       point-in-time accuracy. Must be a positive, non-zero integer.
                     type: number
+                  skipDestroy:
+                    description: The schedule remains in Atlas and is removed when
+                      the cluster is deleted. Defaults to false. See the Delete a
+                      Cluster with Backup Compliance Policy guide.
+                    type: boolean
                   updateSnapshots:
                     description: Specify true to apply the retention changes in the
                       updated backup policy to snapshots that Atlas took previously.
@@ -1014,6 +1024,11 @@ spec:
                     description: Number of days back in time you can restore to with
                       point-in-time accuracy. Must be a positive, non-zero integer.
                     type: number
+                  skipDestroy:
+                    description: The schedule remains in Atlas and is removed when
+                      the cluster is deleted. Defaults to false. See the Delete a
+                      Cluster with Backup Compliance Policy guide.
+                    type: boolean
                   updateSnapshots:
                     description: Specify true to apply the retention changes in the
                       updated backup policy to snapshots that Atlas took previously.

@@ -17,6 +17,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: project
     type: S3_LOG_EXPORT
+    useLegacyPathStructure: ${var.use_legacy_path_structure}
 
 ---
 

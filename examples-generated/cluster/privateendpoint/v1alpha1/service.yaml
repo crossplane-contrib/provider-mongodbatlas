@@ -8,7 +8,7 @@ metadata:
   name: this
 spec:
   forProvider:
-    endpointServiceId: ${aws_vpc_endpoint.ptfe_service.id}
+    endpointServiceId: ${aws_vpc_endpoint.this.id}
     privateLinkIdSelector:
       matchLabels:
         testing.upbound.io/example-name: this

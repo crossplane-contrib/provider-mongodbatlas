@@ -135,7 +135,7 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 
 		decoded := decodeAtlasStateID(id)
 		assert.Equal(t, "proj123", decoded["project_id"])
-		assert.Equal(t, "", decoded["private_link_id"], "provider-assigned key should be absent when external name empty")
+		assert.Empty(t, decoded["private_link_id"], "provider-assigned key should be absent when external name empty")
 	})
 
 	t.Run("all params present with user-provided key", func(t *testing.T) {

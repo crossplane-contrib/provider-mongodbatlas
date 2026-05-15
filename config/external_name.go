@@ -204,8 +204,9 @@ func encodedStateID(fields []string, externalNameKey string) config.ExternalName
 func encodedStateIDMapped(fieldMapping map[string]string, externalNameKey string) config.ExternalName {
 	paramNames := slices.Sorted(maps.Keys(fieldMapping))
 
+	externalNameFromParams := slices.Contains(slices.Collect(maps.Values(fieldMapping)), externalNameKey)
 	return config.ExternalName{
-		DisableNameInitializer: false,
+		DisableNameInitializer: !externalNameFromParams,
 		OmittedFields:          []string{},
 		IdentifierFields:       nil,
 		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {

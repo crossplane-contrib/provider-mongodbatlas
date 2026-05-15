@@ -30,6 +30,21 @@ jobs:
       XPKG_MIRROR_ACCESS_ID: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
       XPKG_MIRROR_TOKEN: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}
 
+  tag-latest:
+    needs: publish-provider-package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install crane
+        uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
+      - name: Tag latest
+        run: crane tag ghcr.io/crossplane-contrib/provider-mongodbatlas:${{ inputs.version }} latest
+
   add-extensions:
     needs: publish-provider-package
     runs-on: ubuntu-latest

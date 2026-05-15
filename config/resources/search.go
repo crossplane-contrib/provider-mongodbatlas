@@ -1,23 +1,24 @@
-package search
+package resources
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
+
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
-// Configure configures the root group
-func Configure(p *config.Provider) {
+func ConfigureSearch(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_search_deployment", func(r *config.Resource) {
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_search_index", func(r *config.Resource) {
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})

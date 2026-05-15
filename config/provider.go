@@ -6,29 +6,8 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
-	alertCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/alert"
-	cloudCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/cloud"
-	databaseCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/database"
-	federatedCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/federated"
-	ldapCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/ldap"
-	mongodbatlasCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/mongodbatlas"
-	networkCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/network"
-	privateCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/privateendpoint"
-	projectCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/project"
-	searchCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/search"
-	streamCluster "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/stream"
-
-	alertNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/alert"
-	cloudnamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/cloud"
-	databaseNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/database"
-	federatedNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/federated"
-	ldapNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/ldap"
-	mongodbatlasNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/mongodbatlas"
-	networkNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/network"
-	privateNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/privateendpoint"
-	projectNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/project"
-	searchNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/search"
-	streamNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/stream"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/password"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/resources"
 )
 
 const (
@@ -58,7 +37,7 @@ func resetRootShortGroup() ujconfig.ResourceOption {
 	}
 }
 
-// GetProvider returns provider configuration
+// GetidentifierFromProvider returns provider configuration
 func GetidentifierFromProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
@@ -75,21 +54,17 @@ func GetidentifierFromProvider() *ujconfig.Provider {
 		ujconfig.WithSkipList(SkipTfResourceList),
 	)
 
-	for _, configure := range []func(provider *ujconfig.Provider){
-		alertCluster.Configure,
-		cloudCluster.Configure,
-		databaseCluster.Configure,
-		federatedCluster.Configure,
-		ldapCluster.Configure,
-		mongodbatlasCluster.Configure,
-		networkCluster.Configure,
-		privateCluster.Configure,
-		projectCluster.Configure,
-		searchCluster.Configure,
-		streamCluster.Configure,
-	} {
-		configure(pc)
-	}
+	resources.ConfigureAlert(pc)
+	resources.ConfigureCloud(pc)
+	resources.ConfigureDatabase(pc, password.ClusterGenerator)
+	resources.ConfigureFederated(pc)
+	resources.ConfigureLDAP(pc, password.ClusterGenerator)
+	resources.ConfigureMongoDBAtlas(pc)
+	resources.ConfigureNetwork(pc)
+	resources.ConfigurePrivateEndpoint(pc)
+	resources.ConfigureProject(pc)
+	resources.ConfigureSearch(pc)
+	resources.ConfigureStream(pc, password.ClusterGenerator)
 
 	pc.ConfigureResources()
 	return pc
@@ -112,21 +87,17 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		ujconfig.WithSkipList(SkipTfResourceList),
 	)
 
-	for _, configure := range []func(provider *ujconfig.Provider){
-		alertNamespaced.Configure,
-		cloudnamespaced.Configure,
-		databaseNamespaced.Configure,
-		federatedNamespaced.Configure,
-		ldapNamespaced.Configure,
-		mongodbatlasNamespaced.Configure,
-		networkNamespaced.Configure,
-		privateNamespaced.Configure,
-		projectNamespaced.Configure,
-		searchNamespaced.Configure,
-		streamNamespaced.Configure,
-	} {
-		configure(pc)
-	}
+	resources.ConfigureAlert(pc)
+	resources.ConfigureCloud(pc)
+	resources.ConfigureDatabase(pc, password.NamespacedGenerator)
+	resources.ConfigureFederated(pc)
+	resources.ConfigureLDAP(pc, password.NamespacedGenerator)
+	resources.ConfigureMongoDBAtlas(pc)
+	resources.ConfigureNetwork(pc)
+	resources.ConfigurePrivateEndpoint(pc)
+	resources.ConfigureProject(pc)
+	resources.ConfigureSearch(pc)
+	resources.ConfigureStream(pc, password.NamespacedGenerator)
 
 	pc.ConfigureResources()
 	return pc

@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-mongodbatlas
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.0.0
+  package: ghcr.io/crossplane-contrib/provider-mongodbatlas:latest

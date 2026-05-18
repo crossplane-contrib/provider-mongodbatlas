@@ -132,7 +132,7 @@ type UserInitParameters struct {
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
 	// User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-	// Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
+	// Password for the database user. Do not set passwordSecretRef directly, it is wired automatically by the initializer. Instead, use writeConnectionSecretToRef: pre-populate the Secret with a 'password' key for BYOP, or leave it empty for auto-generation. See docs/password-management.md.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The unique ID for the project to create the database user, also known as groupId in the official documentation.
@@ -224,7 +224,7 @@ type UserParameters struct {
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
 	// User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
-	// Password for the database user. When passwordSecretRef is set, that secret is used as the password (Bring Your Own Password). Otherwise, a password is auto-generated and written to the secret in writeConnectionSecretToRef.
+	// Password for the database user. Do not set passwordSecretRef directly, it is wired automatically by the initializer. Instead, use writeConnectionSecretToRef: pre-populate the Secret with a 'password' key for BYOP, or leave it empty for auto-generation. See docs/password-management.md.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 

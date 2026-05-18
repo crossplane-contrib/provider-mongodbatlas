@@ -23,9 +23,10 @@ func ConfigureDatabase(p *config.Provider, pwGen func(string, string) config.New
 				"spec.writeConnectionSecretToRef",
 			))
 		r.TerraformResource.Schema["password"].Description = "Password for the " +
-			"database user. When passwordSecretRef is set, that secret is used " +
-			"as the password (Bring Your Own Password). Otherwise, a password is " +
-			"auto-generated and written to the secret in writeConnectionSecretToRef."
+			"database user. Do not set passwordSecretRef directly, it is wired " +
+			"automatically by the initializer. Instead, use writeConnectionSecretToRef: " +
+			"pre-populate the Secret with a 'password' key for BYOP, or leave it " +
+			"empty for auto-generation. See docs/password-management.md."
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_custom_db_role", func(r *config.Resource) {

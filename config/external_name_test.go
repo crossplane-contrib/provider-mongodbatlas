@@ -6,7 +6,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
+
+const testProjectID = "proj123"
 
 func TestEncodeDecodeAtlasStateID(t *testing.T) {
 	tests := []struct {
@@ -15,15 +19,15 @@ func TestEncodeDecodeAtlasStateID(t *testing.T) {
 	}{
 		{
 			name:   "single key-value",
-			values: map[string]string{"project_id": "abc123"},
+			values: map[string]string{refs.ProjectID: "abc123"},
 		},
 		{
 			name:   "multiple key-values",
-			values: map[string]string{"project_id": "abc123", "role_name": "myRole"},
+			values: map[string]string{refs.ProjectID: "abc123", refs.RoleName: "myRole"},
 		},
 		{
 			name:   "empty value",
-			values: map[string]string{"project_id": ""},
+			values: map[string]string{refs.ProjectID: ""},
 		},
 	}
 	for _, tt := range tests {
@@ -50,19 +54,19 @@ func TestEncodedStateID_DisableNameInitializer(t *testing.T) {
 	}{
 		{
 			name:        "provider-assigned key not in fields",
-			fields:      []string{"project_id", "provider_name", "region"},
+			fields:      []string{refs.ProjectID, refs.ProviderName, refs.Region},
 			extNameKey:  "private_link_id",
 			wantDisable: true,
 		},
 		{
 			name:        "user-provided key in fields",
-			fields:      []string{"project_id", "role_name"},
-			extNameKey:  "role_name",
+			fields:      []string{refs.ProjectID, refs.RoleName},
+			extNameKey:  refs.RoleName,
 			wantDisable: false,
 		},
 		{
 			name:        "provider-assigned id",
-			fields:      []string{"project_id"},
+			fields:      []string{refs.ProjectID},
 			extNameKey:  "id",
 			wantDisable: true,
 		},
@@ -84,13 +88,13 @@ func TestEncodedStateIDMapped_DisableNameInitializer(t *testing.T) {
 	}{
 		{
 			name:        "key is a value in mapping",
-			mapping:     map[string]string{"project_id": "project_id", "name": "cluster_name"},
+			mapping:     map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: "cluster_name"},
 			extNameKey:  "cluster_name",
 			wantDisable: false,
 		},
 		{
 			name:        "key not in mapping values",
-			mapping:     map[string]string{"project_id": "project_id", "provider_name": "provider_name"},
+			mapping:     map[string]string{refs.ProjectID: refs.ProjectID, refs.ProviderName: refs.ProviderName},
 			extNameKey:  "peer_id",
 			wantDisable: true,
 		},
@@ -105,29 +109,29 @@ func TestEncodedStateIDMapped_DisableNameInitializer(t *testing.T) {
 
 func TestEncodedStateID_GetIDFn(t *testing.T) {
 	t.Run("all params present with provider-assigned key", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id", "provider_name", "region"}, "private_link_id")
+		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName, refs.Region}, "private_link_id")
 		params := map[string]any{
-			"project_id":    "proj123",
-			"provider_name": "AWS",
-			"region":        "us-east-1",
+			refs.ProjectID:    testProjectID,
+			refs.ProviderName: "AWS",
+			refs.Region:       "us-east-1",
 		}
 
 		id, err := e.GetIDFn(context.Background(), "vpce-svc-abc", params, nil)
 		require.NoError(t, err)
 
 		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, "proj123", decoded["project_id"])
-		assert.Equal(t, "AWS", decoded["provider_name"])
-		assert.Equal(t, "us-east-1", decoded["region"])
+		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
+		assert.Equal(t, "AWS", decoded[refs.ProviderName])
+		assert.Equal(t, "us-east-1", decoded[refs.Region])
 		assert.Equal(t, "vpce-svc-abc", decoded["private_link_id"])
 	})
 
 	t.Run("all params present without external name errors when provider-assigned key missing", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id", "provider_name", "region"}, "private_link_id")
+		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName, refs.Region}, "private_link_id")
 		params := map[string]any{
-			"project_id":    "proj123",
-			"provider_name": "AWS",
-			"region":        "us-east-1",
+			refs.ProjectID:    testProjectID,
+			refs.ProviderName: "AWS",
+			refs.Region:       "us-east-1",
 		}
 
 		_, err := e.GetIDFn(context.Background(), "", params, nil)
@@ -136,27 +140,27 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 	})
 
 	t.Run("all params present with user-provided key", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id", "role_name"}, "role_name")
+		e := encodedStateID([]string{refs.ProjectID, refs.RoleName}, refs.RoleName)
 		params := map[string]any{
-			"project_id": "proj123",
-			"role_name":  "admin",
+			refs.ProjectID: testProjectID,
+			refs.RoleName:  "admin",
 		}
 
 		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
 		require.NoError(t, err)
 
 		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, "admin", decoded["role_name"], "value from params takes precedence over external name")
+		assert.Equal(t, "admin", decoded[refs.RoleName], "value from params takes precedence over external name")
 	})
 
 	t.Run("missing params falls back to valid encoded external name", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id", "provider_name"}, "peer_id")
-		params := map[string]any{"project_id": "proj123"}
+		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
+		params := map[string]any{refs.ProjectID: testProjectID}
 
 		validID := encodeAtlasStateID(map[string]string{
-			"project_id":    "proj123",
-			"provider_name": "AWS",
-			"peer_id":       "pcx-abc",
+			refs.ProjectID:    testProjectID,
+			refs.ProviderName: "AWS",
+			"peer_id":         "pcx-abc",
 		})
 		id, err := e.GetIDFn(context.Background(), validID, params, nil)
 		require.NoError(t, err)
@@ -164,8 +168,8 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 	})
 
 	t.Run("missing params rejects raw external name", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id", "provider_name"}, "peer_id")
-		params := map[string]any{"project_id": "proj123"}
+		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
+		params := map[string]any{refs.ProjectID: testProjectID}
 
 		_, err := e.GetIDFn(context.Background(), "my-resource-name", params, nil)
 		require.Error(t, err)
@@ -173,8 +177,8 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 	})
 
 	t.Run("missing params and empty external name returns error", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id", "provider_name"}, "peer_id")
-		params := map[string]any{"project_id": "proj123"}
+		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
+		params := map[string]any{refs.ProjectID: testProjectID}
 
 		_, err := e.GetIDFn(context.Background(), "", params, nil)
 		require.Error(t, err)
@@ -184,11 +188,11 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 
 func TestEncodedStateID_GetExternalNameFn(t *testing.T) {
 	t.Run("extracts key from encoded state ID", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id", "provider_name"}, "peer_id")
+		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
 		stateID := encodeAtlasStateID(map[string]string{
-			"project_id":    "proj123",
-			"provider_name": "AWS",
-			"peer_id":       "pcx-abc123",
+			refs.ProjectID:    testProjectID,
+			refs.ProviderName: "AWS",
+			"peer_id":         "pcx-abc123",
 		})
 
 		name, err := e.GetExternalNameFn(map[string]any{"id": stateID})
@@ -197,8 +201,8 @@ func TestEncodedStateID_GetExternalNameFn(t *testing.T) {
 	})
 
 	t.Run("returns raw id when key not found in decoded state", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id"}, "missing_key")
-		stateID := encodeAtlasStateID(map[string]string{"project_id": "proj123"})
+		e := encodedStateID([]string{refs.ProjectID}, "missing_key")
+		stateID := encodeAtlasStateID(map[string]string{refs.ProjectID: testProjectID})
 
 		name, err := e.GetExternalNameFn(map[string]any{"id": stateID})
 		require.NoError(t, err)
@@ -206,7 +210,7 @@ func TestEncodedStateID_GetExternalNameFn(t *testing.T) {
 	})
 
 	t.Run("error when id missing from state", func(t *testing.T) {
-		e := encodedStateID([]string{"project_id"}, "id")
+		e := encodedStateID([]string{refs.ProjectID}, "id")
 		_, err := e.GetExternalNameFn(map[string]any{})
 		require.Error(t, err)
 	})
@@ -215,19 +219,19 @@ func TestEncodedStateID_GetExternalNameFn(t *testing.T) {
 func TestEncodedStateIDMapped_GetIDFn(t *testing.T) {
 	t.Run("maps param names to state keys", func(t *testing.T) {
 		e := encodedStateIDMapped(
-			map[string]string{"project_id": "project_id", "name": "cluster_name"},
+			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: "cluster_name"},
 			"cluster_name",
 		)
 		params := map[string]any{
-			"project_id": "proj123",
-			"name":       "my-cluster",
+			refs.ProjectID: testProjectID,
+			refs.Name:      "my-cluster",
 		}
 
 		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
 		require.NoError(t, err)
 
 		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, "proj123", decoded["project_id"])
+		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
 		assert.Equal(t, "my-cluster", decoded["cluster_name"])
 	})
 }

@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
-	"github.com/pkg/errors"
 )
 
 var externalNameConfigs = map[string]config.ExternalName{
@@ -100,7 +99,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 //     after the first successful observe via upstream's GetExternalNameFn.
 func templatedStringAsIdentifier(template string) config.ExternalName {
 	e := config.TemplatedStringAsIdentifier("", template)
-	identifierFields := append([]string{}, e.IdentifierFields...)
+	identifierFields := slices.Clone(e.IdentifierFields)
 	e.DisableNameInitializer = false
 	// Clear IdentifierFields so that template parameters (e.g. project_id)
 	// remain in the generated CRD schema as regular forProvider fields with
@@ -117,7 +116,7 @@ func templatedStringAsIdentifier(template string) config.ExternalName {
 		if externalName != "" {
 			return externalName, nil
 		}
-		return "", errors.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name annotation is empty", identifierFields)
+		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name annotation is empty", identifierFields)
 	}
 
 	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
@@ -220,17 +219,22 @@ func encodedStateIDMapped(fieldMapping map[string]string, externalNameKey string
 				if _, ok := m[externalNameKey]; !ok && externalName != "" {
 					m[externalNameKey] = externalName
 				}
+				if m[externalNameKey] == "" {
+					return "", fmt.Errorf("cannot determine Terraform ID: %s is not yet available", externalNameKey)
+				}
 				return encodeAtlasStateID(m), nil
 			}
 			if externalName != "" {
-				return externalName, nil
+				if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
+					return externalName, nil
+				}
 			}
-			return "", errors.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name annotation is empty", paramNames)
+			return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramNames)
 		},
 		GetExternalNameFn: func(tfstate map[string]any) (string, error) {
 			id, ok := tfstate["id"].(string)
 			if !ok || id == "" {
-				return "", errors.New("id not found in Terraform state")
+				return "", fmt.Errorf("id not found in Terraform state")
 			}
 			decoded := decodeAtlasStateID(id)
 			if v := decoded[externalNameKey]; v != "" {
@@ -265,12 +269,9 @@ func ExternalNameConfigurations() config.ResourceOption {
 // ExternalNameConfigured returns the list of all resources whose external name
 // is configured manually.
 func ExternalNameConfigured() []string {
-	l := make([]string, len(externalNameConfigs))
-	i := 0
+	l := make([]string, 0, len(externalNameConfigs))
 	for name := range externalNameConfigs {
-		// $ is added to match the exact string since the format is regex.
-		l[i] = name + "$"
-		i++
+		l = append(l, name+"$")
 	}
 	return l
 }

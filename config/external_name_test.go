@@ -122,7 +122,7 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 		assert.Equal(t, "vpce-svc-abc", decoded["private_link_id"])
 	})
 
-	t.Run("all params present without external name omits provider-assigned key", func(t *testing.T) {
+	t.Run("all params present without external name errors when provider-assigned key missing", func(t *testing.T) {
 		e := encodedStateID([]string{"project_id", "provider_name", "region"}, "private_link_id")
 		params := map[string]any{
 			"project_id":    "proj123",
@@ -130,12 +130,9 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 			"region":        "us-east-1",
 		}
 
-		id, err := e.GetIDFn(context.Background(), "", params, nil)
-		require.NoError(t, err)
-
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, "proj123", decoded["project_id"])
-		assert.Empty(t, decoded["private_link_id"], "provider-assigned key should be absent when external name empty")
+		_, err := e.GetIDFn(context.Background(), "", params, nil)
+		require.Error(t, err)
+		assert.Contains(t, err.Error(), "private_link_id is not yet available")
 	})
 
 	t.Run("all params present with user-provided key", func(t *testing.T) {
@@ -152,13 +149,27 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 		assert.Equal(t, "admin", decoded["role_name"], "value from params takes precedence over external name")
 	})
 
-	t.Run("missing params falls back to external name", func(t *testing.T) {
+	t.Run("missing params falls back to valid encoded external name", func(t *testing.T) {
 		e := encodedStateID([]string{"project_id", "provider_name"}, "peer_id")
 		params := map[string]any{"project_id": "proj123"}
 
-		id, err := e.GetIDFn(context.Background(), "some-encoded-state", params, nil)
+		validID := encodeAtlasStateID(map[string]string{
+			"project_id":    "proj123",
+			"provider_name": "AWS",
+			"peer_id":       "pcx-abc",
+		})
+		id, err := e.GetIDFn(context.Background(), validID, params, nil)
 		require.NoError(t, err)
-		assert.Equal(t, "some-encoded-state", id)
+		assert.Equal(t, validID, id)
+	})
+
+	t.Run("missing params rejects raw external name", func(t *testing.T) {
+		e := encodedStateID([]string{"project_id", "provider_name"}, "peer_id")
+		params := map[string]any{"project_id": "proj123"}
+
+		_, err := e.GetIDFn(context.Background(), "my-resource-name", params, nil)
+		require.Error(t, err)
+		assert.Contains(t, err.Error(), "not a valid encoded state ID")
 	})
 
 	t.Run("missing params and empty external name returns error", func(t *testing.T) {

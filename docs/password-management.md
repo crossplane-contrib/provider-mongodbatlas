@@ -99,6 +99,38 @@ If the Secret already has a `password` key (e.g. from a previous initialization
 that was interrupted after writing the Secret, but before updating the resource),
 the initializer reuses the existing password instead of generating a new one.
 
+## Secret lifecycle on User deletion
+
+What happens to the Kubernetes Secret when a `User` resource is deleted depends
+on how the password was provisioned.
+
+### Auto-generated password
+
+The Secret created by `generateAndApply()` carries a **controller owner
+reference** pointing back to the `User` resource (`config/password/password.go:94`).
+When the `User` is deleted, Kubernetes' built-in garbage collector detects the owner reference and
+**automatically deletes the Secret** as part of the cascade.
+No custom finalizer or cleanup code is needed.
+
+In short: **User deleted implies Secret deleted automatically.**
+
+### BYOP (Bring Your Own Password)
+
+The provider never sets an owner reference on a user-supplied Secret and the initializer exits before
+reaching `generateAndApply()`.
+Deleting the `User` resource has **no effect on the Secret**; it remains in the cluster,
+managed entirely by whoever created it.
+
+In short: **User deleted does not delete the Secret.**
+
+### Edge case: auto-generated Secret that already existed
+
+If `writeConnectionSecretToRef` points to a Secret that already exists *and*
+already contains a `password` key, the initializer reuses it without modifying
+owner references.
+In this case, the Secret has **no owner reference** to the `User`, so deleting the `User`
+**does not delete the Secret**; same behavior as BYOP.
+
 ## Password rotation
 
 The provider has **no built-in rotation scheduler**. Rotation is a manual or

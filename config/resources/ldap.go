@@ -1,23 +1,20 @@
-package ldap
+package resources
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/types/comments"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	common "github.com/crossplane-contrib/provider-mongodbatlas/config/cluster/common"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
-const group = "ldap"
-
-// Configure configures the root group
-func Configure(p *config.Provider) {
+func ConfigureLDAP(p *config.Provider, pwGen func(string, string) config.NewInitializerFn) {
 	p.AddResourceConfigurator("mongodbatlas_ldap_configuration", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = "ldap"
 		r.Kind = "Configuration"
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 		desc, _ := comments.New("If true, the bind password will be auto-generated and"+
@@ -29,7 +26,7 @@ func Configure(p *config.Provider) {
 			Description: desc.String(),
 		}
 		r.InitializerFns = append(r.InitializerFns,
-			common.PasswordGenerator(
+			pwGen(
 				"spec.forProvider.bindPasswordSecretRef",
 				"spec.forProvider.autoGenerateBindPassword",
 			))
@@ -39,15 +36,14 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_ldap_verify", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = "ldap"
 		r.Kind = "Verify"
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = common.GetIDFromParamsAndExternalName("-", 1, "project_id")
-		r.ExternalName.GetExternalNameFn = common.ExternalNameFromID("-", 1, 0)
+		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.ProjectID)
+		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
-
 }

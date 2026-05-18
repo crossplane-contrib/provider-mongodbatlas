@@ -1,27 +1,24 @@
-package database
+package resources
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	"github.com/crossplane-contrib/provider-mongodbatlas/config/namespaced/common"
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
-const group = "database"
-
-// Configure configures the root group
-func Configure(p *config.Provider) {
+func ConfigureDatabase(p *config.Provider, pwGen func(string, string) config.NewInitializerFn) {
 	p.AddResourceConfigurator("mongodbatlas_database_user", func(r *config.Resource) {
-		r.Version = common.VersionV1Alpha3
+		r.Version = refs.VersionV1Alpha3
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"x509_type", "ldap_auth_type", "aws_iam_type"},
 		}
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 		r.InitializerFns = append(r.InitializerFns,
-			common.PasswordGenerator(
+			pwGen(
 				"spec.forProvider.passwordSecretRef",
 				"spec.writeConnectionSecretToRef",
 			))
@@ -32,21 +29,21 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_custom_db_role", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = "database"
 		r.Kind = "CustomRole"
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_x509_authentication_database_user", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = "database"
 		r.Kind = "X509UserAuthentication"
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})

@@ -78,7 +78,7 @@ type ProviderConfigUsageList struct {
 
 // +kubebuilder:object:root=true
 
-// A ClusterProviderConfig configures a Template provider.
+// A ClusterProviderConfig configures a MongoDBAtlas provider.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:printcolumn:name="SECRET-NAME",type="string",JSONPath=".spec.credentials.secretRef.name",priority=1

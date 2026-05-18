@@ -1,54 +1,56 @@
-package cloud
+package resources
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
+
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
-const group = "cloud"
+const groupCloud = "cloud"
 
-// Configure configures the root group
-func Configure(p *config.Provider) {
+func ConfigureCloud(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_backup_compliance_policy", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.Kind = "BackupCompliancePolicy"
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_schedule", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
+
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot_export_bucket", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot_restore_job", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 			"snapshot_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot",
@@ -57,10 +59,10 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot_export_job", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 			"snapshot_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot",
@@ -72,37 +74,37 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_provider_access_setup", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_user_org_assignment", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"org_id": {
-				TerraformName: "mongodbatlas_organization",
+			refs.OrgID: {
+				TerraformName: refs.TFOrganization,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_user_project_assignment", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_user_team_assignment", func(r *config.Resource) {
-		r.ShortGroup = group
+		r.ShortGroup = groupCloud
 		r.References = config.References{
-			"org_id": {
-				TerraformName: "mongodbatlas_organization",
+			refs.OrgID: {
+				TerraformName: refs.TFOrganization,
 			},
 			"team_id": {
 				TerraformName: "mongodbatlas_team",
@@ -113,8 +115,8 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_serverless_instance", func(r *config.Resource) {
 		r.ShortGroup = "serverless"
 		r.References = config.References{
-			"project_id": {
-				TerraformName: "mongodbatlas_project",
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})

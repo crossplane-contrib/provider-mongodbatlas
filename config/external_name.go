@@ -204,46 +204,52 @@ func encodedStateID(fields []string, externalNameKey string) config.ExternalName
 // the encoded state ID.
 func encodedStateIDMapped(fieldMapping map[string]string, externalNameKey string) config.ExternalName {
 	paramNames := slices.Sorted(maps.Keys(fieldMapping))
-
 	externalNameFromParams := slices.Contains(slices.Collect(maps.Values(fieldMapping)), externalNameKey)
 	return config.ExternalName{
-		DisableNameInitializer: !externalNameFromParams,
-		OmittedFields:          []string{},
-		IdentifierFields:       nil,
-		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {
-		},
-		GetIDFn: func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
-			if hasAllParams(parameters, paramNames) {
-				m := make(map[string]string, len(fieldMapping)+1)
-				for param, stateKey := range fieldMapping {
-					m[stateKey] = parameters[param].(string)
-				}
-				if _, ok := m[externalNameKey]; !ok && externalName != "" {
-					m[externalNameKey] = externalName
-				}
-				if m[externalNameKey] == "" {
-					return "", fmt.Errorf("cannot determine Terraform ID: %s is not yet available", externalNameKey)
-				}
-				return encodeAtlasStateID(m), nil
+		DisableNameInitializer:  !externalNameFromParams,
+		OmittedFields:           []string{},
+		IdentifierFields:        nil,
+		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
+		GetIDFn:                 encodedStateGetIDFn(fieldMapping, paramNames, externalNameKey),
+		GetExternalNameFn:       encodedStateGetExternalNameFn(externalNameKey),
+	}
+}
+
+func encodedStateGetIDFn(fieldMapping map[string]string, paramNames []string, externalNameKey string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
+	return func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
+		if hasAllParams(parameters, paramNames) {
+			m := make(map[string]string, len(fieldMapping)+1)
+			for param, stateKey := range fieldMapping {
+				m[stateKey] = parameters[param].(string)
 			}
-			if externalName != "" {
-				if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
-					return externalName, nil
-				}
+			if _, ok := m[externalNameKey]; !ok && externalName != "" {
+				m[externalNameKey] = externalName
 			}
-			return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramNames)
-		},
-		GetExternalNameFn: func(tfstate map[string]any) (string, error) {
-			id, ok := tfstate["id"].(string)
-			if !ok || id == "" {
-				return "", fmt.Errorf("id not found in Terraform state")
+			if m[externalNameKey] == "" {
+				return "", fmt.Errorf("cannot determine Terraform ID: %s is not yet available", externalNameKey)
 			}
-			decoded := decodeAtlasStateID(id)
-			if v := decoded[externalNameKey]; v != "" {
-				return v, nil
+			return encodeAtlasStateID(m), nil
+		}
+		if externalName != "" {
+			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
+				return externalName, nil
 			}
-			return id, nil
-		},
+		}
+		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramNames)
+	}
+}
+
+func encodedStateGetExternalNameFn(externalNameKey string) func(map[string]any) (string, error) {
+	return func(tfstate map[string]any) (string, error) {
+		id, ok := tfstate["id"].(string)
+		if !ok || id == "" {
+			return "", fmt.Errorf("id not found in Terraform state")
+		}
+		decoded := decodeAtlasStateID(id)
+		if v := decoded[externalNameKey]; v != "" {
+			return v, nil
+		}
+		return id, nil
 	}
 }
 

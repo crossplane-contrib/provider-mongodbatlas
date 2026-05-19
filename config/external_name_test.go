@@ -126,7 +126,7 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 		assert.Equal(t, "vpce-svc-abc", decoded["private_link_id"])
 	})
 
-	t.Run("all params present without external name errors when provider-assigned key missing", func(t *testing.T) {
+	t.Run("all params present without external name returns empty when provider-assigned key missing", func(t *testing.T) {
 		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName, refs.Region}, "private_link_id")
 		params := map[string]any{
 			refs.ProjectID:    testProjectID,
@@ -134,9 +134,9 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 			refs.Region:       "us-east-1",
 		}
 
-		_, err := e.GetIDFn(context.Background(), "", params, nil)
-		require.Error(t, err)
-		assert.Contains(t, err.Error(), "private_link_id is not yet available")
+		id, err := e.GetIDFn(context.Background(), "", params, nil)
+		require.NoError(t, err)
+		assert.Empty(t, id)
 	})
 
 	t.Run("all params present with user-provided key", func(t *testing.T) {

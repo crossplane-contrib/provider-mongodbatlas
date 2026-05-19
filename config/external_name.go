@@ -226,7 +226,7 @@ func encodedStateGetIDFn(fieldMapping map[string]string, paramNames []string, ex
 				m[externalNameKey] = externalName
 			}
 			if m[externalNameKey] == "" {
-				return "", fmt.Errorf("cannot determine Terraform ID: %s is not yet available", externalNameKey)
+				return "", nil
 			}
 			return encodeAtlasStateID(m), nil
 		}

@@ -13,6 +13,7 @@ require (
 	github.com/go-logr/logr v1.4.3
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.37.0
 	github.com/pkg/errors v0.9.1
+	github.com/stretchr/testify v1.11.1
 	google.golang.org/grpc v1.81.0
 	k8s.io/api v0.35.4
 	k8s.io/apiextensions-apiserver v0.35.4

@@ -17,7 +17,16 @@ import (
 type BackupSnapshotRestoreJobInitParameters struct {
 
 	// The name of the Atlas cluster whose snapshot you want to restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	DeliveryTypeConfig []DeliveryTypeConfigInitParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
@@ -91,8 +100,17 @@ type BackupSnapshotRestoreJobObservation struct {
 type BackupSnapshotRestoreJobParameters struct {
 
 	// The name of the Atlas cluster whose snapshot you want to restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	// +kubebuilder:validation:Optional
@@ -247,9 +265,8 @@ type BackupSnapshotRestoreJobStatus struct {
 type BackupSnapshotRestoreJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	Spec   BackupSnapshotRestoreJobSpec   `json:"spec"`
-	Status BackupSnapshotRestoreJobStatus `json:"status,omitempty"`
+	Spec              BackupSnapshotRestoreJobSpec   `json:"spec"`
+	Status            BackupSnapshotRestoreJobStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

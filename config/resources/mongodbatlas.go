@@ -15,6 +15,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.Version = refs.VersionV1Alpha2
 		r.UseAsync = true
 		r.Kind = "Cluster"
+		r.TerraformResource.DeprecationMessage = "This resource is deprecated and will be removed in the next major version. Please use AdvancedCluster (mongodbatlas_advanced_cluster) instead."
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

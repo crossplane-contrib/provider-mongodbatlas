@@ -17,7 +17,16 @@ import (
 type BackupSnapshotExportJobInitParameters struct {
 
 	// Name of the Atlas cluster whose snapshot you want to export.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.
 	CustomData []CustomDataInitParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
@@ -103,8 +112,17 @@ type BackupSnapshotExportJobObservation struct {
 type BackupSnapshotExportJobParameters struct {
 
 	// Name of the Atlas cluster whose snapshot you want to export.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.
 	// +kubebuilder:validation:Optional
@@ -230,9 +248,8 @@ type BackupSnapshotExportJobStatus struct {
 type BackupSnapshotExportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	Spec   BackupSnapshotExportJobSpec   `json:"spec"`
-	Status BackupSnapshotExportJobStatus `json:"status,omitempty"`
+	Spec              BackupSnapshotExportJobSpec   `json:"spec"`
+	Status            BackupSnapshotExportJobStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

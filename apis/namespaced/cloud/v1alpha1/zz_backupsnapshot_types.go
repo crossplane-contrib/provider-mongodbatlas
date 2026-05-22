@@ -17,7 +17,16 @@ import (
 type BackupSnapshotInitParameters struct {
 
 	// The name of the Atlas cluster that contains the snapshots you want to retrieve.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
@@ -105,8 +114,17 @@ type BackupSnapshotObservation struct {
 type BackupSnapshotParameters struct {
 
 	// The name of the Atlas cluster that contains the snapshots you want to retrieve.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
@@ -189,7 +207,6 @@ type BackupSnapshotStatus struct {
 type BackupSnapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.retentionInDays) || (has(self.initProvider) && has(self.initProvider.retentionInDays))",message="spec.forProvider.retentionInDays is a required parameter"
 	Spec   BackupSnapshotSpec   `json:"spec"`

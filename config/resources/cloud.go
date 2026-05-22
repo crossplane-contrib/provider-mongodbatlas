@@ -25,6 +25,9 @@ func ConfigureCloud(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+			},
 		}
 	})
 
@@ -33,6 +36,9 @@ func ConfigureCloud(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
 			},
 		}
 	})
@@ -52,6 +58,9 @@ func ConfigureCloud(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+			},
 			"snapshot_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot",
 			},
@@ -63,6 +72,9 @@ func ConfigureCloud(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
 			},
 			"snapshot_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot",
@@ -114,6 +126,7 @@ func ConfigureCloud(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_serverless_instance", func(r *config.Resource) {
 		r.ShortGroup = "serverless"
+		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Please use FlexCluster (mongodbatlas_flex_cluster) or AdvancedCluster (mongodbatlas_advanced_cluster) instead."
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

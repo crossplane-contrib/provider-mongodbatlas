@@ -8,7 +8,9 @@ metadata:
   name: test
 spec:
   forProvider:
-    clusterName: ${mongodbatlas_cloud_backup_snapshot.test.cluster_name}
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
     deliveryTypeConfig:
     - automated: true
       targetClusterName: MyCluster
@@ -59,7 +61,9 @@ metadata:
   name: test
 spec:
   forProvider:
-    clusterName: MyCluster
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_cluster
     description: myDescription
     projectIdSelector:
       matchLabels:

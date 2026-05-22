@@ -20,7 +20,16 @@ type BackupScheduleInitParameters struct {
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
 	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// List that contains a document for each copy setting item in the desired backup policy. See below
 	CopySettings []CopySettingsInitParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
@@ -144,8 +153,17 @@ type BackupScheduleParameters struct {
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
 	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// List that contains a document for each copy setting item in the desired backup policy. See below
 	// +kubebuilder:validation:Optional
@@ -565,9 +583,8 @@ type BackupScheduleStatus struct {
 type BackupSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
-	Spec   BackupScheduleSpec   `json:"spec"`
-	Status BackupScheduleStatus `json:"status,omitempty"`
+	Spec              BackupScheduleSpec   `json:"spec"`
+	Status            BackupScheduleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

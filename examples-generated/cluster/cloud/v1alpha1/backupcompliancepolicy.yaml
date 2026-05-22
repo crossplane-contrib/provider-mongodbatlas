@@ -82,7 +82,9 @@ metadata:
   name: test
 spec:
   forProvider:
-    clusterName: clusterTest
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_cluster
     policyItemDaily:
     - frequencyInterval: 1
       retentionUnit: days

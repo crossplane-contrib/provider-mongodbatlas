@@ -29,6 +29,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_invitation", func(r *config.Resource) {
+		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Migrate to mongodbatlas_cloud_user_project_assignment for managing project membership."
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
 		}

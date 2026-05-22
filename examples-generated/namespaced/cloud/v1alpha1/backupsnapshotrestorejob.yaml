@@ -9,7 +9,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    clusterName: ${mongodbatlas_cloud_backup_snapshot.test.cluster_name}
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
     deliveryTypeConfig:
     - automated: true
       targetClusterName: MyCluster
@@ -62,7 +64,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    clusterName: MyCluster
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_cluster
     description: myDescription
     projectIdSelector:
       matchLabels:

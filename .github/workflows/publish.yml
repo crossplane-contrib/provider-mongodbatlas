@@ -8,21 +8,29 @@ on:
         type: boolean
         default: true
         required: false
-      go-version:
-        description: Go version to use if building needs to be done
-        default: "1.26"
-        required: false
       version:
         description: Version string to use while publishing the package (e.g. v1.0.0-alpha.1)
         default: ""
         required: false
 
 jobs:
+  infer-go-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: Read go version
+        id: read-go-version
+        run: echo "go-version=$(sed -n 's/^go //p' go.mod)" >> "$GITHUB_OUTPUT"
+    outputs:
+      go-version: ${{ steps.read-go-version.outputs.go-version }}
+
   publish-provider-package:
+    needs: infer-go-version
     uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@main
     with:
       cleanup-disk: ${{ inputs.cleanup-disks }}
-      go-version: ${{ github.event.inputs.go-version }}
+      go-version: ${{ needs.infer-go-version.outputs.go-version }}
       repository: provider-mongodbatlas
       version: ${{ github.event.inputs.version }}
     secrets:
@@ -46,7 +54,9 @@ jobs:
         run: crane tag ghcr.io/crossplane-contrib/provider-mongodbatlas:${{ inputs.version }} latest
 
   add-extensions:
-    needs: publish-provider-package
+    needs:
+      - infer-go-version
+      - publish-provider-package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -62,4 +72,4 @@ jobs:
       - name: Append extensions
         run: make xpkg.append VERSION=${{ inputs.version }}
         env:
-          GO_REQUIRED_VERSION: ${{ inputs.go-version }}
+          GO_REQUIRED_VERSION: ${{ needs.infer-go-version.outputs.go-version }}

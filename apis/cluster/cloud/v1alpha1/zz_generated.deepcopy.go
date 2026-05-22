@@ -773,6 +773,16 @@ func (in *BackupScheduleInitParameters) DeepCopyInto(out *BackupScheduleInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CopySettings != nil {
 		in, out := &in.CopySettings, &out.CopySettings
 		*out = make([]CopySettingsInitParameters, len(*in))
@@ -1052,6 +1062,16 @@ func (in *BackupScheduleParameters) DeepCopyInto(out *BackupScheduleParameters) 
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CopySettings != nil {
 		in, out := &in.CopySettings, &out.CopySettings
@@ -2030,6 +2050,16 @@ func (in *BackupSnapshotExportJobInitParameters) DeepCopyInto(out *BackupSnapsho
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CustomData != nil {
 		in, out := &in.CustomData, &out.CustomData
 		*out = make([]CustomDataInitParameters, len(*in))
@@ -2223,6 +2253,16 @@ func (in *BackupSnapshotExportJobParameters) DeepCopyInto(out *BackupSnapshotExp
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CustomData != nil {
 		in, out := &in.CustomData, &out.CustomData
 		*out = make([]CustomDataParameters, len(*in))
@@ -2329,6 +2369,16 @@ func (in *BackupSnapshotInitParameters) DeepCopyInto(out *BackupSnapshotInitPara
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
@@ -2530,6 +2580,16 @@ func (in *BackupSnapshotParameters) DeepCopyInto(out *BackupSnapshotParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
 		*out = new(bool)
@@ -2606,6 +2666,16 @@ func (in *BackupSnapshotRestoreJobInitParameters) DeepCopyInto(out *BackupSnapsh
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DeliveryTypeConfig != nil {
 		in, out := &in.DeliveryTypeConfig, &out.DeliveryTypeConfig
@@ -2783,6 +2853,16 @@ func (in *BackupSnapshotRestoreJobParameters) DeepCopyInto(out *BackupSnapshotRe
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DeliveryTypeConfig != nil {
 		in, out := &in.DeliveryTypeConfig, &out.DeliveryTypeConfig

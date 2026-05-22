@@ -8,6 +8,7 @@ package v1alpha1
 import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1"
+	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -65,6 +66,23 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ClusterNameRef,
+		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterName")
+	}
+	mg.Spec.ForProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
@@ -80,6 +98,23 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ClusterNameRef,
+		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterName")
+	}
+	mg.Spec.InitProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
@@ -109,6 +144,23 @@ func (mg *BackupSnapshot) ResolveReferences(ctx context.Context, c client.Reader
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ClusterNameRef,
+		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterName")
+	}
+	mg.Spec.ForProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
@@ -124,6 +176,23 @@ func (mg *BackupSnapshot) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ClusterNameRef,
+		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterName")
+	}
+	mg.Spec.InitProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
@@ -197,6 +266,23 @@ func (mg *BackupSnapshotExportJob) ResolveReferences(ctx context.Context, c clie
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ClusterNameRef,
+		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterName")
+	}
+	mg.Spec.ForProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ExportBucketID),
 		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
@@ -246,6 +332,23 @@ func (mg *BackupSnapshotExportJob) ResolveReferences(ctx context.Context, c clie
 	}
 	mg.Spec.ForProvider.SnapshotID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SnapshotIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ClusterNameRef,
+		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterName")
+	}
+	mg.Spec.InitProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ExportBucketID),
@@ -309,6 +412,23 @@ func (mg *BackupSnapshotRestoreJob) ResolveReferences(ctx context.Context, c cli
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ClusterNameRef,
+		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterName")
+	}
+	mg.Spec.ForProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
@@ -341,6 +461,23 @@ func (mg *BackupSnapshotRestoreJob) ResolveReferences(ctx context.Context, c cli
 	}
 	mg.Spec.ForProvider.SnapshotID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SnapshotIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ClusterNameRef,
+		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
+		To: reference.To{
+			List:    &v1alpha2.ClusterList{},
+			Managed: &v1alpha2.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterName")
+	}
+	mg.Spec.InitProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),

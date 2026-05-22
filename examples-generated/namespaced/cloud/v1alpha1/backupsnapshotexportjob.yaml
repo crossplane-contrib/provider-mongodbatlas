@@ -9,7 +9,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    clusterName: '{CLUSTER_NAME}'
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     customData:
     - key: exported by
       value: myName

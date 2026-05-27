@@ -65,8 +65,8 @@ spec:
                       want to restore.
                     type: string
                   clusterNameRef:
-                    description: Reference to a Cluster in mongodbatlas to populate
-                      clusterName.
+                    description: Reference to a AdvancedCluster in mongodbatlas to
+                      populate clusterName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -103,8 +103,8 @@ spec:
                     - name
                     type: object
                   clusterNameSelector:
-                    description: Selector for a Cluster in mongodbatlas to populate
-                      clusterName.
+                    description: Selector for a AdvancedCluster in mongodbatlas to
+                      populate clusterName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -382,8 +382,8 @@ spec:
                       want to restore.
                     type: string
                   clusterNameRef:
-                    description: Reference to a Cluster in mongodbatlas to populate
-                      clusterName.
+                    description: Reference to a AdvancedCluster in mongodbatlas to
+                      populate clusterName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -420,8 +420,8 @@ spec:
                     - name
                     type: object
                   clusterNameSelector:
-                    description: Selector for a Cluster in mongodbatlas to populate
-                      clusterName.
+                    description: Selector for a AdvancedCluster in mongodbatlas to
+                      populate clusterName.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -16,14 +16,14 @@ import (
 type BackupSnapshotRestoreJobInitParameters struct {
 
 	// The name of the Atlas cluster whose snapshot you want to restore.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha2.Cluster
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
-	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
@@ -99,15 +99,15 @@ type BackupSnapshotRestoreJobObservation struct {
 type BackupSnapshotRestoreJobParameters struct {
 
 	// The name of the Atlas cluster whose snapshot you want to restore.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha2.Cluster
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
-	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 

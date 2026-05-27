@@ -8,7 +8,7 @@ const (
 	ProviderName   = "provider_name"
 	Region         = "region"
 	RoleName       = "role_name"
-	TFCluster      = "mongodbatlas_cluster"
+	TFCluster      = "mongodbatlas_advanced_cluster"
 	TFOrganization = "mongodbatlas_organization"
 	TFProject      = "mongodbatlas_project"
 

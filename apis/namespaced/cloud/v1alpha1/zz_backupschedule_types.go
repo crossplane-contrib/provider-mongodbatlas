@@ -20,14 +20,14 @@ type BackupScheduleInitParameters struct {
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
 	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
-	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
@@ -153,15 +153,15 @@ type BackupScheduleParameters struct {
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
 	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2.Cluster
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// Reference to a Cluster in mongodbatlas to populate clusterName.
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
-	// Selector for a Cluster in mongodbatlas to populate clusterName.
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 

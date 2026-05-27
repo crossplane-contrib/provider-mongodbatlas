@@ -8,7 +8,7 @@ package v1alpha1
 import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1"
-	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha2"
+	v1alpha3 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -72,8 +72,8 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {
@@ -106,8 +106,8 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {
@@ -150,8 +150,8 @@ func (mg *BackupSnapshot) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {
@@ -184,8 +184,8 @@ func (mg *BackupSnapshot) ResolveReferences(ctx context.Context, c client.Reader
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {
@@ -272,8 +272,8 @@ func (mg *BackupSnapshotExportJob) ResolveReferences(ctx context.Context, c clie
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {
@@ -340,8 +340,8 @@ func (mg *BackupSnapshotExportJob) ResolveReferences(ctx context.Context, c clie
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {
@@ -418,8 +418,8 @@ func (mg *BackupSnapshotRestoreJob) ResolveReferences(ctx context.Context, c cli
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {
@@ -469,8 +469,8 @@ func (mg *BackupSnapshotRestoreJob) ResolveReferences(ctx context.Context, c cli
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
 		To: reference.To{
-			List:    &v1alpha2.ClusterList{},
-			Managed: &v1alpha2.Cluster{},
+			List:    &v1alpha3.AdvancedClusterList{},
+			Managed: &v1alpha3.AdvancedCluster{},
 		},
 	})
 	if err != nil {

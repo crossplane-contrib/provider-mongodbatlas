@@ -123,17 +123,7 @@ type DataProcessRegionParameters struct {
 type OnlineArchiveInitParameters struct {
 
 	// Name of the cluster that contains the collection.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
-
-	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
-	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
-
-	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
-	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Name of the collection.
 	CollName *string `json:"collName,omitempty" tf:"coll_name,omitempty"`
@@ -236,18 +226,8 @@ type OnlineArchiveObservation struct {
 type OnlineArchiveParameters struct {
 
 	// Name of the cluster that contains the collection.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
-
-	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
-	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
-
-	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
-	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Name of the collection.
 	// +kubebuilder:validation:Optional
@@ -455,6 +435,7 @@ type OnlineArchiveStatus struct {
 type OnlineArchive struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.collName) || (has(self.initProvider) && has(self.initProvider.collName))",message="spec.forProvider.collName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.criteria) || (has(self.initProvider) && has(self.initProvider.criteria))",message="spec.forProvider.criteria is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dbName) || (has(self.initProvider) && has(self.initProvider.dbName))",message="spec.forProvider.dbName is a required parameter"

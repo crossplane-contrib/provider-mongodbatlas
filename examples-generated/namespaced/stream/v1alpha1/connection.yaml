@@ -15,4 +15,6 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     type: Cluster
-    workspaceName: WorkspaceName
+    workspaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

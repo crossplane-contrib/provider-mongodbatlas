@@ -163,6 +163,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
+			},
 		}
 	})
 
@@ -316,6 +320,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
 			},
 		}
 		// ID format: {project_id}-{cluster_name}-{archive_id}

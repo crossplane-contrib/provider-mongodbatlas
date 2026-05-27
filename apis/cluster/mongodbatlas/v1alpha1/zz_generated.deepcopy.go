@@ -2969,6 +2969,16 @@ func (in *GlobalClusterConfigInitParameters) DeepCopyInto(out *GlobalClusterConf
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CustomZoneMappings != nil {
 		in, out := &in.CustomZoneMappings, &out.CustomZoneMappings
 		*out = make([]CustomZoneMappingsInitParameters, len(*in))
@@ -3109,6 +3119,16 @@ func (in *GlobalClusterConfigParameters) DeepCopyInto(out *GlobalClusterConfigPa
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CustomZoneMappings != nil {
 		in, out := &in.CustomZoneMappings, &out.CustomZoneMappings
@@ -4264,6 +4284,16 @@ func (in *OnlineArchiveInitParameters) DeepCopyInto(out *OnlineArchiveInitParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CollName != nil {
 		in, out := &in.CollName, &out.CollName
 		*out = new(string)
@@ -4500,6 +4530,16 @@ func (in *OnlineArchiveParameters) DeepCopyInto(out *OnlineArchiveParameters) {
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CollName != nil {
 		in, out := &in.CollName, &out.CollName

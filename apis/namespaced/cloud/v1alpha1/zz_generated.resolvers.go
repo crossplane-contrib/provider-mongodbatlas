@@ -10,6 +10,7 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1"
 	v1alpha3 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -67,7 +68,7 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
@@ -101,7 +102,7 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
@@ -145,7 +146,7 @@ func (mg *BackupSnapshot) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
@@ -179,7 +180,7 @@ func (mg *BackupSnapshot) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
@@ -267,7 +268,7 @@ func (mg *BackupSnapshotExportJob) ResolveReferences(ctx context.Context, c clie
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
@@ -335,7 +336,7 @@ func (mg *BackupSnapshotExportJob) ResolveReferences(ctx context.Context, c clie
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,
@@ -413,7 +414,7 @@ func (mg *BackupSnapshotRestoreJob) ResolveReferences(ctx context.Context, c cli
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterNameRef,
 		Selector:     mg.Spec.ForProvider.ClusterNameSelector,
@@ -464,7 +465,7 @@ func (mg *BackupSnapshotRestoreJob) ResolveReferences(ctx context.Context, c cli
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterNameRef,
 		Selector:     mg.Spec.InitProvider.ClusterNameSelector,

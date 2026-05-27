@@ -9,7 +9,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    clusterName: NAME OF CLUSTER
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
     customZoneMappings:
     - location: CA
       zone: Zone 1

@@ -8,7 +8,9 @@ metadata:
   name: example
 spec:
   forProvider:
-    clusterName: NAME OF CLUSTER
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example

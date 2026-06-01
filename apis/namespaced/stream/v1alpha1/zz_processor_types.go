@@ -89,7 +89,17 @@ type ProcessorInitParameters struct {
 
 	// (String, Deprecated) Label that identifies the stream processing workspace.
 	// Label that identifies the stream processing workspace.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/stream/v1alpha1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("instance_name",false)
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// Reference to a Instance in stream to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameRef *v1.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in stream to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameSelector *v1.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// (Attributes) Optional configuration for the stream processor. (see below for nested schema)
 	Options *OptionsInitParameters `json:"options,omitempty" tf:"options,omitempty"`
@@ -192,8 +202,18 @@ type ProcessorParameters struct {
 
 	// (String, Deprecated) Label that identifies the stream processing workspace.
 	// Label that identifies the stream processing workspace.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/stream/v1alpha1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("instance_name",false)
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// Reference to a Instance in stream to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameRef *v1.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in stream to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameSelector *v1.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// (Attributes) Optional configuration for the stream processor. (see below for nested schema)
 	// +kubebuilder:validation:Optional

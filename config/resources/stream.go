@@ -1,6 +1,8 @@
 package resources
 
 import (
+	"fmt"
+
 	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/types/comments"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -13,6 +15,10 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.WorkspaceName: {
+				TerraformName: refs.TFStreamWorkspace,
+				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, refs.WorkspaceName, false),
 			},
 		}
 		descAuth, _ := comments.New("If true, the authentication password will be auto-generated and"+
@@ -63,6 +69,10 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.InstanceName: {
+				TerraformName: refs.TFStreamInstance,
+				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, refs.InstanceName, false),
 			},
 		}
 	})

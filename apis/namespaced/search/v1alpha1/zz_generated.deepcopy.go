@@ -48,6 +48,16 @@ func (in *DeploymentInitParameters) DeepCopyInto(out *DeploymentInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
 		*out = new(bool)
@@ -199,6 +209,16 @@ func (in *DeploymentParameters) DeepCopyInto(out *DeploymentParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
 		*out = new(bool)
@@ -327,6 +347,16 @@ func (in *IndexInitParameters) DeepCopyInto(out *IndexInitParameters) {
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CollectionName != nil {
 		in, out := &in.CollectionName, &out.CollectionName
@@ -602,6 +632,16 @@ func (in *IndexParameters) DeepCopyInto(out *IndexParameters) {
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CollectionName != nil {
 		in, out := &in.CollectionName, &out.CollectionName

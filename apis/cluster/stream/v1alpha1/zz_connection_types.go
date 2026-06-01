@@ -269,7 +269,17 @@ type ConnectionInitParameters struct {
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Label that identifies the stream processing workspace.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/stream/v1alpha1.Workspace
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("workspace_name",false)
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
+
+	// Reference to a Workspace in stream to populate workspaceName.
+	// +kubebuilder:validation:Optional
+	WorkspaceNameRef *v1.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
+
+	// Selector for a Workspace in stream to populate workspaceName.
+	// +kubebuilder:validation:Optional
+	WorkspaceNameSelector *v1.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
 }
 
 type ConnectionObservation struct {
@@ -453,8 +463,18 @@ type ConnectionParameters struct {
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Label that identifies the stream processing workspace.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/stream/v1alpha1.Workspace
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("workspace_name",false)
 	// +kubebuilder:validation:Optional
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
+
+	// Reference to a Workspace in stream to populate workspaceName.
+	// +kubebuilder:validation:Optional
+	WorkspaceNameRef *v1.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
+
+	// Selector for a Workspace in stream to populate workspaceName.
+	// +kubebuilder:validation:Optional
+	WorkspaceNameSelector *v1.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
 }
 
 type DBRoleToExecuteInitParameters struct {

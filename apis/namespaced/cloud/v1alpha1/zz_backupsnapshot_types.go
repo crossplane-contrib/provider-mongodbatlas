@@ -18,6 +18,7 @@ type BackupSnapshotInitParameters struct {
 
 	// The name of the Atlas cluster that contains the snapshots you want to retrieve.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
@@ -115,6 +116,7 @@ type BackupSnapshotParameters struct {
 
 	// The name of the Atlas cluster that contains the snapshots you want to retrieve.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 

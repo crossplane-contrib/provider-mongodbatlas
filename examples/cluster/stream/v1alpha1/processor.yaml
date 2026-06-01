@@ -42,7 +42,9 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     type: Cluster
-    workspaceName: InstanceName
+    workspaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 
@@ -73,7 +75,9 @@ spec:
     security:
       protocol: SASL_PLAINTEXT
     type: Kafka
-    workspaceName: InstanceName
+    workspaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 
@@ -92,7 +96,9 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     type: Sample
-    workspaceName: InstanceName
+    workspaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 

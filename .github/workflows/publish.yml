@@ -77,10 +77,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          if [[ "${{ github.ref_type }}" != "branch" ]]; then
+            echo "Skipping README commit (not a branch)"
+            exit 0
+          fi
           if [ -n "$(git status --porcelain README.md)" ]; then
             gh api graphql \
             -F githubRepository=${{ github.repository }} \
-            -F branchName=${{ github.head_ref }} \
+            -F branchName=${{ github.ref_name }} \
             -F expectedHeadOid=$(git rev-parse HEAD) \
             -F commitMessage="docs: update README.md" \
             -F files[][path]="README.md" -F files[][contents]=$(base64 -w0 README.md) \

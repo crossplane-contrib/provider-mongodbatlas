@@ -73,3 +73,16 @@ jobs:
         run: make xpkg.append VERSION=${{ inputs.version }}
         env:
           GO_REQUIRED_VERSION: ${{ needs.infer-go-version.outputs.go-version }}
+      - name: Commit README if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "$(git status --porcelain README.md)" ]; then
+            gh api graphql \
+            -F githubRepository=${{ github.repository }} \
+            -F branchName=${{ github.head_ref }} \
+            -F expectedHeadOid=$(git rev-parse HEAD) \
+            -F commitMessage="docs: update README.md" \
+            -F files[][path]="README.md" -F files[][contents]=$(base64 -w0 README.md) \
+            -F 'query=@.github/api/createCommitOnBranch.gql'
+          fi

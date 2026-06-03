@@ -1,4 +1,4 @@
-# MongoDBAtlas Provider [![v1.1.3-8.gf8b048e.dirty](https://img.shields.io/badge/v1.1.3-8.gf8b048e.dirty-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.1.3-8.gf8b048e.dirty)
+# MongoDBAtlas Provider [![v1.1.0](https://img.shields.io/badge/v1.1.3-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.1.0)
 
 `provider-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
 is built using [Upjet](https://github.com/crossplane/upjet) code
@@ -19,7 +19,7 @@ kind: Provider
 metadata:
   name: provider-mongodbatlas
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.1.3-8.gf8b048e.dirty
+  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.1.3
 EOF
 ```
 
@@ -28,10 +28,6 @@ You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-
 ## Importing a resource
 
 Refer to the [dedicated document](docs/import.md) for information about how to import existing resources.
-
-## Migrating to v1
-
-If you are upgrading from v0.x, refer to the [migration guide](docs/migration-to-v1.md) for breaking changes and a migration script.
 
 ## Developing
 

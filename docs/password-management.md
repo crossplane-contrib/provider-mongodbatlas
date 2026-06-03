@@ -25,6 +25,11 @@ when the initializer runs.
 Create a Secret containing a `password` key **before** creating the `User` resource.
 Set `writeConnectionSecretToRef` to reference that Secret.
 
+> **Important:** The Secret **must** have `type: connection.crossplane.io/v1alpha1`.
+> Crossplane refuses to write connection details to Secrets of other types (e.g. `Opaque`),
+> and you will get the error: `cannot create or update connection secret: refusing to modify uncontrolled secret of type "opaque"`.
+> Kubernetes does not allow changing a Secret's type after creation — delete and recreate if needed.
+
 ### 1. Create the Secret first
 
 ```yaml

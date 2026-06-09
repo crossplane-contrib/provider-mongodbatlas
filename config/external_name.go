@@ -62,7 +62,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_privatelink_endpoint":                                        encodedStateID([]string{refs.ProjectID, refs.ProviderName, refs.Region}, "private_link_id"),
 	"mongodbatlas_project_api_key":                                             config.IdentifierFromProvider,
 	"mongodbatlas_project_invitation":                                          config.IdentifierFromProvider,
-	"mongodbatlas_project_ip_access_list":                                      config.IdentifierFromProvider,
+	"mongodbatlas_project_ip_access_list":                                      projectIPAccessListExternalName(),
 	"mongodbatlas_project_service_account_access_list_entry":                   config.IdentifierFromProvider,
 	"mongodbatlas_project_service_account_secret":                              config.IdentifierFromProvider,
 	"mongodbatlas_project_service_account":                                     config.IdentifierFromProvider,
@@ -263,6 +263,52 @@ func hasAllParams(params map[string]any, fields []string) bool {
 		}
 	}
 	return true
+}
+
+// projectIPAccessListExternalName builds the external-name config for
+// mongodbatlas_project_ip_access_list. Like other Atlas resources its TF
+// d.Id() is conversion.EncodeStateID over the keys "entry" and "project_id",
+// so the plain "<project>-<entry>" form fails the read with "the provided
+// resource ID is not correct". It can't use encodedStateID: the "entry" value
+// comes from EITHER the cidr_block or ip_address forProvider field (mutually
+// exclusive), which a static field mapping can't express.
+func projectIPAccessListExternalName() config.ExternalName {
+	const entryKey = "entry"
+	return config.ExternalName{
+		DisableNameInitializer:  true,
+		OmittedFields:           []string{},
+		IdentifierFields:        nil,
+		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
+		GetExternalNameFn:       encodedStateGetExternalNameFn(entryKey),
+		GetIDFn: func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
+			project, ok := parameters[refs.ProjectID].(string)
+			if !ok || project == "" {
+				return "", fmt.Errorf("%s is required", refs.ProjectID)
+			}
+			entry := firstNonEmptyParam(parameters, "ip_address", "cidr_block")
+			if entry == "" {
+				// GetExternalNameFn stores the raw entry value in the
+				// crossplane.io/external-name annotation; reuse it when the
+				// forProvider fields aren't available (e.g. on import).
+				entry = externalName
+			}
+			if entry == "" {
+				return "", fmt.Errorf("either ip_address or cidr_block is required")
+			}
+			return encodeAtlasStateID(map[string]string{entryKey: entry, refs.ProjectID: project}), nil
+		},
+	}
+}
+
+// firstNonEmptyParam returns the value of the first key present and non-empty
+// in params, or "" if none match.
+func firstNonEmptyParam(params map[string]any, keys ...string) string {
+	for _, k := range keys {
+		if s, ok := params[k].(string); ok && s != "" {
+			return s
+		}
+	}
+	return ""
 }
 
 // ExternalNameConfigurations applies the external name config for each resource.

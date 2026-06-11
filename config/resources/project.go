@@ -49,20 +49,9 @@ func ConfigureProject(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			project, ok := parameters[refs.ProjectID]
-			if !ok {
-				return "", errors.New("project_id missing from parameters")
-			}
-			ip, ok := parameters["ip_address"]
-			if !ok {
-				ip, ok = parameters["cidr_block"]
-				if !ok {
-					return "", errors.New("either ip_address or cidr_block parameters must be set")
-				}
-			}
-			return fmt.Sprintf("%s-%s", project, ip), nil
-		}
+		// External-name / ID handling lives in config.projectIPAccessListExternalName
+		// (EncodeStateID form). The default ExternalNameConfigurations option applies
+		// it; no GetIDFn override here.
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {

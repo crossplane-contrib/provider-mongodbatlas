@@ -280,3 +280,60 @@ func TestHasAllParams(t *testing.T) {
 		})
 	}
 }
+
+func TestProjectIPAccessListGetIDFn(t *testing.T) {
+	e := projectIPAccessListExternalName()
+	tests := []struct {
+		name      string
+		params    map[string]any
+		wantEntry string
+	}{
+		{
+			name:      "cidr_block",
+			params:    map[string]any{refs.ProjectID: testProjectID, "cidr_block": "10.0.0.0/24"},
+			wantEntry: "10.0.0.0/24",
+		},
+		{
+			name:      "ip_address",
+			params:    map[string]any{refs.ProjectID: testProjectID, "ip_address": "1.2.3.4"},
+			wantEntry: "1.2.3.4",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			id, err := e.GetIDFn(context.Background(), "", tt.params, nil)
+			require.NoError(t, err)
+
+			// Must round-trip through DecodeStateID to exactly two keys, or the
+			// TF provider read errors "the provided resource ID is not correct".
+			decoded := decodeAtlasStateID(id)
+			assert.Len(t, decoded, 2)
+			assert.Equal(t, testProjectID, decoded[refs.ProjectID])
+			assert.Equal(t, tt.wantEntry, decoded["entry"])
+		})
+	}
+}
+
+func TestProjectIPAccessListGetIDFn_Errors(t *testing.T) {
+	e := projectIPAccessListExternalName()
+
+	t.Run("missing entry (no ip_address/cidr_block)", func(t *testing.T) {
+		_, err := e.GetIDFn(context.Background(), "", map[string]any{refs.ProjectID: testProjectID}, nil)
+		assert.Error(t, err)
+	})
+
+	t.Run("missing project_id", func(t *testing.T) {
+		_, err := e.GetIDFn(context.Background(), "", map[string]any{"cidr_block": "10.0.0.0/24"}, nil)
+		assert.Error(t, err)
+	})
+
+	t.Run("entry recovered from external-name when params absent", func(t *testing.T) {
+		// GetExternalNameFn stores the raw entry value; GetIDFn reuses it when
+		// neither ip_address nor cidr_block is in forProvider.
+		id, err := e.GetIDFn(context.Background(), "1.2.3.4", map[string]any{refs.ProjectID: testProjectID}, nil)
+		require.NoError(t, err)
+		decoded := decodeAtlasStateID(id)
+		assert.Equal(t, "1.2.3.4", decoded["entry"])
+		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
+	})
+}

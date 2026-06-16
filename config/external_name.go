@@ -134,9 +134,18 @@ func templatedStringAsIdentifier(template string) config.ExternalName {
 	return e
 }
 
+// encodeAtlasStateID replicates the Atlas TF provider's conversion.EncodeStateID format.
+func encodeAtlasStateID(values map[string]string) string {
+	encode := func(s string) string { return base64.StdEncoding.EncodeToString([]byte(s)) }
+	parts := make([]string, 0, len(values))
+	for _, key := range slices.Sorted(maps.Keys(values)) {
+		parts = append(parts, fmt.Sprintf("%s:%s", encode(key), encode(values[key])))
+	}
+	return strings.Join(parts, "-")
+}
+
 // decodeAtlasStateID reverses the encoding used by the Atlas TF provider's
 // conversion.EncodeStateID (internal/common/conversion), returning the key-value map.
-// The encoded format is: base64(key1):base64(value1)-base64(key2):base64(value2)-...
 func decodeAtlasStateID(stateID string) map[string]string {
 	decode := func(s string) string {
 		b, err := base64.StdEncoding.DecodeString(s)

@@ -2,11 +2,6 @@ package config
 
 import (
 	"context"
-	"encoding/base64"
-	"fmt"
-	"maps"
-	"slices"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,16 +12,6 @@ import (
 
 const testProjectID = "proj123"
 
-// encodeAtlasStateID is a test helper that replicates the Atlas TF provider's
-// conversion.EncodeStateID format for creating test fixtures.
-func encodeAtlasStateID(values map[string]string) string {
-	encode := func(s string) string { return base64.StdEncoding.EncodeToString([]byte(s)) }
-	parts := make([]string, 0, len(values))
-	for _, key := range slices.Sorted(maps.Keys(values)) {
-		parts = append(parts, fmt.Sprintf("%s:%s", encode(key), encode(values[key])))
-	}
-	return strings.Join(parts, "-")
-}
 
 func TestDecodeAtlasStateID(t *testing.T) {
 	tests := []struct {

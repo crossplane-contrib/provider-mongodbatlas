@@ -77,8 +77,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [[ "${{ github.ref_type }}" != "branch" ]]; then
-            echo "Skipping README commit (not a branch)"
+          if [[ "${{ github.ref_type }}" != "branch" || "${{ github.ref_name }}" != "main" ]]; then
+            echo "Skipping README commit (only runs on main branch)"
             exit 0
           fi
           if [ -n "$(git status --porcelain README.md)" ]; then

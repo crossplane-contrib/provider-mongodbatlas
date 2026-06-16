@@ -107,7 +107,7 @@ func TestImportJoinedID_GetIDFn(t *testing.T) {
 		validID := encodeAtlasStateID(map[string]string{
 			refs.ProjectID:    testProjectID,
 			refs.ProviderName: "AWS",
-			refs.PeerID:         "pcx-abc",
+			refs.PeerID:       "pcx-abc",
 		})
 		id, err := e.GetIDFn(context.Background(), validID, params, nil)
 		require.NoError(t, err)
@@ -163,7 +163,6 @@ func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
 		e := importJoinedIDMapped(
 			[]string{refs.ProjectID, refs.Name},
 			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
-			refs.ClusterName,
 		)
 		params := map[string]any{
 			refs.ProjectID: testProjectID,
@@ -180,7 +179,6 @@ func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
 		e := importJoinedIDMapped(
 			[]string{refs.ProjectID, refs.Name},
 			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
-			refs.ClusterName,
 		)
 		assert.False(t, e.DisableNameInitializer)
 	})
@@ -192,7 +190,7 @@ func TestImportJoinedID_GetExternalNameFn(t *testing.T) {
 		stateID := encodeAtlasStateID(map[string]string{
 			refs.ProjectID:    testProjectID,
 			refs.ProviderName: "AWS",
-			refs.PeerID:         "pcx-abc123",
+			refs.PeerID:       "pcx-abc123",
 		})
 		name, err := e.GetExternalNameFn(map[string]any{"id": stateID})
 		require.NoError(t, err)
@@ -248,7 +246,7 @@ func TestDecodedToPlainImportID(t *testing.T) {
 	t.Run("ordered import with provider-assigned key in middle", func(t *testing.T) {
 		encoded := encodeAtlasStateID(map[string]string{
 			refs.ProjectID:    testProjectID,
-			refs.PeerID:         "pcx-123",
+			refs.PeerID:       "pcx-123",
 			refs.ProviderName: "AWS",
 		})
 		plain := decodedToPlainImportID(encoded, []string{refs.ProjectID, refs.PeerID, refs.ProviderName}, "-")
@@ -286,7 +284,6 @@ func TestImportJoinedID_ImportOrder(t *testing.T) {
 		e := importJoinedIDMapped(
 			[]string{refs.ProjectID, refs.Name},
 			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
-			refs.ClusterName,
 		)
 		assert.Equal(t, []string{refs.ProjectID, refs.ClusterName}, e.importOrder)
 	})

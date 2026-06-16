@@ -70,7 +70,7 @@ func TestImportJoinedID_DisableNameInitializer(t *testing.T) {
 }
 
 func TestImportJoinedID_GetIDFn(t *testing.T) {
-	t.Run("user-provided key produces base64 encoded state ID", func(t *testing.T) {
+	t.Run("user-provided key produces plain import ID", func(t *testing.T) {
 		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName)
 		params := map[string]any{
 			refs.ProjectID: testProjectID,
@@ -78,19 +78,23 @@ func TestImportJoinedID_GetIDFn(t *testing.T) {
 		}
 		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
 		require.NoError(t, err)
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
-		assert.Equal(t, "cluster-monitor", decoded[refs.RoleName])
+		assert.Equal(t, testProjectID+"-cluster-monitor", id)
 	})
 
-	t.Run("provider-assigned key included in base64 state ID", func(t *testing.T) {
+	t.Run("provider-assigned key appended to plain import ID", func(t *testing.T) {
 		e := importJoinedID([]string{refs.ProjectID}, "-", "container_id")
 		params := map[string]any{refs.ProjectID: testProjectID}
 		id, err := e.GetIDFn(context.Background(), "ctr-abc123", params, nil)
 		require.NoError(t, err)
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
-		assert.Equal(t, "ctr-abc123", decoded["container_id"])
+		assert.Equal(t, testProjectID+"-ctr-abc123", id)
+	})
+
+	t.Run("double-dash separator", func(t *testing.T) {
+		e := importJoinedID([]string{refs.ProjectID, "tenant_name"}, "--", "limit_name")
+		params := map[string]any{refs.ProjectID: testProjectID, "tenant_name": "my-tenant"}
+		id, err := e.GetIDFn(context.Background(), "bytesPerSecond", params, nil)
+		require.NoError(t, err)
+		assert.Equal(t, testProjectID+"--my-tenant--bytesPerSecond", id)
 	})
 
 	t.Run("provider-assigned key empty returns empty", func(t *testing.T) {
@@ -143,10 +147,7 @@ func TestImportJoinedIDOrdered_GetIDFn(t *testing.T) {
 		}
 		id, err := e.GetIDFn(context.Background(), "pcx-123", params, nil)
 		require.NoError(t, err)
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
-		assert.Equal(t, "pcx-123", decoded[refs.PeerID])
-		assert.Equal(t, "AWS", decoded[refs.ProviderName])
+		assert.Equal(t, testProjectID+"-pcx-123-AWS", id)
 	})
 
 	t.Run("always disables name initializer", func(t *testing.T) {
@@ -159,7 +160,7 @@ func TestImportJoinedIDOrdered_GetIDFn(t *testing.T) {
 }
 
 func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
-	t.Run("maps param names to state keys in base64", func(t *testing.T) {
+	t.Run("uses param values in param order for plain import ID", func(t *testing.T) {
 		e := importJoinedIDMapped(
 			[]string{refs.ProjectID, refs.Name},
 			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
@@ -170,9 +171,7 @@ func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
 		}
 		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
 		require.NoError(t, err)
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
-		assert.Equal(t, "my-cluster", decoded[refs.ClusterName])
+		assert.Equal(t, testProjectID+"-my-cluster", id)
 	})
 
 	t.Run("does not disable name initializer when extKey in mapping values", func(t *testing.T) {
@@ -209,83 +208,6 @@ func TestImportJoinedID_GetExternalNameFn(t *testing.T) {
 		e := importJoinedID([]string{refs.ProjectID}, "-", "id")
 		_, err := e.GetExternalNameFn(map[string]any{})
 		require.Error(t, err)
-	})
-}
-
-func TestDecodedToPlainImportID(t *testing.T) {
-	t.Run("decodes base64 to plain dash-separated", func(t *testing.T) {
-		encoded := encodeAtlasStateID(map[string]string{
-			refs.ProjectID: testProjectID,
-			refs.RoleName:  "cluster-monitor",
-		})
-		plain := decodedToPlainImportID(encoded, []string{refs.ProjectID, refs.RoleName}, "-")
-		assert.Equal(t, testProjectID+"-cluster-monitor", plain)
-	})
-
-	t.Run("decodes base64 to plain double-dash-separated", func(t *testing.T) {
-		encoded := encodeAtlasStateID(map[string]string{
-			refs.ProjectID: testProjectID,
-			"tenant_name":  "my-tenant",
-			"limit_name":   "bytesPerSecond",
-		})
-		plain := decodedToPlainImportID(encoded, []string{refs.ProjectID, "tenant_name", "limit_name"}, "--")
-		assert.Equal(t, testProjectID+"--my-tenant--bytesPerSecond", plain)
-	})
-
-	t.Run("returns empty for non-base64 input", func(t *testing.T) {
-		plain := decodedToPlainImportID("not-base64", []string{refs.ProjectID}, "-")
-		assert.Empty(t, plain)
-	})
-
-	t.Run("returns empty when key missing from decoded", func(t *testing.T) {
-		encoded := encodeAtlasStateID(map[string]string{refs.ProjectID: testProjectID})
-		plain := decodedToPlainImportID(encoded, []string{refs.ProjectID, refs.RoleName}, "-")
-		assert.Empty(t, plain)
-	})
-
-	t.Run("ordered import with provider-assigned key in middle", func(t *testing.T) {
-		encoded := encodeAtlasStateID(map[string]string{
-			refs.ProjectID:    testProjectID,
-			refs.PeerID:       "pcx-123",
-			refs.ProviderName: "AWS",
-		})
-		plain := decodedToPlainImportID(encoded, []string{refs.ProjectID, refs.PeerID, refs.ProviderName}, "-")
-		assert.Equal(t, testProjectID+"-pcx-123-AWS", plain)
-	})
-
-	t.Run("mapped import uses state keys", func(t *testing.T) {
-		encoded := encodeAtlasStateID(map[string]string{
-			refs.ProjectID:   testProjectID,
-			refs.ClusterName: "my-cluster",
-		})
-		plain := decodedToPlainImportID(encoded, []string{refs.ProjectID, refs.ClusterName}, "-")
-		assert.Equal(t, testProjectID+"-my-cluster", plain)
-	})
-}
-
-func TestImportJoinedID_ImportOrder(t *testing.T) {
-	t.Run("standard user-provided", func(t *testing.T) {
-		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName)
-		assert.Equal(t, []string{refs.ProjectID, refs.RoleName}, e.importOrder)
-		assert.Equal(t, "-", e.separator)
-	})
-
-	t.Run("standard provider-assigned appends extKey", func(t *testing.T) {
-		e := importJoinedID([]string{refs.ProjectID}, "-", "container_id")
-		assert.Equal(t, []string{refs.ProjectID, "container_id"}, e.importOrder)
-	})
-
-	t.Run("ordered preserves explicit order", func(t *testing.T) {
-		e := importJoinedIDOrdered([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, refs.PeerID)
-		assert.Equal(t, []string{refs.ProjectID, refs.PeerID, refs.ProviderName}, e.importOrder)
-	})
-
-	t.Run("mapped converts param order to state key order", func(t *testing.T) {
-		e := importJoinedIDMapped(
-			[]string{refs.ProjectID, refs.Name},
-			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
-		)
-		assert.Equal(t, []string{refs.ProjectID, refs.ClusterName}, e.importOrder)
 	})
 }
 

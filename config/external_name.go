@@ -3,31 +3,17 @@ package config
 import (
 	"context"
 	"fmt"
-	"maps"
 	"slices"
+	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
-// --- Types ---
-
-// externalNameEntry holds a config.ExternalName plus optional import format
-// info for resources whose TF provider uses conversion.EncodeStateID.
-// GetIDFn returns base64-encoded state IDs (required for TF Read/Refresh),
-// while importOrder+separator describe the plain format the TF import function
-// expects. ExternalNameConfigurations wraps the import function to translate
-// between the two.
-type externalNameEntry struct {
-	config.ExternalName
-	importOrder []string // state keys in TF import format order; nil = no import wrapping
-	separator   string   // separator used by TF import function ("-" or "--")
-}
-
 // --- Resource map ---
 
-var externalNameConfigs = map[string]externalNameEntry{
+var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_access_list_api_key":                                         identifierFromProvider(),
 	"mongodbatlas_advanced_cluster":                                            templated("{{ .parameters.project_id }}-{{ .parameters.name }}"),
 	"mongodbatlas_alert_configuration":                                         importJoinedID([]string{refs.ProjectID}, "-", "id"),
@@ -103,90 +89,99 @@ var externalNameConfigs = map[string]externalNameEntry{
 
 // --- Map entry constructors ---
 
-// identifierFromProvider wraps config.IdentifierFromProvider as an
-// externalNameEntry so every entry in externalNameConfigs has the same type.
-// No import wrapping needed: these resources use plain IDs for both state and import.
-func identifierFromProvider() externalNameEntry {
-	return externalNameEntry{ExternalName: config.IdentifierFromProvider}
+func identifierFromProvider() config.ExternalName {
+	return config.IdentifierFromProvider
 }
 
-// templated wraps templatedStringAsIdentifier as an externalNameEntry.
-// No import wrapping needed: these resources use plain template-rendered IDs
-// for both state and import.
-func templated(tmpl string) externalNameEntry {
-	return externalNameEntry{ExternalName: templatedStringAsIdentifier(tmpl)}
+func templated(tmpl string) config.ExternalName {
+	return templatedStringAsIdentifier(tmpl)
 }
 
-// importJoinedID builds an externalNameEntry for resources whose TF import
-// function expects plain field values joined by separator, but whose TF
-// Read/Refresh expects a base64-encoded state ID.
+// importJoinedID builds an ExternalName for resources whose TF import function
+// expects plain field values joined by separator.
 //
-// GetIDFn returns base64 (for d.Id() / Refresh).
-// importOrder+separator describe the plain format for import wrapping.
-func importJoinedID(fields []string, separator string, externalNameKey string) externalNameEntry {
-	m := make(map[string]string, len(fields))
-	for _, f := range fields {
-		m[f] = f
+// fields lists forProvider param names whose values form the import ID.
+// When externalNameKey is in fields, all values come from params.
+// When externalNameKey is NOT in fields (provider-assigned), its value
+// comes from the external-name annotation and is appended to the import ID.
+func importJoinedID(fields []string, separator string, externalNameKey string) config.ExternalName {
+	externalNameFromParams := slices.Contains(fields, externalNameKey)
+	importOrder := fields
+	if !externalNameFromParams {
+		importOrder = append(slices.Clone(fields), externalNameKey)
 	}
-	return importJoinedIDCore(m, fields, separator, externalNameKey)
+	return buildImportJoinedID(fields, importOrder, separator, externalNameKey, externalNameFromParams)
 }
 
 // importJoinedIDOrdered handles resources where the provider-assigned key
 // appears at a non-trailing position in the TF import format.
-func importJoinedIDOrdered(importOrder []string, externalNameKey string) externalNameEntry {
+func importJoinedIDOrdered(importOrder []string, externalNameKey string) config.ExternalName {
 	paramFields := make([]string, 0, len(importOrder)-1)
 	for _, f := range importOrder {
 		if f != externalNameKey {
 			paramFields = append(paramFields, f)
 		}
 	}
-	m := make(map[string]string, len(paramFields))
-	for _, f := range paramFields {
-		m[f] = f
-	}
-	return externalNameEntry{
-		ExternalName: config.ExternalName{
-			DisableNameInitializer:  true,
-			OmittedFields:           []string{},
-			IdentifierFields:        nil,
-			SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
-			GetIDFn:                 encodedStateGetIDFn(m, paramFields, externalNameKey),
-			GetExternalNameFn:       encodedStateGetExternalNameFn(externalNameKey),
-		},
-		importOrder: importOrder,
-		separator:   "-",
-	}
+	return buildImportJoinedID(paramFields, importOrder, "-", externalNameKey, false)
 }
 
 // importJoinedIDMapped handles resources where forProvider param names differ
 // from TF state keys (e.g. name → cluster_name).
-func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string) externalNameEntry {
+func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string) config.ExternalName {
 	stateKeyOrder := make([]string, 0, len(paramOrder))
 	for _, p := range paramOrder {
 		stateKeyOrder = append(stateKeyOrder, fieldMapping[p])
 	}
-	return importJoinedIDCore(fieldMapping, stateKeyOrder, "-", refs.ClusterName)
+	externalNameKey := refs.ClusterName
+	externalNameFromParams := slices.Contains(stateKeyOrder, externalNameKey)
+	return buildImportJoinedID(paramOrder, paramOrder, "-", externalNameKey, externalNameFromParams)
 }
 
-func importJoinedIDCore(fieldMapping map[string]string, importOrder []string, separator, externalNameKey string) externalNameEntry {
-	paramNames := slices.Sorted(maps.Keys(fieldMapping))
-	externalNameFromParams := slices.Contains(slices.Collect(maps.Values(fieldMapping)), externalNameKey)
-	fullImportOrder := importOrder
-	if !externalNameFromParams && !slices.Contains(importOrder, externalNameKey) {
-		fullImportOrder = append(slices.Clone(importOrder), externalNameKey)
+func buildImportJoinedID(paramFields, importOrder []string, separator, externalNameKey string, externalNameFromParams bool) config.ExternalName {
+	return config.ExternalName{
+		DisableNameInitializer:  !externalNameFromParams,
+		OmittedFields:           []string{},
+		IdentifierFields:        nil,
+		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
+		GetIDFn:                 plainImportGetIDFn(paramFields, importOrder, separator, externalNameKey),
+		GetExternalNameFn:       encodedStateGetExternalNameFn(externalNameKey),
 	}
-	return externalNameEntry{
-		ExternalName: config.ExternalName{
-			DisableNameInitializer:  !externalNameFromParams,
-			OmittedFields:           []string{},
-			IdentifierFields:        nil,
-			SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
-			GetIDFn:                 encodedStateGetIDFn(fieldMapping, paramNames, externalNameKey),
-			GetExternalNameFn:       encodedStateGetExternalNameFn(externalNameKey),
-		},
-		importOrder: fullImportOrder,
-		separator:   separator,
+}
+
+// plainImportGetIDFn returns a GetIDFn that produces plain import IDs by
+// joining field values with separator. This is the format TF import functions
+// expect (e.g. "project_id-role_name").
+func plainImportGetIDFn(paramFields, importOrder []string, separator, externalNameKey string) config.GetIDFn {
+	return func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
+		if hasAllParams(parameters, paramFields) {
+			return collectImportValues(importOrder, parameters, externalName, externalNameKey, separator)
+		}
+		// Fallback: accept a base64-encoded state ID as external name
+		// (handles resources with pre-existing encoded annotations).
+		if externalName != "" {
+			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
+				return externalName, nil
+			}
+		}
+		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramFields)
 	}
+}
+
+func collectImportValues(importOrder []string, parameters map[string]any, externalName, externalNameKey, separator string) (string, error) {
+	values := make([]string, 0, len(importOrder))
+	for _, field := range importOrder {
+		if v, ok := parameters[field].(string); ok && v != "" {
+			values = append(values, v)
+		} else if field == externalNameKey && externalName != "" {
+			values = append(values, externalName)
+		} else if field == externalNameKey {
+			return "", nil
+		}
+	}
+	if len(values) == len(importOrder) {
+		return strings.Join(values, separator), nil
+	}
+	return "", nil
 }
 
 // --- templatedStringAsIdentifier ---
@@ -225,18 +220,14 @@ func templatedStringAsIdentifier(template string) config.ExternalName {
 
 // --- Public API ---
 
-// ExternalNameConfigurations applies the external name config for each resource
-// and wraps the TF import function for encoded-state resources.
+// ExternalNameConfigurations applies the external name config for each resource.
 func ExternalNameConfigurations() config.ResourceOption {
 	return func(r *config.Resource) {
 		e, ok := externalNameConfigs[r.Name]
 		if !ok {
 			return
 		}
-		r.ExternalName = e.ExternalName
-		if len(e.importOrder) > 0 {
-			wrapImportForEncodedState(r, e.importOrder, e.separator)
-		}
+		r.ExternalName = e
 	}
 }
 

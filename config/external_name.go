@@ -46,7 +46,7 @@ var externalNameConfigs = map[string]externalNameEntry{
 	"mongodbatlas_cloud_user_project_assignment":                               templated("{{ .parameters.project_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_team_assignment":                                  templated("{{ .parameters.org_id }}/{{ .parameters.team_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cluster_outage_simulation":                                   identifierFromProvider(), // doesn't support import
-	"mongodbatlas_cluster":                                                     importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, "-", refs.ClusterName),
+	"mongodbatlas_cluster":                                                     importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, refs.ClusterName),
 	"mongodbatlas_custom_db_role":                                              importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        templated("{{ .parameters.project_id }}"),
 	"mongodbatlas_database_user":                                               templated("{{ .parameters.project_id }}/{{ .parameters.username }}/{{ .parameters.auth_database_name }}"),
@@ -66,14 +66,14 @@ var externalNameConfigs = map[string]externalNameEntry{
 	"mongodbatlas_maintenance_window":                                          templated("{{ .parameters.project_id }}"),
 	"mongodbatlas_mongodb_employee_access_grant":                               templated("{{ .parameters.project_id }}/{{ .parameters.cluster_name }}"),
 	"mongodbatlas_network_container":                                           importJoinedID([]string{refs.ProjectID}, "-", "container_id"),
-	"mongodbatlas_network_peering":                                             importJoinedIDOrdered([]string{refs.ProjectID, "peer_id", refs.ProviderName}, "-", "peer_id"),
+	"mongodbatlas_network_peering":                                             importJoinedIDOrdered([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, refs.PeerID),
 	"mongodbatlas_online_archive":                                              identifierFromProvider(),
 	"mongodbatlas_org_invitation":                                              identifierFromProvider(),
 	"mongodbatlas_organization":                                                identifierFromProvider(),
 	"mongodbatlas_private_endpoint_regional_mode":                              templated("{{ .parameters.project_id }}"),
 	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive": templated("{{ .parameters.project_id }}--{{ .parameters.endpoint_id }}"),
 	"mongodbatlas_privatelink_endpoint_service":                                importJoinedID([]string{refs.ProjectID, "private_link_id", "endpoint_service_id", refs.ProviderName}, "--", "endpoint_service_id"),
-	"mongodbatlas_privatelink_endpoint":                                        importJoinedIDOrdered([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "-", "private_link_id"),
+	"mongodbatlas_privatelink_endpoint":                                        importJoinedIDOrdered([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "private_link_id"),
 	"mongodbatlas_project_api_key":                                             identifierFromProvider(),
 	"mongodbatlas_project_invitation":                                          identifierFromProvider(),
 	"mongodbatlas_project_ip_access_list":                                      identifierFromProvider(),
@@ -133,7 +133,7 @@ func importJoinedID(fields []string, separator string, externalNameKey string) e
 
 // importJoinedIDOrdered handles resources where the provider-assigned key
 // appears at a non-trailing position in the TF import format.
-func importJoinedIDOrdered(importOrder []string, separator string, externalNameKey string) externalNameEntry {
+func importJoinedIDOrdered(importOrder []string, externalNameKey string) externalNameEntry {
 	paramFields := make([]string, 0, len(importOrder)-1)
 	for _, f := range importOrder {
 		if f != externalNameKey {
@@ -154,18 +154,18 @@ func importJoinedIDOrdered(importOrder []string, separator string, externalNameK
 			GetExternalNameFn:       encodedStateGetExternalNameFn(externalNameKey),
 		},
 		importOrder: importOrder,
-		separator:   separator,
+		separator:   "-",
 	}
 }
 
 // importJoinedIDMapped handles resources where forProvider param names differ
 // from TF state keys (e.g. name → cluster_name).
-func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string, separator string, externalNameKey string) externalNameEntry {
+func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string, externalNameKey string) externalNameEntry {
 	stateKeyOrder := make([]string, 0, len(paramOrder))
 	for _, p := range paramOrder {
 		stateKeyOrder = append(stateKeyOrder, fieldMapping[p])
 	}
-	return importJoinedIDCore(fieldMapping, stateKeyOrder, separator, externalNameKey)
+	return importJoinedIDCore(fieldMapping, stateKeyOrder, "-", externalNameKey)
 }
 
 func importJoinedIDCore(fieldMapping map[string]string, importOrder []string, separator, externalNameKey string) externalNameEntry {

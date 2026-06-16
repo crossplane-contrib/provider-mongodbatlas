@@ -2,6 +2,11 @@ package config
 
 import (
 	"context"
+	"encoding/base64"
+	"fmt"
+	"maps"
+	"slices"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,7 +17,18 @@ import (
 
 const testProjectID = "proj123"
 
-func TestEncodeDecodeAtlasStateID(t *testing.T) {
+// encodeAtlasStateID is a test helper that replicates the Atlas TF provider's
+// conversion.EncodeStateID format for creating test fixtures.
+func encodeAtlasStateID(values map[string]string) string {
+	encode := func(s string) string { return base64.StdEncoding.EncodeToString([]byte(s)) }
+	parts := make([]string, 0, len(values))
+	for _, key := range slices.Sorted(maps.Keys(values)) {
+		parts = append(parts, fmt.Sprintf("%s:%s", encode(key), encode(values[key])))
+	}
+	return strings.Join(parts, "-")
+}
+
+func TestDecodeAtlasStateID(t *testing.T) {
 	tests := []struct {
 		name   string
 		values map[string]string
@@ -25,10 +41,6 @@ func TestEncodeDecodeAtlasStateID(t *testing.T) {
 			name:   "multiple key-values",
 			values: map[string]string{refs.ProjectID: "abc123", refs.RoleName: "myRole"},
 		},
-		{
-			name:   "empty value",
-			values: map[string]string{refs.ProjectID: ""},
-		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -39,13 +51,10 @@ func TestEncodeDecodeAtlasStateID(t *testing.T) {
 	}
 }
 
-func TestEncodeAtlasStateID_SortedKeys(t *testing.T) {
-	a := encodeAtlasStateID(map[string]string{"a": "1", "b": "2"})
-	b := encodeAtlasStateID(map[string]string{"b": "2", "a": "1"})
-	assert.Equal(t, a, b, "key order in input should not affect output")
-}
 
-func TestEncodedStateID_DisableNameInitializer(t *testing.T) {
+// --- importJoinedID tests ---
+
+func TestImportJoinedID_DisableNameInitializer(t *testing.T) {
 	tests := []struct {
 		name        string
 		fields      []string
@@ -53,110 +62,69 @@ func TestEncodedStateID_DisableNameInitializer(t *testing.T) {
 		wantDisable bool
 	}{
 		{
-			name:        "provider-assigned key not in fields",
-			fields:      []string{refs.ProjectID, refs.ProviderName, refs.Region},
-			extNameKey:  "private_link_id",
-			wantDisable: true,
-		},
-		{
 			name:        "user-provided key in fields",
 			fields:      []string{refs.ProjectID, refs.RoleName},
 			extNameKey:  refs.RoleName,
 			wantDisable: false,
 		},
 		{
-			name:        "provider-assigned id",
+			name:        "provider-assigned key not in fields",
 			fields:      []string{refs.ProjectID},
-			extNameKey:  "id",
+			extNameKey:  "container_id",
 			wantDisable: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			e := encodedStateID(tt.fields, tt.extNameKey)
+			e := importJoinedID(tt.fields, "-", tt.extNameKey)
 			assert.Equal(t, tt.wantDisable, e.DisableNameInitializer)
 		})
 	}
 }
 
-func TestEncodedStateIDMapped_DisableNameInitializer(t *testing.T) {
-	tests := []struct {
-		name        string
-		mapping     map[string]string
-		extNameKey  string
-		wantDisable bool
-	}{
-		{
-			name:        "key is a value in mapping",
-			mapping:     map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: "cluster_name"},
-			extNameKey:  "cluster_name",
-			wantDisable: false,
-		},
-		{
-			name:        "key not in mapping values",
-			mapping:     map[string]string{refs.ProjectID: refs.ProjectID, refs.ProviderName: refs.ProviderName},
-			extNameKey:  "peer_id",
-			wantDisable: true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			e := encodedStateIDMapped(tt.mapping, tt.extNameKey)
-			assert.Equal(t, tt.wantDisable, e.DisableNameInitializer)
-		})
-	}
-}
-
-func TestEncodedStateID_GetIDFn(t *testing.T) {
-	t.Run("all params present with provider-assigned key", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName, refs.Region}, "private_link_id")
+func TestImportJoinedID_GetIDFn(t *testing.T) {
+	t.Run("user-provided key produces plain joined format", func(t *testing.T) {
+		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName)
 		params := map[string]any{
-			refs.ProjectID:    testProjectID,
-			refs.ProviderName: "AWS",
-			refs.Region:       "us-east-1",
+			refs.ProjectID: testProjectID,
+			refs.RoleName:  "cluster-monitor",
 		}
-
-		id, err := e.GetIDFn(context.Background(), "vpce-svc-abc", params, nil)
+		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
 		require.NoError(t, err)
-
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
-		assert.Equal(t, "AWS", decoded[refs.ProviderName])
-		assert.Equal(t, "us-east-1", decoded[refs.Region])
-		assert.Equal(t, "vpce-svc-abc", decoded["private_link_id"])
+		assert.Equal(t, testProjectID+"-cluster-monitor", id)
 	})
 
-	t.Run("all params present without external name returns empty when provider-assigned key missing", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName, refs.Region}, "private_link_id")
-		params := map[string]any{
-			refs.ProjectID:    testProjectID,
-			refs.ProviderName: "AWS",
-			refs.Region:       "us-east-1",
-		}
+	t.Run("provider-assigned key appended to import ID", func(t *testing.T) {
+		e := importJoinedID([]string{refs.ProjectID}, "-", "container_id")
+		params := map[string]any{refs.ProjectID: testProjectID}
+		id, err := e.GetIDFn(context.Background(), "ctr-abc123", params, nil)
+		require.NoError(t, err)
+		assert.Equal(t, testProjectID+"-ctr-abc123", id)
+	})
 
+	t.Run("provider-assigned key empty returns empty", func(t *testing.T) {
+		e := importJoinedID([]string{refs.ProjectID}, "-", "container_id")
+		params := map[string]any{refs.ProjectID: testProjectID}
 		id, err := e.GetIDFn(context.Background(), "", params, nil)
 		require.NoError(t, err)
 		assert.Empty(t, id)
 	})
 
-	t.Run("all params present with user-provided key", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID, refs.RoleName}, refs.RoleName)
+	t.Run("double-dash separator", func(t *testing.T) {
+		e := importJoinedID([]string{refs.ProjectID, "tenant_name", "limit_name"}, "--", "limit_name")
 		params := map[string]any{
 			refs.ProjectID: testProjectID,
-			refs.RoleName:  "admin",
+			"tenant_name":  "my-tenant",
+			"limit_name":   "bytesPerSecond",
 		}
-
 		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
 		require.NoError(t, err)
-
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, "admin", decoded[refs.RoleName], "value from params takes precedence over external name")
+		assert.Equal(t, testProjectID+"--my-tenant--bytesPerSecond", id)
 	})
 
 	t.Run("missing params falls back to valid encoded external name", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
+		e := importJoinedID([]string{refs.ProjectID, refs.ProviderName}, "-", "peer_id")
 		params := map[string]any{refs.ProjectID: testProjectID}
-
 		validID := encodeAtlasStateID(map[string]string{
 			refs.ProjectID:    testProjectID,
 			refs.ProviderName: "AWS",
@@ -168,71 +136,97 @@ func TestEncodedStateID_GetIDFn(t *testing.T) {
 	})
 
 	t.Run("missing params rejects raw external name", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
+		e := importJoinedID([]string{refs.ProjectID, refs.ProviderName}, "-", "peer_id")
 		params := map[string]any{refs.ProjectID: testProjectID}
-
 		_, err := e.GetIDFn(context.Background(), "my-resource-name", params, nil)
 		require.Error(t, err)
 		assert.Contains(t, err.Error(), "not a valid encoded state ID")
 	})
 
 	t.Run("missing params and empty external name returns error", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
+		e := importJoinedID([]string{refs.ProjectID, refs.ProviderName}, "-", "peer_id")
 		params := map[string]any{refs.ProjectID: testProjectID}
-
 		_, err := e.GetIDFn(context.Background(), "", params, nil)
 		require.Error(t, err)
 		assert.Contains(t, err.Error(), "cannot determine Terraform ID")
 	})
 }
 
-func TestEncodedStateID_GetExternalNameFn(t *testing.T) {
-	t.Run("extracts key from encoded state ID", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id")
+func TestImportJoinedIDOrdered_GetIDFn(t *testing.T) {
+	t.Run("provider-assigned key in middle position", func(t *testing.T) {
+		e := importJoinedIDOrdered(
+			[]string{refs.ProjectID, "peer_id", refs.ProviderName},
+			"-", "peer_id",
+		)
+		params := map[string]any{
+			refs.ProjectID:    testProjectID,
+			refs.ProviderName: "AWS",
+		}
+		id, err := e.GetIDFn(context.Background(), "pcx-123", params, nil)
+		require.NoError(t, err)
+		assert.Equal(t, testProjectID+"-pcx-123-AWS", id)
+	})
+
+	t.Run("always disables name initializer", func(t *testing.T) {
+		e := importJoinedIDOrdered(
+			[]string{refs.ProjectID, "peer_id", refs.ProviderName},
+			"-", "peer_id",
+		)
+		assert.True(t, e.DisableNameInitializer)
+	})
+}
+
+func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
+	t.Run("maps param names to state keys", func(t *testing.T) {
+		e := importJoinedIDMapped(
+			[]string{refs.ProjectID, refs.Name},
+			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
+			"-", refs.ClusterName,
+		)
+		params := map[string]any{
+			refs.ProjectID: testProjectID,
+			refs.Name:      "my-cluster",
+		}
+		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
+		require.NoError(t, err)
+		assert.Equal(t, testProjectID+"-my-cluster", id)
+	})
+
+	t.Run("does not disable name initializer when extKey in mapping values", func(t *testing.T) {
+		e := importJoinedIDMapped(
+			[]string{refs.ProjectID, refs.Name},
+			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
+			"-", refs.ClusterName,
+		)
+		assert.False(t, e.DisableNameInitializer)
+	})
+}
+
+func TestImportJoinedID_GetExternalNameFn(t *testing.T) {
+	t.Run("extracts key from base64 encoded state ID", func(t *testing.T) {
+		e := importJoinedID([]string{refs.ProjectID, refs.ProviderName}, "-", "peer_id")
 		stateID := encodeAtlasStateID(map[string]string{
 			refs.ProjectID:    testProjectID,
 			refs.ProviderName: "AWS",
 			"peer_id":         "pcx-abc123",
 		})
-
 		name, err := e.GetExternalNameFn(map[string]any{"id": stateID})
 		require.NoError(t, err)
 		assert.Equal(t, "pcx-abc123", name)
 	})
 
 	t.Run("returns raw id when key not found in decoded state", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID}, "missing_key")
+		e := importJoinedID([]string{refs.ProjectID}, "-", "missing_key")
 		stateID := encodeAtlasStateID(map[string]string{refs.ProjectID: testProjectID})
-
 		name, err := e.GetExternalNameFn(map[string]any{"id": stateID})
 		require.NoError(t, err)
 		assert.Equal(t, stateID, name)
 	})
 
 	t.Run("error when id missing from state", func(t *testing.T) {
-		e := encodedStateID([]string{refs.ProjectID}, "id")
+		e := importJoinedID([]string{refs.ProjectID}, "-", "id")
 		_, err := e.GetExternalNameFn(map[string]any{})
 		require.Error(t, err)
-	})
-}
-
-func TestEncodedStateIDMapped_GetIDFn(t *testing.T) {
-	t.Run("maps param names to state keys", func(t *testing.T) {
-		e := encodedStateIDMapped(
-			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: "cluster_name"},
-			"cluster_name",
-		)
-		params := map[string]any{
-			refs.ProjectID: testProjectID,
-			refs.Name:      "my-cluster",
-		}
-
-		id, err := e.GetIDFn(context.Background(), "ignored", params, nil)
-		require.NoError(t, err)
-
-		decoded := decodeAtlasStateID(id)
-		assert.Equal(t, testProjectID, decoded[refs.ProjectID])
-		assert.Equal(t, "my-cluster", decoded["cluster_name"])
 	})
 }
 

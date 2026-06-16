@@ -16,50 +16,50 @@ import (
 var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_access_list_api_key":                                         config.IdentifierFromProvider,
 	"mongodbatlas_advanced_cluster":                                            templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.name }}"),
-	"mongodbatlas_alert_configuration":                                         encodedStateID([]string{refs.ProjectID}, "id"),
+	"mongodbatlas_alert_configuration":                                         importJoinedID([]string{refs.ProjectID}, "-", "id"),
 	"mongodbatlas_api_key_project_assignment":                                  templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.api_key_id }}"),
 	"mongodbatlas_api_key":                                                     config.IdentifierFromProvider,
 	"mongodbatlas_auditing":                                                    config.IdentifierFromProvider,
-	"mongodbatlas_backup_compliance_policy":                                    encodedStateID([]string{refs.ProjectID}, refs.ProjectID),
-	"mongodbatlas_cloud_backup_schedule":                                       encodedStateID([]string{refs.ProjectID, refs.ClusterName}, refs.ClusterName),
-	"mongodbatlas_cloud_backup_snapshot_export_bucket":                         encodedStateID([]string{refs.ProjectID}, "id"),
-	"mongodbatlas_cloud_backup_snapshot_export_job":                            encodedStateID([]string{refs.ProjectID, refs.ClusterName}, "export_job_id"),
-	"mongodbatlas_cloud_backup_snapshot_restore_job":                           encodedStateID([]string{refs.ProjectID, refs.ClusterName}, "snapshot_restore_job_id"),
-	"mongodbatlas_cloud_backup_snapshot":                                       encodedStateID([]string{refs.ProjectID, refs.ClusterName}, "snapshot_id"),
+	"mongodbatlas_backup_compliance_policy":                                    importJoinedID([]string{refs.ProjectID}, "-", refs.ProjectID),
+	"mongodbatlas_cloud_backup_schedule":                                       importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", refs.ClusterName),
+	"mongodbatlas_cloud_backup_snapshot_export_bucket":                         importJoinedID([]string{refs.ProjectID}, "-", "id"),
+	"mongodbatlas_cloud_backup_snapshot_export_job":                            importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "--", "export_job_id"),
+	"mongodbatlas_cloud_backup_snapshot_restore_job":                           importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "snapshot_restore_job_id"),
+	"mongodbatlas_cloud_backup_snapshot":                                       importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "snapshot_id"),
 	"mongodbatlas_cloud_provider_access_authorization":                         config.IdentifierFromProvider, // doesn't support import
-	"mongodbatlas_cloud_provider_access_setup":                                 encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "id"),
+	"mongodbatlas_cloud_provider_access_setup":                                 importJoinedID([]string{refs.ProjectID, refs.ProviderName}, "-", "id"),
 	"mongodbatlas_cloud_user_org_assignment":                                   templatedStringAsIdentifier("{{ .parameters.org_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_project_assignment":                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_team_assignment":                                  templatedStringAsIdentifier("{{ .parameters.org_id }}/{{ .parameters.team_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cluster_outage_simulation":                                   config.IdentifierFromProvider, // doesn't support import
-	"mongodbatlas_cluster":                                                     encodedStateIDMapped(map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, refs.ClusterName),
-	"mongodbatlas_custom_db_role":                                              encodedStateID([]string{refs.ProjectID, refs.RoleName}, refs.RoleName),
+	"mongodbatlas_cluster":                                                     importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, "-", refs.ClusterName),
+	"mongodbatlas_custom_db_role":                                              importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_database_user":                                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.username }}/{{ .parameters.auth_database_name }}"),
 	"mongodbatlas_encryption_at_rest":                                          templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_encryption_at_rest_private_endpoint":                         config.IdentifierFromProvider,
 	"mongodbatlas_event_trigger":                                               config.IdentifierFromProvider,
-	"mongodbatlas_federated_database_instance":                                 encodedStateID([]string{refs.ProjectID, refs.Name}, refs.Name),
-	"mongodbatlas_federated_query_limit":                                       encodedStateID([]string{refs.ProjectID, "tenant_name", "limit_name"}, "limit_name"),
+	"mongodbatlas_federated_database_instance":                                 importJoinedID([]string{refs.ProjectID, refs.Name}, "--", refs.Name),
+	"mongodbatlas_federated_query_limit":                                       importJoinedID([]string{refs.ProjectID, "tenant_name", "limit_name"}, "--", "limit_name"),
 	"mongodbatlas_federated_settings_identity_provider":                        config.IdentifierFromProvider,
-	"mongodbatlas_federated_settings_org_config":                               encodedStateID([]string{"federation_settings_id", refs.OrgID}, refs.OrgID),
+	"mongodbatlas_federated_settings_org_config":                               importJoinedID([]string{"federation_settings_id", refs.OrgID}, "-", refs.OrgID),
 	"mongodbatlas_federated_settings_org_role_mapping":                         config.IdentifierFromProvider,
 	"mongodbatlas_flex_cluster":                                                templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.name }}"),
-	"mongodbatlas_global_cluster_config":                                       encodedStateID([]string{refs.ProjectID, refs.ClusterName}, refs.ClusterName),
+	"mongodbatlas_global_cluster_config":                                       importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", refs.ClusterName),
 	"mongodbatlas_ldap_configuration":                                          templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_ldap_verify":                                                 config.IdentifierFromProvider,
 	"mongodbatlas_log_integration":                                             config.IdentifierFromProvider,
 	"mongodbatlas_maintenance_window":                                          templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_mongodb_employee_access_grant":                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.cluster_name }}"),
-	"mongodbatlas_network_container":                                           encodedStateID([]string{refs.ProjectID}, "container_id"),
-	"mongodbatlas_network_peering":                                             encodedStateID([]string{refs.ProjectID, refs.ProviderName}, "peer_id"),
+	"mongodbatlas_network_container":                                           importJoinedID([]string{refs.ProjectID}, "-", "container_id"),
+	"mongodbatlas_network_peering":                                             importJoinedIDOrdered([]string{refs.ProjectID, "peer_id", refs.ProviderName}, "-", "peer_id"),
 	"mongodbatlas_online_archive":                                              config.IdentifierFromProvider,
 	"mongodbatlas_org_invitation":                                              config.IdentifierFromProvider,
 	"mongodbatlas_organization":                                                config.IdentifierFromProvider,
 	"mongodbatlas_private_endpoint_regional_mode":                              templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive": templatedStringAsIdentifier("{{ .parameters.project_id }}--{{ .parameters.endpoint_id }}"),
-	"mongodbatlas_privatelink_endpoint_service":                                encodedStateID([]string{refs.ProjectID, "private_link_id", "endpoint_service_id", refs.ProviderName}, "endpoint_service_id"),
-	"mongodbatlas_privatelink_endpoint":                                        encodedStateID([]string{refs.ProjectID, refs.ProviderName, refs.Region}, "private_link_id"),
+	"mongodbatlas_privatelink_endpoint_service":                                importJoinedID([]string{refs.ProjectID, "private_link_id", "endpoint_service_id", refs.ProviderName}, "--", "endpoint_service_id"),
+	"mongodbatlas_privatelink_endpoint":                                        importJoinedIDOrdered([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "-", "private_link_id"),
 	"mongodbatlas_project_api_key":                                             config.IdentifierFromProvider,
 	"mongodbatlas_project_invitation":                                          config.IdentifierFromProvider,
 	"mongodbatlas_project_ip_access_list":                                      config.IdentifierFromProvider,
@@ -70,8 +70,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_push_based_log_export":                                       templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_resource_policy":                                             config.IdentifierFromProvider,
 	"mongodbatlas_search_deployment":                                           templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.cluster_name }}"),
-	"mongodbatlas_search_index":                                                encodedStateID([]string{refs.ProjectID, refs.ClusterName}, "index_id"), // doesn't support import
-	"mongodbatlas_serverless_instance":                                         encodedStateID([]string{refs.ProjectID, refs.Name}, refs.Name),
+	"mongodbatlas_search_index":                                                importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "index_id"), // doesn't support import
+	"mongodbatlas_serverless_instance":                                         importJoinedID([]string{refs.ProjectID, refs.Name}, "-", refs.Name),
 	"mongodbatlas_service_account_access_list_entry":                           config.IdentifierFromProvider,
 	"mongodbatlas_service_account_project_assignment":                          templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.client_id }}"),
 	"mongodbatlas_service_account_secret":                                      config.IdentifierFromProvider,
@@ -84,7 +84,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_team_project_assignment":                                     templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.team_id }}"),
 	"mongodbatlas_team":                                                        config.IdentifierFromProvider,
 	"mongodbatlas_third_party_integration":                                     templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.type }}"),
-	"mongodbatlas_x509_authentication_database_user":                           encodedStateID([]string{refs.ProjectID}, refs.ProjectID),
+	"mongodbatlas_x509_authentication_database_user":                           importJoinedID([]string{refs.ProjectID}, "-", refs.ProjectID),
 }
 
 // templatedStringAsIdentifier wraps config.TemplatedStringAsIdentifier with an
@@ -134,34 +134,9 @@ func templatedStringAsIdentifier(template string) config.ExternalName {
 	return e
 }
 
-// encodeAtlasStateID replicates the encoding used by the Atlas TF provider's
-// conversion.EncodeStateID (internal/common/conversion).
-// It base64-encodes keys and values, joins each pair with ":", and joins all pairs with "-"
-// (keys sorted alphabetically).
-// That is, given {refs.ProjectID: "abc123", refs.RoleName: "myRole"}:
-//
-// 1. Sort keys alphabetically -> project_id, role_name
-// 2. Base64-encode each key AND value:
-//   - project_id -> cHJvamVjdF9pZA==
-//   - abc123 -> YWJjMTIz
-//   - role_name -> cm9sZV9uYW1l
-//   - myRole -> bXlSb2xl
-//
-// 3. Join each key:value pair with :
-//   - cHJvamVjdF9pZA==:YWJjMTIz
-//   - cm9sZV9uYW1l:bXlSb2xl
-//
-// 4. Join all pairs with -
-func encodeAtlasStateID(values map[string]string) string {
-	encode := func(s string) string { return base64.StdEncoding.EncodeToString([]byte(s)) }
-	parts := make([]string, 0, len(values))
-	for _, key := range slices.Sorted(maps.Keys(values)) {
-		parts = append(parts, fmt.Sprintf("%s:%s", encode(key), encode(values[key])))
-	}
-	return strings.Join(parts, "-")
-}
-
-// decodeAtlasStateID reverses encodeAtlasStateID, returning the key-value map.
+// decodeAtlasStateID reverses the encoding used by the Atlas TF provider's
+// conversion.EncodeStateID (internal/common/conversion), returning the key-value map.
+// The encoded format is: base64(key1):base64(value1)-base64(key2):base64(value2)-...
 func decodeAtlasStateID(stateID string) map[string]string {
 	decode := func(s string) string {
 		b, err := base64.StdEncoding.DecodeString(s)
@@ -180,76 +155,97 @@ func decodeAtlasStateID(stateID string) map[string]string {
 	return result
 }
 
-// encodedStateID is a convenience wrapper for encodedStateIDMapped where param names and state keys match.
-func encodedStateID(fields []string, externalNameKey string) config.ExternalName {
-	m := make(map[string]string, len(fields))
-	for _, f := range fields {
-		m[f] = f
+func encodedStateGetExternalNameFn(externalNameKey string) func(map[string]any) (string, error) {
+	return func(tfstate map[string]any) (string, error) {
+		id, ok := tfstate["id"].(string) // base64-encoded d.Id()
+		if !ok || id == "" {
+			return "", fmt.Errorf("id not found in Terraform state")
+		}
+		// decode and extract the key we're interested in
+		decoded := decodeAtlasStateID(id)
+		if v := decoded[externalNameKey]; v != "" {
+			return v, nil
+		}
+		return id, nil
 	}
-	return encodedStateIDMapped(m, externalNameKey)
 }
 
-// encodedStateIDMapped builds a config.ExternalName for Atlas resources whose
-// TF provider uses conversion.EncodeStateID / DecodeStateID for d.Id().
+// importJoinedID builds a config.ExternalName for resources whose TF import
+// function expects plain field values joined by separator.
 //
-// fieldMapping maps forProvider param names to EncodeStateID map keys
-// (e.g. {refs.Name: refs.ClusterName} when the TF schema field differs from the
-// state key). externalNameKey is the decoded state key whose value is stored
-// in the crossplane.io/external-name annotation after the first successful
-// observe.
-//
-// If externalNameKey is already in fieldMapping, all encoded keys come from
-// forProvider parameters. If not (provider-assigned / computed field), the
-// external name annotation supplies the missing value when reconstructing
-// the encoded state ID.
-func encodedStateIDMapped(fieldMapping map[string]string, externalNameKey string) config.ExternalName {
-	paramNames := slices.Sorted(maps.Keys(fieldMapping))
+// fields lists forProvider param names in import order.
+// When externalNameKey is in fields, all import values come from params.
+// When externalNameKey is NOT in fields (provider-assigned), its value
+// comes from the external-name annotation and is appended to the import ID.
+func importJoinedID(fields []string, separator string, externalNameKey string) config.ExternalName {
+	externalNameFromParams := slices.Contains(fields, externalNameKey)
+	importOrder := fields
+	if !externalNameFromParams {
+		importOrder = append(slices.Clone(fields), externalNameKey)
+	}
+	return buildImportJoinedID(fields, importOrder, separator, externalNameKey, externalNameFromParams)
+}
+
+// importJoinedIDOrdered handles resources where the provider-assigned key
+// appears at a non-trailing position in the TF import format.
+// importOrder lists ALL fields (params + provider-assigned) in exact import order.
+func importJoinedIDOrdered(importOrder []string, separator string, externalNameKey string) config.ExternalName {
+	paramFields := make([]string, 0, len(importOrder)-1)
+	for _, f := range importOrder {
+		if f != externalNameKey {
+			paramFields = append(paramFields, f)
+		}
+	}
+	return buildImportJoinedID(paramFields, importOrder, separator, externalNameKey, false)
+}
+
+// importJoinedIDMapped handles resources where forProvider param names differ
+// from TF state keys (e.g. name → cluster_name).
+// paramOrder defines the import field order using forProvider param names.
+func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string, separator string, externalNameKey string) config.ExternalName {
 	externalNameFromParams := slices.Contains(slices.Collect(maps.Values(fieldMapping)), externalNameKey)
+	importOrder := paramOrder
+	if !externalNameFromParams {
+		importOrder = append(slices.Clone(paramOrder), externalNameKey)
+	}
+	return buildImportJoinedID(paramOrder, importOrder, separator, externalNameKey, externalNameFromParams)
+}
+
+func buildImportJoinedID(paramFields, importOrder []string, separator, externalNameKey string, externalNameFromParams bool) config.ExternalName {
 	return config.ExternalName{
 		DisableNameInitializer:  !externalNameFromParams,
 		OmittedFields:           []string{},
 		IdentifierFields:        nil,
 		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
-		GetIDFn:                 encodedStateGetIDFn(fieldMapping, paramNames, externalNameKey),
+		GetIDFn:                 importJoinedGetIDFn(paramFields, importOrder, separator, externalNameKey),
 		GetExternalNameFn:       encodedStateGetExternalNameFn(externalNameKey),
 	}
 }
 
-func encodedStateGetIDFn(fieldMapping map[string]string, paramNames []string, externalNameKey string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
+func importJoinedGetIDFn(paramFields, importOrder []string, separator, externalNameKey string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
 	return func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
-		if hasAllParams(parameters, paramNames) {
-			m := make(map[string]string, len(fieldMapping)+1)
-			for param, stateKey := range fieldMapping {
-				m[stateKey] = parameters[param].(string)
+		if hasAllParams(parameters, paramFields) {
+			values := make([]string, 0, len(importOrder))
+			for _, field := range importOrder {
+				if v, ok := parameters[field].(string); ok && v != "" {
+					values = append(values, v)
+				} else if field == externalNameKey && externalName != "" {
+					values = append(values, externalName)
+				} else if field == externalNameKey {
+					return "", nil
+				}
 			}
-			if _, ok := m[externalNameKey]; !ok && externalName != "" {
-				m[externalNameKey] = externalName
+			if len(values) == len(importOrder) {
+				return strings.Join(values, separator), nil
 			}
-			if m[externalNameKey] == "" {
-				return "", nil
-			}
-			return encodeAtlasStateID(m), nil
+			return "", nil
 		}
 		if externalName != "" {
 			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
 				return externalName, nil
 			}
 		}
-		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramNames)
-	}
-}
-
-func encodedStateGetExternalNameFn(externalNameKey string) func(map[string]any) (string, error) {
-	return func(tfstate map[string]any) (string, error) {
-		id, ok := tfstate["id"].(string)
-		if !ok || id == "" {
-			return "", fmt.Errorf("id not found in Terraform state")
-		}
-		decoded := decodeAtlasStateID(id)
-		if v := decoded[externalNameKey]; v != "" {
-			return v, nil
-		}
-		return id, nil
+		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramFields)
 	}
 }
 

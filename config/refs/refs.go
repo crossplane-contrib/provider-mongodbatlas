@@ -5,6 +5,7 @@ const (
 	InstanceName  = "instance_name"
 	Name          = "name"
 	OrgID         = "org_id"
+	PeerID        = "peer_id"
 	ProjectID     = "project_id"
 	ProviderName  = "provider_name"
 	Region        = "region"

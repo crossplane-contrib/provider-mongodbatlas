@@ -52,14 +52,14 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_maintenance_window":                                          templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_mongodb_employee_access_grant":                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.cluster_name }}"),
 	"mongodbatlas_network_container":                                           importJoinedID([]string{refs.ProjectID}, "-", "container_id"),
-	"mongodbatlas_network_peering":                                             importJoinedIDOrdered([]string{refs.ProjectID, "peer_id", refs.ProviderName}, "-", "peer_id"),
+	"mongodbatlas_network_peering":                                             importJoinedIDOrdered([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, refs.PeerID),
 	"mongodbatlas_online_archive":                                              config.IdentifierFromProvider,
 	"mongodbatlas_org_invitation":                                              config.IdentifierFromProvider,
 	"mongodbatlas_organization":                                                config.IdentifierFromProvider,
 	"mongodbatlas_private_endpoint_regional_mode":                              templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive": templatedStringAsIdentifier("{{ .parameters.project_id }}--{{ .parameters.endpoint_id }}"),
 	"mongodbatlas_privatelink_endpoint_service":                                importJoinedID([]string{refs.ProjectID, "private_link_id", "endpoint_service_id", refs.ProviderName}, "--", "endpoint_service_id"),
-	"mongodbatlas_privatelink_endpoint":                                        importJoinedIDOrdered([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "-", "private_link_id"),
+	"mongodbatlas_privatelink_endpoint":                                        importJoinedIDOrdered([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "private_link_id"),
 	"mongodbatlas_project_api_key":                                             config.IdentifierFromProvider,
 	"mongodbatlas_project_invitation":                                          config.IdentifierFromProvider,
 	"mongodbatlas_project_ip_access_list":                                      config.IdentifierFromProvider,
@@ -189,14 +189,14 @@ func importJoinedID(fields []string, separator string, externalNameKey string) c
 // importJoinedIDOrdered handles resources where the provider-assigned key
 // appears at a non-trailing position in the TF import format.
 // importOrder lists ALL fields (params + provider-assigned) in exact import order.
-func importJoinedIDOrdered(importOrder []string, separator string, externalNameKey string) config.ExternalName {
+func importJoinedIDOrdered(importOrder []string, externalNameKey string) config.ExternalName {
 	paramFields := make([]string, 0, len(importOrder)-1)
 	for _, f := range importOrder {
 		if f != externalNameKey {
 			paramFields = append(paramFields, f)
 		}
 	}
-	return buildImportJoinedID(paramFields, importOrder, separator, externalNameKey, false)
+	return buildImportJoinedID(paramFields, importOrder, "-", externalNameKey, false)
 }
 
 // importJoinedIDMapped handles resources where forProvider param names differ
@@ -225,20 +225,7 @@ func buildImportJoinedID(paramFields, importOrder []string, separator, externalN
 func importJoinedGetIDFn(paramFields, importOrder []string, separator, externalNameKey string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
 	return func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
 		if hasAllParams(parameters, paramFields) {
-			values := make([]string, 0, len(importOrder))
-			for _, field := range importOrder {
-				if v, ok := parameters[field].(string); ok && v != "" {
-					values = append(values, v)
-				} else if field == externalNameKey && externalName != "" {
-					values = append(values, externalName)
-				} else if field == externalNameKey {
-					return "", nil
-				}
-			}
-			if len(values) == len(importOrder) {
-				return strings.Join(values, separator), nil
-			}
-			return "", nil
+			return joinImportValues(importOrder, parameters, externalName, externalNameKey, separator)
 		}
 		if externalName != "" {
 			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
@@ -247,6 +234,23 @@ func importJoinedGetIDFn(paramFields, importOrder []string, separator, externalN
 		}
 		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramFields)
 	}
+}
+
+func joinImportValues(importOrder []string, parameters map[string]any, externalName, externalNameKey, separator string) (string, error) {
+	values := make([]string, 0, len(importOrder))
+	for _, field := range importOrder {
+		if v, ok := parameters[field].(string); ok && v != "" {
+			values = append(values, v)
+		} else if field == externalNameKey && externalName != "" {
+			values = append(values, externalName)
+		} else if field == externalNameKey {
+			return "", nil
+		}
+	}
+	if len(values) == len(importOrder) {
+		return strings.Join(values, separator), nil
+	}
+	return "", nil
 }
 
 // hasAllParams returns true if every field in fields is present and non-empty

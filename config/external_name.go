@@ -134,7 +134,24 @@ func templatedStringAsIdentifier(template string) config.ExternalName {
 	return e
 }
 
-// encodeAtlasStateID replicates the Atlas TF provider's conversion.EncodeStateID format.
+// encodeAtlasStateID replicates the encoding used by the Atlas TF provider's
+// conversion.EncodeStateID (internal/common/conversion).
+// It base64-encodes keys and values, joins each pair with ":", and joins all pairs with "-"
+// (keys sorted alphabetically).
+// That is, given {refs.ProjectID: "abc123", refs.RoleName: "myRole"}:
+//
+// 1. Sort keys alphabetically -> project_id, role_name
+// 2. Base64-encode each key AND value:
+//   - project_id -> cHJvamVjdF9pZA==
+//   - abc123 -> YWJjMTIz
+//   - role_name -> cm9sZV9uYW1l
+//   - myRole -> bXlSb2xl
+//
+// 3. Join each key:value pair with :
+//   - cHJvamVjdF9pZA==:YWJjMTIz
+//   - cm9sZV9uYW1l:bXlSb2xl
+//
+// 4. Join all pairs with -
 func encodeAtlasStateID(values map[string]string) string {
 	encode := func(s string) string { return base64.StdEncoding.EncodeToString([]byte(s)) }
 	parts := make([]string, 0, len(values))

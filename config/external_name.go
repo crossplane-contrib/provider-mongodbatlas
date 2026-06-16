@@ -110,7 +110,11 @@ func importJoinedID(fields []string, separator string, externalNameKey string) c
 	if !externalNameFromParams {
 		importOrder = append(slices.Clone(fields), externalNameKey)
 	}
-	return buildImportJoinedID(fields, importOrder, separator, externalNameKey, externalNameFromParams)
+	m := make(map[string]string, len(fields))
+	for _, f := range fields {
+		m[f] = f
+	}
+	return buildImportJoinedID(fields, importOrder, m, separator, externalNameKey, externalNameFromParams)
 }
 
 // importJoinedIDOrdered handles resources where the provider-assigned key
@@ -122,7 +126,11 @@ func importJoinedIDOrdered(importOrder []string, externalNameKey string) config.
 			paramFields = append(paramFields, f)
 		}
 	}
-	return buildImportJoinedID(paramFields, importOrder, "-", externalNameKey, false)
+	m := make(map[string]string, len(paramFields))
+	for _, f := range paramFields {
+		m[f] = f
+	}
+	return buildImportJoinedID(paramFields, importOrder, m, "-", externalNameKey, false)
 }
 
 // importJoinedIDMapped handles resources where forProvider param names differ
@@ -134,16 +142,17 @@ func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string) c
 	}
 	externalNameKey := refs.ClusterName
 	externalNameFromParams := slices.Contains(stateKeyOrder, externalNameKey)
-	return buildImportJoinedID(paramOrder, paramOrder, "-", externalNameKey, externalNameFromParams)
+	return buildImportJoinedID(paramOrder, paramOrder, fieldMapping, "-", externalNameKey, externalNameFromParams)
 }
 
-func buildImportJoinedID(paramFields, importOrder []string, separator, externalNameKey string, externalNameFromParams bool) config.ExternalName {
+func buildImportJoinedID(paramFields, importOrder []string, fieldMapping map[string]string, separator, externalNameKey string, externalNameFromParams bool) config.ExternalName {
 	return config.ExternalName{
 		DisableNameInitializer:  !externalNameFromParams,
 		OmittedFields:           []string{},
 		IdentifierFields:        nil,
 		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
-		GetIDFn:                 plainImportGetIDFn(paramFields, importOrder, separator, externalNameKey),
+		GetIDFn:                 encodedStateGetIDFn(fieldMapping, paramFields, externalNameKey),
+		GetImportIDFn:           plainImportGetIDFn(paramFields, importOrder, separator, externalNameKey),
 		GetExternalNameFn:       encodedStateGetExternalNameFn(externalNameKey),
 	}
 }

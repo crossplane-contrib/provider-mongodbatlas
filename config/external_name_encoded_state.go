@@ -1,6 +1,7 @@
 package config
 
 import (
+	"context"
 	"encoding/base64"
 	"fmt"
 	"maps"
@@ -39,6 +40,36 @@ func decodeAtlasStateID(stateID string) map[string]string {
 		}
 	}
 	return result
+}
+
+// --- GetIDFn factory (base64 state ID for terraform refresh) ---
+
+// encodedStateGetIDFn returns a GetIDFn that produces base64-encoded state IDs
+// matching the Atlas TF provider's conversion.EncodeStateID format.
+// This is required because terraform refresh uses d.Id() from the tfstate,
+// and the TF Read function calls DecodeStateID(d.Id()).
+func encodedStateGetIDFn(fieldMapping map[string]string, paramNames []string, externalNameKey string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
+	return func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
+		if hasAllParams(parameters, paramNames) {
+			m := make(map[string]string, len(fieldMapping)+1)
+			for param, stateKey := range fieldMapping {
+				m[stateKey] = parameters[param].(string)
+			}
+			if _, ok := m[externalNameKey]; !ok && externalName != "" {
+				m[externalNameKey] = externalName
+			}
+			if m[externalNameKey] == "" {
+				return "", nil
+			}
+			return encodeAtlasStateID(m), nil
+		}
+		if externalName != "" {
+			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
+				return externalName, nil
+			}
+		}
+		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramNames)
+	}
 }
 
 // --- GetExternalNameFn factory ---

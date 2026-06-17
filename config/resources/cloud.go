@@ -1,8 +1,6 @@
 package resources
 
 import (
-	"fmt"
-
 	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
@@ -29,7 +27,7 @@ func ConfigureCloud(p *config.Provider) {
 			},
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
-				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
+				Extractor:     refs.ExtractParamPath("name", false),
 			},
 		}
 	})
@@ -42,7 +40,7 @@ func ConfigureCloud(p *config.Provider) {
 			},
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
-				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
+				Extractor:     refs.ExtractParamPath("name", false),
 			},
 		}
 	})
@@ -64,7 +62,7 @@ func ConfigureCloud(p *config.Provider) {
 			},
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
-				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
+				Extractor:     refs.ExtractParamPath("name", false),
 			},
 			"snapshot_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot",
@@ -80,7 +78,7 @@ func ConfigureCloud(p *config.Provider) {
 			},
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
-				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
+				Extractor:     refs.ExtractParamPath("name", false),
 			},
 			"snapshot_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot",

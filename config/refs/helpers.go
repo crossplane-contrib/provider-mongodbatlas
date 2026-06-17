@@ -144,6 +144,35 @@ func stateString(tfstate map[string]any, key string) (string, bool) {
 	return v, ok && v != ""
 }
 
+// AccessListGetIDFn returns a GetIDFn for access list resources where the IP
+// is specified via either ip_address or cidr_block.
+func AccessListGetIDFn(prefixParams ...string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
+	return func(_ context.Context, _ string, parameters map[string]any, _ map[string]any) (string, error) {
+		parts := make([]string, 0, len(prefixParams)+1)
+		for _, p := range prefixParams {
+			v, ok := parameters[p]
+			if !ok {
+				return "", fmt.Errorf("%s missing from parameters", p)
+			}
+			parts = append(parts, fmt.Sprint(v))
+		}
+		ip, ok := parameters["ip_address"]
+		if !ok {
+			ip, ok = parameters["cidr_block"]
+			if !ok {
+				return "", errors.New("either ip_address or cidr_block parameters must be set")
+			}
+		}
+		parts = append(parts, fmt.Sprint(ip))
+		return strings.Join(parts, "-"), nil
+	}
+}
+
+// ExtractParamPath builds an upjet extractor reference path for the given field.
+func ExtractParamPath(field string, sensitive bool) string {
+	return fmt.Sprintf(ExtractParamPathFmt, field, sensitive)
+}
+
 // ExternalNameFromAccessListState returns a GetExternalNameFn for access list
 // entry resources. When "id" is present, returns it directly. Otherwise
 // constructs "{scopeID}-{client_id}-{ip_address_or_cidr}" from state fields.

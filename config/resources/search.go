@@ -1,8 +1,6 @@
 package resources
 
 import (
-	"fmt"
-
 	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
@@ -16,7 +14,7 @@ func ConfigureSearch(p *config.Provider) {
 			},
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
-				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
+				Extractor:     refs.ExtractParamPath("name", false),
 			},
 		}
 	})
@@ -28,7 +26,7 @@ func ConfigureSearch(p *config.Provider) {
 			},
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
-				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
+				Extractor:     refs.ExtractParamPath("name", false),
 			},
 		}
 	})

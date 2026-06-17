@@ -89,8 +89,15 @@ var externalNameConfigs = map[string]config.ExternalName{
 
 // --- Map entry constructors ---
 
+// identifierFromProvider wraps config.IdentifierFromProvider with the name
+// initializer enabled. This seeds crossplane.io/external-name from
+// metadata.name, providing a non-empty sentinel ID for the first Refresh.
+// The sentinel triggers a 404 (not found) instead of an empty-ID error,
+// allowing the reconciler to proceed to Create.
 func identifierFromProvider() config.ExternalName {
-	return config.IdentifierFromProvider
+	e := config.IdentifierFromProvider
+	e.DisableNameInitializer = false
+	return e
 }
 
 func templated(tmpl string) config.ExternalName {

@@ -20,6 +20,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Version = refs.VersionV1Alpha3
 		r.Kind = "AdvancedCluster"
 		r.UseAsync = true
@@ -31,6 +32,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_flex_cluster", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.UseAsync = true
 		r.Kind = "FlexCluster"
 		r.References = config.References{
@@ -51,6 +53,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_mongodb_employee_access_grant", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "EmployeeAccessGrant"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -90,6 +93,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_api_key", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "APIKey"
 		r.References = config.References{
 			refs.OrgID: {
@@ -101,6 +105,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_api_key_project_assignment", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "APIKeyProjectAssignment"
 		r.References = config.References{
 			"api_key_id": {
@@ -113,6 +118,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_encryption_at_rest", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "EncryptionAtRest"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -134,6 +140,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_event_trigger", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "EventTrigger"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -145,6 +152,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_global_cluster_config", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "GlobalClusterConfig"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -154,6 +162,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_log_integration", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "LogIntegration"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -187,6 +196,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_custom_dns_configuration_cluster_aws", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "CustomDNSConfigurationClusterAWS"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -196,6 +206,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_maintenance_window", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "MaintenanceWindow"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -205,6 +216,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account_project_assignment", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "ServiceAccountProjectAssignment"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -214,6 +226,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "ServiceAccount"
 		r.References = config.References{
 			refs.OrgID: {
@@ -225,6 +238,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account_secret", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "ServiceAccountSecret"
 		r.References = config.References{
 			refs.OrgID: {
@@ -236,6 +250,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_service_account_access_list_entry", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "ServiceAccountAccessListEntry"
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
@@ -250,6 +265,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_push_based_log_export", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "PushBasedLogExport"
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated and will be removed in the next major version. Please use mongodbatlas_log_integration instead."
 		r.References = config.References{
@@ -260,6 +276,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_resource_policy", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "ResourcePolicy"
 		r.References = config.References{
 			refs.OrgID: {
@@ -271,6 +288,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_online_archive", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "OnlineArchive"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -285,6 +303,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.Kind = "AccessListAPIKey"
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},

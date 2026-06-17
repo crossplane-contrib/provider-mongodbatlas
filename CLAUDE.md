@@ -63,7 +63,7 @@ In `config/external_name.go`, the `externalNameConfigs` map uses these construct
 ## Conventions
 
 - Every resource must have an `AddResourceConfigurator` in its `config/resources/*.go` with explicit `r.References` for `project_id` (or other cross-resource refs)
-- Resources in the root API group get `ShortGroup = ""` automatically via `resetRootShortGroup()` — do NOT set it explicitly in per-resource configurators
+- `resetRootShortGroup()` only clears ShortGroup for 2-word TF resources (where the default equals `"mongodbatlas"`). Resources with 3+ words in their TF name (e.g. `mongodbatlas_advanced_cluster`) **must** set `r.ShortGroup = ""` explicitly in their configurator to land in the root API group.
 - Resources in sub-groups set `r.ShortGroup = "groupname"` explicitly in their configurator
 - Version constants (`VersionV1Alpha2`, `VersionV1Alpha3`) live in `config/refs/refs.go`
 - Use `refs.ExtractParamPath(field, sensitive)` for cross-resource extractor references instead of `fmt.Sprintf(refs.ExtractParamPathFmt, ...)`

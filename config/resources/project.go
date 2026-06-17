@@ -16,6 +16,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {
+		r.ShortGroup = ""
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

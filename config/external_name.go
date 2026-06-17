@@ -35,7 +35,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_cluster":                                                     importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}),
 	"mongodbatlas_custom_db_role":                                              importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        templated("{{ .parameters.project_id }}"),
-	"mongodbatlas_database_user":                                               templated("{{ .parameters.project_id }}/{{ .parameters.username }}/{{ .parameters.auth_database_name }}"),
+	"mongodbatlas_database_user":                                               importJoinedID([]string{refs.ProjectID, "username", "auth_database_name"}, "/", "username"),
 	"mongodbatlas_encryption_at_rest":                                          templated("{{ .parameters.project_id }}"),
 	"mongodbatlas_encryption_at_rest_private_endpoint":                         identifierFromProvider(),
 	"mongodbatlas_event_trigger":                                               identifierFromProvider(),
@@ -57,7 +57,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_org_invitation":                                              identifierFromProvider(),
 	"mongodbatlas_organization":                                                identifierFromProvider(),
 	"mongodbatlas_private_endpoint_regional_mode":                              templated("{{ .parameters.project_id }}"),
-	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive": templated("{{ .parameters.project_id }}--{{ .parameters.endpoint_id }}"),
+	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive": importJoinedID([]string{refs.ProjectID, "endpoint_id"}, "--", "endpoint_id"),
 	"mongodbatlas_privatelink_endpoint_service":                                importJoinedID([]string{refs.ProjectID, "private_link_id", "endpoint_service_id", refs.ProviderName}, "--", "endpoint_service_id"),
 	"mongodbatlas_privatelink_endpoint":                                        importJoinedIDOrdered([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "private_link_id"),
 	"mongodbatlas_project_api_key":                                             identifierFromProvider(),
@@ -98,10 +98,6 @@ func identifierFromProvider() config.ExternalName {
 	e := config.IdentifierFromProvider
 	e.DisableNameInitializer = false
 	return e
-}
-
-func templated(tmpl string) config.ExternalName {
-	return templatedStringAsIdentifier(tmpl)
 }
 
 // importJoinedID builds an ExternalName for resources whose TF import function
@@ -200,12 +196,12 @@ func collectImportValues(importOrder []string, parameters map[string]any, extern
 	return "", nil
 }
 
-// --- templatedStringAsIdentifier ---
+// --- templated ---
 
-// templatedStringAsIdentifier wraps config.TemplatedStringAsIdentifier with an
+// templated wraps config.TemplatedStringAsIdentifier with an
 // empty nameField and overrides GetIDFn so that the crossplane.io/external-name
 // annotation, when set, is treated as the canonical Terraform ID.
-func templatedStringAsIdentifier(template string) config.ExternalName {
+func templated(template string) config.ExternalName {
 	e := config.TemplatedStringAsIdentifier("", template)
 	identifierFields := slices.Clone(e.IdentifierFields)
 	e.DisableNameInitializer = false

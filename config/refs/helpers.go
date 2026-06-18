@@ -144,6 +144,18 @@ func stateString(tfstate map[string]any, key string) (string, bool) {
 	return v, ok && v != ""
 }
 
+// AccessListEntry extracts the access list entry value from parameters,
+// trying ip_address first then cidr_block.
+func AccessListEntry(parameters map[string]any) (string, bool) {
+	if v, ok := parameters["ip_address"].(string); ok && v != "" {
+		return v, true
+	}
+	if v, ok := parameters["cidr_block"].(string); ok && v != "" {
+		return v, true
+	}
+	return "", false
+}
+
 // AccessListGetIDFn returns a GetIDFn for access list resources where the IP
 // is specified via either ip_address or cidr_block.
 func AccessListGetIDFn(prefixParams ...string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
@@ -156,14 +168,11 @@ func AccessListGetIDFn(prefixParams ...string) func(context.Context, string, map
 			}
 			parts = append(parts, fmt.Sprint(v))
 		}
-		ip, ok := parameters["ip_address"]
+		entry, ok := AccessListEntry(parameters)
 		if !ok {
-			ip, ok = parameters["cidr_block"]
-			if !ok {
-				return "", errors.New("either ip_address or cidr_block parameters must be set")
-			}
+			return "", errors.New("either ip_address or cidr_block parameters must be set")
 		}
-		parts = append(parts, fmt.Sprint(ip))
+		parts = append(parts, entry)
 		return strings.Join(parts, "-"), nil
 	}
 }

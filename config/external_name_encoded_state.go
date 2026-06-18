@@ -7,6 +7,8 @@ import (
 	"maps"
 	"slices"
 	"strings"
+
+	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
 // --- Base64 encode/decode (Atlas TF provider's EncodeStateID format) ---
@@ -69,6 +71,28 @@ func encodedStateGetIDFn(fieldMapping map[string]string, paramNames []string, ex
 			}
 		}
 		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramNames)
+	}
+}
+
+// accessListEncodedStateGetIDFn produces base64-encoded state IDs for
+// access-list resources where the "entry" key comes from either
+// ip_address or cidr_block.
+func accessListEncodedStateGetIDFn(prefixParams []string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
+	return func(_ context.Context, _ string, parameters, _ map[string]any) (string, error) {
+		values := make(map[string]string, len(prefixParams)+1)
+		for _, param := range prefixParams {
+			v, ok := parameters[param].(string)
+			if !ok || v == "" {
+				return "", nil
+			}
+			values[param] = v
+		}
+		entry, ok := refs.AccessListEntry(parameters)
+		if !ok {
+			return "", nil
+		}
+		values["entry"] = entry
+		return encodeAtlasStateID(values), nil
 	}
 }
 

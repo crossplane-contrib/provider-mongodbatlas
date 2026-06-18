@@ -67,9 +67,11 @@ func ConfigureFederated(p *config.Provider) {
 				TerraformName: refs.TFOrganization,
 			},
 		}
-		// ID format: {federation_settings_id}-{org_id}-{role_mapping_id}
-		// All three segments are hex IDs (no dashes).
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 2, "federation_settings_id", refs.OrgID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 2, 0)
+		// External name / ID handling comes from encodedStateIDMapped in
+		// config/external_name.go: the TF provider stores d.Id() as a base64
+		// conversion.EncodeStateID of {federation_settings_id, org_id,
+		// role_mapping_id}. role_mapping_id is provider-assigned, so it is the
+		// external-name key (seeded after the first successful create), while
+		// federation_settings_id and org_id come from forProvider params.
 	})
 }

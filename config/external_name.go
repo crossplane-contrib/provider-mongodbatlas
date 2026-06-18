@@ -32,7 +32,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_cloud_user_project_assignment":                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_team_assignment":                                  templatedStringAsIdentifier("{{ .parameters.org_id }}/{{ .parameters.team_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cluster_outage_simulation":                                   config.IdentifierFromProvider, // doesn't support import
-	"mongodbatlas_cluster":                                                     encodedStateIDMapped(map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, refs.ClusterName),
+	"mongodbatlas_cluster":                                                     withImportID(encodedStateIDMapped(map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, refs.ClusterName), "-", refs.ProjectID, refs.Name),
 	"mongodbatlas_custom_db_role":                                              encodedStateID([]string{refs.ProjectID, refs.RoleName}, refs.RoleName),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        templatedStringAsIdentifier("{{ .parameters.project_id }}"),
 	"mongodbatlas_database_user":                                               templatedStringAsIdentifier("{{ .parameters.project_id }}/{{ .parameters.username }}/{{ .parameters.auth_database_name }}"),
@@ -43,7 +43,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_federated_query_limit":                                       encodedStateID([]string{refs.ProjectID, "tenant_name", "limit_name"}, "limit_name"),
 	"mongodbatlas_federated_settings_identity_provider":                        config.IdentifierFromProvider,
 	"mongodbatlas_federated_settings_org_config":                               encodedStateID([]string{"federation_settings_id", refs.OrgID}, refs.OrgID),
-	"mongodbatlas_federated_settings_org_role_mapping":                         config.IdentifierFromProvider,
+	"mongodbatlas_federated_settings_org_role_mapping":                         encodedStateIDMapped(map[string]string{"federation_settings_id": "federation_settings_id", refs.OrgID: refs.OrgID}, "role_mapping_id"),
 	"mongodbatlas_flex_cluster":                                                templatedStringAsIdentifier("{{ .parameters.project_id }}-{{ .parameters.name }}"),
 	"mongodbatlas_global_cluster_config":                                       encodedStateID([]string{refs.ProjectID, refs.ClusterName}, refs.ClusterName),
 	"mongodbatlas_ldap_configuration":                                          templatedStringAsIdentifier("{{ .parameters.project_id }}"),
@@ -178,6 +178,33 @@ func decodeAtlasStateID(stateID string) map[string]string {
 		}
 	}
 	return result
+}
+
+// withImportID sets a dedicated GetImportIDFn on an ExternalName config, building
+// the `terraform import` ID by joining the given forProvider parameter values with
+// sep. Use it for resources whose Terraform import format differs from the value
+// stored as "id" in TF state. For example mongodbatlas_cluster stores a base64
+// EncodeStateID composite as its "id" (needed by refresh), but `terraform import`
+// of a cluster only accepts the format "{project_id}-{name}". Without this, cold
+// observe under the Observe-only management policy fails with
+// "import format error: to import a cluster, use the format {project_id}-{name}".
+//
+// When the required params are unavailable it returns "", so upjet falls back to
+// the state id (GetIDFn), preserving prior behavior.
+//
+// Requires upjet's ExternalName.GetImportIDFn (separate import-ID hook).
+func withImportID(e config.ExternalName, sep string, paramNames ...string) config.ExternalName {
+	e.GetImportIDFn = func(_ context.Context, _ string, parameters, _ map[string]any) (string, error) {
+		if !hasAllParams(parameters, paramNames) {
+			return "", nil
+		}
+		parts := make([]string, 0, len(paramNames))
+		for _, p := range paramNames {
+			parts = append(parts, parameters[p].(string))
+		}
+		return strings.Join(parts, sep), nil
+	}
+	return e
 }
 
 // encodedStateID is a convenience wrapper for encodedStateIDMapped where param names and state keys match.

@@ -104,10 +104,28 @@ type ProviderAccessAuthorizationInitParameters struct {
 	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// The unique ID for the project, also known as groupId in the official documentation. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessSetup
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessSetup in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v1.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessSetup in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v1.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 type ProviderAccessAuthorizationObservation struct {
@@ -142,12 +160,30 @@ type ProviderAccessAuthorizationParameters struct {
 	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// The unique ID for the project, also known as groupId in the official documentation. WARNING: Changing the project_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessSetup
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessSetup in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v1.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessSetup in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v1.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 // ProviderAccessAuthorizationSpec defines the desired state of ProviderAccessAuthorization
@@ -186,10 +222,8 @@ type ProviderAccessAuthorizationStatus struct {
 type ProviderAccessAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleId) || (has(self.initProvider) && has(self.initProvider.roleId))",message="spec.forProvider.roleId is a required parameter"
-	Spec   ProviderAccessAuthorizationSpec   `json:"spec"`
-	Status ProviderAccessAuthorizationStatus `json:"status,omitempty"`
+	Spec              ProviderAccessAuthorizationSpec   `json:"spec"`
+	Status            ProviderAccessAuthorizationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -89,6 +89,18 @@ func ConfigureCloud(p *config.Provider) {
 		}
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_cloud_provider_access_authorization", func(r *config.Resource) {
+		r.ShortGroup = groupCloud
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			"role_id": {
+				TerraformName: "mongodbatlas_cloud_provider_access_setup",
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_cloud_provider_access_setup", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
 		r.References = config.References{

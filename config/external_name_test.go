@@ -208,6 +208,7 @@ func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
 		e := importJoinedIDMapped(
 			[]string{refs.ProjectID, refs.Name},
 			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
+			refs.ClusterName,
 		)
 		params := map[string]any{
 			refs.ProjectID: testProjectID,
@@ -224,6 +225,7 @@ func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
 		e := importJoinedIDMapped(
 			[]string{refs.ProjectID, refs.Name},
 			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
+			refs.ClusterName,
 		)
 		assert.False(t, e.DisableNameInitializer)
 	})
@@ -234,6 +236,7 @@ func TestImportJoinedIDMapped_GetImportIDFn(t *testing.T) {
 		e := importJoinedIDMapped(
 			[]string{refs.ProjectID, refs.Name},
 			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
+			refs.ClusterName,
 		)
 		params := map[string]any{
 			refs.ProjectID: testProjectID,

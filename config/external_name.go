@@ -26,13 +26,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"mongodbatlas_cloud_backup_snapshot_export_job":                            importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "--", "export_job_id"),
 	"mongodbatlas_cloud_backup_snapshot_restore_job":                           importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "snapshot_restore_job_id"),
 	"mongodbatlas_cloud_backup_snapshot":                                       importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "snapshot_id"),
-	"mongodbatlas_cloud_provider_access_authorization":                         buildImportJoinedID([]string{refs.ProjectID, "role_id"}, []string{refs.ProjectID, "role_id"}, map[string]string{refs.ProjectID: refs.ProjectID, "role_id": "id"}, "-", "id", false),
+	"mongodbatlas_cloud_provider_access_authorization":                         importJoinedIDMapped([]string{refs.ProjectID, "role_id"}, map[string]string{refs.ProjectID: refs.ProjectID, "role_id": "id"}, "id"),
 	"mongodbatlas_cloud_provider_access_setup":                                 importJoinedID([]string{refs.ProjectID, refs.ProviderName}, "-", "id"),
 	"mongodbatlas_cloud_user_org_assignment":                                   templated("{{ .parameters.org_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_project_assignment":                               templated("{{ .parameters.project_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cloud_user_team_assignment":                                  templated("{{ .parameters.org_id }}/{{ .parameters.team_id }}/{{ .parameters.username }}"),
 	"mongodbatlas_cluster_outage_simulation":                                   config.IdentifierFromProvider, // doesn't support import
-	"mongodbatlas_cluster":                                                     importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}),
+	"mongodbatlas_cluster":                                                     importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, refs.ClusterName),
 	"mongodbatlas_custom_db_role":                                              importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName),
 	"mongodbatlas_custom_dns_configuration_cluster_aws":                        templated("{{ .parameters.project_id }}"),
 	"mongodbatlas_database_user":                                               importJoinedID([]string{refs.ProjectID, "username", "auth_database_name"}, "/", "username"),
@@ -137,13 +137,12 @@ func importJoinedIDOrdered(importOrder []string, externalNameKey string) config.
 }
 
 // importJoinedIDMapped handles resources where forProvider param names differ
-// from TF state keys (e.g. name → cluster_name).
-func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string) config.ExternalName {
+// from TF state keys (e.g. name → cluster_name, role_id → id).
+func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string, externalNameKey string) config.ExternalName {
 	stateKeyOrder := make([]string, 0, len(paramOrder))
 	for _, p := range paramOrder {
 		stateKeyOrder = append(stateKeyOrder, fieldMapping[p])
 	}
-	externalNameKey := refs.ClusterName
 	externalNameFromParams := slices.Contains(stateKeyOrder, externalNameKey)
 	return buildImportJoinedID(paramOrder, paramOrder, fieldMapping, "-", externalNameKey, externalNameFromParams)
 }

@@ -10,6 +10,7 @@ import (
 
 func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewInitializerFn) {
 	p.AddResourceConfigurator("mongodbatlas_stream_connection", func(r *config.Resource) {
+		r.ExternalName = templated("{{ .parameters.workspace_name }}-{{ .parameters.project_id }}-{{ .parameters.connection_name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -48,6 +49,7 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_stream_instance", func(r *config.Resource) {
+		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.instance_name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -56,6 +58,7 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_stream_processor", func(r *config.Resource) {
+		r.ExternalName = templated("{{ .parameters.instance_name }}-{{ .parameters.project_id }}-{{ .parameters.processor_name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -68,10 +71,15 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_stream_workspace", func(r *config.Resource) {
+		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.workspace_name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
 		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_stream_privatelink_endpoint", func(r *config.Resource) {
+		r.ExternalName = config.IdentifierFromProvider
 	})
 }

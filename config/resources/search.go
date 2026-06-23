@@ -8,6 +8,7 @@ import (
 
 func ConfigureSearch(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_search_deployment", func(r *config.Resource) {
+		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.cluster_name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -20,6 +21,7 @@ func ConfigureSearch(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_search_index", func(r *config.Resource) {
+		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "index_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

@@ -1,4 +1,4 @@
-package config
+package resources
 
 import (
 	"context"

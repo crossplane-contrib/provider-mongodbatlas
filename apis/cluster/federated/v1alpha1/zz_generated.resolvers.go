@@ -197,23 +197,6 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FederationSettingsID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.ForProvider.FederationSettingsIDRef,
-		Selector:     mg.Spec.ForProvider.FederationSettingsIDSelector,
-		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.FederationSettingsID")
-	}
-	mg.Spec.ForProvider.FederationSettingsID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.FederationSettingsIDRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
 		Extract:      reference.ExternalName(),
 		Namespace:    mg.GetNamespace(),
@@ -229,23 +212,6 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 	}
 	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FederationSettingsID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.InitProvider.FederationSettingsIDRef,
-		Selector:     mg.Spec.InitProvider.FederationSettingsIDSelector,
-		To: reference.To{
-			List:    &v1alpha1.OrganizationList{},
-			Managed: &v1alpha1.Organization{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.FederationSettingsID")
-	}
-	mg.Spec.InitProvider.FederationSettingsID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.FederationSettingsIDRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),

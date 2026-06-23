@@ -64,16 +64,7 @@ type RoleMappingInitParameters struct {
 	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
-
-	// Reference to a Organization in mongodbatlas to populate federationSettingsId.
-	// +kubebuilder:validation:Optional
-	FederationSettingsIDRef *v1.Reference `json:"federationSettingsIdRef,omitempty" tf:"-"`
-
-	// Selector for a Organization in mongodbatlas to populate federationSettingsId.
-	// +kubebuilder:validation:Optional
-	FederationSettingsIDSelector *v1.Selector `json:"federationSettingsIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
@@ -118,17 +109,8 @@ type RoleMappingParameters struct {
 	ExternalGroupName *string `json:"externalGroupName,omitempty" tf:"external_group_name,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the federated authentication configuration.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
 	FederationSettingsID *string `json:"federationSettingsId,omitempty" tf:"federation_settings_id,omitempty"`
-
-	// Reference to a Organization in mongodbatlas to populate federationSettingsId.
-	// +kubebuilder:validation:Optional
-	FederationSettingsIDRef *v1.Reference `json:"federationSettingsIdRef,omitempty" tf:"-"`
-
-	// Selector for a Organization in mongodbatlas to populate federationSettingsId.
-	// +kubebuilder:validation:Optional
-	FederationSettingsIDSelector *v1.Selector `json:"federationSettingsIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
@@ -185,6 +167,7 @@ type RoleMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.externalGroupName) || (has(self.initProvider) && has(self.initProvider.externalGroupName))",message="spec.forProvider.externalGroupName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.federationSettingsId) || (has(self.initProvider) && has(self.initProvider.federationSettingsId))",message="spec.forProvider.federationSettingsId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleAssignments) || (has(self.initProvider) && has(self.initProvider.roleAssignments))",message="spec.forProvider.roleAssignments is a required parameter"
 	Spec   RoleMappingSpec   `json:"spec"`
 	Status RoleMappingStatus `json:"status,omitempty"`

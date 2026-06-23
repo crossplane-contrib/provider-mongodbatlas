@@ -43,7 +43,5 @@ func ConfigureLDAP(p *config.Provider, pwGen func(string, string) config.NewInit
 				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.ProjectID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
 }

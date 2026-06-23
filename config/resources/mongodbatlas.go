@@ -78,8 +78,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 				TerraformName: refs.TFOrganization,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.OrgID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_team_project_assignment", func(r *config.Resource) {
@@ -100,8 +98,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 				TerraformName: refs.TFOrganization,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.OrgID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_api_key_project_assignment", func(r *config.Resource) {
@@ -147,8 +143,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 2, refs.ProjectID, "app_id")
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 2, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_global_cluster_config", func(r *config.Resource) {
@@ -295,11 +289,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
-		// ID format: {project_id}-{cluster_name}-{archive_id}
-		// cluster_name may contain dashes, but the extracted archive_id is a hex
-		// ID that never contains dashes, so Split+last is safe here.
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 2, refs.ProjectID, refs.ClusterName)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromSegment("-")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {

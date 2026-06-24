@@ -148,7 +148,7 @@ func TestImportJoinedID_GetImportIDFn(t *testing.T) {
 		})
 		id, err := e.GetImportIDFn(context.Background(), validID, params, nil)
 		require.NoError(t, err)
-		assert.Equal(t, validID, id)
+		assert.Equal(t, testProjectID+"-AWS-pcx-abc", id)
 	})
 
 	t.Run("missing params rejects raw external name", func(t *testing.T) {

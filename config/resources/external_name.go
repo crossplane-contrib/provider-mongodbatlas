@@ -174,7 +174,11 @@ func plainImportGetIDFn(paramFields, importOrder []string, separator, externalNa
 		}
 		if externalName != "" {
 			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
-				return externalName, nil
+				values := make([]string, 0, len(importOrder))
+				for _, field := range importOrder {
+					values = append(values, decoded[field])
+				}
+				return strings.Join(values, separator), nil
 			}
 		}
 		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramFields)

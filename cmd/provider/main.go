@@ -264,6 +264,11 @@ func main() {
 		ctx.FatalIfErrorf(controllerNamespaced.Setup(mgr, namespacedOpts), "Cannot setup namespaced MongoDBAtlas controllers")
 	}
 
+	if cli.CertsDir != "" {
+		ctx.FatalIfErrorf(controllerCluster.SetupWebhookWithManager(mgr), "Cannot setup cluster-scoped conversion webhooks")
+		ctx.FatalIfErrorf(controllerNamespaced.SetupWebhookWithManager(mgr), "Cannot setup namespaced conversion webhooks")
+	}
+
 	ctx.FatalIfErrorf(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
 }
 

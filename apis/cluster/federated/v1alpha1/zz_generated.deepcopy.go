@@ -2132,16 +2132,6 @@ func (in *RoleMappingInitParameters) DeepCopyInto(out *RoleMappingInitParameters
 		*out = new(string)
 		**out = **in
 	}
-	if in.FederationSettingsIDRef != nil {
-		in, out := &in.FederationSettingsIDRef, &out.FederationSettingsIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.FederationSettingsIDSelector != nil {
-		in, out := &in.FederationSettingsIDSelector, &out.FederationSettingsIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
@@ -2267,16 +2257,6 @@ func (in *RoleMappingParameters) DeepCopyInto(out *RoleMappingParameters) {
 		in, out := &in.FederationSettingsID, &out.FederationSettingsID
 		*out = new(string)
 		**out = **in
-	}
-	if in.FederationSettingsIDRef != nil {
-		in, out := &in.FederationSettingsIDRef, &out.FederationSettingsIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.FederationSettingsIDSelector != nil {
-		in, out := &in.FederationSettingsIDSelector, &out.FederationSettingsIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID

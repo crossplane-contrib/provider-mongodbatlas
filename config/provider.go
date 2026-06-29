@@ -37,8 +37,7 @@ func resetRootShortGroup() ujconfig.ResourceOption {
 	}
 }
 
-// GetidentifierFromProvider returns provider configuration
-func GetidentifierFromProvider() *ujconfig.Provider {
+func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitializerFn) *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			resetRootShortGroup(),
@@ -49,56 +48,33 @@ func GetidentifierFromProvider() *ujconfig.Provider {
 		}),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
-		ujconfig.WithRootGroup("mongodbatlas.crossplane.io"),
+		ujconfig.WithRootGroup(rootGroup),
 		ujconfig.WithShortName("mongodbatlas"),
 		ujconfig.WithSkipList(SkipTfResourceList),
 	)
 
 	resources.ConfigureAlert(pc)
 	resources.ConfigureCloud(pc)
-	resources.ConfigureDatabase(pc, password.ClusterGenerator)
+	resources.ConfigureDatabase(pc, pwGen)
 	resources.ConfigureFederated(pc)
-	resources.ConfigureLDAP(pc, password.ClusterGenerator)
+	resources.ConfigureLDAP(pc, pwGen)
 	resources.ConfigureMongoDBAtlas(pc)
 	resources.ConfigureNetwork(pc)
 	resources.ConfigurePrivateEndpoint(pc)
 	resources.ConfigureProject(pc)
 	resources.ConfigureSearch(pc)
-	resources.ConfigureStream(pc, password.ClusterGenerator)
+	resources.ConfigureStream(pc, pwGen)
 
 	pc.ConfigureResources()
 	return pc
 }
 
-// GetProviderNamespaced returns provider configuration
+// GetidentifierFromProvider returns the cluster-scoped provider configuration.
+func GetidentifierFromProvider() *ujconfig.Provider {
+	return newProvider("mongodbatlas.crossplane.io", password.ClusterGenerator)
+}
+
+// GetProviderNamespaced returns the namespace-scoped provider configuration.
 func GetProviderNamespaced() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithDefaultResourceOptions(
-			resetRootShortGroup(),
-			ExternalNameConfigurations(),
-		),
-		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
-			ManagedResourceNamespace: "crossplane-system",
-		}),
-		ujconfig.WithIncludeList(ExternalNameConfigured()),
-		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithRootGroup("mongodbatlas.m.crossplane.io"),
-		ujconfig.WithShortName("mongodbatlas"),
-		ujconfig.WithSkipList(SkipTfResourceList),
-	)
-
-	resources.ConfigureAlert(pc)
-	resources.ConfigureCloud(pc)
-	resources.ConfigureDatabase(pc, password.NamespacedGenerator)
-	resources.ConfigureFederated(pc)
-	resources.ConfigureLDAP(pc, password.NamespacedGenerator)
-	resources.ConfigureMongoDBAtlas(pc)
-	resources.ConfigureNetwork(pc)
-	resources.ConfigurePrivateEndpoint(pc)
-	resources.ConfigureProject(pc)
-	resources.ConfigureSearch(pc)
-	resources.ConfigureStream(pc, password.NamespacedGenerator)
-
-	pc.ConfigureResources()
-	return pc
+	return newProvider("mongodbatlas.m.crossplane.io", password.NamespacedGenerator)
 }

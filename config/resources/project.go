@@ -1,10 +1,6 @@
 package resources
 
 import (
-	"context"
-	"errors"
-	"fmt"
-
 	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
@@ -21,6 +17,7 @@ func ConfigureProject(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {
 		r.ShortGroup = ""
+		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.type }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -29,6 +26,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_invitation", func(r *config.Resource) {
+		r.ExternalName = importJoinedIDHidden([]string{refs.ProjectID, "username"}, "-", "invitation_id")
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Migrate to mongodbatlas_cloud_user_project_assignment for managing project membership."
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
@@ -41,31 +39,11 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_ip_access_list", func(r *config.Resource) {
+		r.ExternalName = accessListImportJoinedID([]string{refs.ProjectID})
+		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.ProjectID)
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
 		}
-		r.References = config.References{
-			refs.ProjectID: {
-				TerraformName: refs.TFProject,
-			},
-		}
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			project, ok := parameters[refs.ProjectID]
-			if !ok {
-				return "", errors.New("project_id missing from parameters")
-			}
-			ip, ok := parameters["ip_address"]
-			if !ok {
-				ip, ok = parameters["cidr_block"]
-				if !ok {
-					return "", errors.New("either ip_address or cidr_block parameters must be set")
-				}
-			}
-			return fmt.Sprintf("%s-%s", project, ip), nil
-		}
-	})
-
-	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -81,24 +59,7 @@ func ConfigureProject(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			client, ok := parameters["client_id"]
-			if !ok {
-				return "", errors.New("client_id missing from parameters")
-			}
-			project, ok := parameters[refs.ProjectID]
-			if !ok {
-				return "", errors.New("project_id missing from parameters")
-			}
-			ip, ok := parameters["ip_address"]
-			if !ok {
-				ip, ok = parameters["cidr_block"]
-				if !ok {
-					return "", errors.New("either ip_address or cidr_block parameters must be set")
-				}
-			}
-			return fmt.Sprintf("%s-%s-%s", project, client, ip), nil
-		}
+		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.ProjectID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromAccessListState(refs.ProjectID)
 	})
 

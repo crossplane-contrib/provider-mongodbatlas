@@ -49,7 +49,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Install crane
-        uses: imjasonh/setup-crane@59c71e96a00b28651f10369ba3359a6d730740a0 # v0.6
+        uses: imjasonh/setup-crane@feee3b6bb0d4c68370f256a4502498c9227e5c6b # v0.7
       - name: Tag latest
         run: crane tag ghcr.io/crossplane-contrib/provider-mongodbatlas:${{ inputs.version }} latest
 
@@ -77,8 +77,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [[ "${{ github.ref_type }}" != "branch" ]]; then
-            echo "Skipping README commit (not a branch)"
+          if [[ "${{ github.ref_type }}" != "branch" || "${{ github.ref_name }}" != "main" ]]; then
+            echo "Skipping README commit (only runs on main branch)"
             exit 0
           fi
           if [ -n "$(git status --porcelain README.md)" ]; then

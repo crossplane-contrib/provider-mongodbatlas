@@ -21,6 +21,17 @@ If both are set, parameters take precedence: the rendered Terraform ID overwrite
 
 Parameters marked with **ref** support `Ref`/`Selector` fields for cross-resource references (e.g. `projectIdRef`, `projectIdSelector`).
 
+### External-name representation
+
+After the first successful observe, the provider writes a value into the `crossplane.io/external-name` annotation.
+For most resources this is the full Terraform ID (e.g. `<projectId>-<name>`).
+For resources that use the Atlas `EncodeStateID` pattern internally, the annotation contains only
+the human-readable key (e.g. `username` for `database_user`, `endpointId` for
+`privatelink_endpoint_service_data_federation_online_archive`).
+Option A (parameters) is the recommended import method for these resources because
+Option B requires the annotation to contain the full compound ID in base64-encoded format, which
+is an internal implementation detail of the Atlas Terraform provider.
+
 ## Importable resources
 
 These resources use one or more parameters as their identity.

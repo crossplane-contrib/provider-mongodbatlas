@@ -12,6 +12,7 @@ func ConfigureLDAP(p *config.Provider, pwGen func(string, string) config.NewInit
 	p.AddResourceConfigurator("mongodbatlas_ldap_configuration", func(r *config.Resource) {
 		r.ShortGroup = "ldap"
 		r.Kind = "Configuration"
+		r.ExternalName = templated("{{ .parameters.project_id }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -43,12 +44,11 @@ func ConfigureLDAP(p *config.Provider, pwGen func(string, string) config.NewInit
 	p.AddResourceConfigurator("mongodbatlas_ldap_verify", func(r *config.Resource) {
 		r.ShortGroup = "ldap"
 		r.Kind = "Verify"
+		r.ExternalName = importJoinedID([]string{refs.ProjectID}, "-", "request_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.ProjectID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
 }

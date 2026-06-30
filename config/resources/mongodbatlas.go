@@ -1,10 +1,6 @@
 package resources
 
 import (
-	"context"
-	"errors"
-	"fmt"
-
 	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
@@ -15,6 +11,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.Version = refs.VersionV1Alpha2
 		r.UseAsync = true
 		r.Kind = "Cluster"
+		r.ExternalName = importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, refs.ClusterName)
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated and will be removed in the next major version. Please use AdvancedCluster (mongodbatlas_advanced_cluster) instead."
 		r.References = config.References{
 			refs.ProjectID: {
@@ -38,10 +35,11 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
-		r.Version = refs.VersionV1Alpha3
 		r.ShortGroup = ""
+		r.Version = refs.VersionV1Alpha3
 		r.Kind = "AdvancedCluster"
 		r.UseAsync = true
+		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -58,6 +56,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.ShortGroup = ""
 		r.UseAsync = true
 		r.Kind = "FlexCluster"
+		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -68,6 +67,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster_outage_simulation", func(r *config.Resource) {
 		r.ShortGroup = "cluster"
 		r.Kind = "OutageSimulation"
+		r.ExternalName = config.IdentifierFromProvider
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -78,6 +78,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_mongodb_employee_access_grant", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "EmployeeAccessGrant"
+		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.cluster_name }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -95,20 +96,19 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_team", func(r *config.Resource) {
-		r.ShortGroup = ""
 		r.Kind = "Team"
+		r.ExternalName = importJoinedID([]string{refs.OrgID}, "-", "id")
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.OrgID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_team_project_assignment", func(r *config.Resource) {
 		r.ShortGroup = "team"
 		r.Kind = "ProjectAssignment"
+		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.team_id }}")
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
@@ -119,18 +119,18 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_api_key", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "APIKey"
+		r.ExternalName = importJoinedID([]string{refs.OrgID}, "-", "api_key_id")
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.OrgID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_api_key_project_assignment", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "APIKeyProjectAssignment"
+		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.api_key_id }}")
 		r.References = config.References{
 			"api_key_id": {
 				TerraformName: "mongodbatlas_api_key",
@@ -144,6 +144,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_encryption_at_rest", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "EncryptionAtRest"
+		r.ExternalName = templated("{{ .parameters.project_id }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -166,18 +167,18 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_event_trigger", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "EventTrigger"
+		r.ExternalName = importJoinedID([]string{refs.ProjectID, "app_id"}, "--", "trigger_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 2, refs.ProjectID, "app_id")
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 2, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_global_cluster_config", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "GlobalClusterConfig"
+		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", refs.ClusterName)
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -205,13 +206,14 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator(refs.TFOrganization, func(r *config.Resource) {
-		r.ShortGroup = ""
 		r.Kind = "Organization"
+		r.ExternalName = importJoinedID([]string{}, "-", "org_id")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_org_invitation", func(r *config.Resource) {
 		r.ShortGroup = "org"
 		r.Kind = "Invitation"
+		r.ExternalName = importJoinedIDHidden([]string{refs.OrgID, "username"}, "-", "invitation_id")
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Migrate to mongodbatlas_cloud_user_org_assignment for managing organization membership."
 		r.References = config.References{
 			refs.OrgID: {
@@ -223,6 +225,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_custom_dns_configuration_cluster_aws", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "CustomDNSConfigurationClusterAWS"
+		r.ExternalName = templated("{{ .parameters.project_id }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -233,6 +236,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_maintenance_window", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "MaintenanceWindow"
+		r.ExternalName = templated("{{ .parameters.project_id }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -243,6 +247,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_service_account_project_assignment", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "ServiceAccountProjectAssignment"
+		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.client_id }}")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -285,30 +290,14 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 				TerraformName: refs.TFOrganization,
 			},
 		}
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			org, ok := parameters[refs.OrgID]
-			if !ok {
-				return "", errors.New("org_id missing from parameters")
-			}
-			client, ok := parameters["client_id"]
-			if !ok {
-				return "", errors.New("client_id missing from parameters")
-			}
-			ip, ok := parameters["ip_address"]
-			if !ok {
-				ip, ok = parameters["cidr_block"]
-				if !ok {
-					return "", errors.New("either ip_address or cidr_block parameters must be set")
-				}
-			}
-			return fmt.Sprintf("%s-%s-%s", org, client, ip), nil
-		}
+		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.OrgID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromAccessListState(refs.OrgID)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_push_based_log_export", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "PushBasedLogExport"
+		r.ExternalName = templated("{{ .parameters.project_id }}")
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated and will be removed in the next major version. Please use mongodbatlas_log_integration instead."
 		r.References = config.References{
 			refs.ProjectID: {
@@ -332,21 +321,23 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_online_archive", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "OnlineArchive"
+		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "archive_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
 		}
-		// ID format: {project_id}-{cluster_name}-{archive_id}
-		// cluster_name may contain dashes, but the extracted archive_id is a hex
-		// ID that never contains dashes, so Split+last is safe here.
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 2, refs.ProjectID, refs.ClusterName)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromSegment("-")
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_api_key", func(r *config.Resource) {
+		r.ExternalName = importJoinedID([]string{refs.ProjectID}, "-", "api_key_id")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "AccessListAPIKey"
+		r.ExternalName = accessListImportJoinedID([]string{refs.OrgID, "api_key_id"})
+		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.OrgID, "api_key_id")
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
 		}
@@ -357,24 +348,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			"api_key_id": {
 				TerraformName: "mongodbatlas_api_key",
 			},
-		}
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
-			org, ok := parameters[refs.OrgID]
-			if !ok {
-				return "", errors.New("org_id missing from parameters")
-			}
-			apiKey, ok := parameters["api_key_id"]
-			if !ok {
-				return "", errors.New("api_key_id missing from parameters")
-			}
-			ip, ok := parameters["ip_address"]
-			if !ok {
-				ip, ok = parameters["cidr_block"]
-				if !ok {
-					return "", errors.New("either ip_address or cidr_block parameters must be set")
-				}
-			}
-			return fmt.Sprintf("%s-%s-%s", org, apiKey, ip), nil
 		}
 	})
 }

@@ -72,5 +72,3 @@ Each resource sets `r.ExternalName` in its configurator using constructors from 
 - Use `refs.AccessListGetIDFn(prefixParams...)` for access-list resources with ip_address/cidr_block fallback
 - The Dockerfile sets `NO_COLOR=1` and `TF_CLI_ARGS_import=-no-color` to suppress ANSI in terraform output
 
-
-@.claude/wiz-claude.md

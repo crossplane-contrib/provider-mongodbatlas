@@ -130,6 +130,7 @@ type AdvancedClusterInitParameters struct {
 	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
 
 	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are only supported for AWS provisioned IOPS, or Azure regions that support Extended IOPS. See below.
+	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
@@ -293,6 +294,7 @@ type AdvancedClusterObservation struct {
 	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
 
 	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are only supported for AWS provisioned IOPS, or Azure regions that support Extended IOPS. See below.
+	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
@@ -468,6 +470,7 @@ type AdvancedClusterParameters struct {
 
 	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are only supported for AWS provisioned IOPS, or Azure regions that support Extended IOPS. See below.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.

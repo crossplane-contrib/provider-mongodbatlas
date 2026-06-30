@@ -17,6 +17,18 @@ func ConfigureFederated(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
+		for _, f := range []string{
+			"cloud_provider_config",
+			"data_process_region",
+			"storage_databases",
+			"storage_stores",
+		} {
+			r.ServerSideApplyMergeStrategies[f] = config.MergeStrategy{
+				ListMergeStrategy: config.ListMergeStrategy{
+					MergeStrategy: config.ListTypeAtomic,
+				},
+			}
+		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_federated_query_limit", func(r *config.Resource) {

@@ -179,6 +179,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   autoScalingComputeEnabled:
                     description: Specifies whether cluster tier auto-scaling is enabled.
                       The default is false.
@@ -222,6 +223,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   cloudBackup:
                     description: ', to enable Cloud Backup.  If you create a new Atlas
                       cluster and set backup_enabled to true, the Provider will respond
@@ -265,6 +267,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   mongoDbMajorVersion:
                     description: Version of the cluster to deploy. Atlas supports
                       all the MongoDB versions that have not reached End of Live for
@@ -314,6 +317,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   pitEnabled:
                     description: '- Flag that indicates if the cluster uses Continuous
                       Cloud Backup. If set to true, cloud_backup must also be set
@@ -539,6 +543,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   retainBackupsEnabled:
                     description: |-
                       -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
@@ -558,6 +563,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   terminationProtectionEnabled:
                     description: Flag that indicates whether termination protection
                       is enabled on the cluster. If set to true, MongoDB Cloud won't
@@ -690,6 +696,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   autoScalingComputeEnabled:
                     description: Specifies whether cluster tier auto-scaling is enabled.
                       The default is false.
@@ -733,6 +740,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   cloudBackup:
                     description: ', to enable Cloud Backup.  If you create a new Atlas
                       cluster and set backup_enabled to true, the Provider will respond
@@ -776,6 +784,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   mongoDbMajorVersion:
                     description: Version of the cluster to deploy. Atlas supports
                       all the MongoDB versions that have not reached End of Live for
@@ -825,6 +834,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   pitEnabled:
                     description: '- Flag that indicates if the cluster uses Continuous
                       Cloud Backup. If set to true, cloud_backup must also be set
@@ -1050,6 +1060,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   retainBackupsEnabled:
                     description: |-
                       -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
@@ -1069,6 +1080,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   terminationProtectionEnabled:
                     description: Flag that indicates whether termination protection
                       is enabled on the cluster. If set to true, MongoDB Cloud won't
@@ -1292,6 +1304,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   autoScalingComputeEnabled:
                     description: Specifies whether cluster tier auto-scaling is enabled.
                       The default is false.
@@ -1335,6 +1348,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   cloudBackup:
                     description: ', to enable Cloud Backup.  If you create a new Atlas
                       cluster and set backup_enabled to true, the Provider will respond
@@ -1492,6 +1506,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   mongoDbMajorVersion:
                     description: Version of the cluster to deploy. Atlas supports
                       all the MongoDB versions that have not reached End of Live for
@@ -1563,6 +1578,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   pitEnabled:
                     description: '- Flag that indicates if the cluster uses Continuous
                       Cloud Backup. If set to true, cloud_backup must also be set
@@ -1714,6 +1730,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   retainBackupsEnabled:
                     description: |-
                       -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
@@ -1813,6 +1830,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   terminationProtectionEnabled:
                     description: Flag that indicates whether termination protection
                       is enabled on the cluster. If set to true, MongoDB Cloud won't

@@ -53,6 +53,7 @@ type ConfigurationInitParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
+	// +listType=atomic
 	UserToDnMapping []UserToDnMappingInitParameters `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 
@@ -85,6 +86,7 @@ type ConfigurationObservation struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
+	// +listType=atomic
 	UserToDnMapping []UserToDnMappingObservation `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 
@@ -144,6 +146,7 @@ type ConfigurationParameters struct {
 
 	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	UserToDnMapping []UserToDnMappingParameters `json:"userToDnMapping,omitempty" tf:"user_to_dn_mapping,omitempty"`
 }
 

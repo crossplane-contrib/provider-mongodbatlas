@@ -19,6 +19,20 @@ func ConfigureCloud(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
+		for _, f := range []string{
+			"on_demand_policy_item",
+			"policy_item_daily",
+			"policy_item_hourly",
+			"policy_item_monthly",
+			"policy_item_weekly",
+			"policy_item_yearly",
+		} {
+			r.ServerSideApplyMergeStrategies[f] = config.MergeStrategy{
+				ListMergeStrategy: config.ListMergeStrategy{
+					MergeStrategy: config.ListTypeAtomic,
+				},
+			}
+		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_schedule", func(r *config.Resource) {
@@ -31,6 +45,21 @@ func ConfigureCloud(p *config.Provider) {
 				TerraformName: refs.TFCluster,
 				Extractor:     fmt.Sprintf(refs.ExtractParamPathFmt, "name", false),
 			},
+		}
+		for _, f := range []string{
+			"copy_settings",
+			"export",
+			"policy_item_daily",
+			"policy_item_hourly",
+			"policy_item_monthly",
+			"policy_item_weekly",
+			"policy_item_yearly",
+		} {
+			r.ServerSideApplyMergeStrategies[f] = config.MergeStrategy{
+				ListMergeStrategy: config.ListMergeStrategy{
+					MergeStrategy: config.ListTypeAtomic,
+				},
+			}
 		}
 	})
 
@@ -96,6 +125,11 @@ func ConfigureCloud(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+		}
+		r.ServerSideApplyMergeStrategies["azure_config"] = config.MergeStrategy{
+			ListMergeStrategy: config.ListMergeStrategy{
+				MergeStrategy: config.ListTypeAtomic,
 			},
 		}
 	})

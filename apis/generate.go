@@ -20,6 +20,10 @@
 // Run Upjet generator
 //go:generate go run ../cmd/generator/main.go ..
 
+// Strip SSA markers from Observation structs (upjet bug: markers cause
+// duplicate map-key violations in status.atProvider when lists have >1 item)
+//go:generate bash ../hack/strip-observation-ssa-markers.sh
+
 // Generate deepcopy methodsets and CRD manifests
 //go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:allowDangerousTypes=true,crdVersions=v1 output:artifacts:config=../package/crds
 

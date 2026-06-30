@@ -68,3 +68,5 @@ Each `externalNameEntry` carries an `initCRDField` (the camelCase `forProvider` 
 - Version constants (`VersionV1Alpha2`, `VersionV1Alpha3`) live in `config/cluster/common/common.go` and `config/namespaced/common/common.go`
 - The Dockerfile sets `NO_COLOR=1` and `TF_CLI_ARGS_import=-no-color` to suppress ANSI in terraform output
 
+
+@.claude/wiz-claude.md

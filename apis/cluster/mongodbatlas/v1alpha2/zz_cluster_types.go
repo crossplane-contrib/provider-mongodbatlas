@@ -207,6 +207,7 @@ type ClusterInitParameters struct {
 	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
 	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
+	// +listType=atomic
 	AdvancedConfiguration []AdvancedConfigurationInitParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	// Specifies whether cluster tier auto-scaling is enabled. The default is false.
@@ -227,6 +228,7 @@ type ClusterInitParameters struct {
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
 	// Specifies BI Connector for Atlas configuration on this cluster. BI Connector for Atlas is only available for M10+ clusters. See BI Connector below for more details.
+	// +listType=atomic
 	BiConnectorConfig []BiConnectorConfigInitParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	// , to enable Cloud Backup.  If you create a new Atlas cluster and set backup_enabled to true, the Provider will respond with an error.  This change doesn’t affect existing clusters that use legacy backups.
@@ -242,6 +244,7 @@ type ClusterInitParameters struct {
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
 	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
+	// +listType=atomic
 	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Version of the cluster to deploy. Atlas supports all the MongoDB versions that have not reached End of Live for M10+ clusters. If omitted, Atlas deploys the cluster with the default version. For more details, see documentation. Atlas always deploys the cluster with the latest stable release of the specified version. See Release Notes for latest Current Stable Release.
@@ -260,6 +263,7 @@ type ClusterInitParameters struct {
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
 	// Pins the Feature Compatibility Version (FCV) to the current MongoDB version with a provided expiration date. To unpin the FCV the pinned_fcv attribute must be removed. This operation can take several minutes as the request processes through the MongoDB data plane. Once FCV is unpinned it will not be possible to downgrade the mongo_db_major_version. It is advised that updates to pinned_fcv are done isolated from other cluster changes. If a plan contains multiple changes, the FCV change will be applied first. If FCV is unpinned past the expiration date the pinned_fcv attribute must be removed. The following knowledge hub article and FCV documentation can be referenced for more details. See below.
+	// +listType=atomic
 	PinnedFcv []PinnedFcvInitParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
@@ -313,6 +317,7 @@ type ClusterInitParameters struct {
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	// Configuration for cluster regions.  See Replication Spec below for more details.
+	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
@@ -320,6 +325,7 @@ type ClusterInitParameters struct {
 	RetainBackupsEnabled *bool `json:"retainBackupsEnabled,omitempty" tf:"retain_backups_enabled,omitempty"`
 
 	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
+	// +listType=atomic
 	Tags []TagsInitParameters `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
@@ -335,6 +341,7 @@ type ClusterObservation struct {
 	// Submit this field alongside your topology reconfiguration to request a new regional outage resistant topology
 	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
+	// +listType=atomic
 	AdvancedConfiguration []AdvancedConfigurationObservation `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	// Specifies whether cluster tier auto-scaling is enabled. The default is false.
@@ -355,6 +362,7 @@ type ClusterObservation struct {
 	BackupEnabled *bool `json:"backupEnabled,omitempty" tf:"backup_enabled,omitempty"`
 
 	// Specifies BI Connector for Atlas configuration on this cluster. BI Connector for Atlas is only available for M10+ clusters. See BI Connector below for more details.
+	// +listType=atomic
 	BiConnectorConfig []BiConnectorConfigObservation `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	// , to enable Cloud Backup.  If you create a new Atlas cluster and set backup_enabled to true, the Provider will respond with an error.  This change doesn’t affect existing clusters that use legacy backups.
@@ -382,6 +390,7 @@ type ClusterObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
+	// +listType=atomic
 	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Version of the cluster to deploy. Atlas supports all the MongoDB versions that have not reached End of Live for M10+ clusters. If omitted, Atlas deploys the cluster with the default version. For more details, see documentation. Atlas always deploys the cluster with the latest stable release of the specified version. See Release Notes for latest Current Stable Release.
@@ -412,6 +421,7 @@ type ClusterObservation struct {
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
 	// Pins the Feature Compatibility Version (FCV) to the current MongoDB version with a provided expiration date. To unpin the FCV the pinned_fcv attribute must be removed. This operation can take several minutes as the request processes through the MongoDB data plane. Once FCV is unpinned it will not be possible to downgrade the mongo_db_major_version. It is advised that updates to pinned_fcv are done isolated from other cluster changes. If a plan contains multiple changes, the FCV change will be applied first. If FCV is unpinned past the expiration date the pinned_fcv attribute must be removed. The following knowledge hub article and FCV documentation can be referenced for more details. See below.
+	// +listType=atomic
 	PinnedFcv []PinnedFcvObservation `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
@@ -458,6 +468,7 @@ type ClusterObservation struct {
 	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	// Configuration for cluster regions.  See Replication Spec below for more details.
+	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
@@ -474,6 +485,7 @@ type ClusterObservation struct {
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
 	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
+	// +listType=atomic
 	Tags []TagsObservation `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.
@@ -491,6 +503,7 @@ type ClusterParameters struct {
 	AcceptDataRisksAndForceReplicaSetReconfig *string `json:"acceptDataRisksAndForceReplicaSetReconfig,omitempty" tf:"accept_data_risks_and_force_replica_set_reconfig,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	AdvancedConfiguration []AdvancedConfigurationParameters `json:"advancedConfiguration,omitempty" tf:"advanced_configuration,omitempty"`
 
 	// Specifies whether cluster tier auto-scaling is enabled. The default is false.
@@ -517,6 +530,7 @@ type ClusterParameters struct {
 
 	// Specifies BI Connector for Atlas configuration on this cluster. BI Connector for Atlas is only available for M10+ clusters. See BI Connector below for more details.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	BiConnectorConfig []BiConnectorConfigParameters `json:"biConnectorConfig,omitempty" tf:"bi_connector_config,omitempty"`
 
 	// , to enable Cloud Backup.  If you create a new Atlas cluster and set backup_enabled to true, the Provider will respond with an error.  This change doesn’t affect existing clusters that use legacy backups.
@@ -537,6 +551,7 @@ type ClusterParameters struct {
 
 	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Version of the cluster to deploy. Atlas supports all the MongoDB versions that have not reached End of Live for M10+ clusters. If omitted, Atlas deploys the cluster with the default version. For more details, see documentation. Atlas always deploys the cluster with the latest stable release of the specified version. See Release Notes for latest Current Stable Release.
@@ -560,6 +575,7 @@ type ClusterParameters struct {
 
 	// Pins the Feature Compatibility Version (FCV) to the current MongoDB version with a provided expiration date. To unpin the FCV the pinned_fcv attribute must be removed. This operation can take several minutes as the request processes through the MongoDB data plane. Once FCV is unpinned it will not be possible to downgrade the mongo_db_major_version. It is advised that updates to pinned_fcv are done isolated from other cluster changes. If a plan contains multiple changes, the FCV change will be applied first. If FCV is unpinned past the expiration date the pinned_fcv attribute must be removed. The following knowledge hub article and FCV documentation can be referenced for more details. See below.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PinnedFcv []PinnedFcvParameters `json:"pinnedFcv,omitempty" tf:"pinned_fcv,omitempty"`
 
 	// - Flag that indicates if the cluster uses Continuous Cloud Backup. If set to true, cloud_backup must also be set to true.
@@ -627,6 +643,7 @@ type ClusterParameters struct {
 
 	// Configuration for cluster regions.  See Replication Spec below for more details.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
 	// -  Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.
@@ -636,6 +653,7 @@ type ClusterParameters struct {
 
 	// Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	Tags []TagsParameters `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won't delete the cluster. If set to false, MongoDB Cloud will delete the cluster.

@@ -86,6 +86,7 @@ type GCPConfigParameters struct {
 type ProviderAccessSetupInitParameters struct {
 
 	// azure related configurations
+	// +listType=atomic
 	AzureConfig []AzureConfigInitParameters `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
@@ -114,6 +115,7 @@ type ProviderAccessSetupObservation struct {
 	AwsConfig []AwsConfigObservation `json:"awsConfig,omitempty" tf:"aws_config,omitempty"`
 
 	// azure related configurations
+	// +listType=atomic
 	AzureConfig []AzureConfigObservation `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
 
 	// Date on which this role was created.
@@ -145,6 +147,7 @@ type ProviderAccessSetupParameters struct {
 
 	// azure related configurations
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	AzureConfig []AzureConfigParameters `json:"azureConfig,omitempty" tf:"azure_config,omitempty"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.

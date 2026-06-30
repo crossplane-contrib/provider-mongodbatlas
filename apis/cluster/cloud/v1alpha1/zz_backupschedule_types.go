@@ -32,24 +32,31 @@ type BackupScheduleInitParameters struct {
 	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// List that contains a document for each copy setting item in the desired backup policy. See below
+	// +listType=atomic
 	CopySettings []CopySettingsInitParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
 	// Policy for automatically exporting Cloud Backup Snapshots. See below
+	// +listType=atomic
 	Export []ExportInitParameters `json:"export,omitempty" tf:"export,omitempty"`
 
 	// Daily policy item. See below
+	// +listType=atomic
 	PolicyItemDaily []BackupSchedulePolicyItemDailyInitParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
 	// Hourly policy item. See below
+	// +listType=atomic
 	PolicyItemHourly []BackupSchedulePolicyItemHourlyInitParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
 	// Monthly policy item. See below
+	// +listType=atomic
 	PolicyItemMonthly []BackupSchedulePolicyItemMonthlyInitParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
 	// Weekly policy item. See below
+	// +listType=atomic
 	PolicyItemWeekly []BackupSchedulePolicyItemWeeklyInitParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
 	// Yearly policy item. See below
+	// +listType=atomic
 	PolicyItemYearly []BackupSchedulePolicyItemYearlyInitParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
 	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
@@ -95,9 +102,11 @@ type BackupScheduleObservation struct {
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// List that contains a document for each copy setting item in the desired backup policy. See below
+	// +listType=atomic
 	CopySettings []CopySettingsObservation `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
 	// Policy for automatically exporting Cloud Backup Snapshots. See below
+	// +listType=atomic
 	Export []ExportObservation `json:"export,omitempty" tf:"export,omitempty"`
 
 	// Unique identifier of the backup policy item.
@@ -110,18 +119,23 @@ type BackupScheduleObservation struct {
 	NextSnapshot *string `json:"nextSnapshot,omitempty" tf:"next_snapshot,omitempty"`
 
 	// Daily policy item. See below
+	// +listType=atomic
 	PolicyItemDaily []BackupSchedulePolicyItemDailyObservation `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
 	// Hourly policy item. See below
+	// +listType=atomic
 	PolicyItemHourly []BackupSchedulePolicyItemHourlyObservation `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
 	// Monthly policy item. See below
+	// +listType=atomic
 	PolicyItemMonthly []BackupSchedulePolicyItemMonthlyObservation `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
 	// Weekly policy item. See below
+	// +listType=atomic
 	PolicyItemWeekly []BackupSchedulePolicyItemWeeklyObservation `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
 	// Yearly policy item. See below
+	// +listType=atomic
 	PolicyItemYearly []BackupSchedulePolicyItemYearlyObservation `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
 	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
@@ -168,30 +182,37 @@ type BackupScheduleParameters struct {
 
 	// List that contains a document for each copy setting item in the desired backup policy. See below
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	CopySettings []CopySettingsParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
 	// Policy for automatically exporting Cloud Backup Snapshots. See below
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	Export []ExportParameters `json:"export,omitempty" tf:"export,omitempty"`
 
 	// Daily policy item. See below
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemDaily []BackupSchedulePolicyItemDailyParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
 	// Hourly policy item. See below
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemHourly []BackupSchedulePolicyItemHourlyParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
 	// Monthly policy item. See below
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemMonthly []BackupSchedulePolicyItemMonthlyParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
 	// Weekly policy item. See below
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemWeekly []BackupSchedulePolicyItemWeeklyParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
 	// Yearly policy item. See below
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemYearly []BackupSchedulePolicyItemYearlyParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
 	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.

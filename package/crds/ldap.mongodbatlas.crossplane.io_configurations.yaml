@@ -248,6 +248,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 type: object
               initProvider:
                 description: |-
@@ -433,6 +434,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 required:
                 - bindPasswordSecretRef
                 type: object
@@ -621,6 +623,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 type: object
               conditions:
                 description: Conditions of the resource.

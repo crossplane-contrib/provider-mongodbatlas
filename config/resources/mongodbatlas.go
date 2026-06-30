@@ -21,6 +21,20 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
+		for _, f := range []string{
+			"advanced_configuration",
+			"bi_connector_config",
+			"labels",
+			"pinned_fcv",
+			"replication_specs",
+			"tags",
+		} {
+			r.ServerSideApplyMergeStrategies[f] = config.MergeStrategy{
+				ListMergeStrategy: config.ListMergeStrategy{
+					MergeStrategy: config.ListTypeAtomic,
+				},
+			}
+		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_advanced_cluster", func(r *config.Resource) {
@@ -31,6 +45,11 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+		}
+		r.ServerSideApplyMergeStrategies["replication_specs"] = config.MergeStrategy{
+			ListMergeStrategy: config.ListMergeStrategy{
+				MergeStrategy: config.ListTypeAtomic,
 			},
 		}
 	})

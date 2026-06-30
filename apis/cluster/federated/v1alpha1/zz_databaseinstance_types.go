@@ -285,9 +285,11 @@ type DataSourcesParameters struct {
 type DatabaseInstanceInitParameters struct {
 
 	// Cloud provider linked to this data federated instance.
+	// +listType=atomic
 	CloudProviderConfig []CloudProviderConfigInitParameters `json:"cloudProviderConfig,omitempty" tf:"cloud_provider_config,omitempty"`
 
 	// The cloud provider region to which the Federated Instance routes client connections for data processing.
+	// +listType=atomic
 	DataProcessRegion []DataProcessRegionInitParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
 	// Name of the Atlas Federated Database Instance.
@@ -306,18 +308,22 @@ type DatabaseInstanceInitParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
+	// +listType=atomic
 	StorageDatabases []StorageDatabasesInitParameters `json:"storageDatabases,omitempty" tf:"storage_databases,omitempty"`
 
 	// Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.
+	// +listType=atomic
 	StorageStores []StorageStoresInitParameters `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
 }
 
 type DatabaseInstanceObservation struct {
 
 	// Cloud provider linked to this data federated instance.
+	// +listType=atomic
 	CloudProviderConfig []CloudProviderConfigObservation `json:"cloudProviderConfig,omitempty" tf:"cloud_provider_config,omitempty"`
 
 	// The cloud provider region to which the Federated Instance routes client connections for data processing.
+	// +listType=atomic
 	DataProcessRegion []DataProcessRegionObservation `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
 	// The list of hostnames assigned to the Federated Database Instance. Each string in the array is a hostname assigned to the Federated Database Instance.
@@ -338,9 +344,11 @@ type DatabaseInstanceObservation struct {
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
+	// +listType=atomic
 	StorageDatabases []StorageDatabasesObservation `json:"storageDatabases,omitempty" tf:"storage_databases,omitempty"`
 
 	// Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.
+	// +listType=atomic
 	StorageStores []StorageStoresObservation `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
 }
 
@@ -348,10 +356,12 @@ type DatabaseInstanceParameters struct {
 
 	// Cloud provider linked to this data federated instance.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	CloudProviderConfig []CloudProviderConfigParameters `json:"cloudProviderConfig,omitempty" tf:"cloud_provider_config,omitempty"`
 
 	// The cloud provider region to which the Federated Instance routes client connections for data processing.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	DataProcessRegion []DataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
 	// Name of the Atlas Federated Database Instance.
@@ -373,10 +383,12 @@ type DatabaseInstanceParameters struct {
 
 	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	StorageDatabases []StorageDatabasesParameters `json:"storageDatabases,omitempty" tf:"storage_databases,omitempty"`
 
 	// Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	StorageStores []StorageStoresParameters `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
 }
 

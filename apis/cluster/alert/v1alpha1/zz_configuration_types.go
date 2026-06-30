@@ -21,10 +21,13 @@ type ConfigurationInitParameters struct {
 	// The type of event that will trigger an alert.
 	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
 
+	// +listType=atomic
 	Matcher []MatcherInitParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
+	// +listType=atomic
 	MetricThresholdConfig []MetricThresholdConfigInitParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
+	// +listType=atomic
 	Notification []NotificationInitParameters `json:"notification,omitempty" tf:"notification,omitempty"`
 
 	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
@@ -42,6 +45,7 @@ type ConfigurationInitParameters struct {
 	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
 	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
+	// +listType=atomic
 	ThresholdConfig []ThresholdConfigInitParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 }
 
@@ -61,10 +65,13 @@ type ConfigurationObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// +listType=atomic
 	Matcher []MatcherObservation `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
+	// +listType=atomic
 	MetricThresholdConfig []MetricThresholdConfigObservation `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
+	// +listType=atomic
 	Notification []NotificationObservation `json:"notification,omitempty" tf:"notification,omitempty"`
 
 	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
@@ -73,6 +80,7 @@ type ConfigurationObservation struct {
 	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
 	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
+	// +listType=atomic
 	ThresholdConfig []ThresholdConfigObservation `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 
 	// Timestamp in ISO 8601 date and time format in UTC when this alert configuration was last updated.
@@ -90,12 +98,15 @@ type ConfigurationParameters struct {
 	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	Matcher []MatcherParameters `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	MetricThresholdConfig []MetricThresholdConfigParameters `json:"metricThresholdConfig,omitempty" tf:"metric_threshold_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	Notification []NotificationParameters `json:"notification,omitempty" tf:"notification,omitempty"`
 
 	// The ID of the project where the alert configuration will create, also known as groupId in the official documentation.
@@ -116,6 +127,7 @@ type ConfigurationParameters struct {
 	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	ThresholdConfig []ThresholdConfigParameters `json:"thresholdConfig,omitempty" tf:"threshold_config,omitempty"`
 }
 

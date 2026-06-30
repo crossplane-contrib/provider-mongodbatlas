@@ -693,6 +693,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   retainBackupsEnabled:
                     description: |-
                       Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
@@ -1386,6 +1387,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   retainBackupsEnabled:
                     description: |-
                       Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.
@@ -2222,6 +2224,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   retainBackupsEnabled:
                     description: |-
                       Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. To delete an Atlas cluster that has an associated mongodbatlas_cloud_backup_schedule resource and an enabled Backup Compliance Policy, see Delete a Cluster with a Backup Compliance Policy.

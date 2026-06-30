@@ -190,6 +190,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   export:
                     description: Policy for automatically exporting Cloud Backup Snapshots.
                       See below
@@ -206,6 +207,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemDaily:
                     description: Daily policy item. See below
                     items:
@@ -230,6 +232,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemHourly:
                     description: Hourly policy item. See below
                     items:
@@ -250,6 +253,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemMonthly:
                     description: Monthly policy item. See below
                     items:
@@ -275,6 +279,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemWeekly:
                     description: Weekly policy item. See below
                     items:
@@ -301,6 +306,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemYearly:
                     description: Yearly policy item. See below
                     items:
@@ -320,6 +326,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   projectId:
                     description: The unique identifier of the project for the Atlas
                       cluster, also known as groupId in the official documentation.
@@ -582,6 +589,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   export:
                     description: Policy for automatically exporting Cloud Backup Snapshots.
                       See below
@@ -598,6 +606,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemDaily:
                     description: Daily policy item. See below
                     items:
@@ -622,6 +631,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemHourly:
                     description: Hourly policy item. See below
                     items:
@@ -642,6 +652,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemMonthly:
                     description: Monthly policy item. See below
                     items:
@@ -667,6 +678,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemWeekly:
                     description: Weekly policy item. See below
                     items:
@@ -693,6 +705,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemYearly:
                     description: Yearly policy item. See below
                     items:
@@ -712,6 +725,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   projectId:
                     description: The unique identifier of the project for the Atlas
                       cluster, also known as groupId in the official documentation.
@@ -945,6 +959,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   export:
                     description: Policy for automatically exporting Cloud Backup Snapshots.
                       See below
@@ -961,6 +976,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   id:
                     description: Unique identifier of the backup policy item.
                     type: string
@@ -1005,6 +1021,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemHourly:
                     description: Hourly policy item. See below
                     items:
@@ -1035,6 +1052,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemMonthly:
                     description: Monthly policy item. See below
                     items:
@@ -1070,6 +1088,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemWeekly:
                     description: Weekly policy item. See below
                     items:
@@ -1106,6 +1125,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   policyItemYearly:
                     description: Yearly policy item. See below
                     items:
@@ -1135,6 +1155,7 @@ spec:
                           type: number
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   projectId:
                     description: The unique identifier of the project for the Atlas
                       cluster, also known as groupId in the official documentation.

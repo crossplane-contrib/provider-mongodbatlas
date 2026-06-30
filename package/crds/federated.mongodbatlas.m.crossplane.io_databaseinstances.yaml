@@ -95,6 +95,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   dataProcessRegion:
                     description: The cloud provider region to which the Federated
                       Instance routes client connections for data processing.
@@ -111,6 +112,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   name:
                     description: Name of the Atlas Federated Database Instance.
                     type: string
@@ -291,6 +293,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   storageStores:
                     description: Each object in the array represents a data store.
                       Federated Database uses the storage.databases configuration
@@ -391,6 +394,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 type: object
               initProvider:
                 description: |-
@@ -442,6 +446,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   dataProcessRegion:
                     description: The cloud provider region to which the Federated
                       Instance routes client connections for data processing.
@@ -458,6 +463,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   name:
                     description: Name of the Atlas Federated Database Instance.
                     type: string
@@ -638,6 +644,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   storageStores:
                     description: Each object in the array represents a data store.
                       Federated Database uses the storage.databases configuration
@@ -738,6 +745,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 type: object
               managementPolicies:
                 default:
@@ -869,6 +877,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   dataProcessRegion:
                     description: The cloud provider region to which the Federated
                       Instance routes client connections for data processing.
@@ -885,6 +894,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   hostnames:
                     description: The list of hostnames assigned to the Federated Database
                       Instance. Each string in the array is a hostname assigned to
@@ -1023,6 +1033,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   storageStores:
                     description: Each object in the array represents a data store.
                       Federated Database uses the storage.databases configuration
@@ -1123,6 +1134,7 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 type: object
               conditions:
                 description: Conditions of the resource.

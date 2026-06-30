@@ -99,6 +99,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   metricThresholdConfig:
                     items:
                       properties:
@@ -127,6 +128,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   notification:
                     items:
                       properties:
@@ -382,6 +384,7 @@ spec:
                           type: object
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   projectId:
                     description: The ID of the project where the alert configuration
                       will create, also known as groupId in the official documentation.
@@ -486,6 +489,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 type: object
               initProvider:
                 description: |-
@@ -527,6 +531,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   metricThresholdConfig:
                     items:
                       properties:
@@ -555,6 +560,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   notification:
                     items:
                       properties:
@@ -810,6 +816,7 @@ spec:
                           type: object
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   projectId:
                     description: The ID of the project where the alert configuration
                       will create, also known as groupId in the official documentation.
@@ -914,6 +921,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                 type: object
               managementPolicies:
                 default:
@@ -1047,6 +1055,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   metricThresholdConfig:
                     items:
                       properties:
@@ -1075,6 +1084,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   notification:
                     items:
                       properties:
@@ -1158,6 +1168,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   projectId:
                     description: The ID of the project where the alert configuration
                       will create, also known as groupId in the official documentation.
@@ -1186,6 +1197,7 @@ spec:
                           type: string
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   updated:
                     description: Timestamp in ISO 8601 date and time format in UTC
                       when this alert configuration was last updated.

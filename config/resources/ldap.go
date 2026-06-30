@@ -18,6 +18,11 @@ func ConfigureLDAP(p *config.Provider, pwGen func(string, string) config.NewInit
 				TerraformName: refs.TFProject,
 			},
 		}
+		r.ServerSideApplyMergeStrategies["user_to_dn_mapping"] = config.MergeStrategy{
+			ListMergeStrategy: config.ListMergeStrategy{
+				MergeStrategy: config.ListTypeAtomic,
+			},
+		}
 		desc, _ := comments.New("If true, the bind password will be auto-generated and"+
 			" stored in the Secret referenced by the bindPasswordSecretRef field.",
 			comments.WithTFTag("-"))

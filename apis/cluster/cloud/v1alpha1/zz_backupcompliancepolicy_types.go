@@ -31,24 +31,30 @@ type BackupCompliancePolicyInitParameters struct {
 	EncryptionAtRestEnabled *bool `json:"encryptionAtRestEnabled,omitempty" tf:"encryption_at_rest_enabled,omitempty"`
 
 	// Specifications for on-demand policy.
+	// +listType=atomic
 	OnDemandPolicyItem []OnDemandPolicyItemInitParameters `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
 	// Flag that indicates whether the cluster uses Continuous Cloud Backups with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
 	// Scheduled policy using a daily frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemDaily []PolicyItemDailyInitParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
 	// Scheduled policy using an hourly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemHourly []PolicyItemHourlyInitParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
 	// Scheduled policy using a monthly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemMonthly []PolicyItemMonthlyInitParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
 	// Scheduled policy using a weekly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemWeekly []PolicyItemWeeklyInitParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
 	// Scheduled policy using a yearly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemYearly []PolicyItemYearlyInitParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
@@ -88,24 +94,30 @@ type BackupCompliancePolicyObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Specifications for on-demand policy.
+	// +listType=atomic
 	OnDemandPolicyItem []OnDemandPolicyItemObservation `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
 	// Flag that indicates whether the cluster uses Continuous Cloud Backups with a Backup Compliance Policy. If unspecified, this value defaults to false.
 	PitEnabled *bool `json:"pitEnabled,omitempty" tf:"pit_enabled,omitempty"`
 
 	// Scheduled policy using a daily frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemDaily []PolicyItemDailyObservation `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
 	// Scheduled policy using an hourly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemHourly []PolicyItemHourlyObservation `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
 	// Scheduled policy using a monthly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemMonthly []PolicyItemMonthlyObservation `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
 	// Scheduled policy using a weekly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemWeekly []PolicyItemWeeklyObservation `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
 	// Scheduled policy using a yearly frequency type, see block fields.
+	// +listType=atomic
 	PolicyItemYearly []PolicyItemYearlyObservation `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
@@ -148,6 +160,7 @@ type BackupCompliancePolicyParameters struct {
 
 	// Specifications for on-demand policy.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	OnDemandPolicyItem []OnDemandPolicyItemParameters `json:"onDemandPolicyItem,omitempty" tf:"on_demand_policy_item,omitempty"`
 
 	// Flag that indicates whether the cluster uses Continuous Cloud Backups with a Backup Compliance Policy. If unspecified, this value defaults to false.
@@ -156,22 +169,27 @@ type BackupCompliancePolicyParameters struct {
 
 	// Scheduled policy using a daily frequency type, see block fields.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemDaily []PolicyItemDailyParameters `json:"policyItemDaily,omitempty" tf:"policy_item_daily,omitempty"`
 
 	// Scheduled policy using an hourly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemHourly []PolicyItemHourlyParameters `json:"policyItemHourly,omitempty" tf:"policy_item_hourly,omitempty"`
 
 	// Scheduled policy using a monthly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemMonthly []PolicyItemMonthlyParameters `json:"policyItemMonthly,omitempty" tf:"policy_item_monthly,omitempty"`
 
 	// Scheduled policy using a weekly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemWeekly []PolicyItemWeeklyParameters `json:"policyItemWeekly,omitempty" tf:"policy_item_weekly,omitempty"`
 
 	// Scheduled policy using a yearly frequency type, see block fields.
 	// +kubebuilder:validation:Optional
+	// +listType=atomic
 	PolicyItemYearly []PolicyItemYearlyParameters `json:"policyItemYearly,omitempty" tf:"policy_item_yearly,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.

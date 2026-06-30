@@ -15,5 +15,17 @@ func ConfigureAlert(p *config.Provider) {
 				TerraformName: refs.TFProject,
 			},
 		}
+		for _, f := range []string{
+			"matcher",
+			"metric_threshold_config",
+			"notification",
+			"threshold_config",
+		} {
+			r.ServerSideApplyMergeStrategies[f] = config.MergeStrategy{
+				ListMergeStrategy: config.ListMergeStrategy{
+					MergeStrategy: config.ListTypeAtomic,
+				},
+			}
+		}
 	})
 }

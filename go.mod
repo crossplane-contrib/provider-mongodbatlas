@@ -9,7 +9,7 @@ require (
 	github.com/alecthomas/kong v1.15.0
 	github.com/crossplane/crossplane-runtime/v2 v2.2.0
 	github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339
-	github.com/crossplane/upjet/v2 v2.3.1-0.20260629080522-21004889a2dc
+	github.com/crossplane/upjet/v2 v2.3.0
 	github.com/go-logr/logr v1.4.3
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.37.0
 	github.com/pkg/errors v0.9.1

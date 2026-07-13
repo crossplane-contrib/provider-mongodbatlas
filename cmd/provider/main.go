@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/alecthomas/kong"
@@ -39,11 +40,15 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	authv1 "k8s.io/api/authorization/v1"
+	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
@@ -65,6 +70,12 @@ const (
 	tlsServerCertDirEnvVar  = "TLS_SERVER_CERTS_DIR"
 	certsDirEnvVar          = "CERTS_DIR"
 	tlsServerCertDir        = "/tls/server"
+
+	// Label injected into this provider's CRD manifests at generation time
+	// (hack/inject-crd-labels.sh), used to filter the manager's CRD cache
+	// when --filter-crd-cache is enabled.
+	crdFilterLabelKey   = "app.kubernetes.io/component"
+	crdFilterLabelValue = "provider-mongodbatlas"
 )
 
 type certsDir string
@@ -82,6 +93,8 @@ var cli struct {
 	SyncPeriod              time.Duration `help:"Controller manager sync period such as 300ms, 1.5h, or 2h45m" short:"s" default:"1h"`
 	PollInterval            time.Duration `help:"How often individual resources will be checked for drift from the desired state" default:"1m"`
 	PollStateMetricInterval time.Duration `help:"State metric recording interval" default:"5s"`
+
+	FilterCRDCache bool `help:"Restrict the manager cache to CRDs labeled app.kubernetes.io/component=provider-mongodbatlas (set on this provider's CRD manifests at generation time). Requires all provider CRDs to carry the label; unlabeled CRDs are invisible to the safe-start gate and their controllers will not start." default:"false" env:"FILTER_CRD_CACHE"`
 
 	MaxReconcileRate         int           `help:"The global maximum rate per second at which resources may checked for drift from the desired state." default:"10"`
 	EnableManagementPolicies bool          `help:"Enable support for Management Policies." default:"true" env:"ENABLE_MANAGEMENT_POLICIES"`
@@ -151,11 +164,37 @@ func main() {
 		}
 	}
 
+	// The safe-start gate only reads group/names/versions and the Established
+	// condition from CRDs, never the schema, so cached CRDs are stripped
+	// before storage. Optionally (opt-in, see --filter-crd-cache) the CRD
+	// cache is additionally restricted server-side to labeled CRDs.
+	// Crossplane's MRD-to-CRD conversion currently drops labels
+	// (crossplane/crossplane#7259), so this is not safe to enable
+	// unconditionally.
+	crdCacheByObject := cache.ByObject{Transform: stripCachedCRD}
+	var crdSelector labels.Selector
+	if cli.FilterCRDCache {
+		crdSelector = labels.SelectorFromSet(labels.Set{crdFilterLabelKey: crdFilterLabelValue})
+		crdCacheByObject.Label = crdSelector
+	}
+
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
 		LeaderElection:   cli.LeaderElection,
 		LeaderElectionID: "crossplane-leader-election-upjet-provider-mongodbatlas",
 		Cache: cache.Options{
 			SyncPeriod: &cli.SyncPeriod,
+			ByObject: map[client.Object]cache.ByObject{
+				&apiextensionsv1.CustomResourceDefinition{}: crdCacheByObject,
+			},
+		},
+		Client: client.Options{
+			Cache: &client.CacheOptions{
+				// Secrets are only ever point-read (credential resolution,
+				// connection-secret publishing, password initializer), never
+				// watched. Keeping them out of the cache avoids holding every
+				// Secret in the cluster in memory.
+				DisableFor: []client.Object{&corev1.Secret{}},
+			},
 		},
 		Metrics: metricsserver.Options{
 			BindAddress: cli.MetricsBindAddress,
@@ -269,7 +308,56 @@ func main() {
 		ctx.FatalIfErrorf(controllerNamespaced.SetupWebhookWithManager(mgr), "Cannot setup namespaced conversion webhooks")
 	}
 
+	if crdSelector != nil {
+		// Warn if provider CRDs exist without labels matching the cache
+		// selector — the safe-start gate will never see them and their
+		// controllers won't start. One-shot, metadata-only (no schema
+		// decode), bypasses the filtered cache on purpose.
+		ctx.FatalIfErrorf(mgr.Add(manager.RunnableFunc(func(runCtx context.Context) error {
+			crds := &metav1.PartialObjectMetadataList{}
+			crds.SetGroupVersionKind(apiextensionsv1.SchemeGroupVersion.WithKind("CustomResourceDefinitionList"))
+			if err := mgr.GetAPIReader().List(runCtx, crds); err != nil {
+				return errors.Wrap(err, "cannot list CRDs to check cache label selector coverage")
+			}
+			ours, matched := 0, 0
+			for _, crd := range crds.Items {
+				if !strings.HasSuffix(crd.Name, ".mongodbatlas.crossplane.io") &&
+					!strings.HasSuffix(crd.Name, ".mongodbatlas.m.crossplane.io") {
+					continue
+				}
+				ours++
+				if crdSelector.Matches(labels.Set(crd.Labels)) {
+					matched++
+				}
+			}
+			if matched < ours {
+				log.Info("WARNING: provider CRDs are missing the cache filter label required by --filter-crd-cache; their controllers will not start until the label is applied (re-apply CRDs from the current package version)",
+					"label", crdFilterLabelKey+"="+crdFilterLabelValue, "mongodbatlasCRDs", ours, "matched", matched)
+			}
+			return nil
+		})), "Cannot add CRD cache label selector coverage check")
+	}
+
 	ctx.FatalIfErrorf(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
+}
+
+// stripCachedCRD drops the parts of a CRD that the provider never reads
+// before it enters the manager cache. The only cached-CRD consumer is the
+// safe-start gate (customresourcesgate), which reads group/names/versions and
+// the Established condition — never the OpenAPI schema. On clusters with many
+// CRDs the schemas dominate the provider's memory footprint. Anything reading
+// CRDs through mgr.GetClient() will see these stripped objects.
+func stripCachedCRD(obj any) (any, error) {
+	crd, ok := obj.(*apiextensionsv1.CustomResourceDefinition)
+	if !ok {
+		return obj, nil
+	}
+	for i := range crd.Spec.Versions {
+		crd.Spec.Versions[i].Schema = nil
+	}
+	crd.ManagedFields = nil
+	delete(crd.Annotations, "kubectl.kubernetes.io/last-applied-configuration")
+	return crd, nil
 }
 
 func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {

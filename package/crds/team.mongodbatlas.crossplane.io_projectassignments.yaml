@@ -5,6 +5,8 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.21.0
   name: projectassignments.team.mongodbatlas.crossplane.io
+  labels:
+    app.kubernetes.io/component: provider-mongodbatlas
 spec:
   group: team.mongodbatlas.crossplane.io
   names:

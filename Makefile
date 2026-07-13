@@ -136,7 +136,7 @@ pull-docs:
 	@git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
-generate.done: copy-examples
+generate.done: copy-examples label-crds
 
 .PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs check-terraform-version
 # ====================================================================================
@@ -267,6 +267,12 @@ vendor.check: modules.check
 copy-examples:
 	@$(INFO) copying generated examples to examples
 	@cp -r examples-generated/* examples/ || $(FAIL)
+
+# Inject identifying labels into generated CRDs for cache filtering
+label-crds:
+	@$(INFO) injecting labels into generated CRDs
+	@./hack/inject-crd-labels.sh || $(FAIL)
+	@$(OK) injecting labels into generated CRDs
 
 # ====================================================================================
 # Package Extensions (readme, SBOM)

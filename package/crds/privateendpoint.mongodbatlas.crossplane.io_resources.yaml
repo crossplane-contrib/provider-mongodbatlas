@@ -5,6 +5,8 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.21.0
   name: resources.privateendpoint.mongodbatlas.crossplane.io
+  labels:
+    app.kubernetes.io/component: provider-mongodbatlas
 spec:
   group: privateendpoint.mongodbatlas.crossplane.io
   names:

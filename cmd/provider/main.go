@@ -142,26 +142,8 @@ func main() {
 	cfg, err := ctrl.GetConfig()
 	ctx.FatalIfErrorf(err, "Cannot get API server rest config")
 
-	// Get the TLS certs directory from the environment variables set by
-	// Crossplane if they're available.
-	// In older XP versions we used WEBHOOK_TLS_CERT_DIR, in newer versions
-	// we use TLS_SERVER_CERTS_DIR. If an explicit certs dir is not supplied
-	// via the command-line options, then these environment variables are used
-	// instead.
 	if !certsDirSet {
-		// backwards-compatibility concerns
-		xpCertsDir := os.Getenv(certsDirEnvVar)
-		if xpCertsDir == "" {
-			xpCertsDir = os.Getenv(tlsServerCertDirEnvVar)
-		}
-		if xpCertsDir == "" {
-			xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
-		}
-		// we probably don't need this condition but just to be on the
-		// safe side, if we are missing any kong machinery details...
-		if xpCertsDir != "" {
-			cli.CertsDir = certsDir(xpCertsDir)
-		}
+		cli.CertsDir = certsDirFromEnv(cli.CertsDir)
 	}
 
 	// The safe-start gate only reads group/names/versions and the Established
@@ -309,36 +291,63 @@ func main() {
 	}
 
 	if crdSelector != nil {
-		// Warn if provider CRDs exist without labels matching the cache
-		// selector — the safe-start gate will never see them and their
-		// controllers won't start. One-shot, metadata-only (no schema
-		// decode), bypasses the filtered cache on purpose.
-		ctx.FatalIfErrorf(mgr.Add(manager.RunnableFunc(func(runCtx context.Context) error {
-			crds := &metav1.PartialObjectMetadataList{}
-			crds.SetGroupVersionKind(apiextensionsv1.SchemeGroupVersion.WithKind("CustomResourceDefinitionList"))
-			if err := mgr.GetAPIReader().List(runCtx, crds); err != nil {
-				return errors.Wrap(err, "cannot list CRDs to check cache label selector coverage")
-			}
-			ours, matched := 0, 0
-			for _, crd := range crds.Items {
-				if !strings.HasSuffix(crd.Name, ".mongodbatlas.crossplane.io") &&
-					!strings.HasSuffix(crd.Name, ".mongodbatlas.m.crossplane.io") {
-					continue
-				}
-				ours++
-				if crdSelector.Matches(labels.Set(crd.Labels)) {
-					matched++
-				}
-			}
-			if matched < ours {
-				log.Info("WARNING: provider CRDs are missing the cache filter label required by --filter-crd-cache; their controllers will not start until the label is applied (re-apply CRDs from the current package version)",
-					"label", crdFilterLabelKey+"="+crdFilterLabelValue, "mongodbatlasCRDs", ours, "matched", matched)
-			}
-			return nil
-		})), "Cannot add CRD cache label selector coverage check")
+		ctx.FatalIfErrorf(mgr.Add(crdLabelCoverageCheck(mgr, crdSelector, log)), "Cannot add CRD cache label selector coverage check")
 	}
 
 	ctx.FatalIfErrorf(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
+}
+
+// certsDirFromEnv returns the TLS certs directory from the environment
+// variables set by Crossplane if they're available.
+// In older XP versions we used WEBHOOK_TLS_CERT_DIR, in newer versions
+// we use TLS_SERVER_CERTS_DIR. If an explicit certs dir is not supplied
+// via the command-line options, then these environment variables are used
+// instead.
+func certsDirFromEnv(fallback certsDir) certsDir {
+	// backwards-compatibility concerns
+	xpCertsDir := os.Getenv(certsDirEnvVar)
+	if xpCertsDir == "" {
+		xpCertsDir = os.Getenv(tlsServerCertDirEnvVar)
+	}
+	if xpCertsDir == "" {
+		xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
+	}
+	// we probably don't need this condition but just to be on the
+	// safe side, if we are missing any kong machinery details...
+	if xpCertsDir != "" {
+		return certsDir(xpCertsDir)
+	}
+	return fallback
+}
+
+// crdLabelCoverageCheck returns a one-shot runnable that warns if provider
+// CRDs exist without labels matching the cache selector — the safe-start
+// gate will never see them and their controllers won't start. Metadata-only
+// (no schema decode), bypasses the filtered cache on purpose.
+func crdLabelCoverageCheck(mgr manager.Manager, crdSelector labels.Selector, log logging.Logger) manager.RunnableFunc {
+	return func(ctx context.Context) error {
+		crds := &metav1.PartialObjectMetadataList{}
+		crds.SetGroupVersionKind(apiextensionsv1.SchemeGroupVersion.WithKind("CustomResourceDefinitionList"))
+		if err := mgr.GetAPIReader().List(ctx, crds); err != nil {
+			return errors.Wrap(err, "cannot list CRDs to check cache label selector coverage")
+		}
+		ours, matched := 0, 0
+		for _, crd := range crds.Items {
+			if !strings.HasSuffix(crd.Name, ".mongodbatlas.crossplane.io") &&
+				!strings.HasSuffix(crd.Name, ".mongodbatlas.m.crossplane.io") {
+				continue
+			}
+			ours++
+			if crdSelector.Matches(labels.Set(crd.Labels)) {
+				matched++
+			}
+		}
+		if matched < ours {
+			log.Info("WARNING: provider CRDs are missing the cache filter label required by --filter-crd-cache; their controllers will not start until the label is applied (re-apply CRDs from the current package version)",
+				"label", crdFilterLabelKey+"="+crdFilterLabelValue, "mongodbatlasCRDs", ours, "matched", matched)
+		}
+		return nil
+	}
 }
 
 // stripCachedCRD drops the parts of a CRD that the provider never reads

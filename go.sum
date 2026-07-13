@@ -49,6 +49,8 @@ github.com/crossplane/crossplane-runtime/v2 v2.2.0 h1:jLoQm9D5buk9lBqwRtQ40ueaFo
 github.com/crossplane/crossplane-runtime/v2 v2.2.0/go.mod h1:8I+x4w5bG4x8aO8ifF/QC8GZoNCN6v21NHzgoYPNYAQ=
 github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339 h1:MPbMxSlY+82UsjrLUAGyXlh/iX1tL5WNj8W9SOaq/nk=
 github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339/go.mod h1:8etxwmP4cZwJDwen4+PQlnc1tggltAhEfyyigmdHulQ=
+github.com/crossplane/upjet/v2 v2.3.1-0.20260713112758-3dc7c7822463 h1:tdLpEAF7gpA4ng7z56qjru89oXq8Wj8iPvsXSBfJwLg=
+github.com/crossplane/upjet/v2 v2.3.1-0.20260713112758-3dc7c7822463/go.mod h1:5eAaUqFKfA0LAlkywhQVj3jBAvepqb4pJAb9EsdWsuM=
 github.com/dave/jennifer v1.7.1 h1:B4jJJDHelWcDhlRQxWeo0Npa/pYKBLrirAQoTN45txo=
 github.com/dave/jennifer v1.7.1/go.mod h1:nXbxhEmQfOZhWml3D1cDK5M1FLnMSozpbFN/m3RmGZc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -68,8 +70,6 @@ github.com/fatih/color v1.19.0 h1:Zp3PiM21/9Ld6FzSKyL5c/BULoe/ONr9KlbYVOfG8+w=
 github.com/fatih/color v1.19.0/go.mod h1:zNk67I0ZUT1bEGsSGyCZYZNrHuTkJJB+r6Q9VuMi0LE=
 github.com/felixge/httpsnoop v1.0.4 h1:NFTV2Zj1bL4mc9sqWACXbQFVBBg2W3GPvqp8/ESS2Wg=
 github.com/felixge/httpsnoop v1.0.4/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
-github.com/fernandezcuesta/upjet/v2 v2.0.0-20260623174553-8055fad32831 h1:yboqKN2bzYbcaZvzLJ29Wiywzco+JgjYn/7K1TZEZnw=
-github.com/fernandezcuesta/upjet/v2 v2.0.0-20260623174553-8055fad32831/go.mod h1:5eAaUqFKfA0LAlkywhQVj3jBAvepqb4pJAb9EsdWsuM=
 github.com/fsnotify/fsnotify v1.10.0 h1:Xx/5Ydg9CeBDX/wi4VJqStNtohYjitZhhlHt4h3St1M=
 github.com/fsnotify/fsnotify v1.10.0/go.mod h1:TLheqan6HD6GBK6PrDWyDPBaEV8LspOxvPSjC+bVfgo=
 github.com/fxamacker/cbor/v2 v2.9.1 h1:2rWm8B193Ll4VdjsJY28jxs70IdDsHRWgQYAI80+rMQ=

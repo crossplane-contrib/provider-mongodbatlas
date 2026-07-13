@@ -46,8 +46,10 @@ const (
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
-// returns Terraform provider setup configuration
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
+// returns Terraform provider setup configuration. When scheduler is non-nil,
+// it is attached to every Setup so that the Terraform native provider plugin
+// process is shared across workspaces instead of spawned per workspace.
+func TerraformSetupBuilder(version, providerSource, providerVersion string, scheduler terraform.ProviderScheduler) terraform.SetupFn {
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{
 			Version: version,
@@ -55,6 +57,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 				Source:  providerSource,
 				Version: providerVersion,
 			},
+			Scheduler: scheduler,
 		}
 
 		pcSpec, err := resolveProviderConfig(ctx, client, mg)

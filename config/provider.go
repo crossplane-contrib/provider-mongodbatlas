@@ -5,6 +5,7 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/password"
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/resources"
@@ -50,10 +51,13 @@ func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitia
 			ManagedResourceNamespace: "crossplane-system",
 		}),
 		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithRootGroup(rootGroup),
 		ujconfig.WithShortName("mongodbatlas"),
 		ujconfig.WithSkipList(SkipTfResourceList),
+		ujconfig.WithTerraformProvider(xpshim.GetSDKProvider()),
+		ujconfig.WithTerraformPluginFrameworkProvider(xpshim.GetFrameworkProvider()),
+		ujconfig.WithTerraformPluginSDKIncludeList(TerraformSDKIncludeList()),
+		ujconfig.WithTerraformPluginFrameworkIncludeList(TerraformFrameworkIncludeList()),
 	)
 
 	resources.ConfigureAlert(pc)

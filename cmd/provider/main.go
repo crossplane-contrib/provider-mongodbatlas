@@ -39,15 +39,11 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	authv1 "k8s.io/api/authorization/v1"
-	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
@@ -152,37 +148,11 @@ func main() {
 		cli.CertsDir = certsDirFromEnv(cli.CertsDir)
 	}
 
-	// The safe-start gate only reads group/names/versions and the Established
-	// condition from CRDs, never the schema, so cached CRDs are stripped
-	// before storage to keep the provider's memory footprint bounded on
-	// clusters with many (large-schema) CRDs.
-	crdCacheByObject := cache.ByObject{Transform: stripCachedCRD}
-
-	// The CRD ByObject cache entry below requires the apiextensions types to
-	// be registered before the manager is constructed, so the scheme is built
-	// up front instead of relying on post-construction AddToScheme calls.
-	sch := runtime.NewScheme()
-	ctx.FatalIfErrorf(clientgoscheme.AddToScheme(sch), "Cannot add client-go APIs to scheme")
-	ctx.FatalIfErrorf(apiextensionsv1.AddToScheme(sch), "Cannot add api-extensions APIs to scheme")
-
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
-		Scheme:           sch,
 		LeaderElection:   cli.LeaderElection,
 		LeaderElectionID: "crossplane-leader-election-upjet-provider-mongodbatlas",
 		Cache: cache.Options{
 			SyncPeriod: &cli.SyncPeriod,
-			ByObject: map[client.Object]cache.ByObject{
-				&apiextensionsv1.CustomResourceDefinition{}: crdCacheByObject,
-			},
-		},
-		Client: client.Options{
-			Cache: &client.CacheOptions{
-				// Secrets are only ever point-read (credential resolution,
-				// connection-secret publishing, password initializer), never
-				// watched. Keeping them out of the cache avoids holding every
-				// Secret in the cluster in memory.
-				DisableFor: []client.Object{&corev1.Secret{}},
-			},
 		},
 		PprofBindAddress: cli.PprofBindAddress,
 		Metrics: metricsserver.Options{
@@ -201,6 +171,7 @@ func main() {
 	ctx.FatalIfErrorf(err, "Cannot create controller manager")
 	ctx.FatalIfErrorf(apisCluster.AddToScheme(mgr.GetScheme()), "Cannot add cluster-scoped MongoDBAtlas APIs to scheme")
 	ctx.FatalIfErrorf(apisNamespaced.AddToScheme(mgr.GetScheme()), "Cannot add namespaced MongoDBAtlas APIs to scheme")
+	ctx.FatalIfErrorf(apiextensionsv1.AddToScheme(mgr.GetScheme()), "Cannot add api-extensions APIs to scheme")
 	ctx.FatalIfErrorf(authv1.AddToScheme(mgr.GetScheme()), "Cannot add k8s authorization APIs to scheme")
 
 	// A single scheduler instance is shared across both provider scopes so
@@ -348,25 +319,6 @@ func certsDirFromEnv(fallback certsDir) certsDir {
 		return certsDir(xpCertsDir)
 	}
 	return fallback
-}
-
-// stripCachedCRD drops the parts of a CRD that the provider never reads
-// before it enters the manager cache. The only cached-CRD consumer is the
-// safe-start gate (customresourcesgate), which reads group/names/versions and
-// the Established condition — never the OpenAPI schema. On clusters with many
-// CRDs the schemas dominate the provider's memory footprint. Anything reading
-// CRDs through mgr.GetClient() will see these stripped objects.
-func stripCachedCRD(obj any) (any, error) {
-	crd, ok := obj.(*apiextensionsv1.CustomResourceDefinition)
-	if !ok {
-		return obj, nil
-	}
-	for i := range crd.Spec.Versions {
-		crd.Spec.Versions[i].Schema = nil
-	}
-	crd.ManagedFields = nil
-	delete(crd.Annotations, "kubectl.kubernetes.io/last-applied-configuration")
-	return crd, nil
 }
 
 func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {

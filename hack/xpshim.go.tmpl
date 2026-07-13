@@ -1,0 +1,26 @@
+// Package xpshim re-exports the MongoDB Atlas Terraform provider constructors
+// that live in internal/provider so that the Crossplane provider can run them
+// in-process (upjet no-fork architecture).
+//
+// This file is injected into the extracted provider module by the
+// `make provider-source` target. It lives inside the module root, which makes
+// the internal/ import legal per Go's internal-package rule.
+package xpshim
+
+import (
+	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	"github.com/mongodb/terraform-provider-mongodbatlas/internal/provider"
+)
+
+// GetSDKProvider returns the SDKv2 half of the muxed Atlas provider.
+func GetSDKProvider() *schema.Provider {
+	return provider.NewSdkV2Provider()
+}
+
+// GetFrameworkProvider returns the plugin-framework half of the muxed Atlas
+// provider.
+func GetFrameworkProvider() fwprovider.Provider {
+	return provider.NewFrameworkProvider()
+}

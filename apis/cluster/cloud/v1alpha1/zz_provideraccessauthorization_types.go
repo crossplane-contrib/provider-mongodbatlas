@@ -75,9 +75,7 @@ type FeatureUsagesInitParameters struct {
 }
 
 type FeatureUsagesObservation struct {
-
-	// +mapType=granular
-	FeatureID map[string]*string `json:"featureId,omitempty" tf:"feature_id,omitempty"`
+	FeatureID map[string]string `json:"featureId,omitempty" tf:"feature_id,omitempty"`
 
 	FeatureType *string `json:"featureType,omitempty" tf:"feature_type,omitempty"`
 }

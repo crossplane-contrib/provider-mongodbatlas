@@ -216,7 +216,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (daily in this case).
                             The only supported value for daily policies is 1 day.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -229,7 +230,8 @@ spec:
                             items. For example: If the hourly policy item specifies
                             a retention of two days, the daily retention policy must
                             specify two days or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -243,14 +245,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -262,7 +266,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (monthly in this case).
                             The supported values for weekly policies are
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -276,7 +281,8 @@ spec:
                             for more frequent policy items. For example: If the weekly
                             policy item specifies a retention of two weeks, the montly
                             retention policy must specify two weeks or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -289,7 +295,8 @@ spec:
                             item specified by frequency_type (weekly in this case).
                             The supported values for weekly policies are 1 through
                             7, where 1 represents Monday and 7 represents Sunday.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -303,7 +310,8 @@ spec:
                             items. For example: If the daily policy item specifies
                             a retention of two weeks, the weekly retention policy
                             must specify two weeks or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -315,7 +323,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (yearly in this case).
                             The supported values for yearly policies are
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -323,7 +332,8 @@ spec:
                         retentionValue:
                           description: Value to associate with retention_unit. Yearly
                             policy must have retention of at least 1 year.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -417,16 +427,19 @@ spec:
                     description: UTC Hour of day between 0 and 23, inclusive, representing
                       which hour of the day that Atlas takes snapshots for backup
                       policy items.
-                    type: number
+                    format: int64
+                    type: integer
                   referenceMinuteOfHour:
                     description: UTC Minutes after reference_hour_of_day that Atlas
                       takes snapshots for backup policy items. Must be between 0 and
                       59, inclusive.
-                    type: number
+                    format: int64
+                    type: integer
                   restoreWindowDays:
                     description: Number of days back in time you can restore to with
                       point-in-time accuracy. Must be a positive, non-zero integer.
-                    type: number
+                    format: int64
+                    type: integer
                   skipDestroy:
                     description: The schedule remains in Atlas and is removed when
                       the cluster is deleted. Defaults to false. See the Delete a
@@ -615,7 +628,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (daily in this case).
                             The only supported value for daily policies is 1 day.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -628,7 +642,8 @@ spec:
                             items. For example: If the hourly policy item specifies
                             a retention of two days, the daily retention policy must
                             specify two days or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -642,14 +657,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -661,7 +678,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (monthly in this case).
                             The supported values for weekly policies are
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -675,7 +693,8 @@ spec:
                             for more frequent policy items. For example: If the weekly
                             policy item specifies a retention of two weeks, the montly
                             retention policy must specify two weeks or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -688,7 +707,8 @@ spec:
                             item specified by frequency_type (weekly in this case).
                             The supported values for weekly policies are 1 through
                             7, where 1 represents Monday and 7 represents Sunday.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -702,7 +722,8 @@ spec:
                             items. For example: If the daily policy item specifies
                             a retention of two weeks, the weekly retention policy
                             must specify two weeks or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -714,7 +735,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (yearly in this case).
                             The supported values for yearly policies are
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
@@ -722,7 +744,8 @@ spec:
                         retentionValue:
                           description: Value to associate with retention_unit. Yearly
                             policy must have retention of at least 1 year.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -816,16 +839,19 @@ spec:
                     description: UTC Hour of day between 0 and 23, inclusive, representing
                       which hour of the day that Atlas takes snapshots for backup
                       policy items.
-                    type: number
+                    format: int64
+                    type: integer
                   referenceMinuteOfHour:
                     description: UTC Minutes after reference_hour_of_day that Atlas
                       takes snapshots for backup policy items. Must be between 0 and
                       59, inclusive.
-                    type: number
+                    format: int64
+                    type: integer
                   restoreWindowDays:
                     description: Number of days back in time you can restore to with
                       point-in-time accuracy. Must be a positive, non-zero integer.
-                    type: number
+                    format: int64
+                    type: integer
                   skipDestroy:
                     description: The schedule remains in Atlas and is removed when
                       the cluster is deleted. Defaults to false. See the Delete a
@@ -995,7 +1021,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (daily in this case).
                             The only supported value for daily policies is 1 day.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For daily policies, the frequency type is defined
@@ -1018,7 +1045,8 @@ spec:
                             items. For example: If the hourly policy item specifies
                             a retention of two days, the daily retention policy must
                             specify two days or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -1032,7 +1060,8 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For hourly policies, the frequency type is defined
@@ -1049,7 +1078,8 @@ spec:
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -1061,7 +1091,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (monthly in this case).
                             The supported values for weekly policies are
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For monthly policies, the frequency type is defined
@@ -1085,7 +1116,8 @@ spec:
                             for more frequent policy items. For example: If the weekly
                             policy item specifies a retention of two weeks, the montly
                             retention policy must specify two weeks or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -1098,7 +1130,8 @@ spec:
                             item specified by frequency_type (weekly in this case).
                             The supported values for weekly policies are 1 through
                             7, where 1 represents Monday and 7 represents Sunday.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For weekly policies, the frequency type is defined
@@ -1122,7 +1155,8 @@ spec:
                             items. For example: If the daily policy item specifies
                             a retention of two weeks, the weekly retention policy
                             must specify two weeks or greater.'
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -1134,7 +1168,8 @@ spec:
                           description: Desired frequency of the new backup policy
                             item specified by frequency_type (yearly in this case).
                             The supported values for yearly policies are
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For yearly policies, the frequency type is defined
@@ -1152,7 +1187,8 @@ spec:
                         retentionValue:
                           description: Value to associate with retention_unit. Yearly
                             policy must have retention of at least 1 year.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -1164,16 +1200,19 @@ spec:
                     description: UTC Hour of day between 0 and 23, inclusive, representing
                       which hour of the day that Atlas takes snapshots for backup
                       policy items.
-                    type: number
+                    format: int64
+                    type: integer
                   referenceMinuteOfHour:
                     description: UTC Minutes after reference_hour_of_day that Atlas
                       takes snapshots for backup policy items. Must be between 0 and
                       59, inclusive.
-                    type: number
+                    format: int64
+                    type: integer
                   restoreWindowDays:
                     description: Number of days back in time you can restore to with
                       point-in-time accuracy. Must be a positive, non-zero integer.
-                    type: number
+                    format: int64
+                    type: integer
                   skipDestroy:
                     description: The schedule remains in Atlas and is removed when
                       the cluster is deleted. Defaults to false. See the Delete a

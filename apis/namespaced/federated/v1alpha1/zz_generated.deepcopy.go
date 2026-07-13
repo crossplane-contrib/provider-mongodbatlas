@@ -1641,7 +1641,7 @@ func (in *QueryLimitInitParameters) DeepCopyInto(out *QueryLimitInitParameters) 
 	*out = *in
 	if in.DefaultLimit != nil {
 		in, out := &in.DefaultLimit, &out.DefaultLimit
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.LimitName != nil {
@@ -1651,7 +1651,7 @@ func (in *QueryLimitInitParameters) DeepCopyInto(out *QueryLimitInitParameters) 
 	}
 	if in.MaximumLimit != nil {
 		in, out := &in.MaximumLimit, &out.MaximumLimit
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.OverrunPolicy != nil {
@@ -1681,7 +1681,7 @@ func (in *QueryLimitInitParameters) DeepCopyInto(out *QueryLimitInitParameters) 
 	}
 	if in.Value != nil {
 		in, out := &in.Value, &out.Value
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1733,12 +1733,12 @@ func (in *QueryLimitObservation) DeepCopyInto(out *QueryLimitObservation) {
 	*out = *in
 	if in.CurrentUsage != nil {
 		in, out := &in.CurrentUsage, &out.CurrentUsage
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.DefaultLimit != nil {
 		in, out := &in.DefaultLimit, &out.DefaultLimit
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ID != nil {
@@ -1758,7 +1758,7 @@ func (in *QueryLimitObservation) DeepCopyInto(out *QueryLimitObservation) {
 	}
 	if in.MaximumLimit != nil {
 		in, out := &in.MaximumLimit, &out.MaximumLimit
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.OverrunPolicy != nil {
@@ -1778,7 +1778,7 @@ func (in *QueryLimitObservation) DeepCopyInto(out *QueryLimitObservation) {
 	}
 	if in.Value != nil {
 		in, out := &in.Value, &out.Value
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1798,7 +1798,7 @@ func (in *QueryLimitParameters) DeepCopyInto(out *QueryLimitParameters) {
 	*out = *in
 	if in.DefaultLimit != nil {
 		in, out := &in.DefaultLimit, &out.DefaultLimit
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.LimitName != nil {
@@ -1808,7 +1808,7 @@ func (in *QueryLimitParameters) DeepCopyInto(out *QueryLimitParameters) {
 	}
 	if in.MaximumLimit != nil {
 		in, out := &in.MaximumLimit, &out.MaximumLimit
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.OverrunPolicy != nil {
@@ -1838,7 +1838,7 @@ func (in *QueryLimitParameters) DeepCopyInto(out *QueryLimitParameters) {
 	}
 	if in.Value != nil {
 		in, out := &in.Value, &out.Value
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1893,7 +1893,7 @@ func (in *ReadPreferenceInitParameters) DeepCopyInto(out *ReadPreferenceInitPara
 	*out = *in
 	if in.MaxStalenessSeconds != nil {
 		in, out := &in.MaxStalenessSeconds, &out.MaxStalenessSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Mode != nil {
@@ -1925,7 +1925,7 @@ func (in *ReadPreferenceObservation) DeepCopyInto(out *ReadPreferenceObservation
 	*out = *in
 	if in.MaxStalenessSeconds != nil {
 		in, out := &in.MaxStalenessSeconds, &out.MaxStalenessSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Mode != nil {
@@ -1957,7 +1957,7 @@ func (in *ReadPreferenceParameters) DeepCopyInto(out *ReadPreferenceParameters) 
 	*out = *in
 	if in.MaxStalenessSeconds != nil {
 		in, out := &in.MaxStalenessSeconds, &out.MaxStalenessSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Mode != nil {
@@ -2831,7 +2831,7 @@ func (in *StorageDatabasesObservation) DeepCopyInto(out *StorageDatabasesObserva
 	}
 	if in.MaxWildcardCollections != nil {
 		in, out := &in.MaxWildcardCollections, &out.MaxWildcardCollections
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Name != nil {

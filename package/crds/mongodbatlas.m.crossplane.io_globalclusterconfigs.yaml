@@ -431,7 +431,6 @@ spec:
                       mappings. If your Global Cluster does not have any custom zone
                       mappings, this document is empty.
                     type: object
-                    x-kubernetes-map-type: granular
                   customZoneMappings:
                     description: Each element in the list maps one ISO location code
                       to a zone in your Global Cluster. See Custom Zone Mapping below

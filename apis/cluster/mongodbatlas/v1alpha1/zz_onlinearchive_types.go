@@ -22,7 +22,7 @@ type CriteriaInitParameters struct {
 	DateFormat *string `json:"dateFormat,omitempty" tf:"date_format,omitempty"`
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
-	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+	ExpireAfterDays *int64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
 
 	// JSON query to use to select documents for archiving. Atlas uses the specified query with the db.collection.find(query) command. The empty document {} to return all documents is not supported.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
@@ -40,7 +40,7 @@ type CriteriaObservation struct {
 	DateFormat *string `json:"dateFormat,omitempty" tf:"date_format,omitempty"`
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
-	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+	ExpireAfterDays *int64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
 
 	// JSON query to use to select documents for archiving. Atlas uses the specified query with the db.collection.find(query) command. The empty document {} to return all documents is not supported.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
@@ -61,7 +61,7 @@ type CriteriaParameters struct {
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
 	// +kubebuilder:validation:Optional
-	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+	ExpireAfterDays *int64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
 
 	// JSON query to use to select documents for archiving. Atlas uses the specified query with the db.collection.find(query) command. The empty document {} to return all documents is not supported.
 	// +kubebuilder:validation:Optional
@@ -75,20 +75,20 @@ type CriteriaParameters struct {
 type DataExpirationRuleInitParameters struct {
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
-	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+	ExpireAfterDays *int64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
 }
 
 type DataExpirationRuleObservation struct {
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
-	ExpireAfterDays *float64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
+	ExpireAfterDays *int64 `json:"expireAfterDays,omitempty" tf:"expire_after_days,omitempty"`
 }
 
 type DataExpirationRuleParameters struct {
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
 	// +kubebuilder:validation:Optional
-	ExpireAfterDays *float64 `json:"expireAfterDays" tf:"expire_after_days,omitempty"`
+	ExpireAfterDays *int64 `json:"expireAfterDays" tf:"expire_after_days,omitempty"`
 }
 
 type DataProcessRegionInitParameters struct {
@@ -294,7 +294,7 @@ type PartitionFieldsInitParameters struct {
 	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
 
 	// Sequence in which MongoDB Cloud slices the collection data to create partitions. The resource expresses this sequence starting with zero. The value of the criteria.dateField parameter defaults as the first item in the partition sequence.
-	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
+	Order *int64 `json:"order,omitempty" tf:"order,omitempty"`
 }
 
 type PartitionFieldsObservation struct {
@@ -306,7 +306,7 @@ type PartitionFieldsObservation struct {
 	FieldType *string `json:"fieldType,omitempty" tf:"field_type,omitempty"`
 
 	// Sequence in which MongoDB Cloud slices the collection data to create partitions. The resource expresses this sequence starting with zero. The value of the criteria.dateField parameter defaults as the first item in the partition sequence.
-	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
+	Order *int64 `json:"order,omitempty" tf:"order,omitempty"`
 }
 
 type PartitionFieldsParameters struct {
@@ -317,28 +317,28 @@ type PartitionFieldsParameters struct {
 
 	// Sequence in which MongoDB Cloud slices the collection data to create partitions. The resource expresses this sequence starting with zero. The value of the criteria.dateField parameter defaults as the first item in the partition sequence.
 	// +kubebuilder:validation:Optional
-	Order *float64 `json:"order" tf:"order,omitempty"`
+	Order *int64 `json:"order" tf:"order,omitempty"`
 }
 
 type ScheduleInitParameters struct {
 
 	// Day of the month when the scheduled archive starts. This field should be provided only when schedule type is MONTHLY.
-	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+	DayOfMonth *int64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
 
 	// Day of the week when the scheduled archive starts. The week starts with Monday (1) and ends with Sunday (7). This field should be provided only when schedule type is WEEKLY.
-	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Hour of the day when the scheduled window to run one online archive ends.
-	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+	EndHour *int64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
 
 	// Minute of the hour when the scheduled window to run one online archive ends.
-	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+	EndMinute *int64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
 
 	// Hour of the day when the when the scheduled window to run one online archive starts.
-	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+	StartHour *int64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
 
 	// Minute of the hour when the scheduled window to run one online archive starts.
-	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+	StartMinute *int64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
 
 	// Type of criteria (DATE, CUSTOM)
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -347,22 +347,22 @@ type ScheduleInitParameters struct {
 type ScheduleObservation struct {
 
 	// Day of the month when the scheduled archive starts. This field should be provided only when schedule type is MONTHLY.
-	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+	DayOfMonth *int64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
 
 	// Day of the week when the scheduled archive starts. The week starts with Monday (1) and ends with Sunday (7). This field should be provided only when schedule type is WEEKLY.
-	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Hour of the day when the scheduled window to run one online archive ends.
-	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+	EndHour *int64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
 
 	// Minute of the hour when the scheduled window to run one online archive ends.
-	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+	EndMinute *int64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
 
 	// Hour of the day when the when the scheduled window to run one online archive starts.
-	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+	StartHour *int64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
 
 	// Minute of the hour when the scheduled window to run one online archive starts.
-	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+	StartMinute *int64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
 
 	// Type of criteria (DATE, CUSTOM)
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -372,27 +372,27 @@ type ScheduleParameters struct {
 
 	// Day of the month when the scheduled archive starts. This field should be provided only when schedule type is MONTHLY.
 	// +kubebuilder:validation:Optional
-	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+	DayOfMonth *int64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
 
 	// Day of the week when the scheduled archive starts. The week starts with Monday (1) and ends with Sunday (7). This field should be provided only when schedule type is WEEKLY.
 	// +kubebuilder:validation:Optional
-	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Hour of the day when the scheduled window to run one online archive ends.
 	// +kubebuilder:validation:Optional
-	EndHour *float64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
+	EndHour *int64 `json:"endHour,omitempty" tf:"end_hour,omitempty"`
 
 	// Minute of the hour when the scheduled window to run one online archive ends.
 	// +kubebuilder:validation:Optional
-	EndMinute *float64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
+	EndMinute *int64 `json:"endMinute,omitempty" tf:"end_minute,omitempty"`
 
 	// Hour of the day when the when the scheduled window to run one online archive starts.
 	// +kubebuilder:validation:Optional
-	StartHour *float64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
+	StartHour *int64 `json:"startHour,omitempty" tf:"start_hour,omitempty"`
 
 	// Minute of the hour when the scheduled window to run one online archive starts.
 	// +kubebuilder:validation:Optional
-	StartMinute *float64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
+	StartMinute *int64 `json:"startMinute,omitempty" tf:"start_minute,omitempty"`
 
 	// Type of criteria (DATE, CUSTOM)
 	// +kubebuilder:validation:Optional

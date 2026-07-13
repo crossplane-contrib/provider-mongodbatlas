@@ -95,7 +95,8 @@ spec:
                   port:
                     description: 'The port to which the LDAP server listens for client
                       connections. Default: 636'
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: The unique ID for the project to configure LDAP,
                       also known as groupId in the official documentation.
@@ -233,7 +234,8 @@ spec:
                   port:
                     description: 'The port to which the LDAP server listens for client
                       connections. Default: 636'
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: The unique ID for the project to configure LDAP,
                       also known as groupId in the official documentation.
@@ -440,7 +442,8 @@ spec:
                   port:
                     description: 'The port to which the LDAP server listens for client
                       connections. Default: 636'
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: The unique ID for the project to configure LDAP,
                       also known as groupId in the official documentation.

@@ -395,7 +395,7 @@ func (in *IndexInitParameters) DeepCopyInto(out *IndexInitParameters) {
 	}
 	if in.NumPartitions != nil {
 		in, out := &in.NumPartitions, &out.NumPartitions
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -556,7 +556,7 @@ func (in *IndexObservation) DeepCopyInto(out *IndexObservation) {
 	}
 	if in.NumPartitions != nil {
 		in, out := &in.NumPartitions, &out.NumPartitions
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -680,7 +680,7 @@ func (in *IndexParameters) DeepCopyInto(out *IndexParameters) {
 	}
 	if in.NumPartitions != nil {
 		in, out := &in.NumPartitions, &out.NumPartitions
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {

@@ -1292,7 +1292,7 @@ func (in *CriteriaInitParameters) DeepCopyInto(out *CriteriaInitParameters) {
 	}
 	if in.ExpireAfterDays != nil {
 		in, out := &in.ExpireAfterDays, &out.ExpireAfterDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Query != nil {
@@ -1332,7 +1332,7 @@ func (in *CriteriaObservation) DeepCopyInto(out *CriteriaObservation) {
 	}
 	if in.ExpireAfterDays != nil {
 		in, out := &in.ExpireAfterDays, &out.ExpireAfterDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Query != nil {
@@ -1372,7 +1372,7 @@ func (in *CriteriaParameters) DeepCopyInto(out *CriteriaParameters) {
 	}
 	if in.ExpireAfterDays != nil {
 		in, out := &in.ExpireAfterDays, &out.ExpireAfterDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Query != nil {
@@ -1671,7 +1671,7 @@ func (in *DataExpirationRuleInitParameters) DeepCopyInto(out *DataExpirationRule
 	*out = *in
 	if in.ExpireAfterDays != nil {
 		in, out := &in.ExpireAfterDays, &out.ExpireAfterDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1691,7 +1691,7 @@ func (in *DataExpirationRuleObservation) DeepCopyInto(out *DataExpirationRuleObs
 	*out = *in
 	if in.ExpireAfterDays != nil {
 		in, out := &in.ExpireAfterDays, &out.ExpireAfterDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1711,7 +1711,7 @@ func (in *DataExpirationRuleParameters) DeepCopyInto(out *DataExpirationRulePara
 	*out = *in
 	if in.ExpireAfterDays != nil {
 		in, out := &in.ExpireAfterDays, &out.ExpireAfterDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3052,18 +3052,9 @@ func (in *GlobalClusterConfigObservation) DeepCopyInto(out *GlobalClusterConfigO
 	}
 	if in.CustomZoneMappingZoneID != nil {
 		in, out := &in.CustomZoneMappingZoneID, &out.CustomZoneMappingZoneID
-		*out = make(map[string]*string, len(*in))
+		*out = make(map[string]string, len(*in))
 		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
+			(*out)[key] = val
 		}
 	}
 	if in.CustomZoneMappings != nil {
@@ -3861,7 +3852,7 @@ func (in *MaintenanceWindowInitParameters) DeepCopyInto(out *MaintenanceWindowIn
 	}
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Defer != nil {
@@ -3871,7 +3862,7 @@ func (in *MaintenanceWindowInitParameters) DeepCopyInto(out *MaintenanceWindowIn
 	}
 	if in.HourOfDay != nil {
 		in, out := &in.HourOfDay, &out.HourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -3955,7 +3946,7 @@ func (in *MaintenanceWindowObservation) DeepCopyInto(out *MaintenanceWindowObser
 	}
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Defer != nil {
@@ -3965,7 +3956,7 @@ func (in *MaintenanceWindowObservation) DeepCopyInto(out *MaintenanceWindowObser
 	}
 	if in.HourOfDay != nil {
 		in, out := &in.HourOfDay, &out.HourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ID != nil {
@@ -3975,7 +3966,7 @@ func (in *MaintenanceWindowObservation) DeepCopyInto(out *MaintenanceWindowObser
 	}
 	if in.NumberOfDeferrals != nil {
 		in, out := &in.NumberOfDeferrals, &out.NumberOfDeferrals
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -4027,7 +4018,7 @@ func (in *MaintenanceWindowParameters) DeepCopyInto(out *MaintenanceWindowParame
 	}
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Defer != nil {
@@ -4037,7 +4028,7 @@ func (in *MaintenanceWindowParameters) DeepCopyInto(out *MaintenanceWindowParame
 	}
 	if in.HourOfDay != nil {
 		in, out := &in.HourOfDay, &out.HourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -5053,7 +5044,7 @@ func (in *PartitionFieldsInitParameters) DeepCopyInto(out *PartitionFieldsInitPa
 	}
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -5083,7 +5074,7 @@ func (in *PartitionFieldsObservation) DeepCopyInto(out *PartitionFieldsObservati
 	}
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -5108,7 +5099,7 @@ func (in *PartitionFieldsParameters) DeepCopyInto(out *PartitionFieldsParameters
 	}
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -6051,12 +6042,12 @@ func (in *ProtectedHoursInitParameters) DeepCopyInto(out *ProtectedHoursInitPara
 	*out = *in
 	if in.EndHourOfDay != nil {
 		in, out := &in.EndHourOfDay, &out.EndHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartHourOfDay != nil {
 		in, out := &in.StartHourOfDay, &out.StartHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -6076,12 +6067,12 @@ func (in *ProtectedHoursObservation) DeepCopyInto(out *ProtectedHoursObservation
 	*out = *in
 	if in.EndHourOfDay != nil {
 		in, out := &in.EndHourOfDay, &out.EndHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartHourOfDay != nil {
 		in, out := &in.StartHourOfDay, &out.StartHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -6101,12 +6092,12 @@ func (in *ProtectedHoursParameters) DeepCopyInto(out *ProtectedHoursParameters) 
 	*out = *in
 	if in.EndHourOfDay != nil {
 		in, out := &in.EndHourOfDay, &out.EndHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartHourOfDay != nil {
 		in, out := &in.StartHourOfDay, &out.StartHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -6820,32 +6811,32 @@ func (in *ScheduleInitParameters) DeepCopyInto(out *ScheduleInitParameters) {
 	*out = *in
 	if in.DayOfMonth != nil {
 		in, out := &in.DayOfMonth, &out.DayOfMonth
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.EndHour != nil {
 		in, out := &in.EndHour, &out.EndHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.EndMinute != nil {
 		in, out := &in.EndMinute, &out.EndMinute
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartHour != nil {
 		in, out := &in.StartHour, &out.StartHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartMinute != nil {
 		in, out := &in.StartMinute, &out.StartMinute
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -6870,32 +6861,32 @@ func (in *ScheduleObservation) DeepCopyInto(out *ScheduleObservation) {
 	*out = *in
 	if in.DayOfMonth != nil {
 		in, out := &in.DayOfMonth, &out.DayOfMonth
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.EndHour != nil {
 		in, out := &in.EndHour, &out.EndHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.EndMinute != nil {
 		in, out := &in.EndMinute, &out.EndMinute
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartHour != nil {
 		in, out := &in.StartHour, &out.StartHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartMinute != nil {
 		in, out := &in.StartMinute, &out.StartMinute
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -6920,32 +6911,32 @@ func (in *ScheduleParameters) DeepCopyInto(out *ScheduleParameters) {
 	*out = *in
 	if in.DayOfMonth != nil {
 		in, out := &in.DayOfMonth, &out.DayOfMonth
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.EndHour != nil {
 		in, out := &in.EndHour, &out.EndHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.EndMinute != nil {
 		in, out := &in.EndMinute, &out.EndMinute
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartHour != nil {
 		in, out := &in.StartHour, &out.StartHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StartMinute != nil {
 		in, out := &in.StartMinute, &out.StartMinute
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -6990,11 +6981,6 @@ func (in *SecretsObservation) DeepCopyInto(out *SecretsObservation) {
 	}
 	if in.ExpiresAt != nil {
 		in, out := &in.ExpiresAt, &out.ExpiresAt
-		*out = new(string)
-		**out = **in
-	}
-	if in.Secret != nil {
-		in, out := &in.Secret, &out.Secret
 		*out = new(string)
 		**out = **in
 	}
@@ -7327,7 +7313,7 @@ func (in *ServiceAccountInitParameters) DeepCopyInto(out *ServiceAccountInitPara
 	}
 	if in.SecretExpiresAfterHours != nil {
 		in, out := &in.SecretExpiresAfterHours, &out.SecretExpiresAfterHours
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -7466,7 +7452,7 @@ func (in *ServiceAccountObservation) DeepCopyInto(out *ServiceAccountObservation
 	}
 	if in.SecretExpiresAfterHours != nil {
 		in, out := &in.SecretExpiresAfterHours, &out.SecretExpiresAfterHours
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Secrets != nil {
@@ -7582,7 +7568,7 @@ func (in *ServiceAccountParameters) DeepCopyInto(out *ServiceAccountParameters) 
 	}
 	if in.SecretExpiresAfterHours != nil {
 		in, out := &in.SecretExpiresAfterHours, &out.SecretExpiresAfterHours
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }

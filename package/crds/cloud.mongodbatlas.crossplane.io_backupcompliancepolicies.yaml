@@ -107,14 +107,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -134,14 +136,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -156,14 +160,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -178,14 +184,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -200,14 +208,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -222,14 +232,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -320,7 +332,8 @@ spec:
                       retention window can't exceed the hourly retention time. This
                       parameter applies only to Continuous Cloud Backups with a Backup
                       Compliance Policy.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -369,14 +382,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -396,14 +411,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -418,14 +435,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -440,14 +459,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -462,14 +483,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -484,14 +507,16 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         retentionUnit:
                           description: 'Scope of the backup policy item: days, weeks,
                             months, or years.'
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -582,7 +607,8 @@ spec:
                       retention window can't exceed the hourly retention time. This
                       parameter applies only to Continuous Cloud Backups with a Backup
                       Compliance Policy.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -726,7 +752,8 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For hourly policies, the frequency type is defined
@@ -743,7 +770,8 @@ spec:
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -763,7 +791,8 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For hourly policies, the frequency type is defined
@@ -780,7 +809,8 @@ spec:
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -795,7 +825,8 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For hourly policies, the frequency type is defined
@@ -812,7 +843,8 @@ spec:
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -827,7 +859,8 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For hourly policies, the frequency type is defined
@@ -844,7 +877,8 @@ spec:
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -859,7 +893,8 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For hourly policies, the frequency type is defined
@@ -876,7 +911,8 @@ spec:
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -891,7 +927,8 @@ spec:
                             The supported values for hourly policies are 1, 2, 4,
                             6, 8 or 12 hours. Note that 12 hours is the only accepted
                             value for NVMe clusters.
-                          type: number
+                          format: int64
+                          type: integer
                         frequencyType:
                           description: Frequency associated with the backup policy
                             item. For hourly policies, the frequency type is defined
@@ -908,7 +945,8 @@ spec:
                           type: string
                         retentionValue:
                           description: Value to associate with retention_unit.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -923,7 +961,8 @@ spec:
                       retention window can't exceed the hourly retention time. This
                       parameter applies only to Continuous Cloud Backups with a Backup
                       Compliance Policy.
-                    type: number
+                    format: int64
+                    type: integer
                   state:
                     description: Label that indicates the state of the Backup Compliance
                       Policy settings. MongoDB Cloud ignores this setting when you

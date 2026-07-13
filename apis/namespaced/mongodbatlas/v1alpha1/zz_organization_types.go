@@ -162,9 +162,6 @@ type SecretsObservation struct {
 	// The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
-	// (Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
-	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
-
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
@@ -185,7 +182,7 @@ type ServiceAccountInitParameters struct {
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings.
-	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
+	SecretExpiresAfterHours *int64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 }
 
 type ServiceAccountObservation struct {
@@ -207,7 +204,7 @@ type ServiceAccountObservation struct {
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings.
-	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
+	SecretExpiresAfterHours *int64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
 	// A list of secrets associated with the specified Service Account. See Secrets.
 	Secrets []SecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
@@ -230,7 +227,7 @@ type ServiceAccountParameters struct {
 
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings.
 	// +kubebuilder:validation:Optional
-	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours" tf:"secret_expires_after_hours,omitempty"`
+	SecretExpiresAfterHours *int64 `json:"secretExpiresAfterHours" tf:"secret_expires_after_hours,omitempty"`
 }
 
 // OrganizationSpec defines the desired state of Organization

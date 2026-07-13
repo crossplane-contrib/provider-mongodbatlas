@@ -427,7 +427,7 @@ func (in *BackupCompliancePolicyInitParameters) DeepCopyInto(out *BackupComplian
 	}
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -561,7 +561,7 @@ func (in *BackupCompliancePolicyObservation) DeepCopyInto(out *BackupComplianceP
 	}
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.State != nil {
@@ -683,7 +683,7 @@ func (in *BackupCompliancePolicyParameters) DeepCopyInto(out *BackupCompliancePo
 	}
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -849,17 +849,17 @@ func (in *BackupScheduleInitParameters) DeepCopyInto(out *BackupScheduleInitPara
 	}
 	if in.ReferenceHourOfDay != nil {
 		in, out := &in.ReferenceHourOfDay, &out.ReferenceHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReferenceMinuteOfHour != nil {
 		in, out := &in.ReferenceMinuteOfHour, &out.ReferenceMinuteOfHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SkipDestroy != nil {
@@ -1010,17 +1010,17 @@ func (in *BackupScheduleObservation) DeepCopyInto(out *BackupScheduleObservation
 	}
 	if in.ReferenceHourOfDay != nil {
 		in, out := &in.ReferenceHourOfDay, &out.ReferenceHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReferenceMinuteOfHour != nil {
 		in, out := &in.ReferenceMinuteOfHour, &out.ReferenceMinuteOfHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SkipDestroy != nil {
@@ -1139,17 +1139,17 @@ func (in *BackupScheduleParameters) DeepCopyInto(out *BackupScheduleParameters) 
 	}
 	if in.ReferenceHourOfDay != nil {
 		in, out := &in.ReferenceHourOfDay, &out.ReferenceHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReferenceMinuteOfHour != nil {
 		in, out := &in.ReferenceMinuteOfHour, &out.ReferenceMinuteOfHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SkipDestroy != nil {
@@ -1184,7 +1184,7 @@ func (in *BackupSchedulePolicyItemDailyInitParameters) DeepCopyInto(out *BackupS
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1194,7 +1194,7 @@ func (in *BackupSchedulePolicyItemDailyInitParameters) DeepCopyInto(out *BackupS
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1214,7 +1214,7 @@ func (in *BackupSchedulePolicyItemDailyObservation) DeepCopyInto(out *BackupSche
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -1234,7 +1234,7 @@ func (in *BackupSchedulePolicyItemDailyObservation) DeepCopyInto(out *BackupSche
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1254,7 +1254,7 @@ func (in *BackupSchedulePolicyItemDailyParameters) DeepCopyInto(out *BackupSched
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1264,7 +1264,7 @@ func (in *BackupSchedulePolicyItemDailyParameters) DeepCopyInto(out *BackupSched
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1284,7 +1284,7 @@ func (in *BackupSchedulePolicyItemHourlyInitParameters) DeepCopyInto(out *Backup
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1294,7 +1294,7 @@ func (in *BackupSchedulePolicyItemHourlyInitParameters) DeepCopyInto(out *Backup
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1314,7 +1314,7 @@ func (in *BackupSchedulePolicyItemHourlyObservation) DeepCopyInto(out *BackupSch
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -1334,7 +1334,7 @@ func (in *BackupSchedulePolicyItemHourlyObservation) DeepCopyInto(out *BackupSch
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1354,7 +1354,7 @@ func (in *BackupSchedulePolicyItemHourlyParameters) DeepCopyInto(out *BackupSche
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1364,7 +1364,7 @@ func (in *BackupSchedulePolicyItemHourlyParameters) DeepCopyInto(out *BackupSche
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1384,7 +1384,7 @@ func (in *BackupSchedulePolicyItemMonthlyInitParameters) DeepCopyInto(out *Backu
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1394,7 +1394,7 @@ func (in *BackupSchedulePolicyItemMonthlyInitParameters) DeepCopyInto(out *Backu
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1414,7 +1414,7 @@ func (in *BackupSchedulePolicyItemMonthlyObservation) DeepCopyInto(out *BackupSc
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -1434,7 +1434,7 @@ func (in *BackupSchedulePolicyItemMonthlyObservation) DeepCopyInto(out *BackupSc
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1454,7 +1454,7 @@ func (in *BackupSchedulePolicyItemMonthlyParameters) DeepCopyInto(out *BackupSch
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1464,7 +1464,7 @@ func (in *BackupSchedulePolicyItemMonthlyParameters) DeepCopyInto(out *BackupSch
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1484,7 +1484,7 @@ func (in *BackupSchedulePolicyItemWeeklyInitParameters) DeepCopyInto(out *Backup
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1494,7 +1494,7 @@ func (in *BackupSchedulePolicyItemWeeklyInitParameters) DeepCopyInto(out *Backup
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1514,7 +1514,7 @@ func (in *BackupSchedulePolicyItemWeeklyObservation) DeepCopyInto(out *BackupSch
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -1534,7 +1534,7 @@ func (in *BackupSchedulePolicyItemWeeklyObservation) DeepCopyInto(out *BackupSch
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1554,7 +1554,7 @@ func (in *BackupSchedulePolicyItemWeeklyParameters) DeepCopyInto(out *BackupSche
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1564,7 +1564,7 @@ func (in *BackupSchedulePolicyItemWeeklyParameters) DeepCopyInto(out *BackupSche
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1584,7 +1584,7 @@ func (in *BackupSchedulePolicyItemYearlyInitParameters) DeepCopyInto(out *Backup
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1594,7 +1594,7 @@ func (in *BackupSchedulePolicyItemYearlyInitParameters) DeepCopyInto(out *Backup
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1614,7 +1614,7 @@ func (in *BackupSchedulePolicyItemYearlyObservation) DeepCopyInto(out *BackupSch
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -1634,7 +1634,7 @@ func (in *BackupSchedulePolicyItemYearlyObservation) DeepCopyInto(out *BackupSch
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1654,7 +1654,7 @@ func (in *BackupSchedulePolicyItemYearlyParameters) DeepCopyInto(out *BackupSche
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -1664,7 +1664,7 @@ func (in *BackupSchedulePolicyItemYearlyParameters) DeepCopyInto(out *BackupSche
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -2195,12 +2195,12 @@ func (in *BackupSnapshotExportJobObservation) DeepCopyInto(out *BackupSnapshotEx
 	}
 	if in.ExportStatusExportedCollections != nil {
 		in, out := &in.ExportStatusExportedCollections, &out.ExportStatusExportedCollections
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ExportStatusTotalCollections != nil {
 		in, out := &in.ExportStatusTotalCollections, &out.ExportStatusTotalCollections
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FinishedAt != nil {
@@ -2407,7 +2407,7 @@ func (in *BackupSnapshotInitParameters) DeepCopyInto(out *BackupSnapshotInitPara
 	}
 	if in.RetentionInDays != nil {
 		in, out := &in.RetentionInDays, &out.RetentionInDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -2521,7 +2521,7 @@ func (in *BackupSnapshotObservation) DeepCopyInto(out *BackupSnapshotObservation
 	}
 	if in.RetentionInDays != nil {
 		in, out := &in.RetentionInDays, &out.RetentionInDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SnapshotID != nil {
@@ -2552,7 +2552,7 @@ func (in *BackupSnapshotObservation) DeepCopyInto(out *BackupSnapshotObservation
 	}
 	if in.StorageSizeBytes != nil {
 		in, out := &in.StorageSizeBytes, &out.StorageSizeBytes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -2617,7 +2617,7 @@ func (in *BackupSnapshotParameters) DeepCopyInto(out *BackupSnapshotParameters) 
 	}
 	if in.RetentionInDays != nil {
 		in, out := &in.RetentionInDays, &out.RetentionInDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3266,12 +3266,12 @@ func (in *DeliveryTypeConfigInitParameters) DeepCopyInto(out *DeliveryTypeConfig
 	}
 	if in.OplogInc != nil {
 		in, out := &in.OplogInc, &out.OplogInc
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.OplogTS != nil {
 		in, out := &in.OplogTS, &out.OplogTS
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.PointInTime != nil {
@@ -3281,7 +3281,7 @@ func (in *DeliveryTypeConfigInitParameters) DeepCopyInto(out *DeliveryTypeConfig
 	}
 	if in.PointInTimeUtcSeconds != nil {
 		in, out := &in.PointInTimeUtcSeconds, &out.PointInTimeUtcSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.TargetClusterName != nil {
@@ -3321,12 +3321,12 @@ func (in *DeliveryTypeConfigObservation) DeepCopyInto(out *DeliveryTypeConfigObs
 	}
 	if in.OplogInc != nil {
 		in, out := &in.OplogInc, &out.OplogInc
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.OplogTS != nil {
 		in, out := &in.OplogTS, &out.OplogTS
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.PointInTime != nil {
@@ -3336,7 +3336,7 @@ func (in *DeliveryTypeConfigObservation) DeepCopyInto(out *DeliveryTypeConfigObs
 	}
 	if in.PointInTimeUtcSeconds != nil {
 		in, out := &in.PointInTimeUtcSeconds, &out.PointInTimeUtcSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.TargetClusterName != nil {
@@ -3376,12 +3376,12 @@ func (in *DeliveryTypeConfigParameters) DeepCopyInto(out *DeliveryTypeConfigPara
 	}
 	if in.OplogInc != nil {
 		in, out := &in.OplogInc, &out.OplogInc
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.OplogTS != nil {
 		in, out := &in.OplogTS, &out.OplogTS
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.PointInTime != nil {
@@ -3391,7 +3391,7 @@ func (in *DeliveryTypeConfigParameters) DeepCopyInto(out *DeliveryTypeConfigPara
 	}
 	if in.PointInTimeUtcSeconds != nil {
 		in, out := &in.PointInTimeUtcSeconds, &out.PointInTimeUtcSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.TargetClusterName != nil {
@@ -3511,18 +3511,9 @@ func (in *FeatureUsagesObservation) DeepCopyInto(out *FeatureUsagesObservation) 
 	*out = *in
 	if in.FeatureID != nil {
 		in, out := &in.FeatureID, &out.FeatureID
-		*out = make(map[string]*string, len(*in))
+		*out = make(map[string]string, len(*in))
 		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				inVal := (*in)[key]
-				in, out := &inVal, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
+			(*out)[key] = val
 		}
 	}
 	if in.FeatureType != nil {
@@ -3727,7 +3718,7 @@ func (in *OnDemandPolicyItemInitParameters) DeepCopyInto(out *OnDemandPolicyItem
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -3737,7 +3728,7 @@ func (in *OnDemandPolicyItemInitParameters) DeepCopyInto(out *OnDemandPolicyItem
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3757,7 +3748,7 @@ func (in *OnDemandPolicyItemObservation) DeepCopyInto(out *OnDemandPolicyItemObs
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -3777,7 +3768,7 @@ func (in *OnDemandPolicyItemObservation) DeepCopyInto(out *OnDemandPolicyItemObs
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3797,7 +3788,7 @@ func (in *OnDemandPolicyItemParameters) DeepCopyInto(out *OnDemandPolicyItemPara
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -3807,7 +3798,7 @@ func (in *OnDemandPolicyItemParameters) DeepCopyInto(out *OnDemandPolicyItemPara
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3827,7 +3818,7 @@ func (in *PolicyItemDailyInitParameters) DeepCopyInto(out *PolicyItemDailyInitPa
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -3837,7 +3828,7 @@ func (in *PolicyItemDailyInitParameters) DeepCopyInto(out *PolicyItemDailyInitPa
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3857,7 +3848,7 @@ func (in *PolicyItemDailyObservation) DeepCopyInto(out *PolicyItemDailyObservati
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -3877,7 +3868,7 @@ func (in *PolicyItemDailyObservation) DeepCopyInto(out *PolicyItemDailyObservati
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3897,7 +3888,7 @@ func (in *PolicyItemDailyParameters) DeepCopyInto(out *PolicyItemDailyParameters
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -3907,7 +3898,7 @@ func (in *PolicyItemDailyParameters) DeepCopyInto(out *PolicyItemDailyParameters
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3927,7 +3918,7 @@ func (in *PolicyItemHourlyInitParameters) DeepCopyInto(out *PolicyItemHourlyInit
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -3937,7 +3928,7 @@ func (in *PolicyItemHourlyInitParameters) DeepCopyInto(out *PolicyItemHourlyInit
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3957,7 +3948,7 @@ func (in *PolicyItemHourlyObservation) DeepCopyInto(out *PolicyItemHourlyObserva
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -3977,7 +3968,7 @@ func (in *PolicyItemHourlyObservation) DeepCopyInto(out *PolicyItemHourlyObserva
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -3997,7 +3988,7 @@ func (in *PolicyItemHourlyParameters) DeepCopyInto(out *PolicyItemHourlyParamete
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -4007,7 +3998,7 @@ func (in *PolicyItemHourlyParameters) DeepCopyInto(out *PolicyItemHourlyParamete
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4027,7 +4018,7 @@ func (in *PolicyItemMonthlyInitParameters) DeepCopyInto(out *PolicyItemMonthlyIn
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -4037,7 +4028,7 @@ func (in *PolicyItemMonthlyInitParameters) DeepCopyInto(out *PolicyItemMonthlyIn
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4057,7 +4048,7 @@ func (in *PolicyItemMonthlyObservation) DeepCopyInto(out *PolicyItemMonthlyObser
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -4077,7 +4068,7 @@ func (in *PolicyItemMonthlyObservation) DeepCopyInto(out *PolicyItemMonthlyObser
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4097,7 +4088,7 @@ func (in *PolicyItemMonthlyParameters) DeepCopyInto(out *PolicyItemMonthlyParame
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -4107,7 +4098,7 @@ func (in *PolicyItemMonthlyParameters) DeepCopyInto(out *PolicyItemMonthlyParame
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4127,7 +4118,7 @@ func (in *PolicyItemWeeklyInitParameters) DeepCopyInto(out *PolicyItemWeeklyInit
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -4137,7 +4128,7 @@ func (in *PolicyItemWeeklyInitParameters) DeepCopyInto(out *PolicyItemWeeklyInit
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4157,7 +4148,7 @@ func (in *PolicyItemWeeklyObservation) DeepCopyInto(out *PolicyItemWeeklyObserva
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -4177,7 +4168,7 @@ func (in *PolicyItemWeeklyObservation) DeepCopyInto(out *PolicyItemWeeklyObserva
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4197,7 +4188,7 @@ func (in *PolicyItemWeeklyParameters) DeepCopyInto(out *PolicyItemWeeklyParamete
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -4207,7 +4198,7 @@ func (in *PolicyItemWeeklyParameters) DeepCopyInto(out *PolicyItemWeeklyParamete
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4227,7 +4218,7 @@ func (in *PolicyItemYearlyInitParameters) DeepCopyInto(out *PolicyItemYearlyInit
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -4237,7 +4228,7 @@ func (in *PolicyItemYearlyInitParameters) DeepCopyInto(out *PolicyItemYearlyInit
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4257,7 +4248,7 @@ func (in *PolicyItemYearlyObservation) DeepCopyInto(out *PolicyItemYearlyObserva
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -4277,7 +4268,7 @@ func (in *PolicyItemYearlyObservation) DeepCopyInto(out *PolicyItemYearlyObserva
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -4297,7 +4288,7 @@ func (in *PolicyItemYearlyParameters) DeepCopyInto(out *PolicyItemYearlyParamete
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RetentionUnit != nil {
@@ -4307,7 +4298,7 @@ func (in *PolicyItemYearlyParameters) DeepCopyInto(out *PolicyItemYearlyParamete
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }

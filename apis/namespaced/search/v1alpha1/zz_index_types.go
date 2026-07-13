@@ -57,7 +57,7 @@ type IndexInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Number of index partitions. Allowed values are [1, 2, 4]. Default value is 1.
-	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
+	NumPartitions *int64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
 
 	// The ID of the organization or project you want to create the search index within, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
@@ -127,7 +127,7 @@ type IndexObservation struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Number of index partitions. Allowed values are [1, 2, 4]. Default value is 1.
-	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
+	NumPartitions *int64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
 
 	// The ID of the organization or project you want to create the search index within, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -207,7 +207,7 @@ type IndexParameters struct {
 
 	// Number of index partitions. Allowed values are [1, 2, 4]. Default value is 1.
 	// +kubebuilder:validation:Optional
-	NumPartitions *float64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
+	NumPartitions *int64 `json:"numPartitions,omitempty" tf:"num_partitions,omitempty"`
 
 	// The ID of the organization or project you want to create the search index within, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project

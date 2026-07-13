@@ -11,7 +11,9 @@ require (
 	github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339
 	github.com/crossplane/upjet/v2 v2.3.1-0.20260713112758-3dc7c7822463
 	github.com/go-logr/logr v1.4.3
+	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.40.0
+	github.com/mongodb/terraform-provider-mongodbatlas v1.41.1
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.11.1
 	google.golang.org/grpc v1.81.1
@@ -22,8 +24,6 @@ require (
 	sigs.k8s.io/controller-runtime v0.24.1
 	sigs.k8s.io/controller-tools v0.21.0
 )
-
-require github.com/stretchr/objx v0.5.3 // indirect
 
 require (
 	cloud.google.com/go v0.123.0 // indirect
@@ -76,7 +76,6 @@ require (
 	github.com/go-openapi/swag/stringutils v0.26.0 // indirect
 	github.com/go-openapi/swag/typeutils v0.26.0 // indirect
 	github.com/go-openapi/swag/yamlutils v0.26.0 // indirect
-	github.com/go-test/deep v1.1.1 // indirect
 	github.com/gobuffalo/flect v1.0.3 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/golang/mock v1.6.0 // indirect
@@ -93,7 +92,6 @@ require (
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
 	github.com/hashicorp/logutils v1.0.0 // indirect
 	github.com/hashicorp/terraform-json v0.27.2 // indirect
-	github.com/hashicorp/terraform-plugin-framework v1.19.0 // indirect
 	github.com/hashicorp/terraform-plugin-framework-jsontypes v0.2.0 // indirect
 	github.com/hashicorp/terraform-plugin-framework-timeouts v0.7.0 // indirect
 	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0 // indirect
@@ -121,7 +119,6 @@ require (
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/mongodb-forks/digest v1.1.0 // indirect
 	github.com/mongodb/atlas-sdk-go v1.0.1-0.20260420091344-79682715fd24 // indirect
-	github.com/mongodb/terraform-provider-mongodbatlas v1.41.1 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/muvaf/typewriter v0.0.0-20240614220100-70f9d4a54ea0 // indirect
 	github.com/oasdiff/oasdiff v1.11.8 // indirect

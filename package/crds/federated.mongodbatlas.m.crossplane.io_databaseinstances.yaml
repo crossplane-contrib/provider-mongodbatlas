@@ -355,7 +355,8 @@ spec:
                           items:
                             properties:
                               maxStalenessSeconds:
-                                type: number
+                                format: int64
+                                type: integer
                               mode:
                                 description: Read preference mode that specifies to
                                   which replica set member to route the read requests.
@@ -706,7 +707,8 @@ spec:
                           items:
                             properties:
                               maxStalenessSeconds:
-                                type: number
+                                format: int64
+                                type: integer
                               mode:
                                 description: Read preference mode that specifies to
                                   which replica set member to route the read requests.
@@ -1008,7 +1010,8 @@ spec:
                             type: object
                           type: array
                         maxWildcardCollections:
-                          type: number
+                          format: int64
+                          type: integer
                         name:
                           description: Human-readable label of the tag.
                           type: string
@@ -1095,7 +1098,8 @@ spec:
                           items:
                             properties:
                               maxStalenessSeconds:
-                                type: number
+                                format: int64
+                                type: integer
                               mode:
                                 description: Read preference mode that specifies to
                                   which replica set member to route the read requests.

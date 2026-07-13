@@ -601,7 +601,6 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
-                          x-kubernetes-map-type: granular
                         featureType:
                           type: string
                       type: object

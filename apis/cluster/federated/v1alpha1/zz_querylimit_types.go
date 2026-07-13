@@ -16,12 +16,12 @@ import (
 type QueryLimitInitParameters struct {
 
 	// Default value of the limit.
-	DefaultLimit *float64 `json:"defaultLimit,omitempty" tf:"default_limit,omitempty"`
+	DefaultLimit *int64 `json:"defaultLimit,omitempty" tf:"default_limit,omitempty"`
 
 	// String enum that indicates whether the identity provider is active or not. Accepted values are:
 	LimitName *string `json:"limitName,omitempty" tf:"limit_name,omitempty"`
 
-	MaximumLimit *float64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
+	MaximumLimit *int64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
 
 	// String enum that identifies action to take when the usage limit is exceeded. If limit span is set to QUERY, this is ignored because MongoDB Cloud stops the query when it exceeds the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
 	OverrunPolicy *string `json:"overrunPolicy,omitempty" tf:"overrun_policy,omitempty"`
@@ -42,16 +42,16 @@ type QueryLimitInitParameters struct {
 	TenantName *string `json:"tenantName,omitempty" tf:"tenant_name,omitempty"`
 
 	// Amount to set the limit to.
-	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+	Value *int64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type QueryLimitObservation struct {
 
 	// Amount that indicates the current usage of the limit.
-	CurrentUsage *float64 `json:"currentUsage,omitempty" tf:"current_usage,omitempty"`
+	CurrentUsage *int64 `json:"currentUsage,omitempty" tf:"current_usage,omitempty"`
 
 	// Default value of the limit.
-	DefaultLimit *float64 `json:"defaultLimit,omitempty" tf:"default_limit,omitempty"`
+	DefaultLimit *int64 `json:"defaultLimit,omitempty" tf:"default_limit,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -60,7 +60,7 @@ type QueryLimitObservation struct {
 	// String enum that indicates whether the identity provider is active or not. Accepted values are:
 	LimitName *string `json:"limitName,omitempty" tf:"limit_name,omitempty"`
 
-	MaximumLimit *float64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
+	MaximumLimit *int64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
 
 	// String enum that identifies action to take when the usage limit is exceeded. If limit span is set to QUERY, this is ignored because MongoDB Cloud stops the query when it exceeds the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
 	OverrunPolicy *string `json:"overrunPolicy,omitempty" tf:"overrun_policy,omitempty"`
@@ -72,21 +72,21 @@ type QueryLimitObservation struct {
 	TenantName *string `json:"tenantName,omitempty" tf:"tenant_name,omitempty"`
 
 	// Amount to set the limit to.
-	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+	Value *int64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type QueryLimitParameters struct {
 
 	// Default value of the limit.
 	// +kubebuilder:validation:Optional
-	DefaultLimit *float64 `json:"defaultLimit,omitempty" tf:"default_limit,omitempty"`
+	DefaultLimit *int64 `json:"defaultLimit,omitempty" tf:"default_limit,omitempty"`
 
 	// String enum that indicates whether the identity provider is active or not. Accepted values are:
 	// +kubebuilder:validation:Optional
 	LimitName *string `json:"limitName,omitempty" tf:"limit_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	MaximumLimit *float64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
+	MaximumLimit *int64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
 
 	// String enum that identifies action to take when the usage limit is exceeded. If limit span is set to QUERY, this is ignored because MongoDB Cloud stops the query when it exceeds the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
 	// +kubebuilder:validation:Optional
@@ -111,7 +111,7 @@ type QueryLimitParameters struct {
 
 	// Amount to set the limit to.
 	// +kubebuilder:validation:Optional
-	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+	Value *int64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 // QueryLimitSpec defines the desired state of QueryLimit

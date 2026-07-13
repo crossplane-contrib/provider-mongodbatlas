@@ -96,7 +96,8 @@ spec:
                             could increase the risk of interrupting Realm sync or
                             triggers processing. This parameter is only supported
                             for MongoDB version 6.0 and above.'
-                          type: number
+                          format: int64
+                          type: integer
                         customOpensslCipherConfigTls12:
                           description: The custom OpenSSL cipher suite list for TLS
                             1.2. This field is only valid when tls_cipher_config_mode
@@ -106,7 +107,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         defaultMaxTimeMs:
-                          type: number
+                          format: int64
+                          type: integer
                         defaultReadConcern:
                           description: Default level of acknowledgment requested from
                             MongoDB for read operations set for this cluster. (DEPRECATED)
@@ -152,20 +154,23 @@ spec:
                           description: The custom oplog size of the cluster. Without
                             a value that indicates that the cluster uses the default
                             oplog size calculated by Atlas.
-                          type: number
+                          format: int64
+                          type: integer
                         sampleRefreshIntervalBiConnector:
                           description: Interval in seconds at which the mongosqld
                             process re-samples data to create its relational schema.
                             The default value is 300. The specified value must be
                             a positive integer. Available only for Atlas deployments
                             in which BI Connector for Atlas is enabled.
-                          type: number
+                          format: int64
+                          type: integer
                         sampleSizeBiConnector:
                           description: Number of documents per database to sample
                             when gathering schema information. Defaults to 100. Available
                             only for Atlas deployments in which BI Connector for Atlas
                             is enabled.
-                          type: number
+                          format: int64
+                          type: integer
                         tlsCipherConfigMode:
                           description: The TLS cipher suite configuration mode. Valid
                             values include CUSTOM or DEFAULT. The DEFAULT mode uses
@@ -176,7 +181,8 @@ spec:
                         transactionLifetimeLimitSeconds:
                           description: Lifetime, in seconds, of multi-document transactions.
                             Defaults to 60 seconds.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -287,7 +293,8 @@ spec:
                     description: |-
                       Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
                       If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-                    type: number
+                    format: int64
+                    type: integer
                   paused:
                     description: |-
                       Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
@@ -426,7 +433,8 @@ spec:
                       the default IOPS value for the cluster tier Atlas ignores the
                       requested value and uses the default.  More details available
                       under the providerSettings.diskIOPS parameter: MongoDB API Clusters'
-                    type: number
+                    format: int64
+                    type: integer
                   providerDiskTypeName:
                     description: 'Azure disk type of the server’s root volume. If
                       omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example
@@ -482,7 +490,8 @@ spec:
                       member keeps a copy of your databases, providing high availability
                       and data redundancy. The possible values are 3, 5, or 7. The
                       default value is 3.
-                    type: number
+                    format: int64
+                    type: integer
                   replicationSpecs:
                     description: Configuration for cluster regions.  See Replication
                       Spec below for more details.
@@ -495,7 +504,8 @@ spec:
                           description: |-
                             Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
                             If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-                          type: number
+                          format: int64
+                          type: integer
                         regionsConfig:
                           description: Physical location of the region. Each regionsConfig
                             document describes the region’s priority in elections
@@ -513,22 +523,26 @@ spec:
                                   read-only, and can never become the primary. If
                                   you do not specify this option, no analytics nodes
                                   are deployed to the region.
-                                type: number
+                                format: int64
+                                type: integer
                               electableNodes:
                                 description: Number of electable nodes for Atlas to
                                   deploy to the region. Electable nodes can become
                                   the primary and can facilitate local reads.
-                                type: number
+                                format: int64
+                                type: integer
                               priority:
                                 description: is 0.
-                                type: number
+                                format: int64
+                                type: integer
                               readOnlyNodes:
                                 description: Number of read-only nodes for Atlas to
                                   deploy to the region. Read-only nodes can never
                                   become the primary, but can facilitate local-reads.
                                   Specify 0 if you do not want any read-only nodes
                                   in the region.
-                                type: number
+                                format: int64
+                                type: integer
                               regionName:
                                 description: Physical location of your MongoDB cluster.
                                   The region you choose can affect network latency
@@ -613,7 +627,8 @@ spec:
                             could increase the risk of interrupting Realm sync or
                             triggers processing. This parameter is only supported
                             for MongoDB version 6.0 and above.'
-                          type: number
+                          format: int64
+                          type: integer
                         customOpensslCipherConfigTls12:
                           description: The custom OpenSSL cipher suite list for TLS
                             1.2. This field is only valid when tls_cipher_config_mode
@@ -623,7 +638,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         defaultMaxTimeMs:
-                          type: number
+                          format: int64
+                          type: integer
                         defaultReadConcern:
                           description: Default level of acknowledgment requested from
                             MongoDB for read operations set for this cluster. (DEPRECATED)
@@ -669,20 +685,23 @@ spec:
                           description: The custom oplog size of the cluster. Without
                             a value that indicates that the cluster uses the default
                             oplog size calculated by Atlas.
-                          type: number
+                          format: int64
+                          type: integer
                         sampleRefreshIntervalBiConnector:
                           description: Interval in seconds at which the mongosqld
                             process re-samples data to create its relational schema.
                             The default value is 300. The specified value must be
                             a positive integer. Available only for Atlas deployments
                             in which BI Connector for Atlas is enabled.
-                          type: number
+                          format: int64
+                          type: integer
                         sampleSizeBiConnector:
                           description: Number of documents per database to sample
                             when gathering schema information. Defaults to 100. Available
                             only for Atlas deployments in which BI Connector for Atlas
                             is enabled.
-                          type: number
+                          format: int64
+                          type: integer
                         tlsCipherConfigMode:
                           description: The TLS cipher suite configuration mode. Valid
                             values include CUSTOM or DEFAULT. The DEFAULT mode uses
@@ -693,7 +712,8 @@ spec:
                         transactionLifetimeLimitSeconds:
                           description: Lifetime, in seconds, of multi-document transactions.
                             Defaults to 60 seconds.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -804,7 +824,8 @@ spec:
                     description: |-
                       Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
                       If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-                    type: number
+                    format: int64
+                    type: integer
                   paused:
                     description: |-
                       Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
@@ -943,7 +964,8 @@ spec:
                       the default IOPS value for the cluster tier Atlas ignores the
                       requested value and uses the default.  More details available
                       under the providerSettings.diskIOPS parameter: MongoDB API Clusters'
-                    type: number
+                    format: int64
+                    type: integer
                   providerDiskTypeName:
                     description: 'Azure disk type of the server’s root volume. If
                       omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example
@@ -999,7 +1021,8 @@ spec:
                       member keeps a copy of your databases, providing high availability
                       and data redundancy. The possible values are 3, 5, or 7. The
                       default value is 3.
-                    type: number
+                    format: int64
+                    type: integer
                   replicationSpecs:
                     description: Configuration for cluster regions.  See Replication
                       Spec below for more details.
@@ -1012,7 +1035,8 @@ spec:
                           description: |-
                             Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
                             If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-                          type: number
+                          format: int64
+                          type: integer
                         regionsConfig:
                           description: Physical location of the region. Each regionsConfig
                             document describes the region’s priority in elections
@@ -1030,22 +1054,26 @@ spec:
                                   read-only, and can never become the primary. If
                                   you do not specify this option, no analytics nodes
                                   are deployed to the region.
-                                type: number
+                                format: int64
+                                type: integer
                               electableNodes:
                                 description: Number of electable nodes for Atlas to
                                   deploy to the region. Electable nodes can become
                                   the primary and can facilitate local reads.
-                                type: number
+                                format: int64
+                                type: integer
                               priority:
                                 description: is 0.
-                                type: number
+                                format: int64
+                                type: integer
                               readOnlyNodes:
                                 description: Number of read-only nodes for Atlas to
                                   deploy to the region. Read-only nodes can never
                                   become the primary, but can facilitate local-reads.
                                   Specify 0 if you do not want any read-only nodes
                                   in the region.
-                                type: number
+                                format: int64
+                                type: integer
                               regionName:
                                 description: Physical location of your MongoDB cluster.
                                   The region you choose can affect network latency
@@ -1221,7 +1249,8 @@ spec:
                             could increase the risk of interrupting Realm sync or
                             triggers processing. This parameter is only supported
                             for MongoDB version 6.0 and above.'
-                          type: number
+                          format: int64
+                          type: integer
                         customOpensslCipherConfigTls12:
                           description: The custom OpenSSL cipher suite list for TLS
                             1.2. This field is only valid when tls_cipher_config_mode
@@ -1231,7 +1260,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         defaultMaxTimeMs:
-                          type: number
+                          format: int64
+                          type: integer
                         defaultReadConcern:
                           description: Default level of acknowledgment requested from
                             MongoDB for read operations set for this cluster. (DEPRECATED)
@@ -1277,20 +1307,23 @@ spec:
                           description: The custom oplog size of the cluster. Without
                             a value that indicates that the cluster uses the default
                             oplog size calculated by Atlas.
-                          type: number
+                          format: int64
+                          type: integer
                         sampleRefreshIntervalBiConnector:
                           description: Interval in seconds at which the mongosqld
                             process re-samples data to create its relational schema.
                             The default value is 300. The specified value must be
                             a positive integer. Available only for Atlas deployments
                             in which BI Connector for Atlas is enabled.
-                          type: number
+                          format: int64
+                          type: integer
                         sampleSizeBiConnector:
                           description: Number of documents per database to sample
                             when gathering schema information. Defaults to 100. Available
                             only for Atlas deployments in which BI Connector for Atlas
                             is enabled.
-                          type: number
+                          format: int64
+                          type: integer
                         tlsCipherConfigMode:
                           description: The TLS cipher suite configuration mode. Valid
                             values include CUSTOM or DEFAULT. The DEFAULT mode uses
@@ -1301,7 +1334,8 @@ spec:
                         transactionLifetimeLimitSeconds:
                           description: Lifetime, in seconds, of multi-document transactions.
                             Defaults to 60 seconds.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -1545,7 +1579,8 @@ spec:
                     description: |-
                       Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
                       If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-                    type: number
+                    format: int64
+                    type: integer
                   paused:
                     description: |-
                       Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
@@ -1611,7 +1646,8 @@ spec:
                       the default IOPS value for the cluster tier Atlas ignores the
                       requested value and uses the default.  More details available
                       under the providerSettings.diskIOPS parameter: MongoDB API Clusters'
-                    type: number
+                    format: int64
+                    type: integer
                   providerDiskTypeName:
                     description: 'Azure disk type of the server’s root volume. If
                       omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example
@@ -1669,7 +1705,8 @@ spec:
                       member keeps a copy of your databases, providing high availability
                       and data redundancy. The possible values are 3, 5, or 7. The
                       default value is 3.
-                    type: number
+                    format: int64
+                    type: integer
                   replicationSpecs:
                     description: Configuration for cluster regions.  See Replication
                       Spec below for more details.
@@ -1682,7 +1719,8 @@ spec:
                           description: |-
                             Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
                             If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-                          type: number
+                          format: int64
+                          type: integer
                         regionsConfig:
                           description: Physical location of the region. Each regionsConfig
                             document describes the region’s priority in elections
@@ -1700,22 +1738,26 @@ spec:
                                   read-only, and can never become the primary. If
                                   you do not specify this option, no analytics nodes
                                   are deployed to the region.
-                                type: number
+                                format: int64
+                                type: integer
                               electableNodes:
                                 description: Number of electable nodes for Atlas to
                                   deploy to the region. Electable nodes can become
                                   the primary and can facilitate local reads.
-                                type: number
+                                format: int64
+                                type: integer
                               priority:
                                 description: is 0.
-                                type: number
+                                format: int64
+                                type: integer
                               readOnlyNodes:
                                 description: Number of read-only nodes for Atlas to
                                   deploy to the region. Read-only nodes can never
                                   become the primary, but can facilitate local-reads.
                                   Specify 0 if you do not want any read-only nodes
                                   in the region.
-                                type: number
+                                format: int64
+                                type: integer
                               regionName:
                                 description: Physical location of your MongoDB cluster.
                                   The region you choose can affect network latency
@@ -1766,7 +1808,8 @@ spec:
                                     frequencyInterval:
                                       description: The frequency interval for a set
                                         of snapshots.
-                                      type: number
+                                      format: int64
+                                      type: integer
                                     frequencyType:
                                       description: A type of frequency (hourly, daily,
                                         weekly, monthly).
@@ -1782,7 +1825,8 @@ spec:
                                     retentionValue:
                                       description: The number of days, weeks, or months
                                         the snapshot is retained.
-                                      type: number
+                                      format: int64
+                                      type: integer
                                   type: object
                                 type: array
                             type: object
@@ -1790,16 +1834,19 @@ spec:
                         referenceHourOfDay:
                           description: UTC Hour of day between 0 and 23 representing
                             which hour of the day that Atlas takes a snapshot.
-                          type: number
+                          format: int64
+                          type: integer
                         referenceMinuteOfHour:
                           description: UTC Minute of day between 0 and 59 representing
                             which minute of the referenceHourOfDay that Atlas takes
                             the snapshot.
-                          type: number
+                          format: int64
+                          type: integer
                         restoreWindowDays:
                           description: Specifies a restore window in days for the
                             cloud provider backup to maintain.
-                          type: number
+                          format: int64
+                          type: integer
                         updateSnapshots:
                           description: Specifies it's true to apply the retention
                             changes in the updated backup policy to snapshots that

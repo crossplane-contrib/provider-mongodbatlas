@@ -73,13 +73,13 @@ type BackupScheduleInitParameters struct {
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.
-	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
+	ReferenceHourOfDay *int64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
 	// UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.
-	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
+	ReferenceMinuteOfHour *int64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
 	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
-	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+	RestoreWindowDays *int64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
 	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
 	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
@@ -143,13 +143,13 @@ type BackupScheduleObservation struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.
-	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
+	ReferenceHourOfDay *int64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
 	// UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.
-	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
+	ReferenceMinuteOfHour *int64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
 	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
-	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+	RestoreWindowDays *int64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
 	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
 	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
@@ -231,15 +231,15 @@ type BackupScheduleParameters struct {
 
 	// UTC Hour of day between 0 and 23, inclusive, representing which hour of the day that Atlas takes snapshots for backup policy items.
 	// +kubebuilder:validation:Optional
-	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
+	ReferenceHourOfDay *int64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
 	// UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.
 	// +kubebuilder:validation:Optional
-	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
+	ReferenceMinuteOfHour *int64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
 	// Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.
 	// +kubebuilder:validation:Optional
-	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+	RestoreWindowDays *int64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
 	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
 	// +kubebuilder:validation:Optional
@@ -257,19 +257,19 @@ type BackupScheduleParameters struct {
 type BackupSchedulePolicyItemDailyInitParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (daily in this case). The only supported value for daily policies is 1 day.
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit.  Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the hourly policy item specifies a retention of two days, the daily retention policy must specify two days or greater.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemDailyObservation struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (daily in this case). The only supported value for daily policies is 1 day.
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Frequency associated with the backup policy item. For daily policies, the frequency type is defined as daily. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
@@ -281,14 +281,14 @@ type BackupSchedulePolicyItemDailyObservation struct {
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit.  Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the hourly policy item specifies a retention of two days, the daily retention policy must specify two days or greater.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemDailyParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (daily in this case). The only supported value for daily policies is 1 day.
 	// +kubebuilder:validation:Optional
-	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
@@ -296,25 +296,25 @@ type BackupSchedulePolicyItemDailyParameters struct {
 
 	// Value to associate with retention_unit.  Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the hourly policy item specifies a retention of two days, the daily retention policy must specify two days or greater.
 	// +kubebuilder:validation:Optional
-	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemHourlyInitParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemHourlyObservation struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Frequency associated with the backup policy item. For hourly policies, the frequency type is defined as hourly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
@@ -326,14 +326,14 @@ type BackupSchedulePolicyItemHourlyObservation struct {
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemHourlyParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (hourly in this case). The supported values for hourly policies are 1, 2, 4, 6, 8 or 12 hours. Note that 12 hours is the only accepted value for NVMe clusters.
 	// +kubebuilder:validation:Optional
-	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
@@ -341,25 +341,25 @@ type BackupSchedulePolicyItemHourlyParameters struct {
 
 	// Value to associate with retention_unit.
 	// +kubebuilder:validation:Optional
-	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemMonthlyInitParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (monthly in this case). The supported values for weekly policies are
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit. Monthly policy must have retention days of at least 31 days or 5 weeks or 1 month. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the weekly policy item specifies a retention of two weeks, the montly retention policy must specify two weeks or greater.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemMonthlyObservation struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (monthly in this case). The supported values for weekly policies are
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Frequency associated with the backup policy item. For monthly policies, the frequency type is defined as monthly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
@@ -371,14 +371,14 @@ type BackupSchedulePolicyItemMonthlyObservation struct {
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit. Monthly policy must have retention days of at least 31 days or 5 weeks or 1 month. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the weekly policy item specifies a retention of two weeks, the montly retention policy must specify two weeks or greater.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemMonthlyParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (monthly in this case). The supported values for weekly policies are
 	// +kubebuilder:validation:Optional
-	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
@@ -386,25 +386,25 @@ type BackupSchedulePolicyItemMonthlyParameters struct {
 
 	// Value to associate with retention_unit. Monthly policy must have retention days of at least 31 days or 5 weeks or 1 month. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the weekly policy item specifies a retention of two weeks, the montly retention policy must specify two weeks or greater.
 	// +kubebuilder:validation:Optional
-	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemWeeklyInitParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (weekly in this case). The supported values for weekly policies are 1 through 7, where 1 represents Monday and 7 represents Sunday.
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit. Weekly policy must have retention of at least 7 days or 1 week. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the daily policy item specifies a retention of two weeks, the weekly retention policy must specify two weeks or greater.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemWeeklyObservation struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (weekly in this case). The supported values for weekly policies are 1 through 7, where 1 represents Monday and 7 represents Sunday.
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Frequency associated with the backup policy item. For weekly policies, the frequency type is defined as weekly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
@@ -416,14 +416,14 @@ type BackupSchedulePolicyItemWeeklyObservation struct {
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit. Weekly policy must have retention of at least 7 days or 1 week. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the daily policy item specifies a retention of two weeks, the weekly retention policy must specify two weeks or greater.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemWeeklyParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (weekly in this case). The supported values for weekly policies are 1 through 7, where 1 represents Monday and 7 represents Sunday.
 	// +kubebuilder:validation:Optional
-	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
@@ -431,25 +431,25 @@ type BackupSchedulePolicyItemWeeklyParameters struct {
 
 	// Value to associate with retention_unit. Weekly policy must have retention of at least 7 days or 1 week. Note that for less frequent policy items, Atlas requires that you specify a retention period greater than or equal to the retention period specified for more frequent policy items. For example: If the daily policy item specifies a retention of two weeks, the weekly retention policy must specify two weeks or greater.
 	// +kubebuilder:validation:Optional
-	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemYearlyInitParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (yearly in this case). The supported values for yearly policies are
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit. Yearly policy must have retention of at least 1 year.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemYearlyObservation struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (yearly in this case). The supported values for yearly policies are
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// Frequency associated with the backup policy item. For yearly policies, the frequency type is defined as yearly. Note that this is a read-only value and not required in plan files - its value is implied from the policy resource type.
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
@@ -461,14 +461,14 @@ type BackupSchedulePolicyItemYearlyObservation struct {
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// Value to associate with retention_unit. Yearly policy must have retention of at least 1 year.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type BackupSchedulePolicyItemYearlyParameters struct {
 
 	// Desired frequency of the new backup policy item specified by frequency_type (yearly in this case). The supported values for yearly policies are
 	// +kubebuilder:validation:Optional
-	FrequencyInterval *float64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval" tf:"frequency_interval,omitempty"`
 
 	// Scope of the backup policy item: days, weeks, months, or years.
 	// +kubebuilder:validation:Optional
@@ -476,7 +476,7 @@ type BackupSchedulePolicyItemYearlyParameters struct {
 
 	// Value to associate with retention_unit. Yearly policy must have retention of at least 1 year.
 	// +kubebuilder:validation:Optional
-	RetentionValue *float64 `json:"retentionValue" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
 type CopySettingsInitParameters struct {

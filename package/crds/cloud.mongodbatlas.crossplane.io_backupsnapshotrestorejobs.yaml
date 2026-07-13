@@ -171,13 +171,15 @@ spec:
                             Oplog operation number from which to you want to restore
                             this snapshot. This is the second part of an Oplog timestamp.
                             Used in conjunction with oplog_ts.
-                          type: number
+                          format: int64
+                          type: integer
                         oplogTs:
                           description: Optional setting for pointInTime configuration.
                             Timestamp in the number of seconds that have elapsed since
                             the UNIX epoch from which to you want to restore this
                             snapshot. This is the first part of an Oplog timestamp.
-                          type: number
+                          format: int64
+                          type: integer
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
@@ -185,7 +187,8 @@ spec:
                             Timestamp in the number of seconds that have elapsed since
                             the UNIX epoch from which you want to restore this snapshot.
                             Used instead of oplog settings.
-                          type: number
+                          format: int64
+                          type: integer
                         targetClusterName:
                           description: Name of the target Atlas cluster to which the
                             restore job restores the snapshot. Required for automated
@@ -470,13 +473,15 @@ spec:
                             Oplog operation number from which to you want to restore
                             this snapshot. This is the second part of an Oplog timestamp.
                             Used in conjunction with oplog_ts.
-                          type: number
+                          format: int64
+                          type: integer
                         oplogTs:
                           description: Optional setting for pointInTime configuration.
                             Timestamp in the number of seconds that have elapsed since
                             the UNIX epoch from which to you want to restore this
                             snapshot. This is the first part of an Oplog timestamp.
-                          type: number
+                          format: int64
+                          type: integer
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
@@ -484,7 +489,8 @@ spec:
                             Timestamp in the number of seconds that have elapsed since
                             the UNIX epoch from which you want to restore this snapshot.
                             Used instead of oplog settings.
-                          type: number
+                          format: int64
+                          type: integer
                         targetClusterName:
                           description: Name of the target Atlas cluster to which the
                             restore job restores the snapshot. Required for automated
@@ -775,13 +781,15 @@ spec:
                             Oplog operation number from which to you want to restore
                             this snapshot. This is the second part of an Oplog timestamp.
                             Used in conjunction with oplog_ts.
-                          type: number
+                          format: int64
+                          type: integer
                         oplogTs:
                           description: Optional setting for pointInTime configuration.
                             Timestamp in the number of seconds that have elapsed since
                             the UNIX epoch from which to you want to restore this
                             snapshot. This is the first part of an Oplog timestamp.
-                          type: number
+                          format: int64
+                          type: integer
                         pointInTime:
                           type: boolean
                         pointInTimeUtcSeconds:
@@ -789,7 +797,8 @@ spec:
                             Timestamp in the number of seconds that have elapsed since
                             the UNIX epoch from which you want to restore this snapshot.
                             Used instead of oplog settings.
-                          type: number
+                          format: int64
+                          type: integer
                         targetClusterName:
                           description: Name of the target Atlas cluster to which the
                             restore job restores the snapshot. Required for automated

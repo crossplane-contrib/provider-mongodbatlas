@@ -88,9 +88,9 @@ type BackupSnapshotExportJobObservation struct {
 	// Unique identifier of the export job.
 	ExportJobID *string `json:"exportJobId,omitempty" tf:"export_job_id,omitempty"`
 
-	ExportStatusExportedCollections *float64 `json:"exportStatusExportedCollections,omitempty" tf:"export_status_exported_collections,omitempty"`
+	ExportStatusExportedCollections *int64 `json:"exportStatusExportedCollections,omitempty" tf:"export_status_exported_collections,omitempty"`
 
-	ExportStatusTotalCollections *float64 `json:"exportStatusTotalCollections,omitempty" tf:"export_status_total_collections,omitempty"`
+	ExportStatusTotalCollections *int64 `json:"exportStatusTotalCollections,omitempty" tf:"export_status_total_collections,omitempty"`
 
 	// Timestamp in ISO 8601 date and time format in UTC when the export job completes.
 	FinishedAt *string `json:"finishedAt,omitempty" tf:"finished_at,omitempty"`

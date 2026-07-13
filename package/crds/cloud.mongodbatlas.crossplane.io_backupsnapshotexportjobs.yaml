@@ -915,9 +915,11 @@ spec:
                     description: Unique identifier of the export job.
                     type: string
                   exportStatusExportedCollections:
-                    type: number
+                    format: int64
+                    type: integer
                   exportStatusTotalCollections:
-                    type: number
+                    format: int64
+                    type: integer
                   finishedAt:
                     description: Timestamp in ISO 8601 date and time format in UTC
                       when the export job completes.

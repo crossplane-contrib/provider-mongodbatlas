@@ -76,7 +76,7 @@ func (in *ConfigurationInitParameters) DeepCopyInto(out *ConfigurationInitParame
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -185,7 +185,7 @@ func (in *ConfigurationObservation) DeepCopyInto(out *ConfigurationObservation) 
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -253,7 +253,7 @@ func (in *ConfigurationParameters) DeepCopyInto(out *ConfigurationParameters) {
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -578,7 +578,7 @@ func (in *VerifyInitParameters) DeepCopyInto(out *VerifyInitParameters) {
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -677,7 +677,7 @@ func (in *VerifyObservation) DeepCopyInto(out *VerifyObservation) {
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -740,7 +740,7 @@ func (in *VerifyParameters) DeepCopyInto(out *VerifyParameters) {
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {

@@ -26,7 +26,7 @@ type CertificatesObservation struct {
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// Serial number of this certificate.
-	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+	ID *int64 `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Timestamp in ISO 8601 date and time format in UTC when this certificate expires.
 	NotAfter *string `json:"notAfter,omitempty" tf:"not_after,omitempty"`
@@ -44,7 +44,7 @@ type X509UserAuthenticationInitParameters struct {
 	CustomerX509CasSecretRef *v1.LocalSecretKeySelector `json:"customerX509CasSecretRef,omitempty" tf:"-"`
 
 	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
-	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
+	MonthsUntilExpiration *int64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
 	// Identifier for the Atlas project associated with the X.509 configuration, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
@@ -71,7 +71,7 @@ type X509UserAuthenticationObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
-	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
+	MonthsUntilExpiration *int64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
 	// Identifier for the Atlas project associated with the X.509 configuration, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -88,7 +88,7 @@ type X509UserAuthenticationParameters struct {
 
 	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	// +kubebuilder:validation:Optional
-	MonthsUntilExpiration *float64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
+	MonthsUntilExpiration *int64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
 
 	// Identifier for the Atlas project associated with the X.509 configuration, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project

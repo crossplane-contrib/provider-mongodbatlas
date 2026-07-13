@@ -154,15 +154,15 @@ type DeliveryTypeConfigInitParameters struct {
 	Download *bool `json:"download,omitempty" tf:"download,omitempty"`
 
 	// Optional setting for pointInTime configuration. Oplog operation number from which to you want to restore this snapshot. This is the second part of an Oplog timestamp. Used in conjunction with oplog_ts.
-	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
+	OplogInc *int64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
 	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which to you want to restore this snapshot. This is the first part of an Oplog timestamp.
-	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
+	OplogTS *int64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
 	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
 	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which you want to restore this snapshot. Used instead of oplog settings.
-	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
+	PointInTimeUtcSeconds *int64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
 	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
@@ -180,15 +180,15 @@ type DeliveryTypeConfigObservation struct {
 	Download *bool `json:"download,omitempty" tf:"download,omitempty"`
 
 	// Optional setting for pointInTime configuration. Oplog operation number from which to you want to restore this snapshot. This is the second part of an Oplog timestamp. Used in conjunction with oplog_ts.
-	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
+	OplogInc *int64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
 	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which to you want to restore this snapshot. This is the first part of an Oplog timestamp.
-	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
+	OplogTS *int64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
 	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
 	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which you want to restore this snapshot. Used instead of oplog settings.
-	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
+	PointInTimeUtcSeconds *int64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
 	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
@@ -209,18 +209,18 @@ type DeliveryTypeConfigParameters struct {
 
 	// Optional setting for pointInTime configuration. Oplog operation number from which to you want to restore this snapshot. This is the second part of an Oplog timestamp. Used in conjunction with oplog_ts.
 	// +kubebuilder:validation:Optional
-	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
+	OplogInc *int64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
 	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which to you want to restore this snapshot. This is the first part of an Oplog timestamp.
 	// +kubebuilder:validation:Optional
-	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
+	OplogTS *int64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PointInTime *bool `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
 	// Optional setting for pointInTime configuration. Timestamp in the number of seconds that have elapsed since the UNIX epoch from which you want to restore this snapshot. Used instead of oplog settings.
 	// +kubebuilder:validation:Optional
-	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
+	PointInTimeUtcSeconds *int64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
 	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
 	// +kubebuilder:validation:Optional

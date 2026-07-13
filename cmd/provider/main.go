@@ -44,7 +44,9 @@ import (
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
@@ -160,7 +162,15 @@ func main() {
 		crdCacheByObject.Label = crdSelector
 	}
 
+	// The CRD ByObject cache entry below requires the apiextensions types to
+	// be registered before the manager is constructed, so the scheme is built
+	// up front instead of relying on post-construction AddToScheme calls.
+	sch := runtime.NewScheme()
+	ctx.FatalIfErrorf(clientgoscheme.AddToScheme(sch), "Cannot add client-go APIs to scheme")
+	ctx.FatalIfErrorf(apiextensionsv1.AddToScheme(sch), "Cannot add api-extensions APIs to scheme")
+
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
+		Scheme:           sch,
 		LeaderElection:   cli.LeaderElection,
 		LeaderElectionID: "crossplane-leader-election-upjet-provider-mongodbatlas",
 		Cache: cache.Options{
@@ -194,7 +204,6 @@ func main() {
 	ctx.FatalIfErrorf(err, "Cannot create controller manager")
 	ctx.FatalIfErrorf(apisCluster.AddToScheme(mgr.GetScheme()), "Cannot add cluster-scoped MongoDBAtlas APIs to scheme")
 	ctx.FatalIfErrorf(apisNamespaced.AddToScheme(mgr.GetScheme()), "Cannot add namespaced MongoDBAtlas APIs to scheme")
-	ctx.FatalIfErrorf(apiextensionsv1.AddToScheme(mgr.GetScheme()), "Cannot add api-extensions APIs to scheme")
 	ctx.FatalIfErrorf(authv1.AddToScheme(mgr.GetScheme()), "Cannot add k8s authorization APIs to scheme")
 
 	metricRecorder := managed.NewMRMetricRecorder()

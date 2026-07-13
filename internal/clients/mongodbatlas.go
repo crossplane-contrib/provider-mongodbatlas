@@ -18,8 +18,14 @@ package clients
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/json"
+	"fmt"
+	"sync"
 
+	tpf "github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	tf "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -45,19 +51,21 @@ const (
 	errUnmarshalCredentials = "cannot unmarshal mongodbatlas credentials as JSON"
 )
 
-// TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
-// returns Terraform provider setup configuration. When scheduler is non-nil,
-// it is attached to every Setup so that the Terraform native provider plugin
-// process is shared across workspaces instead of spawned per workspace.
-func TerraformSetupBuilder(version, providerSource, providerVersion string, scheduler terraform.ProviderScheduler) terraform.SetupFn {
+// metaCache caches configured SDK provider metadata keyed by credential hash.
+// Prevents per-reconcile SDK Configure calls that create new HTTP clients.
+var (
+	metaCacheMu sync.Mutex
+	metaCache   = map[string]any{}
+)
+
+// TerraformSetupBuilder returns a SetupFn for the no-fork (in-process)
+// architecture. It populates Setup.Meta with the configured SDKv2 provider
+// metadata (cached by credential hash) and Setup.FrameworkProvider with the
+// unconfigured framework provider (upjet configures it per reconcile).
+func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider) terraform.SetupFn {
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{
-			Version: version,
-			Requirement: terraform.ProviderRequirement{
-				Source:  providerSource,
-				Version: providerVersion,
-			},
-			Scheduler: scheduler,
+			FrameworkProvider: fw,
 		}
 
 		pcSpec, err := resolveProviderConfig(ctx, client, mg)
@@ -74,9 +82,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string, sche
 			return ps, errors.Wrap(err, errUnmarshalCredentials)
 		}
 
-		// Set credentials in Terraform provider configuration.
 		ps.Configuration = map[string]any{}
-
 		if v, ok := creds[keyPublicKey]; ok {
 			ps.Configuration[keyPublicKey] = v
 		}
@@ -84,8 +90,45 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string, sche
 			ps.Configuration[keyPrivateKey] = v
 		}
 
+		meta, err := configureSDKCached(ctx, sdk, ps.Configuration)
+		if err != nil {
+			return terraform.Setup{}, errors.Wrap(err, "cannot configure SDK provider")
+		}
+		ps.Meta = meta
+
 		return ps, nil
 	}
+}
+
+func configureSDKCached(_ context.Context, sdk *schema.Provider, config map[string]any) (any, error) {
+	h := credentialHash(config)
+
+	metaCacheMu.Lock()
+	defer metaCacheMu.Unlock()
+
+	if meta, ok := metaCache[h]; ok {
+		return meta, nil
+	}
+
+	rc := tf.NewResourceConfigRaw(config)
+	diags := sdk.Configure(context.Background(), rc)
+	if diags.HasError() {
+		return nil, fmt.Errorf("failed to configure SDK provider: %v", diags)
+	}
+
+	meta := sdk.Meta()
+	metaCache[h] = meta
+	return meta, nil
+}
+
+func credentialHash(config map[string]any) string {
+	h := sha256.New()
+	for _, key := range []string{keyPublicKey, keyPrivateKey} {
+		if v, ok := config[key]; ok {
+			fmt.Fprintf(h, "%s=%v;", key, v)
+		}
+	}
+	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
 func toSharedPCSpec(pc *clusterv1beta1.ProviderConfig) (*namespacedv1beta1.ProviderConfigSpec, error) {

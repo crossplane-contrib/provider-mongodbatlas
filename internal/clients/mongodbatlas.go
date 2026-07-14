@@ -100,7 +100,7 @@ func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider) terraform.Setu
 	}
 }
 
-func configureSDKCached(_ context.Context, sdk *schema.Provider, config map[string]any) (any, error) {
+func configureSDKCached(ctx context.Context, sdk *schema.Provider, config map[string]any) (any, error) {
 	h := credentialHash(config)
 
 	metaCacheMu.Lock()
@@ -111,7 +111,7 @@ func configureSDKCached(_ context.Context, sdk *schema.Provider, config map[stri
 	}
 
 	rc := tf.NewResourceConfigRaw(config)
-	diags := sdk.Configure(context.Background(), rc)
+	diags := sdk.Configure(ctx, rc)
 	if diags.HasError() {
 		return nil, fmt.Errorf("failed to configure SDK provider: %v", diags)
 	}
@@ -125,7 +125,7 @@ func credentialHash(config map[string]any) string {
 	h := sha256.New()
 	for _, key := range []string{keyPublicKey, keyPrivateKey} {
 		if v, ok := config[key]; ok {
-			fmt.Fprintf(h, "%s=%v;", key, v)
+			_, _ = fmt.Fprintf(h, "%s=%v;", key, v)
 		}
 	}
 	return fmt.Sprintf("%x", h.Sum(nil))

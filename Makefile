@@ -98,7 +98,7 @@ xpkg.build.provider-mongodbatlas: do.build.images
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(UP) $(CROSSPLANE_CLI) check-terraform-version
+build.init: $(UP) $(CROSSPLANE_CLI) check-terraform-version provider-source
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
@@ -135,10 +135,39 @@ pull-docs:
 	fi
 	@git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
 
-generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+# ====================================================================================
+# Atlas provider source extraction for the no-fork (in-process) runtime.
+#
+# The Atlas provider keeps its constructors in internal/provider, which cannot
+# be imported from another module. We extract the module source at the exact
+# release tag (SHA-pinned), inject an xpshim package that re-exports the
+# constructors (legal, since it lives inside the module root), and go.mod has
+# a replace directive pointing at this directory. third_party/ is gitignored;
+# fresh checkouts must run `make provider-source` (wired into build.init and
+# generate.init) before the Go tree compiles.
+PROVIDER_SOURCE_DIR := third_party/terraform-provider-mongodbatlas
+
+provider-source:
+	@if [ ! -f "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go" ]; then \
+		$(INFO) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
+		rm -rf "$(PROVIDER_SOURCE_DIR)"; \
+		git clone -c advice.detachedHead=false --depth 1 --branch "v$(TERRAFORM_PROVIDER_VERSION)" "$(TERRAFORM_PROVIDER_REPO)" "$(PROVIDER_SOURCE_DIR)" || $(FAIL); \
+		rm -rf "$(PROVIDER_SOURCE_DIR)/.git"; \
+		mkdir -p "$(PROVIDER_SOURCE_DIR)/xpshim"; \
+		cp hack/xpshim.go.tmpl "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go"; \
+		$(OK) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
+	fi
+
+generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs provider-source
 generate.done: copy-examples
 
-.PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs check-terraform-version
+go.modules.download: provider-source
+
+clean: provider-source-clean
+provider-source-clean:
+	@rm -rf "$(PROVIDER_SOURCE_DIR)"
+
+.PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs check-terraform-version provider-source provider-source-clean
 # ====================================================================================
 # Targets
 

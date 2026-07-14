@@ -187,7 +187,8 @@ spec:
                   numPartitions:
                     description: Number of index partitions. Allowed values are [1,
                       2, 4]. Default value is 1.
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: The ID of the organization or project you want to
                       create the search index within, also known as groupId in the
@@ -466,7 +467,8 @@ spec:
                   numPartitions:
                     description: Number of index partitions. Allowed values are [1,
                       2, 4]. Default value is 1.
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: The ID of the organization or project you want to
                       create the search index within, also known as groupId in the
@@ -731,7 +733,8 @@ spec:
                   numPartitions:
                     description: Number of index partitions. Allowed values are [1,
                       2, 4]. Default value is 1.
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: The ID of the organization or project you want to
                       create the search index within, also known as groupId in the

@@ -21,7 +21,7 @@ func (mg *Organization) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Organization
 func (tr *Organization) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"private_key": "status.atProvider.privateKey", "public_key": "status.atProvider.publicKey"}
+	return map[string]string{"private_key": "status.atProvider.privateKey", "public_key": "status.atProvider.publicKey", "service_account[*].secrets[*].secret": "status.atProvider.serviceAccount[*].secrets[*].secret"}
 }
 
 // GetObservation of this Organization

@@ -241,7 +241,8 @@ spec:
                   retentionInDays:
                     description: The number of days that Atlas should retain the on-demand
                       snapshot. Must be at least 1.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -439,7 +440,8 @@ spec:
                   retentionInDays:
                     description: The number of days that Atlas should retain the on-demand
                       snapshot. Must be at least 1.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -576,7 +578,8 @@ spec:
                   retentionInDays:
                     description: The number of days that Atlas should retain the on-demand
                       snapshot. Must be at least 1.
-                    type: number
+                    format: int64
+                    type: integer
                   snapshotId:
                     description: Unique identifier of the snapshot.
                     type: string
@@ -599,7 +602,8 @@ spec:
                     type: string
                   storageSizeBytes:
                     description: Specifies the size of the snapshot in bytes.
-                    type: number
+                    format: int64
+                    type: integer
                   type:
                     description: 'Specifies the type of cluster: replicaSet or shardedCluster.'
                     type: string

@@ -73,8 +73,7 @@ type GlobalClusterConfigObservation struct {
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// A map of all custom zone mappings defined for the Global Cluster to replication_specs.*.zone_id. Atlas automatically maps each location code to the closest geographical zone. Custom zone mappings allow administrators to override these automatic mappings. If your Global Cluster does not have any custom zone mappings, this document is empty.
-	// +mapType=granular
-	CustomZoneMappingZoneID map[string]*string `json:"customZoneMappingZoneId,omitempty" tf:"custom_zone_mapping_zone_id,omitempty"`
+	CustomZoneMappingZoneID map[string]string `json:"customZoneMappingZoneId,omitempty" tf:"custom_zone_mapping_zone_id,omitempty"`
 
 	// Each element in the list maps one ISO location code to a zone in your Global Cluster. See Custom Zone Mapping below for more details.
 	CustomZoneMappings []CustomZoneMappingsObservation `json:"customZoneMappings,omitempty" tf:"custom_zone_mappings,omitempty"`

@@ -105,7 +105,8 @@ spec:
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
                             when MongoDB Cloud archives data in the specified cluster.
-                          type: number
+                          format: int64
+                          type: integer
                         query:
                           description: JSON query to use to select documents for archiving.
                             Atlas uses the specified query with the db.collection.find(query)
@@ -125,7 +126,8 @@ spec:
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
                             when MongoDB Cloud archives data in the specified cluster.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   dataProcessRegion:
@@ -180,7 +182,8 @@ spec:
                             this sequence starting with zero. The value of the criteria.dateField
                             parameter defaults as the first item in the partition
                             sequence.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   paused:
@@ -278,29 +281,35 @@ spec:
                           description: Day of the month when the scheduled archive
                             starts. This field should be provided only when schedule
                             type is MONTHLY.
-                          type: number
+                          format: int64
+                          type: integer
                         dayOfWeek:
                           description: Day of the week when the scheduled archive
                             starts. The week starts with Monday (1) and ends with
                             Sunday (7). This field should be provided only when schedule
                             type is WEEKLY.
-                          type: number
+                          format: int64
+                          type: integer
                         endHour:
                           description: Hour of the day when the scheduled window to
                             run one online archive ends.
-                          type: number
+                          format: int64
+                          type: integer
                         endMinute:
                           description: Minute of the hour when the scheduled window
                             to run one online archive ends.
-                          type: number
+                          format: int64
+                          type: integer
                         startHour:
                           description: Hour of the day when the when the scheduled
                             window to run one online archive starts.
-                          type: number
+                          format: int64
+                          type: integer
                         startMinute:
                           description: Minute of the hour when the scheduled window
                             to run one online archive starts.
-                          type: number
+                          format: int64
+                          type: integer
                         type:
                           description: Type of criteria (DATE, CUSTOM)
                           type: string
@@ -358,7 +367,8 @@ spec:
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
                             when MongoDB Cloud archives data in the specified cluster.
-                          type: number
+                          format: int64
+                          type: integer
                         query:
                           description: JSON query to use to select documents for archiving.
                             Atlas uses the specified query with the db.collection.find(query)
@@ -378,7 +388,8 @@ spec:
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
                             when MongoDB Cloud archives data in the specified cluster.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   dataProcessRegion:
@@ -433,7 +444,8 @@ spec:
                             this sequence starting with zero. The value of the criteria.dateField
                             parameter defaults as the first item in the partition
                             sequence.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   paused:
@@ -531,29 +543,35 @@ spec:
                           description: Day of the month when the scheduled archive
                             starts. This field should be provided only when schedule
                             type is MONTHLY.
-                          type: number
+                          format: int64
+                          type: integer
                         dayOfWeek:
                           description: Day of the week when the scheduled archive
                             starts. The week starts with Monday (1) and ends with
                             Sunday (7). This field should be provided only when schedule
                             type is WEEKLY.
-                          type: number
+                          format: int64
+                          type: integer
                         endHour:
                           description: Hour of the day when the scheduled window to
                             run one online archive ends.
-                          type: number
+                          format: int64
+                          type: integer
                         endMinute:
                           description: Minute of the hour when the scheduled window
                             to run one online archive ends.
-                          type: number
+                          format: int64
+                          type: integer
                         startHour:
                           description: Hour of the day when the when the scheduled
                             window to run one online archive starts.
-                          type: number
+                          format: int64
+                          type: integer
                         startMinute:
                           description: Minute of the hour when the scheduled window
                             to run one online archive starts.
-                          type: number
+                          format: int64
+                          type: integer
                         type:
                           description: Type of criteria (DATE, CUSTOM)
                           type: string
@@ -709,7 +727,8 @@ spec:
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
                             when MongoDB Cloud archives data in the specified cluster.
-                          type: number
+                          format: int64
+                          type: integer
                         query:
                           description: JSON query to use to select documents for archiving.
                             Atlas uses the specified query with the db.collection.find(query)
@@ -729,7 +748,8 @@ spec:
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
                             when MongoDB Cloud archives data in the specified cluster.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   dataProcessRegion:
@@ -793,7 +813,8 @@ spec:
                             this sequence starting with zero. The value of the criteria.dateField
                             parameter defaults as the first item in the partition
                             sequence.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   paused:
@@ -815,29 +836,35 @@ spec:
                           description: Day of the month when the scheduled archive
                             starts. This field should be provided only when schedule
                             type is MONTHLY.
-                          type: number
+                          format: int64
+                          type: integer
                         dayOfWeek:
                           description: Day of the week when the scheduled archive
                             starts. The week starts with Monday (1) and ends with
                             Sunday (7). This field should be provided only when schedule
                             type is WEEKLY.
-                          type: number
+                          format: int64
+                          type: integer
                         endHour:
                           description: Hour of the day when the scheduled window to
                             run one online archive ends.
-                          type: number
+                          format: int64
+                          type: integer
                         endMinute:
                           description: Minute of the hour when the scheduled window
                             to run one online archive ends.
-                          type: number
+                          format: int64
+                          type: integer
                         startHour:
                           description: Hour of the day when the when the scheduled
                             window to run one online archive starts.
-                          type: number
+                          format: int64
+                          type: integer
                         startMinute:
                           description: Minute of the hour when the scheduled window
                             to run one online archive starts.
-                          type: number
+                          format: int64
+                          type: integer
                         type:
                           description: Type of criteria (DATE, CUSTOM)
                           type: string

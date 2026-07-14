@@ -1,0 +1,10 @@
+This product includes code from the following third-party project:
+
+  terraform-provider-mongodbatlas
+  Copyright MongoDB, Inc.
+  Licensed under the Mozilla Public License 2.0 (MPL-2.0)
+  Source: https://github.com/mongodb/terraform-provider-mongodbatlas
+
+The MPL-2.0 licensed code is compiled into this binary as a Larger Work
+under the terms of MPL-2.0 Section 3.3. The source code of the MPL-2.0
+covered files is available at the URL above.

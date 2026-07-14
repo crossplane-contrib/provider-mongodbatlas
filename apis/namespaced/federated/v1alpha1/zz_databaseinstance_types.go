@@ -409,7 +409,7 @@ type PrivateEndpointHostnamesParameters struct {
 }
 
 type ReadPreferenceInitParameters struct {
-	MaxStalenessSeconds *float64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
+	MaxStalenessSeconds *int64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
 	// Read preference mode that specifies to which replica set member to route the read requests.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
@@ -419,7 +419,7 @@ type ReadPreferenceInitParameters struct {
 }
 
 type ReadPreferenceObservation struct {
-	MaxStalenessSeconds *float64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
+	MaxStalenessSeconds *int64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
 	// Read preference mode that specifies to which replica set member to route the read requests.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
@@ -431,7 +431,7 @@ type ReadPreferenceObservation struct {
 type ReadPreferenceParameters struct {
 
 	// +kubebuilder:validation:Optional
-	MaxStalenessSeconds *float64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
+	MaxStalenessSeconds *int64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
 	// Read preference mode that specifies to which replica set member to route the read requests.
 	// +kubebuilder:validation:Optional
@@ -459,7 +459,7 @@ type StorageDatabasesObservation struct {
 	// Array of objects where each object represents a collection and data sources that map to a stores data store.
 	Collections []CollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
 
-	MaxWildcardCollections *float64 `json:"maxWildcardCollections,omitempty" tf:"max_wildcard_collections,omitempty"`
+	MaxWildcardCollections *int64 `json:"maxWildcardCollections,omitempty" tf:"max_wildcard_collections,omitempty"`
 
 	// Human-readable label of the tag.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`

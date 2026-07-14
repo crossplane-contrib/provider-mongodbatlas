@@ -22,13 +22,13 @@ type MaintenanceWindowInitParameters struct {
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
 	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
-	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
 	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
-	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
+	HourOfDay *int64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
 	// The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -55,18 +55,18 @@ type MaintenanceWindowObservation struct {
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
 	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
-	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
 	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
-	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
+	HourOfDay *int64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Number of times the current maintenance event for this project has been deferred, there can be a maximum of 2 deferrals.
-	NumberOfDeferrals *float64 `json:"numberOfDeferrals,omitempty" tf:"number_of_deferrals,omitempty"`
+	NumberOfDeferrals *int64 `json:"numberOfDeferrals,omitempty" tf:"number_of_deferrals,omitempty"`
 
 	// The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -93,7 +93,7 @@ type MaintenanceWindowParameters struct {
 
 	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
 	// +kubebuilder:validation:Optional
-	DayOfWeek *float64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	// +kubebuilder:validation:Optional
@@ -101,7 +101,7 @@ type MaintenanceWindowParameters struct {
 
 	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
 	// +kubebuilder:validation:Optional
-	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
+	HourOfDay *int64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
 	// The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -124,30 +124,30 @@ type MaintenanceWindowParameters struct {
 type ProtectedHoursInitParameters struct {
 
 	// Zero-based integer that represents the end hour of the day for the protected hours window.
-	EndHourOfDay *float64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
+	EndHourOfDay *int64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
 
 	// Zero-based integer that represents the beginning hour of the day for the protected hours window.
-	StartHourOfDay *float64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
+	StartHourOfDay *int64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
 }
 
 type ProtectedHoursObservation struct {
 
 	// Zero-based integer that represents the end hour of the day for the protected hours window.
-	EndHourOfDay *float64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
+	EndHourOfDay *int64 `json:"endHourOfDay,omitempty" tf:"end_hour_of_day,omitempty"`
 
 	// Zero-based integer that represents the beginning hour of the day for the protected hours window.
-	StartHourOfDay *float64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
+	StartHourOfDay *int64 `json:"startHourOfDay,omitempty" tf:"start_hour_of_day,omitempty"`
 }
 
 type ProtectedHoursParameters struct {
 
 	// Zero-based integer that represents the end hour of the day for the protected hours window.
 	// +kubebuilder:validation:Optional
-	EndHourOfDay *float64 `json:"endHourOfDay" tf:"end_hour_of_day,omitempty"`
+	EndHourOfDay *int64 `json:"endHourOfDay" tf:"end_hour_of_day,omitempty"`
 
 	// Zero-based integer that represents the beginning hour of the day for the protected hours window.
 	// +kubebuilder:validation:Optional
-	StartHourOfDay *float64 `json:"startHourOfDay" tf:"start_hour_of_day,omitempty"`
+	StartHourOfDay *int64 `json:"startHourOfDay" tf:"start_hour_of_day,omitempty"`
 }
 
 // MaintenanceWindowSpec defines the desired state of MaintenanceWindow

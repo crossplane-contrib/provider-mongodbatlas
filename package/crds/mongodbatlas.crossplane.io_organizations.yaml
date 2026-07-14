@@ -166,7 +166,8 @@ spec:
                             secret, provided in hours. The minimum and maximum allowed
                             expiration times are subject to change and are controlled
                             by the organization's settings.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   skipDefaultAlertsSettings:
@@ -280,7 +281,8 @@ spec:
                             secret, provided in hours. The minimum and maximum allowed
                             expiration times are subject to change and are controlled
                             by the organization's settings.
-                          type: number
+                          format: int64
+                          type: integer
                       type: object
                     type: array
                   skipDefaultAlertsSettings:
@@ -490,7 +492,8 @@ spec:
                             secret, provided in hours. The minimum and maximum allowed
                             expiration times are subject to change and are controlled
                             by the organization's settings.
-                          type: number
+                          format: int64
+                          type: integer
                         secrets:
                           description: A list of secrets associated with the specified
                             Service Account. See Secrets.
@@ -505,11 +508,6 @@ spec:
                                 description: The date for the expiration of the secret.
                                   This parameter expresses its value in the ISO 8601
                                   timestamp format in UTC.
-                                type: string
-                              secret:
-                                description: (Sensitive) The secret for the Service
-                                  Account. It will be returned only the first time
-                                  after creation.
                                 type: string
                               secretId:
                                 description: Unique 24-hexadecimal digit string that

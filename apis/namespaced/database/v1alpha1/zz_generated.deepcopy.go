@@ -124,7 +124,7 @@ func (in *CertificatesObservation) DeepCopyInto(out *CertificatesObservation) {
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.NotAfter != nil {
@@ -602,7 +602,7 @@ func (in *X509UserAuthenticationInitParameters) DeepCopyInto(out *X509UserAuthen
 	}
 	if in.MonthsUntilExpiration != nil {
 		in, out := &in.MonthsUntilExpiration, &out.MonthsUntilExpiration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -686,7 +686,7 @@ func (in *X509UserAuthenticationObservation) DeepCopyInto(out *X509UserAuthentic
 	}
 	if in.MonthsUntilExpiration != nil {
 		in, out := &in.MonthsUntilExpiration, &out.MonthsUntilExpiration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -721,7 +721,7 @@ func (in *X509UserAuthenticationParameters) DeepCopyInto(out *X509UserAuthentica
 	}
 	if in.MonthsUntilExpiration != nil {
 		in, out := &in.MonthsUntilExpiration, &out.MonthsUntilExpiration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {

@@ -18,7 +18,7 @@ func (in *AdvancedConfigurationInitParameters) DeepCopyInto(out *AdvancedConfigu
 	*out = *in
 	if in.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds != nil {
 		in, out := &in.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds, &out.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.CustomOpensslCipherConfigTls12 != nil {
@@ -34,7 +34,7 @@ func (in *AdvancedConfigurationInitParameters) DeepCopyInto(out *AdvancedConfigu
 	}
 	if in.DefaultMaxTimeMs != nil {
 		in, out := &in.DefaultMaxTimeMs, &out.DefaultMaxTimeMs
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.DefaultReadConcern != nil {
@@ -74,17 +74,17 @@ func (in *AdvancedConfigurationInitParameters) DeepCopyInto(out *AdvancedConfigu
 	}
 	if in.OplogSizeMb != nil {
 		in, out := &in.OplogSizeMb, &out.OplogSizeMb
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SampleRefreshIntervalBiConnector != nil {
 		in, out := &in.SampleRefreshIntervalBiConnector, &out.SampleRefreshIntervalBiConnector
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SampleSizeBiConnector != nil {
 		in, out := &in.SampleSizeBiConnector, &out.SampleSizeBiConnector
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.TLSCipherConfigMode != nil {
@@ -94,7 +94,7 @@ func (in *AdvancedConfigurationInitParameters) DeepCopyInto(out *AdvancedConfigu
 	}
 	if in.TransactionLifetimeLimitSeconds != nil {
 		in, out := &in.TransactionLifetimeLimitSeconds, &out.TransactionLifetimeLimitSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -114,7 +114,7 @@ func (in *AdvancedConfigurationObservation) DeepCopyInto(out *AdvancedConfigurat
 	*out = *in
 	if in.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds != nil {
 		in, out := &in.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds, &out.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.CustomOpensslCipherConfigTls12 != nil {
@@ -130,7 +130,7 @@ func (in *AdvancedConfigurationObservation) DeepCopyInto(out *AdvancedConfigurat
 	}
 	if in.DefaultMaxTimeMs != nil {
 		in, out := &in.DefaultMaxTimeMs, &out.DefaultMaxTimeMs
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.DefaultReadConcern != nil {
@@ -170,17 +170,17 @@ func (in *AdvancedConfigurationObservation) DeepCopyInto(out *AdvancedConfigurat
 	}
 	if in.OplogSizeMb != nil {
 		in, out := &in.OplogSizeMb, &out.OplogSizeMb
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SampleRefreshIntervalBiConnector != nil {
 		in, out := &in.SampleRefreshIntervalBiConnector, &out.SampleRefreshIntervalBiConnector
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SampleSizeBiConnector != nil {
 		in, out := &in.SampleSizeBiConnector, &out.SampleSizeBiConnector
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.TLSCipherConfigMode != nil {
@@ -190,7 +190,7 @@ func (in *AdvancedConfigurationObservation) DeepCopyInto(out *AdvancedConfigurat
 	}
 	if in.TransactionLifetimeLimitSeconds != nil {
 		in, out := &in.TransactionLifetimeLimitSeconds, &out.TransactionLifetimeLimitSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -210,7 +210,7 @@ func (in *AdvancedConfigurationParameters) DeepCopyInto(out *AdvancedConfigurati
 	*out = *in
 	if in.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds != nil {
 		in, out := &in.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds, &out.ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.CustomOpensslCipherConfigTls12 != nil {
@@ -226,7 +226,7 @@ func (in *AdvancedConfigurationParameters) DeepCopyInto(out *AdvancedConfigurati
 	}
 	if in.DefaultMaxTimeMs != nil {
 		in, out := &in.DefaultMaxTimeMs, &out.DefaultMaxTimeMs
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.DefaultReadConcern != nil {
@@ -266,17 +266,17 @@ func (in *AdvancedConfigurationParameters) DeepCopyInto(out *AdvancedConfigurati
 	}
 	if in.OplogSizeMb != nil {
 		in, out := &in.OplogSizeMb, &out.OplogSizeMb
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SampleRefreshIntervalBiConnector != nil {
 		in, out := &in.SampleRefreshIntervalBiConnector, &out.SampleRefreshIntervalBiConnector
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.SampleSizeBiConnector != nil {
 		in, out := &in.SampleSizeBiConnector, &out.SampleSizeBiConnector
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.TLSCipherConfigMode != nil {
@@ -286,7 +286,7 @@ func (in *AdvancedConfigurationParameters) DeepCopyInto(out *AdvancedConfigurati
 	}
 	if in.TransactionLifetimeLimitSeconds != nil {
 		in, out := &in.TransactionLifetimeLimitSeconds, &out.TransactionLifetimeLimitSeconds
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -489,7 +489,7 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Paused != nil {
@@ -536,7 +536,7 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.ProviderDiskIops != nil {
 		in, out := &in.ProviderDiskIops, &out.ProviderDiskIops
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProviderDiskTypeName != nil {
@@ -576,7 +576,7 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.ReplicationFactor != nil {
 		in, out := &in.ReplicationFactor, &out.ReplicationFactor
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReplicationSpecs != nil {
@@ -780,7 +780,7 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Paused != nil {
@@ -817,7 +817,7 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.ProviderDiskIops != nil {
 		in, out := &in.ProviderDiskIops, &out.ProviderDiskIops
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProviderDiskTypeName != nil {
@@ -862,7 +862,7 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.ReplicationFactor != nil {
 		in, out := &in.ReplicationFactor, &out.ReplicationFactor
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReplicationSpecs != nil {
@@ -1009,7 +1009,7 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Paused != nil {
@@ -1056,7 +1056,7 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.ProviderDiskIops != nil {
 		in, out := &in.ProviderDiskIops, &out.ProviderDiskIops
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProviderDiskTypeName != nil {
@@ -1096,7 +1096,7 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.ReplicationFactor != nil {
 		in, out := &in.ReplicationFactor, &out.ReplicationFactor
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReplicationSpecs != nil {
@@ -1524,7 +1524,7 @@ func (in *PolicyItemObservation) DeepCopyInto(out *PolicyItemObservation) {
 	*out = *in
 	if in.FrequencyInterval != nil {
 		in, out := &in.FrequencyInterval, &out.FrequencyInterval
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FrequencyType != nil {
@@ -1544,7 +1544,7 @@ func (in *PolicyItemObservation) DeepCopyInto(out *PolicyItemObservation) {
 	}
 	if in.RetentionValue != nil {
 		in, out := &in.RetentionValue, &out.RetentionValue
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1651,22 +1651,22 @@ func (in *RegionsConfigInitParameters) DeepCopyInto(out *RegionsConfigInitParame
 	*out = *in
 	if in.AnalyticsNodes != nil {
 		in, out := &in.AnalyticsNodes, &out.AnalyticsNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ElectableNodes != nil {
 		in, out := &in.ElectableNodes, &out.ElectableNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReadOnlyNodes != nil {
 		in, out := &in.ReadOnlyNodes, &out.ReadOnlyNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RegionName != nil {
@@ -1691,22 +1691,22 @@ func (in *RegionsConfigObservation) DeepCopyInto(out *RegionsConfigObservation) 
 	*out = *in
 	if in.AnalyticsNodes != nil {
 		in, out := &in.AnalyticsNodes, &out.AnalyticsNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ElectableNodes != nil {
 		in, out := &in.ElectableNodes, &out.ElectableNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReadOnlyNodes != nil {
 		in, out := &in.ReadOnlyNodes, &out.ReadOnlyNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RegionName != nil {
@@ -1731,22 +1731,22 @@ func (in *RegionsConfigParameters) DeepCopyInto(out *RegionsConfigParameters) {
 	*out = *in
 	if in.AnalyticsNodes != nil {
 		in, out := &in.AnalyticsNodes, &out.AnalyticsNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ElectableNodes != nil {
 		in, out := &in.ElectableNodes, &out.ElectableNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReadOnlyNodes != nil {
 		in, out := &in.ReadOnlyNodes, &out.ReadOnlyNodes
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RegionName != nil {
@@ -1776,7 +1776,7 @@ func (in *ReplicationSpecsInitParameters) DeepCopyInto(out *ReplicationSpecsInit
 	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RegionsConfig != nil {
@@ -1813,7 +1813,7 @@ func (in *ReplicationSpecsObservation) DeepCopyInto(out *ReplicationSpecsObserva
 	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RegionsConfig != nil {
@@ -1850,7 +1850,7 @@ func (in *ReplicationSpecsParameters) DeepCopyInto(out *ReplicationSpecsParamete
 	}
 	if in.NumShards != nil {
 		in, out := &in.NumShards, &out.NumShards
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RegionsConfig != nil {
@@ -1919,17 +1919,17 @@ func (in *SnapshotBackupPolicyObservation) DeepCopyInto(out *SnapshotBackupPolic
 	}
 	if in.ReferenceHourOfDay != nil {
 		in, out := &in.ReferenceHourOfDay, &out.ReferenceHourOfDay
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReferenceMinuteOfHour != nil {
 		in, out := &in.ReferenceMinuteOfHour, &out.ReferenceMinuteOfHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RestoreWindowDays != nil {
 		in, out := &in.RestoreWindowDays, &out.RestoreWindowDays
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.UpdateSnapshots != nil {

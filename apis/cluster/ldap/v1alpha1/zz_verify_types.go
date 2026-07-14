@@ -57,7 +57,7 @@ type VerifyInitParameters struct {
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// The port to which the LDAP server listens for client connections. Default: 636
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	Port *int64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -92,7 +92,7 @@ type VerifyObservation struct {
 	Links []LinksObservation `json:"links,omitempty" tf:"links,omitempty"`
 
 	// The port to which the LDAP server listens for client connections. Default: 636
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	Port *int64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -131,7 +131,7 @@ type VerifyParameters struct {
 
 	// The port to which the LDAP server listens for client connections. Default: 636
 	// +kubebuilder:validation:Optional
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	Port *int64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The unique ID for the project to configure LDAP, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project

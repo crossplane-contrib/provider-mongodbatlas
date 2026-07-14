@@ -5,6 +5,7 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/password"
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/resources"
@@ -15,6 +16,9 @@ const (
 	modulePath     = "github.com/crossplane-contrib/provider-mongodbatlas"
 )
 
+// SkipTfResourceList resources excluded from code generation.
+// - encryption_at_rest: historically broken under CLI mode (state drift on key fields); re-evaluate under no-fork.
+// - teams: deprecated alias for mongodbatlas_team (SDKv2); upstream recommends mongodbatlas_team.
 var SkipTfResourceList = []string{
 	"mongodbatlas_encryption_at_rest",
 	"mongodbatlas_teams",
@@ -47,10 +51,16 @@ func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitia
 			ManagedResourceNamespace: "crossplane-system",
 		}),
 		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithRootGroup(rootGroup),
 		ujconfig.WithShortName("mongodbatlas"),
 		ujconfig.WithSkipList(SkipTfResourceList),
+		ujconfig.WithTerraformProvider(xpshim.GetSDKProvider()),
+		ujconfig.WithTerraformPluginFrameworkProvider(xpshim.GetFrameworkProvider()),
+		// IncludeList defaults to [".+"] (all resources).
+		// Clear it to avoid overlap with the typed lists below.
+		ujconfig.WithIncludeList(nil),
+		ujconfig.WithTerraformPluginSDKIncludeList(TerraformSDKIncludeList()),
+		ujconfig.WithTerraformPluginFrameworkIncludeList(TerraformFrameworkIncludeList()),
 	)
 
 	resources.ConfigureAlert(pc)

@@ -48,7 +48,7 @@ type BackupSnapshotInitParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The number of days that Atlas should retain the on-demand snapshot. Must be at least 1.
-	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
+	RetentionInDays *int64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
 }
 
 type BackupSnapshotObservation struct {
@@ -90,7 +90,7 @@ type BackupSnapshotObservation struct {
 	ReplicaSetName *string `json:"replicaSetName,omitempty" tf:"replica_set_name,omitempty"`
 
 	// The number of days that Atlas should retain the on-demand snapshot. Must be at least 1.
-	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
+	RetentionInDays *int64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
 
 	// Unique identifier of the snapshot.
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
@@ -105,7 +105,7 @@ type BackupSnapshotObservation struct {
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// Specifies the size of the snapshot in bytes.
-	StorageSizeBytes *float64 `json:"storageSizeBytes,omitempty" tf:"storage_size_bytes,omitempty"`
+	StorageSizeBytes *int64 `json:"storageSizeBytes,omitempty" tf:"storage_size_bytes,omitempty"`
 
 	// Specifies the type of cluster: replicaSet or shardedCluster.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -151,7 +151,7 @@ type BackupSnapshotParameters struct {
 
 	// The number of days that Atlas should retain the on-demand snapshot. Must be at least 1.
 	// +kubebuilder:validation:Optional
-	RetentionInDays *float64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
+	RetentionInDays *int64 `json:"retentionInDays,omitempty" tf:"retention_in_days,omitempty"`
 }
 
 type MembersInitParameters struct {

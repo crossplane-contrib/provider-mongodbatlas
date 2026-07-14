@@ -60,13 +60,15 @@ spec:
                 properties:
                   defaultLimit:
                     description: Default value of the limit.
-                    type: number
+                    format: int64
+                    type: integer
                   limitName:
                     description: 'String enum that indicates whether the identity
                       provider is active or not. Accepted values are:'
                     type: string
                   maximumLimit:
-                    type: number
+                    format: int64
+                    type: integer
                   overrunPolicy:
                     description: String enum that identifies action to take when the
                       usage limit is exceeded. If limit span is set to QUERY, this
@@ -164,7 +166,8 @@ spec:
                     type: string
                   value:
                     description: Amount to set the limit to.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -181,13 +184,15 @@ spec:
                 properties:
                   defaultLimit:
                     description: Default value of the limit.
-                    type: number
+                    format: int64
+                    type: integer
                   limitName:
                     description: 'String enum that indicates whether the identity
                       provider is active or not. Accepted values are:'
                     type: string
                   maximumLimit:
-                    type: number
+                    format: int64
+                    type: integer
                   overrunPolicy:
                     description: String enum that identifies action to take when the
                       usage limit is exceeded. If limit span is set to QUERY, this
@@ -285,7 +290,8 @@ spec:
                     type: string
                   value:
                     description: Amount to set the limit to.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -369,10 +375,12 @@ spec:
                 properties:
                   currentUsage:
                     description: Amount that indicates the current usage of the limit.
-                    type: number
+                    format: int64
+                    type: integer
                   defaultLimit:
                     description: Default value of the limit.
-                    type: number
+                    format: int64
+                    type: integer
                   id:
                     type: string
                   lastModifiedDate:
@@ -382,7 +390,8 @@ spec:
                       provider is active or not. Accepted values are:'
                     type: string
                   maximumLimit:
-                    type: number
+                    format: int64
+                    type: integer
                   overrunPolicy:
                     description: String enum that identifies action to take when the
                       usage limit is exceeded. If limit span is set to QUERY, this
@@ -398,7 +407,8 @@ spec:
                     type: string
                   value:
                     description: Amount to set the limit to.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               conditions:
                 description: Conditions of the resource.

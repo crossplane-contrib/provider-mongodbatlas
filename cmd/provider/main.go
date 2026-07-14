@@ -34,8 +34,8 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
-	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/go-logr/logr"
+	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	authv1 "k8s.io/api/authorization/v1"
@@ -83,7 +83,10 @@ var cli struct {
 	PollInterval            time.Duration `help:"How often individual resources will be checked for drift from the desired state" default:"1m"`
 	PollStateMetricInterval time.Duration `help:"State metric recording interval" default:"5s"`
 
-	MaxReconcileRate         int           `help:"The global maximum rate per second at which resources may checked for drift from the desired state." default:"10"`
+	MaxReconcileRate int `help:"The global maximum rate per second at which resources may checked for drift from the desired state." default:"10"`
+
+	PprofBindAddress string `help:"The address the pprof profiling server listens on (e.g. :8083). Empty disables profiling." default:"" env:"PPROF_BIND_ADDRESS"`
+
 	EnableManagementPolicies bool          `help:"Enable support for Management Policies." default:"true" env:"ENABLE_MANAGEMENT_POLICIES"`
 	EnableChangeLogs         bool          `help:"Enable support for capturing change logs during reconciliation." default:"false" env:"ENABLE_CHANGE_LOGS"`
 	ChangelogsSocketPath     string        `help:"Path for changelogs socket (if enabled)" default:"/var/run/changelogs/changelogs.sock" env:"CHANGELOGS_SOCKET_PATH"`
@@ -91,10 +94,7 @@ var cli struct {
 	MetricsBindAddress       string        `help:"The address the metrics server listens on" default:":8081" env:"METRICS_BIND_ADDRESS"`
 	BrokerConnectionTimeout  time.Duration `help:"Timeout for establishing connection to Kafka brokers" default:"30s"`
 
-	TerraformVersion string   `required:"true" help:"Terraform version" env:"TERRAFORM_VERSION"`
-	ProviderSource   string   `required:"true" help:"Terraform provider source" env:"TERRAFORM_PROVIDER_SOURCE"`
-	ProviderVersion  string   `required:"true" help:"Terraform provider version" env:"TERRAFORM_PROVIDER_VERSION"`
-	CertsDir         certsDir `help:"The directory that contains the server key and certificate" default:"${defaultCertsDir}" env:"${defautCertsDirEnvVar}"`
+	CertsDir certsDir `help:"The directory that contains the server key and certificate" default:"${defaultCertsDir}" env:"${defautCertsDirEnvVar}"`
 }
 
 func main() {
@@ -129,26 +129,8 @@ func main() {
 	cfg, err := ctrl.GetConfig()
 	ctx.FatalIfErrorf(err, "Cannot get API server rest config")
 
-	// Get the TLS certs directory from the environment variables set by
-	// Crossplane if they're available.
-	// In older XP versions we used WEBHOOK_TLS_CERT_DIR, in newer versions
-	// we use TLS_SERVER_CERTS_DIR. If an explicit certs dir is not supplied
-	// via the command-line options, then these environment variables are used
-	// instead.
 	if !certsDirSet {
-		// backwards-compatibility concerns
-		xpCertsDir := os.Getenv(certsDirEnvVar)
-		if xpCertsDir == "" {
-			xpCertsDir = os.Getenv(tlsServerCertDirEnvVar)
-		}
-		if xpCertsDir == "" {
-			xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
-		}
-		// we probably don't need this condition but just to be on the
-		// safe side, if we are missing any kong machinery details...
-		if xpCertsDir != "" {
-			cli.CertsDir = certsDir(xpCertsDir)
-		}
+		cli.CertsDir = certsDirFromEnv(cli.CertsDir)
 	}
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
@@ -157,6 +139,7 @@ func main() {
 		Cache: cache.Options{
 			SyncPeriod: &cli.SyncPeriod,
 		},
+		PprofBindAddress: cli.PprofBindAddress,
 		Metrics: metricsserver.Options{
 			BindAddress: cli.MetricsBindAddress,
 		},
@@ -182,6 +165,11 @@ func main() {
 	metrics.Registry.MustRegister(metricRecorder)
 	metrics.Registry.MustRegister(stateMetrics)
 
+	sdkProvider := xpshim.GetSDKProvider()
+	fwProvider := xpshim.GetFrameworkProvider()
+	setupFn := clients.TerraformSetupBuilder(sdkProvider, fwProvider)
+	otStore := tjcontroller.NewOperationStore(log)
+
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  log,
@@ -195,11 +183,11 @@ func main() {
 				MRStateMetrics:          stateMetrics,
 			},
 		},
-		Provider:       config.GetidentifierFromProvider(),
-		SetupFn:        clients.TerraformSetupBuilder(cli.TerraformVersion, cli.ProviderSource, cli.ProviderVersion),
-		WorkspaceStore: terraform.NewWorkspaceStore(log),
-		PollJitter:     pollJitter,
-		StartWebhooks:  cli.CertsDir != "",
+		Provider:              config.GetidentifierFromProvider(),
+		SetupFn:               setupFn,
+		OperationTrackerStore: otStore,
+		PollJitter:            pollJitter,
+		StartWebhooks:         cli.CertsDir != "",
 	}
 
 	namespacedOpts := tjcontroller.Options{
@@ -215,11 +203,11 @@ func main() {
 				MRStateMetrics:          stateMetrics,
 			},
 		},
-		Provider:       config.GetProviderNamespaced(),
-		SetupFn:        clients.TerraformSetupBuilder(cli.TerraformVersion, cli.ProviderSource, cli.ProviderVersion),
-		WorkspaceStore: terraform.NewWorkspaceStore(log),
-		PollJitter:     pollJitter,
-		StartWebhooks:  cli.CertsDir != "",
+		Provider:              config.GetProviderNamespaced(),
+		SetupFn:               setupFn,
+		OperationTrackerStore: otStore,
+		PollJitter:            pollJitter,
+		StartWebhooks:         cli.CertsDir != "",
 	}
 
 	if cli.EnableManagementPolicies {
@@ -270,6 +258,29 @@ func main() {
 	}
 
 	ctx.FatalIfErrorf(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
+}
+
+// certsDirFromEnv returns the TLS certs directory from the environment
+// variables set by Crossplane if they're available.
+// In older XP versions we used WEBHOOK_TLS_CERT_DIR, in newer versions
+// we use TLS_SERVER_CERTS_DIR. If an explicit certs dir is not supplied
+// via the command-line options, then these environment variables are used
+// instead.
+func certsDirFromEnv(fallback certsDir) certsDir {
+	// backwards-compatibility concerns
+	xpCertsDir := os.Getenv(certsDirEnvVar)
+	if xpCertsDir == "" {
+		xpCertsDir = os.Getenv(tlsServerCertDirEnvVar)
+	}
+	if xpCertsDir == "" {
+		xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
+	}
+	// we probably don't need this condition but just to be on the
+	// safe side, if we are missing any kong machinery details...
+	if xpCertsDir != "" {
+		return certsDir(xpCertsDir)
+	}
+	return fallback
 }
 
 func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {

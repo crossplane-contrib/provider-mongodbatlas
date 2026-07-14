@@ -1,4 +1,5 @@
 /.cache
+/.claude
 /.work
 /_output
 cover.out
@@ -6,10 +7,11 @@ cover.out
 /.vendor-new
 .DS_Store
 /.go-version
+/third_party
 /extensions/*
 !/extensions/icons
 
 # ignore IDE folders
 .vscode/
 .idea/
-.claude/
+

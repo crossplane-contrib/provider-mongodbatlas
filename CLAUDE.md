@@ -19,6 +19,7 @@ Upjet-based Crossplane provider for MongoDB Atlas. Generates CRDs from the `mong
 
 ## Key Commands
 
+- `make provider-source` — Extract the Atlas Terraform provider source into `third_party/` (gitignored) and inject the `xpshim` package. **Required on fresh checkouts before anything compiles** (go.mod has a `replace` directive pointing at `third_party/`). Runs automatically as part of `make build` and `make generate`. SHA-pinned via `PROVIDER_SOURCE_SHA` in the Makefile — update it together with `TERRAFORM_PROVIDER_VERSION`.
 - `make generate` — Regenerate APIs, controllers, CRDs, and examples from config
 - `make build` — Build provider binaries
 - `make local-deploy` — Build and deploy provider locally (requires a running cluster)

@@ -17,13 +17,13 @@ import (
 type AdvancedConfigurationInitParameters struct {
 
 	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively.expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
-	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *int64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
 	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when tls_cipher_config_mode is set to CUSTOM.
 	// +listType=set
 	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
 
-	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+	DefaultMaxTimeMs *int64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
 
 	// Default level of acknowledgment requested from MongoDB for read operations set for this cluster. (DEPRECATED) MongoDB 6.0 and later clusters default to local. To use a custom read concern level, please refer to your driver documentation.
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
@@ -47,31 +47,31 @@ type AdvancedConfigurationInitParameters struct {
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
 	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
-	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
+	OplogSizeMb *int64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
 	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
-	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
+	SampleRefreshIntervalBiConnector *int64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	// Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
-	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+	SampleSizeBiConnector *int64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
 
 	// The TLS cipher suite configuration mode. Valid values include CUSTOM or DEFAULT. The DEFAULT mode uses the default cipher suites. The CUSTOM mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to DEFAULT.
 	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
 
 	// Lifetime, in seconds, of multi-document transactions. Defaults to 60 seconds.
-	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
+	TransactionLifetimeLimitSeconds *int64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AdvancedConfigurationObservation struct {
 
 	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively.expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
-	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *int64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
 	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when tls_cipher_config_mode is set to CUSTOM.
 	// +listType=set
 	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
 
-	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+	DefaultMaxTimeMs *int64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
 
 	// Default level of acknowledgment requested from MongoDB for read operations set for this cluster. (DEPRECATED) MongoDB 6.0 and later clusters default to local. To use a custom read concern level, please refer to your driver documentation.
 	DefaultReadConcern *string `json:"defaultReadConcern,omitempty" tf:"default_read_concern,omitempty"`
@@ -95,26 +95,26 @@ type AdvancedConfigurationObservation struct {
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
 	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
-	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
+	OplogSizeMb *int64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
 	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
-	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
+	SampleRefreshIntervalBiConnector *int64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	// Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
-	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+	SampleSizeBiConnector *int64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
 
 	// The TLS cipher suite configuration mode. Valid values include CUSTOM or DEFAULT. The DEFAULT mode uses the default cipher suites. The CUSTOM mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to DEFAULT.
 	TLSCipherConfigMode *string `json:"tlsCipherConfigMode,omitempty" tf:"tls_cipher_config_mode,omitempty"`
 
 	// Lifetime, in seconds, of multi-document transactions. Defaults to 60 seconds.
-	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
+	TransactionLifetimeLimitSeconds *int64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type AdvancedConfigurationParameters struct {
 
 	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively.expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
 	// +kubebuilder:validation:Optional
-	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
+	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *int64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
 	// The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when tls_cipher_config_mode is set to CUSTOM.
 	// +kubebuilder:validation:Optional
@@ -122,7 +122,7 @@ type AdvancedConfigurationParameters struct {
 	CustomOpensslCipherConfigTls12 []*string `json:"customOpensslCipherConfigTls12,omitempty" tf:"custom_openssl_cipher_config_tls12,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
+	DefaultMaxTimeMs *int64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
 
 	// Default level of acknowledgment requested from MongoDB for read operations set for this cluster. (DEPRECATED) MongoDB 6.0 and later clusters default to local. To use a custom read concern level, please refer to your driver documentation.
 	// +kubebuilder:validation:Optional
@@ -154,15 +154,15 @@ type AdvancedConfigurationParameters struct {
 
 	// The custom oplog size of the cluster. Without a value that indicates that the cluster uses the default oplog size calculated by Atlas.
 	// +kubebuilder:validation:Optional
-	OplogSizeMb *float64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
+	OplogSizeMb *int64 `json:"oplogSizeMb,omitempty" tf:"oplog_size_mb,omitempty"`
 
 	// Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	// +kubebuilder:validation:Optional
-	SampleRefreshIntervalBiConnector *float64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
+	SampleRefreshIntervalBiConnector *int64 `json:"sampleRefreshIntervalBiConnector,omitempty" tf:"sample_refresh_interval_bi_connector,omitempty"`
 
 	// Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.
 	// +kubebuilder:validation:Optional
-	SampleSizeBiConnector *float64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
+	SampleSizeBiConnector *int64 `json:"sampleSizeBiConnector,omitempty" tf:"sample_size_bi_connector,omitempty"`
 
 	// The TLS cipher suite configuration mode. Valid values include CUSTOM or DEFAULT. The DEFAULT mode uses the default cipher suites. The CUSTOM mode allows you to specify custom cipher suites for both TLS 1.2 and TLS 1.3. To unset, this should be set back to DEFAULT.
 	// +kubebuilder:validation:Optional
@@ -170,7 +170,7 @@ type AdvancedConfigurationParameters struct {
 
 	// Lifetime, in seconds, of multi-document transactions. Defaults to 60 seconds.
 	// +kubebuilder:validation:Optional
-	TransactionLifetimeLimitSeconds *float64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
+	TransactionLifetimeLimitSeconds *int64 `json:"transactionLifetimeLimitSeconds,omitempty" tf:"transaction_lifetime_limit_seconds,omitempty"`
 }
 
 type BiConnectorConfigInitParameters struct {
@@ -256,7 +256,7 @@ type ClusterInitParameters struct {
 
 	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	NumShards *int64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	// Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
 	// NOTE Pause lasts for up to 30 days. If you don't resume the cluster within 30 days, Atlas resumes the cluster.   If you prefer to allow the automated change of state to unpaused use:
@@ -289,7 +289,7 @@ type ClusterInitParameters struct {
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
 
 	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
-	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
+	ProviderDiskIops *int64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
 	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
@@ -315,7 +315,7 @@ type ClusterInitParameters struct {
 	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
 
 	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
-	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
+	ReplicationFactor *int64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	// Configuration for cluster regions.  See Replication Spec below for more details.
 	// +listType=atomic
@@ -414,7 +414,7 @@ type ClusterObservation struct {
 
 	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	NumShards *int64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	// Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
 	// NOTE Pause lasts for up to 30 days. If you don't resume the cluster within 30 days, Atlas resumes the cluster.   If you prefer to allow the automated change of state to unpaused use:
@@ -438,7 +438,7 @@ type ClusterObservation struct {
 	ProviderAutoScalingComputeMinInstanceSize *string `json:"providerAutoScalingComputeMinInstanceSize,omitempty" tf:"provider_auto_scaling_compute_min_instance_size,omitempty"`
 
 	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
-	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
+	ProviderDiskIops *int64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
 	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
@@ -466,7 +466,7 @@ type ClusterObservation struct {
 	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
 
 	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
-	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
+	ReplicationFactor *int64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	// Configuration for cluster regions.  See Replication Spec below for more details.
 	// +listType=atomic
@@ -566,7 +566,7 @@ type ClusterParameters struct {
 	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
 	// +kubebuilder:validation:Optional
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	NumShards *int64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	// Flag that indicates whether the cluster is paused or not. You can pause M10 or larger clusters.  You cannot initiate pausing for a shared/tenant tier cluster.  See Considerations for Paused Clusters
 	// NOTE Pause lasts for up to 30 days. If you don't resume the cluster within 30 days, Atlas resumes the cluster.   If you prefer to allow the automated change of state to unpaused use:
@@ -606,7 +606,7 @@ type ClusterParameters struct {
 
 	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
 	// +kubebuilder:validation:Optional
-	ProviderDiskIops *float64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
+	ProviderDiskIops *int64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
 	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
 	// +kubebuilder:validation:Optional
@@ -640,7 +640,7 @@ type ClusterParameters struct {
 
 	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
 	// +kubebuilder:validation:Optional
-	ReplicationFactor *float64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
+	ReplicationFactor *int64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
 	// Configuration for cluster regions.  See Replication Spec below for more details.
 	// +kubebuilder:validation:Optional
@@ -780,7 +780,7 @@ type PolicyItemInitParameters struct {
 type PolicyItemObservation struct {
 
 	// The frequency interval for a set of snapshots.
-	FrequencyInterval *float64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
+	FrequencyInterval *int64 `json:"frequencyInterval,omitempty" tf:"frequency_interval,omitempty"`
 
 	// A type of frequency (hourly, daily, weekly, monthly).
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
@@ -792,7 +792,7 @@ type PolicyItemObservation struct {
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 
 	// The number of days, weeks, or months the snapshot is retained.
-	RetentionValue *float64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
 }
 
 type PolicyItemParameters struct {
@@ -825,16 +825,16 @@ type PrivateEndpointParameters struct {
 type RegionsConfigInitParameters struct {
 
 	// The number of analytics nodes for Atlas to deploy to the region. Analytics nodes are useful for handling analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only, and can never become the primary. If you do not specify this option, no analytics nodes are deployed to the region.
-	AnalyticsNodes *float64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
+	AnalyticsNodes *int64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
 
 	// Number of electable nodes for Atlas to deploy to the region. Electable nodes can become the primary and can facilitate local reads.
-	ElectableNodes *float64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
+	ElectableNodes *int64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
 
 	// is 0.
-	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+	Priority *int64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.
-	ReadOnlyNodes *float64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
+	ReadOnlyNodes *int64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
 
 	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
@@ -843,16 +843,16 @@ type RegionsConfigInitParameters struct {
 type RegionsConfigObservation struct {
 
 	// The number of analytics nodes for Atlas to deploy to the region. Analytics nodes are useful for handling analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only, and can never become the primary. If you do not specify this option, no analytics nodes are deployed to the region.
-	AnalyticsNodes *float64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
+	AnalyticsNodes *int64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
 
 	// Number of electable nodes for Atlas to deploy to the region. Electable nodes can become the primary and can facilitate local reads.
-	ElectableNodes *float64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
+	ElectableNodes *int64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
 
 	// is 0.
-	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+	Priority *int64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.
-	ReadOnlyNodes *float64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
+	ReadOnlyNodes *int64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
 
 	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
@@ -862,19 +862,19 @@ type RegionsConfigParameters struct {
 
 	// The number of analytics nodes for Atlas to deploy to the region. Analytics nodes are useful for handling analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only, and can never become the primary. If you do not specify this option, no analytics nodes are deployed to the region.
 	// +kubebuilder:validation:Optional
-	AnalyticsNodes *float64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
+	AnalyticsNodes *int64 `json:"analyticsNodes,omitempty" tf:"analytics_nodes,omitempty"`
 
 	// Number of electable nodes for Atlas to deploy to the region. Electable nodes can become the primary and can facilitate local reads.
 	// +kubebuilder:validation:Optional
-	ElectableNodes *float64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
+	ElectableNodes *int64 `json:"electableNodes,omitempty" tf:"electable_nodes,omitempty"`
 
 	// is 0.
 	// +kubebuilder:validation:Optional
-	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+	Priority *int64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.
 	// +kubebuilder:validation:Optional
-	ReadOnlyNodes *float64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
+	ReadOnlyNodes *int64 `json:"readOnlyNodes,omitempty" tf:"read_only_nodes,omitempty"`
 
 	// Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
 	// +kubebuilder:validation:Optional
@@ -888,7 +888,7 @@ type ReplicationSpecsInitParameters struct {
 
 	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	NumShards *int64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
 	RegionsConfig []RegionsConfigInitParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
@@ -904,7 +904,7 @@ type ReplicationSpecsObservation struct {
 
 	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
-	NumShards *float64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
+	NumShards *int64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
 	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
 	RegionsConfig []RegionsConfigObservation `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
@@ -922,7 +922,7 @@ type ReplicationSpecsParameters struct {
 	// Number of shards up to 50 to deploy for a sharded cluster. The resource returns 1 to indicate a replica set and values of 2 and higher to indicate a sharded cluster. The returned value equals the number of shards in the cluster.
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
 	// +kubebuilder:validation:Optional
-	NumShards *float64 `json:"numShards" tf:"num_shards,omitempty"`
+	NumShards *int64 `json:"numShards" tf:"num_shards,omitempty"`
 
 	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
 	// +kubebuilder:validation:Optional
@@ -951,13 +951,13 @@ type SnapshotBackupPolicyObservation struct {
 	Policies []PoliciesObservation `json:"policies,omitempty" tf:"policies,omitempty"`
 
 	// UTC Hour of day between 0 and 23 representing which hour of the day that Atlas takes a snapshot.
-	ReferenceHourOfDay *float64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
+	ReferenceHourOfDay *int64 `json:"referenceHourOfDay,omitempty" tf:"reference_hour_of_day,omitempty"`
 
 	// UTC Minute of day between 0 and 59 representing which minute of the referenceHourOfDay that Atlas takes the snapshot.
-	ReferenceMinuteOfHour *float64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
+	ReferenceMinuteOfHour *int64 `json:"referenceMinuteOfHour,omitempty" tf:"reference_minute_of_hour,omitempty"`
 
 	// Specifies a restore window in days for the cloud provider backup to maintain.
-	RestoreWindowDays *float64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
+	RestoreWindowDays *int64 `json:"restoreWindowDays,omitempty" tf:"restore_window_days,omitempty"`
 
 	// Specifies it's true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`

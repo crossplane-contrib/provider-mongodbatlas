@@ -75,7 +75,8 @@ spec:
                   monthsUntilExpiration:
                     description: A number of months that the created certificate is
                       valid for before expiry, up to 24 months. By default is 3.
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: Identifier for the Atlas project associated with
                       the X.509 configuration, also known as groupId in the official
@@ -197,7 +198,8 @@ spec:
                   monthsUntilExpiration:
                     description: A number of months that the created certificate is
                       valid for before expiry, up to 24 months. By default is 3.
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: Identifier for the Atlas project associated with
                       the X.509 configuration, also known as groupId in the official
@@ -369,7 +371,8 @@ spec:
                           type: string
                         id:
                           description: Serial number of this certificate.
-                          type: number
+                          format: int64
+                          type: integer
                         notAfter:
                           description: Timestamp in ISO 8601 date and time format
                             in UTC when this certificate expires.
@@ -387,7 +390,8 @@ spec:
                   monthsUntilExpiration:
                     description: A number of months that the created certificate is
                       valid for before expiry, up to 24 months. By default is 3.
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: Identifier for the Atlas project associated with
                       the X.509 configuration, also known as groupId in the official

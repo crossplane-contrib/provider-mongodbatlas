@@ -8,7 +8,7 @@
 package xpshim
 
 import (
-	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
+	tpf "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/mongodb/terraform-provider-mongodbatlas/internal/provider"
@@ -21,6 +21,6 @@ func GetSDKProvider() *schema.Provider {
 
 // GetFrameworkProvider returns the plugin-framework half of the muxed Atlas
 // provider.
-func GetFrameworkProvider() fwprovider.Provider {
+func GetFrameworkProvider() tpf.Provider {
 	return provider.NewFrameworkProvider()
 }

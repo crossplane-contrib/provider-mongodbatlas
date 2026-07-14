@@ -53,10 +53,12 @@ func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitia
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithRootGroup(rootGroup),
 		ujconfig.WithShortName("mongodbatlas"),
-		ujconfig.WithIncludeList(nil),
 		ujconfig.WithSkipList(SkipTfResourceList),
 		ujconfig.WithTerraformProvider(xpshim.GetSDKProvider()),
 		ujconfig.WithTerraformPluginFrameworkProvider(xpshim.GetFrameworkProvider()),
+		// IncludeList defaults to [".+"] (all resources).
+		// Clear it to avoid overlap with the typed lists below.
+		ujconfig.WithIncludeList(nil),
 		ujconfig.WithTerraformPluginSDKIncludeList(TerraformSDKIncludeList()),
 		ujconfig.WithTerraformPluginFrameworkIncludeList(TerraformFrameworkIncludeList()),
 	)

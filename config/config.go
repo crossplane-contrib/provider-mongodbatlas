@@ -85,12 +85,12 @@ var terraformFrameworkIncludedResources = []string{
 	"mongodbatlas_team_project_assignment",
 }
 
-// includedResources returns all TF resources (SDK + framework combined).
-func includedResources() []string {
-	all := make([]string, 0, len(terraformSDKIncludedResources)+len(terraformFrameworkIncludedResources))
-	all = append(all, terraformSDKIncludedResources...)
-	all = append(all, terraformFrameworkIncludedResources...)
-	return all
+func asRegexPatterns(names []string) []string {
+	l := make([]string, len(names))
+	for i, name := range names {
+		l[i] = name + "$"
+	}
+	return l
 }
 
 // identifierFromProvider wraps config.IdentifierFromProvider with the name
@@ -107,38 +107,20 @@ func identifierFromProvider() ujconfig.ExternalName {
 // configurators override this with resource-specific external names.
 func ExternalNameConfigurations() ujconfig.ResourceOption {
 	return func(r *ujconfig.Resource) {
-		if !slices.Contains(includedResources(), r.Name) {
+		if !slices.Contains(terraformSDKIncludedResources, r.Name) &&
+			!slices.Contains(terraformFrameworkIncludedResources, r.Name) {
 			return
 		}
 		r.ExternalName = identifierFromProvider()
 	}
 }
 
-// ExternalNameConfigured returns the list of all included resources
-// as regex patterns for upjet's WithIncludeList.
-func ExternalNameConfigured() []string {
-	all := includedResources()
-	l := make([]string, len(all))
-	for i, name := range all {
-		l[i] = name + "$"
-	}
-	return l
-}
-
 // TerraformSDKIncludeList returns regex patterns for SDK resources.
 func TerraformSDKIncludeList() []string {
-	l := make([]string, len(terraformSDKIncludedResources))
-	for i, name := range terraformSDKIncludedResources {
-		l[i] = name + "$"
-	}
-	return l
+	return asRegexPatterns(terraformSDKIncludedResources)
 }
 
 // TerraformFrameworkIncludeList returns regex patterns for framework resources.
 func TerraformFrameworkIncludeList() []string {
-	l := make([]string, len(terraformFrameworkIncludedResources))
-	for i, name := range terraformFrameworkIncludedResources {
-		l[i] = name + "$"
-	}
-	return l
+	return asRegexPatterns(terraformFrameworkIncludedResources)
 }

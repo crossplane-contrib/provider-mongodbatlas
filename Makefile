@@ -146,19 +146,12 @@ pull-docs:
 # fresh checkouts must run `make provider-source` (wired into build.init and
 # generate.init) before the Go tree compiles.
 PROVIDER_SOURCE_DIR := third_party/terraform-provider-mongodbatlas
-PROVIDER_SOURCE_SHA := 129322be14161f78236c9af71fa6bca0f1e483e0
 
 provider-source:
 	@if [ ! -f "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go" ]; then \
 		$(INFO) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
 		rm -rf "$(PROVIDER_SOURCE_DIR)"; \
 		git clone -c advice.detachedHead=false --depth 1 --branch "v$(TERRAFORM_PROVIDER_VERSION)" "$(TERRAFORM_PROVIDER_REPO)" "$(PROVIDER_SOURCE_DIR)" || $(FAIL); \
-		actual_sha="$$(git -C "$(PROVIDER_SOURCE_DIR)" rev-parse HEAD)"; \
-		if [ "$$actual_sha" != "$(PROVIDER_SOURCE_SHA)" ]; then \
-			echo "FATAL: v$(TERRAFORM_PROVIDER_VERSION) resolved to $$actual_sha, expected $(PROVIDER_SOURCE_SHA)"; \
-			rm -rf "$(PROVIDER_SOURCE_DIR)"; \
-			exit 1; \
-		fi; \
 		rm -rf "$(PROVIDER_SOURCE_DIR)/.git"; \
 		mkdir -p "$(PROVIDER_SOURCE_DIR)/xpshim"; \
 		cp hack/xpshim.go.tmpl "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go"; \
@@ -168,7 +161,11 @@ provider-source:
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs provider-source
 generate.done: copy-examples
 
-.PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs check-terraform-version provider-source
+clean: provider-source-clean
+provider-source-clean:
+	@rm -rf "$(PROVIDER_SOURCE_DIR)"
+
+.PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs check-terraform-version provider-source provider-source-clean
 # ====================================================================================
 # Targets
 

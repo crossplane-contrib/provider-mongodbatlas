@@ -131,7 +131,7 @@ type UserInitParameters struct {
 	// Human-readable label that indicates whether the new database user authenticates with OIDC (OpenID Connect) federated authentication. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
-	// User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
+	// User's initial password. Only applicable for password-based authentication.
 	// Password for the database user. Do not set passwordSecretRef directly, it is wired automatically by the initializer. Instead, use writeConnectionSecretToRef: pre-populate the Secret with a 'password' key for BYOP, or leave it empty for auto-generation. See docs/password-management.md.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
@@ -223,7 +223,7 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
-	// User's initial password. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.
+	// User's initial password. Only applicable for password-based authentication.
 	// Password for the database user. Do not set passwordSecretRef directly, it is wired automatically by the initializer. Instead, use writeConnectionSecretToRef: pre-populate the Secret with a 'password' key for BYOP, or leave it empty for auto-generation. See docs/password-management.md.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`

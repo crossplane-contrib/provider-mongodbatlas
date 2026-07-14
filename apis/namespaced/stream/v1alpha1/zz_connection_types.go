@@ -19,7 +19,7 @@ type AccessInitParameters struct {
 	// Id of the Private Link connection when type is PRIVATE_LINK.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -28,7 +28,7 @@ type AccessObservation struct {
 	// Id of the Private Link connection when type is PRIVATE_LINK.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -38,7 +38,7 @@ type AccessParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -51,7 +51,7 @@ type AuthenticationInitParameters struct {
 	// Secret known only to the Kafka client and the authorization server.
 	ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
 	// SASL OAUTHBEARER authentication method. Value must be OIDC.
@@ -78,7 +78,7 @@ type AuthenticationObservation struct {
 	// Public identifier for the Kafka client.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
 	// SASL OAUTHBEARER authentication method. Value must be OIDC.
@@ -107,7 +107,7 @@ type AuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	// +kubebuilder:validation:Optional
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
@@ -199,7 +199,7 @@ type ConnectionInitParameters struct {
 	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
 	Authentication *AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
-	// The configuration for AWS Lambda connection. See AWS
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
 	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
@@ -224,7 +224,7 @@ type ConnectionInitParameters struct {
 	// The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.
 	DBRoleToExecute *DBRoleToExecuteInitParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
-	// The configuration for GCP Pub/Sub connection. See GCP
+	// The configuration for GCP Pub/Sub connection. See GCP.
 	GCP *GCPInitParameters `json:"gcp,omitempty" tf:"gcp,omitempty"`
 
 	// A map of key-value pairs for optional headers.
@@ -234,7 +234,7 @@ type ConnectionInitParameters struct {
 	// Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
-	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
+	// Networking Access Type can be PUBLIC (default), VPC, or PRIVATE_LINK. See networking.
 	Networking *NetworkingInitParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
@@ -263,7 +263,7 @@ type ConnectionInitParameters struct {
 
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// URL of the HTTPs endpoint that will be used for creating a connection.
@@ -288,7 +288,7 @@ type ConnectionObservation struct {
 	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
 	Authentication *AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
-	// The configuration for AWS Lambda connection. See AWS
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
 	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
@@ -313,7 +313,7 @@ type ConnectionObservation struct {
 	// The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.
 	DBRoleToExecute *DBRoleToExecuteObservation `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
-	// The configuration for GCP Pub/Sub connection. See GCP
+	// The configuration for GCP Pub/Sub connection. See GCP.
 	GCP *GCPObservation `json:"gcp,omitempty" tf:"gcp,omitempty"`
 
 	// A map of key-value pairs for optional headers.
@@ -325,7 +325,7 @@ type ConnectionObservation struct {
 	// Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
-	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
+	// Networking Access Type can be PUBLIC (default), VPC, or PRIVATE_LINK. See networking.
 	Networking *NetworkingObservation `json:"networking,omitempty" tf:"networking,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
@@ -345,7 +345,7 @@ type ConnectionObservation struct {
 
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// URL of the HTTPs endpoint that will be used for creating a connection.
@@ -373,7 +373,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoGenerateSchemaRegistryPassword *bool `json:"autoGenerateSchemaRegistryPassword,omitempty" tf:"-"`
 
-	// The configuration for AWS Lambda connection. See AWS
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
 	// +kubebuilder:validation:Optional
 	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
@@ -406,7 +406,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	DBRoleToExecute *DBRoleToExecuteParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
-	// The configuration for GCP Pub/Sub connection. See GCP
+	// The configuration for GCP Pub/Sub connection. See GCP.
 	// +kubebuilder:validation:Optional
 	GCP *GCPParameters `json:"gcp,omitempty" tf:"gcp,omitempty"`
 
@@ -419,7 +419,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
-	// Networking Access Type can either be PUBLIC (default) or VPC. See networking.
+	// Networking Access Type can be PUBLIC (default), VPC, or PRIVATE_LINK. See networking.
 	// +kubebuilder:validation:Optional
 	Networking *NetworkingParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
@@ -455,7 +455,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -483,7 +483,7 @@ type DBRoleToExecuteInitParameters struct {
 	// The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -492,7 +492,7 @@ type DBRoleToExecuteObservation struct {
 	// The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -502,7 +502,7 @@ type DBRoleToExecuteParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role" tf:"role,omitempty"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -550,7 +550,7 @@ type SchemaRegistryAuthenticationInitParameters struct {
 	// Password of the account to connect to the Kafka cluster.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Username of the account to connect to the Kafka cluster.
@@ -559,7 +559,7 @@ type SchemaRegistryAuthenticationInitParameters struct {
 
 type SchemaRegistryAuthenticationObservation struct {
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Username of the account to connect to the Kafka cluster.
@@ -572,7 +572,7 @@ type SchemaRegistryAuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -612,48 +612,48 @@ type SecurityParameters struct {
 
 type TimeoutsInitParameters struct {
 
-	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
-	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `40m`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
-	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsObservation struct {
 
-	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
-	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `40m`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
-	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 type TimeoutsParameters struct {
 
-	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 
-	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully deleted. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `40m`.
 	// +kubebuilder:validation:Optional
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
-	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+	// The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 40m (40 minutes).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
 	// +kubebuilder:validation:Optional
 	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }

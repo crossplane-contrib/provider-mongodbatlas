@@ -11,7 +11,7 @@ export TERRAFORM_VERSION ?= 1.5.7
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
 export TERRAFORM_PROVIDER_SOURCE ?= mongodb/mongodbatlas
-export TERRAFORM_PROVIDER_VERSION ?= 2.12.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.13.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-$(PROJECT_NAME)
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/mongodb/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := $(TERRAFORM_PROVIDER_REPO)/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
@@ -205,8 +205,8 @@ run: go.build
 
 # ====================================================================================
 # End to End Testing
-CROSSPLANE_VERSION = 2.2.0
-CROSSPLANE_CLI_VERSION = v2.2.0
+CROSSPLANE_VERSION = 2.3.3
+CROSSPLANE_CLI_VERSION = v2.3.3
 CROSSPLANE_NAMESPACE = crossplane-system
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk

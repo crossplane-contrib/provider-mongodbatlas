@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     dnsDomain: ${confluent_network.private_link.dns_domain}
-    dnsSubDomain: ${confluent_network.private_link.zonal_subdomains}
+    dnsSubDomain: ${values(confluent_network.private_link.zonal_subdomains)}
     projectId: ${var.project_id}
     providerName: AWS
     region: ${var.aws_region}

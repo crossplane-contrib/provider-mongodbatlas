@@ -167,6 +167,7 @@ spec:
                       Instance. See stream config
                     properties:
                       maxTierSize:
+                        description: Maximum tier size for the Stream Instance.
                         type: string
                       tier:
                         description: Selected tier for the Stream Instance. Configures
@@ -297,6 +298,7 @@ spec:
                       Instance. See stream config
                     properties:
                       maxTierSize:
+                        description: Maximum tier size for the Stream Instance.
                         type: string
                       tier:
                         description: Selected tier for the Stream Instance. Configures
@@ -412,6 +414,7 @@ spec:
                       Instance. See stream config
                     properties:
                       maxTierSize:
+                        description: Maximum tier size for the Stream Instance.
                         type: string
                       tier:
                         description: Selected tier for the Stream Instance. Configures

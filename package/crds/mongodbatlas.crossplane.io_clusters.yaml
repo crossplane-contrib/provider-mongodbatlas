@@ -224,8 +224,7 @@ spec:
                             BI Connector for Atlas on the cluster. Each BI Connector
                             for Atlas read preference contains a distinct combination
                             of readPreference and readPreferenceTags options. For
-                            details on BI Connector for Atlas read preferences, refer
-                            to the BI Connector Read Preferences Table.
+                            details, refer to Atlas cluster read preferences.
                           type: string
                       type: object
                     type: array
@@ -441,7 +440,7 @@ spec:
                       disk types and associated storage sizes: P4 - 32GB, P6 - 64GB,
                       P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB,
                       P50 - 4095GB.  More information and the most update to date
-                      disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.'
+                      disk types/storage sizes can be located at https://www.mongodb.com/docs/atlas/reference/api/clusters-create-one/.'
                     type: string
                   providerEncryptEbsVolume:
                     description: '(Deprecated) The Flag is always true. Flag that
@@ -493,8 +492,8 @@ spec:
                     format: int64
                     type: integer
                   replicationSpecs:
-                    description: Configuration for cluster regions.  See Replication
-                      Spec below for more details.
+                    description: Configuration for cluster regions.  See the Replication
+                      Spec section below for more details.
                     items:
                       properties:
                         id:
@@ -511,8 +510,8 @@ spec:
                             document describes the region’s priority in elections
                             and the number and type of MongoDB nodes Atlas deploys
                             to the region. You must order each regionsConfigs document
-                            by regionsConfig.priority, descending. See Region Config
-                            below for more details.
+                            by regionsConfig.priority, descending. See the Region
+                            Config section below for more details.
                           items:
                             properties:
                               analyticsNodes:
@@ -755,8 +754,7 @@ spec:
                             BI Connector for Atlas on the cluster. Each BI Connector
                             for Atlas read preference contains a distinct combination
                             of readPreference and readPreferenceTags options. For
-                            details on BI Connector for Atlas read preferences, refer
-                            to the BI Connector Read Preferences Table.
+                            details, refer to Atlas cluster read preferences.
                           type: string
                       type: object
                     type: array
@@ -972,7 +970,7 @@ spec:
                       disk types and associated storage sizes: P4 - 32GB, P6 - 64GB,
                       P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB,
                       P50 - 4095GB.  More information and the most update to date
-                      disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.'
+                      disk types/storage sizes can be located at https://www.mongodb.com/docs/atlas/reference/api/clusters-create-one/.'
                     type: string
                   providerEncryptEbsVolume:
                     description: '(Deprecated) The Flag is always true. Flag that
@@ -1024,8 +1022,8 @@ spec:
                     format: int64
                     type: integer
                   replicationSpecs:
-                    description: Configuration for cluster regions.  See Replication
-                      Spec below for more details.
+                    description: Configuration for cluster regions.  See the Replication
+                      Spec section below for more details.
                     items:
                       properties:
                         id:
@@ -1042,8 +1040,8 @@ spec:
                             document describes the region’s priority in elections
                             and the number and type of MongoDB nodes Atlas deploys
                             to the region. You must order each regionsConfigs document
-                            by regionsConfig.priority, descending. See Region Config
-                            below for more details.
+                            by regionsConfig.priority, descending. See the Region
+                            Config section below for more details.
                           items:
                             properties:
                               analyticsNodes:
@@ -1377,8 +1375,7 @@ spec:
                             BI Connector for Atlas on the cluster. Each BI Connector
                             for Atlas read preference contains a distinct combination
                             of readPreference and readPreferenceTags options. For
-                            details on BI Connector for Atlas read preferences, refer
-                            to the BI Connector Read Preferences Table.
+                            details, refer to Atlas cluster read preferences.
                           type: string
                       type: object
                     type: array
@@ -1654,7 +1651,7 @@ spec:
                       disk types and associated storage sizes: P4 - 32GB, P6 - 64GB,
                       P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB,
                       P50 - 4095GB.  More information and the most update to date
-                      disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.'
+                      disk types/storage sizes can be located at https://www.mongodb.com/docs/atlas/reference/api/clusters-create-one/.'
                     type: string
                   providerEncryptEbsVolume:
                     description: '(Deprecated) The Flag is always true. Flag that
@@ -1708,8 +1705,8 @@ spec:
                     format: int64
                     type: integer
                   replicationSpecs:
-                    description: Configuration for cluster regions.  See Replication
-                      Spec below for more details.
+                    description: Configuration for cluster regions.  See the Replication
+                      Spec section below for more details.
                     items:
                       properties:
                         id:
@@ -1726,8 +1723,8 @@ spec:
                             document describes the region’s priority in elections
                             and the number and type of MongoDB nodes Atlas deploys
                             to the region. You must order each regionsConfigs document
-                            by regionsConfig.priority, descending. See Region Config
-                            below for more details.
+                            by regionsConfig.priority, descending. See the Region
+                            Config section below for more details.
                           items:
                             properties:
                               analyticsNodes:

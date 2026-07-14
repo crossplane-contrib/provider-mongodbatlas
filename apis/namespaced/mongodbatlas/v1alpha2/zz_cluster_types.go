@@ -178,7 +178,7 @@ type BiConnectorConfigInitParameters struct {
 	// Specifies whether or not BI Connector for Atlas is enabled on the cluster.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
+	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
@@ -187,7 +187,7 @@ type BiConnectorConfigObservation struct {
 	// Specifies whether or not BI Connector for Atlas is enabled on the cluster.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
+	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
 
@@ -197,7 +197,7 @@ type BiConnectorConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
+	// Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.
 	// +kubebuilder:validation:Optional
 	ReadPreference *string `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 }
@@ -291,7 +291,7 @@ type ClusterInitParameters struct {
 	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
 	ProviderDiskIops *int64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
-	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
+	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://www.mongodb.com/docs/atlas/reference/api/clusters-create-one/.
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
 
 	// (Deprecated) The Flag is always true. Flag that indicates whether the Amazon EBS encryption feature encrypts the host's root volume for both data at rest within the volume and for data moving between the volume and the cluster. Note: This setting is always enabled for clusters with local NVMe SSDs. Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default..
@@ -317,7 +317,7 @@ type ClusterInitParameters struct {
 	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
 	ReplicationFactor *int64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
-	// Configuration for cluster regions.  See Replication Spec below for more details.
+	// Configuration for cluster regions.  See the Replication Spec section below for more details.
 	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
@@ -440,7 +440,7 @@ type ClusterObservation struct {
 	// The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier's Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters
 	ProviderDiskIops *int64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
-	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
+	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://www.mongodb.com/docs/atlas/reference/api/clusters-create-one/.
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
 
 	// (Deprecated) The Flag is always true. Flag that indicates whether the Amazon EBS encryption feature encrypts the host's root volume for both data at rest within the volume and for data moving between the volume and the cluster. Note: This setting is always enabled for clusters with local NVMe SSDs. Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default..
@@ -468,7 +468,7 @@ type ClusterObservation struct {
 	// (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.
 	ReplicationFactor *int64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
-	// Configuration for cluster regions.  See Replication Spec below for more details.
+	// Configuration for cluster regions.  See the Replication Spec section below for more details.
 	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
@@ -608,7 +608,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ProviderDiskIops *int64 `json:"providerDiskIops,omitempty" tf:"provider_disk_iops,omitempty"`
 
-	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.
+	// Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://www.mongodb.com/docs/atlas/reference/api/clusters-create-one/.
 	// +kubebuilder:validation:Optional
 	ProviderDiskTypeName *string `json:"providerDiskTypeName,omitempty" tf:"provider_disk_type_name,omitempty"`
 
@@ -642,7 +642,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplicationFactor *int64 `json:"replicationFactor,omitempty" tf:"replication_factor,omitempty"`
 
-	// Configuration for cluster regions.  See Replication Spec below for more details.
+	// Configuration for cluster regions.  See the Replication Spec section below for more details.
 	// +kubebuilder:validation:Optional
 	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
@@ -890,7 +890,7 @@ type ReplicationSpecsInitParameters struct {
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
 	NumShards *int64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
-	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
+	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See the Region Config section below for more details.
 	RegionsConfig []RegionsConfigInitParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
 
 	// Name for the zone in a Global Cluster.
@@ -906,7 +906,7 @@ type ReplicationSpecsObservation struct {
 	// If you are upgrading a replica set to a sharded cluster, you cannot increase the number of shards in the same update request. You should wait until after the cluster has completed upgrading to sharded and you have reconnected all application clients to the MongoDB router before adding additional shards. Otherwise, your data might become inconsistent once MongoDB Cloud begins distributing data across shards. To learn more, see Convert a replica set to a sharded cluster documentation and Convert a replica set to a sharded cluster tutorial.
 	NumShards *int64 `json:"numShards,omitempty" tf:"num_shards,omitempty"`
 
-	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
+	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See the Region Config section below for more details.
 	RegionsConfig []RegionsConfigObservation `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
 
 	// Name for the zone in a Global Cluster.
@@ -924,7 +924,7 @@ type ReplicationSpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	NumShards *int64 `json:"numShards" tf:"num_shards,omitempty"`
 
-	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.
+	// Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See the Region Config section below for more details.
 	// +kubebuilder:validation:Optional
 	RegionsConfig []RegionsConfigParameters `json:"regionsConfig,omitempty" tf:"regions_config,omitempty"`
 

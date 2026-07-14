@@ -81,7 +81,7 @@ spec:
                         type: object
                       mechanism:
                         description: Method of authentication. Value can be PLAIN,
-                          SCRAM-256, or SCRAM-512.
+                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
                         description: SASL OAUTHBEARER authentication method. Value
@@ -128,8 +128,8 @@ spec:
                       If true, the schema registry authentication password will be auto-generated and stored in the Secret referenced by the schemaRegistryAuthentication.passwordSecretRef field.
                     type: boolean
                   aws:
-                    description: The configuration for AWS Lambda connection. See
-                      AWS
+                    description: The configuration for AWS Kinesis Data Streams connection.
+                      See AWS.
                     properties:
                       roleArn:
                         description: Amazon Resource Name (ARN) that identifies the
@@ -191,13 +191,14 @@ spec:
                           is set to CUSTOM.
                         type: string
                       type:
-                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSKinesisDataStreams,
+                          AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                          Kafka, S3, Sample, or SchemaRegistry.
                         type: string
                     type: object
                   gcp:
                     description: The configuration for GCP Pub/Sub connection. See
-                      GCP
+                      GCP.
                     properties:
                       serviceAccountId:
                         description: Email address of the Google Cloud Platform (GCP)
@@ -217,8 +218,8 @@ spec:
                       a future major version.
                     type: string
                   networking:
-                    description: Networking Access Type can either be PUBLIC (default)
-                      or VPC. See networking.
+                    description: Networking Access Type can be PUBLIC (default), VPC,
+                      or PRIVATE_LINK. See networking.
                     properties:
                       access:
                         description: Information about the networking access. See
@@ -229,8 +230,9 @@ spec:
                               is PRIVATE_LINK.
                             type: string
                           type:
-                            description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                              Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                            description: Type of connection. Can be AWSKinesisDataStreams,
+                              AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                              Kafka, S3, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
@@ -338,8 +340,9 @@ spec:
                         - name
                         type: object
                       type:
-                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSKinesisDataStreams,
+                          AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                          Kafka, S3, Sample, or SchemaRegistry.
                         type: string
                       username:
                         description: Username of the account to connect to the Kafka
@@ -375,23 +378,24 @@ spec:
                     properties:
                       create:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
                         type: string
                       delete:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully deleted. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `40m`.
                         type: string
                       update:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
                         type: string
                     type: object
                   type:
-                    description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                      Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                    description: Type of connection. Can be AWSKinesisDataStreams,
+                      AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka,
+                      S3, Sample, or SchemaRegistry.
                     type: string
                   url:
                     description: URL of the HTTPs endpoint that will be used for creating
@@ -517,7 +521,7 @@ spec:
                         type: object
                       mechanism:
                         description: Method of authentication. Value can be PLAIN,
-                          SCRAM-256, or SCRAM-512.
+                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
                         description: SASL OAUTHBEARER authentication method. Value
@@ -554,8 +558,8 @@ spec:
                         type: string
                     type: object
                   aws:
-                    description: The configuration for AWS Lambda connection. See
-                      AWS
+                    description: The configuration for AWS Kinesis Data Streams connection.
+                      See AWS.
                     properties:
                       roleArn:
                         description: Amazon Resource Name (ARN) that identifies the
@@ -617,13 +621,14 @@ spec:
                           is set to CUSTOM.
                         type: string
                       type:
-                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSKinesisDataStreams,
+                          AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                          Kafka, S3, Sample, or SchemaRegistry.
                         type: string
                     type: object
                   gcp:
                     description: The configuration for GCP Pub/Sub connection. See
-                      GCP
+                      GCP.
                     properties:
                       serviceAccountId:
                         description: Email address of the Google Cloud Platform (GCP)
@@ -643,8 +648,8 @@ spec:
                       a future major version.
                     type: string
                   networking:
-                    description: Networking Access Type can either be PUBLIC (default)
-                      or VPC. See networking.
+                    description: Networking Access Type can be PUBLIC (default), VPC,
+                      or PRIVATE_LINK. See networking.
                     properties:
                       access:
                         description: Information about the networking access. See
@@ -655,8 +660,9 @@ spec:
                               is PRIVATE_LINK.
                             type: string
                           type:
-                            description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                              Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                            description: Type of connection. Can be AWSKinesisDataStreams,
+                              AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                              Kafka, S3, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
@@ -764,8 +770,9 @@ spec:
                         - name
                         type: object
                       type:
-                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSKinesisDataStreams,
+                          AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                          Kafka, S3, Sample, or SchemaRegistry.
                         type: string
                       username:
                         description: Username of the account to connect to the Kafka
@@ -801,23 +808,24 @@ spec:
                     properties:
                       create:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
                         type: string
                       delete:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully deleted. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `40m`.
                         type: string
                       update:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
                         type: string
                     type: object
                   type:
-                    description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                      Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                    description: Type of connection. Can be AWSKinesisDataStreams,
+                      AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka,
+                      S3, Sample, or SchemaRegistry.
                     type: string
                   url:
                     description: URL of the HTTPs endpoint that will be used for creating
@@ -989,7 +997,7 @@ spec:
                         type: string
                       mechanism:
                         description: Method of authentication. Value can be PLAIN,
-                          SCRAM-256, or SCRAM-512.
+                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
                         description: SASL OAUTHBEARER authentication method. Value
@@ -1013,8 +1021,8 @@ spec:
                         type: string
                     type: object
                   aws:
-                    description: The configuration for AWS Lambda connection. See
-                      AWS
+                    description: The configuration for AWS Kinesis Data Streams connection.
+                      See AWS.
                     properties:
                       roleArn:
                         description: Amazon Resource Name (ARN) that identifies the
@@ -1076,13 +1084,14 @@ spec:
                           is set to CUSTOM.
                         type: string
                       type:
-                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSKinesisDataStreams,
+                          AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                          Kafka, S3, Sample, or SchemaRegistry.
                         type: string
                     type: object
                   gcp:
                     description: The configuration for GCP Pub/Sub connection. See
-                      GCP
+                      GCP.
                     properties:
                       serviceAccountId:
                         description: Email address of the Google Cloud Platform (GCP)
@@ -1104,8 +1113,8 @@ spec:
                       a future major version.
                     type: string
                   networking:
-                    description: Networking Access Type can either be PUBLIC (default)
-                      or VPC. See networking.
+                    description: Networking Access Type can be PUBLIC (default), VPC,
+                      or PRIVATE_LINK. See networking.
                     properties:
                       access:
                         description: Information about the networking access. See
@@ -1116,8 +1125,9 @@ spec:
                               is PRIVATE_LINK.
                             type: string
                           type:
-                            description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                              Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                            description: Type of connection. Can be AWSKinesisDataStreams,
+                              AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                              Kafka, S3, Sample, or SchemaRegistry.
                             type: string
                         type: object
                     type: object
@@ -1130,8 +1140,9 @@ spec:
                       See Schema Registry Authentication.
                     properties:
                       type:
-                        description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                          Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                        description: Type of connection. Can be AWSKinesisDataStreams,
+                          AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https,
+                          Kafka, S3, Sample, or SchemaRegistry.
                         type: string
                       username:
                         description: Username of the account to connect to the Kafka
@@ -1167,23 +1178,24 @@ spec:
                     properties:
                       create:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
                         type: string
                       delete:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully deleted. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `40m`.
                         type: string
                       update:
                         description: |-
-                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `20m`.
+                          The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 40m (40 minutes).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `40m`.
                         type: string
                     type: object
                   type:
-                    description: Type of connection. Can be AWSLambda, AzureBlobStorage,
-                      Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.
+                    description: Type of connection. Can be AWSKinesisDataStreams,
+                      AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka,
+                      S3, Sample, or SchemaRegistry.
                     type: string
                   url:
                     description: URL of the HTTPs endpoint that will be used for creating

@@ -116,6 +116,8 @@ type InstanceParameters struct {
 }
 
 type StreamConfigInitParameters struct {
+
+	// Maximum tier size for the Stream Instance.
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
 	// Selected tier for the Stream Instance. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
@@ -123,6 +125,8 @@ type StreamConfigInitParameters struct {
 }
 
 type StreamConfigObservation struct {
+
+	// Maximum tier size for the Stream Instance.
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 
 	// Selected tier for the Stream Instance. Configures Memory / VCPU allowances. The MongoDB Atlas API describes the valid values.
@@ -131,6 +135,7 @@ type StreamConfigObservation struct {
 
 type StreamConfigParameters struct {
 
+	// Maximum tier size for the Stream Instance.
 	// +kubebuilder:validation:Optional
 	MaxTierSize *string `json:"maxTierSize,omitempty" tf:"max_tier_size,omitempty"`
 

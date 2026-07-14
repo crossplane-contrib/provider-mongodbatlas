@@ -161,6 +161,8 @@ provider-source:
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs provider-source
 generate.done: copy-examples
 
+go.modules.download: provider-source
+
 clean: provider-source-clean
 provider-source-clean:
 	@rm -rf "$(PROVIDER_SOURCE_DIR)"

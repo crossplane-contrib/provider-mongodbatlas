@@ -337,7 +337,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.ShortGroup = ""
 		r.Kind = "AccessListAPIKey"
 		r.ExternalName = accessListImportJoinedID([]string{refs.OrgID, "api_key_id"})
-		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.OrgID, "api_key_id")
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
 		}

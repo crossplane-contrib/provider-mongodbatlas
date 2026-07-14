@@ -40,7 +40,6 @@ func ConfigureProject(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_project_ip_access_list", func(r *config.Resource) {
 		r.ExternalName = accessListImportJoinedID([]string{refs.ProjectID})
-		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.ProjectID)
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
 		}

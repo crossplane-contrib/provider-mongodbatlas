@@ -363,6 +363,8 @@ spec:
                           items:
                             properties:
                               maxStalenessSeconds:
+                                description: Maximum replication lag, or staleness,
+                                  for reads from secondaries.
                                 format: int64
                                 type: integer
                               mode:
@@ -709,6 +711,8 @@ spec:
                           items:
                             properties:
                               maxStalenessSeconds:
+                                description: Maximum replication lag, or staleness,
+                                  for reads from secondaries.
                                 format: int64
                                 type: integer
                               mode:
@@ -890,6 +894,9 @@ spec:
                           items:
                             properties:
                               atlasAppId:
+                                description: Unique identifier of the Azure Active
+                                  Directory application associated with the service
+                                  principal.
                                 type: string
                               roleId:
                                 description: Unique identifier of the role that the
@@ -1128,6 +1135,8 @@ spec:
                           items:
                             properties:
                               maxStalenessSeconds:
+                                description: Maximum replication lag, or staleness,
+                                  for reads from secondaries.
                                 format: int64
                                 type: integer
                               mode:

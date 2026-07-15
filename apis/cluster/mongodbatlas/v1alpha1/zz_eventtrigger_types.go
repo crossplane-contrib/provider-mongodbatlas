@@ -70,6 +70,7 @@ type EventTriggerInitParameters struct {
 	// Optional for DATABASE type. If true, indicates that UPDATE change events should include the most current majority-committed version of the modified document in the fullDocument field.
 	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
 
+	// If true, indicates that UPDATE change events should include the previous revision of the modified document in the fullDocumentBeforeChange field.
 	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
 
 	// Optional for DATABASE type. A $match expression document that MongoDB Realm includes in the underlying change stream pipeline for the trigger. This is useful when you want to filter change events beyond their operation type. The trigger will only fire if the expression evaluates to true for a given change event.
@@ -138,6 +139,7 @@ type EventTriggerObservation struct {
 	// Optional for DATABASE type. If true, indicates that UPDATE change events should include the most current majority-committed version of the modified document in the fullDocument field.
 	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
 
+	// If true, indicates that UPDATE change events should include the previous revision of the modified document in the fullDocumentBeforeChange field.
 	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
 
 	// Optional for DATABASE type. A $match expression document that MongoDB Realm includes in the underlying change stream pipeline for the trigger. This is useful when you want to filter change events beyond their operation type. The trigger will only fire if the expression evaluates to true for a given change event.
@@ -158,7 +160,7 @@ type EventTriggerObservation struct {
 	// Required for SCHEDULED type. A cron expression that defines the trigger schedule.
 	ConfigSchedule *string `json:"configSchedule,omitempty" tf:"config_schedule,omitempty"`
 
-	// The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED
+	// The type of the scheduled trigger.
 	ConfigScheduleType *string `json:"configScheduleType,omitempty" tf:"config_schedule_type,omitempty"`
 
 	// Required for DATABASE type. The ID of the MongoDB Service associated with the trigger.
@@ -212,6 +214,7 @@ type EventTriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	ConfigFullDocument *bool `json:"configFullDocument,omitempty" tf:"config_full_document,omitempty"`
 
+	// If true, indicates that UPDATE change events should include the previous revision of the modified document in the fullDocumentBeforeChange field.
 	// +kubebuilder:validation:Optional
 	ConfigFullDocumentBefore *bool `json:"configFullDocumentBefore,omitempty" tf:"config_full_document_before,omitempty"`
 

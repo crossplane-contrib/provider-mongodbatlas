@@ -19,7 +19,7 @@ type CriteriaInitParameters struct {
 	// Indexed database parameter that stores the date that determines when data moves to the online archive. MongoDB Cloud archives the data when the current date exceeds the date in this database parameter plus the number of days specified through the expireAfterDays parameter.
 	DateField *string `json:"dateField,omitempty" tf:"date_field,omitempty"`
 
-	// Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601 or Epoch timestamps. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collectionType is TIMESERIES. Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS.
+	// Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601, Epoch timestamps, or ObjectId. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collection_type is TIMESERIES. Valid values: ISODATE, EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS, or OBJECT_ID. Default is ISODATE. See dateFormat in the Atlas Admin API reference.
 	DateFormat *string `json:"dateFormat,omitempty" tf:"date_format,omitempty"`
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
@@ -37,7 +37,7 @@ type CriteriaObservation struct {
 	// Indexed database parameter that stores the date that determines when data moves to the online archive. MongoDB Cloud archives the data when the current date exceeds the date in this database parameter plus the number of days specified through the expireAfterDays parameter.
 	DateField *string `json:"dateField,omitempty" tf:"date_field,omitempty"`
 
-	// Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601 or Epoch timestamps. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collectionType is TIMESERIES. Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS.
+	// Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601, Epoch timestamps, or ObjectId. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collection_type is TIMESERIES. Valid values: ISODATE, EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS, or OBJECT_ID. Default is ISODATE. See dateFormat in the Atlas Admin API reference.
 	DateFormat *string `json:"dateFormat,omitempty" tf:"date_format,omitempty"`
 
 	// Number of days after the value in the criteria.dateField when MongoDB Cloud archives data in the specified cluster.
@@ -56,7 +56,7 @@ type CriteriaParameters struct {
 	// +kubebuilder:validation:Optional
 	DateField *string `json:"dateField,omitempty" tf:"date_field,omitempty"`
 
-	// Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601 or Epoch timestamps. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collectionType is TIMESERIES. Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS.
+	// Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601, Epoch timestamps, or ObjectId. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collection_type is TIMESERIES. Valid values: ISODATE, EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS, or OBJECT_ID. Default is ISODATE. See dateFormat in the Atlas Admin API reference.
 	// +kubebuilder:validation:Optional
 	DateFormat *string `json:"dateFormat,omitempty" tf:"date_format,omitempty"`
 

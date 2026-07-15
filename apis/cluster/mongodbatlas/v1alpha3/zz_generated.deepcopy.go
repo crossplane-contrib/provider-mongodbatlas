@@ -48,6 +48,11 @@ func (in *AdvancedClusterInitParameters) DeepCopyInto(out *AdvancedClusterInitPa
 		*out = new(string)
 		**out = **in
 	}
+	if in.AdaptiveCapacity != nil {
+		in, out := &in.AdaptiveCapacity, &out.AdaptiveCapacity
+		*out = new(string)
+		**out = **in
+	}
 	if in.AdvancedConfiguration != nil {
 		in, out := &in.AdvancedConfiguration, &out.AdvancedConfiguration
 		*out = new(AdvancedConfigurationInitParameters)
@@ -264,6 +269,11 @@ func (in *AdvancedClusterObservation) DeepCopyInto(out *AdvancedClusterObservati
 		*out = new(string)
 		**out = **in
 	}
+	if in.AdaptiveCapacity != nil {
+		in, out := &in.AdaptiveCapacity, &out.AdaptiveCapacity
+		*out = new(string)
+		**out = **in
+	}
 	if in.AdvancedConfiguration != nil {
 		in, out := &in.AdvancedConfiguration, &out.AdvancedConfiguration
 		*out = new(AdvancedConfigurationObservation)
@@ -470,6 +480,11 @@ func (in *AdvancedClusterParameters) DeepCopyInto(out *AdvancedClusterParameters
 	*out = *in
 	if in.AcceptDataRisksAndForceReplicaSetReconfig != nil {
 		in, out := &in.AcceptDataRisksAndForceReplicaSetReconfig, &out.AcceptDataRisksAndForceReplicaSetReconfig
+		*out = new(string)
+		**out = **in
+	}
+	if in.AdaptiveCapacity != nil {
+		in, out := &in.AdaptiveCapacity, &out.AdaptiveCapacity
 		*out = new(string)
 		**out = **in
 	}

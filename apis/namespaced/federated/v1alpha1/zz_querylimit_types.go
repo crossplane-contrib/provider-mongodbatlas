@@ -22,6 +22,7 @@ type QueryLimitInitParameters struct {
 	// String enum that indicates whether the identity provider is active or not. Accepted values are:
 	LimitName *string `json:"limitName,omitempty" tf:"limit_name,omitempty"`
 
+	// Maximum value of the limit.
 	MaximumLimit *int64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
 
 	// String enum that identifies action to take when the usage limit is exceeded. If limit span is set to QUERY, this is ignored because MongoDB Cloud stops the query when it exceeds the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
@@ -56,11 +57,13 @@ type QueryLimitObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Only used for Data Federation limits. Timestamp that indicates when this usage limit was last modified. This field uses the ISO 8601 timestamp format in UTC.
 	LastModifiedDate *string `json:"lastModifiedDate,omitempty" tf:"last_modified_date,omitempty"`
 
 	// String enum that indicates whether the identity provider is active or not. Accepted values are:
 	LimitName *string `json:"limitName,omitempty" tf:"limit_name,omitempty"`
 
+	// Maximum value of the limit.
 	MaximumLimit *int64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
 
 	// String enum that identifies action to take when the usage limit is exceeded. If limit span is set to QUERY, this is ignored because MongoDB Cloud stops the query when it exceeds the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"
@@ -86,6 +89,7 @@ type QueryLimitParameters struct {
 	// +kubebuilder:validation:Optional
 	LimitName *string `json:"limitName,omitempty" tf:"limit_name,omitempty"`
 
+	// Maximum value of the limit.
 	// +kubebuilder:validation:Optional
 	MaximumLimit *int64 `json:"maximumLimit,omitempty" tf:"maximum_limit,omitempty"`
 

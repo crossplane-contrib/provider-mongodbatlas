@@ -915,9 +915,13 @@ spec:
                     description: Unique identifier of the export job.
                     type: string
                   exportStatusExportedCollections:
+                    description: Returned for replica set only. Number of collections
+                      that have been exported.
                     format: int64
                     type: integer
                   exportStatusTotalCollections:
+                    description: Returned for replica set only. Total number of collections
+                      to export.
                     format: int64
                     type: integer
                   finishedAt:

@@ -58,6 +58,8 @@ type AzureInitParameters struct {
 }
 
 type AzureObservation struct {
+
+	// Unique identifier of the Azure Active Directory application associated with the service principal.
 	AtlasAppID *string `json:"atlasAppId,omitempty" tf:"atlas_app_id,omitempty"`
 
 	// Unique identifier of the role that the Federated Database Instance can use to access the data stores.
@@ -409,6 +411,8 @@ type PrivateEndpointHostnamesParameters struct {
 }
 
 type ReadPreferenceInitParameters struct {
+
+	// Maximum replication lag, or staleness, for reads from secondaries.
 	MaxStalenessSeconds *int64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
 	// Read preference mode that specifies to which replica set member to route the read requests.
@@ -419,6 +423,8 @@ type ReadPreferenceInitParameters struct {
 }
 
 type ReadPreferenceObservation struct {
+
+	// Maximum replication lag, or staleness, for reads from secondaries.
 	MaxStalenessSeconds *int64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 
 	// Read preference mode that specifies to which replica set member to route the read requests.
@@ -430,6 +436,7 @@ type ReadPreferenceObservation struct {
 
 type ReadPreferenceParameters struct {
 
+	// Maximum replication lag, or staleness, for reads from secondaries.
 	// +kubebuilder:validation:Optional
 	MaxStalenessSeconds *int64 `json:"maxStalenessSeconds,omitempty" tf:"max_staleness_seconds,omitempty"`
 

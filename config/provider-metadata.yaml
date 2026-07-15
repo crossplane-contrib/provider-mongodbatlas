@@ -403,11 +403,15 @@ resources:
             CONTINUOUS: ':  Atlas creates your cluster using the most recent MongoDB release. Atlas automatically updates your cluster to the latest major and rapid MongoDB releases as they become available.'
             FLEX: '- Flex cluster. Use replication_specs.[0].region_configs[0].backing_provider_name to set the cloud service provider.'
             GCP: '- Google Cloud Platform'
+            HIGH_PERFORMANCE: volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size.
             LTS: ': Atlas creates your cluster using the latest patch release of the MongoDB version that you specify in the mongoDBMajorVersion field. Atlas automatically updates your cluster to subsequent patch releases of this MongoDB version. Atlas doesn''t update your cluster to newer rapid or major MongoDB releases as they become available.'
-            PROVISIONED: volume types must fall within the allowable IOPS range for the selected volume size.
-            STANDARD: volume types can't exceed the default IOPS rate for the selected volume size.
+            M30_GEN_2: 'or greater) with ebs_volume_type set to STANDARD: configurable between 3000 and 80000 IOPS.'
+            Mxx_NVME: 'tiers) with ebs_volume_type set to PROVISIONED: configurable within the allowable range for the selected volume size.'
+            PROVISIONED: volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size.
+            STANDARD: volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using disk_iops.
             TENANT: '- M0 multi-tenant cluster. Use replication_specs.[0].region_configs[0].backing_provider_name to set the cloud service provider.'
             accept_data_risks_and_force_replica_set_reconfig: '- (Optional) If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.'
+            adaptive_capacity: '- (Optional) Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ENABLED means the cluster explicitly opts in to adaptive capacity. DISABLED means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. null means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.'
             advanced_configuration.oplog_min_retention_hours: to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
             apply: twice. First set advanced_configuration.oplog_min_retention_hours to 0 and apply. Then set disk_gb_enabled to false and apply again.
             backup_enabled: |-
@@ -417,7 +421,7 @@ resources:
             bi_connector_config: '- (Optional) Configuration settings applied to BI Connector for Atlas on this cluster. The MongoDB Connector for Business Intelligence for Atlas (BI Connector) is only available for M10 and larger clusters. The BI Connector is a powerful tool which provides users SQL-based access to their MongoDB databases. As a result, the BI Connector performs operations which may be CPU and memory intensive. Given the limited hardware resources on M10 and M20 cluster tiers, you may experience performance degradation of the cluster when enabling the BI Connector. If this occurs, upgrade to an M30 or larger cluster or disable the BI Connector. See below.'
             bi_connector_config.enabled: '- (Optional) Specifies whether or not BI Connector for Atlas is enabled on the cluster.'
             bi_connector_config.false: to disable BI Connector for Atlas.
-            bi_connector_config.read_preference: '- (Optional) Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.'
+            bi_connector_config.read_preference: '- (Optional) Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.'
             bi_connector_config.true: to enable BI Connector for Atlas.
             change_stream_options_pre_and_post_images_expire_after_seconds: '- (Optional) The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.'
             cluster_id: '- The cluster ID.'
@@ -484,7 +488,8 @@ resources:
                 - (Optional) Cloud service provider on which the servers are provisioned.
                 The possible values are:
             region_configs.read_only_specs: '- (Optional) Hardware specifications for read-only nodes in the region. All read_only_specs in the region_configs of a replication_specs must have the same instance_size as electable_specs. Read-only nodes can become the primary and can enable local reads. If you don''t specify this parameter, no read-only nodes are deployed to the region. See below.'
-            region_configs.read_only_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can''t set this attribute for a multi-cloud cluster. This parameter defaults to the cluster tier''s standard IOPS value.'
+            region_configs.read_only_specs._GEN_2: suffix, for example M30_GEN_2.
+            region_configs.read_only_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:'
             region_configs.read_only_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.'
             region_configs.read_only_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. Valid values are:'
             region_configs.read_only_specs.instance_size: '- (Required) Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.'
@@ -492,9 +497,9 @@ resources:
             region_configs.region_name: '- (Optional) Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.'
             region_configs[#].electable_specs.node_count: to 1 or higher, it must have a priority of exactly one (1) less than another region in the replication_specs[#].region_configs[#] array. The highest-priority region must have a priority of 7. The lowest possible priority is 1.
             replica_set_scaling_strategy: '- (Optional) Replica set scaling mode for your cluster. Valid values are WORKLOAD_TYPE, SEQUENTIAL and NODE_TYPE. By default, Atlas scales under WORKLOAD_TYPE. This mode allows Atlas to scale your analytics nodes in parallel to your operational nodes. When configured as SEQUENTIAL, Atlas scales all nodes sequentially. This mode is intended for steady-state workloads and applications performing latency-sensitive secondary reads. When configured as NODE_TYPE, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads. Modify the Replica Set Scaling Mode'
-            replication_specs: '- List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are only supported for AWS provisioned IOPS, or Azure regions that support Extended IOPS. See below.'
+            replication_specs: '- List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are supported for AWS Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters, AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions that support Extended IOPS. See below.'
             replication_specs.external_id: '- Unique 24-hexadecimal digit string that identifies the replication object for a shard in a Cluster. This value corresponds to Shard ID displayed in the UI.'
-            replication_specs.region_configs: '- (Optional) Configuration for the hardware specifications for nodes set for a given region. Each region_configs object describes the region''s priority in elections and the number and type of MongoDB nodes that Atlas deploys to the region. Each region_configs object must have either an analytics_specs object, electable_specs object, or read_only_specs object. See below.'
+            replication_specs.region_configs: '- (Optional) Configuration for the hardware specifications for nodes set for a given region. Each region_configs object describes the region''s priority in elections and the number and type of MongoDB nodes that Atlas deploys to the region. Each region_configs object must have either an analytics_specs object, electable_specs object, or read_only_specs object. See region_configs.'
             replication_specs.region_configs.analytics_auto_scaling: '- (Optional) Configuration for the Collection of settings that configures analytics-auto-scaling information for the cluster. The values for the analytics_auto_scaling attribute must be the same for all region_configs of a cluster. See below.'
             replication_specs.region_configs.analytics_auto_scaling.compute_enabled: '- (Optional) Flag that indicates whether analytics instance size auto-scaling is enabled. This parameter defaults to false. If a sharded cluster is making use of the New Sharding Configuration, auto-scaling of analytics instance size will be independent for each individual shard. Please reference the Use Auto-Scaling Per Shard section for more details.'
             replication_specs.region_configs.analytics_auto_scaling.compute_max_instance_size: '- (Optional) Maximum instance size to which your cluster can automatically scale (such as M40). Atlas requires this parameter if replication_specs[#].region_configs[#].analytics_auto_scaling.compute_enabled is true.'
@@ -502,7 +507,8 @@ resources:
             replication_specs.region_configs.analytics_auto_scaling.compute_scale_down_enabled: '- (Optional) Flag that indicates whether the instance size may scale down. Atlas requires this parameter if replication_specs[#].region_configs[#].analytics_auto_scaling.compute_enabled : true. If you enable this option, specify a value for replication_specs[#].region_configs[#].analytics_auto_scaling.compute_min_instance_size.'
             replication_specs.region_configs.analytics_auto_scaling.disk_gb_enabled: '- (Optional) Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.'
             replication_specs.region_configs.analytics_specs: '- (Optional) Hardware specifications for analytics nodes needed in the region. Analytics nodes handle analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only and can never become the primary. If you don''t specify this parameter, no analytics nodes deploy to this region. See below.'
-            replication_specs.region_configs.analytics_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can''t set this attribute for a multi-cloud cluster.'
+            replication_specs.region_configs.analytics_specs._GEN_2: suffix, for example M30_GEN_2.
+            replication_specs.region_configs.analytics_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:'
             replication_specs.region_configs.analytics_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.'
             replication_specs.region_configs.analytics_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. Valid values are:'
             replication_specs.region_configs.analytics_specs.instance_size: '- (Required) Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.'
@@ -518,7 +524,8 @@ resources:
             replication_specs.region_configs.effective_electable_specs: '- (Computed) Effective hardware specifications for electable nodes in the region, reflecting actual Atlas-managed values including auto-scaling changes. Available in the mongodbatlas_advanced_cluster data source. See below.'
             replication_specs.region_configs.effective_read_only_specs: '- (Computed) Effective hardware specifications for read-only nodes in the region, reflecting actual Atlas-managed values including auto-scaling changes. Available in the mongodbatlas_advanced_cluster data source. See below.'
             replication_specs.region_configs.electable_specs: '- (Optional) Hardware specifications for electable nodes in the region. All electable_specs in the region_configs of a replication_specs must have the same instance_size. Electable nodes can become the primary and can enable local reads. If you do not specify this option, no electable nodes are deployed to the region. See below.'
-            replication_specs.region_configs.electable_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can''t set this attribute for a multi-cloud cluster.'
+            replication_specs.region_configs.electable_specs._GEN_2: suffix, for example M30_GEN_2.
+            replication_specs.region_configs.electable_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.'
             replication_specs.region_configs.electable_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.'
             replication_specs.region_configs.electable_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. Valid values are:'
             replication_specs.region_configs.electable_specs.instance_size: '- (Required) Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.'
@@ -1444,9 +1451,8 @@ resources:
             custom_data: '- (Optional) Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.'
             export_bucket_id: '- (Required) Unique identifier of the AWS bucket to export the Cloud Backup snapshot to. If necessary, use the Get All Snapshot Export Buckets API to retrieve the IDs of all available export buckets for a project or use the data source mongodbatlas_cloud_backup_snapshot_export_buckets'
             export_job_id: '- Unique identifier of the export job.'
-            export_status: '- Status of the export job.'
-            export_status.exported_collections: '- Returned for replica set only. Number of collections that have been exported.'
-            export_status.total_collections: '- Returned for replica set only. Total number of collections to export.'
+            export_status_exported_collections: '- Returned for replica set only. Number of collections that have been exported.'
+            export_status_total_collections: '- Returned for replica set only. Total number of collections to export.'
             finished_at: '- Timestamp in ISO 8601 date and time format in UTC when the export job completes.'
             key: '- (Required) Required if you want to include custom data using custom_data in the metadata file uploaded to the bucket. Key to include in the metadata file that Atlas uploads to the bucket when the export job finishes.'
             'prefix ': '- Full path on the cloud provider bucket to the folder where the snapshot is exported. The path is in the following format:/exported_snapshots/{ORG-NAME}/{PROJECT-NAME}/{CLUSTER-NAME}/{SNAPSHOT-INITIATION-DATE}/{TIMESTAMP}'
@@ -2092,7 +2098,7 @@ resources:
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.provider_auto_scaling_compute_max_instance_size: '- (Optional) Maximum instance size to which your cluster can automatically scale (e.g., M40). Required if autoScaling.compute.enabled is true.'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.provider_auto_scaling_compute_min_instance_size: '- (Optional) Minimum instance size to which your cluster can automatically scale (e.g., M10). Required if autoScaling.compute.scaleDownEnabled is true.'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.provider_disk_iops: '- (Optional - AWS Only) The maximum input/output operations per second (IOPS) the system can perform. The possible values depend on the selected provider_instance_size_name and disk_size_gb.  This setting requires that provider_instance_size_name to be M30 or greater and cannot be used with clusters with local NVMe SSDs.  The default value for provider_disk_iops is the same as the cluster tier''s Standard IOPS value, as viewable in the Atlas console.  It is used in cases where a higher number of IOPS is needed and possible.  If a value is submitted that is lower or equal to the default IOPS value for the cluster tier Atlas ignores the requested value and uses the default.  More details available under the providerSettings.diskIOPS parameter: MongoDB API Clusters'
-            auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.provider_disk_type_name: '- (Optional - Azure Only) Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://docs.atlas.mongodb.com/reference/api/clusters-create-one/.'
+            auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.provider_disk_type_name: '- (Optional - Azure Only) Azure disk type of the server’s root volume. If omitted, Atlas uses the default disk type for the selected providerSettings.instanceSizeName.  Example disk types and associated storage sizes: P4 - 32GB, P6 - 64GB, P10 - 128GB, P15 - 256GB, P20 - 512GB, P30 - 1024GB, P40 - 2048GB, P50 - 4095GB.  More information and the most update to date disk types/storage sizes can be located at https://www.mongodb.com/docs/atlas/reference/api/clusters-create-one/.'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.provider_encrypt_ebs_volume: '- (Deprecated) The Flag is always true. Flag that indicates whether the Amazon EBS encryption feature encrypts the host''s root volume for both data at rest within the volume and for data moving between the volume and the cluster. Note: This setting is always enabled for clusters with local NVMe SSDs. Atlas encrypts all cluster storage and snapshot volumes, securing all cluster data on disk: a concept known as encryption at rest, by default..'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.provider_region_name: |-
                 - (Optional) Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.
@@ -2102,7 +2108,7 @@ resources:
                 -> NOTE: STANDARD is not available for NVME clusters.
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.redact_client_log_data: '- (Optional) Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. The log redaction field is updated via an Atlas API call after cluster creation. Consequently, there may be a brief period during resource creation when log redaction is not yet enabled. To ensure complete log redaction from the outset, use mongodbatlas_advanced_cluster.'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.replication_factor: '- (Deprecated) Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy. The possible values are 3, 5, or 7. The default value is 3.'
-            auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.replication_specs: '- Configuration for cluster regions.  See Replication Spec below for more details.'
+            auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.replication_specs: '- Configuration for cluster regions.  See the Replication Spec section below for more details.'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.retain_backups_enabled: '- - (Optional) Set to true to retain backup snapshots for the deleted cluster. This parameter applies to the Delete operation and only affects M10 and above clusters. If you encounter the CANNOT_DELETE_SNAPSHOT_WITH_BACKUP_COMPLIANCE_POLICY error code, see how to delete a cluster with Backup Compliance Policy.'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.tags: '- (Optional) Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.'
             auto_scaling_disk_gb_enabled.auto_scaling_compute_enabled.termination_protection_enabled: '- Flag that indicates whether termination protection is enabled on the cluster. If set to true, MongoDB Cloud won''t delete the cluster. If set to false, MongoDB Cloud will delete the cluster.'
@@ -2156,9 +2162,9 @@ resources:
             provider_instance_size_name: '- (Required) Atlas provides different instance sizes, each with a default storage capacity and RAM size. The instance size you select is used for all the data-bearing servers in your cluster. See Create a Cluster providerSettings.instanceSizeName for valid values and default resources.'
             provider_name: '- (Required) Cloud service provider on which the servers are provisioned.'
             read_only_nodes: '- (Optional) Number of read-only nodes for Atlas to deploy to the region. Read-only nodes can never become the primary, but can facilitate local-reads. Specify 0 if you do not want any read-only nodes in the region.'
-            read_preference: '- (Optional) Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.'
+            read_preference: '- (Optional) Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.'
             region_name: '- (Optional) Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.'
-            regions_config: '- (Optional) Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See Region Config below for more details.'
+            regions_config: '- (Optional) Physical location of the region. Each regionsConfig document describes the region’s priority in elections and the number and type of MongoDB nodes Atlas deploys to the region. You must order each regionsConfigs document by regionsConfig.priority, descending. See the Region Config section below for more details.'
             sample_refresh_interval_bi_connector: '- (Optional) Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.'
             sample_size_bi_connector: '- (Optional) Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.'
             snapshot_backup_policy: '- current snapshot schedule and retention settings for the cluster.'
@@ -2501,7 +2507,7 @@ resources:
             ldap_auth_type: '- (Optional) Method by which the provided username is authenticated. If no value is given, Atlas uses the default value of NONE.'
             name: '- (Required) Name of the cluster or Atlas Data Federation that the user has access to.'
             oidc_auth_type: '- (Optional) Human-readable label that indicates whether the new database user authenticates with OIDC (OpenID Connect) federated authentication. If no value is given, Atlas uses the default value of NONE. The accepted types are:'
-            password: '- (Required) User''s initial password. A value is required to create the database user, however the argument may be removed from your Terraform configuration after user creation without impacting the user, password or Terraform management. If you do change management of the password to outside of Terraform it is advised to remove the argument from the Terraform configuration. IMPORTANT --- Passwords may show up in Terraform related logs and it will be stored in the Terraform state file as plain-text. Password can be changed after creation using your preferred method, e.g. via the MongoDB Atlas UI, to ensure security.'
+            password: '- (Optional) User''s initial password. Only applicable for password-based authentication. You can remove this argument from your Terraform configuration after user creation without impacting the user, password, or Terraform management. If you change your password management to outside of Terraform, we advise removing the argument from the Terraform configuration. IMPORTANT: The Terraform state file stores passwords as plain text.'
             project_id: '- (Required) The unique ID for the project to create the database user, also known as groupId in the official documentation.'
             role_name: '- (Required) Name of the role to grant. See Create a Database User roles.roleName for valid values and restrictions.'
             roles: "- (Required) \tList of user’s roles and the databases / collections on which the roles apply. A role allows the user to perform particular actions on the specified database. A role on the admin database can include privileges that apply to the other databases as well. See Roles below for more details."
@@ -2835,12 +2841,14 @@ resources:
             config_collection: '- Optional for DATABASE type. The name of the MongoDB collection that the trigger watches for change events. The collection must be part of the specified database.'
             config_database: '- Required for DATABASE type. The name of the MongoDB database to watch.'
             config_full_document: '- Optional for DATABASE type. If true, indicates that UPDATE change events should include the most current majority-committed version of the modified document in the fullDocument field.'
+            config_full_document_before: '- If true, indicates that UPDATE change events should include the previous revision of the modified document in the fullDocumentBeforeChange field.'
             config_match: '- Optional for DATABASE type. A $match expression document that MongoDB Realm includes in the underlying change stream pipeline for the trigger. This is useful when you want to filter change events beyond their operation type. The trigger will only fire if the expression evaluates to true for a given change event.'
             config_operation_type: '- Required for AUTHENTICATION type. The authentication operation type to listen for. Possible Values: LOGIN, CREATE, DELETE'
             config_operation_types: '- Required for DATABASE type. The database event operation types to listen for. This must contain at least one value. Possible Values: INSERT, UPDATE, REPLACE, DELETE'
             config_project: '- Optional for DATABASE type. A $project expression document that Realm uses to filter the fields that appear in change event objects.'
             config_providers: '- Required for AUTHENTICATION type. A list of one or more authentication provider id values. The trigger will only listen for authentication events produced by these providers.'
             config_schedule: '- Required for SCHEDULED type. A cron expression that defines the trigger schedule.'
+            config_schedule_type: '- The type of the scheduled trigger.'
             config_service_id: '- Required for DATABASE type. The ID of the MongoDB Service associated with the trigger.'
             disabled: '- (Optional) Default: false If true, the trigger is disabled.'
             event_processors: '- (Optional) An object where each field name is an event processor ID and each value is an object that configures its corresponding event processor. The following event processors are supported: AWS_EVENTBRIDGE For an example configuration object, see Send Trigger Events to AWS EventBridge.'
@@ -2893,64 +2901,6 @@ resources:
                           "mode": "secondary"
                         }
                       ]
-                    }
-                  ]
-                }
-            - name: test
-              manifest: |-
-                {
-                  "cloud_provider_config": [
-                    {
-                      "aws": [
-                        {
-                          "role_id": "AWS ROLE ID",
-                          "test_s3_bucket": "S3 BUCKET NAME"
-                        }
-                      ]
-                    }
-                  ],
-                  "name": "TENANT NAME OF THE FEDERATED DATABASE INSTANCE",
-                  "project_id": "PROJECT ID",
-                  "storage_databases": [
-                    {
-                      "collections": [
-                        {
-                          "data_sources": [
-                            {
-                              "collection": "COLLECTION IN THE CLUSTER",
-                              "database": "DB IN THE CLUSTER",
-                              "store_name": "CLUSTER NAME"
-                            },
-                            {
-                              "path": "S3 BUCKET PATH",
-                              "store_name": "S3 BUCKET NAME"
-                            }
-                          ],
-                          "name": "NAME OF THE COLLECTION"
-                        }
-                      ],
-                      "name": "VirtualDatabase0"
-                    }
-                  ],
-                  "storage_stores": [
-                    {
-                      "cluster_name": "CLUSTER NAME",
-                      "name": "STORE 1 NAME",
-                      "project_id": "PROJECT ID",
-                      "provider": "atlas",
-                      "read_preference": [
-                        {
-                          "mode": "secondary"
-                        }
-                      ]
-                    },
-                    {
-                      "bucket": "STORE 2 NAME",
-                      "delimiter": "/",
-                      "name": "S3 BUCKET NAME",
-                      "prefix": "S3 BUCKET PREFIX",
-                      "provider": "s3",
-                      "region": "AWS REGION"
                     }
                   ]
                 }
@@ -3023,7 +2973,7 @@ resources:
             ACTIVE: '- The Federated Database Instance is active and verified. You can query the data stores associated with the Federated Database Instance.'
             DELETED: '- The Federated Database Instance was deleted.'
             apply: ', this field may be empty as Atlas populates it asynchronously. In that case, run terraform apply -refresh-only after the initial apply to update the state with the populated hostnames, then run terraform apply again if you have downstream resources that consume this value.'
-            atlas_azure_app_id: '- Unique identifier of the Azure Active Directory application associated with the service principal.'
+            atlas_app_id: '- Unique identifier of the Azure Active Directory application associated with the service principal.'
             cloud_provider_config: '- (Optional) Cloud provider linked to this data federated instance.'
             cloud_provider_config.aws: '- AWS provider of the cloud service where the Federated Database Instance can access the S3 Bucket.'
             cloud_provider_config.aws.role_id: '- (Required) Unique identifier of the role that the Federated Instance can use to access the data stores. If necessary, use the Atlas UI or API to retrieve the role ID. You must also specify the test_s3_bucket.'
@@ -3059,7 +3009,6 @@ resources:
             storage_databases.#.collections.#.data_sources.#.path: '- File path that controls how MongoDB Cloud searches for and parses files in the storeName before mapping them to a collection. Specify / to capture all files and folders from the prefix path.'
             storage_databases.#.collections.#.data_sources.#.provenance_field_name: '- Name for the field that includes the provenance of the documents in the results.'
             storage_databases.#.collections.#.data_sources.#.store_name: '-     Name of a data store to map to the <collection>. Must match the name of an object in the stores array.'
-            storage_databases.#.collections.#.data_sources.#.storeName: '- Human-readable label that identifies the data store that MongoDB Cloud maps to the collection.'
             storage_databases.#.collections.#.data_sources.#.urls: '- URLs of the publicly accessible data files. You can''t specify URLs that require authentication.'
             storage_databases.#.collections.#.name: '- Name of the collection.'
             storage_databases.#.name: '- Name of the database to which the Federated Database Instance maps the data contained in the data store.'
@@ -3079,7 +3028,7 @@ resources:
             storage_stores.#.provider: '- Defines where the data is stored.'
             storage_stores.#.public: '- Flag that indicates whether the bucket is public.'
             storage_stores.#.read_preference: '- MongoDB Cloud cluster read preference, which describes how to route read requests to the cluster.'
-            storage_stores.#.read_preference.maxStalenessSeconds: '- Maximum replication lag, or staleness, for reads from secondaries.'
+            storage_stores.#.read_preference.max_staleness_seconds: '- Maximum replication lag, or staleness, for reads from secondaries.'
             storage_stores.#.read_preference.mode: '- Read preference mode that specifies to which replica set member to route the read requests.'
             storage_stores.#.read_preference.tag_sets: '- List that contains tag sets or tag specification documents.'
             storage_stores.#.read_preference.tags: '- List of all tags within a tag set'
@@ -3111,10 +3060,9 @@ resources:
             current_usage: '- Amount that indicates the current usage of the limit.'
             default_limit: '- Default value of the limit.'
             id: '- The Terraform''s unique identifier used internally for state management.'
-            lastModifiedDate: '- Only used for Data Federation limits. Timestamp that indicates when this usage limit was last modified. This field uses the ISO 8601 timestamp format in UTC.'
+            last_modified_date: '- Only used for Data Federation limits. Timestamp that indicates when this usage limit was last modified. This field uses the ISO 8601 timestamp format in UTC.'
             limit_name: '- (Required) String enum that indicates whether the identity provider is active or not. Accepted values are:'
-            maximumLimit: '- Maximum value of the limit.'
-            name: '- Name that identifies the user-managed limit to modify.'
+            maximum_limit: '- Maximum value of the limit.'
             overrun_policy: '- (Required) String enum that identifies action to take when the usage limit is exceeded. If limit span is set to QUERY, this is ignored because MongoDB Cloud stops the query when it exceeds the usage limit. Accepted values are "BLOCK" OR "BLOCK_AND_KILL"'
             project_id: '- (Required) The unique ID for the project to create a Federated Database Instance, also known as groupId in the official documentation.'
             tenant_name: '- (Required) Name of the Atlas Federated Database Instance.'
@@ -4211,7 +4159,7 @@ resources:
             data_expiration_rule: '- (Optional) Rule for specifying when data should be deleted from the archive. See data expiration rule.'
             data_process_region: '- (Optional) Settings to configure the region where you wish to store your archived data. See data process region. This field is immutable hence cannot be updated.'
             date_field: '- Indexed database parameter that stores the date that determines when data moves to the online archive. MongoDB Cloud archives the data when the current date exceeds the date in this database parameter plus the number of days specified through the expireAfterDays parameter.'
-            date_format: '- Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601 or Epoch timestamps. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collectionType is TIMESERIES. Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS.'
+            date_format: '- Syntax used to write the date after which data moves to the online archive. Date can be expressed as ISO 8601, Epoch timestamps, or ObjectId. The Epoch timestamp can be expressed as nanoseconds, milliseconds, or seconds. You must set type to DATE if collection_type is TIMESERIES. Valid values: ISODATE, EPOCH_SECONDS, EPOCH_MILLIS, EPOCH_NANOSECONDS, or OBJECT_ID. Default is ISODATE. See dateFormat in the Atlas Admin API reference.'
             day_of_month: '- Day of the month when the scheduled archive starts. This field should be provided only when schedule type is MONTHLY.'
             day_of_week: '- Day of the week when the scheduled archive starts. The week starts with Monday (1) and ends with Sunday (7). This field should be provided only when schedule type is WEEKLY.'
             db_name: '- (Required) Name of the database that contains the collection.'
@@ -5032,11 +4980,11 @@ resources:
             aws_security_group: (String) Unique identifier of the AWS security group to add to the access list. Mutually exclusive with cidr_block and ip_address.
             cidr_block: (String) Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with ip_address and aws_security_group.
             comment: (String) Remark that explains the purpose or scope of this IP access list entry.
-            delete: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+            delete: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 45m.'
             id: (String) Unique identifier used for terraform for internal management.
             ip_address: (String) Single IP address to be added to the access list. Mutually exclusive with cidr_block and aws_security_group.
             project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-            read: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+            read: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: 2m.'
             timeouts: (Attributes) (see below for nested schema)
         importStatements: []
     mongodbatlas_project_service_account:
@@ -6020,7 +5968,7 @@ resources:
             USER_INFO: '- Uses username and password authentication for Confluent Schema Registry.'
             access: '- Information about the networking access. See access.'
             authentication: '- User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.'
-            aws: '- The configuration for AWS Lambda connection. See AWS'
+            aws: '- The configuration for AWS Kinesis Data Streams connection. See AWS.'
             azure: '- The configuration for Azure Blob Storage connection. See Azure.'
             bootstrap_servers: '- Comma separated list of server addresses.'
             broker_public_certificate: '- A trusted, public x509 certificate for connecting to Kafka over SSL. String value of the certificate must be defined in the attribute.'
@@ -6031,15 +5979,15 @@ resources:
             config: '- A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have ''.'' characters.'
             connection_id: '- Id of the Private Link connection when type is PRIVATE_LINK.'
             connection_name: '- (Required) Label that identifies the stream connection. In the case of the Sample type, this is the name of the sample source.'
-            create: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 20m (20 minutes).'
+            create: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after creation. Defaults to 40m (40 minutes).'
             db_role_to_execute: '- The name of a Built in or Custom DB Role to connect to an Atlas Cluster. See DBRoleToExecute.'
-            delete: '- (Optional) The maximum time to wait for the stream connection to be fully deleted. Defaults to 20m (20 minutes).'
-            gcp: '- The configuration for GCP Pub/Sub connection. See GCP'
+            delete: '- (Optional) The maximum time to wait for the stream connection to be fully deleted. Defaults to 40m (40 minutes).'
+            gcp: '- The configuration for GCP Pub/Sub connection. See GCP.'
             headers: '- A map of key-value pairs for optional headers.'
             instance_name: '- (Optional, Deprecated) Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.'
-            mechanism: '- Method of authentication. Value can be PLAIN, SCRAM-256, or SCRAM-512.'
+            mechanism: '- Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.'
             method: '- SASL OAUTHBEARER authentication method. Value must be OIDC.'
-            networking: '- Networking Access Type can either be PUBLIC (default) or VPC. See networking.'
+            networking: '- Networking Access Type can be PUBLIC (default), VPC, or PRIVATE_LINK. See networking.'
             password: '- Password of the account to connect to the Kafka cluster.'
             project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.'
             protocol: '- Describes the transport type. Can be either SASL_PLAINTEXT or SASL_SSL.'
@@ -6056,8 +6004,8 @@ resources:
             service_principal_id: '- (Required) UUID that identifies the Azure Service Principal used to access the Azure Blob Storage account.'
             storage_account_name: '- (Required) Name of the Azure Storage account to use. Must be lowercase, 3-24 characters, and contain only letters and numbers.'
             token_endpoint_url: '-  OAUTH issuer (IdP provider) token endpoint HTTP(S) URI used to retrieve the token.'
-            type: '- (Required) Type of connection. Can be AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, Sample, or SchemaRegistry.'
-            update: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 20m (20 minutes).'
+            type: '- (Required) Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.'
+            update: '- (Optional) The maximum time to wait for the stream connection to be fully provisioned after an update. Defaults to 40m (40 minutes).'
             url: '- URL of the HTTPs endpoint that will be used for creating a connection.'
             username: '- Username of the account to connect to the Kafka cluster.'
             workspace_name: '- (Optional) Label that identifies the stream processing workspace.'
@@ -6084,6 +6032,7 @@ resources:
             data_process_region: '- (Required) Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.'
             hostnames: '- List that contains the hostnames assigned to the stream instance.'
             instance_name: '- (Required) Human-readable label that identifies the stream instance.'
+            max_tier_size: '- (Optional, Computed) Maximum tier size for the Stream Instance.'
             project_id: '- (Required) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.'
             region: '- (Required) Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.'
             stream_config: '- (Optional) Configuration options for an Atlas Stream Processing Instance. See stream config'
@@ -6098,7 +6047,7 @@ resources:
               manifest: |-
                 {
                   "dns_domain": "${confluent_network.private_link.dns_domain}",
-                  "dns_sub_domain": "${confluent_network.private_link.zonal_subdomains}",
+                  "dns_sub_domain": "${values(confluent_network.private_link.zonal_subdomains)}",
                   "project_id": "${var.project_id}",
                   "provider_name": "AWS",
                   "region": "${var.aws_region}",
@@ -6107,7 +6056,6 @@ resources:
                 }
               references:
                 dns_domain: confluent_network.private_link.dns_domain
-                dns_sub_domain: confluent_network.private_link.zonal_subdomains
                 project_id: var.project_id
                 region: var.aws_region
                 service_endpoint_id: confluent_network.private_link.aws[0].private_link_endpoint_service

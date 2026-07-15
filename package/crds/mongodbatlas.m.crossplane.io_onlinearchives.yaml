@@ -82,11 +82,12 @@ spec:
                         dateFormat:
                           description: 'Syntax used to write the date after which
                             data moves to the online archive. Date can be expressed
-                            as ISO 8601 or Epoch timestamps. The Epoch timestamp can
-                            be expressed as nanoseconds, milliseconds, or seconds.
-                            You must set type to DATE if collectionType is TIMESERIES.
-                            Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS,
-                            EPOCH_NANOSECONDS.'
+                            as ISO 8601, Epoch timestamps, or ObjectId. The Epoch
+                            timestamp can be expressed as nanoseconds, milliseconds,
+                            or seconds. You must set type to DATE if collection_type
+                            is TIMESERIES. Valid values: ISODATE, EPOCH_SECONDS, EPOCH_MILLIS,
+                            EPOCH_NANOSECONDS, or OBJECT_ID. Default is ISODATE. See
+                            dateFormat in the Atlas Admin API reference.'
                           type: string
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
@@ -350,11 +351,12 @@ spec:
                         dateFormat:
                           description: 'Syntax used to write the date after which
                             data moves to the online archive. Date can be expressed
-                            as ISO 8601 or Epoch timestamps. The Epoch timestamp can
-                            be expressed as nanoseconds, milliseconds, or seconds.
-                            You must set type to DATE if collectionType is TIMESERIES.
-                            Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS,
-                            EPOCH_NANOSECONDS.'
+                            as ISO 8601, Epoch timestamps, or ObjectId. The Epoch
+                            timestamp can be expressed as nanoseconds, milliseconds,
+                            or seconds. You must set type to DATE if collection_type
+                            is TIMESERIES. Valid values: ISODATE, EPOCH_SECONDS, EPOCH_MILLIS,
+                            EPOCH_NANOSECONDS, or OBJECT_ID. Default is ISODATE. See
+                            dateFormat in the Atlas Admin API reference.'
                           type: string
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField
@@ -688,11 +690,12 @@ spec:
                         dateFormat:
                           description: 'Syntax used to write the date after which
                             data moves to the online archive. Date can be expressed
-                            as ISO 8601 or Epoch timestamps. The Epoch timestamp can
-                            be expressed as nanoseconds, milliseconds, or seconds.
-                            You must set type to DATE if collectionType is TIMESERIES.
-                            Valid values:  ISODATE (default), EPOCH_SECONDS, EPOCH_MILLIS,
-                            EPOCH_NANOSECONDS.'
+                            as ISO 8601, Epoch timestamps, or ObjectId. The Epoch
+                            timestamp can be expressed as nanoseconds, milliseconds,
+                            or seconds. You must set type to DATE if collection_type
+                            is TIMESERIES. Valid values: ISODATE, EPOCH_SECONDS, EPOCH_MILLIS,
+                            EPOCH_NANOSECONDS, or OBJECT_ID. Default is ISODATE. See
+                            dateFormat in the Atlas Admin API reference.'
                           type: string
                         expireAfterDays:
                           description: Number of days after the value in the criteria.dateField

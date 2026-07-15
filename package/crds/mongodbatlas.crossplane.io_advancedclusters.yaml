@@ -77,6 +77,11 @@ spec:
                       If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.
                       If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set **acceptDataRisksAndForceReplicaSetReconfig** to the current date.
                     type: string
+                  adaptiveCapacity:
+                    description: |-
+                      Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ENABLED means the cluster explicitly opts in to adaptive capacity. DISABLED means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. null means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.
+                      Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. `ENABLED` means the cluster explicitly opts in to adaptive capacity. `DISABLED` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. `null` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.
+                    type: string
                   advancedConfiguration:
                     properties:
                       changeStreamOptionsPreAndPostImagesExpireAfterSeconds:
@@ -182,7 +187,7 @@ spec:
                         type: boolean
                       readPreference:
                         description: |-
-                          Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
+                          Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.
                           Data source node designated for the MongoDB Connector for Business Intelligence on MongoDB Cloud. The MongoDB Connector for Business Intelligence on MongoDB Cloud reads data from the primary, secondary, or analytics node based on your read preferences. Defaults to `ANALYTICS` node, or `SECONDARY` if there are no `ANALYTICS` nodes.
                         type: string
                     type: object
@@ -229,7 +234,7 @@ spec:
                       Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
                       Map of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels.
 
-                      Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://dochub.mongodb.org/core/add-cluster-tag-atlas) instead.
+                      Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://www.mongodb.com/docs/atlas/tags/) instead.
                     type: object
                     x-kubernetes-map-type: granular
                   mongoDbMajorVersion:
@@ -388,9 +393,10 @@ spec:
                       node configurations. The replication_specs configuration for
                       all shards within the same zone must be the same, with the exception
                       of instance_size and disk_iops that can scale independently.
-                      Note that independent disk_iops values are only supported for
-                      AWS provisioned IOPS, or Azure regions that support Extended
-                      IOPS. See below.
+                      Note that independent disk_iops values are supported for AWS
+                      Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters,
+                      AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions
+                      that support Extended IOPS. See below.
                     items:
                       properties:
                         regionConfigs:
@@ -400,7 +406,7 @@ spec:
                             the number and type of MongoDB nodes that Atlas deploys
                             to the region. Each region_configs object must have either
                             an analytics_specs object, electable_specs object, or
-                            read_only_specs object. See below.
+                            read_only_specs object. See region_configs.
                           items:
                             properties:
                               analyticsAutoScaling:
@@ -456,15 +462,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -488,9 +493,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -561,15 +568,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -593,9 +599,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -632,15 +640,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -664,9 +671,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -771,6 +780,11 @@ spec:
                       If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.
                       If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set **acceptDataRisksAndForceReplicaSetReconfig** to the current date.
                     type: string
+                  adaptiveCapacity:
+                    description: |-
+                      Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ENABLED means the cluster explicitly opts in to adaptive capacity. DISABLED means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. null means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.
+                      Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. `ENABLED` means the cluster explicitly opts in to adaptive capacity. `DISABLED` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. `null` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.
+                    type: string
                   advancedConfiguration:
                     properties:
                       changeStreamOptionsPreAndPostImagesExpireAfterSeconds:
@@ -876,7 +890,7 @@ spec:
                         type: boolean
                       readPreference:
                         description: |-
-                          Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
+                          Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.
                           Data source node designated for the MongoDB Connector for Business Intelligence on MongoDB Cloud. The MongoDB Connector for Business Intelligence on MongoDB Cloud reads data from the primary, secondary, or analytics node based on your read preferences. Defaults to `ANALYTICS` node, or `SECONDARY` if there are no `ANALYTICS` nodes.
                         type: string
                     type: object
@@ -923,7 +937,7 @@ spec:
                       Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
                       Map of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels.
 
-                      Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://dochub.mongodb.org/core/add-cluster-tag-atlas) instead.
+                      Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://www.mongodb.com/docs/atlas/tags/) instead.
                     type: object
                     x-kubernetes-map-type: granular
                   mongoDbMajorVersion:
@@ -1082,9 +1096,10 @@ spec:
                       node configurations. The replication_specs configuration for
                       all shards within the same zone must be the same, with the exception
                       of instance_size and disk_iops that can scale independently.
-                      Note that independent disk_iops values are only supported for
-                      AWS provisioned IOPS, or Azure regions that support Extended
-                      IOPS. See below.
+                      Note that independent disk_iops values are supported for AWS
+                      Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters,
+                      AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions
+                      that support Extended IOPS. See below.
                     items:
                       properties:
                         regionConfigs:
@@ -1094,7 +1109,7 @@ spec:
                             the number and type of MongoDB nodes that Atlas deploys
                             to the region. Each region_configs object must have either
                             an analytics_specs object, electable_specs object, or
-                            read_only_specs object. See below.
+                            read_only_specs object. See region_configs.
                           items:
                             properties:
                               analyticsAutoScaling:
@@ -1150,15 +1165,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -1182,9 +1196,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -1255,15 +1271,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -1287,9 +1302,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -1326,15 +1343,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -1358,9 +1374,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -1556,6 +1574,11 @@ spec:
                       If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.
                       If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set **acceptDataRisksAndForceReplicaSetReconfig** to the current date.
                     type: string
+                  adaptiveCapacity:
+                    description: |-
+                      Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ENABLED means the cluster explicitly opts in to adaptive capacity. DISABLED means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. null means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.
+                      Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. `ENABLED` means the cluster explicitly opts in to adaptive capacity. `DISABLED` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. `null` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.
+                    type: string
                   advancedConfiguration:
                     properties:
                       changeStreamOptionsPreAndPostImagesExpireAfterSeconds:
@@ -1661,7 +1684,7 @@ spec:
                         type: boolean
                       readPreference:
                         description: |-
-                          Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details on BI Connector for Atlas read preferences, refer to the BI Connector Read Preferences Table.
+                          Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.
                           Data source node designated for the MongoDB Connector for Business Intelligence on MongoDB Cloud. The MongoDB Connector for Business Intelligence on MongoDB Cloud reads data from the primary, secondary, or analytics node based on your read preferences. Defaults to `ANALYTICS` node, or `SECONDARY` if there are no `ANALYTICS` nodes.
                         type: string
                     type: object
@@ -1808,7 +1831,7 @@ spec:
                       Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below. DEPRECATED Use tags instead.
                       Map of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels.
 
-                      Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://dochub.mongodb.org/core/add-cluster-tag-atlas) instead.
+                      Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use [resource tags](https://www.mongodb.com/docs/atlas/tags/) instead.
                     type: object
                     x-kubernetes-map-type: granular
                   mongoDbMajorVersion:
@@ -1901,9 +1924,10 @@ spec:
                       node configurations. The replication_specs configuration for
                       all shards within the same zone must be the same, with the exception
                       of instance_size and disk_iops that can scale independently.
-                      Note that independent disk_iops values are only supported for
-                      AWS provisioned IOPS, or Azure regions that support Extended
-                      IOPS. See below.
+                      Note that independent disk_iops values are supported for AWS
+                      Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters,
+                      AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions
+                      that support Extended IOPS. See below.
                     items:
                       properties:
                         containerId:
@@ -1926,7 +1950,7 @@ spec:
                             the number and type of MongoDB nodes that Atlas deploys
                             to the region. Each region_configs object must have either
                             an analytics_specs object, electable_specs object, or
-                            read_only_specs object. See below.
+                            read_only_specs object. See region_configs.
                           items:
                             properties:
                               analyticsAutoScaling:
@@ -1982,15 +2006,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -2014,9 +2037,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -2087,15 +2112,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -2119,9 +2143,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-
@@ -2158,15 +2184,14 @@ spec:
                                 properties:
                                   diskIops:
                                     description: |-
-                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Define this attribute only if you selected AWS as your cloud service provider, instance_size is set to "M30" or greater (not including "Mxx_NVME" tiers), and ebs_volume_type is "PROVISIONED". You can't set this attribute for a multi-cloud cluster.
-                                      Target throughput desired for storage attached to your Azure-provisioned cluster. Change this parameter if you:
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
+                                      Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
 
-                                      - set `"replicationSpecs[n].regionConfigs[m].providerName" : "Azure"`.
-                                      - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize" : "M40"` or greater not including `Mxx_NVME` tiers.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
+                                      - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
+                                      - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 
-                                      The maximum input/output operations per second (IOPS) depend on the selected **.instanceSize** and **.diskSizeGB**.
-                                      This parameter defaults to the cluster tier's standard IOPS value.
-                                      Changing this value impacts cluster cost.
+                                      For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
                                     type: number
                                   diskSizeGb:
                                     description: |-
@@ -2190,9 +2215,11 @@ spec:
                                       Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
                                       Type of storage you want to attach to your AWS-provisioned cluster.
 
-                                      - `STANDARD` volume types can't exceed the default input/output operations per second (IOPS) rate for the selected volume size.
+                                      - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 
                                       - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+
+                                      - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
                                     type: string
                                   instanceSize:
                                     description: |-

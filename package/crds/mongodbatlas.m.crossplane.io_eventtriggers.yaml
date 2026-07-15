@@ -76,6 +76,9 @@ spec:
                       version of the modified document in the fullDocument field.
                     type: boolean
                   configFullDocumentBefore:
+                    description: If true, indicates that UPDATE change events should
+                      include the previous revision of the modified document in the
+                      fullDocumentBeforeChange field.
                     type: boolean
                   configMatch:
                     description: Optional for DATABASE type. A $match expression document
@@ -275,6 +278,9 @@ spec:
                       version of the modified document in the fullDocument field.
                     type: boolean
                   configFullDocumentBefore:
+                    description: If true, indicates that UPDATE change events should
+                      include the previous revision of the modified document in the
+                      fullDocumentBeforeChange field.
                     type: boolean
                   configMatch:
                     description: Optional for DATABASE type. A $match expression document
@@ -537,6 +543,9 @@ spec:
                       version of the modified document in the fullDocument field.
                     type: boolean
                   configFullDocumentBefore:
+                    description: If true, indicates that UPDATE change events should
+                      include the previous revision of the modified document in the
+                      fullDocumentBeforeChange field.
                     type: boolean
                   configMatch:
                     description: Optional for DATABASE type. A $match expression document
@@ -575,8 +584,7 @@ spec:
                       defines the trigger schedule.
                     type: string
                   configScheduleType:
-                    description: 'The type of the trigger. Possible Values: DATABASE,
-                      AUTHENTICATION,SCHEDULED'
+                    description: The type of the scheduled trigger.
                     type: string
                   configServiceId:
                     description: Required for DATABASE type. The ID of the MongoDB

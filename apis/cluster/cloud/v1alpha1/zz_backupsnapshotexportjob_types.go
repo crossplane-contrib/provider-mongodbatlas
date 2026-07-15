@@ -88,8 +88,10 @@ type BackupSnapshotExportJobObservation struct {
 	// Unique identifier of the export job.
 	ExportJobID *string `json:"exportJobId,omitempty" tf:"export_job_id,omitempty"`
 
+	// Returned for replica set only. Number of collections that have been exported.
 	ExportStatusExportedCollections *int64 `json:"exportStatusExportedCollections,omitempty" tf:"export_status_exported_collections,omitempty"`
 
+	// Returned for replica set only. Total number of collections to export.
 	ExportStatusTotalCollections *int64 `json:"exportStatusTotalCollections,omitempty" tf:"export_status_total_collections,omitempty"`
 
 	// Timestamp in ISO 8601 date and time format in UTC when the export job completes.

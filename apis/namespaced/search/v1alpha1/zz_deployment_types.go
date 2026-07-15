@@ -47,7 +47,7 @@ type DeploymentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// If true, the resource update is executed without waiting until the [state](#state_name-1) is `IDLE`, making the operation faster.
+	// If true, the resource update is executed without waiting until the state is `IDLE`, making the operation faster.
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 
 	// (Attributes List) List of settings that configure the search nodes for your cluster. This list is currently limited to defining a single element. (see below for nested schema)
@@ -78,7 +78,7 @@ type DeploymentObservation struct {
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// If true, the resource update is executed without waiting until the [state](#state_name-1) is `IDLE`, making the operation faster.
+	// If true, the resource update is executed without waiting until the state is `IDLE`, making the operation faster.
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 
 	// (Attributes List) List of settings that configure the search nodes for your cluster. This list is currently limited to defining a single element. (see below for nested schema)
@@ -128,7 +128,7 @@ type DeploymentParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// If true, the resource update is executed without waiting until the [state](#state_name-1) is `IDLE`, making the operation faster.
+	// If true, the resource update is executed without waiting until the state is `IDLE`, making the operation faster.
 	// +kubebuilder:validation:Optional
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 

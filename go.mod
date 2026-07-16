@@ -7,9 +7,9 @@ tool golang.org/x/tools/cmd/goimports
 require (
 	dario.cat/mergo v1.0.2
 	github.com/alecthomas/kong v1.15.0
-	github.com/crossplane/crossplane-runtime/v2 v2.2.0
-	github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339
-	github.com/crossplane/upjet/v2 v2.3.1-0.20260713112758-3dc7c7822463
+	github.com/crossplane/crossplane-runtime/v2 v2.2.3
+	github.com/crossplane/crossplane-tools v0.0.0-20260715161912-60e57f817ad1
+	github.com/crossplane/upjet/v2 v2.3.1-0.20260716092524-5e807d539052
 	github.com/go-logr/logr v1.4.3
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.40.1
@@ -17,7 +17,7 @@ require (
 	github.com/mongodb/terraform-provider-mongodbatlas v0.0.0-local
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.11.1
-	google.golang.org/grpc v1.82.0
+	google.golang.org/grpc v1.82.1
 	k8s.io/api v0.36.2
 	k8s.io/apiextensions-apiserver v0.36.2
 	k8s.io/apimachinery v0.36.2

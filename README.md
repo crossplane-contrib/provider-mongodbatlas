@@ -1,11 +1,11 @@
-# MongoDBAtlas Provider [![v1.1.0](https://img.shields.io/badge/v1.1.3-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.1.0)
+# MongoDBAtlas Provider [![v1.3.0](https://img.shields.io/badge/v1.3.0-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.3.0)
 
 `provider-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
 is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 MongoDBAtlas API.
 
-[![Upstream Terraform Provider](https://img.shields.io/badge/upstream_terraform_provider-v2.12.0-blue?logo=terraform)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v2.12.0)
+[![Upstream Terraform Provider](https://img.shields.io/badge/upstream_terraform_provider-v2.13.0-blue?logo=terraform)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v2.13.0)
 
 ## Getting Started
 
@@ -19,7 +19,7 @@ kind: Provider
 metadata:
   name: provider-mongodbatlas
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.1.3
+  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.3.0
 EOF
 ```
 
@@ -28,6 +28,10 @@ You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-
 ## Importing a resource
 
 Refer to the [dedicated document](docs/import.md) for information about how to import existing resources.
+
+## Migrating to v1
+
+If you are upgrading from v0.x, refer to the [migration guide](docs/migration-to-v1.md) for breaking changes and a migration script.
 
 ## Developing
 
@@ -110,3 +114,6 @@ as the core Crossplane project.
 ## Licensing
 
 `provider-mongodbatlas` is under the Apache 2.0 [license](LICENSE).
+
+This binary includes code from [terraform-provider-mongodbatlas](https://github.com/mongodb/terraform-provider-mongodbatlas)
+licensed under the Mozilla Public License 2.0. See [NOTICE](NOTICE) for details.

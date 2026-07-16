@@ -58,6 +58,9 @@ jobs:
       - infer-go-version
       - publish-provider-package
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -73,20 +76,27 @@ jobs:
         run: make xpkg.append VERSION=${{ inputs.version }}
         env:
           GO_REQUIRED_VERSION: ${{ needs.infer-go-version.outputs.go-version }}
-      - name: Commit README if changed
+      - name: Update README via PR if changed
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [[ "${{ github.ref_type }}" != "branch" || "${{ github.ref_name }}" != "main" ]]; then
-            echo "Skipping README commit (only runs on main branch)"
+            echo "Skipping README update (only runs on main branch)"
             exit 0
           fi
-          if [ -n "$(git status --porcelain README.md)" ]; then
-            gh api graphql \
-            -F githubRepository=${{ github.repository }} \
-            -F branchName=${{ github.ref_name }} \
-            -F expectedHeadOid=$(git rev-parse HEAD) \
-            -F commitMessage="docs: update README.md" \
-            -F files[][path]="README.md" -F files[][contents]=$(base64 -w0 README.md) \
-            -F 'query=@.github/api/createCommitOnBranch.gql'
+          if [ -z "$(git status --porcelain README.md)" ]; then
+            echo "README.md unchanged, nothing to do"
+            exit 0
           fi
+          BRANCH="automated/update-readme-${{ inputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add README.md
+          git commit -m "docs: update README.md for ${{ inputs.version }}"
+          git push origin "$BRANCH"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "docs: update README.md for ${{ inputs.version }}" \
+            --body "Automated README update from publish workflow."

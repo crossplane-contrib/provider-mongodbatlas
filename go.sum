@@ -83,6 +83,8 @@ github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6N
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/crossplane/crossplane-runtime/v2 v2.2.3 h1:/ACD1n1ukspHUDj5NXi8yMpyYsrLDCy7I5x5VTiwlcM=
 github.com/crossplane/crossplane-runtime/v2 v2.2.3/go.mod h1:4hjtObq7yln3BweiFCuSB4j0/a/pHUn6vSuY+Bb8Qf0=
+github.com/crossplane/crossplane-runtime/v2 v2.3.3 h1:seIYf6pk7dLhXd7uSh/N9rVB8IdbCthy3LB6TSn91OI=
+github.com/crossplane/crossplane-runtime/v2 v2.3.3/go.mod h1:UBxoZEXVZz9Ql2W5u5ssFE+egQ21BYqGGc2F3dozUvI=
 github.com/crossplane/crossplane-tools v0.0.0-20260715161912-60e57f817ad1 h1:8//14K4ULQABVOE8Oq2oYKLhJRr1u6Qs5TaqF6CA9Jg=
 github.com/crossplane/crossplane-tools v0.0.0-20260715161912-60e57f817ad1/go.mod h1:8etxwmP4cZwJDwen4+PQlnc1tggltAhEfyyigmdHulQ=
 github.com/crossplane/upjet/v2 v2.3.1-0.20260716092524-5e807d539052 h1:xW2mzd2SN3JMxg4ymogl9y+30j+hgv4nHR4NWkIhrt0=
@@ -271,6 +273,7 @@ github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnr
 github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHmT4TnhNGBo=
 github.com/klauspost/compress v1.18.1 h1:bcSGx7UbpBqMChDtsF28Lw6v/G94LPrrbMbdC3JH2co=
 github.com/klauspost/compress v1.18.1/go.mod h1:ZQFFVG+MdnR0P+l6wpXgIL4NTtwiKIdBnrBd8Nrxr+0=
+github.com/klauspost/compress v1.18.5 h1:/h1gH5Ce+VWNLSWqPzOVn6XBO+vJbCNGvjoaGBFW2IE=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pretty v0.2.1/go.mod h1:ipq/a2n7PKx3OHsz4KJII5eveXtPO4qwEXGdVfWzfnI=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=

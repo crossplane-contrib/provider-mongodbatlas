@@ -7,6 +7,9 @@
 #   2. Triggering re-storage of AdvancedCluster CRs
 #   3. Removing v1alpha2 from storedVersions on affected CRDs
 #
+# A `rollback` phase is also provided to reverse `pre`/`post` using the same
+# backups, for when the v1.x provider needs to be abandoned mid-migration.
+#
 # BACKGROUND
 # ----------
 # `spec.forProvider.username` does not exist in the v0.x (v1alpha2) schema for
@@ -43,6 +46,11 @@
 #   # install/activate the v1.x provider package here - see step-by-step
 #   # instructions printed at the end of `pre`
 #   ./scripts/migrate-to-v1.sh post
+#
+# To abandon the migration instead of continuing to v1.x (uses the same
+# backups `pre` created - do NOT delete /tmp/crossplane-migration-backup
+# until you're sure you won't need to roll back):
+#   ./scripts/migrate-to-v1.sh rollback
 #
 # <dir> should contain the v1.x package's CRD YAMLs, e.g. by extracting them
 # from the target provider image or checking out the provider-mongodbatlas
@@ -92,8 +100,8 @@ while [ $# -gt 0 ]; do
 done
 
 case "$PHASE" in
-  pre|post) ;;
-  *) die "usage: $0 <pre|post> [--v1-crds-dir <dir>]  (see script header for details)" ;;
+  pre|post|rollback) ;;
+  *) die "usage: $0 <pre|post|rollback> [--v1-crds-dir <dir>]  (see script header for details)" ;;
 esac
 
 mkdir -p "$BACKUP_DIR"
@@ -228,15 +236,24 @@ is_unpaused() {
   return 1
 }
 
+# Strips fields tied to the specific object instance currently on the
+# cluster (resourceVersion, uid, managedFields, ...) so this backup can
+# later be fed straight to `kubectl apply -f` (as `rollback` does) without
+# it being rejected as a conflicting update against whatever resourceVersion
+# the object has moved on to by then.
+strip_instance_metadata() {
+  jq 'del(.metadata.resourceVersion, .metadata.uid, .metadata.generation, .metadata.creationTimestamp, .metadata.managedFields, .metadata.selfLink, .status)'
+}
+
 backup_users() {
   db_users=$(kubectl get "$USERS_CRD" -A -o json 2>/dev/null || echo '{"items":[]}')
   echo "$db_users" | jq -c '.items[]' 2>/dev/null | while read -r cr; do
     name=$(echo "$cr" | jq -r '.metadata.name')
     ns=$(echo "$cr" | jq -r '.metadata.namespace // "cluster-scoped"')
     if [ "$ns" = "cluster-scoped" ]; then
-      kubectl get "$USERS_CRD" "$name" -o yaml > "$BACKUP_DIR/dbuser-$name.yaml"
+      kubectl get "$USERS_CRD" "$name" -o json | strip_instance_metadata > "$BACKUP_DIR/dbuser-$name.yaml"
     else
-      kubectl get "$USERS_CRD" "$name" -n "$ns" -o yaml > "$BACKUP_DIR/dbuser-$ns-$name.yaml"
+      kubectl get "$USERS_CRD" "$name" -n "$ns" -o json | strip_instance_metadata > "$BACKUP_DIR/dbuser-$ns-$name.yaml"
     fi
   done
 }
@@ -247,9 +264,9 @@ backup_advancedclusters() {
     name=$(echo "$cr" | jq -r '.metadata.name')
     ns=$(echo "$cr" | jq -r '.metadata.namespace // "cluster-scoped"')
     if [ "$ns" = "cluster-scoped" ]; then
-      kubectl get "$ADVCLUSTERS_CRD" "$name" -o yaml > "$BACKUP_DIR/advcluster-$name.yaml"
+      kubectl get "$ADVCLUSTERS_CRD" "$name" -o json | strip_instance_metadata > "$BACKUP_DIR/advcluster-$name.yaml"
     else
-      kubectl get "$ADVCLUSTERS_CRD" "$name" -n "$ns" -o yaml > "$BACKUP_DIR/advcluster-$ns-$name.yaml"
+      kubectl get "$ADVCLUSTERS_CRD" "$name" -n "$ns" -o json | strip_instance_metadata > "$BACKUP_DIR/advcluster-$ns-$name.yaml"
     fi
   done
 }
@@ -330,6 +347,64 @@ print(f"built transitional CRD: {[v['name'] for v in live['spec']['versions']]} 
 PYEOF
 }
 
+# -----------------------------------------------------------------------------
+# Build the CRD shape needed to roll back: both the old version (from the
+# pre-phase's own backup of the original, single-version CRD) and whatever
+# version(s) the live CRD currently has are served, but the OLD version is
+# now storage=true again. This mirrors build_transitional_crd in reverse.
+#
+# Narrowing spec.versions straight back down to the old version alone -
+# without going through this re-widen step - looks like it should work
+# (the old version's schema is unchanged) but corrupts every affected
+# object: confirmed live, `kubectl get`/`patch` on an object that was ever
+# served as the newer version, after that version is removed from
+# spec.versions, fails with "request to convert CR from an invalid
+# group/version: <new-version>" - even when no field-level write under the
+# new version ever happened. Kubernetes' storedVersions/spec.versions
+# migration rule exists precisely to prevent this; rolling back has to
+# satisfy it in reverse, not skip it.
+# -----------------------------------------------------------------------------
+build_rollback_crd() {
+  local live_crd_name="$1" backup_crd_file="$2" out_file="$3"
+  kubectl get crd "$live_crd_name" -o yaml > "$BACKUP_DIR/rollback-live-$live_crd_name.yaml"
+  python3 - "$BACKUP_DIR/rollback-live-$live_crd_name.yaml" "$backup_crd_file" "$out_file" <<'PYEOF'
+import sys, yaml
+
+live_path, backup_path, out_path = sys.argv[1:4]
+
+with open(live_path) as f:
+    live = yaml.safe_load(f)
+with open(backup_path) as f:
+    backup = yaml.safe_load(f)
+
+if len(backup['spec']['versions']) != 1:
+    sys.exit(f"expected exactly one version in {backup_path}, found {[v['name'] for v in backup['spec']['versions']]}")
+
+old_version = backup['spec']['versions'][0]
+old_version['served'] = True
+old_version['storage'] = True
+
+# Keep serving whatever else is currently live (so objects already stored
+# under it stay readable while they're being restored) but it's no longer
+# the storage version.
+other_versions = [v for v in live['spec']['versions'] if v['name'] != old_version['name']]
+for v in other_versions:
+    v['served'] = True
+    v['storage'] = False
+
+live['spec']['versions'] = [old_version] + other_versions
+
+for k in ('resourceVersion', 'uid', 'creationTimestamp', 'generation', 'managedFields', 'selfLink'):
+    live['metadata'].pop(k, None)
+live.pop('status', None)
+
+with open(out_path, 'w') as f:
+    yaml.safe_dump(live, f, default_flow_style=False, sort_keys=False)
+
+print(f"built rollback CRD: {[v['name'] for v in live['spec']['versions']]} (storage={old_version['name']}) -> {out_path}")
+PYEOF
+}
+
 drop_old_version_from_crd() {
   local crd_name="$1" old_version_name="$2" out_file="$3"
   kubectl get crd "$crd_name" -o yaml > "$out_file.orig"
@@ -398,6 +473,68 @@ if [ "$PHASE" = "pre" ]; then
   exit 0
 fi
 
+if [ "$PHASE" = "rollback" ]; then
+  for crd in "$USERS_CRD" "$ADVCLUSTERS_CRD"; do
+    [ -f "$BACKUP_DIR/live-crd-$crd.yaml" ] || die "no pre-phase CRD backup found at $BACKUP_DIR/live-crd-$crd.yaml - rollback requires the backups '$0 pre' created for $crd. Cannot roll back without them."
+  done
+
+  log "Rollback 1/3: re-widening CRDs (both versions served, v1alpha2 as storage)..."
+  if [ "$DRY_RUN" = "true" ]; then
+    log "  [dry-run] would re-widen $USERS_CRD and $ADVCLUSTERS_CRD, storage=v1alpha2"
+  else
+    build_rollback_crd "$USERS_CRD" "$BACKUP_DIR/live-crd-$USERS_CRD.yaml" "$BACKUP_DIR/rollback-transitional-users.yaml"
+    build_rollback_crd "$ADVCLUSTERS_CRD" "$BACKUP_DIR/live-crd-$ADVCLUSTERS_CRD.yaml" "$BACKUP_DIR/rollback-transitional-advancedclusters.yaml"
+    kubectl apply -f "$BACKUP_DIR/rollback-transitional-users.yaml"
+    kubectl apply -f "$BACKUP_DIR/rollback-transitional-advancedclusters.yaml"
+  fi
+
+  log "Rollback 2/3: restoring DatabaseUser/AdvancedCluster CRs from their pre-migration backups..."
+  restore_failed=""
+  for f in "$BACKUP_DIR"/dbuser-*.yaml "$BACKUP_DIR"/advcluster-*.yaml; do
+    [ -f "$f" ] || continue
+    log "  Restoring $(basename "$f")"
+    if [ "$DRY_RUN" = "true" ]; then
+      log "    [dry-run] would apply $f"
+    else
+      # --server-side avoids a client-side-apply quirk seen live against this
+      # provider's User CRD: kubectl's client-side JSON-merge-patch fallback
+      # (triggered when the OpenAPI V3 path doesn't support strategic merge,
+      # as with this provider's CRDs) can send a literal resourceVersion "0"
+      # even though the local file has no resourceVersion at all, which the
+      # apiserver rejects with "metadata.resourceVersion: Invalid value: 0".
+      # Server-side apply doesn't go through that code path.
+      kubectl apply --server-side --force-conflicts -f "$f" || { warn "  failed to restore $f"; restore_failed="yes"; }
+    fi
+  done
+  [ -n "$restore_failed" ] && die "one or more CRs failed to restore from backup - inspect $BACKUP_DIR and fix manually. Do NOT proceed to narrow the CRDs back down while any object might still be storing v1alpha3 data."
+
+  log "Rollback 3/3: removing v1alpha3 from storedVersions and dropping it from spec.versions..."
+  if [ "$DRY_RUN" = "true" ]; then
+    log "  [dry-run] would narrow $USERS_CRD and $ADVCLUSTERS_CRD back to v1alpha2-only"
+  else
+    for crd in "$USERS_CRD" "$ADVCLUSTERS_CRD"; do
+      stored=$(kubectl get crd "$crd" -o jsonpath='{.status.storedVersions}') || die "cannot read storedVersions for $crd"
+      if echo "$stored" | grep -q 'v1alpha3'; then
+        kubectl patch crd "$crd" \
+          --type='json' \
+          --subresource=status \
+          -p='[{"op":"replace","path":"/status/storedVersions","value":["v1alpha2"]}]'
+      fi
+      drop_old_version_from_crd "$crd" "v1alpha3" "$BACKUP_DIR/rollback-final-$crd.yaml"
+      kubectl apply -f "$BACKUP_DIR/rollback-final-$crd.yaml"
+    done
+  fi
+
+  log ""
+  log "Rollback complete. $USERS_CRD and $ADVCLUSTERS_CRD now serve only"
+  log "v1alpha2 again, matching the v0.x provider's shape. Remaining manual steps:"
+  log "  1. Re-install/activate the v0.x provider package if you had already"
+  log "     switched to v1.x."
+  log "  2. Unpause the CRs and their owning composites that '$0 pre' paused"
+  log "     (annotate crossplane.io/paused- to remove)."
+  exit 0
+fi
+
 # ---------------------------------------------------------------------------
 # Post-phase: the live CRDs now serve v1alpha3 (from the pre-phase). Backfill
 # required fields, re-store every CR at v1alpha3, then finish the CRD
@@ -417,7 +554,7 @@ require_transitional_crd "$USERS_CRD"
 require_transitional_crd "$ADVCLUSTERS_CRD"
 
 log "Post-phase Step 1: Patching DatabaseUser CRs..."
-rm -f "$BACKUP_DIR/backfill-verification-failed.txt"
+rm -f "$BACKUP_DIR/user-backfill-failed.txt" "$BACKUP_DIR/advcluster-migration-failed.txt"
 
 db_users=$(kubectl get "$USERS_CRD" -A -o json 2>/dev/null || echo '{"items":[]}')
 user_count=$(echo "$db_users" | jq '.items | length')
@@ -439,7 +576,7 @@ echo "$db_users" | jq -c '.items[]' | while read -r cr; do
 
   if is_unpaused "$cr" "$USERS_CRD"; then
     warn "    $ns/$name (or its owning composite) was not confirmed paused in the pre-phase - skipping rather than racing a live reconcile. Pause it manually and re-run 'post' for this CR."
-    echo "$USERS_CRD/$name ($ns) - skipped, pause not confirmed in pre-phase" >> "$BACKUP_DIR/backfill-verification-failed.txt"
+    echo "$USERS_CRD/$name ($ns) - skipped, pause not confirmed in pre-phase" >> "$BACKUP_DIR/user-backfill-failed.txt"
     continue
   fi
 
@@ -490,7 +627,7 @@ echo "$db_users" | jq -c '.items[]' | while read -r cr; do
       log "    Verified: username persisted as $username"
     else
       warn "    username on $ns/$name did not persist after patch (got \"$persisted\", wanted \"$username\") - its owning composite is likely still reconciling despite the pre-phase pause. Check $BACKUP_DIR/unpaused-owners.txt and the composite's crossplane.io/paused status before proceeding."
-      echo "$USERS_CRD/$name ($ns) - username backfill did not persist (got \"$persisted\", wanted \"$username\")" >> "$BACKUP_DIR/backfill-verification-failed.txt"
+      echo "$USERS_CRD/$name ($ns) - username backfill did not persist (got \"$persisted\", wanted \"$username\")" >> "$BACKUP_DIR/user-backfill-failed.txt"
     fi
   fi
 done
@@ -594,7 +731,7 @@ echo "$adv_clusters" | jq -c '.items[]' | while read -r cr; do
 
   if is_unpaused "$cr" "$ADVCLUSTERS_CRD"; then
     warn "  $ns/$name (or its owning composite) was not confirmed paused in the pre-phase - skipping rather than racing a live reconcile. Pause it manually and re-run 'post' for this CR."
-    echo "$ADVCLUSTERS_CRD/$name ($ns) - skipped, pause not confirmed in pre-phase" >> "$BACKUP_DIR/backfill-verification-failed.txt"
+    echo "$ADVCLUSTERS_CRD/$name ($ns) - skipped, pause not confirmed in pre-phase" >> "$BACKUP_DIR/advcluster-migration-failed.txt"
     continue
   fi
 
@@ -645,20 +782,31 @@ echo "$adv_clusters" | jq -c '.items[]' | while read -r cr; do
   fi
   if [ -z "$got_instance_size" ]; then
     warn "    electableSpecs on $ns/$name is empty after patching - its owning composite is likely still reconciling despite the pre-phase pause. Check $BACKUP_DIR/unpaused-owners.txt and the composite's crossplane.io/paused status before proceeding."
-    echo "$ADVCLUSTERS_CRD/$name ($ns) - electableSpecs empty after migration patch" >> "$BACKUP_DIR/backfill-verification-failed.txt"
+    echo "$ADVCLUSTERS_CRD/$name ($ns) - electableSpecs empty after migration patch" >> "$BACKUP_DIR/advcluster-migration-failed.txt"
   else
     log "    Verified: electableSpecs.instanceSize = $got_instance_size"
   fi
   if [ -n "$cluster_name" ] && [ "$got_name" != "$cluster_name" ]; then
     warn "    name on $ns/$name did not persist after patch (got \"$got_name\", wanted \"$cluster_name\") - its owning composite is likely still reconciling despite the pre-phase pause."
-    echo "$ADVCLUSTERS_CRD/$name ($ns) - name backfill did not persist (got \"$got_name\", wanted \"$cluster_name\")" >> "$BACKUP_DIR/backfill-verification-failed.txt"
+    echo "$ADVCLUSTERS_CRD/$name ($ns) - name backfill did not persist (got \"$got_name\", wanted \"$cluster_name\")" >> "$BACKUP_DIR/advcluster-migration-failed.txt"
   elif [ -n "$cluster_name" ]; then
     log "    Verified: name persisted as $got_name"
   fi
 done
 
-if [ -s "$BACKUP_DIR/backfill-verification-failed.txt" ]; then
-  die "one or more AdvancedCluster region-config migrations did not persist - see $BACKUP_DIR/backfill-verification-failed.txt. Do not install/activate the v1.x provider package until these are resolved."
+# Tracked in separate files (rather than one shared list) so this message
+# names the resource type that actually failed - Step 1 (DatabaseUser) and
+# Step 2 (AdvancedCluster) failures are unrelated and were previously easy
+# to conflate: a DatabaseUser-only failure here used to be reported as an
+# "AdvancedCluster region-config migration" failure, sending whoever's
+# debugging it to inspect the wrong resource.
+post_failures=()
+[ -s "$BACKUP_DIR/user-backfill-failed.txt" ] && post_failures+=("DatabaseUser username/authDatabaseName backfill - see $BACKUP_DIR/user-backfill-failed.txt")
+[ -s "$BACKUP_DIR/advcluster-migration-failed.txt" ] && post_failures+=("AdvancedCluster region-config migration - see $BACKUP_DIR/advcluster-migration-failed.txt")
+if [ "${#post_failures[@]}" -gt 0 ]; then
+  warn "Post-phase verification failures:"
+  for f in "${post_failures[@]}"; do warn "  - $f"; done
+  die "one or more backfills did not persist. Do not install/activate the v1.x provider package until these are resolved."
 fi
 
 # ---------------------------------------------------------------------------

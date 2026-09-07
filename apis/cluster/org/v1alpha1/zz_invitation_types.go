@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InvitationInitParameters struct {
@@ -21,11 +21,11 @@ type InvitationInitParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// Atlas roles to assign to the invited user. If the user accepts the invitation, Atlas assigns these roles to them. The MongoDB Documentation describes the roles a user can have.
 	// +listType=set
@@ -80,11 +80,11 @@ type InvitationParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// Atlas roles to assign to the invited user. If the user accepts the invitation, Atlas assigns these roles to them. The MongoDB Documentation describes the roles a user can have.
 	// +kubebuilder:validation:Optional
@@ -103,8 +103,8 @@ type InvitationParameters struct {
 
 // InvitationSpec defines the desired state of Invitation
 type InvitationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InvitationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InvitationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -120,8 +120,8 @@ type InvitationSpec struct {
 
 // InvitationStatus defines the observed state of Invitation.
 type InvitationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InvitationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InvitationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

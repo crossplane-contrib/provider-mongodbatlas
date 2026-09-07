@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CustomZoneMappingsInitParameters struct {
@@ -59,11 +59,11 @@ type GlobalClusterConfigInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type GlobalClusterConfigObservation struct {
@@ -107,11 +107,11 @@ type GlobalClusterConfigParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type ManagedNamespacesInitParameters struct {
@@ -175,8 +175,8 @@ type ManagedNamespacesParameters struct {
 
 // GlobalClusterConfigSpec defines the desired state of GlobalClusterConfig
 type GlobalClusterConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GlobalClusterConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GlobalClusterConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -192,8 +192,8 @@ type GlobalClusterConfigSpec struct {
 
 // GlobalClusterConfigStatus defines the observed state of GlobalClusterConfig.
 type GlobalClusterConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GlobalClusterConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GlobalClusterConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

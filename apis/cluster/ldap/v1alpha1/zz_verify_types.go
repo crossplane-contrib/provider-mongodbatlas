@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LinksInitParameters struct {
@@ -45,7 +45,7 @@ type VerifyInitParameters struct {
 	AuthzQueryTemplate *string `json:"authzQueryTemplate,omitempty" tf:"authz_query_template,omitempty"`
 
 	// The password used to authenticate the bind_username.
-	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
+	BindPasswordSecretRef v2.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
@@ -65,11 +65,11 @@ type VerifyInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type VerifyObservation struct {
@@ -115,7 +115,7 @@ type VerifyParameters struct {
 
 	// The password used to authenticate the bind_username.
 	// +kubebuilder:validation:Optional
-	BindPasswordSecretRef v1.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
+	BindPasswordSecretRef v2.SecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	// +kubebuilder:validation:Optional
@@ -140,17 +140,17 @@ type VerifyParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 // VerifySpec defines the desired state of Verify
 type VerifySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     VerifyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   VerifyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -166,8 +166,8 @@ type VerifySpec struct {
 
 // VerifyStatus defines the observed state of Verify.
 type VerifyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VerifyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VerifyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

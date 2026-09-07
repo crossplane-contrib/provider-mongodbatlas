@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupSnapshotRestoreJobInitParameters struct {
@@ -23,11 +22,11 @@ type BackupSnapshotRestoreJobInitParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	DeliveryTypeConfig []DeliveryTypeConfigInitParameters `json:"deliveryTypeConfig,omitempty" tf:"delivery_type_config,omitempty"`
@@ -38,11 +37,11 @@ type BackupSnapshotRestoreJobInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Optional setting for pointInTime configuration. Unique identifier of the snapshot to restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
@@ -50,11 +49,11 @@ type BackupSnapshotRestoreJobInitParameters struct {
 
 	// Reference to a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+	SnapshotIDRef *v2.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
 
 	// Selector for a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
+	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type BackupSnapshotRestoreJobObservation struct {
@@ -108,11 +107,11 @@ type BackupSnapshotRestoreJobParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Type of restore job to create. Possible configurations are: download, automated, or pointInTime only one must be set it in true.
 	// +kubebuilder:validation:Optional
@@ -125,11 +124,11 @@ type BackupSnapshotRestoreJobParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Optional setting for pointInTime configuration. Unique identifier of the snapshot to restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
@@ -138,11 +137,11 @@ type BackupSnapshotRestoreJobParameters struct {
 
 	// Reference to a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+	SnapshotIDRef *v2.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
 
 	// Selector for a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
+	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type DeliveryTypeConfigInitParameters struct {
@@ -250,8 +249,8 @@ type BackupSnapshotRestoreJobSpec struct {
 
 // BackupSnapshotRestoreJobStatus defines the observed state of BackupSnapshotRestoreJob.
 type BackupSnapshotRestoreJobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupSnapshotRestoreJobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupSnapshotRestoreJobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

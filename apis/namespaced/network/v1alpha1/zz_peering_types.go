@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PeeringInitParameters struct {
@@ -42,11 +41,11 @@ type PeeringInitParameters struct {
 
 	// Reference to a Container in network to populate containerId.
 	// +kubebuilder:validation:Optional
-	ContainerIDRef *v1.NamespacedReference `json:"containerIdRef,omitempty" tf:"-"`
+	ContainerIDRef *v2.NamespacedReference `json:"containerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Container in network to populate containerId.
 	// +kubebuilder:validation:Optional
-	ContainerIDSelector *v1.NamespacedSelector `json:"containerIdSelector,omitempty" tf:"-"`
+	ContainerIDSelector *v2.NamespacedSelector `json:"containerIdSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
@@ -64,11 +63,11 @@ type PeeringInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Cloud provider to whom the peering connection is being made. (Possible Values AWS, AZURE, GCP).
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
@@ -201,11 +200,11 @@ type PeeringParameters struct {
 
 	// Reference to a Container in network to populate containerId.
 	// +kubebuilder:validation:Optional
-	ContainerIDRef *v1.NamespacedReference `json:"containerIdRef,omitempty" tf:"-"`
+	ContainerIDRef *v2.NamespacedReference `json:"containerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Container in network to populate containerId.
 	// +kubebuilder:validation:Optional
-	ContainerIDSelector *v1.NamespacedSelector `json:"containerIdSelector,omitempty" tf:"-"`
+	ContainerIDSelector *v2.NamespacedSelector `json:"containerIdSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
@@ -227,11 +226,11 @@ type PeeringParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Cloud provider to whom the peering connection is being made. (Possible Values AWS, AZURE, GCP).
 	// +kubebuilder:validation:Optional
@@ -273,8 +272,8 @@ type PeeringSpec struct {
 
 // PeeringStatus defines the observed state of Peering.
 type PeeringStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PeeringObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PeeringObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

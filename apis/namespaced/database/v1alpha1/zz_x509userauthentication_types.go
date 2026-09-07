@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CertificatesInitParameters struct {
@@ -41,7 +40,7 @@ type CertificatesParameters struct {
 type X509UserAuthenticationInitParameters struct {
 
 	// PEM string containing one or more customer CAs for database user authentication.
-	CustomerX509CasSecretRef *v1.LocalSecretKeySelector `json:"customerX509CasSecretRef,omitempty" tf:"-"`
+	CustomerX509CasSecretRef *v2.LocalSecretKeySelector `json:"customerX509CasSecretRef,omitempty" tf:"-"`
 
 	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	MonthsUntilExpiration *int64 `json:"monthsUntilExpiration,omitempty" tf:"months_until_expiration,omitempty"`
@@ -52,11 +51,11 @@ type X509UserAuthenticationInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Username of the database user to create a certificate for.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -84,7 +83,7 @@ type X509UserAuthenticationParameters struct {
 
 	// PEM string containing one or more customer CAs for database user authentication.
 	// +kubebuilder:validation:Optional
-	CustomerX509CasSecretRef *v1.LocalSecretKeySelector `json:"customerX509CasSecretRef,omitempty" tf:"-"`
+	CustomerX509CasSecretRef *v2.LocalSecretKeySelector `json:"customerX509CasSecretRef,omitempty" tf:"-"`
 
 	// A number of months that the created certificate is valid for before expiry, up to 24 months. By default is 3.
 	// +kubebuilder:validation:Optional
@@ -97,11 +96,11 @@ type X509UserAuthenticationParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Username of the database user to create a certificate for.
 	// +kubebuilder:validation:Optional
@@ -127,8 +126,8 @@ type X509UserAuthenticationSpec struct {
 
 // X509UserAuthenticationStatus defines the observed state of X509UserAuthentication.
 type X509UserAuthenticationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        X509UserAuthenticationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               X509UserAuthenticationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

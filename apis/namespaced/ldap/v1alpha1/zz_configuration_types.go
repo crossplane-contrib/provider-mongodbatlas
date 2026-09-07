@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConfigurationInitParameters struct {
@@ -27,7 +26,7 @@ type ConfigurationInitParameters struct {
 
 	// The password used to authenticate the bind_username.
 	// Password to authenticate the bind user. If you set autoGenerateBindPassword to true, the Secret referenced here will be created or updated with the generated password if it does not already contain one.
-	BindPasswordSecretRef v1.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
+	BindPasswordSecretRef v2.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	BindUsername *string `json:"bindUsername,omitempty" tf:"bind_username,omitempty"`
@@ -47,11 +46,11 @@ type ConfigurationInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
 	// +listType=atomic
@@ -114,7 +113,7 @@ type ConfigurationParameters struct {
 	// The password used to authenticate the bind_username.
 	// Password to authenticate the bind user. If you set autoGenerateBindPassword to true, the Secret referenced here will be created or updated with the generated password if it does not already contain one.
 	// +kubebuilder:validation:Optional
-	BindPasswordSecretRef v1.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
+	BindPasswordSecretRef v2.LocalSecretKeySelector `json:"bindPasswordSecretRef" tf:"-"`
 
 	// The user DN that Atlas uses to connect to the LDAP server. Must be the full DN, such as CN=BindUser,CN=Users,DC=myldapserver,DC=mycompany,DC=com.
 	// +kubebuilder:validation:Optional
@@ -139,11 +138,11 @@ type ConfigurationParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Maps an LDAP username for authentication to an LDAP Distinguished Name (DN). Each document contains a match regular expression and either a substitution or ldap_query template used to transform the LDAP username extracted from the regular expression. Atlas steps through the each document in the array in the given order, checking the authentication username against the match filter. If a match is found, Atlas applies the transformation and uses the output to authenticate the user. Atlas does not check the remaining documents in the array. For more details and examples see the MongoDB Atlas API Reference.
 	// +kubebuilder:validation:Optional
@@ -209,8 +208,8 @@ type ConfigurationSpec struct {
 
 // ConfigurationStatus defines the observed state of Configuration.
 type ConfigurationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConfigurationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConfigurationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -5,84 +5,84 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this CustomRole.
-func (mg *CustomRole) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *CustomRole) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this CustomRole.
-func (mg *CustomRole) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *CustomRole) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this CustomRole.
-func (mg *CustomRole) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *CustomRole) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this CustomRole.
-func (mg *CustomRole) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *CustomRole) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this CustomRole.
-func (mg *CustomRole) SetConditions(c ...xpv1.Condition) {
+func (mg *CustomRole) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this CustomRole.
-func (mg *CustomRole) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *CustomRole) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this CustomRole.
-func (mg *CustomRole) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *CustomRole) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this CustomRole.
-func (mg *CustomRole) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *CustomRole) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this X509UserAuthentication.
-func (mg *X509UserAuthentication) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *X509UserAuthentication) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this X509UserAuthentication.
-func (mg *X509UserAuthentication) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *X509UserAuthentication) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this X509UserAuthentication.
-func (mg *X509UserAuthentication) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *X509UserAuthentication) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this X509UserAuthentication.
-func (mg *X509UserAuthentication) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *X509UserAuthentication) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this X509UserAuthentication.
-func (mg *X509UserAuthentication) SetConditions(c ...xpv1.Condition) {
+func (mg *X509UserAuthentication) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this X509UserAuthentication.
-func (mg *X509UserAuthentication) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *X509UserAuthentication) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this X509UserAuthentication.
-func (mg *X509UserAuthentication) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *X509UserAuthentication) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this X509UserAuthentication.
-func (mg *X509UserAuthentication) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *X509UserAuthentication) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

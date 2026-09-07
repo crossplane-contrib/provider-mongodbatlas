@@ -10,14 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LogIntegrationInitParameters struct {
 
 	// (String, Sensitive) API key for authentication.
 	// Required for type: DATADOG_LOG_EXPORT. API key for authentication.
-	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
+	APIKeySecretRef *v2.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	// (String) Name of the bucket to store log files.
 	// Required for type: GCS_LOG_EXPORT, S3_LOG_EXPORT. Name of the bucket to store log files.
@@ -25,7 +25,7 @@ type LogIntegrationInitParameters struct {
 
 	// (String, Sensitive) HTTP Event Collector (HEC) token for authentication.
 	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) token for authentication.
-	HecTokenSecretRef *v1.SecretKeySelector `json:"hecTokenSecretRef,omitempty" tf:"-"`
+	HecTokenSecretRef *v2.SecretKeySelector `json:"hecTokenSecretRef,omitempty" tf:"-"`
 
 	// (String) HTTP Event Collector (HEC) endpoint URL.
 	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) endpoint URL.
@@ -62,11 +62,11 @@ type LogIntegrationInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
 	// Required for type: DATADOG_LOG_EXPORT. Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
@@ -167,7 +167,7 @@ type LogIntegrationParameters struct {
 	// (String, Sensitive) API key for authentication.
 	// Required for type: DATADOG_LOG_EXPORT. API key for authentication.
 	// +kubebuilder:validation:Optional
-	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
+	APIKeySecretRef *v2.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	// (String) Name of the bucket to store log files.
 	// Required for type: GCS_LOG_EXPORT, S3_LOG_EXPORT. Name of the bucket to store log files.
@@ -177,7 +177,7 @@ type LogIntegrationParameters struct {
 	// (String, Sensitive) HTTP Event Collector (HEC) token for authentication.
 	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) token for authentication.
 	// +kubebuilder:validation:Optional
-	HecTokenSecretRef *v1.SecretKeySelector `json:"hecTokenSecretRef,omitempty" tf:"-"`
+	HecTokenSecretRef *v2.SecretKeySelector `json:"hecTokenSecretRef,omitempty" tf:"-"`
 
 	// (String) HTTP Event Collector (HEC) endpoint URL.
 	// Required for type: SPLUNK_LOG_EXPORT. HTTP Event Collector (HEC) endpoint URL.
@@ -222,11 +222,11 @@ type LogIntegrationParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
 	// Required for type: DATADOG_LOG_EXPORT. Datadog site/region for log ingestion. Valid values: US1, US3, US5, EU, AP1, AP2, US1_FED.
@@ -267,7 +267,7 @@ type OtelSuppliedHeadersInitParameters struct {
 
 	// (String, Sensitive) Header value.
 	// Header value.
-	ValueSecretRef v1.SecretKeySelector `json:"valueSecretRef" tf:"-"`
+	ValueSecretRef v2.SecretKeySelector `json:"valueSecretRef" tf:"-"`
 }
 
 type OtelSuppliedHeadersObservation struct {
@@ -287,13 +287,13 @@ type OtelSuppliedHeadersParameters struct {
 	// (String, Sensitive) Header value.
 	// Header value.
 	// +kubebuilder:validation:Optional
-	ValueSecretRef v1.SecretKeySelector `json:"valueSecretRef" tf:"-"`
+	ValueSecretRef v2.SecretKeySelector `json:"valueSecretRef" tf:"-"`
 }
 
 // LogIntegrationSpec defines the desired state of LogIntegration
 type LogIntegrationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LogIntegrationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LogIntegrationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -309,8 +309,8 @@ type LogIntegrationSpec struct {
 
 // LogIntegrationStatus defines the observed state of LogIntegration.
 type LogIntegrationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LogIntegrationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LogIntegrationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

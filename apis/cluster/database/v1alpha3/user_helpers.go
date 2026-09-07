@@ -4,7 +4,7 @@
 
 package v1alpha3
 
-import v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // SetPasswordSecretRef sets the PasswordSecretRef field on the User's forProvider spec.
 // This implements common.PasswordSecretRefSetter, allowing the PasswordGenerator

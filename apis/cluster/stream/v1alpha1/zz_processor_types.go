@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DlqInitParameters struct {
@@ -94,11 +94,11 @@ type ProcessorInitParameters struct {
 
 	// Reference to a Instance in stream to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.Reference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in stream to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// (Attributes) Optional configuration for the stream processor. (see below for nested schema)
 	Options *OptionsInitParameters `json:"options,omitempty" tf:"options,omitempty"`
@@ -118,11 +118,11 @@ type ProcessorInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	// The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
@@ -208,11 +208,11 @@ type ProcessorParameters struct {
 
 	// Reference to a Instance in stream to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.Reference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in stream to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// (Attributes) Optional configuration for the stream processor. (see below for nested schema)
 	// +kubebuilder:validation:Optional
@@ -236,11 +236,11 @@ type ProcessorParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	// The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
@@ -288,8 +288,8 @@ type ProcessorTimeoutsParameters struct {
 
 // ProcessorSpec defines the desired state of Processor
 type ProcessorSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProcessorParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ProcessorParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -305,8 +305,8 @@ type ProcessorSpec struct {
 
 // ProcessorStatus defines the observed state of Processor.
 type ProcessorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProcessorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProcessorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

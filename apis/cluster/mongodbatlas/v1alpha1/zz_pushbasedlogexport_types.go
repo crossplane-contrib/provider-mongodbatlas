@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PushBasedLogExportInitParameters struct {
@@ -38,11 +38,11 @@ type PushBasedLogExportInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Attributes) (see below for nested schema)
 	Timeouts *PushBasedLogExportTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
@@ -114,11 +114,11 @@ type PushBasedLogExportParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
@@ -175,8 +175,8 @@ type PushBasedLogExportTimeoutsParameters struct {
 
 // PushBasedLogExportSpec defines the desired state of PushBasedLogExport
 type PushBasedLogExportSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PushBasedLogExportParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PushBasedLogExportParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -192,8 +192,8 @@ type PushBasedLogExportSpec struct {
 
 // PushBasedLogExportStatus defines the observed state of PushBasedLogExport.
 type PushBasedLogExportStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PushBasedLogExportObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PushBasedLogExportObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

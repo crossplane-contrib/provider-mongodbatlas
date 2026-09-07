@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConfigurationInitParameters struct {
@@ -36,11 +36,11 @@ type ConfigurationInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
 	SeverityOverride *string `json:"severityOverride,omitempty" tf:"severity_override,omitempty"`
@@ -116,11 +116,11 @@ type ConfigurationParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Severity of the event. For the list of accepted values please read the Create One Alert Configuration in One Project API documentation.
 	// +kubebuilder:validation:Optional
@@ -241,13 +241,13 @@ type MetricThresholdConfigParameters struct {
 type NotificationInitParameters struct {
 
 	// Slack API token. Required for the SLACK notifications type. If the token later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
-	APITokenSecretRef *v1.SecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
+	APITokenSecretRef *v2.SecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
 
 	// Slack channel name. Required for the SLACK notifications type.
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
 	// Datadog API Key. Found in the Datadog dashboard. Required for the DATADOG notifications type.
-	DatadogAPIKeySecretRef *v1.SecretKeySelector `json:"datadogApiKeySecretRef,omitempty" tf:"-"`
+	DatadogAPIKeySecretRef *v2.SecretKeySelector `json:"datadogApiKeySecretRef,omitempty" tf:"-"`
 
 	// Region that indicates which API URL to use. See the datadogRegion field in the notifications request parameter of MongoDB API Alert Configuration documentation for more details. The default Datadog region is US.
 	DatadogRegion *string `json:"datadogRegion,omitempty" tf:"datadog_region,omitempty"`
@@ -268,7 +268,7 @@ type NotificationInitParameters struct {
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
 
 	// Microsoft Teams Webhook Uniform Resource Locator (URL) that MongoDB Cloud needs to send this notification via Microsoft Teams. Required if type_name is MICROSOFT_TEAMS. If the URL later becomes invalid, MongoDB Cloud sends an email to the project owners. If the key remains invalid, MongoDB Cloud removes it.
-	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
+	MicrosoftTeamsWebhookURLSecretRef *v2.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
 	// Mobile number to which alert notifications are sent. Required for the SMS notifications type.
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
@@ -277,7 +277,7 @@ type NotificationInitParameters struct {
 	NotifierID *string `json:"notifierId,omitempty" tf:"notifier_id,omitempty"`
 
 	// Opsgenie API Key. Required for the OPS_GENIE notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
-	OpsGenieAPIKeySecretRef *v1.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
+	OpsGenieAPIKeySecretRef *v2.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
 
 	// Region that indicates which API URL to use. Accepted regions are: US ,EU. The default Opsgenie region is US.
 	OpsGenieRegion *string `json:"opsGenieRegion,omitempty" tf:"ops_genie_region,omitempty"`
@@ -290,7 +290,7 @@ type NotificationInitParameters struct {
 	SMSEnabled *bool `json:"smsEnabled,omitempty" tf:"sms_enabled,omitempty"`
 
 	// PagerDuty service key. Required for the PAGER_DUTY notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	// Unique identifier of a team.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
@@ -303,16 +303,16 @@ type NotificationInitParameters struct {
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// VictorOps API key. Required for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
-	VictorOpsAPIKeySecretRef *v1.SecretKeySelector `json:"victorOpsApiKeySecretRef,omitempty" tf:"-"`
+	VictorOpsAPIKeySecretRef *v2.SecretKeySelector `json:"victorOpsApiKeySecretRef,omitempty" tf:"-"`
 
 	// VictorOps routing key. Optional for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
-	VictorOpsRoutingKeySecretRef *v1.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
+	VictorOpsRoutingKeySecretRef *v2.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
 
 	// Optional authentication secret for the WEBHOOK notifications type.
-	WebhookSecretSecretRef *v1.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
+	WebhookSecretSecretRef *v2.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
 
 	// Target URL  for the WEBHOOK notifications type.
-	WebhookURLSecretRef *v1.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
+	WebhookURLSecretRef *v2.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
 }
 
 type NotificationObservation struct {
@@ -372,7 +372,7 @@ type NotificationParameters struct {
 
 	// Slack API token. Required for the SLACK notifications type. If the token later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
 	// +kubebuilder:validation:Optional
-	APITokenSecretRef *v1.SecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
+	APITokenSecretRef *v2.SecretKeySelector `json:"apiTokenSecretRef,omitempty" tf:"-"`
 
 	// Slack channel name. Required for the SLACK notifications type.
 	// +kubebuilder:validation:Optional
@@ -380,7 +380,7 @@ type NotificationParameters struct {
 
 	// Datadog API Key. Found in the Datadog dashboard. Required for the DATADOG notifications type.
 	// +kubebuilder:validation:Optional
-	DatadogAPIKeySecretRef *v1.SecretKeySelector `json:"datadogApiKeySecretRef,omitempty" tf:"-"`
+	DatadogAPIKeySecretRef *v2.SecretKeySelector `json:"datadogApiKeySecretRef,omitempty" tf:"-"`
 
 	// Region that indicates which API URL to use. See the datadogRegion field in the notifications request parameter of MongoDB API Alert Configuration documentation for more details. The default Datadog region is US.
 	// +kubebuilder:validation:Optional
@@ -408,7 +408,7 @@ type NotificationParameters struct {
 
 	// Microsoft Teams Webhook Uniform Resource Locator (URL) that MongoDB Cloud needs to send this notification via Microsoft Teams. Required if type_name is MICROSOFT_TEAMS. If the URL later becomes invalid, MongoDB Cloud sends an email to the project owners. If the key remains invalid, MongoDB Cloud removes it.
 	// +kubebuilder:validation:Optional
-	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
+	MicrosoftTeamsWebhookURLSecretRef *v2.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
 	// Mobile number to which alert notifications are sent. Required for the SMS notifications type.
 	// +kubebuilder:validation:Optional
@@ -420,7 +420,7 @@ type NotificationParameters struct {
 
 	// Opsgenie API Key. Required for the OPS_GENIE notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the token.
 	// +kubebuilder:validation:Optional
-	OpsGenieAPIKeySecretRef *v1.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
+	OpsGenieAPIKeySecretRef *v2.SecretKeySelector `json:"opsGenieApiKeySecretRef,omitempty" tf:"-"`
 
 	// Region that indicates which API URL to use. Accepted regions are: US ,EU. The default Opsgenie region is US.
 	// +kubebuilder:validation:Optional
@@ -437,7 +437,7 @@ type NotificationParameters struct {
 
 	// PagerDuty service key. Required for the PAGER_DUTY notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	// +kubebuilder:validation:Optional
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	// Unique identifier of a team.
 	// +kubebuilder:validation:Optional
@@ -454,19 +454,19 @@ type NotificationParameters struct {
 
 	// VictorOps API key. Required for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	// +kubebuilder:validation:Optional
-	VictorOpsAPIKeySecretRef *v1.SecretKeySelector `json:"victorOpsApiKeySecretRef,omitempty" tf:"-"`
+	VictorOpsAPIKeySecretRef *v2.SecretKeySelector `json:"victorOpsApiKeySecretRef,omitempty" tf:"-"`
 
 	// VictorOps routing key. Optional for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	// +kubebuilder:validation:Optional
-	VictorOpsRoutingKeySecretRef *v1.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
+	VictorOpsRoutingKeySecretRef *v2.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
 
 	// Optional authentication secret for the WEBHOOK notifications type.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretRef *v1.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
+	WebhookSecretSecretRef *v2.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
 
 	// Target URL  for the WEBHOOK notifications type.
 	// +kubebuilder:validation:Optional
-	WebhookURLSecretRef *v1.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
+	WebhookURLSecretRef *v2.SecretKeySelector `json:"webhookUrlSecretRef,omitempty" tf:"-"`
 }
 
 type ThresholdConfigInitParameters struct {
@@ -516,8 +516,8 @@ type ThresholdConfigParameters struct {
 
 // ConfigurationSpec defines the desired state of Configuration
 type ConfigurationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConfigurationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConfigurationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -533,8 +533,8 @@ type ConfigurationSpec struct {
 
 // ConfigurationStatus defines the observed state of Configuration.
 type ConfigurationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConfigurationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConfigurationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

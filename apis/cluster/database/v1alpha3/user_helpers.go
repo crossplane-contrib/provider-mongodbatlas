@@ -4,11 +4,11 @@
 
 package v1alpha3
 
-import v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+import v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // SetPasswordSecretRef sets the PasswordSecretRef field on the User's forProvider spec.
 // This implements common.PasswordSecretRefSetter, allowing the PasswordGenerator
 // initializer to point passwordSecretRef at the auto-generated secret.
-func (u *User) SetPasswordSecretRef(ref *v1.SecretKeySelector) {
+func (u *User) SetPasswordSecretRef(ref *v2.SecretKeySelector) {
 	u.Spec.ForProvider.PasswordSecretRef = ref
 }

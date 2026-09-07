@@ -39,11 +39,15 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	authv1 "k8s.io/api/authorization/v1"
+	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
@@ -88,6 +92,7 @@ var cli struct {
 	PprofBindAddress string `help:"The address the pprof profiling server listens on (e.g. :8083). Empty disables profiling." default:"" env:"PPROF_BIND_ADDRESS"`
 
 	EnableManagementPolicies bool          `help:"Enable support for Management Policies." default:"true" env:"ENABLE_MANAGEMENT_POLICIES"`
+	EnableSecretCache        bool          `help:"Enable caching of Secrets via an informer. Disabling it routes Secret reads through live API calls, trading memory for API server QPS." default:"true" env:"ENABLE_SECRET_CACHE"`
 	EnableChangeLogs         bool          `help:"Enable support for capturing change logs during reconciliation." default:"false" env:"ENABLE_CHANGE_LOGS"`
 	ChangelogsSocketPath     string        `help:"Path for changelogs socket (if enabled)" default:"/var/run/changelogs/changelogs.sock" env:"CHANGELOGS_SOCKET_PATH"`
 	WebhookPort              int           `help:"The port the webhook listens on" default:"9443" env:"WEBHOOK_PORT"`
@@ -133,12 +138,49 @@ func main() {
 		cli.CertsDir = certsDirFromEnv(cli.CertsDir)
 	}
 
+	// The scheme must be fully populated before ctrl.NewManager runs: the CRD
+	// cache transform below resolves its ByObject key's GVK synchronously at
+	// manager-construction time, so apiextensionsv1 (and everything else we
+	// need) has to be registered up front rather than via mgr.GetScheme()
+	// afterwards. We only register the specific corev1 type we need (Secret,
+	// for connection secrets and credential extraction) rather than the whole
+	// corev1 group - this scheme exists solely to satisfy our own controllers
+	// and the CRD cache transform, not to stand in for client-go's full scheme.
+	scheme := runtime.NewScheme()
+	scheme.AddKnownTypes(corev1.SchemeGroupVersion, &corev1.Secret{}, &corev1.SecretList{})
+	metav1.AddToGroupVersion(scheme, corev1.SchemeGroupVersion)
+	ctx.FatalIfErrorf(apisCluster.AddToScheme(scheme), "Cannot add cluster-scoped MongoDBAtlas APIs to scheme")
+	ctx.FatalIfErrorf(apisNamespaced.AddToScheme(scheme), "Cannot add namespaced MongoDBAtlas APIs to scheme")
+	ctx.FatalIfErrorf(apiextensionsv1.AddToScheme(scheme), "Cannot add api-extensions APIs to scheme")
+	ctx.FatalIfErrorf(authv1.AddToScheme(scheme), "Cannot add k8s authorization APIs to scheme")
+
+	var clientOpts client.Options
+	if !cli.EnableSecretCache {
+		clientOpts = client.Options{
+			Cache: &client.CacheOptions{DisableFor: []client.Object{&corev1.Secret{}}},
+		}
+	}
+
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
+		Scheme:           scheme,
 		LeaderElection:   cli.LeaderElection,
 		LeaderElectionID: "crossplane-leader-election-upjet-provider-mongodbatlas",
 		Cache: cache.Options{
 			SyncPeriod: &cli.SyncPeriod,
+			// Strips the OpenAPI schema (and other non-critical fields) from
+			// cached CRDs: the SafeStart gate below only needs GVK +
+			// Established status, never the schema, and skipping it cuts
+			// provider memory footprint substantially on clusters with many
+			// CRDs. Only ever read this cached CRD, never full-object
+			// Update() it - that would persist the stripped object back to
+			// the cluster.
+			ByObject: map[client.Object]cache.ByObject{
+				&apiextensionsv1.CustomResourceDefinition{}: {
+					Transform: customresourcesgate.TransformStripCRDSchema,
+				},
+			},
 		},
+		Client:           clientOpts,
 		PprofBindAddress: cli.PprofBindAddress,
 		Metrics: metricsserver.Options{
 			BindAddress: cli.MetricsBindAddress,
@@ -154,10 +196,6 @@ func main() {
 	})
 
 	ctx.FatalIfErrorf(err, "Cannot create controller manager")
-	ctx.FatalIfErrorf(apisCluster.AddToScheme(mgr.GetScheme()), "Cannot add cluster-scoped MongoDBAtlas APIs to scheme")
-	ctx.FatalIfErrorf(apisNamespaced.AddToScheme(mgr.GetScheme()), "Cannot add namespaced MongoDBAtlas APIs to scheme")
-	ctx.FatalIfErrorf(apiextensionsv1.AddToScheme(mgr.GetScheme()), "Cannot add api-extensions APIs to scheme")
-	ctx.FatalIfErrorf(authv1.AddToScheme(mgr.GetScheme()), "Cannot add k8s authorization APIs to scheme")
 
 	metricRecorder := managed.NewMRMetricRecorder()
 	stateMetrics := statemetrics.NewMRStateMetrics()

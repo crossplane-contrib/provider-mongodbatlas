@@ -13,7 +13,7 @@ import (
 	pw "github.com/crossplane/crossplane-runtime/v2/pkg/password"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	"github.com/crossplane/upjet/v2/pkg/config"
 )
 
@@ -45,7 +45,7 @@ func newGenerator(setRef setRefFunc) func(string, string) config.NewInitializerF
 }
 
 func checkBYOP(paved *fieldpath.Paved, path string) (bool, error) {
-	sel := &v1.SecretKeySelector{}
+	sel := &v2.SecretKeySelector{}
 	if err := paved.GetValueInto(path, sel); err == nil {
 		return sel.Name != "", nil
 	} else if xpresource.Ignore(fieldpath.IsNotFound, err) != nil {
@@ -55,7 +55,7 @@ func checkBYOP(paved *fieldpath.Paved, path string) (bool, error) {
 }
 
 func resolveConnRef(paved *fieldpath.Paved, path, defaultNS string) (name, ns string, err error) {
-	connRef := &v1.SecretReference{}
+	connRef := &v2.SecretReference{}
 	if err := paved.GetValueInto(path, connRef); err != nil {
 		if fieldpath.IsNotFound(err) {
 			return "", "", nil

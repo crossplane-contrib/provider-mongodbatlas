@@ -7,11 +7,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type namespacedPasswordSecretRefSetter interface {
-	SetPasswordSecretRef(ref *v1.LocalSecretKeySelector)
+	SetPasswordSecretRef(ref *v2.LocalSecretKeySelector)
 }
 
 // NamespacedGenerator is a password initializer for namespaced resources.
@@ -23,8 +23,8 @@ func namespacedSetPasswordSecretRef(ctx context.Context, cl client.Client, mg xp
 	if !ok {
 		return nil
 	}
-	setter.SetPasswordSecretRef(&v1.LocalSecretKeySelector{
-		LocalSecretReference: v1.LocalSecretReference{Name: name},
+	setter.SetPasswordSecretRef(&v2.LocalSecretKeySelector{
+		LocalSecretReference: v2.LocalSecretReference{Name: name},
 		Key:                  key,
 	})
 	if err := cl.Update(ctx, mg); err != nil {

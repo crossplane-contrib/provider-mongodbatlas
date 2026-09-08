@@ -20,6 +20,6 @@ type: Opaque
 stringData:
   credentials: |
     {
-      "publicKey": "your-public-key",
-      "privateKey": "your-private-key"
+      "public_key": "your-public-key",
+      "private_key": "your-private-key"
     }

@@ -109,11 +109,7 @@ jobs:
         run: make vendor vendor.check
 
       - name: Check Diff
-        run: |
-          make generate
-          git diff
-          git diff --stat
-          git status --porcelain | grep . && exit 1 || echo "Branch is clean"
+        run: make check-diff
 
   unit-tests:
     runs-on: ubuntu-26.04

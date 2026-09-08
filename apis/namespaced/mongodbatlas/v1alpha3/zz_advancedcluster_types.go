@@ -115,9 +115,9 @@ type AdvancedClusterInitParameters struct {
 	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// Enable or disable log redaction.
 	//
-	// This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	// This setting configures the "mongod" or "mongos" to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 	//
-	// Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	// Use "redactClientLogData" in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 	//
 	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
@@ -284,9 +284,9 @@ type AdvancedClusterObservation struct {
 	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// Enable or disable log redaction.
 	//
-	// This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	// This setting configures the "mongod" or "mongos" to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 	//
-	// Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	// Use "redactClientLogData" in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 	//
 	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
@@ -463,9 +463,9 @@ type AdvancedClusterParameters struct {
 	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// Enable or disable log redaction.
 	//
-	// This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	// This setting configures the "mongod" or "mongos" to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 	//
-	// Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	// Use "redactClientLogData" in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 	//
 	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// +kubebuilder:validation:Optional

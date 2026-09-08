@@ -9,7 +9,10 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	modelapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ai/modelapikey"
+	modelratelimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/ai/modelratelimit"
 	configuration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/alert/configuration"
+	backupcollectionrestorejob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupcollectionrestorejob"
 	backupcompliancepolicy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupcompliancepolicy"
 	backupschedule "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupschedule"
 	backupsnapshot "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/cloud/backupsnapshot"
@@ -25,6 +28,7 @@ import (
 	customrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/database/customrole"
 	user "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/database/user"
 	x509userauthentication "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/database/x509userauthentication"
+	privateendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/encryptionatrest/privateendpoint"
 	databaseinstance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/databaseinstance"
 	orgconfigsettings "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/orgconfigsettings"
 	privatelinkendpointservice "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/federated/privatelinkendpointservice"
@@ -41,11 +45,13 @@ import (
 	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/cluster"
 	customdnsconfigurationclusteraws "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/customdnsconfigurationclusteraws"
 	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/employeeaccessgrant"
+	encryptionatrest "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/encryptionatrest"
 	eventtrigger "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/eventtrigger"
 	flexcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/flexcluster"
 	globalclusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/globalclusterconfig"
 	logintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/logintegration"
 	maintenancewindow "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/maintenancewindow"
+	metricintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/metricintegration"
 	onlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/onlinearchive"
 	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/organization"
 	partyintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/mongodbatlas/partyintegration"
@@ -74,6 +80,7 @@ import (
 	index "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/search/index"
 	instance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/serverless/instance"
 	connection "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/connection"
+	connectionfailover "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/connectionfailover"
 	instancestream "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/instance"
 	privatelinkendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/privatelinkendpoint"
 	processor "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/processor"
@@ -85,7 +92,10 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		modelapikey.Setup,
+		modelratelimit.Setup,
 		configuration.Setup,
+		backupcollectionrestorejob.Setup,
 		backupcompliancepolicy.Setup,
 		backupschedule.Setup,
 		backupsnapshot.Setup,
@@ -101,6 +111,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		customrole.Setup,
 		user.Setup,
 		x509userauthentication.Setup,
+		privateendpoint.Setup,
 		databaseinstance.Setup,
 		orgconfigsettings.Setup,
 		privatelinkendpointservice.Setup,
@@ -117,11 +128,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		cluster.Setup,
 		customdnsconfigurationclusteraws.Setup,
 		employeeaccessgrant.Setup,
+		encryptionatrest.Setup,
 		eventtrigger.Setup,
 		flexcluster.Setup,
 		globalclusterconfig.Setup,
 		logintegration.Setup,
 		maintenancewindow.Setup,
+		metricintegration.Setup,
 		onlinearchive.Setup,
 		organization.Setup,
 		partyintegration.Setup,
@@ -150,6 +163,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		index.Setup,
 		instance.Setup,
 		connection.Setup,
+		connectionfailover.Setup,
 		instancestream.Setup,
 		privatelinkendpoint.Setup,
 		processor.Setup,
@@ -167,7 +181,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		modelapikey.SetupGated,
+		modelratelimit.SetupGated,
 		configuration.SetupGated,
+		backupcollectionrestorejob.SetupGated,
 		backupcompliancepolicy.SetupGated,
 		backupschedule.SetupGated,
 		backupsnapshot.SetupGated,
@@ -183,6 +200,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		customrole.SetupGated,
 		user.SetupGated,
 		x509userauthentication.SetupGated,
+		privateendpoint.SetupGated,
 		databaseinstance.SetupGated,
 		orgconfigsettings.SetupGated,
 		privatelinkendpointservice.SetupGated,
@@ -199,11 +217,13 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		cluster.SetupGated,
 		customdnsconfigurationclusteraws.SetupGated,
 		employeeaccessgrant.SetupGated,
+		encryptionatrest.SetupGated,
 		eventtrigger.SetupGated,
 		flexcluster.SetupGated,
 		globalclusterconfig.SetupGated,
 		logintegration.SetupGated,
 		maintenancewindow.SetupGated,
+		metricintegration.SetupGated,
 		onlinearchive.SetupGated,
 		organization.SetupGated,
 		partyintegration.SetupGated,
@@ -232,6 +252,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		index.SetupGated,
 		instance.SetupGated,
 		connection.SetupGated,
+		connectionfailover.SetupGated,
 		instancestream.SetupGated,
 		privatelinkendpoint.SetupGated,
 		processor.SetupGated,
@@ -248,7 +269,10 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		modelapikey.SetupWebhookWithManager,
+		modelratelimit.SetupWebhookWithManager,
 		configuration.SetupWebhookWithManager,
+		backupcollectionrestorejob.SetupWebhookWithManager,
 		backupcompliancepolicy.SetupWebhookWithManager,
 		backupschedule.SetupWebhookWithManager,
 		backupsnapshot.SetupWebhookWithManager,
@@ -264,6 +288,7 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		customrole.SetupWebhookWithManager,
 		user.SetupWebhookWithManager,
 		x509userauthentication.SetupWebhookWithManager,
+		privateendpoint.SetupWebhookWithManager,
 		databaseinstance.SetupWebhookWithManager,
 		orgconfigsettings.SetupWebhookWithManager,
 		privatelinkendpointservice.SetupWebhookWithManager,
@@ -280,11 +305,13 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		cluster.SetupWebhookWithManager,
 		customdnsconfigurationclusteraws.SetupWebhookWithManager,
 		employeeaccessgrant.SetupWebhookWithManager,
+		encryptionatrest.SetupWebhookWithManager,
 		eventtrigger.SetupWebhookWithManager,
 		flexcluster.SetupWebhookWithManager,
 		globalclusterconfig.SetupWebhookWithManager,
 		logintegration.SetupWebhookWithManager,
 		maintenancewindow.SetupWebhookWithManager,
+		metricintegration.SetupWebhookWithManager,
 		onlinearchive.SetupWebhookWithManager,
 		organization.SetupWebhookWithManager,
 		partyintegration.SetupWebhookWithManager,
@@ -313,6 +340,7 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		index.SetupWebhookWithManager,
 		instance.SetupWebhookWithManager,
 		connection.SetupWebhookWithManager,
+		connectionfailover.SetupWebhookWithManager,
 		instancestream.SetupWebhookWithManager,
 		privatelinkendpoint.SetupWebhookWithManager,
 		processor.SetupWebhookWithManager,

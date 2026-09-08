@@ -13,6 +13,35 @@ import (
 	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
+type FailoverRegionsInitParameters struct {
+
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type FailoverRegionsObservation struct {
+
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
+	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
+
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type FailoverRegionsParameters struct {
+
+	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
+	// +kubebuilder:validation:Optional
+	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
+
+	// Name of the cloud provider region hosting Atlas Stream Processing. The MongoDB Atlas API describes the valid values.
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region" tf:"region,omitempty"`
+}
+
 type WorkspaceDataProcessRegionInitParameters struct {
 
 	// Label that identifies the cloud service provider where MongoDB Cloud performs stream processing. The MongoDB Atlas API describes the valid values.
@@ -47,6 +76,11 @@ type WorkspaceInitParameters struct {
 	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	DataProcessRegion *WorkspaceDataProcessRegionInitParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// List of cloud provider regions to which the workspace can fail over if the primary region becomes unavailable. See failover regions.
+	// Write-once: once set, failover_regions cannot be changed in-place — any modification forces the workspace to be destroyed and recreated.
+	// Mutually exclusive with  failover_regions and data_process_region cannot both be changed in the same apply. Apply each change in a separate operation.
+	FailoverRegions []FailoverRegionsInitParameters `json:"failoverRegions,omitempty" tf:"failover_regions,omitempty"`
+
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -59,7 +93,7 @@ type WorkspaceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// Configuration options for an Atlas Stream Processing Instance. See stream config
+	// Configuration options for an Atlas Stream Processing Instance. See stream config.
 	StreamConfig *WorkspaceStreamConfigInitParameters `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 
 	// Label that identifies the stream workspace.
@@ -71,6 +105,11 @@ type WorkspaceObservation struct {
 	// Cloud service provider and region where MongoDB Cloud performs stream processing. See data process region.
 	DataProcessRegion *WorkspaceDataProcessRegionObservation `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// List of cloud provider regions to which the workspace can fail over if the primary region becomes unavailable. See failover regions.
+	// Write-once: once set, failover_regions cannot be changed in-place — any modification forces the workspace to be destroyed and recreated.
+	// Mutually exclusive with  failover_regions and data_process_region cannot both be changed in the same apply. Apply each change in a separate operation.
+	FailoverRegions []FailoverRegionsObservation `json:"failoverRegions,omitempty" tf:"failover_regions,omitempty"`
+
 	// List that contains the hostnames assigned to the stream workspace.
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
 
@@ -79,7 +118,7 @@ type WorkspaceObservation struct {
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// Configuration options for an Atlas Stream Processing Instance. See stream config
+	// Configuration options for an Atlas Stream Processing Instance. See stream config.
 	StreamConfig *WorkspaceStreamConfigObservation `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 
 	// Label that identifies the stream workspace.
@@ -92,6 +131,12 @@ type WorkspaceParameters struct {
 	// +kubebuilder:validation:Optional
 	DataProcessRegion *WorkspaceDataProcessRegionParameters `json:"dataProcessRegion,omitempty" tf:"data_process_region,omitempty"`
 
+	// List of cloud provider regions to which the workspace can fail over if the primary region becomes unavailable. See failover regions.
+	// Write-once: once set, failover_regions cannot be changed in-place — any modification forces the workspace to be destroyed and recreated.
+	// Mutually exclusive with  failover_regions and data_process_region cannot both be changed in the same apply. Apply each change in a separate operation.
+	// +kubebuilder:validation:Optional
+	FailoverRegions []FailoverRegionsParameters `json:"failoverRegions,omitempty" tf:"failover_regions,omitempty"`
+
 	// Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -105,7 +150,7 @@ type WorkspaceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// Configuration options for an Atlas Stream Processing Instance. See stream config
+	// Configuration options for an Atlas Stream Processing Instance. See stream config.
 	// +kubebuilder:validation:Optional
 	StreamConfig *WorkspaceStreamConfigParameters `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
 

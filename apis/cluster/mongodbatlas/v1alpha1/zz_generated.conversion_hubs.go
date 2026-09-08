@@ -25,6 +25,9 @@ func (tr *CustomDNSConfigurationClusterAWS) Hub() {}
 func (tr *EmployeeAccessGrant) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *EncryptionAtRest) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *EventTrigger) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -38,6 +41,9 @@ func (tr *LogIntegration) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *MaintenanceWindow) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *MetricIntegration) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *OnlineArchive) Hub() {}

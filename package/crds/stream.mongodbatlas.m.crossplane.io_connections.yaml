@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.21.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: connections.stream.mongodbatlas.m.crossplane.io
 spec:
   group: stream.mongodbatlas.m.crossplane.io
@@ -63,6 +63,16 @@ spec:
                       Includes the authentication type, as well as the parameters
                       for that authentication mode. See authentication.
                     properties:
+                      aws:
+                        description: The configuration for AWS Kinesis Data Streams
+                          connection. See AWS.
+                        properties:
+                          roleArn:
+                            description: Amazon Resource Name (ARN) that identifies
+                              the AWS IAM role that MongoDB Cloud assumes to authenticate
+                              to the Amazon MSK cluster.
+                            type: string
+                        type: object
                       clientId:
                         description: Public identifier for the Kafka client.
                         type: string
@@ -81,7 +91,7 @@ spec:
                         type: object
                       mechanism:
                         description: Method of authentication. Value can be PLAIN,
-                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
+                          SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
                         type: string
                       method:
                         description: SASL OAUTHBEARER authentication method. Value
@@ -133,9 +143,8 @@ spec:
                     properties:
                       roleArn:
                         description: Amazon Resource Name (ARN) that identifies the
-                          Amazon Web Services (AWS) Identity and Access Management
-                          (IAM) role that MongoDB Cloud assumes when it accesses resources
-                          in your AWS account.
+                          AWS IAM role that MongoDB Cloud assumes to authenticate
+                          to the Amazon MSK cluster.
                         type: string
                     type: object
                   azure:
@@ -503,6 +512,16 @@ spec:
                       Includes the authentication type, as well as the parameters
                       for that authentication mode. See authentication.
                     properties:
+                      aws:
+                        description: The configuration for AWS Kinesis Data Streams
+                          connection. See AWS.
+                        properties:
+                          roleArn:
+                            description: Amazon Resource Name (ARN) that identifies
+                              the AWS IAM role that MongoDB Cloud assumes to authenticate
+                              to the Amazon MSK cluster.
+                            type: string
+                        type: object
                       clientId:
                         description: Public identifier for the Kafka client.
                         type: string
@@ -521,7 +540,7 @@ spec:
                         type: object
                       mechanism:
                         description: Method of authentication. Value can be PLAIN,
-                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
+                          SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
                         type: string
                       method:
                         description: SASL OAUTHBEARER authentication method. Value
@@ -563,9 +582,8 @@ spec:
                     properties:
                       roleArn:
                         description: Amazon Resource Name (ARN) that identifies the
-                          Amazon Web Services (AWS) Identity and Access Management
-                          (IAM) role that MongoDB Cloud assumes when it accesses resources
-                          in your AWS account.
+                          AWS IAM role that MongoDB Cloud assumes to authenticate
+                          to the Amazon MSK cluster.
                         type: string
                     type: object
                   azure:
@@ -992,12 +1010,22 @@ spec:
                       Includes the authentication type, as well as the parameters
                       for that authentication mode. See authentication.
                     properties:
+                      aws:
+                        description: The configuration for AWS Kinesis Data Streams
+                          connection. See AWS.
+                        properties:
+                          roleArn:
+                            description: Amazon Resource Name (ARN) that identifies
+                              the AWS IAM role that MongoDB Cloud assumes to authenticate
+                              to the Amazon MSK cluster.
+                            type: string
+                        type: object
                       clientId:
                         description: Public identifier for the Kafka client.
                         type: string
                       mechanism:
                         description: Method of authentication. Value can be PLAIN,
-                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
+                          SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
                         type: string
                       method:
                         description: SASL OAUTHBEARER authentication method. Value
@@ -1026,9 +1054,8 @@ spec:
                     properties:
                       roleArn:
                         description: Amazon Resource Name (ARN) that identifies the
-                          Amazon Web Services (AWS) Identity and Access Management
-                          (IAM) role that MongoDB Cloud assumes when it accesses resources
-                          in your AWS account.
+                          AWS IAM role that MongoDB Cloud assumes to authenticate
+                          to the Amazon MSK cluster.
                         type: string
                     type: object
                   azure:

@@ -48,6 +48,27 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 			))
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_stream_connection_failover", func(r *config.Resource) {
+		r.ExternalName = importJoinedIDAssigned(
+			[]string{"project_id", "workspace_name", "connection_name", "failover_connection_id"},
+			"/",
+			"failover_connection_id",
+		)
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.WorkspaceName: {
+				TerraformName: refs.TFStreamWorkspace,
+				Extractor:     refs.ExtractParamPath(refs.WorkspaceName, false),
+			},
+			refs.ConnectionName: {
+				TerraformName: refs.TFStreamConnection,
+				Extractor:     refs.ExtractParamPath(refs.ConnectionName, false),
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_stream_instance", func(r *config.Resource) {
 		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.instance_name }}")
 		r.References = config.References{

@@ -103,33 +103,25 @@ func encodedStateGetExternalNameFn(externalNameKey string) func(map[string]any) 
 		if v := decoded[externalNameKey]; v != "" {
 			return v, nil
 		}
-		return id, nil
+		return "", fmt.Errorf("key %q not found in encoded state ID", externalNameKey)
 	}
 }
 
 // --- External name constructors ---
 
 // importJoinedID builds an ExternalName for resources whose TF import function
-// expects plain field values joined by separator.
+// expects plain field values joined by separator. The externalNameKey must
+// appear in fields at its correct import position. It is treated as a regular
+// forProvider parameter (user-settable, included in CRD schema).
 func importJoinedID(fields []string, separator string, externalNameKey string) config.ExternalName {
-	externalNameFromParams := slices.Contains(fields, externalNameKey)
-	importOrder := fields
-	if !externalNameFromParams {
-		importOrder = append(slices.Clone(fields), externalNameKey)
-	}
-	return buildImportJoinedID(fields, importOrder, nil, separator, externalNameKey, externalNameFromParams)
+	return buildImportJoinedID(fields, nil, separator, externalNameKey, true)
 }
 
-// importJoinedIDOrdered handles resources where the provider-assigned key
-// appears at a non-trailing position in the TF import format.
-func importJoinedIDOrdered(importOrder []string, externalNameKey string) config.ExternalName {
-	paramFields := make([]string, 0, len(importOrder)-1)
-	for _, f := range importOrder {
-		if f != externalNameKey {
-			paramFields = append(paramFields, f)
-		}
-	}
-	return buildImportJoinedID(paramFields, importOrder, nil, "-", externalNameKey, false)
+// importJoinedIDAssigned is like importJoinedID but the externalNameKey is
+// provider-assigned (not user-settable). It must still appear in fields at its
+// correct import position.
+func importJoinedIDAssigned(fields []string, separator string, externalNameKey string) config.ExternalName {
+	return buildImportJoinedID(fields, nil, separator, externalNameKey, false)
 }
 
 // importJoinedIDMapped handles resources where forProvider param names differ
@@ -140,13 +132,7 @@ func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string, e
 		stateKeyOrder = append(stateKeyOrder, fieldMapping[p])
 	}
 	externalNameFromParams := slices.Contains(stateKeyOrder, externalNameKey)
-	return buildImportJoinedID(paramOrder, paramOrder, fieldMapping, "-", externalNameKey, externalNameFromParams)
-}
-
-// importJoinedIDHidden builds an ExternalName for resources whose TF import
-// format does NOT include the provider-assigned key.
-func importJoinedIDHidden(fields []string, separator, externalNameKey string) config.ExternalName {
-	return buildImportJoinedID(fields, fields, nil, separator, externalNameKey, false)
+	return buildImportJoinedID(paramOrder, fieldMapping, "-", externalNameKey, externalNameFromParams)
 }
 
 // accessListImportJoinedID builds an ExternalName for access-list resources
@@ -159,10 +145,20 @@ func accessListImportJoinedID(prefixParams []string) config.ExternalName {
 	return e
 }
 
-func buildImportJoinedID(paramFields, importOrder []string, fieldMapping map[string]string, separator, externalNameKey string, externalNameFromParams bool) config.ExternalName {
+func buildImportJoinedID(fields []string, fieldMapping map[string]string, separator, externalNameKey string, externalNameFromParams bool) config.ExternalName {
+	paramFields := fields
+	if !externalNameFromParams {
+		filtered := make([]string, 0, len(fields))
+		for _, f := range fields {
+			if f != externalNameKey {
+				filtered = append(filtered, f)
+			}
+		}
+		paramFields = filtered
+	}
 	e := baseExternalName(!externalNameFromParams)
 	e.GetIDFn = encodedStateGetIDFn(fieldMapping, paramFields, externalNameKey)
-	e.GetImportIDFn = plainImportGetIDFn(paramFields, importOrder, separator, externalNameKey)
+	e.GetImportIDFn = plainImportGetIDFn(paramFields, fields, separator, externalNameKey)
 	e.GetExternalNameFn = encodedStateGetExternalNameFn(externalNameKey)
 	return e
 }

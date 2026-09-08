@@ -130,9 +130,15 @@ type UserInitParameters struct {
 	// Human-readable label that indicates whether the new database user authenticates with OIDC (OpenID Connect) federated authentication. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
-	// User's initial password. Only applicable for password-based authentication.
+	// User's initial password. Only applicable for password-based authentication. Conflicts with password_wo.
 	// Password for the database user. Do not set passwordSecretRef directly, it is wired automatically by the initializer. Instead, use writeConnectionSecretToRef: pre-populate the Secret with a 'password' key for BYOP, or leave it empty for auto-generation. See docs/password-management.md.
 	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	// Write-only arguments can accept ephemeral and non-ephemeral values. Only applicable for password-based authentication, and conflicts with password.11 or later, and must be set together with password_wo_version.
+	PasswordWoSecretRef *v2.LocalSecretKeySelector `json:"passwordWoSecretRef,omitempty" tf:"-"`
+
+	// Integer that triggers an update of password_wo. To rotate the password, change password_wo and increment this value in the same edit.
+	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The unique ID for the project to create the database user, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
@@ -181,6 +187,9 @@ type UserObservation struct {
 	// Human-readable label that indicates whether the new database user authenticates with OIDC (OpenID Connect) federated authentication. If no value is given, Atlas uses the default value of NONE. The accepted types are:
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
+	// Integer that triggers an update of password_wo. To rotate the password, change password_wo and increment this value in the same edit.
+	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+
 	// The unique ID for the project to create the database user, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -222,10 +231,18 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	OidcAuthType *string `json:"oidcAuthType,omitempty" tf:"oidc_auth_type,omitempty"`
 
-	// User's initial password. Only applicable for password-based authentication.
+	// User's initial password. Only applicable for password-based authentication. Conflicts with password_wo.
 	// Password for the database user. Do not set passwordSecretRef directly, it is wired automatically by the initializer. Instead, use writeConnectionSecretToRef: pre-populate the Secret with a 'password' key for BYOP, or leave it empty for auto-generation. See docs/password-management.md.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	// Write-only arguments can accept ephemeral and non-ephemeral values. Only applicable for password-based authentication, and conflicts with password.11 or later, and must be set together with password_wo_version.
+	// +kubebuilder:validation:Optional
+	PasswordWoSecretRef *v2.LocalSecretKeySelector `json:"passwordWoSecretRef,omitempty" tf:"-"`
+
+	// Integer that triggers an update of password_wo. To rotate the password, change password_wo and increment this value in the same edit.
+	// +kubebuilder:validation:Optional
+	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The unique ID for the project to create the database user, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project

@@ -44,13 +44,16 @@ type AccessParameters struct {
 
 type AuthenticationInitParameters struct {
 
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
+	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
 	// Public identifier for the Kafka client.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
 	// Secret known only to the Kafka client and the authorization server.
 	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
 	// SASL OAUTHBEARER authentication method. Value must be OIDC.
@@ -74,10 +77,13 @@ type AuthenticationInitParameters struct {
 
 type AuthenticationObservation struct {
 
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
+	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
 	// Public identifier for the Kafka client.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
 	// SASL OAUTHBEARER authentication method. Value must be OIDC.
@@ -98,6 +104,10 @@ type AuthenticationObservation struct {
 
 type AuthenticationParameters struct {
 
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
+	// +kubebuilder:validation:Optional
+	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
 	// Public identifier for the Kafka client.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
@@ -106,7 +116,7 @@ type AuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
 	// +kubebuilder:validation:Optional
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
@@ -137,19 +147,19 @@ type AuthenticationParameters struct {
 
 type AwsInitParameters struct {
 
-	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 }
 
 type AwsObservation struct {
 
-	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 }
 
 type AwsParameters struct {
 
-	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
 	// +kubebuilder:validation:Optional
 	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
 }
@@ -193,13 +203,32 @@ type AzureParameters struct {
 	StorageAccountName *string `json:"storageAccountName" tf:"storage_account_name,omitempty"`
 }
 
+type ConnectionAwsInitParameters struct {
+
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
+	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+}
+
+type ConnectionAwsObservation struct {
+
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
+	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+}
+
+type ConnectionAwsParameters struct {
+
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
+	// +kubebuilder:validation:Optional
+	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
+}
+
 type ConnectionInitParameters struct {
 
 	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
 	Authentication *AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// The configuration for AWS Kinesis Data Streams connection. See AWS.
-	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+	Aws *ConnectionAwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
 	Azure *AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
@@ -288,7 +317,7 @@ type ConnectionObservation struct {
 	Authentication *AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// The configuration for AWS Kinesis Data Streams connection. See AWS.
-	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+	Aws *ConnectionAwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
 	Azure *AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
@@ -374,7 +403,7 @@ type ConnectionParameters struct {
 
 	// The configuration for AWS Kinesis Data Streams connection. See AWS.
 	// +kubebuilder:validation:Optional
-	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+	Aws *ConnectionAwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
 	// +kubebuilder:validation:Optional

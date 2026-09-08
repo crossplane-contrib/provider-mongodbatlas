@@ -77,14 +77,26 @@ type LimitsParameters struct {
 
 type ProjectInitParameters struct {
 
+	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
+	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
+
 	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project. By default, this flag is set to true.
+	IsDataExplorerGenAIFeaturesEnabled *bool `json:"isDataExplorerGenAiFeaturesEnabled,omitempty" tf:"is_data_explorer_gen_ai_features_enabled,omitempty"`
+
+	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project. By default, this flag is set to false.
+	IsDataExplorerGenAISampleDocumentPassingEnabled *bool `json:"isDataExplorerGenAiSampleDocumentPassingEnabled,omitempty" tf:"is_data_explorer_gen_ai_sample_document_passing_enabled,omitempty"`
+
 	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
+	// Flag that indicates whether to enable Native Reranking with Voyage AI models in the Aggregation Pipeline for the project. By default, this flag is set to false.
+	IsNativeRerankingEnabled *bool `json:"isNativeRerankingEnabled,omitempty" tf:"is_native_reranking_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
@@ -145,14 +157,26 @@ type ProjectObservation struct {
 	// IP addresses in a project categorized by services. See IP Addresses. WARNING: This attribute is deprecated, use the mongodbatlas_project_ip_addresses data source instead.
 	IPAddresses *IPAddressesObservation `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
+	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
+
 	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project. By default, this flag is set to true.
+	IsDataExplorerGenAIFeaturesEnabled *bool `json:"isDataExplorerGenAiFeaturesEnabled,omitempty" tf:"is_data_explorer_gen_ai_features_enabled,omitempty"`
+
+	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project. By default, this flag is set to false.
+	IsDataExplorerGenAISampleDocumentPassingEnabled *bool `json:"isDataExplorerGenAiSampleDocumentPassingEnabled,omitempty" tf:"is_data_explorer_gen_ai_sample_document_passing_enabled,omitempty"`
+
 	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
+	// Flag that indicates whether to enable Native Reranking with Voyage AI models in the Aggregation Pipeline for the project. By default, this flag is set to false.
+	IsNativeRerankingEnabled *bool `json:"isNativeRerankingEnabled,omitempty" tf:"is_native_reranking_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
@@ -192,6 +216,10 @@ type ProjectObservation struct {
 
 type ProjectParameters struct {
 
+	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
+	// +kubebuilder:validation:Optional
+	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
+
 	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsCollectDatabaseSpecificsStatisticsEnabled *bool `json:"isCollectDatabaseSpecificsStatisticsEnabled,omitempty" tf:"is_collect_database_specifics_statistics_enabled,omitempty"`
@@ -200,9 +228,21 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
+	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project. By default, this flag is set to true.
+	// +kubebuilder:validation:Optional
+	IsDataExplorerGenAIFeaturesEnabled *bool `json:"isDataExplorerGenAiFeaturesEnabled,omitempty" tf:"is_data_explorer_gen_ai_features_enabled,omitempty"`
+
+	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project. By default, this flag is set to false.
+	// +kubebuilder:validation:Optional
+	IsDataExplorerGenAISampleDocumentPassingEnabled *bool `json:"isDataExplorerGenAiSampleDocumentPassingEnabled,omitempty" tf:"is_data_explorer_gen_ai_sample_document_passing_enabled,omitempty"`
+
 	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	// +kubebuilder:validation:Optional
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
+	// Flag that indicates whether to enable Native Reranking with Voyage AI models in the Aggregation Pipeline for the project. By default, this flag is set to false.
+	// +kubebuilder:validation:Optional
+	IsNativeRerankingEnabled *bool `json:"isNativeRerankingEnabled,omitempty" tf:"is_native_reranking_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional

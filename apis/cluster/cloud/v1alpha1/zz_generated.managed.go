@@ -7,6 +7,56 @@ package v1alpha1
 
 import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
+// GetCondition of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) GetDeletionPolicy() xpv2.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) GetProviderConfigReference() *xpv2.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) SetDeletionPolicy(r xpv2.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) SetProviderConfigReference(r *xpv2.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this BackupCollectionRestoreJob.
+func (mg *BackupCollectionRestoreJob) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this BackupCompliancePolicy.
 func (mg *BackupCompliancePolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)

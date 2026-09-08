@@ -1,0 +1,35 @@
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: BackupCollectionRestoreJob
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupcollectionrestorejob
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    collectionSuffix: ${var.collection_suffix}
+    collections: |-
+      ${[for ns in var.restore_collections : {
+          source_namespace = ns
+          target_namespace = try(var.collection_renames[ns], null)
+        }]}
+    databaseSuffix: ${var.database_suffix}
+    databases: |-
+      ${[for db in var.restore_databases : {
+          source_namespace = db
+          target_namespace = try(var.database_renames[db], null)
+        }]}
+    indexStrategy: ${var.index_strategy}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    snapshotId: ${var.snapshot_id}
+    targetClusterName: ${local.target_cluster_name}
+    targetProjectId: ${local.target_project_id}
+    timeouts:
+      create: ${var.create_timeout}
+    writeStrategy: ${var.write_strategy}

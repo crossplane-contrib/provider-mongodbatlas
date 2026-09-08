@@ -21,7 +21,7 @@ func ConfigureSearch(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_search_index", func(r *config.Resource) {
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "index_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "index_id"}, "-", "index_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

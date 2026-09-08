@@ -65,7 +65,7 @@ func ConfigureCloud(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "snapshot_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "snapshot_id"}, "-", "snapshot_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -79,7 +79,7 @@ func ConfigureCloud(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot_export_bucket", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
-		r.ExternalName = importJoinedID([]string{refs.ProjectID}, "-", "id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "id"}, "-", "id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -89,7 +89,7 @@ func ConfigureCloud(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot_restore_job", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", "snapshot_restore_job_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "snapshot_restore_job_id"}, "-", "snapshot_restore_job_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -106,7 +106,7 @@ func ConfigureCloud(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_backup_snapshot_export_job", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "--", "export_job_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "export_job_id"}, "--", "export_job_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -120,6 +120,20 @@ func ConfigureCloud(p *config.Provider) {
 			},
 			"export_bucket_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot_export_bucket",
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_cloud_backup_collection_restore_job", func(r *config.Resource) {
+		r.ShortGroup = groupCloud
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "job_id"}, "/", "job_id")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath("name", false),
 			},
 		}
 	})
@@ -140,7 +154,7 @@ func ConfigureCloud(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_cloud_provider_access_setup", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ProviderName}, "-", "id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ProviderName, "id"}, "-", "id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

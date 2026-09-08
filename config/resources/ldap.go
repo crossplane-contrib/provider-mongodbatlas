@@ -44,7 +44,7 @@ func ConfigureLDAP(p *config.Provider, pwGen func(string, string) config.NewInit
 	p.AddResourceConfigurator("mongodbatlas_ldap_verify", func(r *config.Resource) {
 		r.ShortGroup = "ldap"
 		r.Kind = "Verify"
-		r.ExternalName = importJoinedID([]string{refs.ProjectID}, "-", "request_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "request_id"}, "-", "request_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

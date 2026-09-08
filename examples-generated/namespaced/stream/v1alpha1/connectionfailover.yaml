@@ -1,0 +1,88 @@
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: ConnectionFailover
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/connectionfailover
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    authentication:
+      mechanism: PLAIN
+      passwordSecretRef:
+        key: example-key
+        name: example-secret
+      username: ${var.failover_kafka_username}
+    bootstrapServers: ${var.failover_bootstrap_servers}
+    connectionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: DUBLIN_IRL
+    security:
+      protocol: SASL_SSL
+    type: Kafka
+    workspaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/connectionfailover
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    authentication:
+      mechanism: PLAIN
+      passwordSecretRef:
+        key: example-key
+        name: example-secret
+      username: ${var.kafka_username}
+    bootstrapServers: ${var.bootstrap_servers}
+    connectionName: KafkaConnection
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    security:
+      protocol: SASL_SSL
+    type: Kafka
+    workspaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/connectionfailover
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    dataProcessRegion:
+      cloudProvider: AWS
+      region: VIRGINIA_USA
+    failoverRegions:
+    - cloudProvider: AWS
+      region: DUBLIN_IRL
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    streamConfig:
+      tier: SP10
+    workspaceName: workspace-with-failover

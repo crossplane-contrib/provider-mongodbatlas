@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	sdkterraform "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/stretchr/testify/assert"
@@ -16,7 +17,7 @@ func newStubSDKProvider() *schema.Provider {
 			keyPublicKey:  {Type: schema.TypeString, Optional: true},
 			keyPrivateKey: {Type: schema.TypeString, Optional: true},
 		},
-		ConfigureFunc: func(d *schema.ResourceData) (any, error) {
+		ConfigureContextFunc: func(_ context.Context, d *schema.ResourceData) (any, diag.Diagnostics) {
 			return map[string]string{
 				keyPublicKey:  d.Get(keyPublicKey).(string),
 				keyPrivateKey: d.Get(keyPrivateKey).(string),
@@ -83,7 +84,7 @@ func TestConfigureSDKCached_ConfigureError(t *testing.T) {
 		Schema: map[string]*schema.Schema{
 			"required_field": {Type: schema.TypeString, Required: true},
 		},
-		ConfigureFunc: func(d *schema.ResourceData) (any, error) {
+		ConfigureContextFunc: func(_ context.Context, d *schema.ResourceData) (any, diag.Diagnostics) {
 			return nil, nil
 		},
 	}

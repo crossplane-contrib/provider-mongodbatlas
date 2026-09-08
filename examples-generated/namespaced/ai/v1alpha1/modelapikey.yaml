@@ -1,0 +1,17 @@
+apiVersion: ai.mongodbatlas.m.crossplane.io/v1alpha1
+kind: ModelAPIKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ai/v1alpha1/modelapikey
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cloud: ANY
+    geography: ANY
+    name: example-ai-model-key
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

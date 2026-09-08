@@ -57,7 +57,7 @@ func ConfigureFederated(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_federated_settings_identity_provider", func(r *config.Resource) {
 		r.ShortGroup = groupFederated
 		r.Kind = "SettingsIdentityProvider"
-		r.ExternalName = importJoinedID([]string{"federation_settings_id"}, "-", "okta_idp_id")
+		r.ExternalName = importJoinedIDAssigned([]string{"federation_settings_id", "okta_idp_id"}, "-", "okta_idp_id")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_federated_settings_org_config", func(r *config.Resource) {
@@ -74,7 +74,7 @@ func ConfigureFederated(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_federated_settings_org_role_mapping", func(r *config.Resource) {
 		r.ShortGroup = groupFederated
 		r.Kind = "RoleMapping"
-		r.ExternalName = importJoinedID([]string{"federation_settings_id", refs.OrgID}, "-", "role_mapping_id")
+		r.ExternalName = importJoinedIDAssigned([]string{"federation_settings_id", refs.OrgID, "role_mapping_id"}, "-", "role_mapping_id")
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,

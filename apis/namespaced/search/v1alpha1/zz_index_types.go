@@ -40,7 +40,7 @@ type IndexInitParameters struct {
 	// Name of the database the collection is in.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	// Array of fields that define this vectorSearch index. This property is required for vector search indexes and must include at least one field with the type vector or autoEmbed. For more information, see Automated Embedding. Provide this value as a JSON string so it can be decoded correctly.
 	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Indicates whether the search index uses dynamic or static mapping. For default dynamic mapping, set the value to true. For static mapping, specify the fields to index using mappings_fields. Mutually exclusive with mappings_dynamic_config.
@@ -105,7 +105,7 @@ type IndexObservation struct {
 	// Name of the database the collection is in.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	// Array of fields that define this vectorSearch index. This property is required for vector search indexes and must include at least one field with the type vector or autoEmbed. For more information, see Automated Embedding. Provide this value as a JSON string so it can be decoded correctly.
 	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -184,7 +184,7 @@ type IndexParameters struct {
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	// Array of fields that define this vectorSearch index. This property is required for vector search indexes and must include at least one field with the type vector or autoEmbed. For more information, see Automated Embedding. Provide this value as a JSON string so it can be decoded correctly.
 	// +kubebuilder:validation:Optional
 	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
 

@@ -1,0 +1,54 @@
+apiVersion: encryptionatrest.mongodbatlas.m.crossplane.io/v1alpha1
+kind: PrivateEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: encryptionatrest/v1alpha1/privateendpoint
+  labels:
+    testing.upbound.io/example-name: endpoint
+  name: endpoint
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cloudProvider: AZURE
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ear
+    regionName: ${var.azure_region_name}
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: EncryptionAtRest
+metadata:
+  annotations:
+    meta.upbound.io/example-id: encryptionatrest/v1alpha1/privateendpoint
+  labels:
+    testing.upbound.io/example-name: ear
+  name: ear
+  namespace: crossplane-system
+spec:
+  forProvider:
+    azureKeyVaultConfig:
+    - azureEnvironment: AZURE
+      clientIdSecretRef:
+        key: example-key
+        name: example-secret
+      enabled: true
+      keyIdentifierSecretRef:
+        key: example-key
+        name: example-secret
+      keyVaultName: ${var.azure_key_vault_name}
+      requirePrivateNetworking: true
+      resourceGroupName: ${var.azure_resource_group_name}
+      secretSecretRef:
+        key: example-key
+        name: example-secret
+      subscriptionIdSecretRef:
+        key: example-key
+        name: example-secret
+      tenantIdSecretRef:
+        key: example-key
+        name: example-secret
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

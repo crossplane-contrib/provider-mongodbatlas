@@ -53,8 +53,11 @@ var terraformSDKIncludedResources = []string{
 // terraformFrameworkIncludedResources lists TF resources implemented with plugin-framework.
 var terraformFrameworkIncludedResources = []string{
 	"mongodbatlas_advanced_cluster",
+	"mongodbatlas_ai_model_api_key",
+	"mongodbatlas_ai_model_rate_limit",
 	"mongodbatlas_alert_configuration",
 	"mongodbatlas_api_key_project_assignment",
+	"mongodbatlas_cloud_backup_collection_restore_job",
 	"mongodbatlas_cloud_user_org_assignment",
 	"mongodbatlas_cloud_user_project_assignment",
 	"mongodbatlas_cloud_user_team_assignment",
@@ -63,6 +66,7 @@ var terraformFrameworkIncludedResources = []string{
 	"mongodbatlas_encryption_at_rest_private_endpoint",
 	"mongodbatlas_flex_cluster",
 	"mongodbatlas_log_integration",
+	"mongodbatlas_metric_integration",
 	"mongodbatlas_mongodb_employee_access_grant",
 	"mongodbatlas_privatelink_endpoint_service_data_federation_online_archive",
 	"mongodbatlas_project",
@@ -78,6 +82,7 @@ var terraformFrameworkIncludedResources = []string{
 	"mongodbatlas_service_account_project_assignment",
 	"mongodbatlas_service_account_secret",
 	"mongodbatlas_stream_connection",
+	"mongodbatlas_stream_connection_failover",
 	"mongodbatlas_stream_instance",
 	"mongodbatlas_stream_privatelink_endpoint",
 	"mongodbatlas_stream_processor",

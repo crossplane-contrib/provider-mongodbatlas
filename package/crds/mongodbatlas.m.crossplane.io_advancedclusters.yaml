@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.21.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: advancedclusters.mongodbatlas.m.crossplane.io
 spec:
   group: mongodbatlas.m.crossplane.io
@@ -361,9 +361,9 @@ spec:
                       Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
                       Enable or disable log redaction.
 
-                      This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+                      This setting configures the "mongod" or "mongos" to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 
-                      Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+                      Use "redactClientLogData" in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 
                       *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
                     type: boolean
@@ -388,7 +388,9 @@ spec:
                       Note that independent disk_iops values are supported for AWS
                       Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters,
                       AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions
-                      that support Extended IOPS. See below.
+                      that support Extended IOPS. If this list contains more than
+                      one entry, review Multi-shard clusters and topology changes
+                      before adding, removing, or reordering entries. See below.
                     items:
                       properties:
                         regionConfigs:
@@ -745,6 +747,7 @@ spec:
                   useEffectiveFields:
                     description: |-
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
+                      If your cluster has more than one replication_specs entry, see Multi-shard clusters and topology changes before enabling this attribute.
                       Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
                     type: boolean
@@ -1070,9 +1073,9 @@ spec:
                       Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
                       Enable or disable log redaction.
 
-                      This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+                      This setting configures the "mongod" or "mongos" to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 
-                      Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+                      Use "redactClientLogData" in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 
                       *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
                     type: boolean
@@ -1097,7 +1100,9 @@ spec:
                       Note that independent disk_iops values are supported for AWS
                       Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters,
                       AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions
-                      that support Extended IOPS. See below.
+                      that support Extended IOPS. If this list contains more than
+                      one entry, review Multi-shard clusters and topology changes
+                      before adding, removing, or reordering entries. See below.
                     items:
                       properties:
                         regionConfigs:
@@ -1454,6 +1459,7 @@ spec:
                   useEffectiveFields:
                     description: |-
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
+                      If your cluster has more than one replication_specs entry, see Multi-shard clusters and topology changes before enabling this attribute.
                       Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
                     type: boolean
@@ -1870,9 +1876,9 @@ spec:
                       Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
                       Enable or disable log redaction.
 
-                      This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+                      This setting configures the "mongod" or "mongos" to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 
-                      Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+                      Use "redactClientLogData" in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 
                       *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
                     type: boolean
@@ -1897,7 +1903,9 @@ spec:
                       Note that independent disk_iops values are supported for AWS
                       Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters,
                       AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions
-                      that support Extended IOPS. See below.
+                      that support Extended IOPS. If this list contains more than
+                      one entry, review Multi-shard clusters and topology changes
+                      before adding, removing, or reordering entries. See below.
                     items:
                       properties:
                         containerId:
@@ -2277,6 +2285,7 @@ spec:
                   useEffectiveFields:
                     description: |-
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
+                      If your cluster has more than one replication_specs entry, see Multi-shard clusters and topology changes before enabling this attribute.
                       Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
                       Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
                     type: boolean

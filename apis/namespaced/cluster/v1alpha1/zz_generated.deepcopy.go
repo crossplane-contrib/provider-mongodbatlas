@@ -128,6 +128,16 @@ func (in *OutageSimulationInitParameters) DeepCopyInto(out *OutageSimulationInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout
 		*out = new(bool)
@@ -263,6 +273,16 @@ func (in *OutageSimulationParameters) DeepCopyInto(out *OutageSimulationParamete
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DeleteOnCreateTimeout != nil {
 		in, out := &in.DeleteOnCreateTimeout, &out.DeleteOnCreateTimeout

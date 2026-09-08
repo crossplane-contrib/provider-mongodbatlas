@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.21.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: indices.search.mongodbatlas.crossplane.io
 spec:
   group: search.mongodbatlas.crossplane.io
@@ -168,10 +168,11 @@ spec:
                     description: Name of the database the collection is in.
                     type: string
                   fields:
-                    description: Array of Fields to configure this vectorSearch index.
-                      It is mandatory for vector searches and it must contain at least
-                      one vector type field. This field needs to be a JSON string
-                      in order to be decoded correctly.
+                    description: Array of fields that define this vectorSearch index.
+                      This property is required for vector search indexes and must
+                      include at least one field with the type vector or autoEmbed.
+                      For more information, see Automated Embedding. Provide this
+                      value as a JSON string so it can be decoded correctly.
                     type: string
                   mappingsDynamic:
                     description: Indicates whether the search index uses dynamic or
@@ -436,10 +437,11 @@ spec:
                     description: Name of the database the collection is in.
                     type: string
                   fields:
-                    description: Array of Fields to configure this vectorSearch index.
-                      It is mandatory for vector searches and it must contain at least
-                      one vector type field. This field needs to be a JSON string
-                      in order to be decoded correctly.
+                    description: Array of fields that define this vectorSearch index.
+                      This property is required for vector search indexes and must
+                      include at least one field with the type vector or autoEmbed.
+                      For more information, see Automated Embedding. Provide this
+                      value as a JSON string so it can be decoded correctly.
                     type: string
                   mappingsDynamic:
                     description: Indicates whether the search index uses dynamic or
@@ -719,10 +721,11 @@ spec:
                     description: Name of the database the collection is in.
                     type: string
                   fields:
-                    description: Array of Fields to configure this vectorSearch index.
-                      It is mandatory for vector searches and it must contain at least
-                      one vector type field. This field needs to be a JSON string
-                      in order to be decoded correctly.
+                    description: Array of fields that define this vectorSearch index.
+                      This property is required for vector search indexes and must
+                      include at least one field with the type vector or autoEmbed.
+                      For more information, see Automated Embedding. Provide this
+                      value as a JSON string so it can be decoded correctly.
                     type: string
                   id:
                     type: string

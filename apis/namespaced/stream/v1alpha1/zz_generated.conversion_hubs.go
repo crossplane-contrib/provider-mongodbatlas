@@ -10,6 +10,9 @@ package v1alpha1
 func (tr *Connection) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ConnectionFailover) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Instance) Hub() {}
 
 // Hub marks this type as a conversion hub.

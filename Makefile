@@ -148,7 +148,6 @@ pull-docs:
 PROVIDER_SOURCE_DIR := third_party/terraform-provider-mongodbatlas
 
 provider-source:
-	@go mod tidy
 	@if [ ! -f "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go" ]; then \
 		$(INFO) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
 		rm -rf "$(PROVIDER_SOURCE_DIR)"; \

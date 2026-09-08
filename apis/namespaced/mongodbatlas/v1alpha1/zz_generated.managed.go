@@ -247,6 +247,46 @@ func (mg *EmployeeAccessGrant) SetWriteConnectionSecretToReference(r *xpv2.Local
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this EncryptionAtRest.
+func (mg *EncryptionAtRest) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this EncryptionAtRest.
+func (mg *EncryptionAtRest) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this EncryptionAtRest.
+func (mg *EncryptionAtRest) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this EncryptionAtRest.
+func (mg *EncryptionAtRest) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this EncryptionAtRest.
+func (mg *EncryptionAtRest) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this EncryptionAtRest.
+func (mg *EncryptionAtRest) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this EncryptionAtRest.
+func (mg *EncryptionAtRest) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this EncryptionAtRest.
+func (mg *EncryptionAtRest) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this EventTrigger.
 func (mg *EventTrigger) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
@@ -444,6 +484,46 @@ func (mg *MaintenanceWindow) SetProviderConfigReference(r *xpv2.ProviderConfigRe
 
 // SetWriteConnectionSecretToReference of this MaintenanceWindow.
 func (mg *MaintenanceWindow) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this MetricIntegration.
+func (mg *MetricIntegration) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this MetricIntegration.
+func (mg *MetricIntegration) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this MetricIntegration.
+func (mg *MetricIntegration) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this MetricIntegration.
+func (mg *MetricIntegration) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this MetricIntegration.
+func (mg *MetricIntegration) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this MetricIntegration.
+func (mg *MetricIntegration) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this MetricIntegration.
+func (mg *MetricIntegration) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this MetricIntegration.
+func (mg *MetricIntegration) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 

@@ -61,6 +61,15 @@ func (l *EmployeeAccessGrantList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this EncryptionAtRestList.
+func (l *EncryptionAtRestList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this EventTriggerList.
 func (l *EventTriggerList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -99,6 +108,15 @@ func (l *LogIntegrationList) GetItems() []resource.Managed {
 
 // GetItems of this MaintenanceWindowList.
 func (l *MaintenanceWindowList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this MetricIntegrationList.
+func (l *MetricIntegrationList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

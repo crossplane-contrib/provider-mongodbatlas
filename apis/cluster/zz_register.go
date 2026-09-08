@@ -16,9 +16,9 @@ import (
 	v1alpha1cluster "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cluster/v1alpha1"
 	v1alpha1database "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha1"
 	v1alpha3 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha3"
+	v1alpha1encryptionatrest "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/encryptionatrest/v1alpha1"
 	v1alpha1federated "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/federated/v1alpha1"
 	v1alpha1ldap "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/ldap/v1alpha1"
-	v1alpha1metric "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/metric/v1alpha1"
 	v1alpha1mongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
 	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha2"
 	v1alpha3mongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3"
@@ -43,9 +43,9 @@ func init() {
 		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1alpha1database.SchemeBuilder.AddToScheme,
 		v1alpha3.SchemeBuilder.AddToScheme,
+		v1alpha1encryptionatrest.SchemeBuilder.AddToScheme,
 		v1alpha1federated.SchemeBuilder.AddToScheme,
 		v1alpha1ldap.SchemeBuilder.AddToScheme,
-		v1alpha1metric.SchemeBuilder.AddToScheme,
 		v1alpha1mongodbatlas.SchemeBuilder.AddToScheme,
 		v1alpha2.SchemeBuilder.AddToScheme,
 		v1alpha3mongodbatlas.SchemeBuilder.AddToScheme,

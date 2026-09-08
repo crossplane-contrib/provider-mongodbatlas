@@ -11,6 +11,8 @@ spec:
     cloud: ANY
     geography: ANY
     modelGroupName: embed_large
-    projectId: ${var.project_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     requestsPerMinuteLimit: 100
     tokensPerMinuteLimit: 10000

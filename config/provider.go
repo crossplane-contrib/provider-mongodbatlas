@@ -17,10 +17,8 @@ const (
 )
 
 // SkipTfResourceList resources excluded from code generation.
-// - encryption_at_rest: historically broken under CLI mode (state drift on key fields); re-evaluate under no-fork.
 // - teams: deprecated alias for mongodbatlas_team (SDKv2); upstream recommends mongodbatlas_team.
 var SkipTfResourceList = []string{
-	"mongodbatlas_encryption_at_rest",
 	"mongodbatlas_teams",
 }
 

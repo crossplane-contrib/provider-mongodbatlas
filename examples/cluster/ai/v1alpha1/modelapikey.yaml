@@ -11,4 +11,6 @@ spec:
     cloud: ANY
     geography: ANY
     name: example-ai-model-key
-    projectId: ${var.project_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

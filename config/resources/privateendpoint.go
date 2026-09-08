@@ -41,5 +41,8 @@ func ConfigurePrivateEndpoint(p *config.Provider) {
 				TerraformName: "mongodbatlas_privatelink_endpoint",
 			},
 		}
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"endpoints", "private_endpoint_ip_address"},
+		}
 	})
 }

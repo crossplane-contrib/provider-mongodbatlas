@@ -17,7 +17,17 @@ type BackupCollectionRestoreJobInitParameters struct {
 
 	// readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// (String) Optional suffix applied to restored collection names.
 	// Optional suffix applied to restored collection names.
@@ -51,7 +61,16 @@ type BackupCollectionRestoreJobInitParameters struct {
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) ID of the snapshot to restore.
 	// ID of the snapshot to restore.
@@ -170,8 +189,18 @@ type BackupCollectionRestoreJobParameters struct {
 
 	// readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// (String) Optional suffix applied to restored collection names.
 	// Optional suffix applied to restored collection names.
@@ -213,8 +242,17 @@ type BackupCollectionRestoreJobParameters struct {
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) ID of the snapshot to restore.
 	// ID of the snapshot to restore.
@@ -386,9 +424,7 @@ type BackupCollectionRestoreJobStatus struct {
 type BackupCollectionRestoreJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.indexStrategy) || (has(self.initProvider) && has(self.initProvider.indexStrategy))",message="spec.forProvider.indexStrategy is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.targetClusterName) || (has(self.initProvider) && has(self.initProvider.targetClusterName))",message="spec.forProvider.targetClusterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.targetProjectId) || (has(self.initProvider) && has(self.initProvider.targetProjectId))",message="spec.forProvider.targetProjectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.writeStrategy) || (has(self.initProvider) && has(self.initProvider.writeStrategy))",message="spec.forProvider.writeStrategy is a required parameter"

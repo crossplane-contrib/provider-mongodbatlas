@@ -8,7 +8,9 @@ metadata:
   name: this
 spec:
   forProvider:
-    clusterName: ${var.cluster_name}
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     collectionSuffix: ${var.collection_suffix}
     collections: |-
       ${[for ns in var.restore_collections : {
@@ -22,7 +24,9 @@ spec:
           target_namespace = try(var.database_renames[db], null)
         }]}
     indexStrategy: ${var.index_strategy}
-    projectId: ${var.project_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     snapshotId: ${var.snapshot_id}
     targetClusterName: ${local.target_cluster_name}
     targetProjectId: ${local.target_project_id}

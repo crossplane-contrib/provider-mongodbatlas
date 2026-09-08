@@ -343,6 +343,16 @@ func (in *BackupCollectionRestoreJobInitParameters) DeepCopyInto(out *BackupColl
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CollectionSuffix != nil {
 		in, out := &in.CollectionSuffix, &out.CollectionSuffix
 		*out = new(string)
@@ -391,6 +401,16 @@ func (in *BackupCollectionRestoreJobInitParameters) DeepCopyInto(out *BackupColl
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SnapshotID != nil {
 		in, out := &in.SnapshotID, &out.SnapshotID
@@ -608,6 +628,16 @@ func (in *BackupCollectionRestoreJobParameters) DeepCopyInto(out *BackupCollecti
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CollectionSuffix != nil {
 		in, out := &in.CollectionSuffix, &out.CollectionSuffix
 		*out = new(string)
@@ -656,6 +686,16 @@ func (in *BackupCollectionRestoreJobParameters) DeepCopyInto(out *BackupCollecti
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SnapshotID != nil {
 		in, out := &in.SnapshotID, &out.SnapshotID

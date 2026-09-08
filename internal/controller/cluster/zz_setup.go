@@ -28,6 +28,7 @@ import (
 	customrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/customrole"
 	user "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/user"
 	x509userauthentication "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/x509userauthentication"
+	privateendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/encryptionatrest/privateendpoint"
 	databaseinstance "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/databaseinstance"
 	orgconfigsettings "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/orgconfigsettings"
 	privatelinkendpointservice "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/privatelinkendpointservice"
@@ -36,7 +37,6 @@ import (
 	settingsidentityprovider "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/settingsidentityprovider"
 	configurationldap "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ldap/configuration"
 	verify "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ldap/verify"
-	integration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/metric/integration"
 	accesslistapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/accesslistapikey"
 	advancedcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/advancedcluster"
 	apikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/apikey"
@@ -45,11 +45,13 @@ import (
 	cluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/cluster"
 	customdnsconfigurationclusteraws "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/customdnsconfigurationclusteraws"
 	employeeaccessgrant "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/employeeaccessgrant"
+	encryptionatrest "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/encryptionatrest"
 	eventtrigger "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/eventtrigger"
 	flexcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/flexcluster"
 	globalclusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/globalclusterconfig"
 	logintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/logintegration"
 	maintenancewindow "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/maintenancewindow"
+	metricintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/metricintegration"
 	onlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/onlinearchive"
 	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/organization"
 	partyintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/partyintegration"
@@ -109,6 +111,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		customrole.Setup,
 		user.Setup,
 		x509userauthentication.Setup,
+		privateendpoint.Setup,
 		databaseinstance.Setup,
 		orgconfigsettings.Setup,
 		privatelinkendpointservice.Setup,
@@ -117,7 +120,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		settingsidentityprovider.Setup,
 		configurationldap.Setup,
 		verify.Setup,
-		integration.Setup,
 		accesslistapikey.Setup,
 		advancedcluster.Setup,
 		apikey.Setup,
@@ -126,11 +128,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		cluster.Setup,
 		customdnsconfigurationclusteraws.Setup,
 		employeeaccessgrant.Setup,
+		encryptionatrest.Setup,
 		eventtrigger.Setup,
 		flexcluster.Setup,
 		globalclusterconfig.Setup,
 		logintegration.Setup,
 		maintenancewindow.Setup,
+		metricintegration.Setup,
 		onlinearchive.Setup,
 		organization.Setup,
 		partyintegration.Setup,
@@ -196,6 +200,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		customrole.SetupGated,
 		user.SetupGated,
 		x509userauthentication.SetupGated,
+		privateendpoint.SetupGated,
 		databaseinstance.SetupGated,
 		orgconfigsettings.SetupGated,
 		privatelinkendpointservice.SetupGated,
@@ -204,7 +209,6 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		settingsidentityprovider.SetupGated,
 		configurationldap.SetupGated,
 		verify.SetupGated,
-		integration.SetupGated,
 		accesslistapikey.SetupGated,
 		advancedcluster.SetupGated,
 		apikey.SetupGated,
@@ -213,11 +217,13 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		cluster.SetupGated,
 		customdnsconfigurationclusteraws.SetupGated,
 		employeeaccessgrant.SetupGated,
+		encryptionatrest.SetupGated,
 		eventtrigger.SetupGated,
 		flexcluster.SetupGated,
 		globalclusterconfig.SetupGated,
 		logintegration.SetupGated,
 		maintenancewindow.SetupGated,
+		metricintegration.SetupGated,
 		onlinearchive.SetupGated,
 		organization.SetupGated,
 		partyintegration.SetupGated,
@@ -282,6 +288,7 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		customrole.SetupWebhookWithManager,
 		user.SetupWebhookWithManager,
 		x509userauthentication.SetupWebhookWithManager,
+		privateendpoint.SetupWebhookWithManager,
 		databaseinstance.SetupWebhookWithManager,
 		orgconfigsettings.SetupWebhookWithManager,
 		privatelinkendpointservice.SetupWebhookWithManager,
@@ -290,7 +297,6 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		settingsidentityprovider.SetupWebhookWithManager,
 		configurationldap.SetupWebhookWithManager,
 		verify.SetupWebhookWithManager,
-		integration.SetupWebhookWithManager,
 		accesslistapikey.SetupWebhookWithManager,
 		advancedcluster.SetupWebhookWithManager,
 		apikey.SetupWebhookWithManager,
@@ -299,11 +305,13 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		cluster.SetupWebhookWithManager,
 		customdnsconfigurationclusteraws.SetupWebhookWithManager,
 		employeeaccessgrant.SetupWebhookWithManager,
+		encryptionatrest.SetupWebhookWithManager,
 		eventtrigger.SetupWebhookWithManager,
 		flexcluster.SetupWebhookWithManager,
 		globalclusterconfig.SetupWebhookWithManager,
 		logintegration.SetupWebhookWithManager,
 		maintenancewindow.SetupWebhookWithManager,
+		metricintegration.SetupWebhookWithManager,
 		onlinearchive.SetupWebhookWithManager,
 		organization.SetupWebhookWithManager,
 		partyintegration.SetupWebhookWithManager,

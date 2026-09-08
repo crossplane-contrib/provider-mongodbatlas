@@ -29,7 +29,16 @@ type ModelRateLimitInitParameters struct {
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
@@ -96,8 +105,17 @@ type ModelRateLimitParameters struct {
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
@@ -149,7 +167,6 @@ type ModelRateLimit struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cloud) || (has(self.initProvider) && has(self.initProvider.cloud))",message="spec.forProvider.cloud is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.geography) || (has(self.initProvider) && has(self.initProvider.geography))",message="spec.forProvider.geography is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.modelGroupName) || (has(self.initProvider) && has(self.initProvider.modelGroupName))",message="spec.forProvider.modelGroupName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.requestsPerMinuteLimit) || (has(self.initProvider) && has(self.initProvider.requestsPerMinuteLimit))",message="spec.forProvider.requestsPerMinuteLimit is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tokensPerMinuteLimit) || (has(self.initProvider) && has(self.initProvider.tokensPerMinuteLimit))",message="spec.forProvider.tokensPerMinuteLimit is a required parameter"
 	Spec   ModelRateLimitSpec   `json:"spec"`

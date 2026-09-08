@@ -1,0 +1,26 @@
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: MetricIntegration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/metricintegration
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    aggregationTemporality: DELTA
+    authType: HEADER
+    endpoint: ${var.datadog_endpoint}
+    headers:
+    - name: dd-api-key
+      valueSecretRef:
+        key: attribute.key
+        name: example-api-key
+    integrationType: OTEL
+    metricSelection:
+    - ATLAS_STREAM_PROCESSING
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project
+    providerType: CUSTOM

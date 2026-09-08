@@ -1,0 +1,88 @@
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: EncryptionAtRest
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/encryptionatrest
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    awsKmsConfig:
+    - customerMasterKeyIdSecretRef:
+        key: attribute.id
+        name: example-kms-key
+        namespace: crossplane-system
+      enabled: true
+      region: ${var.atlas_region}
+      roleId: ${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}
+    enabledForSearchNodes: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/encryptionatrest
+  labels:
+    testing.upbound.io/example-name: cluster
+  name: cluster
+spec:
+  forProvider:
+    backupEnabled: true
+    clusterType: REPLICASET
+    encryptionAtRestProvider: AWS
+    name: MyCluster
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1
+
+---
+
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: ProviderAccessAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/encryptionatrest
+  labels:
+    testing.upbound.io/example-name: auth_role
+  name: auth-role
+spec:
+  forProvider:
+    aws:
+    - iamAssumedRoleArn: ${aws_iam_role.test_role.arn}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: setup_only
+
+---
+
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: ProviderAccessSetup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/encryptionatrest
+  labels:
+    testing.upbound.io/example-name: setup_only
+  name: setup-only
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    providerName: AWS

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupSnapshotExportBucketInitParameters struct {
@@ -30,11 +30,11 @@ type BackupSnapshotExportBucketInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Unique identifier of the Azure Service Principal that Atlas can use to access the Azure Blob Storage Container. Required if cloud_provider is set to AZURE.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
@@ -96,11 +96,11 @@ type BackupSnapshotExportBucketParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Unique identifier of the Azure Service Principal that Atlas can use to access the Azure Blob Storage Container. Required if cloud_provider is set to AZURE.
 	// +kubebuilder:validation:Optional
@@ -117,8 +117,8 @@ type BackupSnapshotExportBucketParameters struct {
 
 // BackupSnapshotExportBucketSpec defines the desired state of BackupSnapshotExportBucket
 type BackupSnapshotExportBucketSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackupSnapshotExportBucketParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackupSnapshotExportBucketParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -134,8 +134,8 @@ type BackupSnapshotExportBucketSpec struct {
 
 // BackupSnapshotExportBucketStatus defines the observed state of BackupSnapshotExportBucket.
 type BackupSnapshotExportBucketStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupSnapshotExportBucketObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupSnapshotExportBucketObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

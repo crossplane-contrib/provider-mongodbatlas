@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsInitParameters struct {
@@ -106,11 +106,11 @@ type ProviderAccessAuthorizationInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessSetup
@@ -118,11 +118,11 @@ type ProviderAccessAuthorizationInitParameters struct {
 
 	// Reference to a ProviderAccessSetup in cloud to populate roleId.
 	// +kubebuilder:validation:Optional
-	RoleIDRef *v1.Reference `json:"roleIdRef,omitempty" tf:"-"`
+	RoleIDRef *v2.Reference `json:"roleIdRef,omitempty" tf:"-"`
 
 	// Selector for a ProviderAccessSetup in cloud to populate roleId.
 	// +kubebuilder:validation:Optional
-	RoleIDSelector *v1.Selector `json:"roleIdSelector,omitempty" tf:"-"`
+	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 type ProviderAccessAuthorizationObservation struct {
@@ -163,11 +163,11 @@ type ProviderAccessAuthorizationParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The unique ID of this role returned by the mongodb atlas api. WARNING: Changing the role_id will result in destruction of the existing authorization resource and the creation of a new authorization resource.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessSetup
@@ -176,17 +176,17 @@ type ProviderAccessAuthorizationParameters struct {
 
 	// Reference to a ProviderAccessSetup in cloud to populate roleId.
 	// +kubebuilder:validation:Optional
-	RoleIDRef *v1.Reference `json:"roleIdRef,omitempty" tf:"-"`
+	RoleIDRef *v2.Reference `json:"roleIdRef,omitempty" tf:"-"`
 
 	// Selector for a ProviderAccessSetup in cloud to populate roleId.
 	// +kubebuilder:validation:Optional
-	RoleIDSelector *v1.Selector `json:"roleIdSelector,omitempty" tf:"-"`
+	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 // ProviderAccessAuthorizationSpec defines the desired state of ProviderAccessAuthorization
 type ProviderAccessAuthorizationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProviderAccessAuthorizationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ProviderAccessAuthorizationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -202,8 +202,8 @@ type ProviderAccessAuthorizationSpec struct {
 
 // ProviderAccessAuthorizationStatus defines the observed state of ProviderAccessAuthorization.
 type ProviderAccessAuthorizationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProviderAccessAuthorizationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProviderAccessAuthorizationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

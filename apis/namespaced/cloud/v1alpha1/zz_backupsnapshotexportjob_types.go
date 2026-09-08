@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupSnapshotExportJobInitParameters struct {
@@ -23,11 +22,11 @@ type BackupSnapshotExportJobInitParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.
 	CustomData []CustomDataInitParameters `json:"customData,omitempty" tf:"custom_data,omitempty"`
@@ -38,11 +37,11 @@ type BackupSnapshotExportJobInitParameters struct {
 
 	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
 	// +kubebuilder:validation:Optional
-	ExportBucketIDRef *v1.NamespacedReference `json:"exportBucketIdRef,omitempty" tf:"-"`
+	ExportBucketIDRef *v2.NamespacedReference `json:"exportBucketIdRef,omitempty" tf:"-"`
 
 	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
 	// +kubebuilder:validation:Optional
-	ExportBucketIDSelector *v1.NamespacedSelector `json:"exportBucketIdSelector,omitempty" tf:"-"`
+	ExportBucketIDSelector *v2.NamespacedSelector `json:"exportBucketIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
@@ -50,11 +49,11 @@ type BackupSnapshotExportJobInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
@@ -62,11 +61,11 @@ type BackupSnapshotExportJobInitParameters struct {
 
 	// Reference to a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+	SnapshotIDRef *v2.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
 
 	// Selector for a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
+	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type BackupSnapshotExportJobObservation struct {
@@ -122,11 +121,11 @@ type BackupSnapshotExportJobParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Custom data to include in the metadata file named .complete that Atlas uploads to the bucket when the export job finishes. Custom data can be specified as key and value pairs.
 	// +kubebuilder:validation:Optional
@@ -139,11 +138,11 @@ type BackupSnapshotExportJobParameters struct {
 
 	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
 	// +kubebuilder:validation:Optional
-	ExportBucketIDRef *v1.NamespacedReference `json:"exportBucketIdRef,omitempty" tf:"-"`
+	ExportBucketIDRef *v2.NamespacedReference `json:"exportBucketIdRef,omitempty" tf:"-"`
 
 	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
 	// +kubebuilder:validation:Optional
-	ExportBucketIDSelector *v1.NamespacedSelector `json:"exportBucketIdSelector,omitempty" tf:"-"`
+	ExportBucketIDSelector *v2.NamespacedSelector `json:"exportBucketIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
@@ -152,11 +151,11 @@ type BackupSnapshotExportJobParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
@@ -165,11 +164,11 @@ type BackupSnapshotExportJobParameters struct {
 
 	// Reference to a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDRef *v1.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+	SnapshotIDRef *v2.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
 
 	// Selector for a BackupSnapshot in cloud to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDSelector *v1.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
+	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type ComponentsInitParameters struct {
@@ -235,8 +234,8 @@ type BackupSnapshotExportJobSpec struct {
 
 // BackupSnapshotExportJobStatus defines the observed state of BackupSnapshotExportJob.
 type BackupSnapshotExportJobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupSnapshotExportJobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupSnapshotExportJobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

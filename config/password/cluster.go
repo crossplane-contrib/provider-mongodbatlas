@@ -6,12 +6,12 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type clusterPasswordSecretRefSetter interface {
-	SetPasswordSecretRef(ref *v1.SecretKeySelector)
+	SetPasswordSecretRef(ref *v2.SecretKeySelector)
 }
 
 // ClusterGenerator is a password initializer for cluster-scoped resources.
@@ -23,8 +23,8 @@ func clusterSetPasswordSecretRef(ctx context.Context, cl client.Client, mg xpres
 	if !ok {
 		return nil
 	}
-	setter.SetPasswordSecretRef(&v1.SecretKeySelector{
-		SecretReference: v1.SecretReference{Name: name, Namespace: namespace},
+	setter.SetPasswordSecretRef(&v2.SecretKeySelector{
+		SecretReference: v2.SecretReference{Name: name, Namespace: namespace},
 		Key:             key,
 	})
 	if err := cl.Update(ctx, mg); err != nil {

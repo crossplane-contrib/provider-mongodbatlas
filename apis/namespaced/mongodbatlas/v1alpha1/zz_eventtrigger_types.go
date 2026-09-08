@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsEventbridgeInitParameters struct {
@@ -113,11 +112,11 @@ type EventTriggerInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -270,11 +269,11 @@ type EventTriggerParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The type of the trigger. Possible Values: DATABASE, AUTHENTICATION,SCHEDULED
 	// +kubebuilder:validation:Optional
@@ -304,8 +303,8 @@ type EventTriggerSpec struct {
 
 // EventTriggerStatus defines the observed state of EventTrigger.
 type EventTriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EventTriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EventTriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

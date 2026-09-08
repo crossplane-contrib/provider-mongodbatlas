@@ -10,13 +10,15 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/alert/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/ai/v1alpha1"
+	v1alpha1alert "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/alert/v1alpha1"
 	v1alpha1cloud "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1"
 	v1alpha1cluster "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cluster/v1alpha1"
 	v1alpha1database "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha1"
 	v1alpha3 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha3"
 	v1alpha1federated "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/federated/v1alpha1"
 	v1alpha1ldap "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/ldap/v1alpha1"
+	v1alpha1metric "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/metric/v1alpha1"
 	v1alpha1mongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1"
 	v1alpha2 "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha2"
 	v1alpha3mongodbatlas "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3"
@@ -36,12 +38,14 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1alert.SchemeBuilder.AddToScheme,
 		v1alpha1cloud.SchemeBuilder.AddToScheme,
 		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1alpha1database.SchemeBuilder.AddToScheme,
 		v1alpha3.SchemeBuilder.AddToScheme,
 		v1alpha1federated.SchemeBuilder.AddToScheme,
 		v1alpha1ldap.SchemeBuilder.AddToScheme,
+		v1alpha1metric.SchemeBuilder.AddToScheme,
 		v1alpha1mongodbatlas.SchemeBuilder.AddToScheme,
 		v1alpha2.SchemeBuilder.AddToScheme,
 		v1alpha3mongodbatlas.SchemeBuilder.AddToScheme,

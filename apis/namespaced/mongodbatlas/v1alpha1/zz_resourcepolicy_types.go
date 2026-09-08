@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CreatedByUserInitParameters struct {
@@ -91,11 +90,11 @@ type ResourcePolicyInitParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// (Attributes List) List of policies that make up the Atlas resource policy. (see below for nested schema)
 	Policies []PoliciesInitParameters `json:"policies,omitempty" tf:"policies,omitempty"`
@@ -160,11 +159,11 @@ type ResourcePolicyParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// (Attributes List) List of policies that make up the Atlas resource policy. (see below for nested schema)
 	// +kubebuilder:validation:Optional
@@ -190,8 +189,8 @@ type ResourcePolicySpec struct {
 
 // ResourcePolicyStatus defines the observed state of ResourcePolicy.
 type ResourcePolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ResourcePolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ResourcePolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

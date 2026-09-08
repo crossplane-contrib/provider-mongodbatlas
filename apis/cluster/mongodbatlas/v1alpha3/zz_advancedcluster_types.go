@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdvancedClusterInitParameters struct {
@@ -106,18 +106,18 @@ type AdvancedClusterInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// Enable or disable log redaction.
 	//
-	// This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	// This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 	//
-	// Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	// Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 	//
 	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
@@ -284,9 +284,9 @@ type AdvancedClusterObservation struct {
 	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// Enable or disable log redaction.
 	//
-	// This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	// This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 	//
-	// Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	// Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 	//
 	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	RedactClientLogData *bool `json:"redactClientLogData,omitempty" tf:"redact_client_log_data,omitempty"`
@@ -454,18 +454,18 @@ type AdvancedClusterParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Flag that enables or disables log redaction, see the manual for more information. Use this in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. Note: Changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// Enable or disable log redaction.
 	//
-	// This setting configures the “mongod“ or “mongos“ to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
+	// This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs.
 	//
-	// Use “redactClientLogData“ in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
+	// Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements.
 	//
 	// *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated.
 	// +kubebuilder:validation:Optional
@@ -1721,8 +1721,8 @@ type TimeoutsParameters struct {
 
 // AdvancedClusterSpec defines the desired state of AdvancedCluster
 type AdvancedClusterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AdvancedClusterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AdvancedClusterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1738,8 +1738,8 @@ type AdvancedClusterSpec struct {
 
 // AdvancedClusterStatus defines the observed state of AdvancedCluster.
 type AdvancedClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AdvancedClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AdvancedClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

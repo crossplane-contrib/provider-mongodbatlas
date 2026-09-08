@@ -1,0 +1,638 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.21.0
+  name: backupcollectionrestorejobs.cloud.mongodbatlas.crossplane.io
+spec:
+  group: cloud.mongodbatlas.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - mongodbatlas
+    kind: BackupCollectionRestoreJob
+    listKind: BackupCollectionRestoreJobList
+    plural: backupcollectionrestorejobs
+    singular: backupcollectionrestorejob
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: BackupCollectionRestoreJob is the Schema for the BackupCollectionRestoreJobs
+          API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: BackupCollectionRestoreJobSpec defines the desired state
+              of BackupCollectionRestoreJob
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  clusterName:
+                    description: |-
+                      readable label that identifies the source cluster for the restore.
+                      Human-readable label that identifies the source cluster for the restore.
+                    type: string
+                  collectionSuffix:
+                    description: |-
+                      (String) Optional suffix applied to restored collection names.
+                      Optional suffix applied to restored collection names.
+                    type: string
+                  collections:
+                    description: (Attributes List) List of collections to restore
+                      (up to 100 items). (see below for nested schema)
+                    items:
+                      properties:
+                        sourceNamespace:
+                          description: |-
+                            (String) Collection requested to restore, as database.collection.
+                            Collection requested to restore, as `database.collection`.
+                          type: string
+                        targetNamespace:
+                          description: |-
+                            (String) Requested target collection as database.collection; if empty, source namespace is used.
+                            Requested target collection as `database.collection`; if empty, source namespace is used.
+                          type: string
+                      type: object
+                    type: array
+                  databaseSuffix:
+                    description: |-
+                      (String) Optional suffix applied to restored database names.
+                      Optional suffix applied to restored database names.
+                    type: string
+                  databases:
+                    description: (Attributes List) List of databases to restore (up
+                      to 100 items). (see below for nested schema)
+                    items:
+                      properties:
+                        sourceNamespace:
+                          description: |-
+                            (String) Collection requested to restore, as database.collection.
+                            Database name requested to restore.
+                          type: string
+                        targetNamespace:
+                          description: |-
+                            (String) Requested target collection as database.collection; if empty, source namespace is used.
+                            Requested target database name; if empty, source database name is used.
+                          type: string
+                      type: object
+                    type: array
+                  indexStrategy:
+                    description: |-
+                      (String) Strategy for restoring indexes (all, none, or all except TTL).
+                      Strategy for restoring indexes (all, none, or all except TTL).
+                    type: string
+                  oplogInc:
+                    description: |-
+                      in-time restore.
+                      Oplog increment for point-in-time restore.
+                    type: number
+                  oplogTs:
+                    description: |-
+                      in-time restore.
+                      Oplog timestamp (seconds part) for point-in-time restore.
+                    type: number
+                  pointInTimeUtcSeconds:
+                    description: |-
+                      in-time restore time in seconds since UNIX epoch.
+                      Point-in-time restore time in seconds since UNIX epoch.
+                    type: number
+                  projectId:
+                    description: |-
+                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    type: string
+                  snapshotId:
+                    description: |-
+                      (String) ID of the snapshot to restore.
+                      ID of the snapshot to restore.
+                    type: string
+                  targetClusterName:
+                    description: |-
+                      (String) Target cluster name.
+                      Target cluster name.
+                    type: string
+                  targetProjectId:
+                    description: |-
+                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    type: string
+                  timeouts:
+                    description: (Attributes) (see below for nested schema)
+                    properties:
+                      create:
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        type: string
+                    type: object
+                  writeStrategy:
+                    description: |-
+                      (String) Strategy for writing data on the target (create as new or overwrite existing). With OVERWRITE_EXISTING, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
+                      Strategy for writing data on the target (create as new or overwrite existing). With `OVERWRITE_EXISTING`, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  clusterName:
+                    description: |-
+                      readable label that identifies the source cluster for the restore.
+                      Human-readable label that identifies the source cluster for the restore.
+                    type: string
+                  collectionSuffix:
+                    description: |-
+                      (String) Optional suffix applied to restored collection names.
+                      Optional suffix applied to restored collection names.
+                    type: string
+                  collections:
+                    description: (Attributes List) List of collections to restore
+                      (up to 100 items). (see below for nested schema)
+                    items:
+                      properties:
+                        sourceNamespace:
+                          description: |-
+                            (String) Collection requested to restore, as database.collection.
+                            Collection requested to restore, as `database.collection`.
+                          type: string
+                        targetNamespace:
+                          description: |-
+                            (String) Requested target collection as database.collection; if empty, source namespace is used.
+                            Requested target collection as `database.collection`; if empty, source namespace is used.
+                          type: string
+                      type: object
+                    type: array
+                  databaseSuffix:
+                    description: |-
+                      (String) Optional suffix applied to restored database names.
+                      Optional suffix applied to restored database names.
+                    type: string
+                  databases:
+                    description: (Attributes List) List of databases to restore (up
+                      to 100 items). (see below for nested schema)
+                    items:
+                      properties:
+                        sourceNamespace:
+                          description: |-
+                            (String) Collection requested to restore, as database.collection.
+                            Database name requested to restore.
+                          type: string
+                        targetNamespace:
+                          description: |-
+                            (String) Requested target collection as database.collection; if empty, source namespace is used.
+                            Requested target database name; if empty, source database name is used.
+                          type: string
+                      type: object
+                    type: array
+                  indexStrategy:
+                    description: |-
+                      (String) Strategy for restoring indexes (all, none, or all except TTL).
+                      Strategy for restoring indexes (all, none, or all except TTL).
+                    type: string
+                  oplogInc:
+                    description: |-
+                      in-time restore.
+                      Oplog increment for point-in-time restore.
+                    type: number
+                  oplogTs:
+                    description: |-
+                      in-time restore.
+                      Oplog timestamp (seconds part) for point-in-time restore.
+                    type: number
+                  pointInTimeUtcSeconds:
+                    description: |-
+                      in-time restore time in seconds since UNIX epoch.
+                      Point-in-time restore time in seconds since UNIX epoch.
+                    type: number
+                  projectId:
+                    description: |-
+                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    type: string
+                  snapshotId:
+                    description: |-
+                      (String) ID of the snapshot to restore.
+                      ID of the snapshot to restore.
+                    type: string
+                  targetClusterName:
+                    description: |-
+                      (String) Target cluster name.
+                      Target cluster name.
+                    type: string
+                  targetProjectId:
+                    description: |-
+                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    type: string
+                  timeouts:
+                    description: (Attributes) (see below for nested schema)
+                    properties:
+                      create:
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        type: string
+                    type: object
+                  writeStrategy:
+                    description: |-
+                      (String) Strategy for writing data on the target (create as new or overwrite existing). With OVERWRITE_EXISTING, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
+                      Strategy for writing data on the target (create as new or overwrite existing). With `OVERWRITE_EXISTING`, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.clusterName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.clusterName)
+                || (has(self.initProvider) && has(self.initProvider.clusterName))'
+            - message: spec.forProvider.indexStrategy is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.indexStrategy)
+                || (has(self.initProvider) && has(self.initProvider.indexStrategy))'
+            - message: spec.forProvider.projectId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
+                || (has(self.initProvider) && has(self.initProvider.projectId))'
+            - message: spec.forProvider.targetClusterName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.targetClusterName)
+                || (has(self.initProvider) && has(self.initProvider.targetClusterName))'
+            - message: spec.forProvider.targetProjectId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.targetProjectId)
+                || (has(self.initProvider) && has(self.initProvider.targetProjectId))'
+            - message: spec.forProvider.writeStrategy is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.writeStrategy)
+                || (has(self.initProvider) && has(self.initProvider.writeStrategy))'
+          status:
+            description: BackupCollectionRestoreJobStatus defines the observed state
+              of BackupCollectionRestoreJob.
+            properties:
+              atProvider:
+                properties:
+                  clusterName:
+                    description: |-
+                      readable label that identifies the source cluster for the restore.
+                      Human-readable label that identifies the source cluster for the restore.
+                    type: string
+                  collectionSuffix:
+                    description: |-
+                      (String) Optional suffix applied to restored collection names.
+                      Optional suffix applied to restored collection names.
+                    type: string
+                  collections:
+                    description: (Attributes List) List of collections to restore
+                      (up to 100 items). (see below for nested schema)
+                    items:
+                      properties:
+                        sourceNamespace:
+                          description: |-
+                            (String) Collection requested to restore, as database.collection.
+                            Collection requested to restore, as `database.collection`.
+                          type: string
+                        targetNamespace:
+                          description: |-
+                            (String) Requested target collection as database.collection; if empty, source namespace is used.
+                            Requested target collection as `database.collection`; if empty, source namespace is used.
+                          type: string
+                      type: object
+                    type: array
+                  createdAt:
+                    description: |-
+                      (String) Date and time when the restore job was created (ISO 8601 format in UTC).
+                      Date and time when the restore job was created (ISO 8601 format in UTC).
+                    type: string
+                  databaseSuffix:
+                    description: |-
+                      (String) Optional suffix applied to restored database names.
+                      Optional suffix applied to restored database names.
+                    type: string
+                  databases:
+                    description: (Attributes List) List of databases to restore (up
+                      to 100 items). (see below for nested schema)
+                    items:
+                      properties:
+                        sourceNamespace:
+                          description: |-
+                            (String) Collection requested to restore, as database.collection.
+                            Database name requested to restore.
+                          type: string
+                        targetNamespace:
+                          description: |-
+                            (String) Requested target collection as database.collection; if empty, source namespace is used.
+                            Requested target database name; if empty, source database name is used.
+                          type: string
+                      type: object
+                    type: array
+                  errorMessage:
+                    description: |-
+                      (String) Error message when the job has failed or been canceled.
+                      Error message when the job has failed or been canceled.
+                    type: string
+                  finishedAt:
+                    description: |-
+                      (String) Date and time when the restore job finished (ISO 8601 format in UTC).
+                      Date and time when the restore job finished (ISO 8601 format in UTC).
+                    type: string
+                  id:
+                    type: string
+                  indexStatus:
+                    description: (Attributes) Overall index build status for a collection
+                      restore job. (see below for nested schema)
+                    properties:
+                      failedCollectionCount:
+                        description: |-
+                          (Number) Number of collections that failed to build indexes.
+                          Number of collections that failed to build indexes.
+                        type: number
+                      state:
+                        description: |-
+                          (String) Current state of the collection restore job.
+                          Index build state indicating the status of index creation during or after a restore operation.
+                        type: string
+                    type: object
+                  indexStrategy:
+                    description: |-
+                      (String) Strategy for restoring indexes (all, none, or all except TTL).
+                      Strategy for restoring indexes (all, none, or all except TTL).
+                    type: string
+                  jobId:
+                    description: |-
+                      hexadecimal digit string that identifies the collection restore job.
+                      Unique 24-hexadecimal digit string that identifies the collection restore job.
+                    type: string
+                  oplogInc:
+                    description: |-
+                      in-time restore.
+                      Oplog increment for point-in-time restore.
+                    type: number
+                  oplogTs:
+                    description: |-
+                      in-time restore.
+                      Oplog timestamp (seconds part) for point-in-time restore.
+                    type: number
+                  pointInTimeUtcSeconds:
+                    description: |-
+                      in-time restore time in seconds since UNIX epoch.
+                      Point-in-time restore time in seconds since UNIX epoch.
+                    type: number
+                  projectId:
+                    description: |-
+                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    type: string
+                  restoredDocuments:
+                    description: |-
+                      (Number) Number of documents restored so far across all supported collections.
+                      Number of documents restored so far across all supported collections.
+                    type: number
+                  snapshotId:
+                    description: |-
+                      (String) ID of the snapshot to restore.
+                      ID of the snapshot to restore.
+                    type: string
+                  state:
+                    description: |-
+                      (String) Current state of the collection restore job.
+                      Current state of the collection restore job.
+                    type: string
+                  targetClusterName:
+                    description: |-
+                      (String) Target cluster name.
+                      Target cluster name.
+                    type: string
+                  targetProjectId:
+                    description: |-
+                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    type: string
+                  timeouts:
+                    description: (Attributes) (see below for nested schema)
+                    properties:
+                      create:
+                        description: |-
+                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        type: string
+                    type: object
+                  totalDocuments:
+                    description: |-
+                      (Number) Total number of documents across all supported collections in the restore job. This value may initially reflect an estimate based on collection metadata and can change as accurate document counts become available during the restore.
+                      Total number of documents across all supported collections in the restore job. This value may initially reflect an estimate based on collection metadata and can change as accurate document counts become available during the restore.
+                    type: number
+                  writeStrategy:
+                    description: |-
+                      (String) Strategy for writing data on the target (create as new or overwrite existing). With OVERWRITE_EXISTING, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
+                      Strategy for writing data on the target (create as new or overwrite existing). With `OVERWRITE_EXISTING`, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

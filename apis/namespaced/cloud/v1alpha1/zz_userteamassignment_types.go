@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RolesProjectRoleAssignmentsInitParameters struct {
@@ -41,11 +40,11 @@ type UserTeamAssignmentInitParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the /teams endpoint to retrieve all teams to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
@@ -54,11 +53,11 @@ type UserTeamAssignmentInitParameters struct {
 
 	// Reference to a Team in mongodbatlas to populate teamId.
 	// +kubebuilder:validation:Optional
-	TeamIDRef *v1.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+	TeamIDRef *v2.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
 
 	// Selector for a Team in mongodbatlas to populate teamId.
 	// +kubebuilder:validation:Optional
-	TeamIDSelector *v1.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
+	TeamIDSelector *v2.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
@@ -144,11 +143,11 @@ type UserTeamAssignmentParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the /teams endpoint to retrieve all teams to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
@@ -158,11 +157,11 @@ type UserTeamAssignmentParameters struct {
 
 	// Reference to a Team in mongodbatlas to populate teamId.
 	// +kubebuilder:validation:Optional
-	TeamIDRef *v1.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+	TeamIDRef *v2.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
 
 	// Selector for a Team in mongodbatlas to populate teamId.
 	// +kubebuilder:validation:Optional
-	TeamIDSelector *v1.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
+	TeamIDSelector *v2.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
@@ -206,8 +205,8 @@ type UserTeamAssignmentSpec struct {
 
 // UserTeamAssignmentStatus defines the observed state of UserTeamAssignment.
 type UserTeamAssignmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        UserTeamAssignmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               UserTeamAssignmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

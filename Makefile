@@ -11,7 +11,7 @@ export TERRAFORM_VERSION ?= 1.5.7
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
 export TERRAFORM_PROVIDER_SOURCE ?= mongodb/mongodbatlas
-export TERRAFORM_PROVIDER_VERSION ?= 2.14.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.17.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-$(PROJECT_NAME)
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/mongodb/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := $(TERRAFORM_PROVIDER_REPO)/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
@@ -148,6 +148,7 @@ pull-docs:
 PROVIDER_SOURCE_DIR := third_party/terraform-provider-mongodbatlas
 
 provider-source:
+	@go mod tidy
 	@if [ ! -f "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go" ]; then \
 		$(INFO) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
 		rm -rf "$(PROVIDER_SOURCE_DIR)"; \
@@ -158,7 +159,7 @@ provider-source:
 		$(OK) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
 	fi
 
-generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs provider-source
+generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs provider-source 
 generate.done: copy-examples
 
 go.modules.download: provider-source

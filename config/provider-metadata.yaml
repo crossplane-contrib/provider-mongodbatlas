@@ -559,6 +559,62 @@ resources:
             version_release_system: '- (Optional) - Release cadence that Atlas uses for this cluster. This parameter defaults to LTS. If you set this field to CONTINUOUS, you must omit the mongo_db_major_version field. Atlas accepts:'
             zone_name: may update zone_id, region_name may update container_id, instance_size may update disk_iops, or provider_name may update ebs_volume_type).
         importStatements: []
+    mongodbatlas_ai_model_api_key:
+        subCategory: AI Models
+        name: mongodbatlas_ai_model_api_key
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "cloud": "ANY",
+                  "geography": "ANY",
+                  "name": "example-ai-model-key",
+                  "project_id": "${var.project_id}"
+                }
+              references:
+                project_id: var.project_id
+        argumentDocs:
+            api_key_id: (String) Identifier used to reference this API key in admin API calls.
+            cloud: (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+            created_at: (String) UTC date when the API key was created. This parameter is formatted as an ISO 8601 timestamp.
+            created_by: (String) Name of the user that created this API key. If no user name is available, the user ID is returned.
+            endpoint: (String) Server-computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
+            geography: (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+            last_used_at: (String) UTC date when the API key was last used. This parameter is formatted as an ISO 8601 timestamp.
+            masked_secret: (String) A partially obfuscated version of the API key secret returned when the API key was created.
+            name: (String) A name for the new API key that will be created.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            secret: '(String, Sensitive) The full API key secret used for interacting with the embedding / reranking service. Note: this will only be fully populated in the response to a create API key request. Responses to get, list, and update requests will not include the secret.'
+            status: (String) A string describing the current status of the API key.
+        importStatements: []
+    mongodbatlas_ai_model_rate_limit:
+        subCategory: AI Models
+        name: mongodbatlas_ai_model_rate_limit
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "cloud": "ANY",
+                  "geography": "ANY",
+                  "model_group_name": "embed_large",
+                  "project_id": "${var.project_id}",
+                  "requests_per_minute_limit": 100,
+                  "tokens_per_minute_limit": 10000
+                }
+              references:
+                project_id: var.project_id
+        argumentDocs:
+            cloud: (String) Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
+            endpoint: (String) Server-computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
+            geography: (String) Geography scope. Must be "ANY". Additional values will be supported in future API versions.
+            model_group_name: (String) The name of the model group to be updated.
+            model_names: (List of String) List of embedding model names included in this model group.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            requests_per_minute_limit: (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+            tokens_per_minute_limit: (Number) The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+        importStatements: []
     mongodbatlas_alert_configuration:
         subCategory: Alert Configurations
         name: mongodbatlas_alert_configuration
@@ -1026,6 +1082,68 @@ resources:
             state: '- Label that indicates the state of the Backup Compliance Policy settings. MongoDB Cloud ignores this setting when you enable or update the Backup Compliance Policy settings.'
             updated_date: '- ISO 8601 timestamp format in UTC that indicates when the user updated the Data Protection Policy settings. MongoDB Cloud ignores this setting when you enable or update the Backup Compliance Policy settings.'
             updated_user: '- Email address that identifies the user who updated the Backup Compliance Policy settings. MongoDB Cloud ignores this email setting when you enable or update the Backup Compliance Policy settings.'
+        importStatements: []
+    mongodbatlas_cloud_backup_collection_restore_job:
+        subCategory: Cloud Backups
+        name: mongodbatlas_cloud_backup_collection_restore_job
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "cluster_name": "${var.cluster_name}",
+                  "collection_suffix": "${var.collection_suffix}",
+                  "collections": "${[for ns in var.restore_collections : {\n    source_namespace = ns\n    target_namespace = try(var.collection_renames[ns], null)\n  }]}",
+                  "database_suffix": "${var.database_suffix}",
+                  "databases": "${[for db in var.restore_databases : {\n    source_namespace = db\n    target_namespace = try(var.database_renames[db], null)\n  }]}",
+                  "index_strategy": "${var.index_strategy}",
+                  "project_id": "${var.project_id}",
+                  "snapshot_id": "${var.snapshot_id}",
+                  "target_cluster_name": "${local.target_cluster_name}",
+                  "target_project_id": "${local.target_project_id}",
+                  "timeouts": {
+                    "create": "${var.create_timeout}"
+                  },
+                  "write_strategy": "${var.write_strategy}"
+                }
+              references:
+                cluster_name: var.cluster_name
+                collection_suffix: var.collection_suffix
+                database_suffix: var.database_suffix
+                index_strategy: var.index_strategy
+                project_id: var.project_id
+                snapshot_id: var.snapshot_id
+                target_cluster_name: local.target_cluster_name
+                target_project_id: local.target_project_id
+                write_strategy: var.write_strategy
+        argumentDocs:
+            cluster_name: (String) Human-readable label that identifies the source cluster for the restore.
+            collection_suffix: (String) Optional suffix applied to restored collection names.
+            collections: (Attributes List) List of collections to restore (up to 100 items). (see below for nested schema)
+            create: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+            created_at: (String) Date and time when the restore job was created (ISO 8601 format in UTC).
+            database_suffix: (String) Optional suffix applied to restored database names.
+            databases: (Attributes List) List of databases to restore (up to 100 items). (see below for nested schema)
+            error_message: (String) Error message when the job has failed or been canceled.
+            failed_collection_count: (Number) Number of collections that failed to build indexes.
+            finished_at: (String) Date and time when the restore job finished (ISO 8601 format in UTC).
+            index_status: (Attributes) Overall index build status for a collection restore job. (see below for nested schema)
+            index_strategy: (String) Strategy for restoring indexes (all, none, or all except TTL).
+            job_id: (String) Unique 24-hexadecimal digit string that identifies the collection restore job.
+            oplog_inc: (Number) Oplog increment for point-in-time restore.
+            oplog_ts: (Number) Oplog timestamp (seconds part) for point-in-time restore.
+            point_in_time_utc_seconds: (Number) Point-in-time restore time in seconds since UNIX epoch.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            restored_documents: (Number) Number of documents restored so far across all supported collections.
+            snapshot_id: (String) ID of the snapshot to restore.
+            source_namespace: (String) Collection requested to restore, as database.collection.
+            state: (String) Current state of the collection restore job.
+            target_cluster_name: (String) Target cluster name.
+            target_namespace: (String) Requested target collection as database.collection; if empty, source namespace is used.
+            target_project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            timeouts: (Attributes) (see below for nested schema)
+            total_documents: (Number) Total number of documents across all supported collections in the restore job. This value may initially reflect an estimate based on collection metadata and can change as accurate document counts become available during the restore.
+            write_strategy: (String) Strategy for writing data on the target (create as new or overwrite existing). With OVERWRITE_EXISTING, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
         importStatements: []
     mongodbatlas_cloud_backup_schedule:
         subCategory: Cloud Backups
@@ -2488,6 +2606,23 @@ resources:
                   ],
                   "username": "64d613677e1ad50839cce4db/testUserOr"
                 }
+            - name: test
+              manifest: |-
+                {
+                  "auth_database_name": "admin",
+                  "password_wo": "${ephemeral.random_password.user.result}",
+                  "password_wo_version": 1,
+                  "project_id": "\u003cPROJECT-ID\u003e",
+                  "roles": [
+                    {
+                      "database_name": "dbforApp",
+                      "role_name": "readWrite"
+                    }
+                  ],
+                  "username": "test-acc-username"
+                }
+              references:
+                password_wo: ephemeral.random_password.user.result
         argumentDocs:
             $external: if x509_type is MANAGED or CUSTOMER or aws_iam_type is USER or ROLE.
             CUSTOMER: '-  The user is being created for use with Self-Managed X.509. Users created with this x509Type require a Common Name (CN) in the username field. Externally authenticated users can only be created on the $external database.'
@@ -2510,7 +2645,9 @@ resources:
             ldap_auth_type: '- (Optional) Method by which the provided username is authenticated. If no value is given, Atlas uses the default value of NONE.'
             name: '- (Required) Name of the cluster or Atlas Data Federation that the user has access to.'
             oidc_auth_type: '- (Optional) Human-readable label that indicates whether the new database user authenticates with OIDC (OpenID Connect) federated authentication. If no value is given, Atlas uses the default value of NONE. The accepted types are:'
-            password: '- (Optional) User''s initial password. Only applicable for password-based authentication. You can remove this argument from your Terraform configuration after user creation without impacting the user, password, or Terraform management. If you change your password management to outside of Terraform, we advise removing the argument from the Terraform configuration. IMPORTANT: The Terraform state file stores passwords as plain text.'
+            password: '- (Optional) User''s initial password. Only applicable for password-based authentication. Conflicts with password_wo. You can remove this argument from your Terraform configuration after user creation without impacting the user, password, or Terraform management. If you change your password management to outside of Terraform, we advise removing the argument from the Terraform configuration. IMPORTANT: The Terraform state file stores passwords as plain text, we recommend using password_wo instead.'
+            password_wo: '- (Optional) User''s password, passed as a write-only argument so it is never written to Terraform state or plan files. Write-only arguments can accept ephemeral and non-ephemeral values. Only applicable for password-based authentication, and conflicts with password. Requires Terraform 1.11 or later, and must be set together with password_wo_version.'
+            password_wo_version: '- (Optional) Integer that triggers an update of password_wo. To rotate the password, change password_wo and increment this value in the same edit. Changing password_wo on its own has no effect, since Terraform cannot detect changes to a value that is not in state.'
             project_id: '- (Required) The unique ID for the project to create the database user, also known as groupId in the official documentation.'
             role_name: '- (Required) Name of the role to grant. See Create a Database User roles.roleName for valid values and restrictions.'
             roles: "- (Required) \tList of user’s roles and the databases / collections on which the roles apply. A role allows the user to perform particular actions on the specified database. A role on the admin database can include privileges that apply to the other databases as well. See Roles below for more details."
@@ -3679,6 +3816,52 @@ resources:
             start_hour_of_day: '- Zero-based integer that represents the beginning hour of the day for the protected hours window.'
             time_zone_id: '- Identifier for the current time zone of the maintenance window. This can only be updated via the Project Settings UI.'
         importStatements: []
+    mongodbatlas_metric_integration:
+        subCategory: Metric Integration
+        name: mongodbatlas_metric_integration
+        title: ""
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "aggregation_temporality": "DELTA",
+                  "auth_type": "HEADER",
+                  "endpoint": "${var.datadog_endpoint}",
+                  "headers": [
+                    {
+                      "name": "dd-api-key",
+                      "value": "${datadog_api_key.atlas_metrics.key}"
+                    }
+                  ],
+                  "integration_type": "OTEL",
+                  "metric_selection": [
+                    "ATLAS_STREAM_PROCESSING"
+                  ],
+                  "project_id": "${mongodbatlas_project.project.id}",
+                  "provider_type": "CUSTOM"
+                }
+              references:
+                endpoint: var.datadog_endpoint
+                project_id: mongodbatlas_project.project.id
+              dependencies:
+                datadog_api_key.atlas_metrics: |-
+                    {
+                      "name": "mongodb-atlas-metrics"
+                    }
+        argumentDocs:
+            aggregation_temporality: (String) The temporality to send to the metric integration.
+            auth_type: (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
+            endpoint: (String) OpenTelemetry collector endpoint URL. Must use HTTPS.
+            headers: (Attributes List) HTTP headers for authentication and configuration. Total size limit 2KB. (see below for nested schema)
+            headers_redacted: (Attributes List) HTTP headers for authentication and configuration. Values are redacted and never returned in plaintext. (see below for nested schema)
+            integration_type: (String) Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
+            metric_integration_id: (String) Unique identifier of the metric integration configuration.
+            metric_selection: (Set of String) Array of metric categories to export. Determines which types of metrics are sent to the integration.
+            name: (String) Header name.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            provider_type: (String) The provider type for the metric integration. Identifies the third-party service provider.
+            value: (String, Sensitive) Header value.
+        importStatements: []
     mongodbatlas_mongodb_employee_access_grant:
         subCategory: Clusters
         name: mongodbatlas_mongodb_employee_access_grant
@@ -4828,12 +5011,13 @@ resources:
             created: '- The ISO-8601-formatted timestamp of when Atlas created the project.'
             id: '- The project id.'
             ip_addresses: '- IP addresses in a project categorized by services. See IP Addresses. WARNING: This attribute is deprecated, use the mongodbatlas_project_ip_addresses data source instead.'
-            is_cluster_ai_assistant_enabled: '- (Optional) Flag that indicates whether to enable the AI Assistant for the project''s clusters.'
+            is_cluster_ai_assistant_enabled: '- (Optional) Flag that indicates whether to enable the AI Assistant for the project''s clusters. By default, this flag is set to true.'
             is_collect_database_specifics_statistics_enabled: '- (Optional) Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.'
             is_data_explorer_enabled: '- (Optional) Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.'
-            is_data_explorer_gen_ai_features_enabled: '- (Optional) Flag that indicates whether to enable generative AI features in the Data Explorer for the project.'
-            is_data_explorer_gen_ai_sample_document_passing_enabled: '- (Optional) Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project.'
+            is_data_explorer_gen_ai_features_enabled: '- (Optional) Flag that indicates whether to enable generative AI features in the Data Explorer for the project. By default, this flag is set to true.'
+            is_data_explorer_gen_ai_sample_document_passing_enabled: '- (Optional) Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project. By default, this flag is set to false.'
             is_extended_storage_sizes_enabled: '- (Optional) Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.'
+            is_native_reranking_enabled: '- (Optional) Flag that indicates whether to enable Native Reranking with Voyage AI models in the Aggregation Pipeline for the project. By default, this flag is set to false.'
             is_performance_advisor_enabled: '- (Optional) Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.'
             is_realtime_performance_panel_enabled: '- (Optional) Flag that indicates whether to enable Real Time Performance Panel for the project. If enabled, you can see real time metrics from your MongoDB database. By default, this flag is set to true.'
             is_schema_advisor_enabled: '- (Optional) Flag that indicates whether to enable Schema Advisor for the project. If enabled, you receive customized recommendations to optimize your data model and enhance performance. Disable this setting to disable schema suggestions in the Performance Advisor and the Data Explorer. By default, this flag is set to true.'
@@ -5323,6 +5507,17 @@ resources:
                   "project_id": "\u003cPROJECT_ID\u003e",
                   "type": "vectorSearch"
                 }
+            - name: test-auto-embed-vector-index
+              manifest: |-
+                {
+                  "cluster_name": "\u003cCLUSTER_NAME\u003e",
+                  "collection_name": "collection_test",
+                  "database": "database_test",
+                  "fields": "[{\n      \"type\": \"autoEmbed\",\n      \"path\": \"description\",\n      \"model\": \"voyage-4-lite\",\n      \"modality\": \"text\"\n},\n{\n      \"type\": \"filter\",\n      \"path\": \"property_type\"\n}]\n",
+                  "name": "test-auto-embed-vector-index",
+                  "project_id": "\u003cPROJECT_ID\u003e",
+                  "type": "vectorSearch"
+                }
             - name: test-advanced-search-index
               manifest: |-
                 {
@@ -5370,7 +5565,7 @@ resources:
             collection_name: '- (Required) Name of the collection the index is on. NOTE: The collection must exist before creating the index.'
             database: '- (Required) Name of the database the collection is in.'
             "false": '- to be case-sensitive and remove only tokens that exactly match the specified case'
-            fields: '- Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.'
+            fields: '- Array of fields that define this vectorSearch index. This property is required for vector search indexes and must include at least one field with the type vector or autoEmbed. For more information, see Automated Embedding. Provide this value as a JSON string so it can be decoded correctly.'
             german2: (Alternative German language stemmer. Handles the umlaut by expanding ü to ue in most contexts.)
             group: '- (Required) Index of the character group within the matching expression to extract into tokens. Use 0 to extract all character groups.'
             ignoreCase: '- The flag that indicates whether or not to ignore case of stop words when filtering the tokens to remove. The value can be one of the following:'
@@ -5758,6 +5953,35 @@ resources:
                 }
               references:
                 project_id: var.project_id
+            - name: example_aws_lambda_private_link
+              manifest: |-
+                {
+                  "aws": {
+                    "role_arn": "arn:aws:iam::\u003cAWS_ACCOUNT_ID\u003e:role/lambdaRole"
+                  },
+                  "connection_name": "AWSLambdaPLConnection",
+                  "networking": {
+                    "access": {
+                      "connection_id": "${mongodbatlas_stream_privatelink_endpoint.aws_lambda.id}",
+                      "type": "PRIVATE_LINK"
+                    }
+                  },
+                  "project_id": "${var.project_id}",
+                  "type": "AWSLambda",
+                  "workspace_name": "${mongodbatlas_stream_workspace.example.workspace_name}"
+                }
+              references:
+                project_id: var.project_id
+                workspace_name: mongodbatlas_stream_workspace.example.workspace_name
+              dependencies:
+                mongodbatlas_stream_privatelink_endpoint.aws_lambda: |-
+                    {
+                      "project_id": "${var.project_id}",
+                      "provider_name": "AWS",
+                      "region": "us-east-1",
+                      "service_endpoint_id": "com.amazonaws.us-east-1.lambda",
+                      "vendor": "LAMBDA"
+                    }
             - name: example_gcp_pubsub
               manifest: |-
                 {
@@ -5991,7 +6215,7 @@ resources:
             gcp: '- The configuration for GCP Pub/Sub connection. See GCP.'
             headers: '- A map of key-value pairs for optional headers.'
             instance_name: '- (Optional, Deprecated) Label that identifies the stream processing workspace. Use workspace_name instead; this attribute will be removed in a future major version.'
-            mechanism: '- Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.'
+            mechanism: '- Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.'
             method: '- SASL OAUTHBEARER authentication method. Value must be OIDC.'
             networking: '- Networking Access Type can be PUBLIC (default), VPC, or PRIVATE_LINK. See networking.'
             password: '- Password of the account to connect to the Kafka cluster.'
@@ -5999,7 +6223,7 @@ resources:
             protocol: '- Describes the transport type. Can be either SASL_PLAINTEXT or SASL_SSL.'
             region: '- (Optional) Azure region where the storage account is located, specified as a valid Azure region name (for example, eastus, westeurope).'
             role: '- The name of the role to use. Value can be  atlasAdmin, readWriteAnyDatabase, or readAnyDatabase if type is set to BUILT_IN, or the name of a user-defined role if type is set to CUSTOM.'
-            role_arn: '- Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.'
+            role_arn: '- Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.'
             sasl_oauthbearer_extensions: '- Additional information to provide to the Kafka broker.'
             schema_registry_authentication: '- Authentication configuration for Schema Registry. See Schema Registry Authentication.'
             schema_registry_provider: '- The Schema Registry provider. Must be set to CONFLUENT.'
@@ -6088,22 +6312,22 @@ resources:
             client_secret: (String, Sensitive) OIDC client secret for authentication to the Kafka cluster.
             cluster_name: (String) Name of the cluster configured for this connection.
             cluster_project_id: (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
-            config: (Map of String) A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
+            config: (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
             connection_id: (String) Reserved. Will be used by PRIVATE_LINK connection type.
             connection_name: (String) Label that identifies the stream connection name.
             create: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-            db_role_to_execute: (Attributes) The name of a Built in or Custom DB Role to connect to an Atlas Cluster. (see below for nested schema)
+            db_role_to_execute: (Attributes) Name of a built-in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
             delete: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
             delete_on_create_timeout: (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
             failover_connection_id: (String) Unique identifier of the connection.
             mechanism: (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
-            method: (String) SASL OAUTHBEARER authentication method. Can only be OIDC currently.
+            method: (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
             name: (String) Reserved. Will be used by PRIVATE_LINK connection type.
             networking: (Attributes) Networking configuration for Streams connections. (see below for nested schema)
             password: (String, Sensitive) Password of the account to connect to the Kafka cluster.
             project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             protocol: (String) Describes the transport type. Can be either SASL_PLAINTEXT, SASL_SSL, or SSL.
-            region: (String) The connection's region.
+            region: (String) Connection region.
             role: (String) The name of the role to use. Can be a built in role or a custom role.
             sasl_oauthbearer_extensions: (String) SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
             scope: (String) OIDC scope parameter defining the access permissions requested.
@@ -6111,11 +6335,11 @@ resources:
             ssl_certificate: (String) SSL certificate for client authentication to Kafka.
             ssl_key: (String, Sensitive) SSL key for client authentication to Kafka.
             ssl_key_password: (String, Sensitive) Password for the SSL key, if it is password protected.
-            state: (String) The state of the connection.
+            state: (String) Connection state.
             tgw_route_id: (String) Reserved. Will be used by TRANSIT_GATEWAY connection type.
             timeouts: (Attributes) (see below for nested schema)
             token_endpoint_url: (String) OIDC token endpoint URL for obtaining access tokens.
-            type: (String) Type of the connection.
+            type: (String) Connection type.
             update: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
             username: (String) Username of the account to connect to the Kafka cluster.
             workspace_name: (String) Label that identifies the stream workspace.
@@ -6239,6 +6463,7 @@ resources:
               manifest: |-
                 {
                   "arn": "${aws_msk_cluster.example.arn}",
+                  "authentication_scheme": "SASL_SCRAM",
                   "project_id": "${var.project_id}",
                   "provider_name": "AWS",
                   "vendor": "MSK"
@@ -6472,8 +6697,10 @@ resources:
                     }
         argumentDocs:
             '{storageAccount}.blob.core.windows.net': .
+            IDLE: state.
             arn: (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
-            dns_domain: '(String) The domain hostname. Required for the following provider and vendor combinations:'
+            authentication_scheme: (String) Authentication mechanism to use with this private link connection. Only applies when the vendor is MSK. Valid values are SASL_SCRAM, TLS, and IAM. Changing this value forces replacement of the private link connection.
+            dns_domain: '(String) The domain hostname. Optional for AWS Confluent Enterprise Kafka Cluster. Required for the following provider and vendor combinations:'
             dns_sub_domain: (List of String) Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
             error_message: (String) Error message if the connection is in a failed state.
             id: (String) The ID of the Private Link connection.
@@ -6484,7 +6711,7 @@ resources:
             provider_name: (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
             region: (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
             service_attachment_uris: (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
-            service_endpoint_id: (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
+            service_endpoint_id: (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AWS LAMBDA, this is the Lambda VPC endpoint service name in the format com.amazonaws.{region}.lambda. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
             state: (String) Status of the connection.
             vendor: '(String) Vendor that manages the endpoint. The following are the vendor values per provider:'
         importStatements: []
@@ -6496,7 +6723,7 @@ resources:
             - name: stream-processor-sample-example
               manifest: |-
                 {
-                  "pipeline": "${jsonencode([\n    { \"$source\" = { \"connectionName\" = resource.mongodbatlas_stream_connection.example-sample.connection_name } },\n    { \"$emit\" = { \"connectionName\" : resource.mongodbatlas_stream_connection.example-cluster.connection_name, \"db\" : \"sample\", \"coll\" : \"solar\", \"timeseries\" : { \"timeField\" : \"_ts\" } } }\n  ])}",
+                  "pipeline": "[\n  {\"$source\": {\"connectionName\": \"${mongodbatlas_stream_connection.example-sample.connection_name}\"}},\n  {\"$emit\": {\"connectionName\": \"${mongodbatlas_stream_connection.example-cluster.connection_name}\", \"db\": \"sample\", \"coll\": \"solar\", \"timeseries\": {\"timeField\": \"_ts\"}}}\n]\n",
                   "processor_name": "sampleProcessorName",
                   "project_id": "${var.project_id}",
                   "state": "STARTED",
@@ -6557,7 +6784,7 @@ resources:
             - name: stream-processor-cluster-to-kafka-example
               manifest: |-
                 {
-                  "pipeline": "${jsonencode([\n    { \"$source\" = { \"connectionName\" = resource.mongodbatlas_stream_connection.example-cluster.connection_name } },\n    { \"$emit\" = { \"connectionName\" : resource.mongodbatlas_stream_connection.example-kafka.connection_name, \"topic\" : \"topic_from_cluster\" } }\n  ])}",
+                  "pipeline": "[\n  {\"$source\": {\"connectionName\": \"${mongodbatlas_stream_connection.example-cluster.connection_name}\"}},\n  {\"$emit\": {\"connectionName\": \"${mongodbatlas_stream_connection.example-kafka.connection_name}\", \"topic\": \"topic_from_cluster\"}}\n]\n",
                   "processor_name": "clusterProcessorName",
                   "project_id": "${var.project_id}",
                   "state": "CREATED",
@@ -6618,16 +6845,21 @@ resources:
               manifest: |-
                 {
                   "options": {
+                    "autoscaling": {
+                      "max_tier": "SP50",
+                      "min_tier": "SP10"
+                    },
                     "dlq": {
                       "coll": "exampleColumn",
-                      "connection_name": "${resource.mongodbatlas_stream_connection.example-cluster.connection_name}",
+                      "connection_name": "${mongodbatlas_stream_connection.example-cluster.connection_name}",
                       "db": "exampleDb"
                     }
                   },
-                  "pipeline": "${jsonencode([\n    { \"$source\" = { \"connectionName\" = resource.mongodbatlas_stream_connection.example-kafka.connection_name, \"topic\" : \"topic_source\" } },\n    { \"$emit\" = { \"connectionName\" : resource.mongodbatlas_stream_connection.example-cluster.connection_name, \"db\" : \"kafka\", \"coll\" : \"topic_source\", \"timeseries\" : { \"timeField\" : \"ts\" } }\n  }])}",
+                  "pipeline": "[\n  {\"$source\": {\"connectionName\": \"${mongodbatlas_stream_connection.example-kafka.connection_name}\", \"topic\": \"topic_source\"}},\n  {\"$emit\": {\"connectionName\": \"${mongodbatlas_stream_connection.example-cluster.connection_name}\", \"db\": \"kafka\", \"coll\": \"topic_source\", \"timeseries\": {\"timeField\": \"ts\"}}}\n]\n",
                   "processor_name": "kafkaProcessorName",
                   "project_id": "${var.project_id}",
                   "state": "CREATED",
+                  "tier": "SP10",
                   "workspace_name": "${mongodbatlas_stream_instance.example.instance_name}"
                 }
               references:
@@ -6682,22 +6914,26 @@ resources:
                       "project_id": "${var.project_id}"
                     }
         argumentDocs:
+            autoscaling: (Attributes) Vertical autoscaling configuration for the stream processor. When present, the processor automatically scales its tier between min_tier and max_tier based on load; tier is used only as the initial/baseline tier and the running tier is reported by effective_tier. To disable autoscaling, remove this block. (see below for nested schema)
             coll: (String) Name of the collection to use for the DLQ.
             connection_name: (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
             create: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.'
             db: (String) Name of the database to use for the DLQ.
             delete_on_create_timeout: (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
             dlq: (Attributes) Dead letter queue for the stream processor. Refer to the MongoDB Atlas Docs for more information. (see below for nested schema)
+            effective_tier: (String) Tier the stream processor is currently running on. When autoscaling is disabled this equals tier; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
             failover_enabled: (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
             id: (String) Unique 24-hexadecimal character string that identifies the stream processor.
             instance_name: (String, Deprecated) Label that identifies the stream processing workspace.
-            options: (Attributes) Optional configuration for the stream processor. (see below for nested schema)
-            pipeline: (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
+            max_tier: (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
+            min_tier: (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+            options: (Attributes) Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
+            pipeline: '(String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.'
             processor_name: (String) Label that identifies the stream processor.
             project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             state: (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
             stats: (String) The stats associated with the stream processor. Refer to the MongoDB Atlas Docs for more information.
-            tier: (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
+            tier: (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
             timeouts: (Attributes) (see below for nested schema)
             workspace_name: (String) Label that identifies the stream processing workspace.
         importStatements: []

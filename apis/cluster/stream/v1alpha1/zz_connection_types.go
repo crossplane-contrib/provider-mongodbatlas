@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessInitParameters struct {
@@ -44,20 +44,23 @@ type AccessParameters struct {
 
 type AuthenticationInitParameters struct {
 
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
+	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
 	// Public identifier for the Kafka client.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
 	// Secret known only to the Kafka client and the authorization server.
-	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
 	// SASL OAUTHBEARER authentication method. Value must be OIDC.
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// Password of the account to connect to the Kafka cluster.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Additional information to provide to the Kafka broker.
 	SaslOauthbearerExtensions *string `json:"saslOauthbearerExtensions,omitempty" tf:"sasl_oauthbearer_extensions,omitempty"`
@@ -74,10 +77,13 @@ type AuthenticationInitParameters struct {
 
 type AuthenticationObservation struct {
 
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
+	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
 	// Public identifier for the Kafka client.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
 	// SASL OAUTHBEARER authentication method. Value must be OIDC.
@@ -98,15 +104,19 @@ type AuthenticationObservation struct {
 
 type AuthenticationParameters struct {
 
+	// The configuration for AWS Kinesis Data Streams connection. See AWS.
+	// +kubebuilder:validation:Optional
+	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
 	// Public identifier for the Kafka client.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
 	// Secret known only to the Kafka client and the authorization server.
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+	// Method of authentication. Value can be PLAIN, SCRAM-256, SCRAM-512, OAUTHBEARER, or AWS_MSK_IAM.
 	// +kubebuilder:validation:Optional
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
@@ -116,7 +126,7 @@ type AuthenticationParameters struct {
 
 	// Password of the account to connect to the Kafka cluster.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Additional information to provide to the Kafka broker.
 	// +kubebuilder:validation:Optional
@@ -137,19 +147,19 @@ type AuthenticationParameters struct {
 
 type AwsInitParameters struct {
 
-	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 }
 
 type AwsObservation struct {
 
-	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 }
 
 type AwsParameters struct {
 
-	// Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account.
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
 	// +kubebuilder:validation:Optional
 	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
 }
@@ -193,13 +203,32 @@ type AzureParameters struct {
 	StorageAccountName *string `json:"storageAccountName" tf:"storage_account_name,omitempty"`
 }
 
+type ConnectionAwsInitParameters struct {
+
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
+	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+}
+
+type ConnectionAwsObservation struct {
+
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
+	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+}
+
+type ConnectionAwsParameters struct {
+
+	// Amazon Resource Name (ARN) that identifies the AWS IAM role that MongoDB Cloud assumes to authenticate to the Amazon MSK cluster.
+	// +kubebuilder:validation:Optional
+	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
+}
+
 type ConnectionInitParameters struct {
 
 	// User credentials required to connect to a Kafka cluster. Includes the authentication type, as well as the parameters for that authentication mode. See authentication.
 	Authentication *AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// The configuration for AWS Kinesis Data Streams connection. See AWS.
-	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+	Aws *ConnectionAwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
 	Azure *AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
@@ -242,11 +271,11 @@ type ConnectionInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Authentication configuration for Schema Registry. See Schema Registry Authentication.
 	SchemaRegistryAuthentication *SchemaRegistryAuthenticationInitParameters `json:"schemaRegistryAuthentication,omitempty" tf:"schema_registry_authentication,omitempty"`
@@ -275,11 +304,11 @@ type ConnectionInitParameters struct {
 
 	// Reference to a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameRef *v1.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
+	WorkspaceNameRef *v2.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameSelector *v1.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
+	WorkspaceNameSelector *v2.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
 }
 
 type ConnectionObservation struct {
@@ -288,7 +317,7 @@ type ConnectionObservation struct {
 	Authentication *AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// The configuration for AWS Kinesis Data Streams connection. See AWS.
-	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+	Aws *ConnectionAwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
 	Azure *AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
@@ -374,7 +403,7 @@ type ConnectionParameters struct {
 
 	// The configuration for AWS Kinesis Data Streams connection. See AWS.
 	// +kubebuilder:validation:Optional
-	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+	Aws *ConnectionAwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// The configuration for Azure Blob Storage connection. See Azure.
 	// +kubebuilder:validation:Optional
@@ -429,11 +458,11 @@ type ConnectionParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Authentication configuration for Schema Registry. See Schema Registry Authentication.
 	// +kubebuilder:validation:Optional
@@ -470,11 +499,11 @@ type ConnectionParameters struct {
 
 	// Reference to a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameRef *v1.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
+	WorkspaceNameRef *v2.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameSelector *v1.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
+	WorkspaceNameSelector *v2.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
 }
 
 type DBRoleToExecuteInitParameters struct {
@@ -547,7 +576,7 @@ type NetworkingParameters struct {
 type SchemaRegistryAuthenticationInitParameters struct {
 
 	// Password of the account to connect to the Kafka cluster.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -569,7 +598,7 @@ type SchemaRegistryAuthenticationParameters struct {
 
 	// Password of the account to connect to the Kafka cluster.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Type of connection. Can be AWSKinesisDataStreams, AWSLambda, AzureBlobStorage, Cluster, GCPPubSub, Https, Kafka, S3, Sample, or SchemaRegistry.
 	// +kubebuilder:validation:Optional
@@ -659,8 +688,8 @@ type TimeoutsParameters struct {
 
 // ConnectionSpec defines the desired state of Connection
 type ConnectionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConnectionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConnectionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -676,8 +705,8 @@ type ConnectionSpec struct {
 
 // ConnectionStatus defines the observed state of Connection.
 type ConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

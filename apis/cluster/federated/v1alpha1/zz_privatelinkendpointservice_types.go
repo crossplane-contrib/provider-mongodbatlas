@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PrivateLinkEndpointServiceInitParameters struct {
@@ -37,11 +37,11 @@ type PrivateLinkEndpointServiceInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Human-readable label that identifies the cloud service provider.
 	// Human-readable label that identifies the cloud service provider. Atlas Data Federation supports `AWS`.
@@ -117,11 +117,11 @@ type PrivateLinkEndpointServiceParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Human-readable label that identifies the cloud service provider.
 	// Human-readable label that identifies the cloud service provider. Atlas Data Federation supports `AWS`.
@@ -136,8 +136,8 @@ type PrivateLinkEndpointServiceParameters struct {
 
 // PrivateLinkEndpointServiceSpec defines the desired state of PrivateLinkEndpointService
 type PrivateLinkEndpointServiceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PrivateLinkEndpointServiceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PrivateLinkEndpointServiceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -153,8 +153,8 @@ type PrivateLinkEndpointServiceSpec struct {
 
 // PrivateLinkEndpointServiceStatus defines the observed state of PrivateLinkEndpointService.
 type PrivateLinkEndpointServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PrivateLinkEndpointServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PrivateLinkEndpointServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

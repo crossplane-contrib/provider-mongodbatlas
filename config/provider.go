@@ -63,6 +63,7 @@ func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitia
 		ujconfig.WithTerraformPluginFrameworkIncludeList(TerraformFrameworkIncludeList()),
 	)
 
+	resources.ConfigureAI(pc)
 	resources.ConfigureAlert(pc)
 	resources.ConfigureCloud(pc)
 	resources.ConfigureDatabase(pc, pwGen)

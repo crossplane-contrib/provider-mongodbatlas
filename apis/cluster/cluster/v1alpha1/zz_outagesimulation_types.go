@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type OutageFiltersInitParameters struct {
@@ -53,11 +53,11 @@ type OutageSimulationInitParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
@@ -72,11 +72,11 @@ type OutageSimulationInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type OutageSimulationObservation struct {
@@ -115,11 +115,11 @@ type OutageSimulationParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
@@ -137,17 +137,17 @@ type OutageSimulationParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 // OutageSimulationSpec defines the desired state of OutageSimulation
 type OutageSimulationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     OutageSimulationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   OutageSimulationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -163,8 +163,8 @@ type OutageSimulationSpec struct {
 
 // OutageSimulationStatus defines the observed state of OutageSimulation.
 type OutageSimulationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        OutageSimulationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               OutageSimulationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

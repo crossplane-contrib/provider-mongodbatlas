@@ -155,8 +155,28 @@ spec:
                     type: object
                   options:
                     description: (Attributes) Optional configuration for the stream
-                      processor. (see below for nested schema)
+                      processor. Empty options objects are not supported. (see below
+                      for nested schema)
                     properties:
+                      autoscaling:
+                        description: (Attributes) Vertical autoscaling configuration
+                          for the stream processor. When present, the processor automatically
+                          scales its tier between min_tier and max_tier based on load;
+                          tier is used only as the initial/baseline tier and the running
+                          tier is reported by effective_tier. To disable autoscaling,
+                          remove this block. (see below for nested schema)
+                        properties:
+                          maxTier:
+                            description: |-
+                              up limit). When not set, it defaults to the workspace maximum tier.
+                              Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
+                            type: string
+                          minTier:
+                            description: |-
+                              down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+                              Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
+                            type: string
+                        type: object
                       dlq:
                         description: (Attributes) Dead letter queue for the stream
                           processor. Refer to the MongoDB Atlas Docs for more information.
@@ -181,8 +201,8 @@ spec:
                     type: object
                   pipeline:
                     description: |-
-                      (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
-                      Stream aggregation pipeline you want to apply to your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. Using [jsonencode](https://developer.hashicorp. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
+                      literal equality matches, and $addFields/$project output field order.
+                      Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
                     description: |-
@@ -285,8 +305,8 @@ spec:
                     type: string
                   tier:
                     description: |-
-                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
-                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
+                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
+                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
                     type: string
                   timeouts:
                     description: (Attributes) (see below for nested schema)
@@ -413,8 +433,28 @@ spec:
                     type: object
                   options:
                     description: (Attributes) Optional configuration for the stream
-                      processor. (see below for nested schema)
+                      processor. Empty options objects are not supported. (see below
+                      for nested schema)
                     properties:
+                      autoscaling:
+                        description: (Attributes) Vertical autoscaling configuration
+                          for the stream processor. When present, the processor automatically
+                          scales its tier between min_tier and max_tier based on load;
+                          tier is used only as the initial/baseline tier and the running
+                          tier is reported by effective_tier. To disable autoscaling,
+                          remove this block. (see below for nested schema)
+                        properties:
+                          maxTier:
+                            description: |-
+                              up limit). When not set, it defaults to the workspace maximum tier.
+                              Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
+                            type: string
+                          minTier:
+                            description: |-
+                              down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+                              Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
+                            type: string
+                        type: object
                       dlq:
                         description: (Attributes) Dead letter queue for the stream
                           processor. Refer to the MongoDB Atlas Docs for more information.
@@ -439,8 +479,8 @@ spec:
                     type: object
                   pipeline:
                     description: |-
-                      (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
-                      Stream aggregation pipeline you want to apply to your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. Using [jsonencode](https://developer.hashicorp. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
+                      literal equality matches, and $addFields/$project output field order.
+                      Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
                     description: |-
@@ -543,8 +583,8 @@ spec:
                     type: string
                   tier:
                     description: |-
-                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
-                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
+                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
+                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
                     type: string
                   timeouts:
                     description: (Attributes) (see below for nested schema)
@@ -638,6 +678,11 @@ spec:
                       (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
                       Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
+                  effectiveTier:
+                    description: |-
+                      (String) Tier the stream processor is currently running on. When autoscaling is disabled this equals tier; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
+                      Tier the stream processor is currently running on. When autoscaling is disabled this equals `tier`; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
+                    type: string
                   failoverEnabled:
                     description: |-
                       to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
@@ -654,8 +699,28 @@ spec:
                     type: string
                   options:
                     description: (Attributes) Optional configuration for the stream
-                      processor. (see below for nested schema)
+                      processor. Empty options objects are not supported. (see below
+                      for nested schema)
                     properties:
+                      autoscaling:
+                        description: (Attributes) Vertical autoscaling configuration
+                          for the stream processor. When present, the processor automatically
+                          scales its tier between min_tier and max_tier based on load;
+                          tier is used only as the initial/baseline tier and the running
+                          tier is reported by effective_tier. To disable autoscaling,
+                          remove this block. (see below for nested schema)
+                        properties:
+                          maxTier:
+                            description: |-
+                              up limit). When not set, it defaults to the workspace maximum tier.
+                              Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
+                            type: string
+                          minTier:
+                            description: |-
+                              down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+                              Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
+                            type: string
+                        type: object
                       dlq:
                         description: (Attributes) Dead letter queue for the stream
                           processor. Refer to the MongoDB Atlas Docs for more information.
@@ -680,8 +745,8 @@ spec:
                     type: object
                   pipeline:
                     description: |-
-                      (String) Stream aggregation pipeline you want to apply to your streaming data. MongoDB Atlas Docs contain more information. Using jsonencode is recommended when setting this attribute. For more details see the Aggregation Pipelines Documentation
-                      Stream aggregation pipeline you want to apply to your streaming data. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. Using [jsonencode](https://developer.hashicorp. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/)
+                      literal equality matches, and $addFields/$project output field order.
+                      Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
                     description: |-
@@ -707,8 +772,8 @@ spec:
                     type: string
                   tier:
                     description: |-
-                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
-                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50.
+                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
+                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
                     type: string
                   timeouts:
                     description: (Attributes) (see below for nested schema)
@@ -771,6 +836,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

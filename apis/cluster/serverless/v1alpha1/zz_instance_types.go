@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceInitParameters struct {
@@ -32,11 +32,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Cloud service provider on which MongoDB Cloud provisioned the serverless instance.
 	ProviderSettingsBackingProviderName *string `json:"providerSettingsBackingProviderName,omitempty" tf:"provider_settings_backing_provider_name,omitempty"`
@@ -131,11 +131,11 @@ type InstanceParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Cloud service provider on which MongoDB Cloud provisioned the serverless instance.
 	// +kubebuilder:validation:Optional
@@ -214,8 +214,8 @@ type TagsParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -231,8 +231,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

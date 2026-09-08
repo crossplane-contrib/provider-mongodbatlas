@@ -1,0 +1,17 @@
+apiVersion: ai.mongodbatlas.m.crossplane.io/v1alpha1
+kind: ModelRateLimit
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ai/v1alpha1/modelratelimit
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cloud: ANY
+    geography: ANY
+    modelGroupName: embed_large
+    projectId: ${var.project_id}
+    requestsPerMinuteLimit: 100
+    tokensPerMinuteLimit: 10000

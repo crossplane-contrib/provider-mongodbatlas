@@ -60,7 +60,8 @@ spec:
                 properties:
                   isClusterAiAssistantEnabled:
                     description: Flag that indicates whether to enable the AI Assistant
-                      for the project's clusters.
+                      for the project's clusters. By default, this flag is set to
+                      true.
                     type: boolean
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     description: Flag that indicates whether to enable statistics
@@ -79,12 +80,13 @@ spec:
                     type: boolean
                   isDataExplorerGenAiFeaturesEnabled:
                     description: Flag that indicates whether to enable generative
-                      AI features in the Data Explorer for the project.
+                      AI features in the Data Explorer for the project. By default,
+                      this flag is set to true.
                     type: boolean
                   isDataExplorerGenAiSampleDocumentPassingEnabled:
                     description: Flag that indicates whether to enable passing sample
                       documents to generative AI features in the Data Explorer for
-                      the project.
+                      the project. By default, this flag is set to false.
                     type: boolean
                   isExtendedStorageSizesEnabled:
                     description: Flag that indicates whether to enable extended storage
@@ -94,6 +96,11 @@ spec:
                       snapshot restores will be slow. This setting should only be
                       used as a measure of temporary relief; consider sharding if
                       more storage is required.
+                    type: boolean
+                  isNativeRerankingEnabled:
+                    description: Flag that indicates whether to enable Native Reranking
+                      with Voyage AI models in the Aggregation Pipeline for the project.
+                      By default, this flag is set to false.
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     description: Flag that indicates whether to enable Performance
@@ -296,7 +303,8 @@ spec:
                 properties:
                   isClusterAiAssistantEnabled:
                     description: Flag that indicates whether to enable the AI Assistant
-                      for the project's clusters.
+                      for the project's clusters. By default, this flag is set to
+                      true.
                     type: boolean
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     description: Flag that indicates whether to enable statistics
@@ -315,12 +323,13 @@ spec:
                     type: boolean
                   isDataExplorerGenAiFeaturesEnabled:
                     description: Flag that indicates whether to enable generative
-                      AI features in the Data Explorer for the project.
+                      AI features in the Data Explorer for the project. By default,
+                      this flag is set to true.
                     type: boolean
                   isDataExplorerGenAiSampleDocumentPassingEnabled:
                     description: Flag that indicates whether to enable passing sample
                       documents to generative AI features in the Data Explorer for
-                      the project.
+                      the project. By default, this flag is set to false.
                     type: boolean
                   isExtendedStorageSizesEnabled:
                     description: Flag that indicates whether to enable extended storage
@@ -330,6 +339,11 @@ spec:
                       snapshot restores will be slow. This setting should only be
                       used as a measure of temporary relief; consider sharding if
                       more storage is required.
+                    type: boolean
+                  isNativeRerankingEnabled:
+                    description: Flag that indicates whether to enable Native Reranking
+                      with Voyage AI models in the Aggregation Pipeline for the project.
+                      By default, this flag is set to false.
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     description: Flag that indicates whether to enable Performance
@@ -635,7 +649,8 @@ spec:
                     type: object
                   isClusterAiAssistantEnabled:
                     description: Flag that indicates whether to enable the AI Assistant
-                      for the project's clusters.
+                      for the project's clusters. By default, this flag is set to
+                      true.
                     type: boolean
                   isCollectDatabaseSpecificsStatisticsEnabled:
                     description: Flag that indicates whether to enable statistics
@@ -654,12 +669,13 @@ spec:
                     type: boolean
                   isDataExplorerGenAiFeaturesEnabled:
                     description: Flag that indicates whether to enable generative
-                      AI features in the Data Explorer for the project.
+                      AI features in the Data Explorer for the project. By default,
+                      this flag is set to true.
                     type: boolean
                   isDataExplorerGenAiSampleDocumentPassingEnabled:
                     description: Flag that indicates whether to enable passing sample
                       documents to generative AI features in the Data Explorer for
-                      the project.
+                      the project. By default, this flag is set to false.
                     type: boolean
                   isExtendedStorageSizesEnabled:
                     description: Flag that indicates whether to enable extended storage
@@ -669,6 +685,11 @@ spec:
                       snapshot restores will be slow. This setting should only be
                       used as a measure of temporary relief; consider sharding if
                       more storage is required.
+                    type: boolean
+                  isNativeRerankingEnabled:
+                    description: Flag that indicates whether to enable Native Reranking
+                      with Voyage AI models in the Aggregation Pipeline for the project.
+                      By default, this flag is set to false.
                     type: boolean
                   isPerformanceAdvisorEnabled:
                     description: Flag that indicates whether to enable Performance
@@ -826,6 +847,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

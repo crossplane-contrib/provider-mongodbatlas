@@ -208,6 +208,17 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 1, 0, "type")
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_metric_integration", func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.Kind = "MetricIntegration"
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "metric_integration_id"}, "/", "metric_integration_id")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+		}
+	})
+
 	p.AddResourceConfigurator(refs.TFOrganization, func(r *config.Resource) {
 		r.Kind = "Organization"
 		r.ExternalName = importJoinedIDAssigned([]string{"org_id"}, "-", "org_id")

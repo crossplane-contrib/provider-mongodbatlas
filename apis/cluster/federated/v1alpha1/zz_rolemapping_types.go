@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RoleAssignmentsInitParameters struct {
@@ -72,11 +72,11 @@ type RoleMappingInitParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// Atlas roles and the unique identifiers of the groups and organizations associated with each role.
 	RoleAssignments []RoleAssignmentsInitParameters `json:"roleAssignments,omitempty" tf:"role_assignments,omitempty"`
@@ -119,11 +119,11 @@ type RoleMappingParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// Atlas roles and the unique identifiers of the groups and organizations associated with each role.
 	// +kubebuilder:validation:Optional
@@ -132,8 +132,8 @@ type RoleMappingParameters struct {
 
 // RoleMappingSpec defines the desired state of RoleMapping
 type RoleMappingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RoleMappingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RoleMappingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -149,8 +149,8 @@ type RoleMappingSpec struct {
 
 // RoleMappingStatus defines the observed state of RoleMapping.
 type RoleMappingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RoleMappingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RoleMappingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

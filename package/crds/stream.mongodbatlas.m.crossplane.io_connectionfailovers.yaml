@@ -91,8 +91,8 @@ spec:
                         type: string
                       method:
                         description: |-
-                          (String) SASL OAUTHBEARER authentication method. Can only be OIDC currently.
-                          SASL OAUTHBEARER authentication method. Can only be OIDC currently.
+                          (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+                          SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
                         type: string
                       passwordSecretRef:
                         description: |-
@@ -181,8 +181,8 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
-                      Optional for type: Kafka. A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
+                      value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                      Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
@@ -271,8 +271,8 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
-                    description: (Attributes) The name of a Built in or Custom DB
-                      Role to connect to an Atlas Cluster. (see below for nested schema)
+                    description: in or custom DB Role to connect to a MongoDB Cloud
+                      Cluster. (see below for nested schema)
                     properties:
                       role:
                         description: |-
@@ -281,7 +281,7 @@ spec:
                         type: string
                       type:
                         description: |-
-                          (String) Type of the connection.
+                          (String) Connection type.
                           Type of the DB role. Can be either Built In or Custom.
                         type: string
                     type: object
@@ -315,7 +315,7 @@ spec:
                             type: string
                           type:
                             description: |-
-                              (String) Type of the connection.
+                              (String) Connection type.
                               Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
                             type: string
                         type: object
@@ -409,8 +409,8 @@ spec:
                     type: object
                   region:
                     description: |-
-                      (String) The connection's region.
-                      The connection's region.
+                      (String) Connection region.
+                      Connection region.
                     type: string
                   security:
                     description: (Attributes) Properties for the secure transport
@@ -449,8 +449,8 @@ spec:
                     type: object
                   type:
                     description: |-
-                      (String) Type of the connection.
-                      Type of the connection.
+                      (String) Connection type.
+                      Connection type.
                     type: string
                   workspaceName:
                     description: |-
@@ -583,8 +583,8 @@ spec:
                         type: string
                       method:
                         description: |-
-                          (String) SASL OAUTHBEARER authentication method. Can only be OIDC currently.
-                          SASL OAUTHBEARER authentication method. Can only be OIDC currently.
+                          (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+                          SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
                         type: string
                       passwordSecretRef:
                         description: |-
@@ -673,8 +673,8 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
-                      Optional for type: Kafka. A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
+                      value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                      Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
@@ -763,8 +763,8 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
-                    description: (Attributes) The name of a Built in or Custom DB
-                      Role to connect to an Atlas Cluster. (see below for nested schema)
+                    description: in or custom DB Role to connect to a MongoDB Cloud
+                      Cluster. (see below for nested schema)
                     properties:
                       role:
                         description: |-
@@ -773,7 +773,7 @@ spec:
                         type: string
                       type:
                         description: |-
-                          (String) Type of the connection.
+                          (String) Connection type.
                           Type of the DB role. Can be either Built In or Custom.
                         type: string
                     type: object
@@ -807,7 +807,7 @@ spec:
                             type: string
                           type:
                             description: |-
-                              (String) Type of the connection.
+                              (String) Connection type.
                               Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
                             type: string
                         type: object
@@ -901,8 +901,8 @@ spec:
                     type: object
                   region:
                     description: |-
-                      (String) The connection's region.
-                      The connection's region.
+                      (String) Connection region.
+                      Connection region.
                     type: string
                   security:
                     description: (Attributes) Properties for the secure transport
@@ -941,8 +941,8 @@ spec:
                     type: object
                   type:
                     description: |-
-                      (String) Type of the connection.
-                      Type of the connection.
+                      (String) Connection type.
+                      Connection type.
                     type: string
                   workspaceName:
                     description: |-
@@ -1120,8 +1120,8 @@ spec:
                         type: string
                       method:
                         description: |-
-                          (String) SASL OAUTHBEARER authentication method. Can only be OIDC currently.
-                          SASL OAUTHBEARER authentication method. Can only be OIDC currently.
+                          (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+                          SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
                         type: string
                       saslOauthbearerExtensions:
                         description: |-
@@ -1168,8 +1168,8 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
-                      Optional for type: Kafka. A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
+                      value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                      Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
@@ -1178,8 +1178,8 @@ spec:
                       Label that identifies the stream connection name.
                     type: string
                   dbRoleToExecute:
-                    description: (Attributes) The name of a Built in or Custom DB
-                      Role to connect to an Atlas Cluster. (see below for nested schema)
+                    description: in or custom DB Role to connect to a MongoDB Cloud
+                      Cluster. (see below for nested schema)
                     properties:
                       role:
                         description: |-
@@ -1188,7 +1188,7 @@ spec:
                         type: string
                       type:
                         description: |-
-                          (String) Type of the connection.
+                          (String) Connection type.
                           Type of the DB role. Can be either Built In or Custom.
                         type: string
                     type: object
@@ -1229,7 +1229,7 @@ spec:
                             type: string
                           type:
                             description: |-
-                              (String) Type of the connection.
+                              (String) Connection type.
                               Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
                             type: string
                         type: object
@@ -1241,8 +1241,8 @@ spec:
                     type: string
                   region:
                     description: |-
-                      (String) The connection's region.
-                      The connection's region.
+                      (String) Connection region.
+                      Connection region.
                     type: string
                   security:
                     description: (Attributes) Properties for the secure transport
@@ -1262,8 +1262,8 @@ spec:
                     type: object
                   state:
                     description: |-
-                      (String) The state of the connection.
-                      The state of the connection.
+                      (String) Connection state.
+                      Connection state.
                     type: string
                   timeouts:
                     description: (Attributes) (see below for nested schema)
@@ -1286,8 +1286,8 @@ spec:
                     type: object
                   type:
                     description: |-
-                      (String) Type of the connection.
-                      Type of the connection.
+                      (String) Connection type.
+                      Connection type.
                     type: string
                   workspaceName:
                     description: |-
@@ -1341,6 +1341,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

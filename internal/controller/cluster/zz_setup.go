@@ -9,7 +9,10 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	modelapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ai/modelapikey"
+	modelratelimit "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ai/modelratelimit"
 	configuration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/alert/configuration"
+	backupcollectionrestorejob "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/backupcollectionrestorejob"
 	backupcompliancepolicy "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/backupcompliancepolicy"
 	backupschedule "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/backupschedule"
 	backupsnapshot "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/backupsnapshot"
@@ -33,6 +36,7 @@ import (
 	settingsidentityprovider "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/federated/settingsidentityprovider"
 	configurationldap "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ldap/configuration"
 	verify "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/ldap/verify"
+	integration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/metric/integration"
 	accesslistapikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/accesslistapikey"
 	advancedcluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/advancedcluster"
 	apikey "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/apikey"
@@ -86,7 +90,10 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		modelapikey.Setup,
+		modelratelimit.Setup,
 		configuration.Setup,
+		backupcollectionrestorejob.Setup,
 		backupcompliancepolicy.Setup,
 		backupschedule.Setup,
 		backupsnapshot.Setup,
@@ -110,6 +117,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		settingsidentityprovider.Setup,
 		configurationldap.Setup,
 		verify.Setup,
+		integration.Setup,
 		accesslistapikey.Setup,
 		advancedcluster.Setup,
 		apikey.Setup,
@@ -169,7 +177,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		modelapikey.SetupGated,
+		modelratelimit.SetupGated,
 		configuration.SetupGated,
+		backupcollectionrestorejob.SetupGated,
 		backupcompliancepolicy.SetupGated,
 		backupschedule.SetupGated,
 		backupsnapshot.SetupGated,
@@ -193,6 +204,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		settingsidentityprovider.SetupGated,
 		configurationldap.SetupGated,
 		verify.SetupGated,
+		integration.SetupGated,
 		accesslistapikey.SetupGated,
 		advancedcluster.SetupGated,
 		apikey.SetupGated,
@@ -251,7 +263,10 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		modelapikey.SetupWebhookWithManager,
+		modelratelimit.SetupWebhookWithManager,
 		configuration.SetupWebhookWithManager,
+		backupcollectionrestorejob.SetupWebhookWithManager,
 		backupcompliancepolicy.SetupWebhookWithManager,
 		backupschedule.SetupWebhookWithManager,
 		backupsnapshot.SetupWebhookWithManager,
@@ -275,6 +290,7 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		settingsidentityprovider.SetupWebhookWithManager,
 		configurationldap.SetupWebhookWithManager,
 		verify.SetupWebhookWithManager,
+		integration.SetupWebhookWithManager,
 		accesslistapikey.SetupWebhookWithManager,
 		advancedcluster.SetupWebhookWithManager,
 		apikey.SetupWebhookWithManager,

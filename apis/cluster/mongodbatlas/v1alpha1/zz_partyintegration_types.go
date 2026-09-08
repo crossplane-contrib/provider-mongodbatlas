@@ -10,13 +10,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PartyIntegrationInitParameters struct {
 
 	// Your API Key.
-	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
+	APIKeySecretRef *v2.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
 
@@ -24,10 +24,10 @@ type PartyIntegrationInitParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// Your Microsoft Teams incoming webhook URL.
-	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
+	MicrosoftTeamsWebhookURLSecretRef *v2.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
 	// Your Prometheus password.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The unique ID for the project to get all Third-Party service integrations, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -35,20 +35,20 @@ type PartyIntegrationInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// PagerDuty region that indicates the API Uniform Resource Locator (URL) to use, either "US" or "EU". PagerDuty will use "US" by default.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// An optional field for your Routing Key.
-	RoutingKeySecretRef *v1.SecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
+	RoutingKeySecretRef *v2.SecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
 
 	// An optional field for your webhook secret.
-	SecretSecretRef *v1.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
+	SecretSecretRef *v2.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
 	// Toggle sending collection latency metrics that includes database names and collection names and latency metrics on reads, writes, commands, and transactions. Default: false.
 	SendCollectionLatencyMetrics *bool `json:"sendCollectionLatencyMetrics,omitempty" tf:"send_collection_latency_metrics,omitempty"`
@@ -63,10 +63,10 @@ type PartyIntegrationInitParameters struct {
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
 	// Indicates which service discovery method is used, either file or http.
-	ServiceDiscoverySecretRef *v1.SecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
+	ServiceDiscoverySecretRef *v2.SecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
 
 	// Your Service Key.
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
 
@@ -77,7 +77,7 @@ type PartyIntegrationInitParameters struct {
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Your Prometheus username.
-	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+	UserNameSecretRef *v2.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
 
 type PartyIntegrationObservation struct {
@@ -120,7 +120,7 @@ type PartyIntegrationParameters struct {
 
 	// Your API Key.
 	// +kubebuilder:validation:Optional
-	APIKeySecretRef *v1.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
+	APIKeySecretRef *v2.SecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	ChannelName *string `json:"channelName,omitempty" tf:"channel_name,omitempty"`
@@ -131,11 +131,11 @@ type PartyIntegrationParameters struct {
 
 	// Your Microsoft Teams incoming webhook URL.
 	// +kubebuilder:validation:Optional
-	MicrosoftTeamsWebhookURLSecretRef *v1.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
+	MicrosoftTeamsWebhookURLSecretRef *v2.SecretKeySelector `json:"microsoftTeamsWebhookUrlSecretRef,omitempty" tf:"-"`
 
 	// Your Prometheus password.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The unique ID for the project to get all Third-Party service integrations, also known as groupId in the official documentation
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -144,11 +144,11 @@ type PartyIntegrationParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// PagerDuty region that indicates the API Uniform Resource Locator (URL) to use, either "US" or "EU". PagerDuty will use "US" by default.
 	// +kubebuilder:validation:Optional
@@ -156,11 +156,11 @@ type PartyIntegrationParameters struct {
 
 	// An optional field for your Routing Key.
 	// +kubebuilder:validation:Optional
-	RoutingKeySecretRef *v1.SecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
+	RoutingKeySecretRef *v2.SecretKeySelector `json:"routingKeySecretRef,omitempty" tf:"-"`
 
 	// An optional field for your webhook secret.
 	// +kubebuilder:validation:Optional
-	SecretSecretRef *v1.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
+	SecretSecretRef *v2.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
 	// Toggle sending collection latency metrics that includes database names and collection names and latency metrics on reads, writes, commands, and transactions. Default: false.
 	// +kubebuilder:validation:Optional
@@ -180,11 +180,11 @@ type PartyIntegrationParameters struct {
 
 	// Indicates which service discovery method is used, either file or http.
 	// +kubebuilder:validation:Optional
-	ServiceDiscoverySecretRef *v1.SecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
+	ServiceDiscoverySecretRef *v2.SecretKeySelector `json:"serviceDiscoverySecretRef,omitempty" tf:"-"`
 
 	// Your Service Key.
 	// +kubebuilder:validation:Optional
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	TeamName *string `json:"teamName,omitempty" tf:"team_name,omitempty"`
@@ -199,13 +199,13 @@ type PartyIntegrationParameters struct {
 
 	// Your Prometheus username.
 	// +kubebuilder:validation:Optional
-	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+	UserNameSecretRef *v2.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
 
 // PartyIntegrationSpec defines the desired state of PartyIntegration
 type PartyIntegrationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PartyIntegrationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PartyIntegrationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -221,8 +221,8 @@ type PartyIntegrationSpec struct {
 
 // PartyIntegrationStatus defines the observed state of PartyIntegration.
 type PartyIntegrationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PartyIntegrationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PartyIntegrationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

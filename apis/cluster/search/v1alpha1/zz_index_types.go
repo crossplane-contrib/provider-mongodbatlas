@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type IndexInitParameters struct {
@@ -28,11 +28,11 @@ type IndexInitParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Name of the collection the index is on. NOTE: The collection must exist before creating the index.
 	CollectionName *string `json:"collectionName,omitempty" tf:"collection_name,omitempty"`
@@ -40,7 +40,7 @@ type IndexInitParameters struct {
 	// Name of the database the collection is in.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	// Array of fields that define this vectorSearch index. This property is required for vector search indexes and must include at least one field with the type vector or autoEmbed. For more information, see Automated Embedding. Provide this value as a JSON string so it can be decoded correctly.
 	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Indicates whether the search index uses dynamic or static mapping. For default dynamic mapping, set the value to true. For static mapping, specify the fields to index using mappings_fields. Mutually exclusive with mappings_dynamic_config.
@@ -64,11 +64,11 @@ type IndexInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Analyzer to use when searching the index. Defaults to lucene.standard
 	SearchAnalyzer *string `json:"searchAnalyzer,omitempty" tf:"search_analyzer,omitempty"`
@@ -105,7 +105,7 @@ type IndexObservation struct {
 	// Name of the database the collection is in.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	// Array of fields that define this vectorSearch index. This property is required for vector search indexes and must include at least one field with the type vector or autoEmbed. For more information, see Automated Embedding. Provide this value as a JSON string so it can be decoded correctly.
 	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -170,11 +170,11 @@ type IndexParameters struct {
 
 	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Name of the collection the index is on. NOTE: The collection must exist before creating the index.
 	// +kubebuilder:validation:Optional
@@ -184,7 +184,7 @@ type IndexParameters struct {
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Array of Fields to configure this vectorSearch index. It is mandatory for vector searches and it must contain at least one vector type field. This field needs to be a JSON string in order to be decoded correctly.
+	// Array of fields that define this vectorSearch index. This property is required for vector search indexes and must include at least one field with the type vector or autoEmbed. For more information, see Automated Embedding. Provide this value as a JSON string so it can be decoded correctly.
 	// +kubebuilder:validation:Optional
 	Fields *string `json:"fields,omitempty" tf:"fields,omitempty"`
 
@@ -215,11 +215,11 @@ type IndexParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Analyzer to use when searching the index. Defaults to lucene.standard
 	// +kubebuilder:validation:Optional
@@ -315,8 +315,8 @@ type TypeSetsParameters struct {
 
 // IndexSpec defines the desired state of Index
 type IndexSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     IndexParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   IndexParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -332,8 +332,8 @@ type IndexSpec struct {
 
 // IndexStatus defines the observed state of Index.
 type IndexStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        IndexObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               IndexObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

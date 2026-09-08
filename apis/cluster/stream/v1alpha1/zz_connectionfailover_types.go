@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectionFailoverAuthenticationInitParameters struct {
@@ -21,19 +21,19 @@ type ConnectionFailoverAuthenticationInitParameters struct {
 
 	// (String, Sensitive) OIDC client secret for authentication to the Kafka cluster.
 	// OIDC client secret for authentication to the Kafka cluster.
-	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// 256, SCRAM-512, or OAUTHBEARER.
 	// Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
-	// (String) SASL OAUTHBEARER authentication method. Can only be OIDC currently.
-	// SASL OAUTHBEARER authentication method. Can only be OIDC currently.
+	// (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+	// SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// (String, Sensitive) Password of the account to connect to the Kafka cluster.
 	// Password of the account to connect to the Kafka cluster.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// (String) SSL certificate for client authentication to Kafka.
 	// SSL certificate for client authentication to Kafka.
@@ -41,11 +41,11 @@ type ConnectionFailoverAuthenticationInitParameters struct {
 
 	// (String, Sensitive) Password for the SSL key, if it is password protected.
 	// Password for the SSL key, if it is password protected.
-	SSLKeyPasswordSecretRef *v1.SecretKeySelector `json:"sslKeyPasswordSecretRef,omitempty" tf:"-"`
+	SSLKeyPasswordSecretRef *v2.SecretKeySelector `json:"sslKeyPasswordSecretRef,omitempty" tf:"-"`
 
 	// (String, Sensitive) SSL key for client authentication to Kafka.
 	// SSL key for client authentication to Kafka.
-	SSLKeySecretRef *v1.SecretKeySelector `json:"sslKeySecretRef,omitempty" tf:"-"`
+	SSLKeySecretRef *v2.SecretKeySelector `json:"sslKeySecretRef,omitempty" tf:"-"`
 
 	// (String) SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
 	// SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
@@ -74,8 +74,8 @@ type ConnectionFailoverAuthenticationObservation struct {
 	// Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
-	// (String) SASL OAUTHBEARER authentication method. Can only be OIDC currently.
-	// SASL OAUTHBEARER authentication method. Can only be OIDC currently.
+	// (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+	// SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// (String) SSL certificate for client authentication to Kafka.
@@ -109,22 +109,22 @@ type ConnectionFailoverAuthenticationParameters struct {
 	// (String, Sensitive) OIDC client secret for authentication to the Kafka cluster.
 	// OIDC client secret for authentication to the Kafka cluster.
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// 256, SCRAM-512, or OAUTHBEARER.
 	// Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	// +kubebuilder:validation:Optional
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
-	// (String) SASL OAUTHBEARER authentication method. Can only be OIDC currently.
-	// SASL OAUTHBEARER authentication method. Can only be OIDC currently.
+	// (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+	// SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
 	// +kubebuilder:validation:Optional
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// (String, Sensitive) Password of the account to connect to the Kafka cluster.
 	// Password of the account to connect to the Kafka cluster.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// (String) SSL certificate for client authentication to Kafka.
 	// SSL certificate for client authentication to Kafka.
@@ -134,12 +134,12 @@ type ConnectionFailoverAuthenticationParameters struct {
 	// (String, Sensitive) Password for the SSL key, if it is password protected.
 	// Password for the SSL key, if it is password protected.
 	// +kubebuilder:validation:Optional
-	SSLKeyPasswordSecretRef *v1.SecretKeySelector `json:"sslKeyPasswordSecretRef,omitempty" tf:"-"`
+	SSLKeyPasswordSecretRef *v2.SecretKeySelector `json:"sslKeyPasswordSecretRef,omitempty" tf:"-"`
 
 	// (String, Sensitive) SSL key for client authentication to Kafka.
 	// SSL key for client authentication to Kafka.
 	// +kubebuilder:validation:Optional
-	SSLKeySecretRef *v1.SecretKeySelector `json:"sslKeySecretRef,omitempty" tf:"-"`
+	SSLKeySecretRef *v2.SecretKeySelector `json:"sslKeySecretRef,omitempty" tf:"-"`
 
 	// (String) SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
 	// SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
@@ -168,7 +168,7 @@ type ConnectionFailoverDBRoleToExecuteInitParameters struct {
 	// The name of the role to use. Can be a built in role or a custom role.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// (String) Type of the connection.
+	// (String) Connection type.
 	// Type of the DB role. Can be either Built In or Custom.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -179,7 +179,7 @@ type ConnectionFailoverDBRoleToExecuteObservation struct {
 	// The name of the role to use. Can be a built in role or a custom role.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// (String) Type of the connection.
+	// (String) Connection type.
 	// Type of the DB role. Can be either Built In or Custom.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -191,7 +191,7 @@ type ConnectionFailoverDBRoleToExecuteParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role" tf:"role,omitempty"`
 
-	// (String) Type of the connection.
+	// (String) Connection type.
 	// Type of the DB role. Can be either Built In or Custom.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
@@ -214,8 +214,8 @@ type ConnectionFailoverInitParameters struct {
 	// Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
-	// value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
-	// Optional for type: Kafka. A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
+	// value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+	// Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
 
@@ -227,13 +227,13 @@ type ConnectionFailoverInitParameters struct {
 
 	// Reference to a Connection in stream to populate connectionName.
 	// +kubebuilder:validation:Optional
-	ConnectionNameRef *v1.Reference `json:"connectionNameRef,omitempty" tf:"-"`
+	ConnectionNameRef *v2.Reference `json:"connectionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in stream to populate connectionName.
 	// +kubebuilder:validation:Optional
-	ConnectionNameSelector *v1.Selector `json:"connectionNameSelector,omitempty" tf:"-"`
+	ConnectionNameSelector *v2.Selector `json:"connectionNameSelector,omitempty" tf:"-"`
 
-	// (Attributes) The name of a Built in or Custom DB Role to connect to an Atlas Cluster. (see below for nested schema)
+	// in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteInitParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
 	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
@@ -250,14 +250,14 @@ type ConnectionFailoverInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) The connection's region.
-	// The connection's region.
+	// (String) Connection region.
+	// Connection region.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// (Attributes) Properties for the secure transport connection to Kafka. For SSL, this can include the trusted certificate to use. (see below for nested schema)
@@ -266,8 +266,8 @@ type ConnectionFailoverInitParameters struct {
 	// (Attributes) (see below for nested schema)
 	Timeouts *ConnectionFailoverTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Type of the connection.
-	// Type of the connection.
+	// (String) Connection type.
+	// Connection type.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// (String) Label that identifies the stream workspace.
@@ -278,11 +278,11 @@ type ConnectionFailoverInitParameters struct {
 
 	// Reference to a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameRef *v1.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
+	WorkspaceNameRef *v2.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameSelector *v1.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
+	WorkspaceNameSelector *v2.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
 }
 
 type ConnectionFailoverNetworkingInitParameters struct {
@@ -321,8 +321,8 @@ type ConnectionFailoverObservation struct {
 	// Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
-	// value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
-	// Optional for type: Kafka. A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
+	// value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+	// Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
 
@@ -330,7 +330,7 @@ type ConnectionFailoverObservation struct {
 	// Label that identifies the stream connection name.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
-	// (Attributes) The name of a Built in or Custom DB Role to connect to an Atlas Cluster. (see below for nested schema)
+	// in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteObservation `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
 	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
@@ -350,22 +350,22 @@ type ConnectionFailoverObservation struct {
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (String) The connection's region.
-	// The connection's region.
+	// (String) Connection region.
+	// Connection region.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// (Attributes) Properties for the secure transport connection to Kafka. For SSL, this can include the trusted certificate to use. (see below for nested schema)
 	Security *ConnectionFailoverSecurityObservation `json:"security,omitempty" tf:"security,omitempty"`
 
-	// (String) The state of the connection.
-	// The state of the connection.
+	// (String) Connection state.
+	// Connection state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// (Attributes) (see below for nested schema)
 	Timeouts *ConnectionFailoverTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Type of the connection.
-	// Type of the connection.
+	// (String) Connection type.
+	// Connection type.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// (String) Label that identifies the stream workspace.
@@ -394,8 +394,8 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
-	// value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
-	// Optional for type: Kafka. A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
+	// value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+	// Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
@@ -409,13 +409,13 @@ type ConnectionFailoverParameters struct {
 
 	// Reference to a Connection in stream to populate connectionName.
 	// +kubebuilder:validation:Optional
-	ConnectionNameRef *v1.Reference `json:"connectionNameRef,omitempty" tf:"-"`
+	ConnectionNameRef *v2.Reference `json:"connectionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in stream to populate connectionName.
 	// +kubebuilder:validation:Optional
-	ConnectionNameSelector *v1.Selector `json:"connectionNameSelector,omitempty" tf:"-"`
+	ConnectionNameSelector *v2.Selector `json:"connectionNameSelector,omitempty" tf:"-"`
 
-	// (Attributes) The name of a Built in or Custom DB Role to connect to an Atlas Cluster. (see below for nested schema)
+	// in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
@@ -436,14 +436,14 @@ type ConnectionFailoverParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) The connection's region.
-	// The connection's region.
+	// (String) Connection region.
+	// Connection region.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
@@ -455,8 +455,8 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	Timeouts *ConnectionFailoverTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Type of the connection.
-	// Type of the connection.
+	// (String) Connection type.
+	// Connection type.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -469,11 +469,11 @@ type ConnectionFailoverParameters struct {
 
 	// Reference to a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameRef *v1.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
+	WorkspaceNameRef *v2.Reference `json:"workspaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Workspace in stream to populate workspaceName.
 	// +kubebuilder:validation:Optional
-	WorkspaceNameSelector *v1.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
+	WorkspaceNameSelector *v2.Selector `json:"workspaceNameSelector,omitempty" tf:"-"`
 }
 
 type ConnectionFailoverSecurityInitParameters struct {
@@ -573,7 +573,7 @@ type NetworkingAccessInitParameters struct {
 	// Reserved. Will be used by `TRANSIT_GATEWAY` connection type.
 	TgwRouteID *string `json:"tgwRouteId,omitempty" tf:"tgw_route_id,omitempty"`
 
-	// (String) Type of the connection.
+	// (String) Connection type.
 	// Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -592,7 +592,7 @@ type NetworkingAccessObservation struct {
 	// Reserved. Will be used by `TRANSIT_GATEWAY` connection type.
 	TgwRouteID *string `json:"tgwRouteId,omitempty" tf:"tgw_route_id,omitempty"`
 
-	// (String) Type of the connection.
+	// (String) Connection type.
 	// Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -614,7 +614,7 @@ type NetworkingAccessParameters struct {
 	// +kubebuilder:validation:Optional
 	TgwRouteID *string `json:"tgwRouteId,omitempty" tf:"tgw_route_id,omitempty"`
 
-	// (String) Type of the connection.
+	// (String) Connection type.
 	// Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -622,8 +622,8 @@ type NetworkingAccessParameters struct {
 
 // ConnectionFailoverSpec defines the desired state of ConnectionFailover
 type ConnectionFailoverSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConnectionFailoverParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConnectionFailoverParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -639,8 +639,8 @@ type ConnectionFailoverSpec struct {
 
 // ConnectionFailoverStatus defines the observed state of ConnectionFailover.
 type ConnectionFailoverStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectionFailoverObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectionFailoverObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

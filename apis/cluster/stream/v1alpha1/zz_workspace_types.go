@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FailoverRegionsInitParameters struct {
@@ -87,11 +87,11 @@ type WorkspaceInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Configuration options for an Atlas Stream Processing Instance. See stream config.
 	StreamConfig *WorkspaceStreamConfigInitParameters `json:"streamConfig,omitempty" tf:"stream_config,omitempty"`
@@ -144,11 +144,11 @@ type WorkspaceParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Configuration options for an Atlas Stream Processing Instance. See stream config.
 	// +kubebuilder:validation:Optional
@@ -190,8 +190,8 @@ type WorkspaceStreamConfigParameters struct {
 
 // WorkspaceSpec defines the desired state of Workspace
 type WorkspaceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     WorkspaceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   WorkspaceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -207,8 +207,8 @@ type WorkspaceSpec struct {
 
 // WorkspaceStatus defines the observed state of Workspace.
 type WorkspaceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WorkspaceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WorkspaceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

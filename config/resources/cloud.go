@@ -124,6 +124,20 @@ func ConfigureCloud(p *config.Provider) {
 		}
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_cloud_backup_collection_restore_job", func(r *config.Resource) {
+		r.ShortGroup = groupCloud
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "job_id"}, "/", "job_id")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath("name", false),
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_cloud_provider_access_authorization", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
 		r.ExternalName = importJoinedIDMapped([]string{refs.ProjectID, "role_id"}, map[string]string{refs.ProjectID: refs.ProjectID, "role_id": "id"}, "id")

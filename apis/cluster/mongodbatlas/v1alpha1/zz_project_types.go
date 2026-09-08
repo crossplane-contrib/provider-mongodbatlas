@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClustersInitParameters struct {
@@ -77,7 +77,7 @@ type LimitsParameters struct {
 
 type ProjectInitParameters struct {
 
-	// Flag that indicates whether to enable the AI Assistant for the project's clusters.
+	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
 	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
 
 	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
@@ -86,14 +86,17 @@ type ProjectInitParameters struct {
 	// Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
-	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project.
+	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project. By default, this flag is set to true.
 	IsDataExplorerGenAIFeaturesEnabled *bool `json:"isDataExplorerGenAiFeaturesEnabled,omitempty" tf:"is_data_explorer_gen_ai_features_enabled,omitempty"`
 
-	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project.
+	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project. By default, this flag is set to false.
 	IsDataExplorerGenAISampleDocumentPassingEnabled *bool `json:"isDataExplorerGenAiSampleDocumentPassingEnabled,omitempty" tf:"is_data_explorer_gen_ai_sample_document_passing_enabled,omitempty"`
 
 	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
+	// Flag that indicates whether to enable Native Reranking with Voyage AI models in the Aggregation Pipeline for the project. By default, this flag is set to false.
+	IsNativeRerankingEnabled *bool `json:"isNativeRerankingEnabled,omitempty" tf:"is_native_reranking_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
@@ -118,11 +121,11 @@ type ProjectInitParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the Atlas user account to be granted the Project Owner role on the specified project. If you set this parameter, it overrides the default value of the oldest Organization Owner.
 	ProjectOwnerID *string `json:"projectOwnerId,omitempty" tf:"project_owner_id,omitempty"`
@@ -154,7 +157,7 @@ type ProjectObservation struct {
 	// IP addresses in a project categorized by services. See IP Addresses. WARNING: This attribute is deprecated, use the mongodbatlas_project_ip_addresses data source instead.
 	IPAddresses *IPAddressesObservation `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
-	// Flag that indicates whether to enable the AI Assistant for the project's clusters.
+	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
 	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
 
 	// Flag that indicates whether to enable statistics in cluster metrics collection for the project. By default, this flag is set to true.
@@ -163,14 +166,17 @@ type ProjectObservation struct {
 	// Flag that indicates whether to enable Data Explorer for the project. If enabled, you can query your database with an easy to use interface.  When Data Explorer is disabled, you cannot terminate slow operations from the Real-Time Performance Panel or create indexes from the Performance Advisor. You can still view Performance Advisor recommendations, but you must create those indexes from mongosh. By default, this flag is set to true.
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
-	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project.
+	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project. By default, this flag is set to true.
 	IsDataExplorerGenAIFeaturesEnabled *bool `json:"isDataExplorerGenAiFeaturesEnabled,omitempty" tf:"is_data_explorer_gen_ai_features_enabled,omitempty"`
 
-	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project.
+	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project. By default, this flag is set to false.
 	IsDataExplorerGenAISampleDocumentPassingEnabled *bool `json:"isDataExplorerGenAiSampleDocumentPassingEnabled,omitempty" tf:"is_data_explorer_gen_ai_sample_document_passing_enabled,omitempty"`
 
 	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
+	// Flag that indicates whether to enable Native Reranking with Voyage AI models in the Aggregation Pipeline for the project. By default, this flag is set to false.
+	IsNativeRerankingEnabled *bool `json:"isNativeRerankingEnabled,omitempty" tf:"is_native_reranking_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	IsPerformanceAdvisorEnabled *bool `json:"isPerformanceAdvisorEnabled,omitempty" tf:"is_performance_advisor_enabled,omitempty"`
@@ -210,7 +216,7 @@ type ProjectObservation struct {
 
 type ProjectParameters struct {
 
-	// Flag that indicates whether to enable the AI Assistant for the project's clusters.
+	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
 
@@ -222,17 +228,21 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	IsDataExplorerEnabled *bool `json:"isDataExplorerEnabled,omitempty" tf:"is_data_explorer_enabled,omitempty"`
 
-	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project.
+	// Flag that indicates whether to enable generative AI features in the Data Explorer for the project. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
 	IsDataExplorerGenAIFeaturesEnabled *bool `json:"isDataExplorerGenAiFeaturesEnabled,omitempty" tf:"is_data_explorer_gen_ai_features_enabled,omitempty"`
 
-	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project.
+	// Flag that indicates whether to enable passing sample documents to generative AI features in the Data Explorer for the project. By default, this flag is set to false.
 	// +kubebuilder:validation:Optional
 	IsDataExplorerGenAISampleDocumentPassingEnabled *bool `json:"isDataExplorerGenAiSampleDocumentPassingEnabled,omitempty" tf:"is_data_explorer_gen_ai_sample_document_passing_enabled,omitempty"`
 
 	// Flag that indicates whether to enable extended storage sizes for the specified project. Clusters with extended storage sizes must be on AWS or GCP, and cannot span multiple regions. When extending storage size, initial syncs and cross-project snapshot restores will be slow. This setting should only be used as a measure of temporary relief; consider sharding if more storage is required.
 	// +kubebuilder:validation:Optional
 	IsExtendedStorageSizesEnabled *bool `json:"isExtendedStorageSizesEnabled,omitempty" tf:"is_extended_storage_sizes_enabled,omitempty"`
+
+	// Flag that indicates whether to enable Native Reranking with Voyage AI models in the Aggregation Pipeline for the project. By default, this flag is set to false.
+	// +kubebuilder:validation:Optional
+	IsNativeRerankingEnabled *bool `json:"isNativeRerankingEnabled,omitempty" tf:"is_native_reranking_enabled,omitempty"`
 
 	// Flag that indicates whether to enable Performance Advisor and Profiler for the project. If enabled, you can analyze database logs to recommend performance improvements. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional
@@ -264,11 +274,11 @@ type ProjectParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the Atlas user account to be granted the Project Owner role on the specified project. If you set this parameter, it overrides the default value of the oldest Organization Owner.
 	// +kubebuilder:validation:Optional
@@ -335,8 +345,8 @@ type TeamsParameters struct {
 
 // ProjectSpec defines the desired state of Project
 type ProjectSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ProjectParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -352,8 +362,8 @@ type ProjectSpec struct {
 
 // ProjectStatus defines the observed state of Project.
 type ProjectStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

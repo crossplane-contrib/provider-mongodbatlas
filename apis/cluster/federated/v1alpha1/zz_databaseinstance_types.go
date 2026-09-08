@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsInitParameters struct {
@@ -303,11 +303,11 @@ type DatabaseInstanceInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
 	// +listType=atomic
@@ -377,11 +377,11 @@ type DatabaseInstanceParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Configuration details for mapping each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see databases. An empty object indicates that the Federated Database Instance has no mapping configuration for any data store.
 	// +kubebuilder:validation:Optional
@@ -711,8 +711,8 @@ type ViewsParameters struct {
 
 // DatabaseInstanceSpec defines the desired state of DatabaseInstance
 type DatabaseInstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DatabaseInstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DatabaseInstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -728,8 +728,8 @@ type DatabaseInstanceSpec struct {
 
 // DatabaseInstanceStatus defines the observed state of DatabaseInstance.
 type DatabaseInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatabaseInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatabaseInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

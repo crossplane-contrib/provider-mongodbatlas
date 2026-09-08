@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServiceAccountAccessListEntryInitParameters struct {
@@ -35,11 +34,11 @@ type ServiceAccountAccessListEntryInitParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountAccessListEntryObservation struct {
@@ -104,11 +103,11 @@ type ServiceAccountAccessListEntryParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 }
 
 // ServiceAccountAccessListEntrySpec defines the desired state of ServiceAccountAccessListEntry
@@ -130,8 +129,8 @@ type ServiceAccountAccessListEntrySpec struct {
 
 // ServiceAccountAccessListEntryStatus defines the observed state of ServiceAccountAccessListEntry.
 type ServiceAccountAccessListEntryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAccountAccessListEntryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceAccountAccessListEntryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

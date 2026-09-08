@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EndpointsInitParameters struct {
@@ -70,11 +69,11 @@ type ServiceInitParameters struct {
 
 	// Reference to a Resource in privateendpoint to populate privateLinkId.
 	// +kubebuilder:validation:Optional
-	PrivateLinkIDRef *v1.NamespacedReference `json:"privateLinkIdRef,omitempty" tf:"-"`
+	PrivateLinkIDRef *v2.NamespacedReference `json:"privateLinkIdRef,omitempty" tf:"-"`
 
 	// Selector for a Resource in privateendpoint to populate privateLinkId.
 	// +kubebuilder:validation:Optional
-	PrivateLinkIDSelector *v1.NamespacedSelector `json:"privateLinkIdSelector,omitempty" tf:"-"`
+	PrivateLinkIDSelector *v2.NamespacedSelector `json:"privateLinkIdSelector,omitempty" tf:"-"`
 
 	// Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
@@ -82,11 +81,11 @@ type ServiceInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Cloud provider for which you want to create a private endpoint. Atlas accepts AWS, AZURE or GCP.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
@@ -189,11 +188,11 @@ type ServiceParameters struct {
 
 	// Reference to a Resource in privateendpoint to populate privateLinkId.
 	// +kubebuilder:validation:Optional
-	PrivateLinkIDRef *v1.NamespacedReference `json:"privateLinkIdRef,omitempty" tf:"-"`
+	PrivateLinkIDRef *v2.NamespacedReference `json:"privateLinkIdRef,omitempty" tf:"-"`
 
 	// Selector for a Resource in privateendpoint to populate privateLinkId.
 	// +kubebuilder:validation:Optional
-	PrivateLinkIDSelector *v1.NamespacedSelector `json:"privateLinkIdSelector,omitempty" tf:"-"`
+	PrivateLinkIDSelector *v2.NamespacedSelector `json:"privateLinkIdSelector,omitempty" tf:"-"`
 
 	// Unique identifier for the project, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
@@ -202,11 +201,11 @@ type ServiceParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Cloud provider for which you want to create a private endpoint. Atlas accepts AWS, AZURE or GCP.
 	// +kubebuilder:validation:Optional
@@ -232,8 +231,8 @@ type ServiceSpec struct {
 
 // ServiceStatus defines the observed state of Service.
 type ServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

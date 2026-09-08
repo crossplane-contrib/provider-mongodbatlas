@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessListAPIKeyInitParameters struct {
@@ -21,11 +21,11 @@ type AccessListAPIKeyInitParameters struct {
 
 	// Reference to a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
-	APIKeyIDRef *v1.Reference `json:"apiKeyIdRef,omitempty" tf:"-"`
+	APIKeyIDRef *v2.Reference `json:"apiKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
-	APIKeyIDSelector *v1.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
+	APIKeyIDSelector *v2.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
 	// Range of IP addresses in CIDR notation to be added to the access list. Your access list entry can include only one cidrBlock, or one ipAddress.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
@@ -39,11 +39,11 @@ type AccessListAPIKeyInitParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }
 
 type AccessListAPIKeyObservation struct {
@@ -72,11 +72,11 @@ type AccessListAPIKeyParameters struct {
 
 	// Reference to a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
-	APIKeyIDRef *v1.Reference `json:"apiKeyIdRef,omitempty" tf:"-"`
+	APIKeyIDRef *v2.Reference `json:"apiKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a APIKey in mongodbatlas to populate apiKeyId.
 	// +kubebuilder:validation:Optional
-	APIKeyIDSelector *v1.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
+	APIKeyIDSelector *v2.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
 	// Range of IP addresses in CIDR notation to be added to the access list. Your access list entry can include only one cidrBlock, or one ipAddress.
 	// +kubebuilder:validation:Optional
@@ -93,17 +93,17 @@ type AccessListAPIKeyParameters struct {
 
 	// Reference to a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in mongodbatlas to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }
 
 // AccessListAPIKeySpec defines the desired state of AccessListAPIKey
 type AccessListAPIKeySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AccessListAPIKeyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AccessListAPIKeyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -119,8 +119,8 @@ type AccessListAPIKeySpec struct {
 
 // AccessListAPIKeyStatus defines the observed state of AccessListAPIKey.
 type AccessListAPIKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccessListAPIKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccessListAPIKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

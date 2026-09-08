@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PrivateLinkEndpointServiceInitParameters struct {
@@ -38,11 +37,11 @@ type PrivateLinkEndpointServiceInitParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Human-readable label that identifies the cloud service provider.
 	// Human-readable label that identifies the cloud service provider. Atlas Data Federation supports `AWS`.
@@ -118,11 +117,11 @@ type PrivateLinkEndpointServiceParameters struct {
 
 	// Reference to a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in mongodbatlas to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Human-readable label that identifies the cloud service provider.
 	// Human-readable label that identifies the cloud service provider. Atlas Data Federation supports `AWS`.
@@ -154,8 +153,8 @@ type PrivateLinkEndpointServiceSpec struct {
 
 // PrivateLinkEndpointServiceStatus defines the observed state of PrivateLinkEndpointService.
 type PrivateLinkEndpointServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PrivateLinkEndpointServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PrivateLinkEndpointServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

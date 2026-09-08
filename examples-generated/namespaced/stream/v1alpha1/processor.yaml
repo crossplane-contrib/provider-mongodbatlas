@@ -9,11 +9,11 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    pipeline: |-
-      ${jsonencode([
-          { "$source" = { "connectionName" = resource.mongodbatlas_stream_connection.example-sample.connection_name } },
-          { "$emit" = { "connectionName" : resource.mongodbatlas_stream_connection.example-cluster.connection_name, "db" : "sample", "coll" : "solar", "timeseries" : { "timeField" : "_ts" } } }
-        ])}
+    pipeline: |
+      [
+        {"$source": {"connectionName": "${mongodbatlas_stream_connection.example-sample.connection_name}"}},
+        {"$emit": {"connectionName": "${mongodbatlas_stream_connection.example-cluster.connection_name}", "db": "sample", "coll": "solar", "timeseries": {"timeField": "_ts"}}}
+      ]
     processorName: sampleProcessorName
     projectIdSelector:
       matchLabels:

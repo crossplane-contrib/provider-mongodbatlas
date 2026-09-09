@@ -111,6 +111,8 @@ structure as the core Crossplane project.
 Conduct](https://github.com/crossplane/crossplane/blob/master/CODE_OF_CONDUCT.md)
 as the core Crossplane project.
 
+It also adheres to the [Crossplane AI Policy](https://github.com/crossplane/crossplane/blob/main/AI_POLICY.md).
+
 ## Licensing
 
 `provider-mongodbatlas` is under the Apache 2.0 [license](LICENSE).

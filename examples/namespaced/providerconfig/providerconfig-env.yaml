@@ -9,5 +9,5 @@ spec:
     env:
       name: MONGODBATLAS_CREDENTIALS
 # The environment variable must contain the credentials JSON:
-#   MONGODBATLAS_CREDENTIALS='{"publicKey":"your-public-key","privateKey":"your-private-key"}'
+#   MONGODBATLAS_CREDENTIALS='{"public_key":"your-public-key","private_key":"your-private-key"}'
 # Set this on the provider pod via a DeploymentRuntimeConfig.

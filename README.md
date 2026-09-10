@@ -1,4 +1,4 @@
-# MongoDBAtlas Provider [![v1.4.1](https://img.shields.io/badge/v1.4.1-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.4.1)
+# MongoDBAtlas Provider [![v1.4.2](https://img.shields.io/badge/v1.4.2-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.4.2)
 
 `provider-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
 is built using [Upjet](https://github.com/crossplane/upjet) code
@@ -19,7 +19,7 @@ kind: Provider
 metadata:
   name: provider-mongodbatlas
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.4.1
+  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.4.2
 EOF
 ```
 

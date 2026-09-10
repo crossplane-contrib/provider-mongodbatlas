@@ -80,26 +80,20 @@ func (d certsDir) BeforeApply(certsDirSet *bool) error {
 }
 
 var cli struct {
-	Debug          bool `help:"Run with debug logging." short:"d"`
-	LeaderElection bool `help:"Use leader election for the controller manager." short:"l" default:"false" env:"LEADER_ELECTION"`
-
-	SyncPeriod              time.Duration `help:"Controller manager sync period such as 300ms, 1.5h, or 2h45m" short:"s" default:"1h"`
-	PollInterval            time.Duration `help:"How often individual resources will be checked for drift from the desired state" default:"1m"`
-	PollStateMetricInterval time.Duration `help:"State metric recording interval" default:"5s"`
-
-	MaxReconcileRate int `help:"The global maximum rate per second at which resources may checked for drift from the desired state." default:"10"`
-
-	PprofBindAddress string `help:"The address the pprof profiling server listens on (e.g. :8083). Empty disables profiling." default:"" env:"PPROF_BIND_ADDRESS"`
-
-	EnableManagementPolicies bool          `help:"Enable support for Management Policies." default:"true" env:"ENABLE_MANAGEMENT_POLICIES"`
-	EnableSecretCache        bool          `help:"Enable caching of Secrets via an informer. Disabling it routes Secret reads through live API calls, trading memory for API server QPS." default:"true" env:"ENABLE_SECRET_CACHE"`
-	EnableChangeLogs         bool          `help:"Enable support for capturing change logs during reconciliation." default:"false" env:"ENABLE_CHANGE_LOGS"`
-	ChangelogsSocketPath     string        `help:"Path for changelogs socket (if enabled)" default:"/var/run/changelogs/changelogs.sock" env:"CHANGELOGS_SOCKET_PATH"`
-	WebhookPort              int           `help:"The port the webhook listens on" default:"9443" env:"WEBHOOK_PORT"`
-	MetricsBindAddress       string        `help:"The address the metrics server listens on" default:":8081" env:"METRICS_BIND_ADDRESS"`
-	BrokerConnectionTimeout  time.Duration `help:"Timeout for establishing connection to Kafka brokers" default:"30s"`
-
-	CertsDir certsDir `help:"The directory that contains the server key and certificate" default:"${defaultCertsDir}" env:"${defautCertsDirEnvVar}"`
+	CertsDir                 certsDir      `default:"${defaultCertsDir}"                  env:"${defautCertsDirEnvVar}"                                                                              help:"The directory that contains the server key and certificate"`
+	ChangelogsSocketPath     string        `default:"/var/run/changelogs/changelogs.sock" env:"CHANGELOGS_SOCKET_PATH"                                                                               help:"Path for changelogs socket (if enabled)"`
+	Debug                    bool          `help:"Run with debug logging."                short:"d"`
+	EnableChangeLogs         bool          `default:"false"                               env:"ENABLE_CHANGE_LOGS"                                                                                   help:"Enable support for capturing change logs during reconciliation."`
+	EnableManagementPolicies bool          `default:"true"                                env:"ENABLE_MANAGEMENT_POLICIES"                                                                           help:"Enable support for Management Policies."`
+	EnableSecretCache        bool          `default:"true"                                env:"ENABLE_SECRET_CACHE"                                                                                  help:"Enable caching of Secrets via an informer. Disabling it routes Secret reads through live API calls, trading memory for API server QPS."`
+	LeaderElection           bool          `default:"false"                               env:"LEADER_ELECTION"                                                                                      help:"Use leader election for the controller manager."                                                                                        short:"l"`
+	MaxReconcileRate         int           `default:"10"                                  help:"The global maximum rate per second at which resources may checked for drift from the desired state."`
+	MetricsBindAddress       string        `default:":8081"                               env:"METRICS_BIND_ADDRESS"                                                                                 help:"The address the metrics server listens on"`
+	PollInterval             time.Duration `default:"10m"                                 help:"How often individual resources will be checked for drift from the desired state"`
+	PollStateMetricInterval  time.Duration `default:"5s"                                  help:"State metric recording interval"`
+	PprofBindAddress         string        `default:""                                    env:"PPROF_BIND_ADDRESS"                                                                                   help:"The address the pprof profiling server listens on (e.g. :8083). Empty disables profiling."`
+	SyncPeriod               time.Duration `default:"1h"                                  help:"Controller manager sync period such as 300ms, 1.5h, or 2h45m"                                        short:"s"`
+	WebhookPort              int           `default:"9443"                                env:"WEBHOOK_PORT"                                                                                         help:"The port the webhook listens on"`
 }
 
 func main() {

@@ -80,8 +80,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [[ "${{ github.ref_type }}" != "branch" || "${{ github.ref_name }}" != "main" ]]; then
-            echo "Skipping README update (only runs on main branch)"
+          VERSION="${{ inputs.version }}"
+          if ! [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Skipping README update (version '$VERSION' is not clean semver)"
             exit 0
           fi
           if [ -z "$(git status --porcelain README.md)" ]; then

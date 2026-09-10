@@ -112,6 +112,8 @@ type UserInitParameters struct {
 
 	Scopes []ScopesInitParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
 }
 
@@ -133,6 +135,8 @@ type UserObservation struct {
 	Roles []RolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	Scopes []ScopesObservation `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
 }
@@ -177,6 +181,9 @@ type UserParameters struct {
 	Scopes []ScopesParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
 }
 
@@ -217,6 +224,7 @@ type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roles) || (has(self.initProvider) && has(self.initProvider.roles))",message="spec.forProvider.roles is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.username) || (has(self.initProvider) && has(self.initProvider.username))",message="spec.forProvider.username is a required parameter"
 	Spec   UserSpec   `json:"spec"`
 	Status UserStatus `json:"status,omitempty"`
 }

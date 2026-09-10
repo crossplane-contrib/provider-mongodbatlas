@@ -32,7 +32,7 @@ func Configure(p *config.Provider) {
 			IgnoredFields: []string{"x509_type", "ldap_auth_type", "aws_iam_type"},
 		}
 		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.OmittedFields = []string{"username"}
+		r.ExternalName.OmittedFields = []string{}
 		r.ExternalName.SetIdentifierArgumentFn = func(base map[string]interface{}, externalName string) {
 			base["username"] = externalName
 		}

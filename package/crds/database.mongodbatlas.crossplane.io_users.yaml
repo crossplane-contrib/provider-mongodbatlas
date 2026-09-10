@@ -205,6 +205,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    type: string
                   x509Type:
                     type: string
                 type: object
@@ -354,6 +356,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    type: string
                   x509Type:
                     type: string
                 type: object
@@ -448,6 +452,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.roles)
                 || (has(self.initProvider) && has(self.initProvider.roles))'
+            - message: spec.forProvider.username is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.username)
+                || (has(self.initProvider) && has(self.initProvider.username))'
           status:
             description: UserStatus defines the observed state of User.
             properties:
@@ -494,6 +502,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    type: string
                   x509Type:
                     type: string
                 type: object

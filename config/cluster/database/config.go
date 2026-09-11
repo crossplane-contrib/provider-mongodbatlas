@@ -33,6 +33,14 @@ func Configure(p *config.Provider) {
 		}
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.OmittedFields = []string{}
+		// Make username optional in the CRD so existing resources (where
+		// username was derived from metadata.name) are not broken. It will
+		// become required in the next API version (v1alpha3).
+		if s, ok := r.TerraformResource.Schema["username"]; ok {
+			s.Required = false
+			s.Optional = true
+			r.TerraformResource.Schema["username"] = s
+		}
 		r.ExternalName.SetIdentifierArgumentFn = func(base map[string]interface{}, externalName string) {
 			base["username"] = externalName
 		}

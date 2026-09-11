@@ -1,0 +1,37 @@
+name: Publish Provider Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      cleanup-disks:
+        description: Whether or not run the cleanup disks step in the runner
+        type: boolean
+        default: true
+        required: false
+      version:
+        description: Version string to use while publishing the package (e.g. v0.5.0-alpha.1)
+        default: ""
+        required: false
+
+jobs:
+  infer-go-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Read go version
+        id: read-go-version
+        run: echo "go-version=$(sed -n 's/^go //p' go.mod)" >> "$GITHUB_OUTPUT"
+    outputs:
+      go-version: ${{ steps.read-go-version.outputs.go-version }}
+
+  publish-provider-package:
+    needs: infer-go-version
+    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@main
+    with:
+      cleanup-disk: ${{ inputs.cleanup-disks }}
+      go-version: ${{ needs.infer-go-version.outputs.go-version }}
+      repository: provider-mongodbatlas
+      version: ${{ github.event.inputs.version }}
+    secrets:
+      GHCR_PAT: ${{ secrets.GITHUB_TOKEN }}

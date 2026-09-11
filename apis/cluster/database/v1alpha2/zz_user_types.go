@@ -112,6 +112,8 @@ type UserInitParameters struct {
 
 	Scopes []ScopesInitParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
 }
 
@@ -133,6 +135,8 @@ type UserObservation struct {
 	Roles []RolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	Scopes []ScopesObservation `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`
 }
@@ -175,6 +179,9 @@ type UserParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Scopes []ScopesParameters `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	X509Type *string `json:"x509Type,omitempty" tf:"x509_type,omitempty"`

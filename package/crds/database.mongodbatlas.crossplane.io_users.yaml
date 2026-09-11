@@ -205,6 +205,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    type: string
                   x509Type:
                     type: string
                 type: object
@@ -354,6 +356,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    type: string
                   x509Type:
                     type: string
                 type: object
@@ -494,6 +498,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  username:
+                    type: string
                   x509Type:
                     type: string
                 type: object

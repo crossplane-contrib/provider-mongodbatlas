@@ -37,18 +37,29 @@ import (
 	namespacedv1beta1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/v1beta1"
 )
 
+// Credential JSON keys. They match the Terraform provider's configuration
+// attributes so the values can be copied through unchanged.
 const (
-	keyPublicKey  = "public_key"
-	keyPrivateKey = "private_key"
+	keyPublicKey    = "public_key"
+	keyPrivateKey   = "private_key"
+	keyClientID     = "client_id"
+	keyClientSecret = "client_secret"
 )
+
+// credentialKeys lists every key that identifies a credential set, in a fixed
+// order so credentialHash stays deterministic.
+var credentialKeys = []string{keyPublicKey, keyPrivateKey, keyClientID, keyClientSecret}
 
 const (
 	// error messages
-	errNoProviderConfig     = "no providerConfigRef provided"
-	errGetProviderConfig    = "cannot get referenced ProviderConfig"
-	errTrackUsage           = "cannot track ProviderConfig usage"
-	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal mongodbatlas credentials as JSON"
+	errNoProviderConfig         = "no providerConfigRef provided"
+	errGetProviderConfig        = "cannot get referenced ProviderConfig"
+	errTrackUsage               = "cannot track ProviderConfig usage"
+	errExtractCredentials       = "cannot extract credentials"
+	errUnmarshalCredentials     = "cannot unmarshal mongodbatlas credentials as JSON"
+	errConfigureCredentials     = "cannot configure mongodbatlas credentials"
+	errServiceAccountIncomplete = "service account credentials require both client_id and client_secret"
+	errMissingCredentials       = "credentials must contain client_id and client_secret (service account) or public_key and private_key (programmatic API key)"
 )
 
 // metaCache caches configured SDK provider metadata keyed by credential hash.
@@ -83,11 +94,8 @@ func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider) terraform.Setu
 		}
 
 		ps.Configuration = map[string]any{}
-		if v, ok := creds[keyPublicKey]; ok {
-			ps.Configuration[keyPublicKey] = v
-		}
-		if v, ok := creds[keyPrivateKey]; ok {
-			ps.Configuration[keyPrivateKey] = v
+		if err := configureCredentials(ps.Configuration, creds); err != nil {
+			return terraform.Setup{}, errors.Wrap(err, errConfigureCredentials)
 		}
 
 		meta, err := configureSDKCached(ctx, sdk, ps.Configuration)
@@ -98,6 +106,32 @@ func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider) terraform.Setu
 
 		return ps, nil
 	}
+}
+
+// configureCredentials copies the Atlas credentials from the credentials JSON
+// into the Terraform provider configuration. The authentication method is
+// chosen from the keys present: service account credentials (client_id and
+// client_secret) take precedence over programmatic API keys (public_key and
+// private_key), mirroring the Terraform provider's own selection.
+func configureCredentials(config map[string]any, creds map[string]string) error {
+	clientID, clientSecret := creds[keyClientID], creds[keyClientSecret]
+	hasID, hasSecret := clientID != "", clientSecret != ""
+	switch {
+	case hasID && hasSecret:
+		config[keyClientID] = clientID
+		config[keyClientSecret] = clientSecret
+		return nil
+	case hasID || hasSecret:
+		return errors.New(errServiceAccountIncomplete)
+	}
+
+	publicKey, privateKey := creds[keyPublicKey], creds[keyPrivateKey]
+	if publicKey == "" || privateKey == "" {
+		return errors.New(errMissingCredentials)
+	}
+	config[keyPublicKey] = publicKey
+	config[keyPrivateKey] = privateKey
+	return nil
 }
 
 func configureSDKCached(ctx context.Context, sdk *schema.Provider, config map[string]any) (any, error) {
@@ -123,7 +157,7 @@ func configureSDKCached(ctx context.Context, sdk *schema.Provider, config map[st
 
 func credentialHash(config map[string]any) string {
 	h := sha256.New()
-	for _, key := range []string{keyPublicKey, keyPrivateKey} {
+	for _, key := range credentialKeys {
 		if v, ok := config[key]; ok {
 			_, _ = fmt.Fprintf(h, "%s=%v;", key, v)
 		}

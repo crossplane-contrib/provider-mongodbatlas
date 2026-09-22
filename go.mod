@@ -26,7 +26,11 @@ require (
 	sigs.k8s.io/controller-tools v0.22.0
 )
 
-require github.com/crossplane/crossplane/apis/v2 v2.4.0
+require (
+	github.com/crossplane/crossplane/apis/v2 v2.4.0
+	github.com/google/go-cmp v0.7.0
+	github.com/hashicorp/terraform-plugin-go v0.31.0
+)
 
 require (
 	cloud.google.com/go v0.123.0 // indirect
@@ -85,7 +89,6 @@ require (
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/gnostic-models v0.7.1 // indirect
-	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/go-cty v1.5.0 // indirect
@@ -99,7 +102,6 @@ require (
 	github.com/hashicorp/terraform-plugin-framework-jsontypes v0.2.0 // indirect
 	github.com/hashicorp/terraform-plugin-framework-timeouts v0.7.0 // indirect
 	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0 // indirect
-	github.com/hashicorp/terraform-plugin-go v0.31.0 // indirect
 	github.com/hashicorp/terraform-plugin-log v0.11.0 // indirect
 	github.com/hashicorp/terraform-plugin-mux v0.23.1 // indirect
 	github.com/hashicorp/terraform-registry-address v0.5.0 // indirect

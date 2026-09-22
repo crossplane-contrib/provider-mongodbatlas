@@ -10,6 +10,7 @@ const (
 	OrgID          = "org_id"
 	PeerID         = "peer_id"
 	ProjectID      = "project_id"
+	ClientID       = "client_id"
 	ProviderName   = "provider_name"
 	Region         = "region"
 	RoleName       = "role_name"

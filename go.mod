@@ -27,7 +27,7 @@ require (
 )
 
 require (
-	github.com/crossplane/crossplane/apis/v2 v2.4.0
+	github.com/crossplane/crossplane/apis/v2 v2.4.1
 	github.com/google/go-cmp v0.7.0
 	github.com/hashicorp/terraform-plugin-go v0.31.0
 )

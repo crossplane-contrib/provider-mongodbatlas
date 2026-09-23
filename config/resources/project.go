@@ -83,6 +83,8 @@ func ConfigureProject(p *config.Provider) {
 			},
 		}
 		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 1, refs.ProjectID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 1, 0, "client_id")
+		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 1, 0, refs.ClientID)
+		r.ExternalName.SetIdentifierArgumentFn = refs.SetIdentifierArgument(refs.ClientID)
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset(refs.ClientID)
 	})
 }

@@ -9,4 +9,6 @@ spec:
       name: MONGODBATLAS_CREDENTIALS
 # The environment variable must contain the credentials JSON:
 #   MONGODBATLAS_CREDENTIALS='{"public_key":"your-public-key","private_key":"your-private-key"}'
+# or, for an Atlas service account:
+#   MONGODBATLAS_CREDENTIALS='{"client_id":"your-client-id","client_secret":"your-client-secret"}'
 # Set this on the provider pod via a DeploymentRuntimeConfig.

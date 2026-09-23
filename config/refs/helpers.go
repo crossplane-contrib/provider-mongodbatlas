@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strings"
 
+	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/pkg/errors"
 )
 
@@ -206,5 +208,45 @@ func ExternalNameFromAccessListState(scopeField string) func(tfstate map[string]
 			}
 		}
 		return fmt.Sprintf("%s-%s-%s", scope, client, ip), nil
+	}
+}
+
+// SetIdentifierArgument returns a SetIdentifierArgumentFn that copies the
+// external name into the given Terraform state attribute. Plugin-framework
+// resources without an "id" attribute need this so the pre-create Observe
+// reads the resource by its identifier instead of calling the collection
+// endpoint with an empty path segment. upjet strips computed-only attributes
+// from the configuration it sends to Terraform, so a computed identifier is
+// safe to inject here.
+func SetIdentifierArgument(attribute string) func(map[string]any, string) {
+	return func(base map[string]any, externalName string) {
+		if externalName != "" {
+			base[attribute] = externalName
+		}
+	}
+}
+
+// StateEmptyWhenAttributeUnset returns a TerraformPluginFrameworkIsStateEmptyFn
+// that reports the state as empty when the given top-level attribute is null,
+// unknown, or an empty string. It guards plugin-framework resources whose Read
+// returns a non-null state for a missing resource.
+func StateEmptyWhenAttributeUnset(attribute string) func(context.Context, tftypes.Value, rschema.Schema) (bool, error) {
+	return func(_ context.Context, state tftypes.Value, _ rschema.Schema) (bool, error) {
+		if state.IsNull() {
+			return true, nil
+		}
+		var attrs map[string]tftypes.Value
+		if err := state.As(&attrs); err != nil {
+			return false, errors.Wrap(err, "cannot read state attributes")
+		}
+		v, ok := attrs[attribute]
+		if !ok || v.IsNull() || !v.IsKnown() {
+			return true, nil
+		}
+		var s string
+		if err := v.As(&s); err != nil {
+			return false, errors.Wrapf(err, "cannot read %s from state", attribute)
+		}
+		return s == "", nil
 	}
 }

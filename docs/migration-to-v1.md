@@ -21,7 +21,37 @@ v1.0.0 upgrades these CRDs from `v1alpha2` to `v1alpha3`:
 
 ## Migration Steps
 
-Run the migration script **before** upgrading the provider:
+### Step 1: Upgrade to the transitional release (v0.5.1)
+
+Before jumping to v1, upgrade the provider to **v0.5.1**.
+This transitional release adds the `username` field to the `DatabaseUser` CRD schema without making
+it required, which allows existing CRs to be patched while the provider is still running and reconciling.
+
+```
+ghcr.io/crossplane-contrib/provider-mongodbatlas:v0.5.1
+```
+
+> **Note:** v0.5.1 is only available from GHCR (not from the Upbound marketplace).
+> Update your `Provider` image reference accordingly.
+
+Wait for the provider pod to become ready, then confirm the CRD now includes the `username` field:
+
+```bash
+kubectl get crd users.database.mongodbatlas.crossplane.io -o json \
+  | jq '.spec.versions[].schema.openAPIV3Schema.properties.spec.properties.forProvider.properties.username'
+```
+
+If the output is not `null`, the field is present and you can proceed.
+
+### Step 2: Upgrade to v1.x
+
+Upgrade the provider to v1.x.
+
+> **Recommendation:** Use the latest v1.x release to ensure all bug fixes and improvements are included.
+
+### Step 3: Run the migration script
+
+Once v1.x is installed, run the migration script:
 
 ```bash
 ./scripts/migrate-to-v1.sh
@@ -30,10 +60,8 @@ Run the migration script **before** upgrading the provider:
 The script will:
 1. Patch all `DatabaseUser` CRs to add `spec.forProvider.username` from `crossplane.io/external-name`.
 2. Patch all `DatabaseUser` CRs to set `spec.forProvider.authDatabaseName` from `crossplane.io/external-name` (if missing).
-3. Touch every `AdvancedCluster` CR to trigger re-storage at the current version.
+3. Touch every `AdvancedCluster` CR to trigger re-storage at `v1alpha3`.
 4. Patch `status.storedVersions` on both CRDs to remove `v1alpha2`.
-
-After running the script, upgrade the provider to v1.x.
 
 ## Dry Run
 
@@ -63,7 +91,6 @@ Example output:
 [migrate]     [dry-run] would set storedVersions=["v1alpha3"]
 [migrate]
 [migrate] Migration complete. Backups saved to /tmp/crossplane-migration-backup
-[migrate] You can now upgrade provider-mongodbatlas to v1.x.
 ```
 
 ## Rollback

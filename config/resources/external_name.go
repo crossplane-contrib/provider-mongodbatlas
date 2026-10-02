@@ -91,6 +91,26 @@ func accessListEncodedStateGetIDFn(prefixParams []string) func(context.Context, 
 	}
 }
 
+func projectAPIKeyGetIDFn(_ context.Context, externalName string, _, _ map[string]any) (string, error) {
+	apiKeyID := projectAPIKeyID(externalName)
+	if apiKeyID == "" {
+		return "", nil
+	}
+	return encodeAtlasStateID(map[string]string{refs.APIKeyID: apiKeyID}), nil
+}
+
+func projectAPIKeyGetImportIDFn(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
+	apiKeyID := projectAPIKeyID(externalName)
+	if apiKeyID == "" {
+		return "", nil
+	}
+	projectID, ok := assignedProjectID(parameters)
+	if !ok {
+		return "", fmt.Errorf("cannot determine Terraform import ID: forProvider.projectAssignment has no projectId")
+	}
+	return projectID + "-" + apiKeyID, nil
+}
+
 // --- GetExternalNameFn factory ---
 
 func encodedStateGetExternalNameFn(externalNameKey string) func(map[string]any) (string, error) {
@@ -142,6 +162,14 @@ func accessListImportJoinedID(prefixParams []string) config.ExternalName {
 	e.GetIDFn = accessListEncodedStateGetIDFn(prefixParams)
 	e.GetImportIDFn = refs.AccessListGetIDFn(prefixParams...)
 	e.GetExternalNameFn = encodedStateGetExternalNameFn("entry")
+	return e
+}
+
+func projectAPIKeyImportJoinedID() config.ExternalName {
+	e := baseExternalName(true)
+	e.GetIDFn = projectAPIKeyGetIDFn
+	e.GetImportIDFn = projectAPIKeyGetImportIDFn
+	e.GetExternalNameFn = encodedStateGetExternalNameFn(refs.APIKeyID)
 	return e
 }
 
@@ -239,6 +267,24 @@ func baseExternalName(disableNameInit bool) config.ExternalName {
 		IdentifierFields:        nil,
 		SetIdentifierArgumentFn: func(_ map[string]any, _ string) {},
 	}
+}
+
+func projectAPIKeyID(externalName string) string {
+	if v := decodeAtlasStateID(externalName)[refs.APIKeyID]; v != "" {
+		return v
+	}
+	return externalName
+}
+
+func assignedProjectID(parameters map[string]any) (string, bool) {
+	assignments, _ := parameters["project_assignment"].([]any)
+	for _, a := range assignments {
+		m, _ := a.(map[string]any)
+		if v, ok := m[refs.ProjectID].(string); ok && v != "" {
+			return v, true
+		}
+	}
+	return "", false
 }
 
 func hasAllParams(params map[string]any, fields []string) bool {

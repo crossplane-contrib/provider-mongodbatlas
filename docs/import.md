@@ -88,7 +88,7 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_privatelink_endpoint_service_data_federation_online_archive` | `projectId` (**ref**), `endpointId` | |
 | `mongodbatlas_privatelink_endpoint_service` | `projectId` (**ref**), `privateLinkId` (**ref**), `providerName` | `endpointServiceId` |
 | `mongodbatlas_privatelink_endpoint` | `projectId` (**ref**), `providerName`, `region` | `endpointId` |
-| `mongodbatlas_project_api_key` | `projectId` | |
+| `mongodbatlas_project_api_key` | | `apiKeyId` |
 | `mongodbatlas_project_invitation` | `projectId` (**ref**), `username` | |
 | `mongodbatlas_project_ip_access_list` | `projectId` (**ref**), `ipAddress` or `cidrBlock` | |
 | `mongodbatlas_project_service_account_access_list_entry` | `projectId` (**ref**), `clientId`, `ipAddress` or `cidrBlock` | |

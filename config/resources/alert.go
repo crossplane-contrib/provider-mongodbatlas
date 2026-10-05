@@ -10,7 +10,6 @@ func ConfigureAlert(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_alert_configuration", func(r *config.Resource) {
 		r.ShortGroup = "alert"
 		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "id"}, "-", "id")
-		r.ExternalName.IsNotFoundDiagnosticFn = refs.NotFoundWhenPathParamEmpty
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

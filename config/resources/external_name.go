@@ -160,6 +160,13 @@ func buildImportJoinedID(fields []string, fieldMapping map[string]string, separa
 	e.GetIDFn = encodedStateGetIDFn(fieldMapping, paramFields, externalNameKey)
 	e.GetImportIDFn = plainImportGetIDFn(paramFields, fields, separator, externalNameKey)
 	e.GetExternalNameFn = encodedStateGetExternalNameFn(externalNameKey)
+	if !externalNameFromParams {
+		// Before Create the provider-assigned key is unknown, so the TF ID
+		// is empty and plugin-framework Reads fail client-side. upjet only
+		// uses this for plugin-framework resources; SDKv2 ones return early
+		// on an empty ID in RefreshWithoutUpgrade.
+		e.IsNotFoundDiagnosticFn = refs.NotFoundWhenPathParamEmpty
+	}
 	return e
 }
 

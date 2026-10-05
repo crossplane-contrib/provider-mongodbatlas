@@ -21,4 +21,4 @@ jobs:
           fetch-depth: 0
 
       - name: Open Backport PR
-        uses: korthout/backport-action@6b65649031ac6d18ffdfd0c0820e9436f3fde22b # v4
+        uses: korthout/backport-action@8560fb503c275d433c56f05a2f64850093baa9f7 # v4

@@ -61,7 +61,17 @@ type UserTeamAssignmentInitParameters struct {
 
 	// hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.UserOrgAssignment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("user_id",true)
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
+
+	// Reference to a UserOrgAssignment in cloud to populate userId.
+	// +kubebuilder:validation:Optional
+	UserIDRef *v2.NamespacedReference `json:"userIdRef,omitempty" tf:"-"`
+
+	// Selector for a UserOrgAssignment in cloud to populate userId.
+	// +kubebuilder:validation:Optional
+	UserIDSelector *v2.NamespacedSelector `json:"userIdSelector,omitempty" tf:"-"`
 }
 
 type UserTeamAssignmentObservation struct {
@@ -165,8 +175,18 @@ type UserTeamAssignmentParameters struct {
 
 	// hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.UserOrgAssignment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("user_id",true)
 	// +kubebuilder:validation:Optional
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
+
+	// Reference to a UserOrgAssignment in cloud to populate userId.
+	// +kubebuilder:validation:Optional
+	UserIDRef *v2.NamespacedReference `json:"userIdRef,omitempty" tf:"-"`
+
+	// Selector for a UserOrgAssignment in cloud to populate userId.
+	// +kubebuilder:validation:Optional
+	UserIDSelector *v2.NamespacedSelector `json:"userIdSelector,omitempty" tf:"-"`
 }
 
 type UserTeamAssignmentRolesInitParameters struct {
@@ -222,9 +242,8 @@ type UserTeamAssignmentStatus struct {
 type UserTeamAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userId) || (has(self.initProvider) && has(self.initProvider.userId))",message="spec.forProvider.userId is a required parameter"
-	Spec   UserTeamAssignmentSpec   `json:"spec"`
-	Status UserTeamAssignmentStatus `json:"status,omitempty"`
+	Spec              UserTeamAssignmentSpec   `json:"spec"`
+	Status            UserTeamAssignmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

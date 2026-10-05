@@ -43,19 +43,19 @@ func TestEncodeAtlasStateID_SortedKeys(t *testing.T) {
 
 func TestImportJoinedID_DisableNameInitializer(t *testing.T) {
 	t.Run("user-provided key in fields", func(t *testing.T) {
-		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName)
+		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, refs.RoleName)
 		assert.False(t, e.DisableNameInitializer)
 	})
 
 	t.Run("provider-assigned key via importJoinedIDAssigned", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, "-", refs.ContainerID)
+		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, refs.ContainerID)
 		assert.True(t, e.DisableNameInitializer)
 	})
 }
 
 func TestImportJoinedID_GetIDFn(t *testing.T) {
 	t.Run("user-provided key produces base64 state ID", func(t *testing.T) {
-		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName)
+		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, refs.RoleName)
 		params := map[string]any{
 			refs.ProjectID: testProjectID,
 			refs.RoleName:  "cluster-monitor",
@@ -68,7 +68,7 @@ func TestImportJoinedID_GetIDFn(t *testing.T) {
 	})
 
 	t.Run("provider-assigned key included in base64 state ID", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, "-", refs.ContainerID)
+		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, refs.ContainerID)
 		params := map[string]any{refs.ProjectID: testProjectID}
 		id, err := e.GetIDFn(context.Background(), "ctr-abc123", params, nil)
 		require.NoError(t, err)
@@ -78,7 +78,7 @@ func TestImportJoinedID_GetIDFn(t *testing.T) {
 	})
 
 	t.Run("provider-assigned key empty returns empty", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, "-", refs.ContainerID)
+		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, refs.ContainerID)
 		params := map[string]any{refs.ProjectID: testProjectID}
 		id, err := e.GetIDFn(context.Background(), "", params, nil)
 		require.NoError(t, err)
@@ -86,69 +86,11 @@ func TestImportJoinedID_GetIDFn(t *testing.T) {
 	})
 }
 
-func TestImportJoinedID_GetImportIDFn(t *testing.T) {
-	t.Run("user-provided key produces plain import ID", func(t *testing.T) {
-		e := importJoinedID([]string{refs.ProjectID, refs.RoleName}, "-", refs.RoleName)
-		params := map[string]any{
-			refs.ProjectID: testProjectID,
-			refs.RoleName:  "cluster-monitor",
-		}
-		id, err := e.GetImportIDFn(context.Background(), "ignored", params, nil)
-		require.NoError(t, err)
-		assert.Equal(t, testProjectID+"-cluster-monitor", id)
-	})
-
-	t.Run("provider-assigned key appended to plain import ID", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, "-", refs.ContainerID)
-		params := map[string]any{refs.ProjectID: testProjectID}
-		id, err := e.GetImportIDFn(context.Background(), "ctr-abc123", params, nil)
-		require.NoError(t, err)
-		assert.Equal(t, testProjectID+"-ctr-abc123", id)
-	})
-
-	t.Run("double-dash separator", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, "tenant_name", "limit_name"}, "--", "limit_name")
-		params := map[string]any{refs.ProjectID: testProjectID, "tenant_name": "my-tenant"}
-		id, err := e.GetImportIDFn(context.Background(), "bytesPerSecond", params, nil)
-		require.NoError(t, err)
-		assert.Equal(t, testProjectID+"--my-tenant--bytesPerSecond", id)
-	})
-
-	t.Run("provider-assigned key empty returns empty", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, "-", refs.ContainerID)
-		params := map[string]any{refs.ProjectID: testProjectID}
-		id, err := e.GetImportIDFn(context.Background(), "", params, nil)
-		require.NoError(t, err)
-		assert.Empty(t, id)
-	})
-
-	t.Run("missing params falls back to valid encoded external name", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, "-", refs.PeerID)
-		params := map[string]any{refs.ProjectID: testProjectID}
-		validID := encodeAtlasStateID(map[string]string{
-			refs.ProjectID:    testProjectID,
-			refs.ProviderName: "AWS",
-			refs.PeerID:       "pcx-abc",
-		})
-		id, err := e.GetImportIDFn(context.Background(), validID, params, nil)
-		require.NoError(t, err)
-		assert.Equal(t, testProjectID+"-pcx-abc-AWS", id)
-	})
-
-	t.Run("missing params rejects raw external name", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, "-", refs.PeerID)
-		params := map[string]any{refs.ProjectID: testProjectID}
-		_, err := e.GetImportIDFn(context.Background(), "my-resource-name", params, nil)
-		require.Error(t, err)
-		assert.Contains(t, err.Error(), "not a valid encoded state ID")
-	})
-}
-
 func TestImportJoinedIDAssigned_GetIDFn(t *testing.T) {
 	t.Run("produces base64 state ID", func(t *testing.T) {
 		e := importJoinedIDAssigned(
 			[]string{refs.ProjectID, refs.PeerID, refs.ProviderName},
-			"-", refs.PeerID,
+			refs.PeerID,
 		)
 		params := map[string]any{
 			refs.ProjectID:    testProjectID,
@@ -165,25 +107,9 @@ func TestImportJoinedIDAssigned_GetIDFn(t *testing.T) {
 	t.Run("always disables name initializer", func(t *testing.T) {
 		e := importJoinedIDAssigned(
 			[]string{refs.ProjectID, refs.PeerID, refs.ProviderName},
-			"-", refs.PeerID,
+			refs.PeerID,
 		)
 		assert.True(t, e.DisableNameInitializer)
-	})
-}
-
-func TestImportJoinedIDAssigned_GetImportIDFn(t *testing.T) {
-	t.Run("provider-assigned key in middle position", func(t *testing.T) {
-		e := importJoinedIDAssigned(
-			[]string{refs.ProjectID, refs.PeerID, refs.ProviderName},
-			"-", refs.PeerID,
-		)
-		params := map[string]any{
-			refs.ProjectID:    testProjectID,
-			refs.ProviderName: "AWS",
-		}
-		id, err := e.GetImportIDFn(context.Background(), "pcx-123", params, nil)
-		require.NoError(t, err)
-		assert.Equal(t, testProjectID+"-pcx-123-AWS", id)
 	})
 }
 
@@ -215,26 +141,9 @@ func TestImportJoinedIDMapped_GetIDFn(t *testing.T) {
 	})
 }
 
-func TestImportJoinedIDMapped_GetImportIDFn(t *testing.T) {
-	t.Run("uses param values in param order for plain import ID", func(t *testing.T) {
-		e := importJoinedIDMapped(
-			[]string{refs.ProjectID, refs.Name},
-			map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName},
-			refs.ClusterName,
-		)
-		params := map[string]any{
-			refs.ProjectID: testProjectID,
-			refs.Name:      "my-cluster",
-		}
-		id, err := e.GetImportIDFn(context.Background(), "ignored", params, nil)
-		require.NoError(t, err)
-		assert.Equal(t, testProjectID+"-my-cluster", id)
-	})
-}
-
 func TestImportJoinedID_GetExternalNameFn(t *testing.T) {
 	t.Run("extracts key from base64 encoded state ID", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, "-", refs.PeerID)
+		e := importJoinedIDAssigned([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, refs.PeerID)
 		stateID := encodeAtlasStateID(map[string]string{
 			refs.ProjectID:    testProjectID,
 			refs.ProviderName: "AWS",
@@ -246,7 +155,7 @@ func TestImportJoinedID_GetExternalNameFn(t *testing.T) {
 	})
 
 	t.Run("errors when key not found in decoded state", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, "missing_key"}, "-", "missing_key")
+		e := importJoinedIDAssigned([]string{refs.ProjectID, "missing_key"}, "missing_key")
 		stateID := encodeAtlasStateID(map[string]string{refs.ProjectID: testProjectID})
 		_, err := e.GetExternalNameFn(map[string]any{"id": stateID})
 		require.Error(t, err)
@@ -254,7 +163,7 @@ func TestImportJoinedID_GetExternalNameFn(t *testing.T) {
 	})
 
 	t.Run("error when id missing from state", func(t *testing.T) {
-		e := importJoinedIDAssigned([]string{refs.ProjectID, "id"}, "-", "id")
+		e := importJoinedIDAssigned([]string{refs.ProjectID, "id"}, "id")
 		_, err := e.GetExternalNameFn(map[string]any{})
 		require.Error(t, err)
 	})

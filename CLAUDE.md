@@ -48,11 +48,12 @@ Each resource sets `r.ExternalName` in its configurator using constructors from 
 
 - `identifierFromProvider()` — Wraps `config.IdentifierFromProvider` with `DisableNameInitializer = false`. Provider-assigned ID; all parameters stay in the CRD schema.
 - `templated(tmpl)` — Template-based ID (e.g. `"{{ .parameters.project_id }}/{{ .parameters.name }}"`). Clears `IdentifierFields` so template parameters remain in the CRD schema with Ref/Selector support.
-- `importJoinedID(fields, separator, externalNameKey)` — For resources whose TF import expects plain field values joined by separator. Uses base64-encoded state IDs at runtime (`encodedStateGetIDFn`/`encodedStateGetExternalNameFn`).
+- `importJoinedID(fields, externalNameKey)` — For resources whose TF state ID is `EncodeStateID` over `fields`. Uses base64-encoded state IDs at runtime (`encodedStateGetIDFn`/`encodedStateGetExternalNameFn`). No import ID is configured: the no-fork connectors never run `terraform import`.
 - `importJoinedIDOrdered(importOrder, externalNameKey)` — Like `importJoinedID` but for resources where the provider-assigned key appears at a non-trailing position.
 - `importJoinedIDMapped(paramOrder, fieldMapping)` — Like `importJoinedID` but with param→stateKey name mapping (e.g. `name` → `cluster_name`).
-- `importJoinedIDHidden(fields, separator, externalNameKey)` — Like `importJoinedID` but marks `externalNameKey` as hidden (not in CRD schema). Used when the key is provider-assigned and shouldn't be user-settable.
+- `importJoinedIDAssigned(fields, externalNameKey)` — Like `importJoinedID` but marks `externalNameKey` as hidden (not in CRD schema). Used when the key is provider-assigned and shouldn't be user-settable.
 - `accessListImportJoinedID(prefixParams)` — For access-list resources with ip_address/cidr_block/aws_security_group fallback logic.
+- `computedKeyID(key)` — For plugin-framework resources with no `id` attribute whose Read needs a provider-assigned computed attribute (`key`). Reads the external name from `key` in state and copies the annotation into `key` for imports. Pair it with `r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset(key)` so that Create runs.
 
 ### How `templated()` differs from upstream
 
@@ -69,7 +70,6 @@ Each resource sets `r.ExternalName` in its configurator using constructors from 
 - `resetRootShortGroup()` only clears ShortGroup for 2-word TF resources (where the default equals `"mongodbatlas"`). Resources with 3+ words in their TF name (e.g. `mongodbatlas_advanced_cluster`) **must** set `r.ShortGroup = ""` explicitly in their configurator to land in the root API group.
 - Resources in sub-groups set `r.ShortGroup = "groupname"` explicitly in their configurator
 - Version constants (`VersionV1Alpha2`, `VersionV1Alpha3`) live in `config/refs/refs.go`
-- Use `refs.ExtractParamPath(field, sensitive)` for cross-resource extractor references instead of `fmt.Sprintf(refs.ExtractParamPathFmt, ...)`
+- Use `refs.ExtractParamPath(field, isObservation)` for cross-resource extractor references (`isObservation=true` reads `status.atProvider`, `false` reads `spec.forProvider`) instead of `fmt.Sprintf(refs.ExtractParamPathFmt, ...)`
 - Use `refs.AccessListGetIDFn(prefixParams...)` for access-list resources with ip_address/cidr_block fallback
 - The Dockerfile sets `NO_COLOR=1` and `TF_CLI_ARGS_import=-no-color` to suppress ANSI in terraform output
-

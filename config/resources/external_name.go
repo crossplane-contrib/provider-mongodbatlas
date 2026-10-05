@@ -46,6 +46,11 @@ func decodeAtlasStateID(stateID string) map[string]string {
 
 func encodedStateGetIDFn(fieldMapping map[string]string, paramNames []string, externalNameKey string) func(context.Context, string, map[string]any, map[string]any) (string, error) {
 	return func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
+		rawExternalName := externalName
+		// v1.1.x wrote the full encoded state ID into the external name.
+		if v := decodeAtlasStateID(externalName)[externalNameKey]; v != "" {
+			externalName = v
+		}
 		if hasAllParams(parameters, paramNames) {
 			m := make(map[string]string, len(paramNames)+1)
 			for _, param := range paramNames {
@@ -63,10 +68,8 @@ func encodedStateGetIDFn(fieldMapping map[string]string, paramNames []string, ex
 			}
 			return encodeAtlasStateID(m), nil
 		}
-		if externalName != "" {
-			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
-				return externalName, nil
-			}
+		if externalName != rawExternalName {
+			return rawExternalName, nil
 		}
 		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramNames)
 	}
@@ -109,19 +112,18 @@ func encodedStateGetExternalNameFn(externalNameKey string) func(map[string]any) 
 
 // --- External name constructors ---
 
-// importJoinedID builds an ExternalName for resources whose TF import function
-// expects plain field values joined by separator. The externalNameKey must
-// appear in fields at its correct import position. It is treated as a regular
-// forProvider parameter (user-settable, included in CRD schema).
-func importJoinedID(fields []string, separator string, externalNameKey string) config.ExternalName {
-	return buildImportJoinedID(fields, nil, separator, externalNameKey, true)
+// importJoinedID builds an ExternalName for resources whose TF state ID is
+// EncodeStateID over fields. The externalNameKey must appear in fields. It is
+// treated as a regular forProvider parameter (user-settable, included in CRD
+// schema).
+func importJoinedID(fields []string, externalNameKey string) config.ExternalName {
+	return buildImportJoinedID(fields, nil, externalNameKey, true)
 }
 
 // importJoinedIDAssigned is like importJoinedID but the externalNameKey is
-// provider-assigned (not user-settable). It must still appear in fields at its
-// correct import position.
-func importJoinedIDAssigned(fields []string, separator string, externalNameKey string) config.ExternalName {
-	return buildImportJoinedID(fields, nil, separator, externalNameKey, false)
+// provider-assigned (not user-settable).
+func importJoinedIDAssigned(fields []string, externalNameKey string) config.ExternalName {
+	return buildImportJoinedID(fields, nil, externalNameKey, false)
 }
 
 // importJoinedIDMapped handles resources where forProvider param names differ
@@ -132,7 +134,7 @@ func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string, e
 		stateKeyOrder = append(stateKeyOrder, fieldMapping[p])
 	}
 	externalNameFromParams := slices.Contains(stateKeyOrder, externalNameKey)
-	return buildImportJoinedID(paramOrder, fieldMapping, "-", externalNameKey, externalNameFromParams)
+	return buildImportJoinedID(paramOrder, fieldMapping, externalNameKey, externalNameFromParams)
 }
 
 // accessListImportJoinedID builds an ExternalName for access-list resources
@@ -140,12 +142,32 @@ func importJoinedIDMapped(paramOrder []string, fieldMapping map[string]string, e
 func accessListImportJoinedID(prefixParams []string) config.ExternalName {
 	e := baseExternalName(false)
 	e.GetIDFn = accessListEncodedStateGetIDFn(prefixParams)
-	e.GetImportIDFn = refs.AccessListGetIDFn(prefixParams...)
 	e.GetExternalNameFn = encodedStateGetExternalNameFn("entry")
 	return e
 }
 
-func buildImportJoinedID(fields []string, fieldMapping map[string]string, separator, externalNameKey string, externalNameFromParams bool) config.ExternalName {
+// computedKeyID builds an ExternalName for plugin-framework resources with no
+// "id" attribute whose Read needs the provider-assigned computed attribute key.
+// upjet does not call GetIDFn for them.
+// SetIdentifierArgumentFn copies the external name into key, so that an import with only the annotation can Read.
+// Pair it with refs.StateEmptyWhenAttributeUnset(key) so that Create runs while key is still unset.
+func computedKeyID(key string) config.ExternalName {
+	e := baseExternalName(true)
+	e.GetIDFn = config.IdentifierFromProvider.GetIDFn
+	e.GetExternalNameFn = refs.ExternalNameFromStateField(key)
+	setKey := refs.SetIdentifierArgument(key)
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		// Keep a key already restored from status.atProvider: an older
+		// external name can hold another value (log_integration used "type").
+		if v, _ := base[key].(string); v != "" {
+			return
+		}
+		setKey(base, externalName)
+	}
+	return e
+}
+
+func buildImportJoinedID(fields []string, fieldMapping map[string]string, externalNameKey string, externalNameFromParams bool) config.ExternalName {
 	paramFields := fields
 	if !externalNameFromParams {
 		filtered := make([]string, 0, len(fields))
@@ -158,44 +180,8 @@ func buildImportJoinedID(fields []string, fieldMapping map[string]string, separa
 	}
 	e := baseExternalName(!externalNameFromParams)
 	e.GetIDFn = encodedStateGetIDFn(fieldMapping, paramFields, externalNameKey)
-	e.GetImportIDFn = plainImportGetIDFn(paramFields, fields, separator, externalNameKey)
 	e.GetExternalNameFn = encodedStateGetExternalNameFn(externalNameKey)
 	return e
-}
-
-func plainImportGetIDFn(paramFields, importOrder []string, separator, externalNameKey string) config.GetIDFn {
-	return func(_ context.Context, externalName string, parameters, _ map[string]any) (string, error) {
-		if hasAllParams(parameters, paramFields) {
-			return collectImportValues(importOrder, parameters, externalName, externalNameKey, separator)
-		}
-		if externalName != "" {
-			if decoded := decodeAtlasStateID(externalName); decoded[externalNameKey] != "" {
-				values := make([]string, 0, len(importOrder))
-				for _, field := range importOrder {
-					values = append(values, decoded[field])
-				}
-				return strings.Join(values, separator), nil
-			}
-		}
-		return "", fmt.Errorf("cannot determine Terraform ID: forProvider is missing %v and crossplane.io/external-name is empty or not a valid encoded state ID", paramFields)
-	}
-}
-
-func collectImportValues(importOrder []string, parameters map[string]any, externalName, externalNameKey, separator string) (string, error) {
-	values := make([]string, 0, len(importOrder))
-	for _, field := range importOrder {
-		if v, ok := parameters[field].(string); ok && v != "" {
-			values = append(values, v)
-		} else if field == externalNameKey && externalName != "" {
-			values = append(values, externalName)
-		} else if field == externalNameKey {
-			return "", nil
-		}
-	}
-	if len(values) == len(importOrder) {
-		return strings.Join(values, separator), nil
-	}
-	return "", nil
 }
 
 // templated wraps config.TemplatedStringAsIdentifier with an

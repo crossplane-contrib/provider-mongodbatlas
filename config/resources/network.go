@@ -8,7 +8,7 @@ import (
 
 func ConfigureNetwork(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_network_container", func(r *config.Resource) {
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, "-", refs.ContainerID)
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ContainerID}, refs.ContainerID)
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -17,7 +17,7 @@ func ConfigureNetwork(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_network_peering", func(r *config.Resource) {
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, "-", refs.PeerID)
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.PeerID, refs.ProviderName}, refs.PeerID)
 		r.References = config.References{
 			refs.ContainerID: {
 				TerraformName: "mongodbatlas_network_container",

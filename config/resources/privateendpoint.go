@@ -21,7 +21,7 @@ func ConfigurePrivateEndpoint(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_privatelink_endpoint", func(r *config.Resource) {
 		r.ShortGroup = "privateendpoint"
 		r.Kind = "Resource"
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "-", "private_link_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "private_link_id", refs.ProviderName, refs.Region}, "private_link_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -32,7 +32,7 @@ func ConfigurePrivateEndpoint(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_privatelink_endpoint_service", func(r *config.Resource) {
 		r.ShortGroup = "privateendpoint"
 		r.Kind = "Service"
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, "private_link_id", "endpoint_service_id", refs.ProviderName}, "--", "endpoint_service_id")
+		r.ExternalName = importJoinedID([]string{refs.ProjectID, "private_link_id", "endpoint_service_id", refs.ProviderName}, "endpoint_service_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

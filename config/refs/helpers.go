@@ -179,9 +179,11 @@ func AccessListGetIDFn(prefixParams ...string) func(context.Context, string, map
 	}
 }
 
-// ExtractParamPath builds an upjet extractor reference path for the given field.
-func ExtractParamPath(field string, sensitive bool) string {
-	return fmt.Sprintf(ExtractParamPathFmt, field, sensitive)
+// ExtractParamPath builds an upjet extractor reference path for the given
+// field. isObservation reads the field from status.atProvider instead of
+// spec.forProvider.
+func ExtractParamPath(field string, isObservation bool) string {
+	return fmt.Sprintf(ExtractParamPathFmt, field, isObservation)
 }
 
 // ExternalNameFromAccessListState returns a GetExternalNameFn for access list

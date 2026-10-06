@@ -72,6 +72,18 @@ jobs:
           registry: xpkg.upbound.io
           username: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
           password: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}
+      - name: Add release notes extension
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          RELEASE_BODY=$(gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" --json body -q .body 2>/dev/null || true)
+          if [ -z "$RELEASE_BODY" ]; then
+            echo "No GitHub release notes found for $VERSION, skipping"
+            exit 0
+          fi
+          mkdir -p extensions/release-notes
+          printf '%s\n' "$RELEASE_BODY" > extensions/release-notes/release_notes.md
       - name: Append extensions
         run: make xpkg.append VERSION=${{ inputs.version }}
         env:

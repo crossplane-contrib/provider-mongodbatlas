@@ -53,6 +53,7 @@ Each resource sets `r.ExternalName` in its configurator using constructors from 
 - `importJoinedIDMapped(paramOrder, fieldMapping)` — Like `importJoinedID` but with param→stateKey name mapping (e.g. `name` → `cluster_name`).
 - `importJoinedIDHidden(fields, separator, externalNameKey)` — Like `importJoinedID` but marks `externalNameKey` as hidden (not in CRD schema). Used when the key is provider-assigned and shouldn't be user-settable.
 - `accessListImportJoinedID(prefixParams)` — For access-list resources with ip_address/cidr_block/aws_security_group fallback logic.
+- `projectAPIKeyImportJoinedID()` — For `mongodbatlas_project_api_key`, whose project IDs are only in `project_assignment`. The state ID holds only `api_key_id`. The import ID takes the first assigned project.
 
 ### How `templated()` differs from upstream
 

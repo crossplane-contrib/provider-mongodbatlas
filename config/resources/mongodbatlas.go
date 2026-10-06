@@ -346,7 +346,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_api_key", func(r *config.Resource) {
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.APIKeyID}, "-", refs.APIKeyID)
+		r.ExternalName = projectAPIKeyImportJoinedID()
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {

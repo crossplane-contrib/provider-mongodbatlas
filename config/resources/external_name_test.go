@@ -260,6 +260,78 @@ func TestImportJoinedID_GetExternalNameFn(t *testing.T) {
 	})
 }
 
+func TestProjectAPIKeyImportJoinedID(t *testing.T) {
+	params := map[string]any{
+		"description": "my key",
+		"project_assignment": []any{
+			map[string]any{refs.ProjectID: testProjectID, "role_names": []any{"GROUP_READ_ONLY"}},
+		},
+	}
+	stateID := encodeAtlasStateID(map[string]string{refs.APIKeyID: "key123"})
+
+	t.Run("disables name initializer", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		assert.True(t, e.DisableNameInitializer)
+	})
+
+	t.Run("empty external name returns empty ID", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		id, err := e.GetIDFn(context.Background(), "", params, nil)
+		require.NoError(t, err)
+		assert.Empty(t, id)
+	})
+
+	t.Run("state ID holds only the API key ID", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		id, err := e.GetIDFn(context.Background(), "key123", params, nil)
+		require.NoError(t, err)
+		assert.Equal(t, stateID, id)
+	})
+
+	t.Run("state ID does not need project_assignment", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		id, err := e.GetIDFn(context.Background(), "key123", map[string]any{}, nil)
+		require.NoError(t, err)
+		assert.Equal(t, stateID, id)
+	})
+
+	t.Run("encoded external name is normalized", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		legacy := encodeAtlasStateID(map[string]string{refs.ProjectID: testProjectID, refs.APIKeyID: "key123"})
+		id, err := e.GetIDFn(context.Background(), legacy, params, nil)
+		require.NoError(t, err)
+		assert.Equal(t, stateID, id)
+	})
+
+	t.Run("import ID joins the assigned project and the API key ID", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		id, err := e.GetImportIDFn(context.Background(), "key123", params, nil)
+		require.NoError(t, err)
+		assert.Equal(t, testProjectID+"-key123", id)
+	})
+
+	t.Run("import ID with empty external name returns empty", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		id, err := e.GetImportIDFn(context.Background(), "", params, nil)
+		require.NoError(t, err)
+		assert.Empty(t, id)
+	})
+
+	t.Run("import ID without project assignment returns error", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		_, err := e.GetImportIDFn(context.Background(), "key123", map[string]any{}, nil)
+		require.Error(t, err)
+		assert.Contains(t, err.Error(), "projectAssignment")
+	})
+
+	t.Run("external name is the API key ID", func(t *testing.T) {
+		e := projectAPIKeyImportJoinedID()
+		name, err := e.GetExternalNameFn(map[string]any{"id": stateID})
+		require.NoError(t, err)
+		assert.Equal(t, "key123", name)
+	})
+}
+
 func TestHasAllParams(t *testing.T) {
 	tests := []struct {
 		name   string

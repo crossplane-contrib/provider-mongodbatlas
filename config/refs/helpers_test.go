@@ -6,8 +6,39 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
+
+func TestNotFoundWhenPathParamEmpty(t *testing.T) {
+	errDiag := func(detail string) *tfprotov6.Diagnostic {
+		return &tfprotov6.Diagnostic{
+			Severity: tfprotov6.DiagnosticSeverityError,
+			Summary:  "error getting Alert Configuration information: %s",
+			Detail:   detail,
+		}
+	}
+	warning := &tfprotov6.Diagnostic{Severity: tfprotov6.DiagnosticSeverityWarning, Detail: "deprecated attribute"}
+	cases := map[string]struct {
+		diags []*tfprotov6.Diagnostic
+		want  bool
+	}{
+		"NoDiagnostics":          {diags: nil, want: false},
+		"OnlyWarnings":           {diags: []*tfprotov6.Diagnostic{warning}, want: false},
+		"EmptyGroupID":           {diags: []*tfprotov6.Diagnostic{errDiag("groupId is empty and must be specified")}, want: true},
+		"EmptyPathParamAndWarn":  {diags: []*tfprotov6.Diagnostic{warning, errDiag("alertConfigId is empty and must be specified")}, want: true},
+		"APIError":               {diags: []*tfprotov6.Diagnostic{errDiag("https://cloud.mongodb.com/api/atlas/v2/groups/x/alertConfigs/y GET: HTTP 401 Unauthorized")}, want: false},
+		"EmptyPathParamAndOther": {diags: []*tfprotov6.Diagnostic{errDiag("groupId is empty and must be specified"), errDiag("HTTP 500")}, want: false},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got := NotFoundWhenPathParamEmpty(tc.diags)
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("NotFoundWhenPathParamEmpty(...): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
 
 func TestSetIdentifierArgument(t *testing.T) {
 	type args struct {

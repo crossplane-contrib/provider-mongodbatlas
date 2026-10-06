@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/pkg/errors"
 )
@@ -249,4 +250,26 @@ func StateEmptyWhenAttributeUnset(attribute string) func(context.Context, tftype
 		}
 		return s == "", nil
 	}
+}
+
+const atlasSDKEmptyPathParamSuffix = "is empty and must be specified"
+
+// NotFoundWhenPathParamEmpty is an IsNotFoundDiagnosticFn for plugin-framework
+// resources that decode their Atlas API path parameters from the Terraform ID.
+// Before Create the provider-assigned part of the ID is unknown, the ID is
+// empty, and the Atlas SDK rejects the Read client-side with
+// "<param> is empty and must be specified" without calling the API.
+// Such a resource cannot exist yet, so the diagnostic means "not found".
+func NotFoundWhenPathParamEmpty(diags []*tfprotov6.Diagnostic) bool {
+	found := false
+	for _, d := range diags {
+		if d.Severity != tfprotov6.DiagnosticSeverityError {
+			continue
+		}
+		if !strings.HasSuffix(d.Detail, atlasSDKEmptyPathParamSuffix) {
+			return false
+		}
+		found = true
+	}
+	return found
 }

@@ -49,11 +49,8 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_stream_connection_failover", func(r *config.Resource) {
-		r.ExternalName = importJoinedIDAssigned(
-			[]string{"project_id", "workspace_name", "connection_name", "failover_connection_id"},
-			"/",
-			"failover_connection_id",
-		)
+		r.ExternalName = computedKeyID("failover_connection_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("failover_connection_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

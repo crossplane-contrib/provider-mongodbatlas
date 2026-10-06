@@ -46,11 +46,13 @@ resources this is set automatically after creation. For importing existing resou
 |----------|------------------------------|---------------|
 | `mongodbatlas_access_list_api_key` | `orgId` (**ref**), `apiKeyId` (**ref**), `ipAddress` or `cidrBlock` | |
 | `mongodbatlas_advanced_cluster` | `projectId` (**ref**), `name` | |
+| `mongodbatlas_ai_model_api_key` | `projectId` (**ref**) | `apiKeyId` |
 | `mongodbatlas_alert_configuration` | `projectId` (**ref**) | `alertId` |
 | `mongodbatlas_api_key_project_assignment` | `projectId` (**ref**), `apiKeyId` (**ref**) | |
 | `mongodbatlas_api_key` | `orgId` (**ref**) | `apiKeyId` |
 | `mongodbatlas_auditing` | `projectId` (**ref**) | |
 | `mongodbatlas_backup_compliance_policy` | `projectId` (**ref**) | |
+| `mongodbatlas_cloud_backup_collection_restore_job` | `projectId` (**ref**), `clusterName` (**ref**) | `jobId` |
 | `mongodbatlas_cloud_backup_schedule` | `projectId` (**ref**), `clusterName` | |
 | `mongodbatlas_cloud_backup_snapshot_export_bucket` | `projectId` (**ref**) | `bucketId` |
 | `mongodbatlas_cloud_backup_snapshot_export_job` | `projectId` (**ref**), `clusterName` | `jobId` |
@@ -59,8 +61,8 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_cloud_provider_access_setup` | `projectId` (**ref**), `providerName` | `roleId` |
 | `mongodbatlas_cloud_user_org_assignment` | `orgId` (**ref**), `username` | |
 | `mongodbatlas_cloud_user_project_assignment` | `projectId` (**ref**), `username` | |
-| `mongodbatlas_cloud_user_team_assignment` | `orgId` (**ref**), `teamId` (**ref**), `username` | |
-| `mongodbatlas_cluster` | `projectId` (**ref**), `name` | |
+| `mongodbatlas_cloud_user_team_assignment` | `orgId` (**ref**), `teamId` (**ref**), `userId` (**ref**) | |
+| `mongodbatlas_cluster` | `projectId` (**ref**), `name`, `providerName` | |
 | `mongodbatlas_custom_db_role` | `projectId` (**ref**), `roleName` | |
 | `mongodbatlas_custom_dns_configuration_cluster_aws` | `projectId` (**ref**) | |
 | `mongodbatlas_database_user` | `projectId` (**ref**), `username`, `authDatabaseName` | |
@@ -76,8 +78,9 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_global_cluster_config` | `projectId` (**ref**), `clusterName` | |
 | `mongodbatlas_ldap_configuration` | `projectId` (**ref**) | |
 | `mongodbatlas_ldap_verify` | `projectId` (**ref**) | `requestId` |
-| `mongodbatlas_log_integration` | `projectId` (**ref**) | `type` |
+| `mongodbatlas_log_integration` | `projectId` (**ref**) | `integrationId` |
 | `mongodbatlas_maintenance_window` | `projectId` (**ref**) | |
+| `mongodbatlas_metric_integration` | `projectId` (**ref**) | `metricIntegrationId` |
 | `mongodbatlas_mongodb_employee_access_grant` | `projectId` (**ref**), `clusterName` | |
 | `mongodbatlas_network_container` | `projectId` (**ref**) | `containerId` |
 | `mongodbatlas_network_peering` | `projectId` (**ref**), `providerName` | `peeringId` |
@@ -88,7 +91,7 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_privatelink_endpoint_service_data_federation_online_archive` | `projectId` (**ref**), `endpointId` | |
 | `mongodbatlas_privatelink_endpoint_service` | `projectId` (**ref**), `privateLinkId` (**ref**), `providerName` | `endpointServiceId` |
 | `mongodbatlas_privatelink_endpoint` | `projectId` (**ref**), `providerName`, `region` | `endpointId` |
-| `mongodbatlas_project_api_key` | `projectId` | |
+| `mongodbatlas_project_api_key` | | `apiKeyId` |
 | `mongodbatlas_project_invitation` | `projectId` (**ref**), `username` | |
 | `mongodbatlas_project_ip_access_list` | `projectId` (**ref**), `ipAddress` or `cidrBlock` | |
 | `mongodbatlas_project_service_account_access_list_entry` | `projectId` (**ref**), `clientId`, `ipAddress` or `cidrBlock` | |
@@ -104,13 +107,14 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_service_account_secret` | `orgId` (**ref**), `clientId` | `secretId` |
 | `mongodbatlas_service_account` | `orgId` (**ref**) | `clientId` |
 | `mongodbatlas_stream_connection` | `workspaceName`, `projectId` (**ref**), `connectionName` | |
+| `mongodbatlas_stream_connection_failover` | `projectId` (**ref**), `workspaceName` (**ref**), `connectionName` (**ref**) | `failoverConnectionId` |
 | `mongodbatlas_stream_instance` | `projectId` (**ref**), `instanceName` | |
 | `mongodbatlas_stream_processor` | `instanceName`, `projectId` (**ref**), `processorName` | |
 | `mongodbatlas_stream_workspace` | `projectId` (**ref**), `workspaceName` | |
 | `mongodbatlas_team_project_assignment` | `projectId`, `teamId` | |
 | `mongodbatlas_team` | `orgId` (**ref**) | `teamId` |
 | `mongodbatlas_third_party_integration` | `projectId` (**ref**), `type` | |
-| `mongodbatlas_x509_authentication_database_user` | `projectId` (**ref**) | |
+| `mongodbatlas_x509_authentication_database_user` | `projectId` (**ref**), `username` (user certificates only) | |
 
 ## Non-importable
 
@@ -136,7 +140,7 @@ separator below.
 | `mongodbatlas_cloud_backup_schedule` | `<projectId>/<clusterName>` |
 | `mongodbatlas_cloud_user_org_assignment` | `<orgId>/<username>` |
 | `mongodbatlas_cloud_user_project_assignment` | `<projectId>/<username>` |
-| `mongodbatlas_cloud_user_team_assignment` | `<orgId>/<teamId>/<username>` |
+| `mongodbatlas_cloud_user_team_assignment` | `<orgId>/<teamId>/<userId>` |
 | `mongodbatlas_cluster` | `<projectId>-<name>` |
 | `mongodbatlas_custom_db_role` | `<projectId>-<roleName>` |
 | `mongodbatlas_custom_dns_configuration_cluster_aws` | `<projectId>` |

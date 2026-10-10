@@ -9,7 +9,7 @@ require (
 	github.com/alecthomas/kong v1.16.1
 	github.com/crossplane/crossplane-runtime/v2 v2.4.0
 	github.com/crossplane/crossplane-tools v0.0.0-20260715161912-60e57f817ad1
-	github.com/crossplane/upjet/v2 v2.4.1-0.20260831174131-924646d3b6ad
+	github.com/crossplane/upjet/v2 v2.5.0
 	github.com/go-logr/logr v1.4.4
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.40.1
@@ -27,7 +27,7 @@ require (
 )
 
 require (
-	github.com/crossplane/crossplane/apis/v2 v2.4.0
+	github.com/crossplane/crossplane/apis/v2 v2.4.1
 	github.com/google/go-cmp v0.7.0
 	github.com/hashicorp/terraform-plugin-go v0.31.0
 )

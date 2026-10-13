@@ -3,13 +3,54 @@ kind: BackupSnapshotExportBucket
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshotexportbucket
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: backupsnapshotexportbucket-test
+  name: backupsnapshotexportbucket-test
   namespace: crossplane-system
 spec:
   forProvider:
     bucketName: example-bucket
     cloudProvider: AWS
-    iamRoleId: '{IAM_ROLE_ID}'
+    iamRoleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backupsnapshotexportbucket-auth_role
     projectId: ${data.mongodbatlas.project_id}
+
+---
+
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: ProviderAccessAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshotexportbucket
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
+  labels:
+    testing.upbound.io/example-name: backupsnapshotexportbucket-auth_role
+  name: backupsnapshotexportbucket-auth-role
+  namespace: crossplane-system
+spec:
+  forProvider:
+    aws:
+    - iamAssumedRoleArn: arn:aws:iam::123456789012:role/atlas-snapshot-export
+    projectId: ${data.mongodbatlas.project_id}
+    roleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backupsnapshotexportbucket-setup_only
+
+---
+
+apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
+kind: ProviderAccessSetup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshotexportbucket
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
+  labels:
+    testing.upbound.io/example-name: backupsnapshotexportbucket-setup_only
+  name: backupsnapshotexportbucket-setup-only
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectId: ${data.mongodbatlas.project_id}
+    providerName: AWS

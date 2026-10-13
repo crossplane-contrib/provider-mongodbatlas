@@ -934,6 +934,16 @@ func (in *ServiceAccountAccessListEntryInitParameters) DeepCopyInto(out *Service
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
 		*out = new(string)
@@ -1070,6 +1080,16 @@ func (in *ServiceAccountAccessListEntryParameters) DeepCopyInto(out *ServiceAcco
 		in, out := &in.ClientID, &out.ClientID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
@@ -1385,6 +1405,16 @@ func (in *ServiceAccountSecretInitParameters) DeepCopyInto(out *ServiceAccountSe
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -1516,6 +1546,16 @@ func (in *ServiceAccountSecretParameters) DeepCopyInto(out *ServiceAccountSecret
 		in, out := &in.ClientID, &out.ClientID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID

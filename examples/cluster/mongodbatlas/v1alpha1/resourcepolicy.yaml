@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/resourcepolicy
   labels:
-    testing.upbound.io/example-name: project_ip_access_list
-  name: project-ip-access-list
+    testing.upbound.io/example-name: resourcepolicy-project_ip_access_list
+  name: resourcepolicy-project-ip-access-list
 spec:
   forProvider:
     description: Forbids access from anywhere

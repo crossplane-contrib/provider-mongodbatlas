@@ -4,14 +4,27 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/userteamassignment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: userteamassignment-example
+  name: userteamassignment-example
 spec:
   forProvider:
     orgId: ${data.mongodbatlas.org_id}
     teamIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    userIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: userteamassignment-example
+    userId: ${data.mongodbatlas.user_id}
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha1
+kind: Team
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/userteamassignment
+  labels:
+    testing.upbound.io/example-name: userteamassignment-example
+  name: userteamassignment-example
+spec:
+  forProvider:
+    name: ${Rand.RFC1123Subdomain}
+    orgId: ${data.mongodbatlas.org_id}

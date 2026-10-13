@@ -4,17 +4,17 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/apikeyprojectassignment
   labels:
-    testing.upbound.io/example-name: first_assignment
-  name: first-assignment
+    testing.upbound.io/example-name: apikeyprojectassignment-first_assignment
+  name: apikeyprojectassignment-first-assignment
   namespace: crossplane-system
 spec:
   forProvider:
     apiKeyIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: this
+        testing.upbound.io/example-name: apikeyprojectassignment-this
     projectIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: first_project
+        testing.upbound.io/example-name: apikeyprojectassignment-first_project
     roles:
     - GROUP_OWNER
 
@@ -24,16 +24,16 @@ apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
 kind: AccessListAPIKey
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/apikeyprojectassignment
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: apikeyprojectassignment-this
+  name: apikeyprojectassignment-this
   namespace: crossplane-system
 spec:
   forProvider:
     apiKeyIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: this
+        testing.upbound.io/example-name: apikeyprojectassignment-this
     cidrBlock: 0.0.0.0/1
     orgId: ${data.mongodbatlas.org_id}
 
@@ -43,10 +43,10 @@ apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
 kind: APIKey
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/apikeyprojectassignment
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: apikeyprojectassignment-this
+  name: apikeyprojectassignment-this
   namespace: crossplane-system
 spec:
   forProvider:
@@ -61,28 +61,12 @@ apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
 kind: Project
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/apikeyprojectassignment
   labels:
-    testing.upbound.io/example-name: first_project
-  name: first-project
+    testing.upbound.io/example-name: apikeyprojectassignment-first_project
+  name: apikeyprojectassignment-first-project
   namespace: crossplane-system
 spec:
   forProvider:
-    name: First Project
-    orgId: ${data.mongodbatlas.org_id}
-
----
-
-apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
-kind: Project
-metadata:
-  annotations:
-    meta.upbound.io/example-id: /v1alpha1/apikeyprojectassignment
-  labels:
-    testing.upbound.io/example-name: second_project
-  name: second-project
-  namespace: crossplane-system
-spec:
-  forProvider:
-    name: Second Project
+    name: ${Rand.RFC1123Subdomain}
     orgId: ${data.mongodbatlas.org_id}

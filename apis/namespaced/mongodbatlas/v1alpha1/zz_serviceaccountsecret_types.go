@@ -17,7 +17,16 @@ type ServiceAccountSecretInitParameters struct {
 
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.ServiceAccount
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v2.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
@@ -78,8 +87,17 @@ type ServiceAccountSecretParameters struct {
 
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.ServiceAccount
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v2.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
@@ -137,9 +155,8 @@ type ServiceAccountSecretStatus struct {
 type ServiceAccountSecret struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientId) || (has(self.initProvider) && has(self.initProvider.clientId))",message="spec.forProvider.clientId is a required parameter"
-	Spec   ServiceAccountSecretSpec   `json:"spec"`
-	Status ServiceAccountSecretStatus `json:"status,omitempty"`
+	Spec              ServiceAccountSecretSpec   `json:"spec"`
+	Status            ServiceAccountSecretStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -3,9 +3,10 @@ kind: ConnectionFailover
 metadata:
   annotations:
     meta.upbound.io/example-id: stream/v1alpha1/connectionfailover
+    upjet.upbound.io/manual-intervention: "Needs reachable Kafka brokers and credentials in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: connectionfailover-example
+  name: connectionfailover-example
   namespace: crossplane-system
 spec:
   forProvider:
@@ -14,11 +15,11 @@ spec:
       passwordSecretRef:
         key: example-key
         name: example-secret
-      username: ${var.failover_kafka_username}
-    bootstrapServers: ${var.failover_bootstrap_servers}
+      username: failover-kafka-user
+    bootstrapServers: failover-broker-1.example.com:9092,failover-broker-2.example.com:9092
     connectionNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: connectionfailover-example
     projectId: ${data.mongodbatlas.project_id}
     region: DUBLIN_IRL
     security:
@@ -26,7 +27,7 @@ spec:
     type: Kafka
     workspaceNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: connectionfailover-example
 
 ---
 
@@ -35,9 +36,10 @@ kind: Connection
 metadata:
   annotations:
     meta.upbound.io/example-id: stream/v1alpha1/connectionfailover
+    upjet.upbound.io/manual-intervention: "Needs reachable Kafka brokers and credentials in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: connectionfailover-example
+  name: connectionfailover-example
   namespace: crossplane-system
 spec:
   forProvider:
@@ -46,8 +48,8 @@ spec:
       passwordSecretRef:
         key: example-key
         name: example-secret
-      username: ${var.kafka_username}
-    bootstrapServers: ${var.bootstrap_servers}
+      username: kafka-user
+    bootstrapServers: broker-1.example.com:9092,broker-2.example.com:9092
     connectionName: KafkaConnection
     projectId: ${data.mongodbatlas.project_id}
     security:
@@ -55,7 +57,7 @@ spec:
     type: Kafka
     workspaceNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: connectionfailover-example
 
 ---
 
@@ -64,9 +66,10 @@ kind: Workspace
 metadata:
   annotations:
     meta.upbound.io/example-id: stream/v1alpha1/connectionfailover
+    upjet.upbound.io/manual-intervention: "Needs reachable Kafka brokers and credentials in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: connectionfailover-example
+  name: connectionfailover-example
   namespace: crossplane-system
 spec:
   forProvider:
@@ -79,4 +82,4 @@ spec:
     projectId: ${data.mongodbatlas.project_id}
     streamConfig:
       tier: SP10
-    workspaceName: workspace-with-failover
+    workspaceName: ${Rand.RFC1123Subdomain}

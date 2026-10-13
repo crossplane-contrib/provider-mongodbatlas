@@ -64,6 +64,9 @@ func ConfigureDatabase(p *config.Provider, pwGen func(string, string) config.New
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			"username": {
+				TerraformName: "mongodbatlas_database_user",
+			},
 		}
 	})
 }

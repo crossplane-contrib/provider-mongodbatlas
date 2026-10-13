@@ -3,23 +3,26 @@ kind: BackupSnapshotRestoreJob
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshotrestorejob
+    uptest.upbound.io/timeout: "5400"
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: backupsnapshotrestorejob-test
+  name: backupsnapshotrestorejob-test
   namespace: crossplane-system
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: test
+        testing.upbound.io/example-name: backupsnapshotrestorejob-my_cluster
     deliveryTypeConfig:
     - automated: true
-      targetClusterName: MyCluster
+      targetClusterNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: backupsnapshotrestorejob-my_cluster
       targetProjectId: ${data.mongodbatlas.project_id}
     projectId: ${data.mongodbatlas.project_id}
     snapshotIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: test
+        testing.upbound.io/example-name: backupsnapshotrestorejob-test
 
 ---
 
@@ -29,14 +32,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshotrestorejob
   labels:
-    testing.upbound.io/example-name: my_cluster
-  name: my-cluster
+    testing.upbound.io/example-name: backupsnapshotrestorejob-my_cluster
+  name: backupsnapshotrestorejob-my-cluster
   namespace: crossplane-system
 spec:
   forProvider:
     backupEnabled: true
     clusterType: REPLICASET
-    name: MyCluster
+    name: ${Rand.RFC1123Subdomain}
     projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
@@ -45,7 +48,7 @@ spec:
           nodeCount: 3
         priority: 7
         providerName: AWS
-        regionName: EU_WEST_2
+        regionName: US_EAST_1
 
 ---
 
@@ -55,14 +58,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshotrestorejob
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: backupsnapshotrestorejob-test
+  name: backupsnapshotrestorejob-test
   namespace: crossplane-system
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: my_cluster
+        testing.upbound.io/example-name: backupsnapshotrestorejob-my_cluster
     description: myDescription
     projectId: ${data.mongodbatlas.project_id}
     retentionInDays: 1

@@ -84,6 +84,9 @@ func ConfigureCloud(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.IAMRoleID: {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 	})
 
@@ -100,6 +103,13 @@ func ConfigureCloud(p *config.Provider) {
 			},
 			"snapshot_id": {
 				TerraformName: "mongodbatlas_cloud_backup_snapshot",
+			},
+			"delivery_type_config.target_cluster_name": {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath("name", false),
+			},
+			"delivery_type_config.target_project_id": {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
@@ -135,6 +145,16 @@ func ConfigureCloud(p *config.Provider) {
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
 				Extractor:     refs.ExtractParamPath("name", false),
+			},
+			refs.SnapshotID: {
+				TerraformName: refs.TFBackupSnapshot,
+			},
+			"target_cluster_name": {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath("name", false),
+			},
+			"target_project_id": {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})

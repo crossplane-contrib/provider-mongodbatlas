@@ -40,7 +40,16 @@ type QueryLimitInitParameters struct {
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Name of the Atlas Federated Database Instance.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/federated/v1alpha1.DatabaseInstance
 	TenantName *string `json:"tenantName,omitempty" tf:"tenant_name,omitempty"`
+
+	// Reference to a DatabaseInstance in federated to populate tenantName.
+	// +kubebuilder:validation:Optional
+	TenantNameRef *v2.NamespacedReference `json:"tenantNameRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance in federated to populate tenantName.
+	// +kubebuilder:validation:Optional
+	TenantNameSelector *v2.NamespacedSelector `json:"tenantNameSelector,omitempty" tf:"-"`
 
 	// Amount to set the limit to.
 	Value *int64 `json:"value,omitempty" tf:"value,omitempty"`
@@ -110,8 +119,17 @@ type QueryLimitParameters struct {
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// Name of the Atlas Federated Database Instance.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/federated/v1alpha1.DatabaseInstance
 	// +kubebuilder:validation:Optional
 	TenantName *string `json:"tenantName,omitempty" tf:"tenant_name,omitempty"`
+
+	// Reference to a DatabaseInstance in federated to populate tenantName.
+	// +kubebuilder:validation:Optional
+	TenantNameRef *v2.NamespacedReference `json:"tenantNameRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance in federated to populate tenantName.
+	// +kubebuilder:validation:Optional
+	TenantNameSelector *v2.NamespacedSelector `json:"tenantNameSelector,omitempty" tf:"-"`
 
 	// Amount to set the limit to.
 	// +kubebuilder:validation:Optional
@@ -156,7 +174,6 @@ type QueryLimit struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.limitName) || (has(self.initProvider) && has(self.initProvider.limitName))",message="spec.forProvider.limitName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.overrunPolicy) || (has(self.initProvider) && has(self.initProvider.overrunPolicy))",message="spec.forProvider.overrunPolicy is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tenantName) || (has(self.initProvider) && has(self.initProvider.tenantName))",message="spec.forProvider.tenantName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.value) || (has(self.initProvider) && has(self.initProvider.value))",message="spec.forProvider.value is a required parameter"
 	Spec   QueryLimitSpec   `json:"spec"`
 	Status QueryLimitStatus `json:"status,omitempty"`

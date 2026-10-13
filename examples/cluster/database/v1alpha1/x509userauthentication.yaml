@@ -4,13 +4,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: database/v1alpha1/x509userauthentication
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: x509userauthentication-test
+  name: x509userauthentication-test
 spec:
   forProvider:
     monthsUntilExpiration: 2
     projectId: ${data.mongodbatlas.project_id}
-    username: test-acc-username
+    usernameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: x509userauthentication-user
 
 ---
 
@@ -20,11 +22,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: database/v1alpha1/x509userauthentication
   labels:
-    testing.upbound.io/example-name: user
-  name: user
+    testing.upbound.io/example-name: x509userauthentication-user
+  name: x509userauthentication-user
 spec:
   forProvider:
-    database_name: $external
+    authDatabaseName: $external
     labels:
     - key: My Key
       value: My Value
@@ -32,5 +34,5 @@ spec:
     roles:
     - databaseName: admin
       roleName: atlasAdmin
-    username: myUsername
+    username: ${Rand.RFC1123Subdomain}
     x509Type: MANAGED

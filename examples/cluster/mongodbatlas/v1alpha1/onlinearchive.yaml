@@ -3,24 +3,29 @@ kind: OnlineArchive
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/onlinearchive
+    uptest.upbound.io/timeout: "3600"
+    uptest.upbound.io/pre-assert-hook: ../../../testhooks/load-sample-data.sh
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: onlinearchive-test
+  name: onlinearchive-test
 spec:
   forProvider:
-    clusterName: ${var.cluster_name}
-    collName: ${var.collection_name}
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: onlinearchive-example
+    collName: listingsAndReviews
     criteria:
-    - dateField: dateField
-      expireAfterDays: 5
+    - dateField: last_review
+      dateFormat: ISODATE
+      expireAfterDays: 2
       type: DATE
-    dbName: ${var.database_name}
+    dbName: sample_airbnb
     partitionFields:
-    - fieldName: dateField
+    - fieldName: last_review
       order: 0
-    - fieldName: firstName
+    - fieldName: maximum_nights
       order: 1
-    - fieldName: lastName
+    - fieldName: name
       order: 2
     projectId: ${data.mongodbatlas.project_id}
     schedule:
@@ -29,3 +34,28 @@ spec:
       startHour: 1
       startMinute: 1
       type: DAILY
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/onlinearchive
+  labels:
+    testing.upbound.io/load-sample-data: "true"
+    testing.upbound.io/example-name: onlinearchive-example
+  name: onlinearchive-example
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1

@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: privateendpoint/v1alpha1/resource
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: resource-this
+  name: resource-this
   namespace: crossplane-system
 spec:
   forProvider:

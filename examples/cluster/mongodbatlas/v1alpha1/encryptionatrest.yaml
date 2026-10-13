@@ -3,9 +3,10 @@ kind: EncryptionAtRest
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/encryptionatrest
+    upjet.upbound.io/manual-intervention: "Needs an AWS KMS key and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: encryptionatrest-test
+  name: encryptionatrest-test
 spec:
   forProvider:
     awsKmsConfig:
@@ -14,8 +15,10 @@ spec:
         name: example-kms-key
         namespace: crossplane-system
       enabled: true
-      region: ${var.atlas_region}
-      roleId: ${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}
+      region: US_EAST_1
+      roleIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: encryptionatrest-auth_role
     enabledForSearchNodes: true
     projectId: ${data.mongodbatlas.project_id}
 
@@ -25,16 +28,17 @@ apiVersion: mongodbatlas.crossplane.io/v1alpha3
 kind: AdvancedCluster
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/encryptionatrest
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/encryptionatrest
+    upjet.upbound.io/manual-intervention: "Needs an AWS KMS key and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: cluster
-  name: cluster
+    testing.upbound.io/example-name: encryptionatrest-cluster
+  name: encryptionatrest-cluster
 spec:
   forProvider:
     backupEnabled: true
     clusterType: REPLICASET
     encryptionAtRestProvider: AWS
-    name: MyCluster
+    name: ${Rand.RFC1123Subdomain}
     projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
@@ -51,18 +55,19 @@ apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
 kind: ProviderAccessAuthorization
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/encryptionatrest
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/encryptionatrest
+    upjet.upbound.io/manual-intervention: "Needs an AWS KMS key and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: auth_role
-  name: auth-role
+    testing.upbound.io/example-name: encryptionatrest-auth_role
+  name: encryptionatrest-auth-role
 spec:
   forProvider:
     aws:
-    - iamAssumedRoleArn: ${aws_iam_role.test_role.arn}
+    - iamAssumedRoleArn: arn:aws:iam::123456789012:role/atlas-kms-access
     projectId: ${data.mongodbatlas.project_id}
     roleIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: setup_only
+        testing.upbound.io/example-name: encryptionatrest-setup_only
 
 ---
 
@@ -70,10 +75,11 @@ apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
 kind: ProviderAccessSetup
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/encryptionatrest
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/encryptionatrest
+    upjet.upbound.io/manual-intervention: "Needs an AWS KMS key and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: setup_only
-  name: setup-only
+    testing.upbound.io/example-name: encryptionatrest-setup_only
+  name: encryptionatrest-setup-only
 spec:
   forProvider:
     projectId: ${data.mongodbatlas.project_id}

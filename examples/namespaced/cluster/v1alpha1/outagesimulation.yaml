@@ -3,18 +3,42 @@ kind: OutageSimulation
 metadata:
   annotations:
     meta.upbound.io/example-id: cluster/v1alpha1/outagesimulation
+    uptest.upbound.io/timeout: "3600"
   labels:
-    testing.upbound.io/example-name: outage_simulation
-  name: outage-simulation
+    testing.upbound.io/example-name: outagesimulation-outage_simulation
+  name: outagesimulation-outage-simulation
   namespace: crossplane-system
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: outagesimulation-example
     outageFilters:
     - cloudProvider: AWS
       regionName: US_EAST_1
-    - cloudProvider: AWS
-      regionName: US_EAST_2
     projectId: ${data.mongodbatlas.project_id}
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/outagesimulation
+  labels:
+    testing.upbound.io/example-name: outagesimulation-example
+  name: outagesimulation-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1

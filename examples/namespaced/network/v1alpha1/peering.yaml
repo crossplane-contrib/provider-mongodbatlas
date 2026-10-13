@@ -3,21 +3,22 @@ kind: Peering
 metadata:
   annotations:
     meta.upbound.io/example-id: network/v1alpha1/peering
+    upjet.upbound.io/manual-intervention: "Needs an AWS VPC and account to peer with."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: peering-test
+  name: peering-test
   namespace: crossplane-system
 spec:
   forProvider:
     accepterRegionName: us-east-1
-    awsAccountId: abc123abc123
+    awsAccountId: "123456789012"
     containerIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: peering-test
     projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
     routeTableCidrBlock: 192.168.0.0/24
-    vpcId: vpc-abc123abc123
+    vpcId: vpc-0123456789abcdef0
 
 ---
 
@@ -26,9 +27,10 @@ kind: Container
 metadata:
   annotations:
     meta.upbound.io/example-id: network/v1alpha1/peering
+    upjet.upbound.io/manual-intervention: "Needs an AWS VPC and account to peer with."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: peering-test
+  name: peering-test
   namespace: crossplane-system
 spec:
   forProvider:

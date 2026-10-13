@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/userorgassignment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: userorgassignment-example
+  name: userorgassignment-example
   namespace: crossplane-system
 spec:
   forProvider:
@@ -13,4 +13,4 @@ spec:
     roles:
       orgRoles:
       - ORG_MEMBER
-    username: ${var.user_email}
+    username: ${Rand.RFC1123Subdomain}@example.com

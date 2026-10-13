@@ -8,8 +8,12 @@ metadata:
   name: this
 spec:
   forProvider:
-    projectId: ${var.project_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     roleNames:
     - GROUP_OWNER
     - GROUP_DATA_ACCESS_ADMIN
-    teamId: ${var.team_id}
+    teamIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

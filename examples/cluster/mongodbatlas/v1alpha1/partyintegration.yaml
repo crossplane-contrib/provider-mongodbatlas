@@ -3,9 +3,10 @@ kind: PartyIntegration
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/partyintegration
+    upjet.upbound.io/manual-intervention: "Needs a Datadog account and API key in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: test_datadog
-  name: test-datadog
+    testing.upbound.io/example-name: partyintegration-test_datadog
+  name: partyintegration-test-datadog
 spec:
   forProvider:
     apiKeySecretRef:
@@ -13,5 +14,5 @@ spec:
       name: example-secret
       namespace: crossplane-system
     projectId: ${data.mongodbatlas.project_id}
-    region: <REGION>
+    region: US
     type: DATADOG

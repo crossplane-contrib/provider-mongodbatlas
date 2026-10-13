@@ -3,13 +3,14 @@ kind: AdvancedCluster
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha3/advancedcluster
+    uptest.upbound.io/timeout: "3600"
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: advancedcluster-this
+  name: advancedcluster-this
 spec:
   forProvider:
     clusterType: REPLICASET
-    name: NAME OF CLUSTER
+    name: ${Rand.RFC1123Subdomain}
     projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:

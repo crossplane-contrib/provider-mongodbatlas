@@ -74,6 +74,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			},
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
 		}
 	})
@@ -85,6 +86,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
 		}
 	})
@@ -113,8 +118,11 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.Kind = "ProjectAssignment"
 		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.team_id }}")
 		r.References = config.References{
-			refs.OrgID: {
-				TerraformName: refs.TFOrganization,
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.TeamID: {
+				TerraformName: refs.TFTeam,
 			},
 		}
 	})
@@ -152,6 +160,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			"aws_kms_config.role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 	})
 
@@ -184,6 +195,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
+			},
 		}
 	})
 
@@ -193,6 +208,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.IAMRoleID: {
+				TerraformName: refs.TFProviderAccessAuthorization,
 			},
 		}
 		// otel_supplied_headers is a list-of-objects field marked sensitive in the
@@ -265,6 +283,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFServiceAccount,
+			},
 		}
 	})
 
@@ -289,6 +310,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFServiceAccount,
+			},
 		}
 		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 2, refs.OrgID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 2, 0, "secret_id")
@@ -304,6 +328,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFServiceAccount,
+			},
 		}
 		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.OrgID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromAccessListState(refs.OrgID)
@@ -317,6 +344,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.IAMRoleID: {
+				TerraformName: refs.TFProviderAccessAuthorization,
 			},
 		}
 	})
@@ -338,6 +368,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
 		}
 	})

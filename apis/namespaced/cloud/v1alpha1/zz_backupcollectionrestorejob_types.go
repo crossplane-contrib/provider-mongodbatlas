@@ -74,15 +74,43 @@ type BackupCollectionRestoreJobInitParameters struct {
 
 	// (String) ID of the snapshot to restore.
 	// ID of the snapshot to restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
 	// (String) Target cluster name.
 	// Target cluster name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
+
+	// Reference to a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameRef *v2.NamespacedReference `json:"targetClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameSelector *v2.NamespacedSelector `json:"targetClusterNameSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDRef *v2.NamespacedReference `json:"targetProjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDSelector *v2.NamespacedSelector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 
 	// (Attributes) (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
@@ -256,18 +284,46 @@ type BackupCollectionRestoreJobParameters struct {
 
 	// (String) ID of the snapshot to restore.
 	// ID of the snapshot to restore.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
+	// Reference to a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.NamespacedReference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshot in cloud to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
+
 	// (String) Target cluster name.
 	// Target cluster name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
+	// Reference to a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameRef *v2.NamespacedReference `json:"targetClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameSelector *v2.NamespacedSelector `json:"targetClusterNameSelector,omitempty" tf:"-"`
+
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDRef *v2.NamespacedReference `json:"targetProjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDSelector *v2.NamespacedSelector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 
 	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
@@ -425,8 +481,6 @@ type BackupCollectionRestoreJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.indexStrategy) || (has(self.initProvider) && has(self.initProvider.indexStrategy))",message="spec.forProvider.indexStrategy is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.targetClusterName) || (has(self.initProvider) && has(self.initProvider.targetClusterName))",message="spec.forProvider.targetClusterName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.targetProjectId) || (has(self.initProvider) && has(self.initProvider.targetProjectId))",message="spec.forProvider.targetProjectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.writeStrategy) || (has(self.initProvider) && has(self.initProvider.writeStrategy))",message="spec.forProvider.writeStrategy is a required parameter"
 	Spec   BackupCollectionRestoreJobSpec   `json:"spec"`
 	Status BackupCollectionRestoreJobStatus `json:"status,omitempty"`

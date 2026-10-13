@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/project
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: project-test
+  name: project-test
 spec:
   forProvider:
     isCollectDatabaseSpecificsStatisticsEnabled: true
@@ -20,6 +20,6 @@ spec:
       value: 26
     - name: atlas.project.deployment.nodesPerPrivateLinkRegion
       value: 51
-    name: project-name
+    name: ${Rand.RFC1123Subdomain}
     orgId: ${data.mongodbatlas.org_id}
-    projectOwnerId: <OWNER_ACCOUNT_ID>
+    projectOwnerId: ${data.mongodbatlas.user_id}

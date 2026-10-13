@@ -3,20 +3,23 @@ kind: LogIntegration
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/logintegration
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: logintegration-example
+  name: logintegration-example
   namespace: crossplane-system
 spec:
   forProvider:
-    bucketName: ${aws_s3_bucket.log_bucket.bucket}
-    iamRoleId: ${mongodbatlas_cloud_provider_access_authorization.auth.role_id}
+    bucketName: example-atlas-logs
+    iamRoleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: logintegration-auth
     logTypes:
     - MONGOD_AUDIT
     prefixPath: atlas-logs
     projectId: ${data.mongodbatlas.project_id}
     type: S3_LOG_EXPORT
-    useLegacyPathStructure: ${var.use_legacy_path_structure}
+    useLegacyPathStructure: false
 
 ---
 
@@ -24,19 +27,20 @@ apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
 kind: ProviderAccessAuthorization
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/logintegration
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/logintegration
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: auth
-  name: auth
+    testing.upbound.io/example-name: logintegration-auth
+  name: logintegration-auth
   namespace: crossplane-system
 spec:
   forProvider:
     aws:
-    - iamAssumedRoleArn: ${aws_iam_role.atlas_role.arn}
+    - iamAssumedRoleArn: arn:aws:iam::123456789012:role/atlas-log-export
     projectId: ${data.mongodbatlas.project_id}
     roleIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: setup
+        testing.upbound.io/example-name: logintegration-setup
 
 ---
 
@@ -44,10 +48,11 @@ apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
 kind: ProviderAccessSetup
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/logintegration
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/logintegration
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: setup
-  name: setup
+    testing.upbound.io/example-name: logintegration-setup
+  name: logintegration-setup
   namespace: crossplane-system
 spec:
   forProvider:

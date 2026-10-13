@@ -19,6 +19,10 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 				TerraformName: refs.TFStreamWorkspace,
 				Extractor:     refs.ExtractParamPath(refs.WorkspaceName, false),
 			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
+			},
 		}
 		descAuth, _ := comments.New("If true, the authentication password will be auto-generated and"+
 			" stored in the Secret referenced by the authentication.passwordSecretRef field.",
@@ -84,6 +88,10 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 			refs.InstanceName: {
 				TerraformName: refs.TFStreamInstance,
 				Extractor:     refs.ExtractParamPath(refs.InstanceName, false),
+			},
+			refs.WorkspaceName: {
+				TerraformName: refs.TFStreamWorkspace,
+				Extractor:     refs.ExtractParamPath(refs.WorkspaceName, false),
 			},
 		}
 	})

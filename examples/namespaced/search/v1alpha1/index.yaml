@@ -3,19 +3,45 @@ kind: Index
 metadata:
   annotations:
     meta.upbound.io/example-id: search/v1alpha1/index
+    uptest.upbound.io/timeout: "3600"
+    uptest.upbound.io/pre-assert-hook: ../../../testhooks/load-sample-data.sh
   labels:
-    testing.upbound.io/example-name: test-basic-search-index
-  name: test-basic-search-index
+    testing.upbound.io/example-name: index-test-basic-search-index
+  name: index-test-basic-search-index
   namespace: crossplane-system
 spec:
   forProvider:
     analyzer: lucene.standard
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    collectionName: collection_test
-    database: database_test
+        testing.upbound.io/example-name: index-example
+    collectionName: listingsAndReviews
+    database: sample_airbnb
     mappingsDynamic: true
     name: test-basic-search-index
     projectId: ${data.mongodbatlas.project_id}
     searchAnalyzer: lucene.standard
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: search/v1alpha1/index
+  labels:
+    testing.upbound.io/load-sample-data: "true"
+    testing.upbound.io/example-name: index-example
+  name: index-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
+    replicationSpecs:
+    - regionConfigs:
+      - backingProviderName: AWS
+        priority: 7
+        providerName: FLEX
+        regionName: US_EAST_1

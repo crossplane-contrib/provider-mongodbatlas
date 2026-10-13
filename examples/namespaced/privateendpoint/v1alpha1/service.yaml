@@ -3,16 +3,17 @@ kind: Service
 metadata:
   annotations:
     meta.upbound.io/example-id: privateendpoint/v1alpha1/service
+    upjet.upbound.io/manual-intervention: "Needs an AWS interface VPC endpoint created against the Atlas endpoint service."
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: service-this
+  name: service-this
   namespace: crossplane-system
 spec:
   forProvider:
-    endpointServiceId: ${aws_vpc_endpoint.this.id}
+    endpointServiceId: vpce-0123456789abcdef0
     privateLinkIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: this
+        testing.upbound.io/example-name: service-this
     projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
 
@@ -23,9 +24,10 @@ kind: Resource
 metadata:
   annotations:
     meta.upbound.io/example-id: privateendpoint/v1alpha1/service
+    upjet.upbound.io/manual-intervention: "Needs an AWS interface VPC endpoint created against the Atlas endpoint service."
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: service-this
+  name: service-this
   namespace: crossplane-system
 spec:
   forProvider:

@@ -3,15 +3,16 @@ kind: MetricIntegration
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/metricintegration
+    upjet.upbound.io/manual-intervention: "Needs a Datadog account and API key in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: metricintegration-example
+  name: metricintegration-example
   namespace: crossplane-system
 spec:
   forProvider:
     aggregationTemporality: DELTA
     authType: HEADER
-    endpoint: ${var.datadog_endpoint}
+    endpoint: https://otlp.example.com/v1/metrics
     headers:
     - name: dd-api-key
       valueSecretRef:

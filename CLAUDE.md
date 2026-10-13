@@ -14,7 +14,7 @@ Upjet-based Crossplane provider for MongoDB Atlas. Generates CRDs from the `mong
 - `apis/cluster/` and `apis/namespaced/` — API types. Only `zz_*` files are auto-generated (do not edit). Non-`zz_` files (e.g. `register.go`, `types.go`) are hand-maintained.
 - `internal/controller/` — Generated controllers. Only `zz_*` files are auto-generated (do not edit).
 - `package/crds/` — Generated CRDs (do not edit manually)
-- `examples-generated/` — Generated example manifests (do not edit manually)
+- `examples-generated/` — Generated example manifests (do not edit manually). `make generate` copies only new files into `examples/`, which is hand-maintained
 - `cluster/images/provider-mongodbatlas/Dockerfile` — Provider container image
 
 ## Key Commands
@@ -72,5 +72,8 @@ Each resource sets `r.ExternalName` in its configurator using constructors from 
 - Version constants (`VersionV1Alpha2`, `VersionV1Alpha3`) live in `config/refs/refs.go`
 - Use `refs.ExtractParamPath(field, isObservation)` for cross-resource extractor references (`isObservation=true` reads `status.atProvider`, `false` reads `spec.forProvider`) instead of `fmt.Sprintf(refs.ExtractParamPathFmt, ...)`
 - Use `refs.AccessListGetIDFn(prefixParams...)` for access-list resources with ip_address/cidr_block fallback
-- Examples in `examples/` must stay uptestable: set `projectId`/`orgId` (and nested ones like `targetProjectId`, `groupId`) to `${data.mongodbatlas.project_id}`/`${data.mongodbatlas.org_id}` from the uptest datasource, never a hardcoded ID or a selector without a matching `Project`/`Organization` in the same file. Keep `examples/cluster` and `examples/namespaced` in sync
+- Examples in `examples/` must stay uptestable: set `projectId`/`orgId` (and nested ones like `targetProjectId`, `groupId`) to `${data.mongodbatlas.project_id}`/`${data.mongodbatlas.org_id}` from the uptest datasource, never a hardcoded ID or a selector without a matching object of the reference's target kind in the same file. Other datasource keys: `mongodbatlas.user_id` (active org member) and the optional `mongodbatlas.federation_settings_id` (federated examples keep the placeholder behind manual-intervention, so a federated org can drop the annotation and run them locally). No Terraform expressions (`${var.*}`, `${aws_*}`): a field that held one gets a selector, adding the missing `r.References` entry in `config/` when needed
+- Example clusters use the cheapest tier the resource supports (Flex, else M10) in AWS `US_EAST_1`, and `${Rand.RFC1123Subdomain}` names (uptest gives each occurrence its own value, so only use it where the name is read through a selector). Manifests that need infrastructure outside Atlas (AWS, Azure, Confluent, Kafka, Datadog, LDAP, App Services) or that cannot be created or cleaned up carry `upjet.upbound.io/manual-intervention` with the reason, on every manifest of the file
+- Examples must be safe to run in one uptest batch: prefix every `metadata.name` and `testing.upbound.io/example-name` label (and the selectors that match it) with the file name, e.g. `onlinearchive-example`. Files with clusters set `uptest.upbound.io/timeout` (3600, or 5400 with backup snapshots). Clusters that need the Atlas sample datasets carry the label `testing.upbound.io/load-sample-data: "true"` and the dependent resource sets `uptest.upbound.io/pre-assert-hook: ../../../testhooks/load-sample-data.sh` (needs `atlas` and `jq`; hooks must be executable)
+- Keep `examples/cluster` and `examples/namespaced` in sync: the namespaced file is the cluster one with `.m.crossplane.io` API groups, `metadata.namespace: crossplane-system`, and no `namespace` in secret references
 - The Dockerfile sets `NO_COLOR=1` and `TF_CLI_ARGS_import=-no-color` to suppress ANSI in terraform output

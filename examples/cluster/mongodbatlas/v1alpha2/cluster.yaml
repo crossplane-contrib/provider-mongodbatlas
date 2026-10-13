@@ -3,18 +3,19 @@ kind: Cluster
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha2/cluster
+    uptest.upbound.io/timeout: "3600"
   labels:
-    testing.upbound.io/example-name: cluster-test
-  name: cluster-test
+    testing.upbound.io/example-name: cluster-cluster-test
+  name: cluster-cluster-test
 spec:
   forProvider:
     autoScalingDiskGbEnabled: true
     cloudBackup: true
     clusterType: REPLICASET
     mongoDbMajorVersion: "7.0"
-    name: cluster-test
+    name: ${Rand.RFC1123Subdomain}
     projectId: ${data.mongodbatlas.project_id}
-    providerInstanceSizeName: M40
+    providerInstanceSizeName: M10
     providerName: AWS
     replicationSpecs:
     - numShards: 1

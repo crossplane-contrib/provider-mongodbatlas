@@ -3,13 +3,14 @@ kind: Instance
 metadata:
   annotations:
     meta.upbound.io/example-id: serverless/v1alpha1/instance
+    upjet.upbound.io/manual-intervention: "Atlas no longer creates Serverless instances; use FlexCluster instead."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: instance-test
+  name: instance-test
   namespace: crossplane-system
 spec:
   forProvider:
-    name: <SERVERLESS_INSTANCE_NAME>
+    name: example-serverless
     projectId: ${data.mongodbatlas.project_id}
     providerSettingsBackingProviderName: AWS
     providerSettingsProviderName: SERVERLESS

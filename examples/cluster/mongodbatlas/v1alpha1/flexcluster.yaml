@@ -3,14 +3,15 @@ kind: FlexCluster
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/flexcluster
+    uptest.upbound.io/timeout: "3600"
   labels:
-    testing.upbound.io/example-name: example-cluster
-  name: example-cluster
+    testing.upbound.io/example-name: flexcluster-example-cluster
+  name: flexcluster-example-cluster
 spec:
   forProvider:
-    name: ${var.cluster_name}
+    name: ${Rand.RFC1123Subdomain}
     projectId: ${data.mongodbatlas.project_id}
     providerSettings:
       backingProviderName: AWS
       regionName: US_EAST_1
-    terminationProtectionEnabled: true
+    terminationProtectionEnabled: false

@@ -13,7 +13,9 @@ spec:
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: user
-    username: test-acc-username
+    usernameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: user
 
 ---
 

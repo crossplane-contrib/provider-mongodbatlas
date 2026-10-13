@@ -1679,6 +1679,16 @@ func (in *QueryLimitInitParameters) DeepCopyInto(out *QueryLimitInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.TenantNameRef != nil {
+		in, out := &in.TenantNameRef, &out.TenantNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TenantNameSelector != nil {
+		in, out := &in.TenantNameSelector, &out.TenantNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Value != nil {
 		in, out := &in.Value, &out.Value
 		*out = new(int64)
@@ -1835,6 +1845,16 @@ func (in *QueryLimitParameters) DeepCopyInto(out *QueryLimitParameters) {
 		in, out := &in.TenantName, &out.TenantName
 		*out = new(string)
 		**out = **in
+	}
+	if in.TenantNameRef != nil {
+		in, out := &in.TenantNameRef, &out.TenantNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TenantNameSelector != nil {
+		in, out := &in.TenantNameSelector, &out.TenantNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Value != nil {
 		in, out := &in.Value, &out.Value

@@ -3,33 +3,16 @@ kind: PrivateLinkEndpointService
 metadata:
   annotations:
     meta.upbound.io/example-id: federated/v1alpha1/privatelinkendpointservice
+    upjet.upbound.io/manual-intervention: "Needs an AWS interface VPC endpoint created against the Atlas endpoint service."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: privatelinkendpointservice-test
+  name: privatelinkendpointservice-test
   namespace: crossplane-system
 spec:
   forProvider:
     comment: Test
-    customerEndpointDnsName: ${aws_vpc_endpoint.test.dns_entry[0].dns_name}
-    endpointId: ${aws_vpc_endpoint.test.id}
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: atlas-project
+    customerEndpointDnsName: vpce-0123456789abcdef0-abcdefgh.vpce-svc-0123456789abcdef0.us-east-1.vpce.amazonaws.com
+    endpointId: vpce-0123456789abcdef0
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
     region: US_EAST_1
-
----
-
-apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
-kind: Project
-metadata:
-  annotations:
-    meta.upbound.io/example-id: federated/v1alpha1/privatelinkendpointservice
-  labels:
-    testing.upbound.io/example-name: atlas-project
-  name: atlas-project
-  namespace: crossplane-system
-spec:
-  forProvider:
-    name: ${var.atlas_project_name}
-    orgId: ${data.mongodbatlas.org_id}

@@ -3,15 +3,16 @@ kind: EventTrigger
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/eventtrigger
+    upjet.upbound.io/manual-intervention: "Needs an App Services app, function and linked data source."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: eventtrigger-test
+  name: eventtrigger-test
   namespace: crossplane-system
 spec:
   forProvider:
-    appId: APPLICATION ID
-    configCollection: COLLECTION NAME
-    configDatabase: DATABASE NAME
+    appId: <app-services-app-id>
+    configCollection: example_collection
+    configDatabase: example_db
     configFullDocument: false
     configFullDocumentBefore: false
     configMatch: |
@@ -24,13 +25,13 @@ spec:
     - INSERT
     - UPDATE
     configProject: '{"updateDescription.updatedFields":{"status":"blocked"}}'
-    configServiceId: SERVICE ID
+    configServiceId: <app-services-data-source-id>
     disabled: false
     eventProcessors:
     - awsEventbridge:
-      - configAccountId: AWS ACCOUNT ID
-        configRegion: AWS REGIOn
-    functionId: FUNCTION ID
-    name: NAME OF THE TRIGGER
+      - configAccountId: "123456789012"
+        configRegion: US_EAST_1
+    functionId: <app-services-function-id>
+    name: example-trigger
     projectId: ${data.mongodbatlas.project_id}
     type: DATABASE

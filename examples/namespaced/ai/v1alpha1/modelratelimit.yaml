@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ai/v1alpha1/modelratelimit
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: modelratelimit-this
+  name: modelratelimit-this
   namespace: crossplane-system
 spec:
   forProvider:

@@ -40,6 +40,9 @@ func ConfigureFederated(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			"tenant_name": {
+				TerraformName: "mongodbatlas_federated_database_instance",
+			},
 		}
 	})
 

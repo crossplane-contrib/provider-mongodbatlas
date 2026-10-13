@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alert/v1alpha1/configuration
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: configuration-test
+  name: configuration-test
   namespace: crossplane-system
 spec:
   forProvider:

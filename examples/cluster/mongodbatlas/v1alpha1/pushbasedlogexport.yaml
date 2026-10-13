@@ -3,17 +3,18 @@ kind: PushBasedLogExport
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/pushbasedlogexport
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: pushbasedlogexport-test
+  name: pushbasedlogexport-test
 spec:
   forProvider:
-    bucketName: ${aws_s3_bucket.log_bucket.bucket}
-    iamRoleId: ${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}
-    prefixPath: push-based-log-test
-    projectIdSelector:
+    bucketName: example-atlas-logs
+    iamRoleIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: project-tf
+        testing.upbound.io/example-name: pushbasedlogexport-auth_role
+    prefixPath: push-based-log-test
+    projectId: ${data.mongodbatlas.project_id}
 
 ---
 
@@ -21,20 +22,19 @@ apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
 kind: ProviderAccessAuthorization
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/pushbasedlogexport
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/pushbasedlogexport
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: auth_role
-  name: auth-role
+    testing.upbound.io/example-name: pushbasedlogexport-auth_role
+  name: pushbasedlogexport-auth-role
 spec:
   forProvider:
     aws:
-    - iamAssumedRoleArn: ${aws_iam_role.test_role.arn}
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: project-tf
+    - iamAssumedRoleArn: arn:aws:iam::123456789012:role/atlas-log-export
+    projectId: ${data.mongodbatlas.project_id}
     roleIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: setup_only
+        testing.upbound.io/example-name: pushbasedlogexport-setup_only
 
 ---
 
@@ -42,28 +42,12 @@ apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
 kind: ProviderAccessSetup
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/pushbasedlogexport
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/pushbasedlogexport
+    upjet.upbound.io/manual-intervention: "Needs an existing S3 bucket and an AWS IAM role that trusts the Atlas AWS account."
   labels:
-    testing.upbound.io/example-name: setup_only
-  name: setup-only
+    testing.upbound.io/example-name: pushbasedlogexport-setup_only
+  name: pushbasedlogexport-setup-only
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: project-tf
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
-
----
-
-apiVersion: mongodbatlas.crossplane.io/v1alpha1
-kind: Project
-metadata:
-  annotations:
-    meta.upbound.io/example-id: /v1alpha1/pushbasedlogexport
-  labels:
-    testing.upbound.io/example-name: project-tf
-  name: project-tf
-spec:
-  forProvider:
-    name: ${var.atlas_project_name}
-    orgId: ${data.mongodbatlas.org_id}

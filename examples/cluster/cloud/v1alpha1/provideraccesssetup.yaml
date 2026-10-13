@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/provideraccesssetup
   labels:
-    testing.upbound.io/example-name: test_role
-  name: test-role
+    testing.upbound.io/example-name: provideraccesssetup-test_role
+  name: provideraccesssetup-test-role
 spec:
   forProvider:
     projectId: ${data.mongodbatlas.project_id}

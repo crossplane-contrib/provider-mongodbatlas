@@ -3,15 +3,17 @@ kind: PrivatelinkEndpoint
 metadata:
   annotations:
     meta.upbound.io/example-id: stream/v1alpha1/privatelinkendpoint
+    upjet.upbound.io/manual-intervention: "Needs a Confluent Cloud PrivateLink network."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: privatelinkendpoint-test
+  name: privatelinkendpoint-test
 spec:
   forProvider:
-    dnsDomain: ${confluent_network.private_link.dns_domain}
-    dnsSubDomain: ${values(confluent_network.private_link.zonal_subdomains)}
+    dnsDomain: example.us-east-1.aws.confluent.cloud
+    dnsSubDomain:
+    - use1-az1.example.us-east-1.aws.confluent.cloud
     projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
-    region: ${var.aws_region}
-    serviceEndpointId: ${confluent_network.private_link.aws[0].private_link_endpoint_service}
+    region: us-east-1
+    serviceEndpointId: com.amazonaws.vpce.us-east-1.vpce-svc-0123456789abcdef0
     vendor: CONFLUENT

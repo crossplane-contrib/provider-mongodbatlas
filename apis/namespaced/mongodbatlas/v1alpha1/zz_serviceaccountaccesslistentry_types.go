@@ -21,7 +21,16 @@ type ServiceAccountAccessListEntryInitParameters struct {
 
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.ServiceAccount
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v2.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// (String) IP address to be added to the access list. You can set a value for this parameter or cidr_block, but not for both.
 	// IP address to be added to the access list. You can set a value for this parameter or **cidr_block**, but not for both.
@@ -87,8 +96,17 @@ type ServiceAccountAccessListEntryParameters struct {
 
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.ServiceAccount
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v2.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// (String) IP address to be added to the access list. You can set a value for this parameter or cidr_block, but not for both.
 	// IP address to be added to the access list. You can set a value for this parameter or **cidr_block**, but not for both.
@@ -146,9 +164,8 @@ type ServiceAccountAccessListEntryStatus struct {
 type ServiceAccountAccessListEntry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientId) || (has(self.initProvider) && has(self.initProvider.clientId))",message="spec.forProvider.clientId is a required parameter"
-	Spec   ServiceAccountAccessListEntrySpec   `json:"spec"`
-	Status ServiceAccountAccessListEntryStatus `json:"status,omitempty"`
+	Spec              ServiceAccountAccessListEntrySpec   `json:"spec"`
+	Status            ServiceAccountAccessListEntryStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

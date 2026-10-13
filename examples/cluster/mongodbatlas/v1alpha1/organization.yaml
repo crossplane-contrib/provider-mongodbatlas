@@ -3,13 +3,14 @@ kind: Organization
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/organization
+    upjet.upbound.io/manual-intervention: "Creating organizations needs a paying organization with cross-organization billing and an API key allowed to create organizations."
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: organization-this
+  name: organization-this
 spec:
   forProvider:
     description: test API key from Org Creation
-    name: testCreateORG
-    orgOwnerId: <ORG_OWNER_ID>
+    name: ${Rand.RFC1123Subdomain}
+    orgOwnerId: ${data.mongodbatlas.user_id}
     roleNames:
     - ORG_OWNER

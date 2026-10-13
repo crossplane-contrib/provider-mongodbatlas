@@ -57,6 +57,9 @@ func ConfigureProject(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFProjectServiceAccount,
+			},
 		}
 		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.ProjectID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromAccessListState(refs.ProjectID)
@@ -68,6 +71,9 @@ func ConfigureProject(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClientID: {
+				TerraformName: refs.TFProjectServiceAccount,
 			},
 		}
 		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 2, refs.ProjectID, "client_id")

@@ -3,19 +3,18 @@ kind: BackupSnapshot
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshot
+    uptest.upbound.io/timeout: "5400"
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: backupsnapshot-test
+  name: backupsnapshot-test
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: my_cluster
+        testing.upbound.io/example-name: backupsnapshot-my_cluster
     description: myDescription
     projectId: ${data.mongodbatlas.project_id}
     retentionInDays: 1
-    timeouts:
-    - create: 1h15m
 
 ---
 
@@ -25,13 +24,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshot
   labels:
-    testing.upbound.io/example-name: my_cluster
-  name: my-cluster
+    testing.upbound.io/example-name: backupsnapshot-my_cluster
+  name: backupsnapshot-my-cluster
 spec:
   forProvider:
     backupEnabled: true
     clusterType: REPLICASET
-    name: MyCluster
+    name: ${Rand.RFC1123Subdomain}
     projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
@@ -40,7 +39,7 @@ spec:
           nodeCount: 3
         priority: 7
         providerName: AWS
-        regionName: EU_WEST_2
+        regionName: US_EAST_1
 
 ---
 
@@ -50,16 +49,16 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshot
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: backupsnapshot-test
+  name: backupsnapshot-test
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: test
+        testing.upbound.io/example-name: backupsnapshot-my_cluster
     deliveryTypeConfig:
     - download: true
     projectId: ${data.mongodbatlas.project_id}
     snapshotIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: test
+        testing.upbound.io/example-name: backupsnapshot-test

@@ -17,7 +17,16 @@ type ServiceAccountProjectAssignmentInitParameters struct {
 
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.ServiceAccount
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v2.Reference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v2.Selector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
@@ -60,8 +69,17 @@ type ServiceAccountProjectAssignmentParameters struct {
 
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.ServiceAccount
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v2.Reference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in mongodbatlas to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v2.Selector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
@@ -120,7 +138,6 @@ type ServiceAccountProjectAssignmentStatus struct {
 type ServiceAccountProjectAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientId) || (has(self.initProvider) && has(self.initProvider.clientId))",message="spec.forProvider.clientId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roles) || (has(self.initProvider) && has(self.initProvider.roles))",message="spec.forProvider.roles is a required parameter"
 	Spec   ServiceAccountProjectAssignmentSpec   `json:"spec"`
 	Status ServiceAccountProjectAssignmentStatus `json:"status,omitempty"`

@@ -164,10 +164,29 @@ type DeliveryTypeConfigInitParameters struct {
 	PointInTimeUtcSeconds *int64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
 	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
+	// Reference to a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameRef *v2.Reference `json:"targetClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameSelector *v2.Selector `json:"targetClusterNameSelector,omitempty" tf:"-"`
+
 	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDRef *v2.Reference `json:"targetProjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDSelector *v2.Selector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 }
 
 type DeliveryTypeConfigObservation struct {
@@ -222,12 +241,31 @@ type DeliveryTypeConfigParameters struct {
 	PointInTimeUtcSeconds *int64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
 	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
+	// Reference to a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameRef *v2.Reference `json:"targetClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate targetClusterName.
+	// +kubebuilder:validation:Optional
+	TargetClusterNameSelector *v2.Selector `json:"targetClusterNameSelector,omitempty" tf:"-"`
+
 	// Name of the target Atlas cluster to which the restore job restores the snapshot. Required for automated and pointInTime.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDRef *v2.Reference `json:"targetProjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate targetProjectId.
+	// +kubebuilder:validation:Optional
+	TargetProjectIDSelector *v2.Selector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 }
 
 // BackupSnapshotRestoreJobSpec defines the desired state of BackupSnapshotRestoreJob

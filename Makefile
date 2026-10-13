@@ -230,6 +230,9 @@ CROSSPLANE_NAMESPACE = crossplane-system
 #   mongodbatlas.project_id: <24-hex project ID>
 #   mongodbatlas.org_id: <24-hex organization ID>
 #   mongodbatlas.user_id: <24-hex ID of an active organization member>
+#   mongodbatlas.aws_container_region: <Atlas AWS region without a network container in the project, e.g. US_WEST_2>
+#   datadog.api_key, datadog.region (Atlas Datadog region code, e.g. US or EU) and
+#   datadog.otlp_metrics_endpoint (OTLP metrics URL of the Datadog site): only for the Datadog examples
 #   mongodbatlas.federation_settings_id: <24-hex ID> (optional, only for the federated examples,
 #   which carry manual-intervention unless the organization is connected to federation settings)
 uptest: $(UPTEST) $(KUBECTL) $(CHAINSAW) $(CROSSPLANE_CLI)

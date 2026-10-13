@@ -22,6 +22,7 @@ type ServiceAccountAccessListEntryInitParameters struct {
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/project/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("client_id",true)
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
 	// Reference to a ServiceAccount in project to populate clientId.
@@ -97,6 +98,7 @@ type ServiceAccountAccessListEntryParameters struct {
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/project/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("client_id",true)
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 

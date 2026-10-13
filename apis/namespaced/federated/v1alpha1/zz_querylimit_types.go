@@ -41,6 +41,7 @@ type QueryLimitInitParameters struct {
 
 	// Name of the Atlas Federated Database Instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/federated/v1alpha1.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	TenantName *string `json:"tenantName,omitempty" tf:"tenant_name,omitempty"`
 
 	// Reference to a DatabaseInstance in federated to populate tenantName.
@@ -120,6 +121,7 @@ type QueryLimitParameters struct {
 
 	// Name of the Atlas Federated Database Instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/federated/v1alpha1.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	TenantName *string `json:"tenantName,omitempty" tf:"tenant_name,omitempty"`
 

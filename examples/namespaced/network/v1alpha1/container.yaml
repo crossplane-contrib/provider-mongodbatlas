@@ -12,4 +12,4 @@ spec:
     atlasCidrBlock: 10.8.0.0/21
     projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
-    regionName: US_EAST_1
+    regionName: ${data.mongodbatlas.aws_container_region}

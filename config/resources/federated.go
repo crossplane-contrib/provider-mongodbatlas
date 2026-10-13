@@ -13,6 +13,7 @@ func ConfigureFederated(p *config.Provider) {
 		r.ShortGroup = groupFederated
 		r.Kind = "DatabaseInstance"
 		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.Name}, refs.Name)
+		r.TerraformCustomDiff = refs.IgnoreUnknownUnsetBlocks("cloud_provider_config", "data_process_region")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -42,6 +43,7 @@ func ConfigureFederated(p *config.Provider) {
 			},
 			"tenant_name": {
 				TerraformName: "mongodbatlas_federated_database_instance",
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
 		}
 	})

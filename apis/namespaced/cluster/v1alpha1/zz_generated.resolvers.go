@@ -32,7 +32,7 @@ func (mg *OutageSimulation) ResolveReferences( // ResolveReferences of this Outa
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
-			Extract:      resource.ExtractParamPath("name", false),
+			Extract:      resource.ExtractParamPath("name", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClusterNameRef,
 			Selector:     mg.Spec.ForProvider.ClusterNameSelector,
@@ -72,7 +72,7 @@ func (mg *OutageSimulation) ResolveReferences( // ResolveReferences of this Outa
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
-			Extract:      resource.ExtractParamPath("name", false),
+			Extract:      resource.ExtractParamPath("name", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ClusterNameRef,
 			Selector:     mg.Spec.InitProvider.ClusterNameSelector,

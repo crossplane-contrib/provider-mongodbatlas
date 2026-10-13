@@ -59,6 +59,7 @@ type X509UserAuthenticationInitParameters struct {
 
 	// Username of the database user to create a certificate for.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha3.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("username",false)
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// Reference to a User in database to populate username.
@@ -113,6 +114,7 @@ type X509UserAuthenticationParameters struct {
 
 	// Username of the database user to create a certificate for.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/database/v1alpha3.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("username",false)
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 

@@ -11,6 +11,7 @@ import (
 	apisresolver "github.com/crossplane-contrib/provider-mongodbatlas/internal/apis"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -207,7 +208,7 @@ func (mg *QueryLimit) ResolveReferences(ctx context.Context, c client.Reader) er
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TenantName),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("name", false),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.TenantNameRef,
 			Selector:     mg.Spec.ForProvider.TenantNameSelector,
@@ -247,7 +248,7 @@ func (mg *QueryLimit) ResolveReferences(ctx context.Context, c client.Reader) er
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TenantName),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("name", false),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.TenantNameRef,
 			Selector:     mg.Spec.InitProvider.TenantNameSelector,

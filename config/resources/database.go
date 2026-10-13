@@ -66,6 +66,7 @@ func ConfigureDatabase(p *config.Provider, pwGen func(string, string) config.New
 			},
 			"username": {
 				TerraformName: "mongodbatlas_database_user",
+				Extractor:     refs.ExtractParamPath("username", false),
 			},
 		}
 	})

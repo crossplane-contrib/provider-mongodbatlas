@@ -72,9 +72,12 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			// Read the name from the cluster's observation: it is only set once
+			// the cluster is created and IDLE. A simulation started earlier keeps
+			// the cluster UPDATING, so its create would never finish.
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
-				Extractor:     refs.ExtractParamPath(refs.Name, false),
+				Extractor:     refs.ExtractParamPath(refs.Name, true),
 			},
 		}
 	})
@@ -142,6 +145,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.ShortGroup = ""
 		r.Kind = "APIKeyProjectAssignment"
 		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.api_key_id }}")
+		// Terraform Read lists the project's API keys and reports a key
+		// that is not assigned to the project as this error.
+		r.ExternalName.IsNotFoundDiagnosticFn = refs.NotFoundWhenErrorSummary("API key not found")
 		r.References = config.References{
 			refs.APIKeyID: {
 				TerraformName: "mongodbatlas_api_key",
@@ -169,6 +175,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_encryption_at_rest_private_endpoint", func(r *config.Resource) {
 		r.ShortGroup = "encryptionatrest"
 		r.Kind = "PrivateEndpoint"
+		r.ExternalName = providerAssignedID()
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -285,6 +292,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			},
 			refs.ClientID: {
 				TerraformName: refs.TFServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
 			},
 		}
 	})
@@ -312,6 +320,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			},
 			refs.ClientID: {
 				TerraformName: refs.TFServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
 			},
 		}
 		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 2, refs.OrgID, "client_id")
@@ -330,6 +339,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			},
 			refs.ClientID: {
 				TerraformName: refs.TFServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
 			},
 		}
 		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.OrgID, "client_id")
@@ -354,6 +364,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_resource_policy", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "ResourcePolicy"
+		r.ExternalName = providerAssignedID()
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,

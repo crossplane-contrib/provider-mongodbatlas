@@ -40,7 +40,11 @@ for resource in advancedclusters.mongodbatlas.crossplane.io advancedclusters.mon
     cluster=$(${KUBECTL} get "${ref[@]}" -o jsonpath='{.spec.forProvider.name}')
     project=$(${KUBECTL} get "${ref[@]}" -o jsonpath='{.spec.forProvider.projectId}')
     echo "Loading sample data into Atlas cluster ${cluster}..."
-    job=$(atlas clusters sampleData load "${cluster}" --projectId "${project}" -o json | jq -r '.id')
+    job=$(atlas clusters sampleData load "${cluster}" --projectId "${project}" -o json | jq -r '._id // empty')
+    if [ -z "${job}" ]; then
+      echo "Could not start the sample data load for Atlas cluster ${cluster}" >&2
+      exit 1
+    fi
     atlas clusters sampleData watch "${job}" --projectId "${project}"
     ${KUBECTL} annotate "${ref[@]}" testing.upbound.io/sample-data-loaded=true --overwrite
   done 3< <(${KUBECTL} get "${resource}" --all-namespaces -l testing.upbound.io/load-sample-data=true \

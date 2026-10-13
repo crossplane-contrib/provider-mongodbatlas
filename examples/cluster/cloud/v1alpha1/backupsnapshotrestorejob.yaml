@@ -13,11 +13,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: backupsnapshotrestorejob-my_cluster
     deliveryTypeConfig:
-    - automated: true
-      targetClusterNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: backupsnapshotrestorejob-my_cluster
-      targetProjectId: ${data.mongodbatlas.project_id}
+    - download: true
     projectId: ${data.mongodbatlas.project_id}
     snapshotIdSelector:
       matchLabels:

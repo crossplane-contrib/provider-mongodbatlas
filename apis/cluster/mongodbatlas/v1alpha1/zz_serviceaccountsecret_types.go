@@ -18,6 +18,7 @@ type ServiceAccountSecretInitParameters struct {
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("client_id",true)
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
 	// Reference to a ServiceAccount in mongodbatlas to populate clientId.
@@ -88,6 +89,7 @@ type ServiceAccountSecretParameters struct {
 	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("client_id",true)
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 

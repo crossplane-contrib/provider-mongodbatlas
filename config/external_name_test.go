@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
@@ -20,9 +21,21 @@ import (
 // and GetExternalNameFn must accept an ID without separators. The
 // "{parent}-{id}" format in the Terraform docs is the import ID only;
 // ImportState splits it and stores only the provider-assigned part in "id".
+// Before Create the external name must stay empty: references would cache a
+// metadata.name placeholder, and some endpoints reject it with 400. The
+// Atlas SDK then fails the Read client-side, which must count as not found.
 func TestPlainProviderIDResources(t *testing.T) {
 	const atlasID = "66f1c018dba9c04e7dcfaf36"
+	emptyIDDiags := []*tfprotov6.Diagnostic{{
+		Severity: tfprotov6.DiagnosticSeverityError,
+		Summary:  "error reading resource",
+		Detail:   "id is empty and must be specified",
+	}}
 	cases := map[string]map[string]any{
+		"mongodbatlas_project": {
+			"org_id": "65def6ce0f722a1507105aa5",
+			"name":   "project",
+		},
 		"mongodbatlas_resource_policy": {
 			"org_id": "65def6ce0f722a1507105aa5",
 			"name":   "policy",
@@ -37,6 +50,13 @@ func TestPlainProviderIDResources(t *testing.T) {
 	for name, params := range cases {
 		t.Run(name, func(t *testing.T) {
 			e := p.Resources[name].ExternalName
+
+			if !e.DisableNameInitializer {
+				t.Error("DisableNameInitializer: want true, got false")
+			}
+			if e.IsNotFoundDiagnosticFn == nil || !e.IsNotFoundDiagnosticFn(emptyIDDiags) {
+				t.Error("IsNotFoundDiagnosticFn: want the empty-ID Read error to count as not found")
+			}
 
 			id, err := e.GetIDFn(context.Background(), atlasID, params, map[string]any{})
 			if err != nil {

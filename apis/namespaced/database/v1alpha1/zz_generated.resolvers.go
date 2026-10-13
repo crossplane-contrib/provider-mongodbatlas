@@ -11,6 +11,7 @@ import (
 	apisresolver "github.com/crossplane-contrib/provider-mongodbatlas/internal/apis"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -103,7 +104,7 @@ func (mg *X509UserAuthentication) ResolveReferences(ctx context.Context, c clien
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Username),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("username", false),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.UsernameRef,
 			Selector:     mg.Spec.ForProvider.UsernameSelector,
@@ -143,7 +144,7 @@ func (mg *X509UserAuthentication) ResolveReferences(ctx context.Context, c clien
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Username),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("username", false),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.UsernameRef,
 			Selector:     mg.Spec.InitProvider.UsernameSelector,

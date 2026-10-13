@@ -25,6 +25,7 @@ kind: AdvancedCluster
 metadata:
   annotations:
     meta.upbound.io/example-id: search/v1alpha1/deployment
+    uptest.upbound.io/pre-delete-hook: ../../../testhooks/delete-search-deployment.sh
   labels:
     testing.upbound.io/example-name: deployment-example
   name: deployment-example

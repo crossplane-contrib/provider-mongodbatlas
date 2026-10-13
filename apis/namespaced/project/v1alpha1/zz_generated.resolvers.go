@@ -11,6 +11,7 @@ import (
 	apisresolver "github.com/crossplane-contrib/provider-mongodbatlas/internal/apis"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -187,7 +188,7 @@ func (mg *ServiceAccountAccessListEntry) ResolveReferences(ctx context.Context, 
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClientID),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("client_id", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClientIDRef,
 			Selector:     mg.Spec.ForProvider.ClientIDSelector,
@@ -227,7 +228,7 @@ func (mg *ServiceAccountAccessListEntry) ResolveReferences(ctx context.Context, 
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClientID),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("client_id", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ClientIDRef,
 			Selector:     mg.Spec.InitProvider.ClientIDSelector,
@@ -279,7 +280,7 @@ func (mg *ServiceAccountSecret) ResolveReferences(ctx context.Context, c client.
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClientID),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("client_id", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClientIDRef,
 			Selector:     mg.Spec.ForProvider.ClientIDSelector,
@@ -319,7 +320,7 @@ func (mg *ServiceAccountSecret) ResolveReferences(ctx context.Context, c client.
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClientID),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("client_id", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ClientIDRef,
 			Selector:     mg.Spec.InitProvider.ClientIDSelector,

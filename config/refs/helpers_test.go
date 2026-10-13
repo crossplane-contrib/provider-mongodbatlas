@@ -8,6 +8,7 @@ import (
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 func TestNotFoundWhenPathParamEmpty(t *testing.T) {
@@ -35,6 +36,32 @@ func TestNotFoundWhenPathParamEmpty(t *testing.T) {
 			got := NotFoundWhenPathParamEmpty(tc.diags)
 			if diff := cmp.Diff(tc.want, got); diff != "" {
 				t.Errorf("NotFoundWhenPathParamEmpty(...): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestNotFoundWhenErrorSummary(t *testing.T) {
+	errDiag := func(summary string) *tfprotov6.Diagnostic {
+		return &tfprotov6.Diagnostic{Severity: tfprotov6.DiagnosticSeverityError, Summary: summary, Detail: "detail"}
+	}
+	warning := &tfprotov6.Diagnostic{Severity: tfprotov6.DiagnosticSeverityWarning, Summary: "API key not found"}
+	cases := map[string]struct {
+		diags []*tfprotov6.Diagnostic
+		want  bool
+	}{
+		"NoDiagnostics":       {diags: nil, want: false},
+		"OnlyWarnings":        {diags: []*tfprotov6.Diagnostic{warning}, want: false},
+		"MatchingSummary":     {diags: []*tfprotov6.Diagnostic{errDiag("API key not found")}, want: true},
+		"MatchingAndWarning":  {diags: []*tfprotov6.Diagnostic{warning, errDiag("API key not found")}, want: true},
+		"OtherSummary":        {diags: []*tfprotov6.Diagnostic{errDiag("error fetching resource")}, want: false},
+		"MatchingAndOtherErr": {diags: []*tfprotov6.Diagnostic{errDiag("API key not found"), errDiag("error fetching resource")}, want: false},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got := NotFoundWhenErrorSummary("API key not found")(tc.diags)
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("NotFoundWhenErrorSummary(...): -want, +got:\n%s", diff)
 			}
 		})
 	}
@@ -98,6 +125,76 @@ func TestStateEmptyWhenAttributeUnset(t *testing.T) {
 			}
 			if diff := cmp.Diff(tc.want, got); diff != "" {
 				t.Errorf("StateEmptyWhenAttributeUnset(...): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+const (
+	cloudProviderConfigCount = "cloud_provider_config.#"
+	dataProcessRegionCount   = "data_process_region.#"
+)
+
+func TestIgnoreUnknownUnsetBlocks(t *testing.T) {
+	unknown := &terraform.ResourceAttrDiff{NewComputed: true}
+	changed := &terraform.ResourceAttrDiff{Old: "a", New: "b"}
+	existing := &terraform.InstanceState{ID: "id"}
+	type args struct {
+		diff   *terraform.InstanceDiff
+		state  *terraform.InstanceState
+		config *terraform.ResourceConfig
+	}
+	cases := map[string]struct {
+		args args
+		want *terraform.InstanceDiff
+	}{
+		"DropsUnknownUnsetBlock": {
+			args: args{
+				diff:   &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{cloudProviderConfigCount: unknown, dataProcessRegionCount: unknown}},
+				state:  existing,
+				config: terraform.NewResourceConfigRaw(map[string]any{Name: "x"}),
+			},
+			want: &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{}},
+		},
+		"KeepsOtherChanges": {
+			args: args{
+				diff:   &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{cloudProviderConfigCount: unknown, Name: changed}},
+				state:  existing,
+				config: terraform.NewResourceConfigRaw(map[string]any{Name: "b"}),
+			},
+			want: &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{Name: changed}},
+		},
+		"KeepsConfiguredBlock": {
+			args: args{
+				diff:   &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{dataProcessRegionCount: unknown}},
+				state:  existing,
+				config: terraform.NewResourceConfigRaw(map[string]any{"data_process_region": []any{map[string]any{"cloud_provider": "AWS"}}}),
+			},
+			want: &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{dataProcessRegionCount: unknown}},
+		},
+		"KeepsBlockSetInState": {
+			args: args{
+				diff:  &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{cloudProviderConfigCount: {Old: "1", NewComputed: true}}},
+				state: existing,
+			},
+			want: &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{cloudProviderConfigCount: {Old: "1", NewComputed: true}}},
+		},
+		"KeepsCreateDiff": {
+			args: args{
+				diff:  &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{cloudProviderConfigCount: unknown}},
+				state: &terraform.InstanceState{},
+			},
+			want: &terraform.InstanceDiff{Attributes: map[string]*terraform.ResourceAttrDiff{cloudProviderConfigCount: unknown}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := IgnoreUnknownUnsetBlocks("cloud_provider_config", "data_process_region")(tc.args.diff, tc.args.state, tc.args.config)
+			if err != nil {
+				t.Fatalf("IgnoreUnknownUnsetBlocks(...): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("IgnoreUnknownUnsetBlocks(...): -want, +got:\n%s", diff)
 			}
 		})
 	}

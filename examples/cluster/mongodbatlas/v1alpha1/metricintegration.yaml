@@ -3,7 +3,6 @@ kind: MetricIntegration
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/metricintegration
-    upjet.upbound.io/manual-intervention: "Needs a Datadog account and API key in the referenced Secret."
   labels:
     testing.upbound.io/example-name: metricintegration-example
   name: metricintegration-example
@@ -11,15 +10,26 @@ spec:
   forProvider:
     aggregationTemporality: DELTA
     authType: HEADER
-    endpoint: https://otlp.example.com/v1/metrics
+    endpoint: ${data.datadog.otlp_metrics_endpoint}
     headers:
     - name: dd-api-key
       valueSecretRef:
-        key: attribute.key
-        name: example-api-key
+        key: api-key
+        name: metricintegration-datadog-api-key
         namespace: crossplane-system
     integrationType: OTEL
     metricSelection:
     - ATLAS_STREAM_PROCESSING
     projectId: ${data.mongodbatlas.project_id}
     providerType: CUSTOM
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metricintegration-datadog-api-key
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  api-key: ${data.datadog.api_key}

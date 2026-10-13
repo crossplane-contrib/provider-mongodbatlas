@@ -42,26 +42,3 @@ spec:
         priority: 7
         providerName: AWS
         regionName: US_EAST_1
-
----
-
-apiVersion: cloud.mongodbatlas.m.crossplane.io/v1alpha1
-kind: BackupSnapshotRestoreJob
-metadata:
-  annotations:
-    meta.upbound.io/example-id: cloud/v1alpha1/backupsnapshot
-  labels:
-    testing.upbound.io/example-name: backupsnapshot-test
-  name: backupsnapshot-test
-  namespace: crossplane-system
-spec:
-  forProvider:
-    clusterNameSelector:
-      matchLabels:
-        testing.upbound.io/example-name: backupsnapshot-my_cluster
-    deliveryTypeConfig:
-    - download: true
-    projectId: ${data.mongodbatlas.project_id}
-    snapshotIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: backupsnapshot-test

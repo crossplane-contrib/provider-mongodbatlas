@@ -146,6 +146,18 @@ func accessListImportJoinedID(prefixParams []string) config.ExternalName {
 	return e
 }
 
+// providerAssignedID builds an ExternalName for plugin-framework resources
+// whose Terraform ID is the plain provider-assigned ID. Unlike the default
+// identifierFromProvider, it leaves the external name empty until Create:
+// references that resolve before Create would cache a metadata.name
+// placeholder, and some Atlas endpoints reject it with 400 instead of 404.
+// The empty ID fails the Read client-side, which counts as not found.
+func providerAssignedID() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.IsNotFoundDiagnosticFn = refs.NotFoundWhenPathParamEmpty
+	return e
+}
+
 // computedKeyID builds an ExternalName for plugin-framework resources with no
 // "id" attribute whose Read needs the provider-assigned computed attribute key.
 // upjet does not call GetIDFn for them.

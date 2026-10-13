@@ -10,9 +10,7 @@ metadata:
 spec:
   forProvider:
     cloudProvider: AZURE
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: ear
+    projectId: ${data.mongodbatlas.project_id}
     regionName: ${var.azure_region_name}
 
 ---
@@ -49,6 +47,4 @@ spec:
       tenantIdSecretRef:
         key: example-key
         name: example-secret
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

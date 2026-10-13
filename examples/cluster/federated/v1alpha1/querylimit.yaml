@@ -10,8 +10,6 @@ spec:
   forProvider:
     limitName: bytesProcessed.weekly
     overrunPolicy: BLOCK
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     tenantName: FederatedDatabseInstance0
     value: 5147483648

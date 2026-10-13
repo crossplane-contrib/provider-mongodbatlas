@@ -22,7 +22,5 @@ spec:
       resources:
       - collectionName: ""
         databaseName: anyDatabase
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     roleName: myCustomRole

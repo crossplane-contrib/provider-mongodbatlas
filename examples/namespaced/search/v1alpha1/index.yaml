@@ -17,7 +17,5 @@ spec:
     database: database_test
     mappingsDynamic: true
     name: test-basic-search-index
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     searchAnalyzer: lucene.standard

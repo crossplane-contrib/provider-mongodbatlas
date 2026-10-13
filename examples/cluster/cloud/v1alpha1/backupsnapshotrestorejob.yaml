@@ -14,10 +14,8 @@ spec:
     deliveryTypeConfig:
     - automated: true
       targetClusterName: MyCluster
-      targetProjectId: 5cf5a45a9ccf6400e60981b6
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test
+      targetProjectId: ${data.mongodbatlas.project_id}
+    projectId: ${data.mongodbatlas.project_id}
     snapshotIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test
@@ -37,9 +35,7 @@ spec:
     backupEnabled: true
     clusterType: REPLICASET
     name: MyCluster
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:
@@ -65,7 +61,5 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: my_cluster
     description: myDescription
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: my_cluster
+    projectId: ${data.mongodbatlas.project_id}
     retentionInDays: 1

@@ -10,9 +10,7 @@ metadata:
 spec:
   forProvider:
     name: TENANT NAME OF THE FEDERATED DATABASE INSTANCE
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     storageDatabases:
     - collections:
       - dataSources:
@@ -24,7 +22,7 @@ spec:
     storageStores:
     - clusterName: CLUSTER NAME
       name: STORE 1 NAME
-      projectId: PROJECT ID
+      projectId: ${data.mongodbatlas.project_id}
       provider: atlas
       readPreference:
       - mode: secondary

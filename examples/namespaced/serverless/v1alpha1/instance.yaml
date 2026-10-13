@@ -10,9 +10,7 @@ metadata:
 spec:
   forProvider:
     name: <SERVERLESS_INSTANCE_NAME>
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerSettingsBackingProviderName: AWS
     providerSettingsProviderName: SERVERLESS
     providerSettingsRegionName: US_EAST_1

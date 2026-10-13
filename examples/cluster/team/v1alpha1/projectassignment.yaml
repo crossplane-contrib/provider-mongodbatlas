@@ -8,7 +8,7 @@ metadata:
   name: this
 spec:
   forProvider:
-    projectId: ${var.project_id}
+    projectId: ${data.mongodbatlas.project_id}
     roleNames:
     - GROUP_OWNER
     - GROUP_DATA_ACCESS_ADMIN

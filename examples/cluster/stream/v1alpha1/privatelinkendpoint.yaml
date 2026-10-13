@@ -10,7 +10,7 @@ spec:
   forProvider:
     dnsDomain: ${confluent_network.private_link.dns_domain}
     dnsSubDomain: ${values(confluent_network.private_link.zonal_subdomains)}
-    projectId: ${var.project_id}
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
     region: ${var.aws_region}
     serviceEndpointId: ${confluent_network.private_link.aws[0].private_link_endpoint_service}

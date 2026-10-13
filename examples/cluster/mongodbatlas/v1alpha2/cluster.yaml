@@ -13,9 +13,7 @@ spec:
     clusterType: REPLICASET
     mongoDbMajorVersion: "7.0"
     name: cluster-test
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerInstanceSizeName: M40
     providerName: AWS
     replicationSpecs:

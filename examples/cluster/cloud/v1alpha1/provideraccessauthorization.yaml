@@ -10,9 +10,7 @@ spec:
   forProvider:
     aws:
     - iamAssumedRoleArn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/test-user-role
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: setup_only
+    projectId: ${data.mongodbatlas.project_id}
     roleIdSelector:
       matchLabels:
         testing.upbound.io/example-name: setup_only
@@ -29,7 +27,5 @@ metadata:
   name: setup-only
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS

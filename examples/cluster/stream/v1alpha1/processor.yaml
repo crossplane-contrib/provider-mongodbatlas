@@ -14,9 +14,7 @@ spec:
         {"$emit": {"connectionName": "${mongodbatlas_stream_connection.example-cluster.connection_name}", "db": "sample", "coll": "solar", "timeseries": {"timeField": "_ts"}}}
       ]
     processorName: sampleProcessorName
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     state: STARTED
     tier: SP30
     workspaceName: ${mongodbatlas_stream_instance.example.instance_name}
@@ -38,9 +36,7 @@ spec:
     dbRoleToExecute:
       role: atlasAdmin
       type: BUILT_IN
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     type: Cluster
     workspaceNameSelector:
       matchLabels:
@@ -69,9 +65,7 @@ spec:
     config:
       auto.offset.reset: earliest
     connectionName: KafkaPlaintextConnection
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     security:
       protocol: SASL_PLAINTEXT
     type: Kafka
@@ -92,9 +86,7 @@ metadata:
 spec:
   forProvider:
     connectionName: sample_stream_solar
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     type: Sample
     workspaceNameSelector:
       matchLabels:
@@ -116,6 +108,4 @@ spec:
       cloudProvider: AWS
       region: VIRGINIA_USA
     instanceName: InstanceName
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

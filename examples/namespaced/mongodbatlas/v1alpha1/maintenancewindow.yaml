@@ -11,9 +11,7 @@ spec:
   forProvider:
     dayOfWeek: 3
     hourOfDay: 4
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     protectedHours:
     - endHourOfDay: 17
       startHourOfDay: 9

@@ -24,12 +24,10 @@ spec:
           target_namespace = try(var.database_renames[db], null)
         }]}
     indexStrategy: ${var.index_strategy}
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     snapshotId: ${var.snapshot_id}
     targetClusterName: ${local.target_cluster_name}
-    targetProjectId: ${local.target_project_id}
+    targetProjectId: ${data.mongodbatlas.project_id}
     timeouts:
       create: ${var.create_timeout}
     writeStrategy: ${var.write_strategy}

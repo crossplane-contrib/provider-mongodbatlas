@@ -12,6 +12,4 @@ spec:
       cloudProvider: AWS
       region: VIRGINIA_USA
     instanceName: InstanceName
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

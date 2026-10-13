@@ -9,7 +9,5 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS

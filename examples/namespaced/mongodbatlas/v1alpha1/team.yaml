@@ -10,9 +10,7 @@ metadata:
 spec:
   forProvider:
     name: myNewTeam
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    orgId: ${data.mongodbatlas.org_id}
     usernames:
     - user1@email.com
     - user2@email.com

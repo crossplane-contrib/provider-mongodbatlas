@@ -10,9 +10,7 @@ spec:
   forProvider:
     clusterName: Cluster0
     connectionName: ConnectionName
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     type: Cluster
     workspaceNameSelector:
       matchLabels:

@@ -226,6 +226,9 @@ CROSSPLANE_NAMESPACE = crossplane-system
 #   aws_secret_access_key = REDACTED'
 #   The associated `ProviderConfig`s will be named as `default` and `peer`.
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
+#   Examples expect a YAML datasource with the pre-existing Atlas project and organization, e.g.:
+#   mongodbatlas.project_id: <24-hex project ID>
+#   mongodbatlas.org_id: <24-hex organization ID>
 uptest: $(UPTEST) $(KUBECTL) $(CHAINSAW) $(CROSSPLANE_CLI)
 	@$(INFO) running automated tests
 	@KUBECTL=$(KUBECTL) CHAINSAW=$(CHAINSAW) CROSSPLANE_CLI=$(CROSSPLANE_CLI) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" || $(FAIL)

@@ -11,6 +11,4 @@ spec:
     bucketName: example-bucket
     cloudProvider: AWS
     iamRoleId: '{IAM_ROLE_ID}'
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

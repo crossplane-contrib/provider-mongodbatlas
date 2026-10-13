@@ -13,9 +13,7 @@ spec:
     privateLinkIdSelector:
       matchLabels:
         testing.upbound.io/example-name: this
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: this
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
 
 ---
@@ -31,8 +29,6 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
     region: US_EAST_1

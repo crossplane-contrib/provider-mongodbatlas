@@ -20,9 +20,7 @@ spec:
     - frequencyInterval: 1
       retentionUnit: days
       retentionValue: 1
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: my_cluster
+    projectId: ${data.mongodbatlas.project_id}
     referenceHourOfDay: 3
     referenceMinuteOfHour: 45
     restoreWindowDays: 4
@@ -43,9 +41,7 @@ spec:
     backupEnabled: true
     clusterType: REPLICASET
     name: clusterTest
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:

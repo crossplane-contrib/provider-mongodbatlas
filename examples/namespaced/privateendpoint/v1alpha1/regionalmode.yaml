@@ -10,9 +10,7 @@ metadata:
 spec:
   forProvider:
     enabled: true
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
 
 ---
 
@@ -30,9 +28,7 @@ spec:
     backupEnabled: true
     clusterType: GEOSHARDED
     name: ${var.cluster_name}
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:
@@ -76,9 +72,7 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
 
 ---
 
@@ -93,9 +87,7 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
     region: US_WEST_1
 
@@ -116,7 +108,5 @@ spec:
     privateLinkIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test_west
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test_west
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS

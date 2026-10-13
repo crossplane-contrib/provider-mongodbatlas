@@ -11,9 +11,7 @@ spec:
   forProvider:
     clusterType: REPLICASET
     name: NAME OF CLUSTER
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - analyticsSpecs:

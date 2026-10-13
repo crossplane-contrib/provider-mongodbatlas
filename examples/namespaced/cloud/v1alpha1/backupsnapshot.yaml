@@ -13,9 +13,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: my_cluster
     description: myDescription
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: my_cluster
+    projectId: ${data.mongodbatlas.project_id}
     retentionInDays: 1
     timeouts:
     - create: 1h15m
@@ -36,9 +34,7 @@ spec:
     backupEnabled: true
     clusterType: REPLICASET
     name: MyCluster
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:
@@ -66,9 +62,7 @@ spec:
         testing.upbound.io/example-name: test
     deliveryTypeConfig:
     - download: true
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test
+    projectId: ${data.mongodbatlas.project_id}
     snapshotIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test

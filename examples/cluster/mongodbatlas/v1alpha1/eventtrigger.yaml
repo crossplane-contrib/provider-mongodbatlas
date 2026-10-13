@@ -31,7 +31,5 @@ spec:
         configRegion: AWS REGIOn
     functionId: FUNCTION ID
     name: NAME OF THE TRIGGER
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     type: DATABASE

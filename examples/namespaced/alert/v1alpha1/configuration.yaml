@@ -29,6 +29,4 @@ spec:
       - GROUP_CLUSTER_MANAGER
       smsEnabled: false
       typeName: GROUP
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

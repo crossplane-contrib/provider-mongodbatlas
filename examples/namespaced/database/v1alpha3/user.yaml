@@ -16,9 +16,7 @@ spec:
     passwordSecretRef:
       key: example-key
       name: example-secret
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     roles:
     - databaseName: dbforApp
       roleName: readWrite

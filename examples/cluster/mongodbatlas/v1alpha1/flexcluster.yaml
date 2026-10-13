@@ -9,9 +9,7 @@ metadata:
 spec:
   forProvider:
     name: ${var.cluster_name}
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerSettings:
       backingProviderName: AWS
       regionName: US_EAST_1

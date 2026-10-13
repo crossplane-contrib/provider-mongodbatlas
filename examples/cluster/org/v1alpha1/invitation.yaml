@@ -8,9 +8,7 @@ metadata:
   name: test0
 spec:
   forProvider:
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    orgId: ${data.mongodbatlas.org_id}
     roles:
     - ORG_OWNER
     username: test0-acc-username

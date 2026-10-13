@@ -22,9 +22,7 @@ spec:
       order: 1
     - fieldName: lastName
       order: 2
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     schedule:
     - endHour: 1
       endMinute: 1

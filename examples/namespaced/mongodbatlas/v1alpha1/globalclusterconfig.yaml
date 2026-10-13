@@ -19,9 +19,7 @@ spec:
       db: mydata
       isCustomShardKeyHashed: false
       isShardKeyUnique: false
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test
+    projectId: ${data.mongodbatlas.project_id}
 
 ---
 
@@ -39,9 +37,7 @@ spec:
     backupEnabled: true
     clusterType: GEOSHARDED
     name: <CLUSTER-NAME>
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:

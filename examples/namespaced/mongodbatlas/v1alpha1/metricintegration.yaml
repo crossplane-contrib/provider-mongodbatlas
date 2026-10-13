@@ -20,7 +20,5 @@ spec:
     integrationType: OTEL
     metricSelection:
     - ATLAS_STREAM_PROCESSING
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: project
+    projectId: ${data.mongodbatlas.project_id}
     providerType: CUSTOM

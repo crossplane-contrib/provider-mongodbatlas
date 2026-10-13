@@ -20,5 +20,5 @@ spec:
     integrationType: OTEL
     metricSelection:
     - ATLAS_STREAM_PROCESSING
-    projectId: ${mongodbatlas_project.project.id}
+    projectId: ${data.mongodbatlas.project_id}
     providerType: CUSTOM

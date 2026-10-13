@@ -12,6 +12,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     cidrBlock: 1.2.3.4/32
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    orgId: ${data.mongodbatlas.org_id}

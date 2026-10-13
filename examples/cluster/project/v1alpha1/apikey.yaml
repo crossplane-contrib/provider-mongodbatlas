@@ -10,6 +10,6 @@ spec:
   forProvider:
     description: Description of your API key
     projectAssignment:
-    - projectId: 64259ee860c43338194b0f8e
+    - projectId: ${data.mongodbatlas.project_id}
       roleNames:
       - GROUP_OWNER

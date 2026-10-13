@@ -13,9 +13,7 @@ spec:
     logTypes:
     - MONGOD_AUDIT
     prefixPath: atlas-logs
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: project
+    projectId: ${data.mongodbatlas.project_id}
     type: S3_LOG_EXPORT
     useLegacyPathStructure: ${var.use_legacy_path_structure}
 
@@ -33,9 +31,7 @@ spec:
   forProvider:
     aws:
     - iamAssumedRoleArn: ${aws_iam_role.atlas_role.arn}
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: project
+    projectId: ${data.mongodbatlas.project_id}
     roleIdSelector:
       matchLabels:
         testing.upbound.io/example-name: setup
@@ -52,7 +48,5 @@ metadata:
   name: setup
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: project
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS

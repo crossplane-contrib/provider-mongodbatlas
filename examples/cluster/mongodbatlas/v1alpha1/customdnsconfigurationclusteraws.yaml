@@ -9,6 +9,4 @@ metadata:
 spec:
   forProvider:
     enabled: true
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

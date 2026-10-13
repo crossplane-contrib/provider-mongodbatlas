@@ -19,9 +19,7 @@ spec:
     connectionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: example
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     region: DUBLIN_IRL
     security:
       protocol: SASL_SSL
@@ -51,9 +49,7 @@ spec:
       username: ${var.kafka_username}
     bootstrapServers: ${var.bootstrap_servers}
     connectionName: KafkaConnection
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     security:
       protocol: SASL_SSL
     type: Kafka
@@ -80,9 +76,7 @@ spec:
     failoverRegions:
     - cloudProvider: AWS
       region: DUBLIN_IRL
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     streamConfig:
       tier: SP10
     workspaceName: workspace-with-failover

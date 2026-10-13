@@ -16,6 +16,4 @@ spec:
       regionName: US_EAST_1
     - cloudProvider: AWS
       regionName: US_EAST_2
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

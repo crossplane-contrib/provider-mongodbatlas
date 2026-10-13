@@ -9,9 +9,7 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     roles:
     - GROUP_DATA_ACCESS_READ_WRITE
     username: test-acc-username

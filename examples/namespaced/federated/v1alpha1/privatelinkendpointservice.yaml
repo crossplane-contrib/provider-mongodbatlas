@@ -32,6 +32,4 @@ metadata:
 spec:
   forProvider:
     name: ${var.atlas_project_name}
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    orgId: ${data.mongodbatlas.org_id}

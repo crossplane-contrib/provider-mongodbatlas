@@ -71,5 +71,6 @@ Each resource sets `r.ExternalName` in its configurator using constructors from 
 - Version constants (`VersionV1Alpha2`, `VersionV1Alpha3`) live in `config/refs/refs.go`
 - Use `refs.ExtractParamPath(field, sensitive)` for cross-resource extractor references instead of `fmt.Sprintf(refs.ExtractParamPathFmt, ...)`
 - Use `refs.AccessListGetIDFn(prefixParams...)` for access-list resources with ip_address/cidr_block fallback
+- Examples in `examples/` must stay uptestable: set `projectId`/`orgId` (and nested ones like `targetProjectId`, `groupId`) to `${data.mongodbatlas.project_id}`/`${data.mongodbatlas.org_id}` from the uptest datasource, never a hardcoded ID or a selector without a matching `Project`/`Organization` in the same file. Keep `examples/cluster` and `examples/namespaced` in sync
 - The Dockerfile sets `NO_COLOR=1` and `TF_CLI_ARGS_import=-no-color` to suppress ANSI in terraform output
 

@@ -10,8 +10,6 @@ metadata:
 spec:
   forProvider:
     atlasCidrBlock: 10.8.0.0/21
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS
     regionName: US_EAST_1

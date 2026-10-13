@@ -10,8 +10,6 @@ metadata:
 spec:
   forProvider:
     description: key-name
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    orgId: ${data.mongodbatlas.org_id}
     roleNames:
     - ORG_READ_ONLY

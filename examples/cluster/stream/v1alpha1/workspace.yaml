@@ -11,7 +11,5 @@ spec:
     dataProcessRegion:
       cloudProvider: AWS
       region: VIRGINIA_USA
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     workspaceName: WorkspaceName

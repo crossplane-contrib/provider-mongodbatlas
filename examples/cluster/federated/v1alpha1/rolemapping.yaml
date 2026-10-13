@@ -10,22 +10,14 @@ spec:
   forProvider:
     externalGroupName: myGrouptest
     federationSettingsId: 627a9687f7f7f7f774de306f14
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    orgId: ${data.mongodbatlas.org_id}
     roleAssignments:
-    - orgId: 627a9683e7f7f7ff7fe306f14
+    - orgId: ${data.mongodbatlas.org_id}
       roles:
       - ORG_MEMBER
       - ORG_GROUP_CREATOR
       - ORG_BILLING_ADMIN
-    - groupId: 628aa20d7f7f7f7f7098b81b8
-      roles:
-      - GROUP_OWNER
-      - GROUP_DATA_ACCESS_ADMIN
-      - GROUP_SEARCH_INDEX_EDITOR
-      - GROUP_DATA_ACCESS_READ_ONLY
-    - groupId: 628aa20d7f7f7f7f7078b81b8
+    - groupId: ${data.mongodbatlas.project_id}
       roles:
       - GROUP_OWNER
       - GROUP_DATA_ACCESS_ADMIN

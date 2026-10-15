@@ -113,7 +113,7 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_stream_workspace` | `projectId` (**ref**), `workspaceName` | |
 | `mongodbatlas_team_project_assignment` | `projectId`, `teamId` | |
 | `mongodbatlas_team` | `orgId` (**ref**) | `teamId` |
-| `mongodbatlas_third_party_integration` | `projectId` (**ref**), `type` | |
+| `mongodbatlas_third_party_integration` | `projectId` (**ref**), `type` | `id` (integration ID) |
 | `mongodbatlas_x509_authentication_database_user` | `projectId` (**ref**), `username` (user certificates only) | |
 
 ## Non-importable
@@ -166,7 +166,6 @@ separator below.
 | `mongodbatlas_stream_processor` | `<instanceName>-<projectId>-<processorName>` |
 | `mongodbatlas_stream_workspace` | `<projectId>-<workspaceName>` |
 | `mongodbatlas_team_project_assignment` | `<projectId>/<teamId>` |
-| `mongodbatlas_third_party_integration` | `<projectId>-<type>` |
 | `mongodbatlas_x509_authentication_database_user` | `<projectId>` |
 
 Resources not listed here either use a provider-assigned ID (see the **External Name**

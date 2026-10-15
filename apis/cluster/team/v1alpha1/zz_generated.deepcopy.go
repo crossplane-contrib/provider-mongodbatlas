@@ -9,6 +9,7 @@
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -47,6 +48,16 @@ func (in *ProjectAssignmentInitParameters) DeepCopyInto(out *ProjectAssignmentIn
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RoleNames != nil {
 		in, out := &in.RoleNames, &out.RoleNames
 		*out = make([]*string, len(*in))
@@ -62,6 +73,16 @@ func (in *ProjectAssignmentInitParameters) DeepCopyInto(out *ProjectAssignmentIn
 		in, out := &in.TeamID, &out.TeamID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TeamIDRef != nil {
+		in, out := &in.TeamIDRef, &out.TeamIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TeamIDSelector != nil {
+		in, out := &in.TeamIDSelector, &out.TeamIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -156,6 +177,16 @@ func (in *ProjectAssignmentParameters) DeepCopyInto(out *ProjectAssignmentParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RoleNames != nil {
 		in, out := &in.RoleNames, &out.RoleNames
 		*out = make([]*string, len(*in))
@@ -171,6 +202,16 @@ func (in *ProjectAssignmentParameters) DeepCopyInto(out *ProjectAssignmentParame
 		in, out := &in.TeamID, &out.TeamID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TeamIDRef != nil {
+		in, out := &in.TeamIDRef, &out.TeamIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TeamIDSelector != nil {
+		in, out := &in.TeamIDSelector, &out.TeamIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

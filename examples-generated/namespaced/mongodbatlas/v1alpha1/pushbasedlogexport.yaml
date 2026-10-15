@@ -10,7 +10,9 @@ metadata:
 spec:
   forProvider:
     bucketName: ${aws_s3_bucket.log_bucket.bucket}
-    iamRoleId: ${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}
+    iamRoleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: auth_role
     prefixPath: push-based-log-test
     projectIdSelector:
       matchLabels:

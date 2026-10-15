@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: database/v1alpha1/customrole
   labels:
-    testing.upbound.io/example-name: test_role
-  name: test-role
+    testing.upbound.io/example-name: customrole-test_role
+  name: customrole-test-role
   namespace: crossplane-system
 spec:
   forProvider:
@@ -22,7 +22,5 @@ spec:
       resources:
       - collectionName: ""
         databaseName: anyDatabase
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     roleName: myCustomRole

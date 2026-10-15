@@ -4,26 +4,24 @@ metadata:
   annotations:
     meta.upbound.io/example-id: federated/v1alpha1/databaseinstance
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: databaseinstance-test
+  name: databaseinstance-test
 spec:
   forProvider:
-    name: TENANT NAME OF THE FEDERATED DATABASE INSTANCE
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
     storageDatabases:
     - collections:
       - dataSources:
-        - collection: COLLECTION IN THE CLUSTER
-          database: DB IN THE CLUSTER
-          storeName: CLUSTER NAME
-        name: NAME OF THE COLLECTION
+        - collection: example_collection
+          database: example_db
+          storeName: example-store
+        name: example_collection
       name: VirtualDatabase0
     storageStores:
-    - clusterName: CLUSTER NAME
-      name: STORE 1 NAME
-      projectId: PROJECT ID
+    - clusterName: example-cluster
+      name: example-store
+      projectId: ${data.mongodbatlas.project_id}
       provider: atlas
       readPreference:
       - mode: secondary

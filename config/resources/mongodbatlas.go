@@ -11,7 +11,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.Version = refs.VersionV1Alpha2
 		r.UseAsync = true
 		r.Kind = "Cluster"
-		r.ExternalName = importJoinedIDMapped([]string{refs.ProjectID, refs.Name}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName}, refs.ClusterName)
+		r.ExternalName = importJoinedIDMapped([]string{refs.ProjectID, refs.Name, refs.ProviderName}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName, refs.ProviderName: refs.ProviderName}, refs.ClusterName)
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated and will be removed in the next major version. Please use AdvancedCluster (mongodbatlas_advanced_cluster) instead."
 		r.References = config.References{
 			refs.ProjectID: {
@@ -67,13 +67,17 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster_outage_simulation", func(r *config.Resource) {
 		r.ShortGroup = "cluster"
 		r.Kind = "OutageSimulation"
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", refs.ClusterName)
+		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, refs.ClusterName)
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			// Read the name from the cluster's observation: it is only set once
+			// the cluster is created and IDLE. A simulation started earlier keeps
+			// the cluster UPDATING, so its create would never finish.
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, true),
 			},
 		}
 	})
@@ -85,6 +89,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
 		}
 	})
@@ -100,7 +108,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_team", func(r *config.Resource) {
 		r.Kind = "Team"
-		r.ExternalName = importJoinedIDAssigned([]string{refs.OrgID, "id"}, "-", "id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.OrgID, "id"}, "id")
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
@@ -113,8 +121,11 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.Kind = "ProjectAssignment"
 		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.team_id }}")
 		r.References = config.References{
-			refs.OrgID: {
-				TerraformName: refs.TFOrganization,
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.TeamID: {
+				TerraformName: refs.TFTeam,
 			},
 		}
 	})
@@ -122,7 +133,7 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_api_key", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "APIKey"
-		r.ExternalName = importJoinedIDAssigned([]string{refs.OrgID, refs.APIKeyID}, "-", refs.APIKeyID)
+		r.ExternalName = importJoinedIDAssigned([]string{refs.OrgID, refs.APIKeyID}, refs.APIKeyID)
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
@@ -134,6 +145,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.ShortGroup = ""
 		r.Kind = "APIKeyProjectAssignment"
 		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.api_key_id }}")
+		// Terraform Read lists the project's API keys and reports a key
+		// that is not assigned to the project as this error.
+		r.ExternalName.IsNotFoundDiagnosticFn = refs.NotFoundWhenErrorSummary("API key not found")
 		r.References = config.References{
 			refs.APIKeyID: {
 				TerraformName: "mongodbatlas_api_key",
@@ -152,25 +166,27 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			"aws_kms_config.role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_encryption_at_rest_private_endpoint", func(r *config.Resource) {
 		r.ShortGroup = "encryptionatrest"
 		r.Kind = "PrivateEndpoint"
+		r.ExternalName = providerAssignedID()
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 2, refs.ProjectID, "cloud_provider")
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 2, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_event_trigger", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "EventTrigger"
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "app_id", "trigger_id"}, "--", "trigger_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "app_id", "trigger_id"}, "trigger_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -181,10 +197,14 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_global_cluster_config", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "GlobalClusterConfig"
-		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, "-", refs.ClusterName)
+		r.ExternalName = importJoinedID([]string{refs.ProjectID, refs.ClusterName}, refs.ClusterName)
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
 		}
 	})
@@ -196,6 +216,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.IAMRoleID: {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 		// otel_supplied_headers is a list-of-objects field marked sensitive in the
 		// Terraform schema. The code generator only supports string-like sensitive
@@ -204,14 +227,15 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		if sch, ok := r.TerraformResource.Schema["otel_supplied_headers"]; ok {
 			sch.Sensitive = false
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 1, refs.ProjectID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 1, 0, "type")
+		r.ExternalName = computedKeyID("integration_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("integration_id")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_metric_integration", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "MetricIntegration"
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "metric_integration_id"}, "/", "metric_integration_id")
+		r.ExternalName = computedKeyID("metric_integration_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("metric_integration_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -221,13 +245,13 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 
 	p.AddResourceConfigurator(refs.TFOrganization, func(r *config.Resource) {
 		r.Kind = "Organization"
-		r.ExternalName = importJoinedIDAssigned([]string{"org_id"}, "-", "org_id")
+		r.ExternalName = importJoinedIDAssigned([]string{"org_id"}, "org_id")
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_org_invitation", func(r *config.Resource) {
 		r.ShortGroup = "org"
 		r.Kind = "Invitation"
-		r.ExternalName = importJoinedIDAssigned([]string{refs.OrgID, "username"}, "-", "invitation_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.OrgID, "username"}, "invitation_id")
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Migrate to mongodbatlas_cloud_user_org_assignment for managing organization membership."
 		r.References = config.References{
 			refs.OrgID: {
@@ -266,6 +290,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
+			},
 		}
 	})
 
@@ -290,6 +318,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
+			},
 		}
 		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 2, refs.OrgID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 2, 0, "secret_id")
@@ -305,6 +337,10 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
+			},
 		}
 		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.OrgID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromAccessListState(refs.OrgID)
@@ -319,34 +355,40 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.IAMRoleID: {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_resource_policy", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "ResourcePolicy"
+		r.ExternalName = providerAssignedID()
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
 			},
 		}
-		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("-", 1, refs.OrgID)
-		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromID("-", 1, 0)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_online_archive", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "OnlineArchive"
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "archive_id"}, "-", "archive_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.ClusterName, "archive_id"}, "archive_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
 		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_api_key", func(r *config.Resource) {
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, refs.APIKeyID}, "-", refs.APIKeyID)
+		r.ExternalName = importJoinedIDAssigned([]string{refs.APIKeyID}, refs.APIKeyID)
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {

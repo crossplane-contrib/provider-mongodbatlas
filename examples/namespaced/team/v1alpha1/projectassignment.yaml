@@ -4,13 +4,31 @@ metadata:
   annotations:
     meta.upbound.io/example-id: team/v1alpha1/projectassignment
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: projectassignment-this
+  name: projectassignment-this
   namespace: crossplane-system
 spec:
   forProvider:
-    projectId: ${var.project_id}
+    projectId: ${data.mongodbatlas.project_id}
     roleNames:
     - GROUP_OWNER
     - GROUP_DATA_ACCESS_ADMIN
-    teamId: ${var.team_id}
+    teamIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: projectassignment-this
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: Team
+metadata:
+  annotations:
+    meta.upbound.io/example-id: team/v1alpha1/projectassignment
+  labels:
+    testing.upbound.io/example-name: projectassignment-this
+  name: projectassignment-this
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: ${Rand.RFC1123Subdomain}
+    orgId: ${data.mongodbatlas.org_id}

@@ -417,15 +417,45 @@ func (in *BackupCollectionRestoreJobInitParameters) DeepCopyInto(out *BackupColl
 		*out = new(string)
 		**out = **in
 	}
+	if in.SnapshotIDRef != nil {
+		in, out := &in.SnapshotIDRef, &out.SnapshotIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SnapshotIDSelector != nil {
+		in, out := &in.SnapshotIDSelector, &out.SnapshotIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TargetClusterName != nil {
 		in, out := &in.TargetClusterName, &out.TargetClusterName
 		*out = new(string)
 		**out = **in
 	}
+	if in.TargetClusterNameRef != nil {
+		in, out := &in.TargetClusterNameRef, &out.TargetClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetClusterNameSelector != nil {
+		in, out := &in.TargetClusterNameSelector, &out.TargetClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TargetProjectID != nil {
 		in, out := &in.TargetProjectID, &out.TargetProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TargetProjectIDRef != nil {
+		in, out := &in.TargetProjectIDRef, &out.TargetProjectIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetProjectIDSelector != nil {
+		in, out := &in.TargetProjectIDSelector, &out.TargetProjectIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Timeouts != nil {
 		in, out := &in.Timeouts, &out.Timeouts
@@ -702,15 +732,45 @@ func (in *BackupCollectionRestoreJobParameters) DeepCopyInto(out *BackupCollecti
 		*out = new(string)
 		**out = **in
 	}
+	if in.SnapshotIDRef != nil {
+		in, out := &in.SnapshotIDRef, &out.SnapshotIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SnapshotIDSelector != nil {
+		in, out := &in.SnapshotIDSelector, &out.SnapshotIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TargetClusterName != nil {
 		in, out := &in.TargetClusterName, &out.TargetClusterName
 		*out = new(string)
 		**out = **in
 	}
+	if in.TargetClusterNameRef != nil {
+		in, out := &in.TargetClusterNameRef, &out.TargetClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetClusterNameSelector != nil {
+		in, out := &in.TargetClusterNameSelector, &out.TargetClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TargetProjectID != nil {
 		in, out := &in.TargetProjectID, &out.TargetProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TargetProjectIDRef != nil {
+		in, out := &in.TargetProjectIDRef, &out.TargetProjectIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetProjectIDSelector != nil {
+		in, out := &in.TargetProjectIDSelector, &out.TargetProjectIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Timeouts != nil {
 		in, out := &in.Timeouts, &out.Timeouts
@@ -2247,6 +2307,16 @@ func (in *BackupSnapshotExportBucketInitParameters) DeepCopyInto(out *BackupSnap
 		*out = new(string)
 		**out = **in
 	}
+	if in.IAMRoleIDRef != nil {
+		in, out := &in.IAMRoleIDRef, &out.IAMRoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IAMRoleIDSelector != nil {
+		in, out := &in.IAMRoleIDSelector, &out.IAMRoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -2398,6 +2468,16 @@ func (in *BackupSnapshotExportBucketParameters) DeepCopyInto(out *BackupSnapshot
 		in, out := &in.IAMRoleID, &out.IAMRoleID
 		*out = new(string)
 		**out = **in
+	}
+	if in.IAMRoleIDRef != nil {
+		in, out := &in.IAMRoleIDRef, &out.IAMRoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IAMRoleIDSelector != nil {
+		in, out := &in.IAMRoleIDSelector, &out.IAMRoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
@@ -3900,10 +3980,30 @@ func (in *DeliveryTypeConfigInitParameters) DeepCopyInto(out *DeliveryTypeConfig
 		*out = new(string)
 		**out = **in
 	}
+	if in.TargetClusterNameRef != nil {
+		in, out := &in.TargetClusterNameRef, &out.TargetClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetClusterNameSelector != nil {
+		in, out := &in.TargetClusterNameSelector, &out.TargetClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TargetProjectID != nil {
 		in, out := &in.TargetProjectID, &out.TargetProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TargetProjectIDRef != nil {
+		in, out := &in.TargetProjectIDRef, &out.TargetProjectIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetProjectIDSelector != nil {
+		in, out := &in.TargetProjectIDSelector, &out.TargetProjectIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -4010,10 +4110,30 @@ func (in *DeliveryTypeConfigParameters) DeepCopyInto(out *DeliveryTypeConfigPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.TargetClusterNameRef != nil {
+		in, out := &in.TargetClusterNameRef, &out.TargetClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetClusterNameSelector != nil {
+		in, out := &in.TargetClusterNameSelector, &out.TargetClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TargetProjectID != nil {
 		in, out := &in.TargetProjectID, &out.TargetProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TargetProjectIDRef != nil {
+		in, out := &in.TargetProjectIDRef, &out.TargetProjectIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TargetProjectIDSelector != nil {
+		in, out := &in.TargetProjectIDSelector, &out.TargetProjectIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -6402,6 +6522,16 @@ func (in *UserTeamAssignmentInitParameters) DeepCopyInto(out *UserTeamAssignment
 		*out = new(string)
 		**out = **in
 	}
+	if in.UserIDRef != nil {
+		in, out := &in.UserIDRef, &out.UserIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.UserIDSelector != nil {
+		in, out := &in.UserIDSelector, &out.UserIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new UserTeamAssignmentInitParameters.
@@ -6589,6 +6719,16 @@ func (in *UserTeamAssignmentParameters) DeepCopyInto(out *UserTeamAssignmentPara
 		in, out := &in.UserID, &out.UserID
 		*out = new(string)
 		**out = **in
+	}
+	if in.UserIDRef != nil {
+		in, out := &in.UserIDRef, &out.UserIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.UserIDSelector != nil {
+		in, out := &in.UserIDSelector, &out.UserIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

@@ -8,6 +8,7 @@ import (
 
 func ConfigureProject(p *config.Provider) {
 	p.AddResourceConfigurator(refs.TFProject, func(r *config.Resource) {
+		r.ExternalName = providerAssignedID()
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
@@ -17,7 +18,9 @@ func ConfigureProject(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_third_party_integration", func(r *config.Resource) {
 		r.ShortGroup = ""
-		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.type }}")
+		// Terraform Read looks the integration up by project_id and type and
+		// sets the ID to the Atlas integration ID, so the external name is that
+		// provider-assigned ID (the default identifierFromProvider).
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -26,7 +29,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_invitation", func(r *config.Resource) {
-		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "username"}, "-", "invitation_id")
+		r.ExternalName = importJoinedIDAssigned([]string{refs.ProjectID, "username"}, "invitation_id")
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated. Migrate to mongodbatlas_cloud_user_project_assignment for managing project membership."
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"ip_address"},
@@ -57,6 +60,10 @@ func ConfigureProject(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			refs.ClientID: {
+				TerraformName: refs.TFProjectServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
+			},
 		}
 		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.ProjectID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromAccessListState(refs.ProjectID)
@@ -68,6 +75,10 @@ func ConfigureProject(p *config.Provider) {
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
+			},
+			refs.ClientID: {
+				TerraformName: refs.TFProjectServiceAccount,
+				Extractor:     refs.ExtractParamPath(refs.ClientID, true),
 			},
 		}
 		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 2, refs.ProjectID, "client_id")

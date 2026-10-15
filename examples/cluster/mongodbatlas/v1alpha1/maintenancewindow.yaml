@@ -4,15 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/maintenancewindow
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: maintenancewindow-test
+  name: maintenancewindow-test
 spec:
   forProvider:
     dayOfWeek: 3
     hourOfDay: 4
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     protectedHours:
     - endHourOfDay: 17
       startHourOfDay: 9

@@ -3,12 +3,13 @@ kind: BackupCompliancePolicy
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupcompliancepolicy
+    upjet.upbound.io/manual-intervention: "Once enabled, a Backup Compliance Policy can only be disabled by MongoDB Support, so the test project could not be cleaned up."
   labels:
-    testing.upbound.io/example-name: backup_policy
-  name: backup-policy
+    testing.upbound.io/example-name: backupcompliancepolicy-backup_policy
+  name: backupcompliancepolicy-backup-policy
 spec:
   forProvider:
-    authorizedEmail: user@email.com
+    authorizedEmail: user@example.com
     authorizedUserFirstName: First
     authorizedUserLastName: Last
     copyProtectionEnabled: false
@@ -38,9 +39,7 @@ spec:
     - frequencyInterval: 1
       retentionUnit: years
       retentionValue: 1
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     restoreWindowDays: 7
 
 ---
@@ -50,17 +49,16 @@ kind: AdvancedCluster
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupcompliancepolicy
+    upjet.upbound.io/manual-intervention: "Once enabled, a Backup Compliance Policy can only be disabled by MongoDB Support, so the test project could not be cleaned up."
   labels:
-    testing.upbound.io/example-name: my_cluster
-  name: my-cluster
+    testing.upbound.io/example-name: backupcompliancepolicy-my_cluster
+  name: backupcompliancepolicy-my-cluster
 spec:
   forProvider:
     backupEnabled: true
     clusterType: REPLICASET
-    name: clusterTest
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:
@@ -68,7 +66,7 @@ spec:
           nodeCount: 3
         priority: 7
         providerName: AWS
-        regionName: ${var.region}
+        regionName: US_EAST_1
 
 ---
 
@@ -77,14 +75,15 @@ kind: BackupSchedule
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupcompliancepolicy
+    upjet.upbound.io/manual-intervention: "Once enabled, a Backup Compliance Policy can only be disabled by MongoDB Support, so the test project could not be cleaned up."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: backupcompliancepolicy-test
+  name: backupcompliancepolicy-test
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: my_cluster
+        testing.upbound.io/example-name: backupcompliancepolicy-my_cluster
     policyItemDaily:
     - frequencyInterval: 1
       retentionUnit: days
@@ -105,9 +104,7 @@ spec:
     - frequencyInterval: 1
       retentionUnit: years
       retentionValue: 1
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: my_cluster
+    projectId: ${data.mongodbatlas.project_id}
     referenceHourOfDay: 3
     referenceMinuteOfHour: 45
     restoreWindowDays: 4

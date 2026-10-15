@@ -17,7 +17,16 @@ type ProjectAssignmentInitParameters struct {
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
@@ -26,7 +35,16 @@ type ProjectAssignmentInitParameters struct {
 
 	// hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
+	// Reference to a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDRef *v2.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+
+	// Selector for a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDSelector *v2.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 }
 
 type ProjectAssignmentObservation struct {
@@ -50,8 +68,17 @@ type ProjectAssignmentParameters struct {
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
@@ -61,8 +88,17 @@ type ProjectAssignmentParameters struct {
 
 	// hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
+	// Reference to a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDRef *v2.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+
+	// Selector for a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDSelector *v2.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 }
 
 // ProjectAssignmentSpec defines the desired state of ProjectAssignment
@@ -101,9 +137,7 @@ type ProjectAssignmentStatus struct {
 type ProjectAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleNames) || (has(self.initProvider) && has(self.initProvider.roleNames))",message="spec.forProvider.roleNames is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.teamId) || (has(self.initProvider) && has(self.initProvider.teamId))",message="spec.forProvider.teamId is a required parameter"
 	Spec   ProjectAssignmentSpec   `json:"spec"`
 	Status ProjectAssignmentStatus `json:"status,omitempty"`
 }

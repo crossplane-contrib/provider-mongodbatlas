@@ -27,9 +27,15 @@ spec:
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
-    snapshotId: ${var.snapshot_id}
-    targetClusterName: ${local.target_cluster_name}
-    targetProjectId: ${local.target_project_id}
+    snapshotIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    targetClusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    targetProjectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     timeouts:
       create: ${var.create_timeout}
     writeStrategy: ${var.write_strategy}

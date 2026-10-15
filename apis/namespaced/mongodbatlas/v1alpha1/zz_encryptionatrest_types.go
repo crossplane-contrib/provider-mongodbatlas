@@ -37,7 +37,16 @@ type AwsKMSConfigInitParameters struct {
 
 	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
 	// Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
@@ -96,8 +105,17 @@ type AwsKMSConfigParameters struct {
 
 	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
 	// Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.

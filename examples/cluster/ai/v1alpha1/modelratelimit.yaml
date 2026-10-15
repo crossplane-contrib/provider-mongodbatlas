@@ -4,15 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ai/v1alpha1/modelratelimit
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: modelratelimit-this
+  name: modelratelimit-this
 spec:
   forProvider:
     cloud: ANY
     geography: ANY
     modelGroupName: embed_large
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     requestsPerMinuteLimit: 100
     tokensPerMinuteLimit: 10000

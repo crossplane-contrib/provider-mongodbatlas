@@ -33,7 +33,16 @@ type LogIntegrationInitParameters struct {
 
 	// character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
 	// Required for type: S3_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDRef *v2.NamespacedReference `json:"iamRoleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDSelector *v2.NamespacedSelector `json:"iamRoleIdSelector,omitempty" tf:"-"`
 
 	// side encryption . If not provided, uses bucket default encryption settings.
 	// Optional for type: S3_LOG_EXPORT. AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.
@@ -186,8 +195,17 @@ type LogIntegrationParameters struct {
 
 	// character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
 	// Required for type: S3_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the AWS IAM role that Atlas uses to access the S3 bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDRef *v2.NamespacedReference `json:"iamRoleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDSelector *v2.NamespacedSelector `json:"iamRoleIdSelector,omitempty" tf:"-"`
 
 	// side encryption . If not provided, uses bucket default encryption settings.
 	// Optional for type: S3_LOG_EXPORT. AWS KMS key ID or ARN for server-side encryption (optional). If not provided, uses bucket default encryption settings.

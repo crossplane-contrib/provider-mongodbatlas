@@ -26,10 +26,20 @@
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
 
+// Transform the generated resolvers so that cross API-group reference sources
+// are resolved dynamically through the runtime scheme instead of statically
+// typed imports, which would otherwise form import cycles between API groups.
+// The root group's package (mongodbatlas) needs an override because its group
+// is the suffix itself, not <package>.<suffix>.
+//go:generate go run github.com/crossplane/upjet/v2/cmd/resolver -g mongodbatlas.crossplane.io -a github.com/crossplane-contrib/provider-mongodbatlas/internal/apis -o mongodbatlas.mongodbatlas.crossplane.io=mongodbatlas.crossplane.io -s -p ./cluster/...
+//go:generate go run github.com/crossplane/upjet/v2/cmd/resolver -g mongodbatlas.m.crossplane.io -a github.com/crossplane-contrib/provider-mongodbatlas/internal/apis -o mongodbatlas.mongodbatlas.m.crossplane.io=mongodbatlas.m.crossplane.io -s -p ./namespaced/...
+
 package apis
 
 import (
 	_ "sigs.k8s.io/controller-tools/cmd/controller-gen" //nolint:typecheck
 
 	_ "github.com/crossplane/crossplane-tools/cmd/angryjet" //nolint:typecheck
+
+	_ "github.com/crossplane/upjet/v2/cmd/resolver" //nolint:typecheck
 )

@@ -9,7 +9,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    clusterName: ${var.cluster_name}
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     collName: ${var.collection_name}
     criteria:
     - dateField: dateField

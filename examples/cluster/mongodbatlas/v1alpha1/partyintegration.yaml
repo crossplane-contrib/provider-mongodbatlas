@@ -4,16 +4,25 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/partyintegration
   labels:
-    testing.upbound.io/example-name: test_datadog
-  name: test-datadog
+    testing.upbound.io/example-name: partyintegration-test_datadog
+  name: partyintegration-test-datadog
 spec:
   forProvider:
     apiKeySecretRef:
-      key: example-key
-      name: example-secret
+      key: api-key
+      name: partyintegration-datadog-api-key
       namespace: crossplane-system
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    region: <REGION>
+    projectId: ${data.mongodbatlas.project_id}
+    region: ${data.datadog.region}
     type: DATADOG
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: partyintegration-datadog-api-key
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  api-key: ${data.datadog.api_key}

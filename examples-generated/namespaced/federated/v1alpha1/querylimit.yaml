@@ -14,5 +14,7 @@ spec:
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
-    tenantName: FederatedDatabseInstance0
+    tenantNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     value: 5147483648

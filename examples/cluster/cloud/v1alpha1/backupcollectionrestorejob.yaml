@@ -3,33 +3,71 @@ kind: BackupCollectionRestoreJob
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupcollectionrestorejob
+    upjet.upbound.io/manual-intervention: "The source cluster must hold the restored collections (sample_mflix) in a completed snapshot, which this provider cannot load."
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: backupcollectionrestorejob-this
+  name: backupcollectionrestorejob-this
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    collectionSuffix: ${var.collection_suffix}
-    collections: |-
-      ${[for ns in var.restore_collections : {
-          source_namespace = ns
-          target_namespace = try(var.collection_renames[ns], null)
-        }]}
-    databaseSuffix: ${var.database_suffix}
-    databases: |-
-      ${[for db in var.restore_databases : {
-          source_namespace = db
-          target_namespace = try(var.database_renames[db], null)
-        }]}
-    indexStrategy: ${var.index_strategy}
-    projectIdSelector:
+        testing.upbound.io/example-name: backupcollectionrestorejob-my_cluster
+    collections:
+    - sourceNamespace: sample_mflix.movies
+      targetNamespace: sample_mflix.movies_restored
+    indexStrategy: ALL
+    projectId: ${data.mongodbatlas.project_id}
+    snapshotIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    snapshotId: ${var.snapshot_id}
-    targetClusterName: ${local.target_cluster_name}
-    targetProjectId: ${local.target_project_id}
-    timeouts:
-      create: ${var.create_timeout}
-    writeStrategy: ${var.write_strategy}
+        testing.upbound.io/example-name: backupcollectionrestorejob-test
+    targetClusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backupcollectionrestorejob-my_cluster
+    targetProjectId: ${data.mongodbatlas.project_id}
+    writeStrategy: CREATE_NEW
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupcollectionrestorejob
+    upjet.upbound.io/manual-intervention: "The source cluster must hold the restored collections (sample_mflix) in a completed snapshot, which this provider cannot load."
+  labels:
+    testing.upbound.io/example-name: backupcollectionrestorejob-my_cluster
+  name: backupcollectionrestorejob-my-cluster
+spec:
+  forProvider:
+    backupEnabled: true
+    clusterType: REPLICASET
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1
+
+---
+
+apiVersion: cloud.mongodbatlas.crossplane.io/v1alpha1
+kind: BackupSnapshot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloud/v1alpha1/backupcollectionrestorejob
+    upjet.upbound.io/manual-intervention: "The source cluster must hold the restored collections (sample_mflix) in a completed snapshot, which this provider cannot load."
+  labels:
+    testing.upbound.io/example-name: backupcollectionrestorejob-test
+  name: backupcollectionrestorejob-test
+spec:
+  forProvider:
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backupcollectionrestorejob-my_cluster
+    description: myDescription
+    projectId: ${data.mongodbatlas.project_id}
+    retentionInDays: 1

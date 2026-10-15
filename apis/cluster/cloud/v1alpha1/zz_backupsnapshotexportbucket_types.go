@@ -22,7 +22,16 @@ type BackupSnapshotExportBucketInitParameters struct {
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
 	// Unique identifier of the role that Atlas can use to access the bucket. Required if cloud_provider is set to AWS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDRef *v2.Reference `json:"iamRoleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDSelector *v2.Selector `json:"iamRoleIdSelector,omitempty" tf:"-"`
 
 	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -86,8 +95,17 @@ type BackupSnapshotExportBucketParameters struct {
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
 	// Unique identifier of the role that Atlas can use to access the bucket. Required if cloud_provider is set to AWS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDRef *v2.Reference `json:"iamRoleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDSelector *v2.Selector `json:"iamRoleIdSelector,omitempty" tf:"-"`
 
 	// The unique identifier of the project for the Atlas cluster, also known as groupId in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project

@@ -20,7 +20,9 @@ spec:
         testing.upbound.io/example-name: example
     state: STARTED
     tier: SP30
-    workspaceName: ${mongodbatlas_stream_instance.example.instance_name}
+    workspaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 
@@ -35,7 +37,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    clusterName: ${var.cluster_name}
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     connectionName: ClusterConnection
     dbRoleToExecute:
       role: atlasAdmin

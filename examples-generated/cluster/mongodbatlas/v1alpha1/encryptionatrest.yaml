@@ -15,7 +15,9 @@ spec:
         namespace: crossplane-system
       enabled: true
       region: ${var.atlas_region}
-      roleId: ${mongodbatlas_cloud_provider_access_authorization.auth_role.role_id}
+      roleIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: auth_role
     enabledForSearchNodes: true
     projectIdSelector:
       matchLabels:

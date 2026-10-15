@@ -3,20 +3,19 @@ kind: ProviderAccessAuthorization
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/provideraccessauthorization
+    upjet.upbound.io/manual-intervention: "Needs an AWS IAM role that trusts the Atlas AWS account with the external ID from ProviderAccessSetup."
   labels:
-    testing.upbound.io/example-name: auth_role
-  name: auth-role
+    testing.upbound.io/example-name: provideraccessauthorization-auth_role
+  name: provideraccessauthorization-auth-role
   namespace: crossplane-system
 spec:
   forProvider:
     aws:
-    - iamAssumedRoleArn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/test-user-role
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: setup_only
+    - iamAssumedRoleArn: arn:aws:iam::123456789012:role/test-user-role
+    projectId: ${data.mongodbatlas.project_id}
     roleIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: setup_only
+        testing.upbound.io/example-name: provideraccessauthorization-setup_only
 
 ---
 
@@ -25,13 +24,12 @@ kind: ProviderAccessSetup
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/provideraccessauthorization
+    upjet.upbound.io/manual-intervention: "Needs an AWS IAM role that trusts the Atlas AWS account with the external ID from ProviderAccessSetup."
   labels:
-    testing.upbound.io/example-name: setup_only
-  name: setup-only
+    testing.upbound.io/example-name: provideraccessauthorization-setup_only
+  name: provideraccessauthorization-setup-only
   namespace: crossplane-system
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     providerName: AWS

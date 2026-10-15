@@ -4,15 +4,31 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/accesslistapikey
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: accesslistapikey-test
+  name: accesslistapikey-test
   namespace: crossplane-system
 spec:
   forProvider:
     apiKeyIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: accesslistapikey-example
     cidrBlock: 1.2.3.4/32
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    orgId: ${data.mongodbatlas.org_id}
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha1
+kind: APIKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/accesslistapikey
+  labels:
+    testing.upbound.io/example-name: accesslistapikey-example
+  name: accesslistapikey-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: Example API Key
+    orgId: ${data.mongodbatlas.org_id}
+    roleNames:
+    - ORG_READ_ONLY

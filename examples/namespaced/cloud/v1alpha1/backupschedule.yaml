@@ -3,15 +3,16 @@ kind: BackupSchedule
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupschedule
+    uptest.upbound.io/timeout: "3600"
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: backupschedule-test
+  name: backupschedule-test
   namespace: crossplane-system
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: my_cluster
+        testing.upbound.io/example-name: backupschedule-my_cluster
     policyItemDaily:
     - frequencyInterval: 1
       retentionUnit: days
@@ -20,9 +21,7 @@ spec:
     - frequencyInterval: 1
       retentionUnit: days
       retentionValue: 1
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: my_cluster
+    projectId: ${data.mongodbatlas.project_id}
     referenceHourOfDay: 3
     referenceMinuteOfHour: 45
     restoreWindowDays: 4
@@ -35,17 +34,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/backupschedule
   labels:
-    testing.upbound.io/example-name: my_cluster
-  name: my-cluster
+    testing.upbound.io/example-name: backupschedule-my_cluster
+  name: backupschedule-my-cluster
   namespace: crossplane-system
 spec:
   forProvider:
     backupEnabled: true
     clusterType: REPLICASET
-    name: clusterTest
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:
@@ -53,4 +50,4 @@ spec:
           nodeCount: 3
         priority: 7
         providerName: AWS
-        regionName: EU_CENTRAL_1
+        regionName: US_EAST_1

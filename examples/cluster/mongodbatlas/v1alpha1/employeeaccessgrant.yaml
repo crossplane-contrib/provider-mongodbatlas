@@ -3,14 +3,39 @@ kind: EmployeeAccessGrant
 metadata:
   annotations:
     meta.upbound.io/example-id: mongodbatlas/v1alpha1/employeeaccessgrant
+    uptest.upbound.io/timeout: "3600"
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: employeeaccessgrant-example
+  name: employeeaccessgrant-example
 spec:
   forProvider:
-    clusterName: ${var.cluster_name}
-    expirationTime: "2025-01-01T12:00:00Z"
-    grantType: CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA
-    projectIdSelector:
+    clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: employeeaccessgrant-example
+    expirationTime: "2030-01-01T00:00:00Z"
+    grantType: CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA
+    projectId: ${data.mongodbatlas.project_id}
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbatlas/v1alpha1/employeeaccessgrant
+  labels:
+    testing.upbound.io/example-name: employeeaccessgrant-example
+  name: employeeaccessgrant-example
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1

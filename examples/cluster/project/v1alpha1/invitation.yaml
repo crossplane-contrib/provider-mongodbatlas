@@ -4,13 +4,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: project/v1alpha1/invitation
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: invitation-test
+  name: invitation-test
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     roles:
     - GROUP_DATA_ACCESS_READ_WRITE
-    username: test-acc-username
+    username: ${Rand.RFC1123Subdomain}@example.com

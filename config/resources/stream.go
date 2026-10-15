@@ -19,6 +19,10 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 				TerraformName: refs.TFStreamWorkspace,
 				Extractor:     refs.ExtractParamPath(refs.WorkspaceName, false),
 			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
+			},
 		}
 		descAuth, _ := comments.New("If true, the authentication password will be auto-generated and"+
 			" stored in the Secret referenced by the authentication.passwordSecretRef field.",
@@ -49,11 +53,8 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_stream_connection_failover", func(r *config.Resource) {
-		r.ExternalName = importJoinedIDAssigned(
-			[]string{"project_id", "workspace_name", "connection_name", "failover_connection_id"},
-			"/",
-			"failover_connection_id",
-		)
+		r.ExternalName = computedKeyID("failover_connection_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("failover_connection_id")
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
@@ -87,6 +88,10 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 			refs.InstanceName: {
 				TerraformName: refs.TFStreamInstance,
 				Extractor:     refs.ExtractParamPath(refs.InstanceName, false),
+			},
+			refs.WorkspaceName: {
+				TerraformName: refs.TFStreamWorkspace,
+				Extractor:     refs.ExtractParamPath(refs.WorkspaceName, false),
 			},
 		}
 	})

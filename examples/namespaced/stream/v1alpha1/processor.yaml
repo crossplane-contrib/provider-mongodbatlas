@@ -4,49 +4,21 @@ metadata:
   annotations:
     meta.upbound.io/example-id: stream/v1alpha1/processor
   labels:
-    testing.upbound.io/example-name: stream-processor-sample-example
-  name: stream-processor-sample-example
+    testing.upbound.io/example-name: processor-stream-processor-sample-example
+  name: processor-stream-processor-sample-example
   namespace: crossplane-system
 spec:
   forProvider:
     pipeline: |
       [
-        {"$source": {"connectionName": "${mongodbatlas_stream_connection.example-sample.connection_name}"}},
-        {"$emit": {"connectionName": "${mongodbatlas_stream_connection.example-cluster.connection_name}", "db": "sample", "coll": "solar", "timeseries": {"timeField": "_ts"}}}
+        {"$source": {"connectionName": "sample_stream_solar"}},
+        {"$emit": {"connectionName": "__testLog"}}
       ]
     processorName: sampleProcessorName
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    state: STARTED
-    tier: SP30
-    workspaceName: ${mongodbatlas_stream_instance.example.instance_name}
-
----
-
-apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
-kind: Connection
-metadata:
-  annotations:
-    meta.upbound.io/example-id: stream/v1alpha1/processor
-  labels:
-    testing.upbound.io/example-name: example-cluster
-  name: example-cluster
-  namespace: crossplane-system
-spec:
-  forProvider:
-    clusterName: ${var.cluster_name}
-    connectionName: ClusterConnection
-    dbRoleToExecute:
-      role: atlasAdmin
-      type: BUILT_IN
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    type: Cluster
+    projectId: ${data.mongodbatlas.project_id}
     workspaceNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: processor-example
 
 ---
 
@@ -56,70 +28,33 @@ metadata:
   annotations:
     meta.upbound.io/example-id: stream/v1alpha1/processor
   labels:
-    testing.upbound.io/example-name: example-kafka
-  name: example-kafka
-  namespace: crossplane-system
-spec:
-  forProvider:
-    authentication:
-      mechanism: PLAIN
-      passwordSecretRef:
-        key: example-key
-        name: example-secret
-      username: ${var.kafka_username}
-    bootstrapServers: localhost:9092,localhost:9092
-    config:
-      auto.offset.reset: earliest
-    connectionName: KafkaPlaintextConnection
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    security:
-      protocol: SASL_PLAINTEXT
-    type: Kafka
-    workspaceNameSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-
----
-
-apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
-kind: Connection
-metadata:
-  annotations:
-    meta.upbound.io/example-id: stream/v1alpha1/processor
-  labels:
-    testing.upbound.io/example-name: example-sample
-  name: example-sample
+    testing.upbound.io/example-name: processor-example-sample
+  name: processor-example-sample
   namespace: crossplane-system
 spec:
   forProvider:
     connectionName: sample_stream_solar
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     type: Sample
     workspaceNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: processor-example
 
 ---
 
 apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
-kind: Instance
+kind: Workspace
 metadata:
   annotations:
     meta.upbound.io/example-id: stream/v1alpha1/processor
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: processor-example
+  name: processor-example
   namespace: crossplane-system
 spec:
   forProvider:
     dataProcessRegion:
       cloudProvider: AWS
       region: VIRGINIA_USA
-    instanceName: InstanceName
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
+    workspaceName: ${Rand.RFC1123Subdomain}

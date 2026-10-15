@@ -44,7 +44,7 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_REQUIRED_VERSION ?= $(shell sed -n 's/^go //p' go.mod)
-GOLANGCILINT_VERSION ?= 2.13.2
+GOLANGCILINT_VERSION ?= 2.14.0
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis config
@@ -226,6 +226,15 @@ CROSSPLANE_NAMESPACE = crossplane-system
 #   aws_secret_access_key = REDACTED'
 #   The associated `ProviderConfig`s will be named as `default` and `peer`.
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
+#   Examples expect a YAML datasource with these pre-existing Atlas objects, e.g.:
+#   mongodbatlas.project_id: <24-hex project ID>
+#   mongodbatlas.org_id: <24-hex organization ID>
+#   mongodbatlas.user_id: <24-hex ID of an active organization member>
+#   mongodbatlas.aws_container_region: <Atlas AWS region without a network container in the project, e.g. US_WEST_2>
+#   datadog.api_key, datadog.region (Atlas Datadog region code, e.g. US or EU) and
+#   datadog.otlp_metrics_endpoint (OTLP metrics URL of the Datadog site): only for the Datadog examples
+#   mongodbatlas.federation_settings_id: <24-hex ID> (optional, only for the federated examples,
+#   which carry manual-intervention unless the organization is connected to federation settings)
 uptest: $(UPTEST) $(KUBECTL) $(CHAINSAW) $(CROSSPLANE_CLI)
 	@$(INFO) running automated tests
 	@KUBECTL=$(KUBECTL) CHAINSAW=$(CHAINSAW) CROSSPLANE_CLI=$(CROSSPLANE_CLI) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" || $(FAIL)
@@ -293,10 +302,14 @@ help-special: crossplane.help
 vendor: modules.download
 vendor.check: modules.check
 
-# Copy examples-generated to examples
+# Copy examples-generated to examples without overwriting existing files:
+# examples/ is hand-maintained to stay uptestable, so only new resources
+# get their generated example as a starting point.
 copy-examples:
-	@$(INFO) copying generated examples to examples
-	@cp -r examples-generated/* examples/ || $(FAIL)
+	@$(INFO) copying new generated examples to examples
+	@cd examples-generated && find . -type f | while read -r f; do \
+		[ -e "../examples/$$f" ] || { mkdir -p "../examples/$$(dirname "$$f")" && cp "$$f" "../examples/$$f"; } || exit 1; \
+	done || $(FAIL)
 
 # ====================================================================================
 # Package Extensions (readme, SBOM)

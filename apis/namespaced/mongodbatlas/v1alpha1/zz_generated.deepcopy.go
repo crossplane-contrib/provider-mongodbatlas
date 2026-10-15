@@ -1078,6 +1078,16 @@ func (in *AwsKMSConfigInitParameters) DeepCopyInto(out *AwsKMSConfigInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SecretAccessKeySecretRef != nil {
 		in, out := &in.SecretAccessKeySecretRef, &out.SecretAccessKeySecretRef
 		*out = new(v2.LocalSecretKeySelector)
@@ -1167,6 +1177,16 @@ func (in *AwsKMSConfigParameters) DeepCopyInto(out *AwsKMSConfigParameters) {
 		in, out := &in.RoleID, &out.RoleID
 		*out = new(string)
 		**out = **in
+	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecretAccessKeySecretRef != nil {
 		in, out := &in.SecretAccessKeySecretRef, &out.SecretAccessKeySecretRef
@@ -2166,6 +2186,16 @@ func (in *EmployeeAccessGrantInitParameters) DeepCopyInto(out *EmployeeAccessGra
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ExpirationTime != nil {
 		in, out := &in.ExpirationTime, &out.ExpirationTime
 		*out = new(string)
@@ -2282,6 +2312,16 @@ func (in *EmployeeAccessGrantParameters) DeepCopyInto(out *EmployeeAccessGrantPa
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ExpirationTime != nil {
 		in, out := &in.ExpirationTime, &out.ExpirationTime
@@ -3556,6 +3596,16 @@ func (in *GlobalClusterConfigInitParameters) DeepCopyInto(out *GlobalClusterConf
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CustomZoneMappings != nil {
 		in, out := &in.CustomZoneMappings, &out.CustomZoneMappings
 		*out = make([]CustomZoneMappingsInitParameters, len(*in))
@@ -3687,6 +3737,16 @@ func (in *GlobalClusterConfigParameters) DeepCopyInto(out *GlobalClusterConfigPa
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CustomZoneMappings != nil {
 		in, out := &in.CustomZoneMappings, &out.CustomZoneMappings
@@ -4231,6 +4291,16 @@ func (in *LogIntegrationInitParameters) DeepCopyInto(out *LogIntegrationInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.IAMRoleIDRef != nil {
+		in, out := &in.IAMRoleIDRef, &out.IAMRoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IAMRoleIDSelector != nil {
+		in, out := &in.IAMRoleIDSelector, &out.IAMRoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.KMSKey != nil {
 		in, out := &in.KMSKey, &out.KMSKey
 		*out = new(string)
@@ -4488,6 +4558,16 @@ func (in *LogIntegrationParameters) DeepCopyInto(out *LogIntegrationParameters) 
 		in, out := &in.IAMRoleID, &out.IAMRoleID
 		*out = new(string)
 		**out = **in
+	}
+	if in.IAMRoleIDRef != nil {
+		in, out := &in.IAMRoleIDRef, &out.IAMRoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IAMRoleIDSelector != nil {
+		in, out := &in.IAMRoleIDSelector, &out.IAMRoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKey != nil {
 		in, out := &in.KMSKey, &out.KMSKey
@@ -5379,6 +5459,16 @@ func (in *OnlineArchiveInitParameters) DeepCopyInto(out *OnlineArchiveInitParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.CollName != nil {
 		in, out := &in.CollName, &out.CollName
 		*out = new(string)
@@ -5615,6 +5705,16 @@ func (in *OnlineArchiveParameters) DeepCopyInto(out *OnlineArchiveParameters) {
 		in, out := &in.ClusterName, &out.ClusterName
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CollName != nil {
 		in, out := &in.CollName, &out.CollName
@@ -7426,6 +7526,16 @@ func (in *PushBasedLogExportInitParameters) DeepCopyInto(out *PushBasedLogExport
 		*out = new(string)
 		**out = **in
 	}
+	if in.IAMRoleIDRef != nil {
+		in, out := &in.IAMRoleIDRef, &out.IAMRoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IAMRoleIDSelector != nil {
+		in, out := &in.IAMRoleIDSelector, &out.IAMRoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PrefixPath != nil {
 		in, out := &in.PrefixPath, &out.PrefixPath
 		*out = new(string)
@@ -7572,6 +7682,16 @@ func (in *PushBasedLogExportParameters) DeepCopyInto(out *PushBasedLogExportPara
 		in, out := &in.IAMRoleID, &out.IAMRoleID
 		*out = new(string)
 		**out = **in
+	}
+	if in.IAMRoleIDRef != nil {
+		in, out := &in.IAMRoleIDRef, &out.IAMRoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IAMRoleIDSelector != nil {
+		in, out := &in.IAMRoleIDSelector, &out.IAMRoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrefixPath != nil {
 		in, out := &in.PrefixPath, &out.PrefixPath
@@ -8267,6 +8387,16 @@ func (in *ServiceAccountAccessListEntryInitParameters) DeepCopyInto(out *Service
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
 		*out = new(string)
@@ -8403,6 +8533,16 @@ func (in *ServiceAccountAccessListEntryParameters) DeepCopyInto(out *ServiceAcco
 		in, out := &in.ClientID, &out.ClientID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
@@ -8858,6 +8998,16 @@ func (in *ServiceAccountProjectAssignmentInitParameters) DeepCopyInto(out *Servi
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -8977,6 +9127,16 @@ func (in *ServiceAccountProjectAssignmentParameters) DeepCopyInto(out *ServiceAc
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -9084,6 +9244,16 @@ func (in *ServiceAccountSecretInitParameters) DeepCopyInto(out *ServiceAccountSe
 		in, out := &in.ClientID, &out.ClientID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID
@@ -9216,6 +9386,16 @@ func (in *ServiceAccountSecretParameters) DeepCopyInto(out *ServiceAccountSecret
 		in, out := &in.ClientID, &out.ClientID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientIDRef != nil {
+		in, out := &in.ClientIDRef, &out.ClientIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClientIDSelector != nil {
+		in, out := &in.ClientIDSelector, &out.ClientIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID

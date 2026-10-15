@@ -25,7 +25,16 @@ type PushBasedLogExportInitParameters struct {
 
 	// (String) ID of the AWS IAM role that is used to write to the S3 bucket.
 	// ID of the AWS IAM role that is used to write to the S3 bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDRef *v2.Reference `json:"iamRoleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDSelector *v2.Selector `json:"iamRoleIdSelector,omitempty" tf:"-"`
 
 	// (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	// S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
@@ -98,8 +107,17 @@ type PushBasedLogExportParameters struct {
 
 	// (String) ID of the AWS IAM role that is used to write to the S3 bucket.
 	// ID of the AWS IAM role that is used to write to the S3 bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDRef *v2.Reference `json:"iamRoleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate iamRoleId.
+	// +kubebuilder:validation:Optional
+	IAMRoleIDSelector *v2.Selector `json:"iamRoleIdSelector,omitempty" tf:"-"`
 
 	// (String) S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
 	// S3 directory in which vector writes in order to store the logs. An empty string denotes the root directory.
@@ -210,7 +228,6 @@ type PushBasedLogExport struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bucketName) || (has(self.initProvider) && has(self.initProvider.bucketName))",message="spec.forProvider.bucketName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.iamRoleId) || (has(self.initProvider) && has(self.initProvider.iamRoleId))",message="spec.forProvider.iamRoleId is a required parameter"
 	Spec   PushBasedLogExportSpec   `json:"spec"`
 	Status PushBasedLogExportStatus `json:"status,omitempty"`
 }

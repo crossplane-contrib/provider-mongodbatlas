@@ -3,29 +3,22 @@ kind: RoleMapping
 metadata:
   annotations:
     meta.upbound.io/example-id: federated/v1alpha1/rolemapping
+    upjet.upbound.io/manual-intervention: "Needs an organization connected to federation settings with an identity provider."
   labels:
-    testing.upbound.io/example-name: org_group_role_mapping_import
-  name: org-group-role-mapping-import
+    testing.upbound.io/example-name: rolemapping-org_group_role_mapping_import
+  name: rolemapping-org-group-role-mapping-import
 spec:
   forProvider:
-    externalGroupName: myGrouptest
-    federationSettingsId: 627a9687f7f7f7f774de306f14
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    externalGroupName: ${Rand.RFC1123Subdomain}
+    federationSettingsId: ${data.mongodbatlas.federation_settings_id}
+    orgId: ${data.mongodbatlas.org_id}
     roleAssignments:
-    - orgId: 627a9683e7f7f7ff7fe306f14
+    - orgId: ${data.mongodbatlas.org_id}
       roles:
       - ORG_MEMBER
       - ORG_GROUP_CREATOR
       - ORG_BILLING_ADMIN
-    - groupId: 628aa20d7f7f7f7f7098b81b8
-      roles:
-      - GROUP_OWNER
-      - GROUP_DATA_ACCESS_ADMIN
-      - GROUP_SEARCH_INDEX_EDITOR
-      - GROUP_DATA_ACCESS_READ_ONLY
-    - groupId: 628aa20d7f7f7f7f7078b81b8
+    - groupId: ${data.mongodbatlas.project_id}
       roles:
       - GROUP_OWNER
       - GROUP_DATA_ACCESS_ADMIN

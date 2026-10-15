@@ -57,6 +57,7 @@ import (
 	apisCluster "github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster"
 	apisNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced"
 	"github.com/crossplane-contrib/provider-mongodbatlas/config"
+	resolverapis "github.com/crossplane-contrib/provider-mongodbatlas/internal/apis"
 	"github.com/crossplane-contrib/provider-mongodbatlas/internal/clients"
 	controllerCluster "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster"
 	controllerNamespaced "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced"
@@ -145,6 +146,8 @@ func main() {
 	metav1.AddToGroupVersion(scheme, corev1.SchemeGroupVersion)
 	ctx.FatalIfErrorf(apisCluster.AddToScheme(scheme), "Cannot add cluster-scoped MongoDBAtlas APIs to scheme")
 	ctx.FatalIfErrorf(apisNamespaced.AddToScheme(scheme), "Cannot add namespaced MongoDBAtlas APIs to scheme")
+	ctx.FatalIfErrorf(resolverapis.BuildScheme(apisCluster.AddToSchemes), "Cannot register the cluster-scoped MongoDBAtlas APIs with the API resolver's runtime scheme")
+	ctx.FatalIfErrorf(resolverapis.BuildScheme(apisNamespaced.AddToSchemes), "Cannot register the namespaced MongoDBAtlas APIs with the API resolver's runtime scheme")
 	ctx.FatalIfErrorf(apiextensionsv1.AddToScheme(scheme), "Cannot add api-extensions APIs to scheme")
 	ctx.FatalIfErrorf(authv1.AddToScheme(scheme), "Cannot add k8s authorization APIs to scheme")
 

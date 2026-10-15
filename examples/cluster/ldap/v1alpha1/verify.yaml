@@ -3,21 +3,20 @@ kind: Verify
 metadata:
   annotations:
     meta.upbound.io/example-id: ldap/v1alpha1/verify
+    upjet.upbound.io/manual-intervention: "Needs a reachable LDAP server and bind credentials in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: verify-test
+  name: verify-test
 spec:
   forProvider:
     bindPasswordSecretRef:
       key: example-key
       name: example-secret
       namespace: crossplane-system
-    bindUsername: USERNAME
-    hostname: HOSTNAME
+    bindUsername: CN=atlas,OU=users,DC=example,DC=com
+    hostname: ldap.example.com
     port: 636
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test
+    projectId: ${data.mongodbatlas.project_id}
 
 ---
 
@@ -26,17 +25,16 @@ kind: AdvancedCluster
 metadata:
   annotations:
     meta.upbound.io/example-id: ldap/v1alpha1/verify
+    upjet.upbound.io/manual-intervention: "Needs a reachable LDAP server and bind credentials in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: verify-test
+  name: verify-test
 spec:
   forProvider:
     backupEnabled: true
     clusterType: REPLICASET
-    name: NAME OF THE CLUSTER
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
     replicationSpecs:
     - regionConfigs:
       - electableSpecs:
@@ -45,20 +43,3 @@ spec:
         priority: 7
         providerName: AWS
         regionName: US_EAST_1
-
----
-
-apiVersion: mongodbatlas.crossplane.io/v1alpha1
-kind: Project
-metadata:
-  annotations:
-    meta.upbound.io/example-id: ldap/v1alpha1/verify
-  labels:
-    testing.upbound.io/example-name: test
-  name: test
-spec:
-  forProvider:
-    name: NAME OF THE PROJECT
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example

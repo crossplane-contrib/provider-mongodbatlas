@@ -3,16 +3,15 @@ kind: PrivateEndpoint
 metadata:
   annotations:
     meta.upbound.io/example-id: encryptionatrest/v1alpha1/privateendpoint
+    upjet.upbound.io/manual-intervention: "Needs an Azure Key Vault with a key and an Azure service principal in the referenced Secrets."
   labels:
-    testing.upbound.io/example-name: endpoint
-  name: endpoint
+    testing.upbound.io/example-name: privateendpoint-endpoint
+  name: privateendpoint-endpoint
 spec:
   forProvider:
     cloudProvider: AZURE
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: ear
-    regionName: ${var.azure_region_name}
+    projectId: ${data.mongodbatlas.project_id}
+    regionName: US_EAST_2
 
 ---
 
@@ -21,9 +20,10 @@ kind: EncryptionAtRest
 metadata:
   annotations:
     meta.upbound.io/example-id: encryptionatrest/v1alpha1/privateendpoint
+    upjet.upbound.io/manual-intervention: "Needs an Azure Key Vault with a key and an Azure service principal in the referenced Secrets."
   labels:
-    testing.upbound.io/example-name: ear
-  name: ear
+    testing.upbound.io/example-name: privateendpoint-ear
+  name: privateendpoint-ear
 spec:
   forProvider:
     azureKeyVaultConfig:
@@ -37,9 +37,9 @@ spec:
         key: example-key
         name: example-secret
         namespace: crossplane-system
-      keyVaultName: ${var.azure_key_vault_name}
+      keyVaultName: example-key-vault
       requirePrivateNetworking: true
-      resourceGroupName: ${var.azure_resource_group_name}
+      resourceGroupName: example-resource-group
       secretSecretRef:
         key: example-key
         name: example-secret
@@ -52,6 +52,4 @@ spec:
         key: example-key
         name: example-secret
         namespace: crossplane-system
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

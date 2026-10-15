@@ -4,14 +4,29 @@ metadata:
   annotations:
     meta.upbound.io/example-id: federated/v1alpha1/querylimit
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: querylimit-test
+  name: querylimit-test
 spec:
   forProvider:
     limitName: bytesProcessed.weekly
     overrunPolicy: BLOCK
-    projectIdSelector:
+    projectId: ${data.mongodbatlas.project_id}
+    tenantNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    tenantName: FederatedDatabseInstance0
+        testing.upbound.io/example-name: querylimit-test
     value: 5147483648
+
+---
+
+apiVersion: federated.mongodbatlas.crossplane.io/v1alpha1
+kind: DatabaseInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: federated/v1alpha1/querylimit
+  labels:
+    testing.upbound.io/example-name: querylimit-test
+  name: querylimit-test
+spec:
+  forProvider:
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}

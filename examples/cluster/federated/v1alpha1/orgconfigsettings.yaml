@@ -3,20 +3,19 @@ kind: OrgConfigSettings
 metadata:
   annotations:
     meta.upbound.io/example-id: federated/v1alpha1/orgconfigsettings
+    upjet.upbound.io/manual-intervention: "Can only be imported: the organization must already be connected to the federation with an identity provider."
   labels:
-    testing.upbound.io/example-name: org_connection
-  name: org-connection
+    testing.upbound.io/example-name: orgconfigsettings-org_connection
+  name: orgconfigsettings-org-connection
 spec:
   forProvider:
     dataAccessIdentityProviderIds:
-    - 64d613677e1ad50839cce4db
+    - <data-access-identity-provider-id>
     domainAllowList:
-    - mydomain.com
+    - example.com
     domainRestrictionEnabled: false
-    federationSettingsId: 627a9687f7f7f7f774de306f14
-    identityProviderId: 0oaqyt9fc2ySTWnA0357
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    federationSettingsId: ${data.mongodbatlas.federation_settings_id}
+    identityProviderId: <identity-provider-id>
+    orgId: ${data.mongodbatlas.org_id}
     postAuthRoleGrants:
     - ORG_MEMBER

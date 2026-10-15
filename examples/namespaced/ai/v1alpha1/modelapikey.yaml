@@ -4,14 +4,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ai/v1alpha1/modelapikey
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: modelapikey-this
+  name: modelapikey-this
   namespace: crossplane-system
 spec:
   forProvider:
     cloud: ANY
     geography: ANY
     name: example-ai-model-key
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

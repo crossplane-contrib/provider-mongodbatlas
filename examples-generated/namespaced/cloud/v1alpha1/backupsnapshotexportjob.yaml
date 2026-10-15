@@ -40,7 +40,9 @@ spec:
   forProvider:
     bucketName: example_bucket
     cloudProvider: AWS
-    iamRoleId: '{IAM_ROLE_ID}'
+    iamRoleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example

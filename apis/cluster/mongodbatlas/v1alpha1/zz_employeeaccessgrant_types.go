@@ -17,7 +17,17 @@ type EmployeeAccessGrantInitParameters struct {
 
 	// readable label that identifies this cluster.
 	// Human-readable label that identifies this cluster.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// (String) Expiration date for the employee access grant.
 	// Expiration date for the employee access grant.
@@ -66,8 +76,18 @@ type EmployeeAccessGrantParameters struct {
 
 	// readable label that identifies this cluster.
 	// Human-readable label that identifies this cluster.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// (String) Expiration date for the employee access grant.
 	// Expiration date for the employee access grant.
@@ -130,7 +150,6 @@ type EmployeeAccessGrantStatus struct {
 type EmployeeAccessGrant struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterName) || (has(self.initProvider) && has(self.initProvider.clusterName))",message="spec.forProvider.clusterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.expirationTime) || (has(self.initProvider) && has(self.initProvider.expirationTime))",message="spec.forProvider.expirationTime is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.grantType) || (has(self.initProvider) && has(self.initProvider.grantType))",message="spec.forProvider.grantType is a required parameter"
 	Spec   EmployeeAccessGrantSpec   `json:"spec"`

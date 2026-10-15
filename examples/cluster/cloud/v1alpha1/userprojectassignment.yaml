@@ -4,14 +4,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1alpha1/userprojectassignment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: userprojectassignment-example
+  name: userprojectassignment-example
 spec:
   forProvider:
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}
     roles:
     - GROUP_OWNER
     - GROUP_DATA_ACCESS_ADMIN
-    username: ${var.user_email}
+    username: ${Rand.RFC1123Subdomain}@example.com

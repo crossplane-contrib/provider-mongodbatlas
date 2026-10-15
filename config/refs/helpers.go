@@ -8,6 +8,7 @@ import (
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/pkg/errors"
 )
 
@@ -180,9 +181,11 @@ func AccessListGetIDFn(prefixParams ...string) func(context.Context, string, map
 	}
 }
 
-// ExtractParamPath builds an upjet extractor reference path for the given field.
-func ExtractParamPath(field string, sensitive bool) string {
-	return fmt.Sprintf(ExtractParamPathFmt, field, sensitive)
+// ExtractParamPath builds an upjet extractor reference path for the given
+// field. isObservation reads the field from status.atProvider instead of
+// spec.forProvider.
+func ExtractParamPath(field string, isObservation bool) string {
+	return fmt.Sprintf(ExtractParamPathFmt, field, isObservation)
 }
 
 // ExternalNameFromAccessListState returns a GetExternalNameFn for access list
@@ -272,4 +275,60 @@ func NotFoundWhenPathParamEmpty(diags []*tfprotov6.Diagnostic) bool {
 		found = true
 	}
 	return found
+}
+
+// NotFoundWhenErrorSummary returns an IsNotFoundDiagnosticFn for
+// plugin-framework resources whose Read reports a missing resource as an
+// error diagnostic with the given summary instead of removing it from the
+// state. upjet reads before Create, so without it Create never runs.
+func NotFoundWhenErrorSummary(summary string) func([]*tfprotov6.Diagnostic) bool {
+	return func(diags []*tfprotov6.Diagnostic) bool {
+		found := false
+		for _, d := range diags {
+			if d.Severity != tfprotov6.DiagnosticSeverityError {
+				continue
+			}
+			if d.Summary != summary {
+				return false
+			}
+			found = true
+		}
+		return found
+	}
+}
+
+// IgnoreUnknownUnsetBlocks returns a TerraformCustomDiff that drops the
+// "known after apply" diffs of the given Optional+Computed blocks while they
+// are set neither in the configuration nor in the state. Terraform Read sets
+// such a block only when Atlas returns it, so otherwise every plan reports it
+// as unknown and the resource never becomes up to date.
+func IgnoreUnknownUnsetBlocks(blocks ...string) func(*terraform.InstanceDiff, *terraform.InstanceState, *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+	return func(diff *terraform.InstanceDiff, state *terraform.InstanceState, config *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+		if diff == nil || diff.Destroy || state == nil || state.ID == "" {
+			return diff, nil
+		}
+		for _, block := range blocks {
+			if !isConfigured(config, block) {
+				dropUnknownUnsetDiffs(diff, block)
+			}
+		}
+		return diff, nil
+	}
+}
+
+func isConfigured(config *terraform.ResourceConfig, key string) bool {
+	if config == nil {
+		return false
+	}
+	_, ok := config.Get(key)
+	return ok
+}
+
+func dropUnknownUnsetDiffs(diff *terraform.InstanceDiff, block string) {
+	for key, attr := range diff.Attributes {
+		inBlock := key == block || strings.HasPrefix(key, block+".")
+		if inBlock && attr.NewComputed && attr.Old == "" && attr.New == "" {
+			delete(diff.Attributes, key)
+		}
+	}
 }

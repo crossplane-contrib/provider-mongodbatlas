@@ -3,9 +3,10 @@ kind: Configuration
 metadata:
   annotations:
     meta.upbound.io/example-id: ldap/v1alpha1/configuration
+    upjet.upbound.io/manual-intervention: "Needs a reachable LDAP server and bind credentials in the referenced Secret."
   labels:
-    testing.upbound.io/example-name: test
-  name: test
+    testing.upbound.io/example-name: configuration-test
+  name: configuration-test
 spec:
   forProvider:
     authenticationEnabled: true
@@ -13,26 +14,7 @@ spec:
       key: example-key
       name: example-secret
       namespace: crossplane-system
-    bindUsername: USERNAME
-    hostname: HOSTNAME
+    bindUsername: CN=atlas,OU=users,DC=example,DC=com
+    hostname: ldap.example.com
     port: 636
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test
-
----
-
-apiVersion: mongodbatlas.crossplane.io/v1alpha1
-kind: Project
-metadata:
-  annotations:
-    meta.upbound.io/example-id: ldap/v1alpha1/configuration
-  labels:
-    testing.upbound.io/example-name: test
-  name: test
-spec:
-  forProvider:
-    name: NAME OF THE PROJECT
-    orgIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

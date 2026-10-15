@@ -4,13 +4,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: project/v1alpha1/ipaccesslist
   labels:
-    testing.upbound.io/example-name: this
-  name: this
+    testing.upbound.io/example-name: ipaccesslist-this
+  name: ipaccesslist-this
   namespace: crossplane-system
 spec:
   forProvider:
     cidrBlock: 1.2.3.4/32
     comment: cidr block test
-    projectIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    projectId: ${data.mongodbatlas.project_id}

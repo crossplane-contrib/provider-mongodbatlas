@@ -36,7 +36,6 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/customresourcesgate"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
-	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
 	"github.com/crossplane/upjet/v2/pkg/diffserver"
 	"github.com/go-logr/logr"
@@ -156,7 +155,7 @@ func main() {
 		// manager below) becomes a requirement for running this binary at
 		// all: the diff server serves from the resources in each request and
 		// never talks to a cluster or to the Atlas API.
-		ctx.FatalIfErrorf(serveDiffServer(ctrl.SetupSignalHandler(), log, cli.Internal.DiffServer.Network, cli.Internal.DiffServer.Address, config.GetidentifierFromProvider(), config.GetProviderNamespaced()), "Cannot run the diff gRPC server")
+		ctx.FatalIfErrorf(serveDiffServer(ctrl.SetupSignalHandler(), log, cli.Internal.DiffServer.Network, cli.Internal.DiffServer.Address), "Cannot run the diff gRPC server")
 		return
 	case cmdStart:
 		// The provider's controllers are started below.
@@ -400,19 +399,20 @@ func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {
 
 // serveDiffServer runs the diff gRPC server on the given network and address
 // until the context is cancelled.
-func serveDiffServer(ctx context.Context, log logging.Logger, network, address string, providers ...*ujconfig.Provider) error {
-	s, scheme, err := newDiffServer(log, providers...)
+func serveDiffServer(ctx context.Context, log logging.Logger, network, address string) error {
+	s, scheme, err := newDiffServer(log)
 	if err != nil {
 		return err
 	}
 	return s.Serve(ctx, network, address, scheme)
 }
 
-// newDiffServer returns the diff gRPC server, wired to compute plans offline,
-// and the runtime scheme it decodes plan requests with. The scheme holds the
-// provider's own APIs and the Kubernetes core API, which is all a request can
-// carry: the server never talks to a cluster.
-func newDiffServer(log logging.Logger, providers ...*ujconfig.Provider) (*diffserver.Server, *runtime.Scheme, error) {
+// newDiffServer returns the diff gRPC server, wired with both provider
+// configurations to compute plans offline, and the runtime scheme it decodes
+// plan requests with. The scheme holds the provider's own APIs and the
+// Kubernetes core API, which is all a request can carry: the server never
+// talks to a cluster.
+func newDiffServer(log logging.Logger) (*diffserver.Server, *runtime.Scheme, error) {
 	scheme := runtime.NewScheme()
 	if err := clientgoscheme.AddToScheme(scheme); err != nil {
 		return nil, nil, errors.Wrap(err, "cannot add Kubernetes core APIs to the diff server scheme")
@@ -423,15 +423,10 @@ func newDiffServer(log logging.Logger, providers ...*ujconfig.Provider) (*diffse
 	if err := apisNamespaced.AddToScheme(scheme); err != nil {
 		return nil, nil, errors.Wrap(err, "cannot add namespaced MongoDBAtlas APIs to the diff server scheme")
 	}
-	if len(providers) == 0 {
-		return nil, nil, errors.New("at least one provider configuration is required")
-	}
-	// The upstream framework provider is stateless, so the one instance both
-	// provider configurations carry serves both scopes.
 	s := diffserver.NewServer(
-		diffserver.WithProviderConfigurations(providers...),
+		diffserver.WithProviderConfigurations(config.GetidentifierFromProvider(), config.GetProviderNamespaced()),
 		diffserver.WithLogger(log),
-		diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(providers[0].TerraformPluginFrameworkProvider)),
+		diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(xpshim.GetFrameworkProvider())),
 	)
 	return s, scheme, nil
 }

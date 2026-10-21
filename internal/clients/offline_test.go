@@ -51,9 +51,6 @@ import (
 )
 
 const (
-	// atlasHost is where the Atlas SDKs send their requests by default, and
-	// so where the offline client would send them if it could.
-	atlasHost = "cloud.mongodb.com"
 	// unguardedTestHost is the Atlas base URL host of the positive control.
 	// No test can reach it: the tripwire armed by TestMain must see a request
 	// for it when nothing stands in the way.
@@ -102,6 +99,13 @@ func (p *proxyRecorder) reset() {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	p.seen = nil
+}
+
+// requests returns every request recorded so far.
+func (p *proxyRecorder) requests() []string {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	return slices.Clone(p.seen)
 }
 
 // reached reports whether any recorded request targeted host.
@@ -332,8 +336,11 @@ func TestOfflineClientBlocksEgress(t *testing.T) {
 			if !strings.Contains(msg, diffserver.ErrDiffComputationNotSupported.Error()) || !strings.Contains(msg, "blocked an outbound MongoDB Atlas API request") {
 				t.Errorf("expected the read to fail with the offline diff server's error, got: %s", msg)
 			}
-			if egress.reached(atlasHost + ":443") {
-				t.Fatalf("a request for %s reached the network boundary", atlasHost)
+			// Not only the read's own request, which the error above already
+			// proves was caught: a side call to any other host, such as Realm
+			// or AWS, would be recorded here too.
+			if got := egress.requests(); len(got) != 0 {
+				t.Fatalf("requests reached the network boundary: %v", got)
 			}
 		})
 	}

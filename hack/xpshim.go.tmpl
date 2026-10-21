@@ -38,13 +38,15 @@ func GetFrameworkProvider() tpf.Provider {
 // The client is built the way the configured provider builds it, so that it
 // carries every SDK client the resources read off it, and the transport is
 // swapped afterwards: config.NewClient builds one *http.Client and hands it to
-// each SDK, so replacing that client's transport guards them all. The SDK
-// clients are checked to share it, as a change upstream that gave one of them
-// a client of its own would otherwise leave that one unguarded. A programmatic
-// API key is the only credential config.NewClient accepts without a network
-// round trip: a service account mints its token on construction. The Realm
-// client does not use the shared HTTP client and authenticates lazily, so it is
-// replaced with one without keys, which refuses before it sends anything.
+// each SDK, so replacing that client's transport guards them all. An API key
+// or an access token builds without a network round trip; a service account
+// mints its token on construction. The four admin SDK clients are checked to
+// share the HTTP client, as a change upstream that gave one of them a client
+// of its own would otherwise leave that one unguarded. The legacy Atlas
+// client hides its HTTP client, so only TestOfflineClientBlocksEgress guards
+// it. The Realm client does not use the shared HTTP client and authenticates
+// lazily, so it is replaced with one without keys, which refuses before it
+// sends anything.
 func NewOfflineClient(publicKey, privateKey, terraformVersion string, rt http.RoundTripper) (any, error) {
 	c, err := config.NewClient(&config.Credentials{PublicKey: publicKey, PrivateKey: privateKey}, terraformVersion)
 	if err != nil {
@@ -57,7 +59,7 @@ func NewOfflineClient(publicKey, privateKey, terraformVersion string, rt http.Ro
 		c.AtlasV220241113.GetConfig().HTTPClient,
 	} {
 		if other != hc {
-			return nil, errors.New("the Atlas SDK clients do not share one HTTP client, so one transport cannot guard them all")
+			return nil, errors.New("the Atlas admin SDK clients do not share one HTTP client, so one transport cannot guard them all")
 		}
 	}
 	hc.Transport = rt

@@ -36,8 +36,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 	"k8s.io/apimachinery/pkg/util/yaml"
-
-	"github.com/crossplane-contrib/provider-mongodbatlas/config"
 )
 
 // The manifests below are what a client puts in a plan request. Every
@@ -178,14 +176,13 @@ spec:
 )
 
 // TestDiffServerPlan drives the diff gRPC server the way a client does, over
-// a unix socket, with the provider configurations and the offline Terraform
-// setup main wires it with. It covers a namespaced plugin framework resource
+// a unix socket, wired exactly as main wires it. It covers a namespaced plugin framework resource
 // resolving a cluster-scoped ProviderConfig from its own namespace, every plan
 // action on a plugin SDKv2 resource, and a resource whose plan needs the
 // Atlas API.
 func TestDiffServerPlan(t *testing.T) {
 	ctx := context.Background()
-	s, scheme, err := newDiffServer(logging.NewNopLogger(), config.GetidentifierFromProvider(), config.GetProviderNamespaced())
+	s, scheme, err := newDiffServer(logging.NewNopLogger())
 	if err != nil {
 		t.Fatalf("cannot initialize the diff gRPC server: %v", err)
 	}

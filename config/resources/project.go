@@ -6,6 +6,8 @@ import (
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
+const groupProject = "project"
+
 func ConfigureProject(p *config.Provider) {
 	p.AddResourceConfigurator(refs.TFProject, func(r *config.Resource) {
 		r.ExternalName = providerAssignedID()
@@ -54,7 +56,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account_access_list_entry", func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "ServiceAccountAccessListEntry"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -70,7 +72,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account_secret", func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "ServiceAccountSecret"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -86,7 +88,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator(refs.TFProjectMCPConfig, func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "MCPConfig"
 		// Atlas returns both ip_address and cidr_block for an entry, but
 		// Terraform accepts exactly one of them per entry.
@@ -103,7 +105,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_mcp_config_secret", func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "MCPConfigSecret"
 		r.ExternalName = computedKeyID("secret_id")
 		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("secret_id")
@@ -119,7 +121,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account", func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "ServiceAccount"
 		r.References = config.References{
 			refs.ProjectID: {

@@ -1,9 +1,13 @@
 .*/
 **/.*
+!.github/
+!.gitignore
+!.gitmodules
+!.golangci.yml
+
 /_output
 cover.out
 /vendor
-.DS_Store
 /third_party
 /extensions/*
 !/extensions/icons

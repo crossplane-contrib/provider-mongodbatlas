@@ -54,11 +54,12 @@ GO111MODULE ?= on
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.30.0
-UP_VERSION = v0.42.0
-UP_CHANNEL = stable
-UPTEST_VERSION = v2.2.0
 CRDDIFF_VERSION = v0.12.1
+KIND_VERSION = v0.30.0
+KUBECTL_VALIDATE_VERSION ?= v0.0.4
+UP_CHANNEL = stable
+UP_VERSION = v0.42.0
+UPTEST_VERSION = v2.2.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -256,7 +257,7 @@ crddiff: $(UPTEST)
 			continue ; \
 		fi ; \
 		echo "Checking $${crd} for breaking API changes..." ; \
-		changes_detected=$$(go run github.com/crossplane/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "origin/$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
+		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "origin/$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
 		if [[ $$? != 0 ]] ; then \
 			printf "\033[31m"; echo "Breaking change detected!"; printf "\033[0m" ; \
 			echo "$${changes_detected}" ; \
@@ -275,7 +276,29 @@ schema-version-diff:
 	./scripts/version_diff.py config/generated.lst "$(WORK_DIR)/schema.json.$${PREV_PROVIDER_VERSION}" config/schema.json
 	@$(OK) Checking for native state schema version changes
 
-.PHONY: cobertura submodules fallthrough run crds.clean
+KUBECTL_VALIDATE := $(TOOLS_HOST_DIR)/kubectl-validate-$(KUBECTL_VALIDATE_VERSION)
+
+$(KUBECTL_VALIDATE):
+	@$(INFO) installing kubectl-validate $(KUBECTL_VALIDATE_VERSION)
+	@mkdir -p $(TOOLS_HOST_DIR)
+	@GOBIN=$(abspath $(TOOLS_HOST_DIR)) go install sigs.k8s.io/kubectl-validate@$(KUBECTL_VALIDATE_VERSION) || $(FAIL)
+	@mv $(TOOLS_HOST_DIR)/kubectl-validate $@
+	@$(OK) installing kubectl-validate $(KUBECTL_VALIDATE_VERSION)
+
+# example-lint validates the example manifests against the CRDs in package/crds.
+# It works on a copy of examples/ where uptest's ${Rand.*} placeholders are
+# replaced (they are not valid object names) and files without a provider
+# manifest are dropped (testhooks, install.yaml).
+example-lint: $(KUBECTL_VALIDATE)
+	@$(INFO) linting example manifests
+	@tmpdir=$$(mktemp -d); trap 'rm -rf "$$tmpdir"' EXIT; \
+	cp -r examples/cluster examples/namespaced "$$tmpdir/"; \
+	find "$$tmpdir" -name '*.yaml' -exec perl -pi -e 's/\$$\{Rand\.[^}]*\}/uptest/g' {} +; \
+	grep -rL --include='*.yaml' '^apiVersion:.*mongodbatlas.*crossplane\.io' "$$tmpdir" | xargs -r rm -f; \
+	cd "$$tmpdir" && $(abspath $(KUBECTL_VALIDATE)) cluster namespaced --local-crds $(ROOT_DIR)/package/crds || $(FAIL)
+	@$(OK) linting example manifests
+
+.PHONY: cobertura submodules fallthrough run crds.clean example-lint
 
 # ====================================================================================
 # Special Targets

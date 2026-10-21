@@ -9,7 +9,6 @@ on:
 
 env:
   # Common versions
-  GOLANGCI_VERSION: "v2.15.0"
   DOCKER_BUILDX_VERSION: "v0.33.0"
 
   # Common users. We can't run a step 'if secrets.XXX != ""' but we can run a
@@ -79,12 +78,16 @@ jobs:
       - name: Vendor Dependencies
         run: make vendor vendor.check
 
+      - name: Detect golangci-lint version
+        id: golangci
+        run: echo "version=v$(awk '/^GOLANGCILINT_VERSION/{print $3}' Makefile)" | tee -a "$GITHUB_OUTPUT"
+
       # We could run 'make lint' but we prefer this action because it leaves
       # 'annotations' (i.e. it comments on PRs to point out linter violations).
       - name: Lint
         uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9
         with:
-          version: ${{ env.GOLANGCI_VERSION }}
+          version: ${{ steps.golangci.outputs.version }}
 
   check-diff:
     runs-on: ubuntu-26.04
@@ -173,6 +176,9 @@ jobs:
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@ceedf095f4ec1a097402bc6bd80831f2e1a6fde6 # v2.0.0
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4
         with:

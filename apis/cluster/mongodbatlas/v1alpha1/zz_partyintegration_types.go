@@ -59,6 +59,9 @@ type PartyIntegrationInitParameters struct {
 	// Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.
 	SendQueryStatsMetrics *bool `json:"sendQueryStatsMetrics,omitempty" tf:"send_query_stats_metrics,omitempty"`
 
+	// Toggle sending sharding metrics that includes sharding distribution and chunk metrics per cluster, shard, and collection. Default: false.
+	SendShardingMetrics *bool `json:"sendShardingMetrics,omitempty" tf:"send_sharding_metrics,omitempty"`
+
 	// Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
 
@@ -103,6 +106,9 @@ type PartyIntegrationObservation struct {
 
 	// Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.
 	SendQueryStatsMetrics *bool `json:"sendQueryStatsMetrics,omitempty" tf:"send_query_stats_metrics,omitempty"`
+
+	// Toggle sending sharding metrics that includes sharding distribution and chunk metrics per cluster, shard, and collection. Default: false.
+	SendShardingMetrics *bool `json:"sendShardingMetrics,omitempty" tf:"send_sharding_metrics,omitempty"`
 
 	// Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.
 	SendUserProvidedResourceTags *bool `json:"sendUserProvidedResourceTags,omitempty" tf:"send_user_provided_resource_tags,omitempty"`
@@ -173,6 +179,10 @@ type PartyIntegrationParameters struct {
 	// Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.
 	// +kubebuilder:validation:Optional
 	SendQueryStatsMetrics *bool `json:"sendQueryStatsMetrics,omitempty" tf:"send_query_stats_metrics,omitempty"`
+
+	// Toggle sending sharding metrics that includes sharding distribution and chunk metrics per cluster, shard, and collection. Default: false.
+	// +kubebuilder:validation:Optional
+	SendShardingMetrics *bool `json:"sendShardingMetrics,omitempty" tf:"send_sharding_metrics,omitempty"`
 
 	// Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.
 	// +kubebuilder:validation:Optional

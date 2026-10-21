@@ -34,6 +34,24 @@ func (l *InvitationList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this MCPConfigList.
+func (l *MCPConfigList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this MCPConfigSecretList.
+func (l *MCPConfigSecretList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ServiceAccountAccessListEntryList.
 func (l *ServiceAccountAccessListEntryList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

@@ -67,8 +67,8 @@ type MetricIntegrationInitParameters struct {
 	// The temporality to send to the metric integration.
 	AggregationTemporality *string `json:"aggregationTemporality,omitempty" tf:"aggregation_temporality,omitempty"`
 
-	// (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
-	// Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used.
+	// (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
+	// Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
 	AuthType *string `json:"authType,omitempty" tf:"auth_type,omitempty"`
 
 	// (String) OpenTelemetry collector endpoint URL. Must use HTTPS.
@@ -86,6 +86,9 @@ type MetricIntegrationInitParameters struct {
 	// Array of metric categories to export. Determines which types of metrics are sent to the integration.
 	// +listType=set
 	MetricSelection []*string `json:"metricSelection,omitempty" tf:"metric_selection,omitempty"`
+
+	// (Attributes) OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
+	Oauth *OauthInitParameters `json:"oauth,omitempty" tf:"oauth,omitempty"`
 
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
@@ -111,8 +114,8 @@ type MetricIntegrationObservation struct {
 	// The temporality to send to the metric integration.
 	AggregationTemporality *string `json:"aggregationTemporality,omitempty" tf:"aggregation_temporality,omitempty"`
 
-	// (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
-	// Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used.
+	// (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
+	// Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
 	AuthType *string `json:"authType,omitempty" tf:"auth_type,omitempty"`
 
 	// (String) OpenTelemetry collector endpoint URL. Must use HTTPS.
@@ -140,6 +143,9 @@ type MetricIntegrationObservation struct {
 	// +listType=set
 	MetricSelection []*string `json:"metricSelection,omitempty" tf:"metric_selection,omitempty"`
 
+	// (Attributes) OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
+	Oauth *OauthObservation `json:"oauth,omitempty" tf:"oauth,omitempty"`
+
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -156,8 +162,8 @@ type MetricIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	AggregationTemporality *string `json:"aggregationTemporality,omitempty" tf:"aggregation_temporality,omitempty"`
 
-	// (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
-	// Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used.
+	// (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
+	// Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
 	// +kubebuilder:validation:Optional
 	AuthType *string `json:"authType,omitempty" tf:"auth_type,omitempty"`
 
@@ -181,6 +187,10 @@ type MetricIntegrationParameters struct {
 	// +listType=set
 	MetricSelection []*string `json:"metricSelection,omitempty" tf:"metric_selection,omitempty"`
 
+	// (Attributes) OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Oauth *OauthParameters `json:"oauth,omitempty" tf:"oauth,omitempty"`
+
 	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
@@ -199,6 +209,123 @@ type MetricIntegrationParameters struct {
 	// The provider type for the metric integration. Identifies the third-party service provider.
 	// +kubebuilder:validation:Optional
 	ProviderType *string `json:"providerType,omitempty" tf:"provider_type,omitempty"`
+}
+
+type OauthInitParameters struct {
+
+	// generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	// How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	ClientAuthMethod *string `json:"clientAuthMethod,omitempty" tf:"client_auth_method,omitempty"`
+
+	// (String) OAuth 2.0 client identifier registered with the token endpoint.
+	// OAuth 2.0 client identifier registered with the token endpoint.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// (String, Sensitive) Shared client secret. Required when client_auth_method is CLIENT_SECRET, and rejected for PRIVATE_KEY_JWT. Encrypted at rest and never returned.
+	// Shared client secret. Required when client_auth_method is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`. Encrypted at rest and never returned.
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+
+	// (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
+	// Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+	// +listType=set
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
+	// OAuth 2.0 token endpoint URL. Must use HTTPS.
+	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
+
+	// specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// +mapType=granular
+	TokenRequestParams map[string]*string `json:"tokenRequestParams,omitempty" tf:"token_request_params,omitempty"`
+}
+
+type OauthObservation struct {
+
+	// generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	// How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	ClientAuthMethod *string `json:"clientAuthMethod,omitempty" tf:"client_auth_method,omitempty"`
+
+	// (String) OAuth 2.0 client identifier registered with the token endpoint.
+	// OAuth 2.0 client identifier registered with the token endpoint.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
+	// Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+	// +listType=set
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// only metadata for the Atlas-managed signing key used by PRIVATE_KEY_JWT. Present only for that method. Register the jwks_uri with your identity provider. Atlas rotates the underlying key without changing this URL. (see below for nested schema)
+	SigningKeyInfo *SigningKeyInfoObservation `json:"signingKeyInfo,omitempty" tf:"signing_key_info,omitempty"`
+
+	// (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
+	// OAuth 2.0 token endpoint URL. Must use HTTPS.
+	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
+
+	// specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// +mapType=granular
+	TokenRequestParams map[string]*string `json:"tokenRequestParams,omitempty" tf:"token_request_params,omitempty"`
+}
+
+type OauthParameters struct {
+
+	// generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	// How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	// +kubebuilder:validation:Optional
+	ClientAuthMethod *string `json:"clientAuthMethod" tf:"client_auth_method,omitempty"`
+
+	// (String) OAuth 2.0 client identifier registered with the token endpoint.
+	// OAuth 2.0 client identifier registered with the token endpoint.
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId" tf:"client_id,omitempty"`
+
+	// (String, Sensitive) Shared client secret. Required when client_auth_method is CLIENT_SECRET, and rejected for PRIVATE_KEY_JWT. Encrypted at rest and never returned.
+	// Shared client secret. Required when client_auth_method is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`. Encrypted at rest and never returned.
+	// +kubebuilder:validation:Optional
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+
+	// (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
+	// Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
+	// OAuth 2.0 token endpoint URL. Must use HTTPS.
+	// +kubebuilder:validation:Optional
+	TokenEndpoint *string `json:"tokenEndpoint" tf:"token_endpoint,omitempty"`
+
+	// specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	TokenRequestParams map[string]*string `json:"tokenRequestParams,omitempty" tf:"token_request_params,omitempty"`
+}
+
+type SigningKeyInfoInitParameters struct {
+}
+
+type SigningKeyInfoObservation struct {
+
+	// managed key.
+	// Signing algorithm of the Atlas-managed key.
+	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+
+	// (String) When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+	// When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
+
+	// (String) Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
+	// Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
+	JwksURI *string `json:"jwksUri,omitempty" tf:"jwks_uri,omitempty"`
+
+	// 1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
+	// Key ID stamped on client assertions, the `SHA-1` thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
+	Kid *string `json:"kid,omitempty" tf:"kid,omitempty"`
+}
+
+type SigningKeyInfoParameters struct {
 }
 
 // MetricIntegrationSpec defines the desired state of MetricIntegration

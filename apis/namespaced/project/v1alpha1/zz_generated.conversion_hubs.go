@@ -16,6 +16,12 @@ func (tr *Invitation) Hub() {}
 func (tr *IPAccessList) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *MCPConfig) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *MCPConfigSecret) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ServiceAccount) Hub() {}
 
 // Hub marks this type as a conversion hub.

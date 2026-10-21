@@ -24,7 +24,9 @@ import (
 	userorgassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/userorgassignment"
 	userprojectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/userprojectassignment"
 	userteamassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cloud/userteamassignment"
+	adaptivesettings "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cluster/adaptivesettings"
 	outagesimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cluster/outagesimulation"
+	overloadsimulation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/cluster/overloadsimulation"
 	customrole "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/customrole"
 	user "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/user"
 	x509userauthentication "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/database/x509userauthentication"
@@ -51,6 +53,8 @@ import (
 	globalclusterconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/globalclusterconfig"
 	logintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/logintegration"
 	maintenancewindow "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/maintenancewindow"
+	mcpconfig "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/mcpconfig"
+	mcpconfigsecret "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/mcpconfigsecret"
 	metricintegration "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/metricintegration"
 	onlinearchive "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/onlinearchive"
 	organization "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/organization"
@@ -65,13 +69,18 @@ import (
 	team "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/mongodbatlas/team"
 	container "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/network/container"
 	peering "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/network/peering"
+	delegationsettings "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/org/delegationsettings"
 	invitation "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/org/invitation"
+	logintegrationorg "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/org/logintegration"
+	maintenancesettings "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/org/maintenancesettings"
 	regionalmode "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/privateendpoint/regionalmode"
 	resource "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/privateendpoint/resource"
 	service "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/privateendpoint/service"
 	apikeyproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/apikey"
 	invitationproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/invitation"
 	ipaccesslist "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/ipaccesslist"
+	mcpconfigproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/mcpconfig"
+	mcpconfigsecretproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/mcpconfigsecret"
 	serviceaccountproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/serviceaccount"
 	serviceaccountaccesslistentryproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/serviceaccountaccesslistentry"
 	serviceaccountsecretproject "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/cluster/project/serviceaccountsecret"
@@ -107,7 +116,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		userorgassignment.Setup,
 		userprojectassignment.Setup,
 		userteamassignment.Setup,
+		adaptivesettings.Setup,
 		outagesimulation.Setup,
+		overloadsimulation.Setup,
 		customrole.Setup,
 		user.Setup,
 		x509userauthentication.Setup,
@@ -134,6 +145,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		globalclusterconfig.Setup,
 		logintegration.Setup,
 		maintenancewindow.Setup,
+		mcpconfig.Setup,
+		mcpconfigsecret.Setup,
 		metricintegration.Setup,
 		onlinearchive.Setup,
 		organization.Setup,
@@ -148,13 +161,18 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		team.Setup,
 		container.Setup,
 		peering.Setup,
+		delegationsettings.Setup,
 		invitation.Setup,
+		logintegrationorg.Setup,
+		maintenancesettings.Setup,
 		regionalmode.Setup,
 		resource.Setup,
 		service.Setup,
 		apikeyproject.Setup,
 		invitationproject.Setup,
 		ipaccesslist.Setup,
+		mcpconfigproject.Setup,
+		mcpconfigsecretproject.Setup,
 		serviceaccountproject.Setup,
 		serviceaccountaccesslistentryproject.Setup,
 		serviceaccountsecretproject.Setup,
@@ -196,7 +214,9 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		userorgassignment.SetupGated,
 		userprojectassignment.SetupGated,
 		userteamassignment.SetupGated,
+		adaptivesettings.SetupGated,
 		outagesimulation.SetupGated,
+		overloadsimulation.SetupGated,
 		customrole.SetupGated,
 		user.SetupGated,
 		x509userauthentication.SetupGated,
@@ -223,6 +243,8 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		globalclusterconfig.SetupGated,
 		logintegration.SetupGated,
 		maintenancewindow.SetupGated,
+		mcpconfig.SetupGated,
+		mcpconfigsecret.SetupGated,
 		metricintegration.SetupGated,
 		onlinearchive.SetupGated,
 		organization.SetupGated,
@@ -237,13 +259,18 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		team.SetupGated,
 		container.SetupGated,
 		peering.SetupGated,
+		delegationsettings.SetupGated,
 		invitation.SetupGated,
+		logintegrationorg.SetupGated,
+		maintenancesettings.SetupGated,
 		regionalmode.SetupGated,
 		resource.SetupGated,
 		service.SetupGated,
 		apikeyproject.SetupGated,
 		invitationproject.SetupGated,
 		ipaccesslist.SetupGated,
+		mcpconfigproject.SetupGated,
+		mcpconfigsecretproject.SetupGated,
 		serviceaccountproject.SetupGated,
 		serviceaccountaccesslistentryproject.SetupGated,
 		serviceaccountsecretproject.SetupGated,
@@ -284,7 +311,9 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		userorgassignment.SetupWebhookWithManager,
 		userprojectassignment.SetupWebhookWithManager,
 		userteamassignment.SetupWebhookWithManager,
+		adaptivesettings.SetupWebhookWithManager,
 		outagesimulation.SetupWebhookWithManager,
+		overloadsimulation.SetupWebhookWithManager,
 		customrole.SetupWebhookWithManager,
 		user.SetupWebhookWithManager,
 		x509userauthentication.SetupWebhookWithManager,
@@ -311,6 +340,8 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		globalclusterconfig.SetupWebhookWithManager,
 		logintegration.SetupWebhookWithManager,
 		maintenancewindow.SetupWebhookWithManager,
+		mcpconfig.SetupWebhookWithManager,
+		mcpconfigsecret.SetupWebhookWithManager,
 		metricintegration.SetupWebhookWithManager,
 		onlinearchive.SetupWebhookWithManager,
 		organization.SetupWebhookWithManager,
@@ -325,13 +356,18 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		team.SetupWebhookWithManager,
 		container.SetupWebhookWithManager,
 		peering.SetupWebhookWithManager,
+		delegationsettings.SetupWebhookWithManager,
 		invitation.SetupWebhookWithManager,
+		logintegrationorg.SetupWebhookWithManager,
+		maintenancesettings.SetupWebhookWithManager,
 		regionalmode.SetupWebhookWithManager,
 		resource.SetupWebhookWithManager,
 		service.SetupWebhookWithManager,
 		apikeyproject.SetupWebhookWithManager,
 		invitationproject.SetupWebhookWithManager,
 		ipaccesslist.SetupWebhookWithManager,
+		mcpconfigproject.SetupWebhookWithManager,
+		mcpconfigsecretproject.SetupWebhookWithManager,
 		serviceaccountproject.SetupWebhookWithManager,
 		serviceaccountaccesslistentryproject.SetupWebhookWithManager,
 		serviceaccountsecretproject.SetupWebhookWithManager,

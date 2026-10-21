@@ -7,4 +7,10 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *AdaptiveSettings) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *OutageSimulation) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *OverloadSimulation) Hub() {}

@@ -85,6 +85,39 @@ func ConfigureProject(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 2, 0, "secret_id")
 	})
 
+	p.AddResourceConfigurator(refs.TFProjectMCPConfig, func(r *config.Resource) {
+		r.ShortGroup = "project"
+		r.Kind = "MCPConfig"
+		// Atlas returns both ip_address and cidr_block for an entry, but
+		// Terraform accepts exactly one of them per entry.
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"ip_access_list"},
+		}
+		r.ExternalName = computedKeyID(refs.MCPConfigID)
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset(refs.MCPConfigID)
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_mcp_config_secret", func(r *config.Resource) {
+		r.ShortGroup = "project"
+		r.Kind = "MCPConfigSecret"
+		r.ExternalName = computedKeyID("secret_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("secret_id")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.MCPConfigID: {
+				TerraformName: refs.TFProjectMCPConfig,
+				Extractor:     refs.ExtractParamPath(refs.MCPConfigID, true),
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_project_service_account", func(r *config.Resource) {
 		r.ShortGroup = "project"
 		r.Kind = "ServiceAccount"

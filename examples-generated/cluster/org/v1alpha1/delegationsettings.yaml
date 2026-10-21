@@ -1,0 +1,17 @@
+apiVersion: org.mongodbatlas.crossplane.io/v1alpha1
+kind: DelegationSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: org/v1alpha1/delegationsettings
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    delegatedMcpAccess: READ_ONLY
+    delegatedPartnerAccess: DISALLOWED
+    idleRefreshTokenLifetime: 3600
+    maximumRefreshTokenLifetime: 86400
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

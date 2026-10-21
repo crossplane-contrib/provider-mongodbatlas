@@ -145,7 +145,7 @@ type ManagedNamespacesInitParameters struct {
 	// The name of the database containing the collection.
 	DB *string `json:"db,omitempty" tf:"db,omitempty"`
 
-	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding. This is only available for Atlas clusters with MongoDB v4.4 and later.
+	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding.
 	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
 
 	// Specifies whether the underlying index enforces a unique constraint. If omitted, defaults to false. You cannot specify true when using hashed shard keys.
@@ -163,7 +163,7 @@ type ManagedNamespacesObservation struct {
 	// The name of the database containing the collection.
 	DB *string `json:"db,omitempty" tf:"db,omitempty"`
 
-	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding. This is only available for Atlas clusters with MongoDB v4.4 and later.
+	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding.
 	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
 
 	// Specifies whether the underlying index enforces a unique constraint. If omitted, defaults to false. You cannot specify true when using hashed shard keys.
@@ -184,7 +184,7 @@ type ManagedNamespacesParameters struct {
 	// +kubebuilder:validation:Optional
 	DB *string `json:"db" tf:"db,omitempty"`
 
-	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding. This is only available for Atlas clusters with MongoDB v4.4 and later.
+	// Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding.
 	// +kubebuilder:validation:Optional
 	IsCustomShardKeyHashed *bool `json:"isCustomShardKeyHashed,omitempty" tf:"is_custom_shard_key_hashed,omitempty"`
 

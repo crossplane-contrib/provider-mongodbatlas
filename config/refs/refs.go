@@ -7,6 +7,7 @@ const (
 	ContainerID    = "container_id"
 	IAMRoleID      = "iam_role_id"
 	InstanceName   = "instance_name"
+	MCPConfigID    = "mcp_config_id"
 	Name           = "name"
 	OrgID          = "org_id"
 	PeerID         = "peer_id"
@@ -21,8 +22,10 @@ const (
 
 	TFBackupSnapshot              = "mongodbatlas_cloud_backup_snapshot"
 	TFCluster                     = "mongodbatlas_advanced_cluster"
+	TFMCPConfig                   = "mongodbatlas_mcp_config"
 	TFOrganization                = "mongodbatlas_organization"
 	TFProject                     = "mongodbatlas_project"
+	TFProjectMCPConfig            = "mongodbatlas_project_mcp_config"
 	TFProjectServiceAccount       = "mongodbatlas_project_service_account"
 	TFProviderAccessAuthorization = "mongodbatlas_cloud_provider_access_authorization"
 	TFServiceAccount              = "mongodbatlas_service_account"

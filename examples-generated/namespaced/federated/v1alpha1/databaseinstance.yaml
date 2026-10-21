@@ -18,7 +18,7 @@ spec:
       - dataSources:
         - collection: COLLECTION IN THE CLUSTER
           database: DB IN THE CLUSTER
-          storeName: CLUSTER NAME
+          storeName: STORE 1 NAME
         name: NAME OF THE COLLECTION
       name: VirtualDatabase0
     storageStores:

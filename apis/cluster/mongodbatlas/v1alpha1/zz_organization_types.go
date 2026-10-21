@@ -13,10 +13,42 @@ import (
 	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
+type CustomSessionTimeoutsInitParameters struct {
+
+	// Specifies the absolute session timeout duration in seconds. When set to null, the field's value is unset, and the default value of 43,200 seconds (12 hours) is applied. Accepted values range between a minimum of 3,600 seconds (1 hour) and a maximum of 43,200 seconds (12 hours).
+	AbsoluteSessionTimeoutInSeconds *int64 `json:"absoluteSessionTimeoutInSeconds,omitempty" tf:"absolute_session_timeout_in_seconds,omitempty"`
+
+	// Specifies the idle session timeout duration in seconds. When set to null, the field's value is unset, and the default behavior depends on the context: no timeout for Atlas Commercial, and 600 seconds (10 minutes) for Atlas for Government. Accepted values start at a minimum of 300 seconds (5 minutes). For Atlas Commercial, the maximum value cannot exceed the configured absolute session timeout. For Atlas for Government, the maximum value is capped at 600 seconds (10 minutes).
+	IdleSessionTimeoutInSeconds *int64 `json:"idleSessionTimeoutInSeconds,omitempty" tf:"idle_session_timeout_in_seconds,omitempty"`
+}
+
+type CustomSessionTimeoutsObservation struct {
+
+	// Specifies the absolute session timeout duration in seconds. When set to null, the field's value is unset, and the default value of 43,200 seconds (12 hours) is applied. Accepted values range between a minimum of 3,600 seconds (1 hour) and a maximum of 43,200 seconds (12 hours).
+	AbsoluteSessionTimeoutInSeconds *int64 `json:"absoluteSessionTimeoutInSeconds,omitempty" tf:"absolute_session_timeout_in_seconds,omitempty"`
+
+	// Specifies the idle session timeout duration in seconds. When set to null, the field's value is unset, and the default behavior depends on the context: no timeout for Atlas Commercial, and 600 seconds (10 minutes) for Atlas for Government. Accepted values start at a minimum of 300 seconds (5 minutes). For Atlas Commercial, the maximum value cannot exceed the configured absolute session timeout. For Atlas for Government, the maximum value is capped at 600 seconds (10 minutes).
+	IdleSessionTimeoutInSeconds *int64 `json:"idleSessionTimeoutInSeconds,omitempty" tf:"idle_session_timeout_in_seconds,omitempty"`
+}
+
+type CustomSessionTimeoutsParameters struct {
+
+	// Specifies the absolute session timeout duration in seconds. When set to null, the field's value is unset, and the default value of 43,200 seconds (12 hours) is applied. Accepted values range between a minimum of 3,600 seconds (1 hour) and a maximum of 43,200 seconds (12 hours).
+	// +kubebuilder:validation:Optional
+	AbsoluteSessionTimeoutInSeconds *int64 `json:"absoluteSessionTimeoutInSeconds,omitempty" tf:"absolute_session_timeout_in_seconds,omitempty"`
+
+	// Specifies the idle session timeout duration in seconds. When set to null, the field's value is unset, and the default behavior depends on the context: no timeout for Atlas Commercial, and 600 seconds (10 minutes) for Atlas for Government. Accepted values start at a minimum of 300 seconds (5 minutes). For Atlas Commercial, the maximum value cannot exceed the configured absolute session timeout. For Atlas for Government, the maximum value is capped at 600 seconds (10 minutes).
+	// +kubebuilder:validation:Optional
+	IdleSessionTimeoutInSeconds *int64 `json:"idleSessionTimeoutInSeconds,omitempty" tf:"idle_session_timeout_in_seconds,omitempty"`
+}
+
 type OrganizationInitParameters struct {
 
 	// Flag that indicates whether to require API operations to originate from an IP Address added to the API access list for the specified organization.
 	APIAccessListRequired *bool `json:"apiAccessListRequired,omitempty" tf:"api_access_list_required,omitempty"`
+
+	// Block that specifies the custom session timeout settings for the organization. Remove the block from your configuration, or set it to null, to clear both timeouts. See Custom Session Timeouts.
+	CustomSessionTimeouts []CustomSessionTimeoutsInitParameters `json:"customSessionTimeouts,omitempty" tf:"custom_session_timeouts,omitempty"`
 
 	// Programmatic API Key description. This attribute is required in creation and can't be updated later.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -32,6 +64,9 @@ type OrganizationInitParameters struct {
 
 	// The name of the organization.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// String that specifies a distribution list email address for the specified organization to receive proactive notifications about its infrastructure. The operations contact is used for notifications only and is not authorized to make decisions or approvals. Remove the attribute from your configuration, or set it to null, to clear an existing operations contact.
+	OperationsContact *string `json:"operationsContact,omitempty" tf:"operations_contact,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the Atlas user that you want to assign the Organization Owner role. This user must be a member of the same organization as the calling API key.  This is only required when authenticating with Programmatic API Keys. MongoDB Atlas Admin API - Get User By Username. This attribute is required in creation and can't be updated later.
 	OrgOwnerID *string `json:"orgOwnerId,omitempty" tf:"org_owner_id,omitempty"`
@@ -58,6 +93,9 @@ type OrganizationObservation struct {
 	// Flag that indicates whether to require API operations to originate from an IP Address added to the API access list for the specified organization.
 	APIAccessListRequired *bool `json:"apiAccessListRequired,omitempty" tf:"api_access_list_required,omitempty"`
 
+	// Block that specifies the custom session timeout settings for the organization. Remove the block from your configuration, or set it to null, to clear both timeouts. See Custom Session Timeouts.
+	CustomSessionTimeouts []CustomSessionTimeoutsObservation `json:"customSessionTimeouts,omitempty" tf:"custom_session_timeouts,omitempty"`
+
 	// Programmatic API Key description. This attribute is required in creation and can't be updated later.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -74,6 +112,9 @@ type OrganizationObservation struct {
 
 	// The name of the organization.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// String that specifies a distribution list email address for the specified organization to receive proactive notifications about its infrastructure. The operations contact is used for notifications only and is not authorized to make decisions or approvals. Remove the attribute from your configuration, or set it to null, to clear an existing operations contact.
+	OperationsContact *string `json:"operationsContact,omitempty" tf:"operations_contact,omitempty"`
 
 	// The organization id.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -104,6 +145,10 @@ type OrganizationParameters struct {
 	// +kubebuilder:validation:Optional
 	APIAccessListRequired *bool `json:"apiAccessListRequired,omitempty" tf:"api_access_list_required,omitempty"`
 
+	// Block that specifies the custom session timeout settings for the organization. Remove the block from your configuration, or set it to null, to clear both timeouts. See Custom Session Timeouts.
+	// +kubebuilder:validation:Optional
+	CustomSessionTimeouts []CustomSessionTimeoutsParameters `json:"customSessionTimeouts,omitempty" tf:"custom_session_timeouts,omitempty"`
+
 	// Programmatic API Key description. This attribute is required in creation and can't be updated later.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -123,6 +168,10 @@ type OrganizationParameters struct {
 	// The name of the organization.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// String that specifies a distribution list email address for the specified organization to receive proactive notifications about its infrastructure. The operations contact is used for notifications only and is not authorized to make decisions or approvals. Remove the attribute from your configuration, or set it to null, to clear an existing operations contact.
+	// +kubebuilder:validation:Optional
+	OperationsContact *string `json:"operationsContact,omitempty" tf:"operations_contact,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the Atlas user that you want to assign the Organization Owner role. This user must be a member of the same organization as the calling API key.  This is only required when authenticating with Programmatic API Keys. MongoDB Atlas Admin API - Get User By Username. This attribute is required in creation and can't be updated later.
 	// +kubebuilder:validation:Optional

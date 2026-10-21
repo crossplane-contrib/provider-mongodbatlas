@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: databaseinstances.federated.mongodbatlas.crossplane.io
 spec:
   group: federated.mongodbatlas.crossplane.io
@@ -107,6 +107,19 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        gcp:
+                          description: Google Cloud provider of the cloud service
+                            where the Federated Database Instance can access Google
+                            Cloud Storage.
+                          items:
+                            properties:
+                              roleId:
+                                description: Unique identifier of the role that the
+                                  Federated Database Instance uses to access the data
+                                  stores.
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -117,7 +130,7 @@ spec:
                       properties:
                         cloudProvider:
                           description: 'Name of the cloud service provider. Supported
-                            providers: AWS, AZURE.'
+                            providers: AWS, AZURE, GCP.'
                           type: string
                         region:
                           description: Name of the region to which the Federated Instance
@@ -320,7 +333,7 @@ spec:
                             URLs.
                           type: boolean
                         bucket:
-                          description: Name of the AWS S3 bucket.
+                          description: Name of the bucket.
                           type: string
                         clusterName:
                           description: Human-readable label of the MongoDB Cloud cluster
@@ -394,8 +407,8 @@ spec:
                             type: object
                           type: array
                         region:
-                          description: Name of the AWS region in which the S3 bucket
-                            is hosted.
+                          description: Name of the cloud provider region in which
+                            the bucket is hosted.
                           type: string
                         urls:
                           description: Comma-separated list of publicly accessible
@@ -455,6 +468,19 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        gcp:
+                          description: Google Cloud provider of the cloud service
+                            where the Federated Database Instance can access Google
+                            Cloud Storage.
+                          items:
+                            properties:
+                              roleId:
+                                description: Unique identifier of the role that the
+                                  Federated Database Instance uses to access the data
+                                  stores.
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -465,7 +491,7 @@ spec:
                       properties:
                         cloudProvider:
                           description: 'Name of the cloud service provider. Supported
-                            providers: AWS, AZURE.'
+                            providers: AWS, AZURE, GCP.'
                           type: string
                         region:
                           description: Name of the region to which the Federated Instance
@@ -668,7 +694,7 @@ spec:
                             URLs.
                           type: boolean
                         bucket:
-                          description: Name of the AWS S3 bucket.
+                          description: Name of the bucket.
                           type: string
                         clusterName:
                           description: Human-readable label of the MongoDB Cloud cluster
@@ -742,8 +768,8 @@ spec:
                             type: object
                           type: array
                         region:
-                          description: Name of the AWS region in which the S3 bucket
-                            is hosted.
+                          description: Name of the cloud provider region in which
+                            the bucket is hosted.
                           type: string
                         urls:
                           description: Comma-separated list of publicly accessible
@@ -914,6 +940,25 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        gcp:
+                          description: Google Cloud provider of the cloud service
+                            where the Federated Database Instance can access Google
+                            Cloud Storage.
+                          items:
+                            properties:
+                              gcpServiceAccount:
+                                description: Email address of the Google Cloud Platform
+                                  (GCP) service account created by Atlas, which should
+                                  be authorized to allow Atlas to access Google Cloud
+                                  Storage.
+                                type: string
+                              roleId:
+                                description: Unique identifier of the role that the
+                                  Federated Database Instance uses to access the data
+                                  stores.
+                                type: string
+                            type: object
+                          type: array
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
@@ -924,7 +969,7 @@ spec:
                       properties:
                         cloudProvider:
                           description: 'Name of the cloud service provider. Supported
-                            providers: AWS, AZURE.'
+                            providers: AWS, AZURE, GCP.'
                           type: string
                         region:
                           description: Name of the region to which the Federated Instance
@@ -1092,7 +1137,7 @@ spec:
                             URLs.
                           type: boolean
                         bucket:
-                          description: Name of the AWS S3 bucket.
+                          description: Name of the bucket.
                           type: string
                         clusterName:
                           description: Human-readable label of the MongoDB Cloud cluster
@@ -1166,8 +1211,8 @@ spec:
                             type: object
                           type: array
                         region:
-                          description: Name of the AWS region in which the S3 bucket
-                            is hosted.
+                          description: Name of the cloud provider region in which
+                            the bucket is hosted.
                           type: string
                         urls:
                           description: Comma-separated list of publicly accessible

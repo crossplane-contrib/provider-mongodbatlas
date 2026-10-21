@@ -11,7 +11,7 @@ export TERRAFORM_VERSION ?= 1.5.7
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
 export TERRAFORM_PROVIDER_SOURCE ?= mongodb/mongodbatlas
-export TERRAFORM_PROVIDER_VERSION ?= 2.17.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.20.1
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-$(PROJECT_NAME)
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/mongodb/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := $(TERRAFORM_PROVIDER_REPO)/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
@@ -44,7 +44,7 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_REQUIRED_VERSION ?= $(shell sed -n 's/^go //p' go.mod)
-GOLANGCILINT_VERSION ?= 2.14.0
+GOLANGCILINT_VERSION ?= 2.15.0
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis config
@@ -108,7 +108,7 @@ TERRAFORM_PROVIDER_SCHEMA := config/schema.json
 
 check-terraform-version:
 ifneq ($(TERRAFORM_VERSION_VALID),1)
-	$(error invalid TERRAFORM_VERSION $(TERRAFORM_VERSION), must be less than 1.6.0 since that version introduced a not permitted BSL license))
+	$(error invalid TERRAFORM_VERSION $(TERRAFORM_VERSION), must be less than 1.6.0 since that version introduced a not permitted BSL license)
 endif
 
 $(TERRAFORM): check-terraform-version

@@ -1,0 +1,21 @@
+apiVersion: cluster.mongodbatlas.crossplane.io/v1alpha1
+kind: AdaptiveSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/adaptivesettings
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    adaptiveSettingsOverrides: |-
+      ${jsonencode({
+          LOAD_SHEDDING        = var.load_shedding_enabled
+          SEARCH_LOAD_SHEDDING = var.search_load_shedding_enabled
+        })}
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

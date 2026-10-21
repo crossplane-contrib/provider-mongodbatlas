@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: configurations.alert.mongodbatlas.crossplane.io
 spec:
   group: alert.mongodbatlas.crossplane.io
@@ -332,6 +332,47 @@ spec:
                             notifications type. If the key later becomes invalid,
                             Atlas sends an email to the project owner and eventually
                             removes the key.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        webhookBodyTemplateSecretRef:
+                          description: Template, using ${field} interpolation, that
+                            renders the HTTP body MongoDB Cloud sends with each webhook
+                            notification. Must render valid JSON. When unset, MongoDB
+                            Cloud sends its default JSON payload.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        webhookHeadersTemplateSecretRef:
+                          description: Template, using ${field} interpolation, that
+                            renders the HTTP headers MongoDB Cloud sends with each
+                            webhook notification. Must render a JSON object mapping
+                            header name to header value. The webhook secret and the
+                            signature header are NOT exposed to templates.
                           properties:
                             key:
                               description: The key to select.
@@ -764,6 +805,47 @@ spec:
                             notifications type. If the key later becomes invalid,
                             Atlas sends an email to the project owner and eventually
                             removes the key.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        webhookBodyTemplateSecretRef:
+                          description: Template, using ${field} interpolation, that
+                            renders the HTTP body MongoDB Cloud sends with each webhook
+                            notification. Must render valid JSON. When unset, MongoDB
+                            Cloud sends its default JSON payload.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        webhookHeadersTemplateSecretRef:
+                          description: Template, using ${field} interpolation, that
+                            renders the HTTP headers MongoDB Cloud sends with each
+                            webhook notification. Must render a JSON object mapping
+                            header name to header value. The webhook secret and the
+                            signature header are NOT exposed to templates.
                           properties:
                             key:
                               description: The key to select.

@@ -7,4 +7,13 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *DelegationSettings) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Invitation) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *LogIntegration) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *MaintenanceSettings) Hub() {}

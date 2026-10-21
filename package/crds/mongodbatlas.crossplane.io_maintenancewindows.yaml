@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: maintenancewindows.mongodbatlas.crossplane.io
 spec:
   group: mongodbatlas.crossplane.io
@@ -86,7 +86,8 @@ spec:
                   dayOfWeek:
                     description: 'Day of the week when you would like the maintenance
                       window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5,
-                      F=6, Sa=7.'
+                      F=6, Sa=7. Must be set together with hour_of_day. Omit both
+                      to set a wave_assignment without a maintenance window.'
                     format: int64
                     type: integer
                   defer:
@@ -98,6 +99,8 @@ spec:
                     description: Hour of the day when you would like the maintenance
                       window to start. This parameter uses the 24-hour clock, where
                       midnight is 0, noon is 12. Uses the project's configured timezone.
+                      Must be set together with day_of_week. Omit both to set a wave_assignment
+                      without a maintenance window.
                     format: int64
                     type: integer
                   projectId:
@@ -197,6 +200,18 @@ spec:
                           type: integer
                       type: object
                     type: array
+                  waveAssignment:
+                    description: Integer that identifies the maintenance wave explicitly
+                      assigned to this project. Valid values are 1 to 3, inclusive,
+                      where 1 is the first maintenance wave. Not editable when the
+                      organization's wave assignment mode is ENV_TAG_MAPPING. In this
+                      case, the system preserves the stored value but does not use
+                      it for scheduling; environment tags determine the effective
+                      wave instead. Switching back to MANUAL restores the wave_assignment
+                      value as the effective wave. See mongodbatlas_org_maintenance_settings
+                      to configure the organization-level wave assignment mode.
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -225,7 +240,8 @@ spec:
                   dayOfWeek:
                     description: 'Day of the week when you would like the maintenance
                       window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5,
-                      F=6, Sa=7.'
+                      F=6, Sa=7. Must be set together with hour_of_day. Omit both
+                      to set a wave_assignment without a maintenance window.'
                     format: int64
                     type: integer
                   defer:
@@ -237,6 +253,8 @@ spec:
                     description: Hour of the day when you would like the maintenance
                       window to start. This parameter uses the 24-hour clock, where
                       midnight is 0, noon is 12. Uses the project's configured timezone.
+                      Must be set together with day_of_week. Omit both to set a wave_assignment
+                      without a maintenance window.
                     format: int64
                     type: integer
                   projectId:
@@ -336,6 +354,18 @@ spec:
                           type: integer
                       type: object
                     type: array
+                  waveAssignment:
+                    description: Integer that identifies the maintenance wave explicitly
+                      assigned to this project. Valid values are 1 to 3, inclusive,
+                      where 1 is the first maintenance wave. Not editable when the
+                      organization's wave assignment mode is ENV_TAG_MAPPING. In this
+                      case, the system preserves the stored value but does not use
+                      it for scheduling; environment tags determine the effective
+                      wave instead. Switching back to MANUAL restores the wave_assignment
+                      value as the effective wave. See mongodbatlas_org_maintenance_settings
+                      to configure the organization-level wave assignment mode.
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -423,15 +453,6 @@ spec:
             required:
             - forProvider
             type: object
-            x-kubernetes-validations:
-            - message: spec.forProvider.dayOfWeek is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.dayOfWeek)
-                || (has(self.initProvider) && has(self.initProvider.dayOfWeek))'
-            - message: spec.forProvider.hourOfDay is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.hourOfDay)
-                || (has(self.initProvider) && has(self.initProvider.hourOfDay))'
           status:
             description: MaintenanceWindowStatus defines the observed state of MaintenanceWindow.
             properties:
@@ -451,7 +472,8 @@ spec:
                   dayOfWeek:
                     description: 'Day of the week when you would like the maintenance
                       window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5,
-                      F=6, Sa=7.'
+                      F=6, Sa=7. Must be set together with hour_of_day. Omit both
+                      to set a wave_assignment without a maintenance window.'
                     format: int64
                     type: integer
                   defer:
@@ -463,6 +485,8 @@ spec:
                     description: Hour of the day when you would like the maintenance
                       window to start. This parameter uses the 24-hour clock, where
                       midnight is 0, noon is 12. Uses the project's configured timezone.
+                      Must be set together with day_of_week. Omit both to set a wave_assignment
+                      without a maintenance window.
                     format: int64
                     type: integer
                   id:
@@ -504,6 +528,18 @@ spec:
                     description: Identifier for the current time zone of the maintenance
                       window. This can only be updated via the Project Settings UI.
                     type: string
+                  waveAssignment:
+                    description: Integer that identifies the maintenance wave explicitly
+                      assigned to this project. Valid values are 1 to 3, inclusive,
+                      where 1 is the first maintenance wave. Not editable when the
+                      organization's wave assignment mode is ENV_TAG_MAPPING. In this
+                      case, the system preserves the stored value but does not use
+                      it for scheduling; environment tags determine the effective
+                      wave instead. Switching back to MANUAL restores the wave_assignment
+                      value as the effective wave. See mongodbatlas_org_maintenance_settings
+                      to configure the organization-level wave assignment mode.
+                    format: int64
+                    type: integer
                 type: object
               conditions:
                 description: Conditions of the resource.

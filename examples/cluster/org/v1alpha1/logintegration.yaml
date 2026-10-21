@@ -1,0 +1,33 @@
+apiVersion: org.mongodbatlas.crossplane.io/v1alpha1
+kind: LogIntegration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: org/v1alpha1/logintegration
+  labels:
+    testing.upbound.io/example-name: logintegration-example
+  name: logintegration-example
+spec:
+  forProvider:
+    logTypes:
+    - EVENTS
+    orgId: ${data.mongodbatlas.org_id}
+    # Documentation address (RFC 5737): Atlas validates the URL, never calls it.
+    otelEndpoint: https://192.0.2.1/v1/logs
+    otelSuppliedHeaders:
+    - name: authorization
+      valueSecretRef:
+        key: token
+        name: logintegration-otel-headers
+        namespace: crossplane-system
+    type: OTEL_LOG_EXPORT
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: logintegration-otel-headers
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  token: example-token

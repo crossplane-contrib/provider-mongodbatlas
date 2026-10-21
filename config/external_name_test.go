@@ -145,8 +145,14 @@ func TestComputedKeyFrameworkResources(t *testing.T) {
 	cases := map[string]string{
 		"mongodbatlas_ai_model_api_key":                    "api_key_id",
 		"mongodbatlas_cloud_backup_collection_restore_job": "job_id",
+		"mongodbatlas_cluster_overload_simulation":         "simulation_id",
 		"mongodbatlas_log_integration":                     "integration_id",
+		"mongodbatlas_mcp_config":                          "mcp_config_id",
+		"mongodbatlas_mcp_config_secret":                   "secret_id",
 		"mongodbatlas_metric_integration":                  "metric_integration_id",
+		"mongodbatlas_org_log_integration":                 "integration_id",
+		"mongodbatlas_project_mcp_config":                  "mcp_config_id",
+		"mongodbatlas_project_mcp_config_secret":           "secret_id",
 		"mongodbatlas_stream_connection_failover":          "failover_connection_id",
 	}
 	p := GetProviderNamespaced()

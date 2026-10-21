@@ -71,7 +71,7 @@ spec:
         key: example-key
         name: example-secret
       username: ${var.kafka_username}
-    bootstrapServers: localhost:9092,localhost:9092
+    bootstrapServers: example.com:9092
     config:
       auto.offset.reset: earliest
     connectionName: KafkaPlaintextConnection

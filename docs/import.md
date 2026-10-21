@@ -63,6 +63,8 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_cloud_user_project_assignment` | `projectId` (**ref**), `username` | |
 | `mongodbatlas_cloud_user_team_assignment` | `orgId` (**ref**), `teamId` (**ref**), `userId` (**ref**) | |
 | `mongodbatlas_cluster` | `projectId` (**ref**), `name`, `providerName` | |
+| `mongodbatlas_cluster_adaptive_settings` | `projectId` (**ref**), `clusterName` (**ref**) | |
+| `mongodbatlas_cluster_overload_simulation` | `projectId` (**ref**), `clusterName` (**ref**) | `simulationId` |
 | `mongodbatlas_custom_db_role` | `projectId` (**ref**), `roleName` | |
 | `mongodbatlas_custom_dns_configuration_cluster_aws` | `projectId` (**ref**) | |
 | `mongodbatlas_database_user` | `projectId` (**ref**), `username`, `authDatabaseName` | |
@@ -80,12 +82,17 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_ldap_verify` | `projectId` (**ref**) | `requestId` |
 | `mongodbatlas_log_integration` | `projectId` (**ref**) | `integrationId` |
 | `mongodbatlas_maintenance_window` | `projectId` (**ref**) | |
+| `mongodbatlas_mcp_config` | `orgId` (**ref**) | `mcpConfigId` |
+| `mongodbatlas_mcp_config_secret` | `orgId` (**ref**), `mcpConfigId` (**ref**) | `secretId` |
 | `mongodbatlas_metric_integration` | `projectId` (**ref**) | `metricIntegrationId` |
 | `mongodbatlas_mongodb_employee_access_grant` | `projectId` (**ref**), `clusterName` | |
 | `mongodbatlas_network_container` | `projectId` (**ref**) | `containerId` |
 | `mongodbatlas_network_peering` | `projectId` (**ref**), `providerName` | `peeringId` |
 | `mongodbatlas_online_archive` | `projectId` (**ref**), `clusterName` | `archiveId` |
+| `mongodbatlas_org_delegation_settings` | `orgId` (**ref**) | |
 | `mongodbatlas_org_invitation` | `orgId` (**ref**), `username` | |
+| `mongodbatlas_org_log_integration` | `orgId` (**ref**) | `integrationId` |
+| `mongodbatlas_org_maintenance_settings` | `orgId` (**ref**) | |
 | `mongodbatlas_organization` | n/a (requires ID) | `orgId` |
 | `mongodbatlas_private_endpoint_regional_mode` | `projectId` (**ref**) | |
 | `mongodbatlas_privatelink_endpoint_service_data_federation_online_archive` | `projectId` (**ref**), `endpointId` | |
@@ -94,6 +101,8 @@ resources this is set automatically after creation. For importing existing resou
 | `mongodbatlas_project_api_key` | | `apiKeyId` |
 | `mongodbatlas_project_invitation` | `projectId` (**ref**), `username` | |
 | `mongodbatlas_project_ip_access_list` | `projectId` (**ref**), `ipAddress` or `cidrBlock` | |
+| `mongodbatlas_project_mcp_config` | `projectId` (**ref**) | `mcpConfigId` |
+| `mongodbatlas_project_mcp_config_secret` | `projectId` (**ref**), `mcpConfigId` (**ref**) | `secretId` |
 | `mongodbatlas_project_service_account_access_list_entry` | `projectId` (**ref**), `clientId`, `ipAddress` or `cidrBlock` | |
 | `mongodbatlas_project_service_account_secret` | `projectId` (**ref**), `clientId` | `secretId` |
 | `mongodbatlas_project_service_account` | `projectId` (**ref**) | `clientId` |
@@ -142,6 +151,7 @@ separator below.
 | `mongodbatlas_cloud_user_project_assignment` | `<projectId>/<username>` |
 | `mongodbatlas_cloud_user_team_assignment` | `<orgId>/<teamId>/<userId>` |
 | `mongodbatlas_cluster` | `<projectId>-<name>` |
+| `mongodbatlas_cluster_adaptive_settings` | `<projectId>/<clusterName>` |
 | `mongodbatlas_custom_db_role` | `<projectId>-<roleName>` |
 | `mongodbatlas_custom_dns_configuration_cluster_aws` | `<projectId>` |
 | `mongodbatlas_database_user` | `<projectId>/<username>/<authDatabaseName>` |
@@ -154,7 +164,9 @@ separator below.
 | `mongodbatlas_ldap_configuration` | `<projectId>` |
 | `mongodbatlas_maintenance_window` | `<projectId>` |
 | `mongodbatlas_mongodb_employee_access_grant` | `<projectId>/<clusterName>` |
+| `mongodbatlas_org_delegation_settings` | `<orgId>` |
 | `mongodbatlas_org_invitation` | `<orgId>-<username>` |
+| `mongodbatlas_org_maintenance_settings` | `<orgId>` |
 | `mongodbatlas_private_endpoint_regional_mode` | `<projectId>` |
 | `mongodbatlas_privatelink_endpoint_service_data_federation_online_archive` | `<projectId>--<endpointId>` |
 | `mongodbatlas_project_invitation` | `<projectId>-<username>` |

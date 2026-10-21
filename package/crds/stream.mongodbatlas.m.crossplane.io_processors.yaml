@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: processors.stream.mongodbatlas.m.crossplane.io
 spec:
   group: stream.mongodbatlas.m.crossplane.io
@@ -198,6 +198,13 @@ spec:
                               Name of the database to use for the DLQ.
                             type: string
                         type: object
+                      resumeFromCheckpoint:
+                        description: |-
+                          (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
+                          Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
+
+                          **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
+                        type: boolean
                     type: object
                   pipeline:
                     description: |-
@@ -556,6 +563,13 @@ spec:
                               Name of the database to use for the DLQ.
                             type: string
                         type: object
+                      resumeFromCheckpoint:
+                        description: |-
+                          (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
+                          Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
+
+                          **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
+                        type: boolean
                     type: object
                   pipeline:
                     description: |-
@@ -902,6 +916,13 @@ spec:
                               Name of the database to use for the DLQ.
                             type: string
                         type: object
+                      resumeFromCheckpoint:
+                        description: |-
+                          (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
+                          Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
+
+                          **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
+                        type: boolean
                     type: object
                   pipeline:
                     description: |-

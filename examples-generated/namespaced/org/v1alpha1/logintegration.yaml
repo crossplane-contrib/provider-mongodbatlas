@@ -1,0 +1,19 @@
+apiVersion: org.mongodbatlas.m.crossplane.io/v1alpha1
+kind: LogIntegration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: org/v1alpha1/logintegration
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    logTypes:
+    - EVENTS
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    otelEndpoint: ${var.otel_endpoint}
+    otelSuppliedHeaders: ${var.otel_supplied_headers}
+    type: OTEL_LOG_EXPORT

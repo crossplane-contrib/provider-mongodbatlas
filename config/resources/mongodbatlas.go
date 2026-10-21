@@ -82,6 +82,40 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		}
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_cluster_overload_simulation", func(r *config.Resource) {
+		r.ShortGroup = "cluster"
+		r.Kind = "OverloadSimulation"
+		// Create and Delete wait up to 5 minutes for the simulation state.
+		r.UseAsync = true
+		r.ExternalName = computedKeyID("simulation_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("simulation_id")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			// Same as OutageSimulation: wait until the cluster is created and IDLE.
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, true),
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_cluster_adaptive_settings", func(r *config.Resource) {
+		r.ShortGroup = "cluster"
+		r.Kind = "AdaptiveSettings"
+		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.cluster_name }}")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, true),
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_mongodb_employee_access_grant", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "EmployeeAccessGrant"
@@ -260,6 +294,45 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		}
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_org_delegation_settings", func(r *config.Resource) {
+		r.ShortGroup = "org"
+		r.Kind = "DelegationSettings"
+		r.ExternalName = templated("{{ .parameters.org_id }}")
+		r.References = config.References{
+			refs.OrgID: {
+				TerraformName: refs.TFOrganization,
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_org_maintenance_settings", func(r *config.Resource) {
+		r.ShortGroup = "org"
+		r.Kind = "MaintenanceSettings"
+		r.ExternalName = templated("{{ .parameters.org_id }}")
+		r.References = config.References{
+			refs.OrgID: {
+				TerraformName: refs.TFOrganization,
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_org_log_integration", func(r *config.Resource) {
+		r.ShortGroup = "org"
+		r.Kind = "LogIntegration"
+		r.References = config.References{
+			refs.OrgID: {
+				TerraformName: refs.TFOrganization,
+			},
+		}
+		// Same as mongodbatlas_log_integration: the generator only supports
+		// string-like sensitive fields. The nested value stays sensitive.
+		if sch, ok := r.TerraformResource.Schema["otel_supplied_headers"]; ok {
+			sch.Sensitive = false
+		}
+		r.ExternalName = computedKeyID("integration_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("integration_id")
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_custom_dns_configuration_cluster_aws", func(r *config.Resource) {
 		r.ShortGroup = ""
 		r.Kind = "CustomDNSConfigurationClusterAWS"
@@ -344,6 +417,39 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		}
 		r.ExternalName.GetIDFn = refs.AccessListGetIDFn(refs.OrgID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromAccessListState(refs.OrgID)
+	})
+
+	p.AddResourceConfigurator(refs.TFMCPConfig, func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.Kind = "MCPConfig"
+		// Atlas returns both ip_address and cidr_block for an entry, but
+		// Terraform accepts exactly one of them per entry.
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"ip_access_list"},
+		}
+		r.ExternalName = computedKeyID(refs.MCPConfigID)
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset(refs.MCPConfigID)
+		r.References = config.References{
+			refs.OrgID: {
+				TerraformName: refs.TFOrganization,
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_mcp_config_secret", func(r *config.Resource) {
+		r.ShortGroup = ""
+		r.Kind = "MCPConfigSecret"
+		r.ExternalName = computedKeyID("secret_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("secret_id")
+		r.References = config.References{
+			refs.OrgID: {
+				TerraformName: refs.TFOrganization,
+			},
+			refs.MCPConfigID: {
+				TerraformName: refs.TFMCPConfig,
+				Extractor:     refs.ExtractParamPath(refs.MCPConfigID, true),
+			},
+		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_push_based_log_export", func(r *config.Resource) {

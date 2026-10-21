@@ -1,0 +1,42 @@
+apiVersion: cluster.mongodbatlas.m.crossplane.io/v1alpha1
+kind: AdaptiveSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/adaptivesettings
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: adaptivesettings-example
+  name: adaptivesettings-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    adaptiveSettingsOverrides: '{"LOAD_SHEDDING":true,"SEARCH_LOAD_SHEDDING":true}'
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: adaptivesettings-example
+    projectId: ${data.mongodbatlas.project_id}
+
+---
+
+apiVersion: mongodbatlas.m.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/adaptivesettings
+  labels:
+    testing.upbound.io/example-name: adaptivesettings-example
+  name: adaptivesettings-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1

@@ -1,0 +1,17 @@
+apiVersion: project.mongodbatlas.m.crossplane.io/v1alpha1
+kind: MCPConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/mcpconfig
+  labels:
+    testing.upbound.io/example-name: mcpconfig-example
+  name: mcpconfig-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    ipAccessList:
+    - cidrBlock: 203.0.113.0/24
+    mcpConfigName: project-mcpconfig-example
+    projectId: ${data.mongodbatlas.project_id}
+    roles:
+    - GROUP_READ_ONLY

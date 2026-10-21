@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: metricintegrations.mongodbatlas.m.crossplane.io
 spec:
   group: mongodbatlas.m.crossplane.io
@@ -65,8 +65,8 @@ spec:
                     type: string
                   authType:
                     description: |-
-                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
-                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used.
+                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
+                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
                     type: string
                   endpoint:
                     description: |-
@@ -113,6 +113,57 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  oauth:
+                    description: (Attributes) OAuth 2.0 client credentials configuration.
+                      Required when auth_type is OAUTH2. Secrets are never returned.
+                      (see below for nested schema)
+                    properties:
+                      clientAuthMethod:
+                        description: |-
+                          generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                          How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                        type: string
+                      clientId:
+                        description: |-
+                          (String) OAuth 2.0 client identifier registered with the token endpoint.
+                          OAuth 2.0 client identifier registered with the token endpoint.
+                        type: string
+                      clientSecretSecretRef:
+                        description: |-
+                          (String, Sensitive) Shared client secret. Required when client_auth_method is CLIENT_SECRET, and rejected for PRIVATE_KEY_JWT. Encrypted at rest and never returned.
+                          Shared client secret. Required when client_auth_method is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`. Encrypted at rest and never returned.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      scopes:
+                        description: |-
+                          (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
+                          Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      tokenEndpoint:
+                        description: |-
+                          (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
+                          OAuth 2.0 token endpoint URL. Must use HTTPS.
+                        type: string
+                      tokenRequestParams:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                          Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   projectId:
                     description: |-
                       hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
@@ -226,8 +277,8 @@ spec:
                     type: string
                   authType:
                     description: |-
-                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
-                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used.
+                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
+                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
                     type: string
                   endpoint:
                     description: |-
@@ -276,6 +327,57 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  oauth:
+                    description: (Attributes) OAuth 2.0 client credentials configuration.
+                      Required when auth_type is OAUTH2. Secrets are never returned.
+                      (see below for nested schema)
+                    properties:
+                      clientAuthMethod:
+                        description: |-
+                          generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                          How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                        type: string
+                      clientId:
+                        description: |-
+                          (String) OAuth 2.0 client identifier registered with the token endpoint.
+                          OAuth 2.0 client identifier registered with the token endpoint.
+                        type: string
+                      clientSecretSecretRef:
+                        description: |-
+                          (String, Sensitive) Shared client secret. Required when client_auth_method is CLIENT_SECRET, and rejected for PRIVATE_KEY_JWT. Encrypted at rest and never returned.
+                          Shared client secret. Required when client_auth_method is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`. Encrypted at rest and never returned.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      scopes:
+                        description: |-
+                          (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
+                          Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      tokenEndpoint:
+                        description: |-
+                          (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
+                          OAuth 2.0 token endpoint URL. Must use HTTPS.
+                        type: string
+                      tokenRequestParams:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                          Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   projectId:
                     description: |-
                       hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
@@ -464,8 +566,8 @@ spec:
                     type: string
                   authType:
                     description: |-
-                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
-                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used.
+                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
+                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
                     type: string
                   endpoint:
                     description: |-
@@ -523,6 +625,71 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  oauth:
+                    description: (Attributes) OAuth 2.0 client credentials configuration.
+                      Required when auth_type is OAUTH2. Secrets are never returned.
+                      (see below for nested schema)
+                    properties:
+                      clientAuthMethod:
+                        description: |-
+                          generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                          How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                        type: string
+                      clientId:
+                        description: |-
+                          (String) OAuth 2.0 client identifier registered with the token endpoint.
+                          OAuth 2.0 client identifier registered with the token endpoint.
+                        type: string
+                      scopes:
+                        description: |-
+                          (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
+                          Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      signingKeyInfo:
+                        description: only metadata for the Atlas-managed signing key
+                          used by PRIVATE_KEY_JWT. Present only for that method. Register
+                          the jwks_uri with your identity provider. Atlas rotates
+                          the underlying key without changing this URL. (see below
+                          for nested schema)
+                        properties:
+                          algorithm:
+                            description: |-
+                              managed key.
+                              Signing algorithm of the Atlas-managed key.
+                            type: string
+                          createdAt:
+                            description: |-
+                              (String) When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+                              When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+                            type: string
+                          jwksUri:
+                            description: |-
+                              (String) Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
+                              Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
+                            type: string
+                          kid:
+                            description: |-
+                              1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
+                              Key ID stamped on client assertions, the `SHA-1` thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
+                            type: string
+                        type: object
+                      tokenEndpoint:
+                        description: |-
+                          (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
+                          OAuth 2.0 token endpoint URL. Must use HTTPS.
+                        type: string
+                      tokenRequestParams:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                          Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   projectId:
                     description: |-
                       hexadecimal digit string that identifies your project, also known as groupId in the official documentation.

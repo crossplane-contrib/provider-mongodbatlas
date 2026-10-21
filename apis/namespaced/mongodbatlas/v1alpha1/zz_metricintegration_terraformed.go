@@ -21,7 +21,7 @@ func (mg *MetricIntegration) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this MetricIntegration
 func (tr *MetricIntegration) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"headers[*].value": "headers[*].valueSecretRef"}
+	return map[string]string{"headers[*].value": "headers[*].valueSecretRef", "oauth.client_secret": "oauth.clientSecretSecretRef"}
 }
 
 // GetObservation of this MetricIntegration

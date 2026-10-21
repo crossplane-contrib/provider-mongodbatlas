@@ -19,7 +19,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"maps"
 	"os"
+	"slices"
+	"strings"
 	"time"
 
 	"github.com/alecthomas/kong"
@@ -163,7 +166,8 @@ func main() {
 		LeaderElection:   cli.LeaderElection,
 		LeaderElectionID: "crossplane-leader-election-upjet-provider-mongodbatlas",
 		Cache: cache.Options{
-			SyncPeriod: &cli.SyncPeriod,
+			SyncPeriod:       &cli.SyncPeriod,
+			DefaultTransform: cache.TransformStripManagedFields(),
 			// Strips the OpenAPI schema (and other non-critical fields) from
 			// cached CRDs: the SafeStart gate below only needs GVK +
 			// Established status, never the schema, and skipping it cuts
@@ -206,17 +210,15 @@ func main() {
 	otStore := tjcontroller.NewOperationStore(log)
 
 	clusterOpts := tjcontroller.Options{
-		Options: xpcontroller.Options{
-			Logger:                  log,
-			GlobalRateLimiter:       ratelimiter.NewGlobal(cli.MaxReconcileRate),
-			PollInterval:            cli.PollInterval,
-			MaxConcurrentReconciles: cli.MaxReconcileRate,
-			Features:                &feature.Flags{},
-			MetricOptions: &xpcontroller.MetricOptions{
-				PollStateMetricInterval: cli.PollStateMetricInterval,
-				MRMetrics:               metricRecorder,
-				MRStateMetrics:          stateMetrics,
-			},
+		Logger:                  log,
+		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.MaxReconcileRate),
+		PollInterval:            cli.PollInterval,
+		MaxConcurrentReconciles: cli.MaxReconcileRate,
+		Features:                &feature.Flags{},
+		MetricOptions: &xpcontroller.MetricOptions{
+			PollStateMetricInterval: cli.PollStateMetricInterval,
+			MRMetrics:               metricRecorder,
+			MRStateMetrics:          stateMetrics,
 		},
 		Provider:              config.GetidentifierFromProvider(),
 		SetupFn:               setupFn,
@@ -226,17 +228,15 @@ func main() {
 	}
 
 	namespacedOpts := tjcontroller.Options{
-		Options: xpcontroller.Options{
-			Logger:                  log,
-			GlobalRateLimiter:       ratelimiter.NewGlobal(cli.MaxReconcileRate),
-			PollInterval:            cli.PollInterval,
-			MaxConcurrentReconciles: cli.MaxReconcileRate,
-			Features:                &feature.Flags{},
-			MetricOptions: &xpcontroller.MetricOptions{
-				PollStateMetricInterval: cli.PollStateMetricInterval,
-				MRMetrics:               metricRecorder,
-				MRStateMetrics:          stateMetrics,
-			},
+		Logger:                  log,
+		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.MaxReconcileRate),
+		PollInterval:            cli.PollInterval,
+		MaxConcurrentReconciles: cli.MaxReconcileRate,
+		Features:                &feature.Flags{},
+		MetricOptions: &xpcontroller.MetricOptions{
+			PollStateMetricInterval: cli.PollStateMetricInterval,
+			MRMetrics:               metricRecorder,
+			MRStateMetrics:          stateMetrics,
 		},
 		Provider:              config.GetProviderNamespaced(),
 		SetupFn:               setupFn,
@@ -278,6 +278,7 @@ func main() {
 			Logger:                  log,
 			Gate:                    crdGate,
 			MaxConcurrentReconciles: 1,
+			Groups:                  providerGroups(scheme, clusterOpts.Provider.RootGroup, namespacedOpts.Provider.RootGroup),
 		}), "Cannot setup CRD gate")
 		ctx.FatalIfErrorf(controllerCluster.SetupGated(mgr, clusterOpts), "Cannot setup cluster-scoped MongoDBAtlas controllers")
 		ctx.FatalIfErrorf(controllerNamespaced.SetupGated(mgr, namespacedOpts), "Cannot setup namespaced MongoDBAtlas controllers")
@@ -316,6 +317,20 @@ func certsDirFromEnv(fallback certsDir) certsDir {
 		return certsDir(xpCertsDir)
 	}
 	return fallback
+}
+
+// providerGroups returns the API groups registered in s that are a root group
+// or one of its sub-groups, so the CRD gate ignores unrelated CRDs.
+func providerGroups(s *runtime.Scheme, roots ...string) []string {
+	set := map[string]struct{}{}
+	for gvk := range s.AllKnownTypes() {
+		for _, root := range roots {
+			if gvk.Group == root || strings.HasSuffix(gvk.Group, "."+root) {
+				set[gvk.Group] = struct{}{}
+			}
+		}
+	}
+	return slices.Sorted(maps.Keys(set))
 }
 
 func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {

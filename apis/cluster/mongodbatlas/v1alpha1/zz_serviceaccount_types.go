@@ -41,9 +41,13 @@ type ServiceAccountInitParameters_2 struct {
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
-	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
+	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
+	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set `without_initial_secret` to false or omit `without_initial_secret`. Do not set this field when you set `without_initial_secret` to true. You cannot update this field after you create the Service Account.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
+
+	// (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
+	// When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set `secret_expires_after_hours`.
+	WithoutInitialSecret *bool `json:"withoutInitialSecret,omitempty" tf:"without_initial_secret,omitempty"`
 }
 
 type ServiceAccountObservation_2 struct {
@@ -75,12 +79,20 @@ type ServiceAccountObservation_2 struct {
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
-	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
+	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
+	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set `without_initial_secret` to false or omit `without_initial_secret`. Do not set this field when you set `without_initial_secret` to true. You cannot update this field after you create the Service Account.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
 	// (Attributes List) A list of secrets associated with the specified Service Account. (see below for nested schema)
 	Secrets []ServiceAccountSecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
+
+	// (Boolean) Indicates whether the Service Account is system managed.
+	// Indicates whether the Service Account is system managed.
+	SystemManaged *bool `json:"systemManaged,omitempty" tf:"system_managed,omitempty"`
+
+	// (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
+	// When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set `secret_expires_after_hours`.
+	WithoutInitialSecret *bool `json:"withoutInitialSecret,omitempty" tf:"without_initial_secret,omitempty"`
 }
 
 type ServiceAccountParameters_2 struct {
@@ -115,10 +127,15 @@ type ServiceAccountParameters_2 struct {
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
-	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
+	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
+	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set `without_initial_secret` to false or omit `without_initial_secret`. Do not set this field when you set `without_initial_secret` to true. You cannot update this field after you create the Service Account.
 	// +kubebuilder:validation:Optional
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
+
+	// (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
+	// When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set `secret_expires_after_hours`.
+	// +kubebuilder:validation:Optional
+	WithoutInitialSecret *bool `json:"withoutInitialSecret,omitempty" tf:"without_initial_secret,omitempty"`
 }
 
 type ServiceAccountSecretsInitParameters struct {

@@ -21,13 +21,13 @@ type MaintenanceWindowInitParameters struct {
 	// Recommended field to enable or disable automatic deferral of all scheduled maintenance for the given project by one week. If auto_defer is used to toggle the underlying flag, it will also affect the value of this attribute.
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
-	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
+	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7. Must be set together with hour_of_day. Omit both to set a wave_assignment without a maintenance window.
 	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
-	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
+	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone. Must be set together with day_of_week. Omit both to set a wave_assignment without a maintenance window.
 	HourOfDay *int64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
 	// The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.
@@ -44,6 +44,9 @@ type MaintenanceWindowInitParameters struct {
 
 	// Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.
 	ProtectedHours []ProtectedHoursInitParameters `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
+
+	// Integer that identifies the maintenance wave explicitly assigned to this project. Valid values are 1 to 3, inclusive, where 1 is the first maintenance wave. Not editable when the organization's wave assignment mode is ENV_TAG_MAPPING. In this case, the system preserves the stored value but does not use it for scheduling; environment tags determine the effective wave instead. Switching back to MANUAL restores the wave_assignment value as the effective wave. See mongodbatlas_org_maintenance_settings to configure the organization-level wave assignment mode.
+	WaveAssignment *int64 `json:"waveAssignment,omitempty" tf:"wave_assignment,omitempty"`
 }
 
 type MaintenanceWindowObservation struct {
@@ -54,13 +57,13 @@ type MaintenanceWindowObservation struct {
 	// Recommended field to enable or disable automatic deferral of all scheduled maintenance for the given project by one week. If auto_defer is used to toggle the underlying flag, it will also affect the value of this attribute.
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
-	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
+	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7. Must be set together with hour_of_day. Omit both to set a wave_assignment without a maintenance window.
 	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
-	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
+	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone. Must be set together with day_of_week. Omit both to set a wave_assignment without a maintenance window.
 	HourOfDay *int64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -79,6 +82,9 @@ type MaintenanceWindowObservation struct {
 
 	// Identifier for the current time zone of the maintenance window. This can only be updated via the Project Settings UI.
 	TimeZoneID *string `json:"timeZoneId,omitempty" tf:"time_zone_id,omitempty"`
+
+	// Integer that identifies the maintenance wave explicitly assigned to this project. Valid values are 1 to 3, inclusive, where 1 is the first maintenance wave. Not editable when the organization's wave assignment mode is ENV_TAG_MAPPING. In this case, the system preserves the stored value but does not use it for scheduling; environment tags determine the effective wave instead. Switching back to MANUAL restores the wave_assignment value as the effective wave. See mongodbatlas_org_maintenance_settings to configure the organization-level wave assignment mode.
+	WaveAssignment *int64 `json:"waveAssignment,omitempty" tf:"wave_assignment,omitempty"`
 }
 
 type MaintenanceWindowParameters struct {
@@ -91,7 +97,7 @@ type MaintenanceWindowParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoDeferOnceEnabled *bool `json:"autoDeferOnceEnabled,omitempty" tf:"auto_defer_once_enabled,omitempty"`
 
-	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.
+	// Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7. Must be set together with hour_of_day. Omit both to set a wave_assignment without a maintenance window.
 	// +kubebuilder:validation:Optional
 	DayOfWeek *int64 `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
@@ -99,7 +105,7 @@ type MaintenanceWindowParameters struct {
 	// +kubebuilder:validation:Optional
 	Defer *bool `json:"defer,omitempty" tf:"defer,omitempty"`
 
-	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone.
+	// Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project's configured timezone. Must be set together with day_of_week. Omit both to set a wave_assignment without a maintenance window.
 	// +kubebuilder:validation:Optional
 	HourOfDay *int64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 
@@ -119,6 +125,10 @@ type MaintenanceWindowParameters struct {
 	// Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.
 	// +kubebuilder:validation:Optional
 	ProtectedHours []ProtectedHoursParameters `json:"protectedHours,omitempty" tf:"protected_hours,omitempty"`
+
+	// Integer that identifies the maintenance wave explicitly assigned to this project. Valid values are 1 to 3, inclusive, where 1 is the first maintenance wave. Not editable when the organization's wave assignment mode is ENV_TAG_MAPPING. In this case, the system preserves the stored value but does not use it for scheduling; environment tags determine the effective wave instead. Switching back to MANUAL restores the wave_assignment value as the effective wave. See mongodbatlas_org_maintenance_settings to configure the organization-level wave assignment mode.
+	// +kubebuilder:validation:Optional
+	WaveAssignment *int64 `json:"waveAssignment,omitempty" tf:"wave_assignment,omitempty"`
 }
 
 type ProtectedHoursInitParameters struct {
@@ -186,10 +196,8 @@ type MaintenanceWindowStatus struct {
 type MaintenanceWindow struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dayOfWeek) || (has(self.initProvider) && has(self.initProvider.dayOfWeek))",message="spec.forProvider.dayOfWeek is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hourOfDay) || (has(self.initProvider) && has(self.initProvider.hourOfDay))",message="spec.forProvider.hourOfDay is a required parameter"
-	Spec   MaintenanceWindowSpec   `json:"spec"`
-	Status MaintenanceWindowStatus `json:"status,omitempty"`
+	Spec              MaintenanceWindowSpec   `json:"spec"`
+	Status            MaintenanceWindowStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

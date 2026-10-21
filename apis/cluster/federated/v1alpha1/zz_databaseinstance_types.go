@@ -85,6 +85,9 @@ type CloudProviderConfigInitParameters struct {
 
 	// Microsoft Azure provider of the cloud service where the Federated Database Instance can access Blob Storage.
 	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
+
+	// Google Cloud provider of the cloud service where the Federated Database Instance can access Google Cloud Storage.
+	GCP []GCPInitParameters `json:"gcp,omitempty" tf:"gcp,omitempty"`
 }
 
 type CloudProviderConfigObservation struct {
@@ -94,6 +97,9 @@ type CloudProviderConfigObservation struct {
 
 	// Microsoft Azure provider of the cloud service where the Federated Database Instance can access Blob Storage.
 	Azure []AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
+
+	// Google Cloud provider of the cloud service where the Federated Database Instance can access Google Cloud Storage.
+	GCP []GCPObservation `json:"gcp,omitempty" tf:"gcp,omitempty"`
 }
 
 type CloudProviderConfigParameters struct {
@@ -105,6 +111,10 @@ type CloudProviderConfigParameters struct {
 	// Microsoft Azure provider of the cloud service where the Federated Database Instance can access Blob Storage.
 	// +kubebuilder:validation:Optional
 	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
+
+	// Google Cloud provider of the cloud service where the Federated Database Instance can access Google Cloud Storage.
+	// +kubebuilder:validation:Optional
+	GCP []GCPParameters `json:"gcp,omitempty" tf:"gcp,omitempty"`
 }
 
 type CollectionsInitParameters struct {
@@ -138,7 +148,7 @@ type CollectionsParameters struct {
 
 type DataProcessRegionInitParameters struct {
 
-	// Name of the cloud service provider. Supported providers: AWS, AZURE.
+	// Name of the cloud service provider. Supported providers: AWS, AZURE, GCP.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
 	// Name of the region to which the Federated Instance routes client connections for data processing. See the documentation for the available region.
@@ -147,7 +157,7 @@ type DataProcessRegionInitParameters struct {
 
 type DataProcessRegionObservation struct {
 
-	// Name of the cloud service provider. Supported providers: AWS, AZURE.
+	// Name of the cloud service provider. Supported providers: AWS, AZURE, GCP.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
 	// Name of the region to which the Federated Instance routes client connections for data processing. See the documentation for the available region.
@@ -156,7 +166,7 @@ type DataProcessRegionObservation struct {
 
 type DataProcessRegionParameters struct {
 
-	// Name of the cloud service provider. Supported providers: AWS, AZURE.
+	// Name of the cloud service provider. Supported providers: AWS, AZURE, GCP.
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider" tf:"cloud_provider,omitempty"`
 
@@ -394,6 +404,28 @@ type DatabaseInstanceParameters struct {
 	StorageStores []StorageStoresParameters `json:"storageStores,omitempty" tf:"storage_stores,omitempty"`
 }
 
+type GCPInitParameters struct {
+
+	// Unique identifier of the role that the Federated Database Instance uses to access the data stores.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+}
+
+type GCPObservation struct {
+
+	// Email address of the Google Cloud Platform (GCP) service account created by Atlas, which should be authorized to allow Atlas to access Google Cloud Storage.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// Unique identifier of the role that the Federated Database Instance uses to access the data stores.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+}
+
+type GCPParameters struct {
+
+	// Unique identifier of the role that the Federated Database Instance uses to access the data stores.
+	// +kubebuilder:validation:Optional
+	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
+}
+
 type PrivateEndpointHostnamesInitParameters struct {
 }
 
@@ -495,7 +527,7 @@ type StorageStoresInitParameters struct {
 	// Flag that validates the scheme in the specified URLs.
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
-	// Name of the AWS S3 bucket.
+	// Name of the bucket.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Human-readable label of the MongoDB Cloud cluster on which the store is based.
@@ -528,7 +560,7 @@ type StorageStoresInitParameters struct {
 	// MongoDB Cloud cluster read preference, which describes how to route read requests to the cluster.
 	ReadPreference []ReadPreferenceInitParameters `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 
-	// Name of the AWS region in which the S3 bucket is hosted.
+	// Name of the cloud provider region in which the bucket is hosted.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
@@ -541,7 +573,7 @@ type StorageStoresObservation struct {
 	// Flag that validates the scheme in the specified URLs.
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
-	// Name of the AWS S3 bucket.
+	// Name of the bucket.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Human-readable label of the MongoDB Cloud cluster on which the store is based.
@@ -574,7 +606,7 @@ type StorageStoresObservation struct {
 	// MongoDB Cloud cluster read preference, which describes how to route read requests to the cluster.
 	ReadPreference []ReadPreferenceObservation `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 
-	// Name of the AWS region in which the S3 bucket is hosted.
+	// Name of the cloud provider region in which the bucket is hosted.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Comma-separated list of publicly accessible HTTP URLs where data is stored.
@@ -590,7 +622,7 @@ type StorageStoresParameters struct {
 	// +kubebuilder:validation:Optional
 	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
 
-	// Name of the AWS S3 bucket.
+	// Name of the bucket.
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -634,7 +666,7 @@ type StorageStoresParameters struct {
 	// +kubebuilder:validation:Optional
 	ReadPreference []ReadPreferenceParameters `json:"readPreference,omitempty" tf:"read_preference,omitempty"`
 
-	// Name of the AWS region in which the S3 bucket is hosted.
+	// Name of the cloud provider region in which the bucket is hosted.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 

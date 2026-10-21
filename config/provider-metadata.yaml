@@ -56,6 +56,35 @@ resources:
                     }
                   ]
                 }
+            - name: infinite
+              manifest: |-
+                {
+                  "cluster_type": "REPLICASET",
+                  "database_edition": "INFINITE",
+                  "name": "NAME OF CLUSTER",
+                  "project_id": "PROJECT ID",
+                  "replication_specs": [
+                    {
+                      "region_configs": [
+                        {
+                          "auto_scaling": {
+                            "compute_enabled": false,
+                            "storage_config": {
+                              "shard_size_limit_gb": 1024
+                            }
+                          },
+                          "electable_specs": {
+                            "instance_size": "M10",
+                            "node_count": 2
+                          },
+                          "priority": 7,
+                          "provider_name": "AWS",
+                          "region_name": "US_EAST_1"
+                        }
+                      ]
+                    }
+                  ]
+                }
             - name: this
               manifest: |-
                 {
@@ -403,12 +432,12 @@ resources:
             CONTINUOUS: ':  Atlas creates your cluster using the most recent MongoDB release. Atlas automatically updates your cluster to the latest major and rapid MongoDB releases as they become available.'
             FLEX: '- Flex cluster. Use replication_specs.[0].region_configs[0].backing_provider_name to set the cloud service provider.'
             GCP: '- Google Cloud Platform'
-            HIGH_PERFORMANCE: volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size.
+            HIGH_PERFORMANCE: (io2) volume type.
             LTS: ': Atlas creates your cluster using the latest patch release of the MongoDB version that you specify in the mongoDBMajorVersion field. Atlas automatically updates your cluster to subsequent patch releases of this MongoDB version. Atlas doesn''t update your cluster to newer rapid or major MongoDB releases as they become available.'
+            M30: 'or greater, not including Mxx_NVME tiers) with ebs_volume_type set to PROVISIONED: configurable within the allowable range for the selected volume size.'
             M30_GEN_2: 'or greater) with ebs_volume_type set to STANDARD: configurable between 3000 and 80000 IOPS.'
-            Mxx_NVME: 'tiers) with ebs_volume_type set to PROVISIONED: configurable within the allowable range for the selected volume size.'
-            PROVISIONED: volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size.
-            STANDARD: volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using disk_iops.
+            PROVISIONED: (io2) volume type.
+            STANDARD: (gp3) volume type.
             TENANT: '- M0 multi-tenant cluster. Use replication_specs.[0].region_configs[0].backing_provider_name to set the cloud service provider.'
             accept_data_risks_and_force_replica_set_reconfig: '- (Optional) If reconfiguration is necessary to regain a primary due to a regional outage, submit this field alongside your topology reconfiguration to request a new regional outage resistant topology. Forced reconfigurations during an outage of the majority of electable nodes carry a risk of data loss if replicated writes (even majority committed writes) have not been replicated to the new primary node. MongoDB Atlas docs contain more information. To proceed with an operation which carries that risk, set accept_data_risks_and_force_replica_set_reconfig to the current date. Learn more about Reconfiguring a Replica Set during a regional outage here.'
             adaptive_capacity: '- (Optional) Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ENABLED means the cluster explicitly opts in to adaptive capacity. DISABLED means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. null means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op.'
@@ -423,7 +452,7 @@ resources:
             bi_connector_config.false: to disable BI Connector for Atlas.
             bi_connector_config.read_preference: '- (Optional) Specifies the read preference to be used by BI Connector for Atlas on the cluster. Each BI Connector for Atlas read preference contains a distinct combination of readPreference and readPreferenceTags options. For details, refer to Atlas cluster read preferences.'
             bi_connector_config.true: to enable BI Connector for Atlas.
-            change_stream_options_pre_and_post_images_expire_after_seconds: '- (Optional) The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.'
+            change_stream_options_pre_and_post_images_expire_after_seconds: '- (Optional) The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing.'
             cluster_id: '- The cluster ID.'
             cluster_type: |-
                 - (Required)Type of the cluster that you want to create.
@@ -452,11 +481,15 @@ resources:
             create: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.'
             custom_openssl_cipher_config_tls12: '- (Optional) The custom OpenSSL cipher suite list for TLS 1.2. This field is only valid when tls_cipher_config_mode is set to CUSTOM.'
             custom_openssl_cipher_config_tls13: '- (Optional) The custom OpenSSL cipher suite list for TLS 1.3. This field is only valid when tls_cipher_config_mode is set to CUSTOM.'
+            database_edition: '- (Optional) Database edition for the cluster. Valid values are CORE and INFINITE. If you omit this attribute, MongoDB Cloud selects the default database edition. Only REPLICASET clusters currently support the INFINITE edition: the provider rejects the configuration if you combine INFINITE with the SHARDED or GEOSHARDED cluster type.'
             default_max_time_ms: '- (Optional) Default time limit in milliseconds for individual read operations to complete. This option corresponds to the defaultMaxTimeMS cluster parameter. This parameter is supported only for MongoDB version 8.0 and above.'
-            default_write_concern: '- (Optional) Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.'
+            default_write_concern: '- (Optional) Default level of acknowledgment requested from MongoDB for write operations set for this cluster. Clusters default to majority.'
             delete: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.'
-            delete_on_create_timeout: '- (Optional) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.'
+            delete_on_create_timeout: '- (Optional) Indicates whether to delete the cluster if a timeout is reached while waiting for Atlas to finish creating it. When set to true and a timeout occurs, the provider deletes the cluster and returns immediately without waiting for deletion to complete. When set to false, the provider does not delete the cluster on timeout. If you suspect a transient error when the value is true, wait before retrying to allow the deletion to finish. Default is true.'
             disk_gb_enabled: to false, Atlas requires advanced_configuration.oplog_min_retention_hours to be 0 (which disables minimum oplog retention, see MongoDB documentation) on the server. If it is still non-zero, the API responds with OPLOG_MIN_RETENTION_HOURS_NO_DISK_AUTO_SCALING (HTTP 400).
+            disk_iops: 'values:'
+            disk_size_gb: .
+            effective_database_edition: '- Database edition that the cluster currently uses. Valid values are CORE and INFINITE.'
             effective_electable_specs: ', effective_analytics_specs, and effective_read_only_specs for actual values'
             electable_specs: ', analytics_specs, read_only_specs) behavior:'
             encryption_at_rest_provider: '- (Optional) Possible values are AWS, GCP, AZURE or NONE.  Only needed if you desire to manage the keys, see Encryption at Rest using Customer Key Management for complete documentation.  You must configure encryption at rest for the Atlas project before enabling it on any cluster in the project. For Documentation, see AWS, GCP and Azure. Requirements are if replication_specs[#].region_configs[#].<type>Specs.instance_size is M10 or greater and backup_enabled is false or omitted.'
@@ -490,16 +523,17 @@ resources:
                 - (Optional) Cloud service provider on which the servers are provisioned.
                 The possible values are:
             region_configs.read_only_specs: '- (Optional) Hardware specifications for read-only nodes in the region. All read_only_specs in the region_configs of a replication_specs must have the same instance_size as electable_specs. Read-only nodes can become the primary and can enable local reads. If you don''t specify this parameter, no read-only nodes are deployed to the region. See below.'
-            region_configs.read_only_specs._GEN_2: suffix, for example M30_GEN_2.
-            region_configs.read_only_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:'
-            region_configs.read_only_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.'
-            region_configs.read_only_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. Valid values are:'
+            region_configs.read_only_specs._GEN_2: suffix, for example M30_GEN_2. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes.
+            region_configs.read_only_specs.M30_GEN_2: ', M40_GEN_2, M50_GEN_2, M60_GEN_2, M80_GEN_2, M140_GEN_2, M200_GEN_2, R40_GEN_2, R50_GEN_2, R60_GEN_2, R80_GEN_2, R200_GEN_2, R300_GEN_2, and R400_GEN_2. GCP doesn''t support Mxx_NVME Gen2 instance sizes.'
+            region_configs.read_only_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.'
+            region_configs.read_only_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.'
+            region_configs.read_only_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:'
             region_configs.read_only_specs.instance_size: '- (Required) Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.'
             region_configs.read_only_specs.node_count: '- (Optional) Number of nodes of the given type for MongoDB Atlas to deploy to the region.'
             region_configs.region_name: '- (Optional) Physical location of your MongoDB cluster. The region you choose can affect network latency for clients accessing your databases.  Requires the Atlas region name, see the reference list for AWS, GCP, Azure.'
             region_configs[#].electable_specs.node_count: to 1 or higher, it must have a priority of exactly one (1) less than another region in the replication_specs[#].region_configs[#] array. The highest-priority region must have a priority of 7. The lowest possible priority is 1.
             replica_set_scaling_strategy: '- (Optional) Replica set scaling mode for your cluster. Valid values are WORKLOAD_TYPE, SEQUENTIAL and NODE_TYPE. By default, Atlas scales under WORKLOAD_TYPE. This mode allows Atlas to scale your analytics nodes in parallel to your operational nodes. When configured as SEQUENTIAL, Atlas scales all nodes sequentially. This mode is intended for steady-state workloads and applications performing latency-sensitive secondary reads. When configured as NODE_TYPE, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads. Modify the Replica Set Scaling Mode'
-            replication_specs: '- List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are supported for AWS Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters, AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions that support Extended IOPS. If this list contains more than one entry, review Multi-shard clusters and topology changes before adding, removing, or reordering entries. See below.'
+            replication_specs: '- List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently.'
             replication_specs.external_id: '- Unique 24-hexadecimal digit string that identifies the replication object for a shard in a Cluster. This value corresponds to Shard ID displayed in the UI.'
             replication_specs.region_configs: '- (Optional) Configuration for the hardware specifications for nodes set for a given region. Each region_configs object describes the region''s priority in elections and the number and type of MongoDB nodes that Atlas deploys to the region. Each region_configs object must have either an analytics_specs object, electable_specs object, or read_only_specs object. See region_configs.'
             replication_specs.region_configs.analytics_auto_scaling: '- (Optional) Configuration for the Collection of settings that configures analytics-auto-scaling information for the cluster. The values for the analytics_auto_scaling attribute must be the same for all region_configs of a cluster. See below.'
@@ -509,10 +543,11 @@ resources:
             replication_specs.region_configs.analytics_auto_scaling.compute_scale_down_enabled: '- (Optional) Flag that indicates whether the instance size may scale down. Atlas requires this parameter if replication_specs[#].region_configs[#].analytics_auto_scaling.compute_enabled : true. If you enable this option, specify a value for replication_specs[#].region_configs[#].analytics_auto_scaling.compute_min_instance_size.'
             replication_specs.region_configs.analytics_auto_scaling.disk_gb_enabled: '- (Optional) Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.'
             replication_specs.region_configs.analytics_specs: '- (Optional) Hardware specifications for analytics nodes needed in the region. Analytics nodes handle analytic data such as reporting queries from BI Connector for Atlas. Analytics nodes are read-only and can never become the primary. If you don''t specify this parameter, no analytics nodes deploy to this region. See below.'
-            replication_specs.region_configs.analytics_specs._GEN_2: suffix, for example M30_GEN_2.
-            replication_specs.region_configs.analytics_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:'
-            replication_specs.region_configs.analytics_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.'
-            replication_specs.region_configs.analytics_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. Valid values are:'
+            replication_specs.region_configs.analytics_specs._GEN_2: suffix, for example M30_GEN_2. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes.
+            replication_specs.region_configs.analytics_specs.M30_GEN_2: ', M40_GEN_2, M50_GEN_2, M60_GEN_2, M80_GEN_2, M140_GEN_2, M200_GEN_2, R40_GEN_2, R50_GEN_2, R60_GEN_2, R80_GEN_2, R200_GEN_2, R300_GEN_2, and R400_GEN_2. GCP doesn''t support Mxx_NVME Gen2 instance sizes.'
+            replication_specs.region_configs.analytics_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.'
+            replication_specs.region_configs.analytics_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.'
+            replication_specs.region_configs.analytics_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:'
             replication_specs.region_configs.analytics_specs.instance_size: '- (Required) Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.'
             replication_specs.region_configs.analytics_specs.node_count: '- (Optional) Number of nodes of the given type for MongoDB Atlas to deploy to the region.'
             replication_specs.region_configs.auto_scaling: '- (Optional) Configuration for the collection of settings that configures auto-scaling information for the cluster. The values for the auto_scaling attribute must be the same for all region_configs of a cluster. See below.'
@@ -521,15 +556,17 @@ resources:
             replication_specs.region_configs.auto_scaling.compute_min_instance_size: '- (Optional) Minimum instance size to which your cluster can automatically scale (such as M10). Atlas requires this parameter if replication_specs[#].region_configs[#].auto_scaling.compute_scale_down_enabled is true.'
             replication_specs.region_configs.auto_scaling.compute_scale_down_enabled: '- (Optional) Flag that indicates whether the instance size may scale down. Atlas requires this parameter if replication_specs[#].region_configs[#].auto_scaling.compute_enabled : true. If you enable this option, specify a value for replication_specs[#].region_configs[#].auto_scaling.compute_min_instance_size.'
             replication_specs.region_configs.auto_scaling.disk_gb_enabled: '- (Optional) Flag that indicates whether this cluster enables disk auto-scaling. The maximum memory allowed for the selected cluster tier and the oplog size can limit storage auto-scaling. This parameter defaults to false.'
+            replication_specs.region_configs.auto_scaling.storage_config: '- (Optional) Settings that determine the per-shard data-size limit for an Atlas INFINITE cluster.'
             replication_specs.region_configs.backing_provider_name: '- (Optional) Cloud service provider on which you provision the host for a multi-tenant cluster. Use this only when the provider_name is TENANT and instance_size is M0, or when the provider_name is FLEX.'
             replication_specs.region_configs.effective_analytics_specs: '- (Computed) Effective hardware specifications for analytics nodes in the region, reflecting actual Atlas-managed values including auto-scaling changes. Available in the mongodbatlas_advanced_cluster data source. See below.'
             replication_specs.region_configs.effective_electable_specs: '- (Computed) Effective hardware specifications for electable nodes in the region, reflecting actual Atlas-managed values including auto-scaling changes. Available in the mongodbatlas_advanced_cluster data source. See below.'
             replication_specs.region_configs.effective_read_only_specs: '- (Computed) Effective hardware specifications for read-only nodes in the region, reflecting actual Atlas-managed values including auto-scaling changes. Available in the mongodbatlas_advanced_cluster data source. See below.'
             replication_specs.region_configs.electable_specs: '- (Optional) Hardware specifications for electable nodes in the region. All electable_specs in the region_configs of a replication_specs must have the same instance_size. Electable nodes can become the primary and can enable local reads. If you do not specify this option, no electable nodes are deployed to the region. See below.'
-            replication_specs.region_configs.electable_specs._GEN_2: suffix, for example M30_GEN_2.
-            replication_specs.region_configs.electable_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.'
-            replication_specs.region_configs.electable_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.'
-            replication_specs.region_configs.electable_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. Valid values are:'
+            replication_specs.region_configs.electable_specs._GEN_2: suffix, for example M30_GEN_2. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes.
+            replication_specs.region_configs.electable_specs.M30_GEN_2: ', M40_GEN_2, M50_GEN_2, M60_GEN_2, M80_GEN_2, M140_GEN_2, M200_GEN_2, R40_GEN_2, R50_GEN_2, R60_GEN_2, R80_GEN_2, R200_GEN_2, R300_GEN_2, and R400_GEN_2. GCP doesn''t support Mxx_NVME Gen2 instance sizes.'
+            replication_specs.region_configs.electable_specs.disk_iops: '- (Optional) Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.'
+            replication_specs.region_configs.electable_specs.disk_size_gb: '- (Optional) Storage capacity that the host''s root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.'
+            replication_specs.region_configs.electable_specs.ebs_volume_type: '- (Optional) Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can''t set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:'
             replication_specs.region_configs.electable_specs.instance_size: '- (Required) Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.'
             replication_specs.region_configs.electable_specs.node_count: '- (Optional) Number of nodes of the given type for MongoDB Atlas to deploy to the region.'
             replication_specs.region_configs.priority: '- (Optional)  Election priority of the region. For regions with only read-only nodes, set this value to 0.'
@@ -540,6 +577,7 @@ resources:
             root_cert_type: '- (Optional) - Certificate Authority that MongoDB Atlas clusters use. You can specify ISRGROOTX1 (for ISRG Root X1).'
             sample_refresh_interval_bi_connector: '- (Optional) Interval in seconds at which the mongosqld process re-samples data to create its relational schema. The default value is 300. The specified value must be a positive integer. Available only for Atlas deployments in which BI Connector for Atlas is enabled.'
             sample_size_bi_connector: '- (Optional) Number of documents per database to sample when gathering schema information. Defaults to 100. Available only for Atlas deployments in which BI Connector for Atlas is enabled.'
+            shard_size_limit_gb: '- (Required) Maximum data size that MongoDB Cloud allows each shard to reach, expressed in gigabytes. Set the same value for every region configuration. Omit storage_config to use the Atlas default limit.'
             state_name: '- Current state of the cluster. The possible states are:'
             tags: '- (Optional) Set that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the cluster. See below.'
             tags.key: '- (Required) Constant that defines the set of the tag.'
@@ -552,7 +590,7 @@ resources:
             update: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.'
             use_aws_time_based_snapshot_copy_for_fast_initial_sync: '- (Optional) Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.'
             use_effective_fields: |-
-                - (Optional) Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
+                - (Optional) Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. The spec-preserving behavior applies only while auto-scaling remains enabled. If an update toggles auto-scaling on or off, Atlas applies the requested spec values in that update. This attribute applies to dedicated clusters, not to tenant or flex clusters. See Auto-Scaling with Effective Fields for more details.
                 If your cluster has more than one replication_specs entry, see Multi-shard clusters and topology changes before enabling this attribute.
                 Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
             use_effective_fields.ignore_changes: blocks is required, including commenting and uncommenting when making intentional changes
@@ -747,6 +785,21 @@ resources:
                 }
               references:
                 notification.integration_id: data.mongodbatlas_third_party_integration.test.id
+            - name: test
+              manifest: |-
+                {
+                  "enabled": true,
+                  "event_type": "REPLICATION_OPLOG_WINDOW_RUNNING_OUT",
+                  "notification": [
+                    {
+                      "type_name": "WEBHOOK",
+                      "webhook_body_template": "${jsonencode({ alert = \"$${eventType}\", project = \"$${groupId}\" })}",
+                      "webhook_headers_template": "${jsonencode({ \"X-Custom-Header\" = \"static-value\" })}",
+                      "webhook_url": "https://example.com/webhook"
+                    }
+                  ],
+                  "project_id": "PROJECT ID"
+                }
         argumentDocs:
             GROUP: (Project)
             GROUP_CLUSTER_MANAGER: |-
@@ -803,6 +856,8 @@ resources:
             value: '- (Required) Value to test with the specified operator. If field_name is set to TYPE_NAME, you can match on the following values:'
             victor_ops_api_key: '- VictorOps API key. Required for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.'
             victor_ops_routing_key: '- VictorOps routing key. Optional for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.'
+            webhook_body_template: '- Template, using ${field} interpolation, that renders the HTTP body MongoDB Cloud sends with each webhook notification. Must render valid JSON. When unset, MongoDB Cloud sends its default JSON payload.'
+            webhook_headers_template: '- Template, using ${field} interpolation, that renders the HTTP headers MongoDB Cloud sends with each webhook notification. Must render a JSON object mapping header name to header value. The webhook secret and the signature header are NOT exposed to templates.'
             webhook_secret: '- Optional authentication secret for the WEBHOOK notifications type.'
             webhook_url: '- Target URL  for the WEBHOOK notifications type.'
         importStatements: []
@@ -1308,16 +1363,19 @@ resources:
               manifest: |-
                 {
                   "cluster_name": "${mongodbatlas_advanced_cluster.my_cluster.name}",
+                  "copy_policy_items_enabled": true,
                   "copy_settings": [
                     {
                       "cloud_provider": "AWS",
-                      "frequencies": [
-                        "HOURLY",
-                        "DAILY",
-                        "WEEKLY",
-                        "MONTHLY",
-                        "YEARLY",
-                        "ON_DEMAND"
+                      "copy_policy_items": [
+                        {
+                          "frequency_type": "daily",
+                          "retention_unit": "days",
+                          "retention_value": 7
+                        },
+                        {
+                          "frequency_type": "ondemand"
+                        }
                       ],
                       "region_name": "US_EAST_1",
                       "should_copy_oplogs": false,
@@ -1368,12 +1426,20 @@ resources:
             auto_export_enabled: '- (Optional) Flag that indicates whether MongoDB Cloud automatically exports Cloud Backup Snapshots to the Export Bucket. Value can be one of the following:'
             cluster_id: '- Unique identifier of the Atlas cluster.'
             cluster_name: '- (Required) The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.'
+            copy_policy_items_enabled: '- (Optional) Flag that selects copy-policy mode. Set to true to use copy_policy_items or last_number_of_snapshots. When false or omitted, use frequencies. This transition is one-way: after you apply with copy_policy_items_enabled = true, Atlas cannot disable copy-policy items. You can still switch each copy_settings entry between copy_policy_items and last_number_of_snapshots.'
             copy_settings: '- List that contains a document for each copy setting item in the desired backup policy. See below'
             copy_settings.cloud_provider: '- (Required) Human-readable label that identifies the cloud provider that stores the snapshot copy. i.e. "AWS" "AZURE" "GCP"'
-            copy_settings.frequencies: '- (Required) List that describes which types of snapshots to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"'
+            copy_settings.copy_policy_items: '- (Optional) Copy-policy items when copy_policy_items_enabled is true. Mutually exclusive with frequencies and last_number_of_snapshots. See below.'
+            copy_settings.copy_policy_items.frequency_type: '- (Required) Frequency associated with the copy policy item: hourly, daily, weekly, monthly, yearly, or ondemand.'
+            copy_settings.copy_policy_items.id: '- Unique identifier of the copy policy item.'
+            copy_settings.copy_policy_items.retention_unit: '- (Optional) Unit of time for copy retention: days, weeks, months, or years. Required by the API except when frequency_type is ondemand.'
+            copy_settings.copy_policy_items.retention_value: '- (Optional) Value to associate with retention_unit. Required by the API except when frequency_type is ondemand.'
+            copy_settings.frequencies: '- (Deprecated, Optional) List that describes which types of snapshots to copy when copy_policy_items_enabled is false or omitted. Values: HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY, ON_DEMAND. Mutually exclusive with copy_policy_items and last_number_of_snapshots on the same entry. You can switch an entry from frequencies to copy_policy_items or last_number_of_snapshots in one apply; the switch back is not possible because copy_policy_items_enabled cannot be turned off once it is true. Use copy_policy_items or last_number_of_snapshots instead.'
+            copy_settings.last_number_of_snapshots: '- (Optional) Number of most recent snapshots to copy, from 1 to 500, when copy_policy_items_enabled is true. Mutually exclusive with frequencies and copy_policy_items.'
             copy_settings.region_name: '- (Required) Target region to copy snapshots belonging to replicationSpecId to. Please supply the ''Atlas Region'' which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/ ''regions'' link'
             copy_settings.should_copy_oplogs: '- (Required) Flag that indicates whether to copy the oplogs to the target region. You can use the oplogs to perform point-in-time restores.'
             copy_settings.zone_id: '- Unique 24-hexadecimal digit string that identifies the zone in a cluster. For global clusters, there can be multiple zones to choose from. For sharded clusters and replica set clusters, there is only one zone in the cluster. To find appropriate value for zone_id, do a GET request to Return One Cluster from One Project and consult the replicationSpecs array Return One Cluster From One Project. Alternately, use mongodbatlas_advanced_cluster data source or resource and reference replication_specs.#.zone_id.'
+            delete_copy_snapshots: '- (Optional) Specify true to delete snapshot copies when their associated copy_policy_items are removed. Requires copy_policy_items_enabled to be true.'
             export: '- (Optional) Policy for automatically exporting Cloud Backup Snapshots. See below'
             export.export_bucket_id: '- Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket export_bucket_id value.'
             export.frequency_type: '- Frequency associated with the export snapshot item: weekly, monthly, yearly, daily (requires reaching out to Customer Support)'
@@ -1414,6 +1480,7 @@ resources:
             reference_minute_of_hour: '- (Optional) UTC Minutes after reference_hour_of_day that Atlas takes snapshots for backup policy items. Must be between 0 and 59, inclusive.'
             restore_window_days: '- (Optional) Number of days back in time you can restore to with point-in-time accuracy. Must be a positive, non-zero integer.'
             skip_destroy: '- (Optional) Flag that, when set to true, causes the provider to remove the resource from Terraform state on destroy without calling the Atlas API to delete the backup schedule. The schedule remains in Atlas and is removed when the cluster is deleted. This is useful when a Backup Compliance Policy prevents deleting the backup schedule, allowing terraform destroy to succeed. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.'
+            update_copy_snapshots: '- (Optional) Specify true to apply the retention changes for updated copy policy items to snapshot copies that Atlas took previously. Requires copy_policy_items_enabled to be true.'
             update_snapshots: '- (Optional) Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.'
             use_org_and_group_names_in_export_prefix: '- Specify true to use organization and project names instead of organization and project UUIDs in the path for the metadata files that Atlas uploads to your bucket after it finishes exporting the snapshots. To learn more about the metadata files that Atlas uploads, see Export Cloud Backup Snapshot.'
         importStatements: []
@@ -2313,6 +2380,28 @@ resources:
             version: '- Feature compatibility version of the cluster.'
             zone_name: '- (Optional) Name for the zone in a Global Cluster.'
         importStatements: []
+    mongodbatlas_cluster_adaptive_settings:
+        subCategory: Clusters
+        name: mongodbatlas_cluster_adaptive_settings
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "adaptive_settings_overrides": "${jsonencode({\n    LOAD_SHEDDING        = var.load_shedding_enabled\n    SEARCH_LOAD_SHEDDING = var.search_load_shedding_enabled\n  })}",
+                  "cluster_name": "${var.cluster_name}",
+                  "project_id": "${var.project_id}"
+                }
+              references:
+                cluster_name: var.cluster_name
+                project_id: var.project_id
+        argumentDocs:
+            adaptive_settings_overrides: (String) JSON-encoded map of customer-specified Adaptive Settings overrides, applied on a best-effort basis. Use jsonencode to configure this attribute. Each supported entry that you specify takes precedence over the corresponding Atlas-managed default.
+            cluster_name: (String) Human-readable label that identifies the cluster.
+            effective_adaptive_settings: (String) JSON-encoded map of the effective Adaptive Settings currently applied to your cluster, based on your overrides and Atlas-managed defaults. Atlas-managed defaults can vary by MongoDB version. An override for a setting unsupported by the cluster's MongoDB version doesn't take effect, and the effective value reflects the Atlas-managed default.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+        importStatements:
+            - terraform import mongodbatlas_cluster_adaptive_settings.this 0123456789abcdef01234567/Cluster0
     mongodbatlas_cluster_outage_simulation:
         subCategory: Clusters
         name: mongodbatlas_cluster_outage_simulation
@@ -2355,6 +2444,59 @@ resources:
             timeouts: '- (Optional) The duration to wait for the Cluster Outage Simulation to be created or deleted. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 25m), delete (default: 25m). Learn more about timeouts.'
             type: '- The type of cluster outage simulation. Following values are supported:'
         importStatements: []
+    mongodbatlas_cluster_overload_simulation:
+        subCategory: Clusters
+        name: mongodbatlas_cluster_overload_simulation
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "cluster_name": "${mongodbatlas_advanced_cluster.this.name}",
+                  "duration_seconds": "${var.duration_seconds}",
+                  "project_id": "${mongodbatlas_advanced_cluster.this.project_id}"
+                }
+              references:
+                cluster_name: mongodbatlas_advanced_cluster.this.name
+                duration_seconds: var.duration_seconds
+                project_id: mongodbatlas_advanced_cluster.this.project_id
+              dependencies:
+                mongodbatlas_advanced_cluster.this: |-
+                    {
+                      "cluster_type": "REPLICASET",
+                      "name": "${var.cluster_name}",
+                      "project_id": "${var.project_id}",
+                      "replication_specs": [
+                        {
+                          "region_configs": [
+                            {
+                              "electable_specs": {
+                                "instance_size": "${var.instance_size}",
+                                "node_count": 3
+                              },
+                              "priority": 7,
+                              "provider_name": "${var.cloud_provider}",
+                              "region_name": "${var.region_name}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+        argumentDocs:
+            cancel_requested_at: (String) Date and time when cancellation of the overload protection simulation was requested. This parameter is only present when a cancellation has been requested and expresses its value in the ISO 8601 timestamp format in UTC.
+            cluster_name: (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
+            create: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+            delete: (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+            delete_on_create_timeout: (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+            duration_seconds: (Number) Duration of the overload protection simulation in seconds.
+            expires_at: (String) Date and time when the overload protection simulation expires. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            request_date: (String) Date and time when the overload protection simulation was requested. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            simulation_id: (String) Unique identifier of the overload protection simulation.
+            state: (String) Current state of the overload protection simulation.
+            timeouts: (Attributes) (see below for nested schema)
+        importStatements:
+            - terraform import mongodbatlas_cluster_overload_simulation.this 0123456789abcdef01234567/Cluster0/89abcdef0123456701234567
     mongodbatlas_custom_db_role:
         subCategory: Database Users
         name: mongodbatlas_custom_db_role
@@ -3021,7 +3163,7 @@ resources:
                             {
                               "collection": "COLLECTION IN THE CLUSTER",
                               "database": "DB IN THE CLUSTER",
-                              "store_name": "CLUSTER NAME"
+                              "store_name": "STORE 1 NAME"
                             }
                           ],
                           "name": "NAME OF THE COLLECTION"
@@ -3066,7 +3208,7 @@ resources:
                             {
                               "collection": "COLLECTION IN THE CLUSTER",
                               "database": "DB IN THE CLUSTER",
-                              "store_name": "CLUSTER NAME"
+                              "store_name": "STORE NAME"
                             },
                             {
                               "path": "AZURE BLOB PATH",
@@ -3100,6 +3242,63 @@ resources:
             - name: test
               manifest: |-
                 {
+                  "cloud_provider_config": [
+                    {
+                      "gcp": [
+                        {
+                          "role_id": "\u003cGCP_ROLE_ID\u003e"
+                        }
+                      ]
+                    }
+                  ],
+                  "name": "\u003cTENANT_NAME_OF_THE_FEDERATED_DATABASE_INSTANCE\u003e",
+                  "project_id": "\u003cPROJECT_ID\u003e",
+                  "storage_databases": [
+                    {
+                      "collections": [
+                        {
+                          "data_sources": [
+                            {
+                              "collection": "COLLECTION IN THE CLUSTER",
+                              "database": "DB IN THE CLUSTER",
+                              "store_name": "STORE NAME"
+                            },
+                            {
+                              "path": "GOOGLE CLOUD STORAGE BUCKET PATH",
+                              "store_name": "GOOGLE CLOUD STORAGE BUCKET NAME"
+                            }
+                          ],
+                          "name": "NAME OF THE COLLECTION"
+                        }
+                      ],
+                      "name": "VirtualDatabase0"
+                    }
+                  ],
+                  "storage_stores": [
+                    {
+                      "cluster_name": "CLUSTER NAME",
+                      "name": "STORE NAME",
+                      "project_id": "PROJECT ID",
+                      "provider": "atlas",
+                      "read_preference": [
+                        {
+                          "mode": "secondary"
+                        }
+                      ]
+                    },
+                    {
+                      "bucket": "GOOGLE CLOUD STORAGE BUCKET NAME",
+                      "delimiter": "/",
+                      "name": "GOOGLE CLOUD STORAGE BUCKET NAME",
+                      "prefix": "GOOGLE CLOUD STORAGE BUCKET PREFIX",
+                      "provider": "gcs",
+                      "region": "GOOGLE CLOUD REGION"
+                    }
+                  ]
+                }
+            - name: test
+              manifest: |-
+                {
                   "data_process_region": [
                     {
                       "cloud_provider": "AWS",
@@ -3120,9 +3319,12 @@ resources:
             cloud_provider_config.aws.test_s3_bucket: '- (Required) Name of the S3 data bucket that the provided role ID is authorized to access. You must also specify the role_id.'
             cloud_provider_config.azure: '- Microsoft Azure provider of the cloud service where the Federated Database Instance can access Blob Storage.'
             cloud_provider_config.azure.role_id: '- (Required) Unique identifier of the role that the Federated Database Instance can use to access the data stores.'
+            cloud_provider_config.gcp: '- Google Cloud provider of the cloud service where the Federated Database Instance can access Google Cloud Storage.'
+            cloud_provider_config.gcp.role_id: '- (Required) Unique identifier of the role that the Federated Database Instance uses to access the data stores.'
             data_process_region: '- (Optional) The cloud provider region to which the Federated Instance routes client connections for data processing.'
-            data_process_region.cloud_provider: '- (Required) Name of the cloud service provider. Supported providers: AWS, AZURE.'
+            data_process_region.cloud_provider: '- (Required) Name of the cloud service provider. Supported providers: AWS, AZURE, GCP.'
             data_process_region.region: '- (Required) Name of the region to which the Federated Instance routes client connections for data processing. See the documentation for the available region.'
+            gcp_service_account: '- Email address of the Google Cloud Platform (GCP) service account created by Atlas, which should be authorized to allow Atlas to access Google Cloud Storage.'
             hostnames: '- The list of hostnames assigned to the Federated Database Instance. Each string in the array is a hostname assigned to the Federated Database Instance.'
             iam_assumed_role_arn: '- Amazon Resource Name (ARN) of the IAM Role that the Federated Database Instance assumes when accessing S3 Bucket data stores. The IAM Role must support the following actions against each S3 bucket:'
             iam_user_arn: |-
@@ -3158,7 +3360,7 @@ resources:
             storage_databases.#.views.#.source: '-  Name of the source collection for the view.'
             storage_stores: '- Each object in the array represents a data store. Federated Database uses the storage.databases configuration details to map data in each data store to queryable databases and collections. For complete documentation on this object and its nested fields, see stores. An empty object indicates that the Federated Database Instance has no configured data stores.'
             storage_stores.#.allow_insecure: '- Flag that validates the scheme in the specified URLs.'
-            storage_stores.#.bucket: '- Name of the AWS S3 bucket.'
+            storage_stores.#.bucket: '- Name of the bucket.'
             storage_stores.#.cluster_name: '- Human-readable label of the MongoDB Cloud cluster on which the store is based.'
             storage_stores.#.default_format: '- Default format that Data Federation assumes if it encounters a file without an extension while searching the storeName.'
             storage_stores.#.delimiter: '- The delimiter that separates storage_databases.#.collections.#.data_sources.#.path segments in the data store.'
@@ -3174,7 +3376,7 @@ resources:
             storage_stores.#.read_preference.tags: '- List of all tags within a tag set'
             storage_stores.#.read_preference.tags.name: '- Human-readable label of the tag.'
             storage_stores.#.read_preference.tags.value: '- Value of the tag.'
-            storage_stores.#.region: '- Name of the AWS region in which the S3 bucket is hosted.'
+            storage_stores.#.region: '- Name of the cloud provider region in which the bucket is hosted.'
             storage_stores.#.urls: '- Comma-separated list of publicly accessible HTTP URLs where data is stored.'
             tenant_id: '- Unique identifier of the Azure Active Directory tenant where the service principal resides.'
         importStatements: []
@@ -3461,7 +3663,7 @@ resources:
             custom_zone_mappings: '- (Optional) Each element in the list maps one ISO location code to a zone in your Global Cluster. See Custom Zone Mapping below for more details.'
             db: '- (Required) The name of the database containing the collection.'
             id: '- The Terraform''s unique identifier used internally for state management.'
-            is_custom_shard_key_hashed: '- (Optional) Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding. This is only available for Atlas clusters with MongoDB v4.4 and later.'
+            is_custom_shard_key_hashed: '- (Optional) Specifies whether the custom shard key for the collection is hashed. If omitted, defaults to false. If false, Atlas uses ranged sharding.'
             is_shard_key_unique: '- (Optional) Specifies whether the underlying index enforces a unique constraint. If omitted, defaults to false. You cannot specify true when using hashed shard keys.'
             location: '- (Required) The ISO location code to which you want to map a zone in your Global Cluster. You can find a list of all supported location codes here.'
             managed_namespaces: '- (Optional) Add a managed namespaces to a Global Cluster. For more information about managed namespaces, see Global Clusters. See Managed Namespace below for more details.'
@@ -3802,19 +4004,94 @@ resources:
                   "hour_of_day": 4,
                   "project_id": "\u003cyour-project-id\u003e"
                 }
+            - name: test
+              manifest: |-
+                {
+                  "project_id": "\u003cyour-project-id\u003e",
+                  "wave_assignment": 1
+                }
         argumentDocs:
             auto_defer: '- (Optional) Boolean flag to toggle automatic deferral on/off. Each change flips the current state (ON → OFF or OFF → ON). Achieves the same outcome as auto_defer_once_enabled but through a toggle operation, which can make the current state opaque to Terraform and introduce state drift. For most use cases, prefer'
             auto_defer_once_enabled: '- (Optional) Recommended field to enable or disable automatic deferral of all scheduled maintenance for the given project by one week. Achieves the same outcome as auto_defer, but by directly setting the value to true or false, which is idempotent and keeps Terraform state aligned with Atlas. If auto_defer is used to toggle the underlying flag, it will also affect the value of this attribute.'
-            day_of_week: '- (Required) Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7.'
+            day_of_week: '- (Optional) Day of the week when you would like the maintenance window to start as a 1-based integer: Su=1, M=2, T=3, W=4, T=5, F=6, Sa=7. Must be set together with hour_of_day. Omit both to set a wave_assignment without a maintenance window.'
             defer: '- (Optional) Defer the next scheduled maintenance event for the given project by one week. Only works when maintenance is already scheduled.'
             end_hour_of_day: '- Zero-based integer that represents the end hour of the day for the protected hours window.'
-            hour_of_day: '- (Required) Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project''s configured timezone.'
+            hour_of_day: '- (Optional) Hour of the day when you would like the maintenance window to start. This parameter uses the 24-hour clock, where midnight is 0, noon is 12. Uses the project''s configured timezone. Must be set together with day_of_week. Omit both to set a wave_assignment without a maintenance window.'
             number_of_deferrals: '- Number of times the current maintenance event for this project has been deferred, there can be a maximum of 2 deferrals.'
             project_id: '- The unique identifier of the project for the Maintenance Window, also known as groupId in the official documentation.'
             protected_hours: '- (Optional) Defines the time period during which there will be no standard updates to the clusters. See Protected Hours.'
             start_asap: '- Flag indicating whether project maintenance has been directed to start immediately. If requested, this field returns true from the time the request was made until the time the maintenance event completes.'
             start_hour_of_day: '- Zero-based integer that represents the beginning hour of the day for the protected hours window.'
             time_zone_id: '- Identifier for the current time zone of the maintenance window. This can only be updated via the Project Settings UI.'
+            wave_assignment: '- (Optional) Integer that identifies the maintenance wave explicitly assigned to this project. Valid values are 1 to 3, inclusive, where 1 is the first maintenance wave. Not editable when the organization''s wave assignment mode is ENV_TAG_MAPPING. In this case, the system preserves the stored value but does not use it for scheduling; environment tags determine the effective wave instead. Switching back to MANUAL restores the wave_assignment value as the effective wave. Remove this attribute from your configuration and run terraform apply to clear the explicit assignment. See mongodbatlas_org_maintenance_settings to configure the organization-level wave assignment mode.'
+        importStatements:
+            - terraform import mongodbatlas_maintenance_window.test 5d0f1f73cf09a29120e173cf
+    mongodbatlas_mcp_config:
+        subCategory: Remote MCP
+        name: mongodbatlas_mcp_config
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "ip_access_list": [
+                    {
+                      "cidr_block": "203.0.113.0/24"
+                    }
+                  ],
+                  "mcp_config_name": "example-mcp-config",
+                  "org_id": "${var.org_id}",
+                  "roles": [
+                    "ORG_READ_ONLY"
+                  ]
+                }
+              references:
+                org_id: var.org_id
+        argumentDocs:
+            cidr_block: (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+            client_id: (String) Unique identifier for the Service Account client associated with this MCP configuration. Use this Service Account to connect to the Atlas Remote MCP.
+            egress_client_id: (String) Unique identifier for the egress Service Account client associated with this MCP configuration. This Service Account is managed by MongoDB Atlas.
+            ip_access_list: (Attributes Set) List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
+            ip_address: (String) Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or cidrBlock, but not for both in the same request.
+            mcp_config_id: (String) Unique identifier that identifies this MCP configuration.
+            mcp_config_name: (String) Human-readable name that identifies this MCP configuration.
+            org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+            roles: (Set of String) List of organization roles to assign to this MCP configuration.
+        importStatements: []
+    mongodbatlas_mcp_config_secret:
+        subCategory: Remote MCP
+        name: mongodbatlas_mcp_config_secret
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "mcp_config_id": "${mongodbatlas_mcp_config.this.mcp_config_id}",
+                  "org_id": "${var.org_id}",
+                  "secret_expires_after_hours": 720
+                }
+              references:
+                mcp_config_id: mongodbatlas_mcp_config.this.mcp_config_id
+                org_id: var.org_id
+              dependencies:
+                mongodbatlas_mcp_config.this: |-
+                    {
+                      "mcp_config_name": "example-mcp-config",
+                      "org_id": "${var.org_id}",
+                      "roles": [
+                        "ORG_READ_ONLY"
+                      ]
+                    }
+        argumentDocs:
+            created_at: (String) The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            expires_at: (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            masked_secret_value: (String) The masked Service Account secret.
+            mcp_config_id: (String) Unique identifier of the MCP configuration.
+            org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+            secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
+            secret_expires_after_hours: (Number) The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
+            secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
         importStatements: []
     mongodbatlas_metric_integration:
         subCategory: Metric Integration
@@ -3850,16 +4127,28 @@ resources:
                     }
         argumentDocs:
             aggregation_temporality: (String) The temporality to send to the metric integration.
-            auth_type: (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used.
+            algorithm: (String) Signing algorithm of the Atlas-managed key.
+            auth_type: (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
+            client_auth_method: (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+            client_id: (String) OAuth 2.0 client identifier registered with the token endpoint.
+            client_secret: (String, Sensitive) Shared client secret. Required when client_auth_method is CLIENT_SECRET, and rejected for PRIVATE_KEY_JWT. Encrypted at rest and never returned.
+            created_at: (String) When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
             endpoint: (String) OpenTelemetry collector endpoint URL. Must use HTTPS.
             headers: (Attributes List) HTTP headers for authentication and configuration. Total size limit 2KB. (see below for nested schema)
             headers_redacted: (Attributes List) HTTP headers for authentication and configuration. Values are redacted and never returned in plaintext. (see below for nested schema)
             integration_type: (String) Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
+            jwks_uri: (String) Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
+            kid: (String) Key ID stamped on client assertions, the SHA-1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
             metric_integration_id: (String) Unique identifier of the metric integration configuration.
             metric_selection: (Set of String) Array of metric categories to export. Determines which types of metrics are sent to the integration.
             name: (String) Header name.
+            oauth: (Attributes) OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
             project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             provider_type: (String) The provider type for the metric integration. Identifies the third-party service provider.
+            scopes: (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
+            signing_key_info: (Attributes) Read-only metadata for the Atlas-managed signing key used by PRIVATE_KEY_JWT. Present only for that method. Register the jwks_uri with your identity provider. Atlas rotates the underlying key without changing this URL. (see below for nested schema)
+            token_endpoint: (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
+            token_request_params: (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
             value: (String, Sensitive) Header value.
         importStatements: []
     mongodbatlas_mongodb_employee_access_grant:
@@ -4369,6 +4658,29 @@ resources:
             timeouts: '- (Optional) The duration to wait for the Online Archive to be created. The timeout value is specified in a signed sequence of decimal numbers followed by a time unit (e.g., 1h45m, 300s, 10m). Valid units are: ns, us (or µs), ms, s, m, h. The default timeout values for the following operations are: create (default: 3h). Learn more about timeouts.'
             type: '- Type of criteria (DATE, CUSTOM)'
         importStatements: []
+    mongodbatlas_org_delegation_settings:
+        subCategory: Organizations
+        name: mongodbatlas_org_delegation_settings
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "delegated_mcp_access": "READ_ONLY",
+                  "delegated_partner_access": "DISALLOWED",
+                  "idle_refresh_token_lifetime": 3600,
+                  "maximum_refresh_token_lifetime": 86400,
+                  "org_id": "${var.atlas_org_id}"
+                }
+              references:
+                org_id: var.atlas_org_id
+        argumentDocs:
+            delegated_mcp_access: (String) Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are DISALLOWED, READ_ONLY, and READ_WRITE. Defaults to DISALLOWED.
+            delegated_partner_access: (String) Policy that controls whether partner delegated access is permitted within this organization. Possible values are DISALLOWED and READ_WRITE. Defaults to DISALLOWED.
+            idle_refresh_token_lifetime: (Number) Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+            maximum_refresh_token_lifetime: (Number) Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+            org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+        importStatements: []
     mongodbatlas_org_invitation:
         subCategory: Organizations
         name: mongodbatlas_org_invitation
@@ -4417,6 +4729,62 @@ resources:
             teams_ids: '- (Optional) An array of unique 24-hexadecimal digit strings that identify the teams that the user was invited to join.'
             username: '- (Required) Email address of the invited user. This is the address to which Atlas sends the invite. If the user accepts the invitation, they log in to Atlas with this username.'
         importStatements: []
+    mongodbatlas_org_log_integration:
+        subCategory: Log Integration
+        name: mongodbatlas_org_log_integration
+        title: ""
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "log_types": [
+                    "EVENTS"
+                  ],
+                  "org_id": "${var.atlas_org_id}",
+                  "otel_endpoint": "${var.otel_endpoint}",
+                  "otel_supplied_headers": "${var.otel_supplied_headers}",
+                  "type": "OTEL_LOG_EXPORT"
+                }
+              references:
+                org_id: var.atlas_org_id
+                otel_endpoint: var.otel_endpoint
+                otel_supplied_headers: var.otel_supplied_headers
+        argumentDocs:
+            integration_id: (String) Unique 24-character hexadecimal digit string that identifies the log integration configuration.
+            log_types: (Set of String) Array of log types exported by this integration.
+            name: (String) Header name.
+            org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+            otel_endpoint: (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+            otel_supplied_headers: (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+            type: (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+            value: (String, Sensitive) Header value. Redacted in responses.
+        importStatements: []
+    mongodbatlas_org_maintenance_settings:
+        subCategory: Organizations
+        name: mongodbatlas_org_maintenance_settings
+        title: ""
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "org_id": "${var.org_id}",
+                  "wave_assignment_mode": "MANUAL"
+                }
+              references:
+                org_id: var.org_id
+            - name: example
+              manifest: |-
+                {
+                  "org_id": "${var.org_id}",
+                  "wave_assignment_mode": "ENV_TAG_MAPPING"
+                }
+              references:
+                org_id: var.org_id
+        argumentDocs:
+            org_id: '- (Required) Unique 24-hexadecimal digit string that identifies the Atlas organization. This attribute cannot be changed after the resource is created.'
+            wave_assignment_mode: '- (Optional) Controls how Atlas assigns projects to maintenance waves. Accepted values are MANUAL and ENV_TAG_MAPPING. Remove this attribute from your configuration and run terraform apply to unset the field in Atlas.'
+        importStatements:
+            - terraform import mongodbatlas_org_maintenance_settings.example 5d09d6a59ccf6445652a444a
     mongodbatlas_organization:
         subCategory: Organizations
         name: mongodbatlas_organization
@@ -4449,15 +4817,19 @@ resources:
                   ]
                 }
         argumentDocs:
+            absolute_session_timeout_in_seconds: '- (Optional) Specifies the absolute session timeout duration in seconds. When set to null, the field''s value is unset, and the default value of 43,200 seconds (12 hours) is applied. Accepted values range between a minimum of 3,600 seconds (1 hour) and a maximum of 43,200 seconds (12 hours).'
             api_access_list_required: '- (Optional) Flag that indicates whether to require API operations to originate from an IP Address added to the API access list for the specified organization.'
             client_id: '- The Client ID of the Service Account.'
             created_at: '- The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.'
+            custom_session_timeouts: '- (Optional) Block that specifies the custom session timeout settings for the organization. Remove the block from your configuration, or set it to null, to clear both timeouts. See Custom Session Timeouts.'
             description: '- (Optional) Programmatic API Key description. This attribute is required in creation and can''t be updated later.'
             expires_at: '- The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.'
             federation_settings_id: '- (Optional) Unique 24-hexadecimal digit string that identifies the federation to link the newly created organization to. If specified, the proposed Organization Owner of the new organization must have the Organization Owner role in an organization associated with the federation. This attribute can''t be updated after creation.'
             gen_ai_features_enabled: '- (Optional) Flag that indicates whether this organization has access to generative AI features. This setting only applies to Atlas Commercial and defaults to true. With this setting on, Project Owners may be able to enable or disable individual AI features at the project level. To learn more, see https://www.mongodb.com/docs/generative-ai-faq/.'
+            idle_session_timeout_in_seconds: '- (Optional) Specifies the idle session timeout duration in seconds. When set to null, the field''s value is unset, and the default behavior depends on the context: no timeout for Atlas Commercial, and 600 seconds (10 minutes) for Atlas for Government. Accepted values start at a minimum of 300 seconds (5 minutes). For Atlas Commercial, the maximum value cannot exceed the configured absolute session timeout. For Atlas for Government, the maximum value is capped at 600 seconds (10 minutes).'
             multi_factor_auth_required: '- (Optional) Flag that indicates whether to require users to set up Multi-Factor Authentication (MFA) before accessing the specified organization. To learn more, see: https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/.'
             name: '- (Required) The name of the organization.'
+            operations_contact: '- (Optional) String that specifies a distribution list email address for the specified organization to receive proactive notifications about its infrastructure. The operations contact is used for notifications only and is not authorized to make decisions or approvals. Remove the attribute from your configuration, or set it to null, to clear an existing operations contact.'
             org_id: '- The organization id.'
             org_owner_id: '- (Optional) Unique 24-hexadecimal digit string that identifies the Atlas user that you want to assign the Organization Owner role. This user must be a member of the same organization as the calling API key.  This is only required when authenticating with Programmatic API Keys. MongoDB Atlas Admin API - Get User By Username. This attribute is required in creation and can''t be updated later.'
             private_key: '- Private key returned for this organization API key. This key displays unredacted when first created and is stored in the Terraform state file. Used for subsequent resource operations. Only populated when no service_account block is defined.'
@@ -5177,6 +5549,73 @@ resources:
             read: '(String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: 2m.'
             timeouts: (Attributes) (see below for nested schema)
         importStatements: []
+    mongodbatlas_project_mcp_config:
+        subCategory: Remote MCP
+        name: mongodbatlas_project_mcp_config
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "ip_access_list": [
+                    {
+                      "cidr_block": "203.0.113.0/24"
+                    }
+                  ],
+                  "mcp_config_name": "example-mcp-config",
+                  "project_id": "${var.project_id}",
+                  "roles": [
+                    "GROUP_READ_ONLY"
+                  ]
+                }
+              references:
+                project_id: var.project_id
+        argumentDocs:
+            cidr_block: (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+            client_id: (String) Unique identifier for the Service Account client associated with this MCP configuration. Use this Service Account to connect to the Atlas Remote MCP.
+            egress_client_id: (String) Unique identifier for the egress Service Account client associated with this MCP configuration. This Service Account is managed by MongoDB Atlas.
+            ip_access_list: (Attributes Set) List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
+            ip_address: (String) Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or cidrBlock, but not for both in the same request.
+            mcp_config_id: (String) Unique identifier that identifies this MCP configuration.
+            mcp_config_name: (String) Human-readable name that identifies this MCP configuration.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            roles: (Set of String) List of project roles to assign to this MCP configuration.
+        importStatements: []
+    mongodbatlas_project_mcp_config_secret:
+        subCategory: Remote MCP
+        name: mongodbatlas_project_mcp_config_secret
+        title: ""
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "mcp_config_id": "${mongodbatlas_project_mcp_config.this.mcp_config_id}",
+                  "project_id": "${var.project_id}",
+                  "secret_expires_after_hours": 720
+                }
+              references:
+                mcp_config_id: mongodbatlas_project_mcp_config.this.mcp_config_id
+                project_id: var.project_id
+              dependencies:
+                mongodbatlas_project_mcp_config.this: |-
+                    {
+                      "mcp_config_name": "example-mcp-config",
+                      "project_id": "${var.project_id}",
+                      "roles": [
+                        "GROUP_READ_ONLY"
+                      ]
+                    }
+        argumentDocs:
+            created_at: (String) The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            expires_at: (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            last_used_at: (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+            masked_secret_value: (String) The masked Service Account secret.
+            mcp_config_id: (String) Unique identifier of the MCP configuration.
+            project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
+            secret_expires_after_hours: (Number) The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
+            secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
+        importStatements: []
     mongodbatlas_project_service_account:
         subCategory: Service Accounts
         name: mongodbatlas_project_service_account
@@ -5191,10 +5630,17 @@ resources:
                   "roles": [
                     "GROUP_READ_ONLY"
                   ],
-                  "secret_expires_after_hours": 2160
+                  "without_initial_secret": true
                 }
               references:
                 project_id: var.project_id
+              dependencies:
+                mongodbatlas_project_service_account_secret.this: |-
+                    {
+                      "client_id": "${mongodbatlas_project_service_account.this.client_id}",
+                      "project_id": "${var.project_id}",
+                      "secret_expires_after_hours": 2160
+                    }
         argumentDocs:
             client_id: (String) The Client ID of the Service Account.
             created_at: (String) The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
@@ -5206,9 +5652,11 @@ resources:
             project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
             roles: (Set of String) A list of project-level roles for the Service Account.
             secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
-            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
+            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
             secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
             secrets: (Attributes List) A list of secrets associated with the specified Service Account. (see below for nested schema)
+            system_managed: (Boolean) Indicates whether the Service Account is system managed.
+            without_initial_secret: (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
         importStatements: []
     mongodbatlas_project_service_account_access_list_entry:
         subCategory: Service Accounts
@@ -5668,10 +6116,17 @@ resources:
                   "roles": [
                     "ORG_READ_ONLY"
                   ],
-                  "secret_expires_after_hours": 2160
+                  "without_initial_secret": true
                 }
               references:
                 org_id: var.org_id
+              dependencies:
+                mongodbatlas_service_account_secret.this: |-
+                    {
+                      "client_id": "${mongodbatlas_service_account.this.client_id}",
+                      "org_id": "${var.org_id}",
+                      "secret_expires_after_hours": 2160
+                    }
         argumentDocs:
             client_id: (String) The Client ID of the Service Account.
             created_at: (String) The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
@@ -5683,9 +6138,11 @@ resources:
             org_id: (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
             roles: (Set of String) A list of organization-level roles for the Service Account.
             secret: (String, Sensitive) The secret for the Service Account. It will be returned only the first time after creation.
-            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account and you cannot update it later.
+            secret_expires_after_hours: (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
             secret_id: (String) Unique 24-hexadecimal digit string that identifies the secret.
             secrets: (Attributes List) A list of secrets associated with the specified Service Account. (see below for nested schema)
+            system_managed: (Boolean) Indicates whether the Service Account is system managed.
+            without_initial_secret: (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
         importStatements: []
     mongodbatlas_service_account_access_list_entry:
         subCategory: Service Accounts
@@ -5851,7 +6308,7 @@ resources:
                     "password": "somepassword",
                     "username": "user"
                   },
-                  "bootstrap_servers": "localhost:9091,localhost:9092",
+                  "bootstrap_servers": "example.com:9092",
                   "config": {
                     "auto.offset.reset": "latest"
                   },
@@ -5877,7 +6334,7 @@ resources:
                     "scope": "read:messages write:messages",
                     "token_endpoint_url": "https://example.com/oauth/token"
                   },
-                  "bootstrap_servers": "localhost:9092,localhost:9092",
+                  "bootstrap_servers": "example.com:9092",
                   "config": {
                     "auto.offset.reset": "earliest"
                   },
@@ -5905,7 +6362,7 @@ resources:
                     "password": "somepassword",
                     "username": "user"
                   },
-                  "bootstrap_servers": "localhost:9091,localhost:9092",
+                  "bootstrap_servers": "example.com:9092",
                   "config": {
                     "auto.offset.reset": "latest"
                   },
@@ -6753,7 +7210,7 @@ resources:
                         "password": "${var.kafka_password}",
                         "username": "${var.kafka_username}"
                       },
-                      "bootstrap_servers": "localhost:9092,localhost:9092",
+                      "bootstrap_servers": "example.com:9092",
                       "config": {
                         "auto.offset.reset": "earliest"
                       },
@@ -6813,7 +7270,7 @@ resources:
                         "password": "${var.kafka_password}",
                         "username": "${var.kafka_username}"
                       },
-                      "bootstrap_servers": "localhost:9092,localhost:9092",
+                      "bootstrap_servers": "example.com:9092",
                       "config": {
                         "auto.offset.reset": "earliest"
                       },
@@ -6885,7 +7342,7 @@ resources:
                         "password": "${var.kafka_password}",
                         "username": "${var.kafka_username}"
                       },
-                      "bootstrap_servers": "localhost:9092,localhost:9092",
+                      "bootstrap_servers": "example.com:9092",
                       "config": {
                         "auto.offset.reset": "earliest"
                       },
@@ -6931,6 +7388,7 @@ resources:
             pipeline: '(String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.'
             processor_name: (String) Label that identifies the stream processor.
             project_id: (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+            resume_from_checkpoint: (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
             state: (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
             stats: (String) The stats associated with the stream processor. Refer to the MongoDB Atlas Docs for more information.
             tier: (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
@@ -7071,6 +7529,7 @@ resources:
             send_collection_latency_metrics: '- Toggle sending collection latency metrics that includes database names and collection names and latency metrics on reads, writes, commands, and transactions. Default: false.'
             send_database_metrics: '- Toggle sending database metrics that includes database names and metrics on the number of collections, storage size, and index size. Default: false.'
             send_query_stats_metrics: '- Toggle sending query shape metrics that includes query hash and metrics on latency, execution frequency, documents returned, and timestamps. Default: false.'
+            send_sharding_metrics: '- Toggle sending sharding metrics that includes sharding distribution and chunk metrics per cluster, shard, and collection. Default: false.'
             send_user_provided_resource_tags: '- Toggle sending user provided group and cluster resource tags with the Datadog metrics. Default: false.'
             service_discovery: '- Indicates which service discovery method is used, either file or http.'
             service_key: '- Your Service Key.'

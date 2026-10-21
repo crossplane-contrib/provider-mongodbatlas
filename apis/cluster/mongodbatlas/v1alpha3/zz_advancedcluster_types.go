@@ -49,7 +49,11 @@ type AdvancedClusterInitParameters struct {
 	// When configured as FIXED_TO_DEDICATED, the cluster will always use a dedicated config server.
 	ConfigServerManagementMode *string `json:"configServerManagementMode,omitempty" tf:"config_server_management_mode,omitempty"`
 
-	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+	// Database edition for the cluster. Valid values are CORE and INFINITE. If you omit this attribute, MongoDB Cloud selects the default database edition. Only REPLICASET clusters currently support the INFINITE edition: the provider rejects the configuration if you combine INFINITE with the SHARDED or GEOSHARDED cluster type.
+	// Available in Public Preview: Optional value that indicates whether the cluster uses the `CORE` or `INFINITE` database edition. If you omit this attribute, MongoDB Cloud selects the default database edition. Only `REPLICASET` clusters currently support the `INFINITE` edition: the provider rejects the configuration if you combine `INFINITE` with the `SHARDED` or `GEOSHARDED` cluster type.
+	DatabaseEdition *string `json:"databaseEdition,omitempty" tf:"database_edition,omitempty"`
+
+	// Indicates whether to delete the cluster if a timeout is reached while waiting for Atlas to finish creating it. When set to true and a timeout occurs, the provider deletes the cluster and returns immediately without waiting for deletion to complete. When set to false, the provider does not delete the cluster on timeout. If you suspect a transient error when the value is true, wait before retrying to allow the deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
@@ -132,7 +136,7 @@ type AdvancedClusterInitParameters struct {
 	// When configured as NODE_TYPE, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads.
 	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
 
-	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are supported for AWS Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters, AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions that support Extended IOPS. If this list contains more than one entry, review Multi-shard clusters and topology changes before adding, removing, or reordering entries. See below.
+	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently.
 	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsInitParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
@@ -160,7 +164,7 @@ type AdvancedClusterInitParameters struct {
 	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
 	UseAwsTimeBasedSnapshotCopyForFastInitialSync *bool `json:"useAwsTimeBasedSnapshotCopyForFastInitialSync,omitempty" tf:"use_aws_time_based_snapshot_copy_for_fast_initial_sync,omitempty"`
 
-	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
+	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. The spec-preserving behavior applies only while auto-scaling remains enabled. If an update toggles auto-scaling on or off, Atlas applies the requested spec values in that update. This attribute applies to dedicated clusters, not to tenant or flex clusters. See Auto-Scaling with Effective Fields for more details.
 	// If your cluster has more than one replication_specs entry, see Multi-shard clusters and topology changes before enabling this attribute.
 	// Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
 	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
@@ -221,9 +225,17 @@ type AdvancedClusterObservation struct {
 	// Date and time when MongoDB Cloud created this cluster. This parameter expresses its value in ISO 8601 format in UTC.
 	CreateDate *string `json:"createDate,omitempty" tf:"create_date,omitempty"`
 
-	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+	// Database edition for the cluster. Valid values are CORE and INFINITE. If you omit this attribute, MongoDB Cloud selects the default database edition. Only REPLICASET clusters currently support the INFINITE edition: the provider rejects the configuration if you combine INFINITE with the SHARDED or GEOSHARDED cluster type.
+	// Available in Public Preview: Optional value that indicates whether the cluster uses the `CORE` or `INFINITE` database edition. If you omit this attribute, MongoDB Cloud selects the default database edition. Only `REPLICASET` clusters currently support the `INFINITE` edition: the provider rejects the configuration if you combine `INFINITE` with the `SHARDED` or `GEOSHARDED` cluster type.
+	DatabaseEdition *string `json:"databaseEdition,omitempty" tf:"database_edition,omitempty"`
+
+	// Indicates whether to delete the cluster if a timeout is reached while waiting for Atlas to finish creating it. When set to true and a timeout occurs, the provider deletes the cluster and returns immediately without waiting for deletion to complete. When set to false, the provider does not delete the cluster on timeout. If you suspect a transient error when the value is true, wait before retrying to allow the deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
+
+	// Database edition that the cluster currently uses. Valid values are CORE and INFINITE.
+	// Available in Public Preview: Database edition that the cluster currently uses. This value is `CORE` or `INFINITE` and can differ from `database_edition` when MongoDB Cloud applies the default.
+	EffectiveDatabaseEdition *string `json:"effectiveDatabaseEdition,omitempty" tf:"effective_database_edition,omitempty"`
 
 	// Possible values are AWS, GCP, AZURE or NONE.  Only needed if you desire to manage the keys, see Encryption at Rest using Customer Key Management for complete documentation.  You must configure encryption at rest for the Atlas project before enabling it on any cluster in the project. For Documentation, see AWS, GCP and Azure. Requirements are if replication_specs[#].region_configs[#].<type>Specs.instance_size is M10 or greater and backup_enabled is false or omitted.
 	// Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster **replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize** setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely.
@@ -301,7 +313,7 @@ type AdvancedClusterObservation struct {
 	// When configured as NODE_TYPE, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads.
 	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
 
-	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are supported for AWS Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters, AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions that support Extended IOPS. If this list contains more than one entry, review Multi-shard clusters and topology changes before adding, removing, or reordering entries. See below.
+	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently.
 	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsObservation `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
 
@@ -333,7 +345,7 @@ type AdvancedClusterObservation struct {
 	// Flag that indicates whether time-based snapshot copies will be used instead of slower standard snapshot copies during fast Atlas cross-region initial syncs. This flag is only relevant for clusters containing AWS nodes.
 	UseAwsTimeBasedSnapshotCopyForFastInitialSync *bool `json:"useAwsTimeBasedSnapshotCopyForFastInitialSync,omitempty" tf:"use_aws_time_based_snapshot_copy_for_fast_initial_sync,omitempty"`
 
-	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
+	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. The spec-preserving behavior applies only while auto-scaling remains enabled. If an update toggles auto-scaling on or off, Atlas applies the requested spec values in that update. This attribute applies to dedicated clusters, not to tenant or flex clusters. See Auto-Scaling with Effective Fields for more details.
 	// If your cluster has more than one replication_specs entry, see Multi-shard clusters and topology changes before enabling this attribute.
 	// Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
 	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
@@ -387,7 +399,12 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ConfigServerManagementMode *string `json:"configServerManagementMode,omitempty" tf:"config_server_management_mode,omitempty"`
 
-	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
+	// Database edition for the cluster. Valid values are CORE and INFINITE. If you omit this attribute, MongoDB Cloud selects the default database edition. Only REPLICASET clusters currently support the INFINITE edition: the provider rejects the configuration if you combine INFINITE with the SHARDED or GEOSHARDED cluster type.
+	// Available in Public Preview: Optional value that indicates whether the cluster uses the `CORE` or `INFINITE` database edition. If you omit this attribute, MongoDB Cloud selects the default database edition. Only `REPLICASET` clusters currently support the `INFINITE` edition: the provider rejects the configuration if you combine `INFINITE` with the `SHARDED` or `GEOSHARDED` cluster type.
+	// +kubebuilder:validation:Optional
+	DatabaseEdition *string `json:"databaseEdition,omitempty" tf:"database_edition,omitempty"`
+
+	// Indicates whether to delete the cluster if a timeout is reached while waiting for Atlas to finish creating it. When set to true and a timeout occurs, the provider deletes the cluster and returns immediately without waiting for deletion to complete. When set to false, the provider does not delete the cluster on timeout. If you suspect a transient error when the value is true, wait before retrying to allow the deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
@@ -482,7 +499,7 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplicaSetScalingStrategy *string `json:"replicaSetScalingStrategy,omitempty" tf:"replica_set_scaling_strategy,omitempty"`
 
-	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently. Note that independent disk_iops values are supported for AWS Gen2 STANDARD (gp3) clusters, AWS PROVISIONED (io2) clusters, AWS HIGH_PERFORMANCE (Gen 2 io2) clusters, and Azure regions that support Extended IOPS. If this list contains more than one entry, review Multi-shard clusters and topology changes before adding, removing, or reordering entries. See below.
+	// List of settings that configure your cluster regions. This attribute has one object per shard representing node configurations in each shard. For replica sets there is only one object representing node configurations. The replication_specs configuration for all shards within the same zone must be the same, with the exception of instance_size and disk_iops that can scale independently.
 	// +kubebuilder:validation:Optional
 	// +listType=atomic
 	ReplicationSpecs []ReplicationSpecsParameters `json:"replicationSpecs,omitempty" tf:"replication_specs,omitempty"`
@@ -517,7 +534,7 @@ type AdvancedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	UseAwsTimeBasedSnapshotCopyForFastInitialSync *bool `json:"useAwsTimeBasedSnapshotCopyForFastInitialSync,omitempty" tf:"use_aws_time_based_snapshot_copy_for_fast_initial_sync,omitempty"`
 
-	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. This attribute applies to dedicated clusters, not to tenant or flex clusters. This attribute will be deprecated in provider version 2.x and removed in 3.x when the new behavior becomes default. See Auto-Scaling with Effective Fields for more details.
+	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (electable_specs, read_only_specs, analytics_specs) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the current hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications. This opt-in feature enhances auto-scaling workflows by eliminating the need for lifecycle.ignore_changes blocks and preventing plan drift from Atlas-managed changes. The spec-preserving behavior applies only while auto-scaling remains enabled. If an update toggles auto-scaling on or off, Atlas applies the requested spec values in that update. This attribute applies to dedicated clusters, not to tenant or flex clusters. See Auto-Scaling with Effective Fields for more details.
 	// If your cluster has more than one replication_specs entry, see Multi-shard clusters and topology changes before enabling this attribute.
 	// Important: Toggle this flag and remove any existing lifecycle.ignore_changes blocks for spec fields in the same apply, without combining other changes. Toggling will result in increased plan verbosity with (known after apply) markers, which can be safely ignored. If you previously removed read_only_specs or analytics_specs attributes from your configuration, you'll get a validation error for safety reasons to prevent accidental node loss. To resolve: add the blocks back (to keep nodes) or with node_count = 0 (to delete nodes), apply without toggling the flag, then toggle in a separate apply.
 	// Controls how hardware specification fields are returned in the response. When set to true, the non-effective specs (`electable_specs`, `read_only_specs`, `analytics_specs`) fields return the hardware specifications that the client provided. When set to false (default), the non-effective specs fields show the **current** hardware specifications. Cluster auto-scaling is the primary cause for differences between initial and current hardware specifications.
@@ -532,7 +549,7 @@ type AdvancedClusterParameters struct {
 
 type AdvancedConfigurationInitParameters struct {
 
-	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
+	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing.
 	// The minimum pre- and post-image retention time in seconds.
 	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
@@ -550,7 +567,7 @@ type AdvancedConfigurationInitParameters struct {
 	// Default time limit in milliseconds for individual read operations to complete. This parameter is supported only for MongoDB version 8.0 and above.
 	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
 
-	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.
+	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. Clusters default to majority.
 	// Default level of acknowledgment requested from MongoDB for write operations when none is specified by the driver.
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
@@ -593,7 +610,7 @@ type AdvancedConfigurationInitParameters struct {
 
 type AdvancedConfigurationObservation struct {
 
-	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
+	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing.
 	// The minimum pre- and post-image retention time in seconds.
 	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
 
@@ -611,7 +628,7 @@ type AdvancedConfigurationObservation struct {
 	// Default time limit in milliseconds for individual read operations to complete. This parameter is supported only for MongoDB version 8.0 and above.
 	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
 
-	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.
+	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. Clusters default to majority.
 	// Default level of acknowledgment requested from MongoDB for write operations when none is specified by the driver.
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
 
@@ -654,7 +671,7 @@ type AdvancedConfigurationObservation struct {
 
 type AdvancedConfigurationParameters struct {
 
-	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing. This parameter is only supported for MongoDB version 6.0 and above.
+	// The minimum pre- and post-image retention time in seconds. This option corresponds to the changeStreamOptions.preAndPostImages.expireAfterSeconds cluster parameter. Defaults to -1(off). This setting controls the retention policy of change stream pre- and post-images. Pre- and post-images are the versions of a document before and after document modification, respectively. expireAfterSeconds controls how long MongoDB retains pre- and post-images. When set to -1 (off), MongoDB uses the default retention policy: pre- and post-images are retained until the corresponding change stream events are removed from the oplog. To set the minimum pre- and post-image retention time, specify an integer value greater than zero. Setting this too low could increase the risk of interrupting Realm sync or triggers processing.
 	// The minimum pre- and post-image retention time in seconds.
 	// +kubebuilder:validation:Optional
 	ChangeStreamOptionsPreAndPostImagesExpireAfterSeconds *float64 `json:"changeStreamOptionsPreAndPostImagesExpireAfterSeconds,omitempty" tf:"change_stream_options_pre_and_post_images_expire_after_seconds,omitempty"`
@@ -676,7 +693,7 @@ type AdvancedConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultMaxTimeMs *float64 `json:"defaultMaxTimeMs,omitempty" tf:"default_max_time_ms,omitempty"`
 
-	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. MongoDB 6.0 clusters default to majority.
+	// Default level of acknowledgment requested from MongoDB for write operations set for this cluster. Clusters default to majority.
 	// Default level of acknowledgment requested from MongoDB for write operations when none is specified by the driver.
 	// +kubebuilder:validation:Optional
 	DefaultWriteConcern *string `json:"defaultWriteConcern,omitempty" tf:"default_write_concern,omitempty"`
@@ -830,17 +847,22 @@ type AnalyticsAutoScalingParameters struct {
 
 type AnalyticsSpecsInitParameters struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -856,18 +878,22 @@ type AnalyticsSpecsInitParameters struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
 	// Number of nodes of the given type for MongoDB Atlas to deploy to the region.
@@ -877,17 +903,22 @@ type AnalyticsSpecsInitParameters struct {
 
 type AnalyticsSpecsObservation struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -903,18 +934,22 @@ type AnalyticsSpecsObservation struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
 	// Number of nodes of the given type for MongoDB Atlas to deploy to the region.
@@ -924,18 +959,23 @@ type AnalyticsSpecsObservation struct {
 
 type AnalyticsSpecsParameters struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	// +kubebuilder:validation:Optional
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -952,19 +992,23 @@ type AnalyticsSpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	// +kubebuilder:validation:Optional
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	// +kubebuilder:validation:Optional
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
@@ -1004,6 +1048,9 @@ type AutoScalingInitParameters struct {
 	//
 	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
+
+	// Settings that determine the per-shard data-size limit for an Atlas INFINITE cluster.
+	StorageConfig *StorageConfigInitParameters `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
 }
 
 type AutoScalingObservation struct {
@@ -1036,6 +1083,9 @@ type AutoScalingObservation struct {
 	//
 	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
+
+	// Settings that determine the per-shard data-size limit for an Atlas INFINITE cluster.
+	StorageConfig *StorageConfigObservation `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
 }
 
 type AutoScalingParameters struct {
@@ -1073,6 +1123,10 @@ type AutoScalingParameters struct {
 	// Workaround: Run `apply` twice. First set **advanced_configuration.oplog_min_retention_hours** to `0` and apply. Then set **disk_gb_enabled** to `false` and apply again.
 	// +kubebuilder:validation:Optional
 	DiskGbEnabled *bool `json:"diskGbEnabled,omitempty" tf:"disk_gb_enabled,omitempty"`
+
+	// Settings that determine the per-shard data-size limit for an Atlas INFINITE cluster.
+	// +kubebuilder:validation:Optional
+	StorageConfig *StorageConfigParameters `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
 }
 
 type BiConnectorConfigInitParameters struct {
@@ -1140,17 +1194,22 @@ type ConnectionStringsParameters struct {
 
 type ElectableSpecsInitParameters struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -1166,18 +1225,22 @@ type ElectableSpecsInitParameters struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
 	// Number of nodes of the given type for MongoDB Atlas to deploy to the region.
@@ -1187,17 +1250,22 @@ type ElectableSpecsInitParameters struct {
 
 type ElectableSpecsObservation struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -1213,18 +1281,22 @@ type ElectableSpecsObservation struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
 	// Number of nodes of the given type for MongoDB Atlas to deploy to the region.
@@ -1234,18 +1306,23 @@ type ElectableSpecsObservation struct {
 
 type ElectableSpecsParameters struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	// +kubebuilder:validation:Optional
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -1262,19 +1339,23 @@ type ElectableSpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	// +kubebuilder:validation:Optional
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	// +kubebuilder:validation:Optional
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
@@ -1362,17 +1443,22 @@ type PrivateEndpointParameters struct {
 
 type ReadOnlySpecsInitParameters struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -1388,18 +1474,22 @@ type ReadOnlySpecsInitParameters struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
 	// Number of nodes of the given type for MongoDB Atlas to deploy to the region.
@@ -1409,17 +1499,22 @@ type ReadOnlySpecsInitParameters struct {
 
 type ReadOnlySpecsObservation struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -1435,18 +1530,22 @@ type ReadOnlySpecsObservation struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
 	// Number of nodes of the given type for MongoDB Atlas to deploy to the region.
@@ -1456,18 +1555,23 @@ type ReadOnlySpecsObservation struct {
 
 type ReadOnlySpecsParameters struct {
 
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider.
-	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS or Azure as your cloud service provider. For AWS, valid configurations are:
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider.
+	// Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. You can set this attribute if you selected AWS, GCP, or Azure as your cloud service provider. For AWS, valid configurations are:
 	//
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `STANDARD`: configurable between 3000 and 80000 IOPS.
 	// - For Gen2 instance sizes (`M30_GEN_2` or greater) with `ebs_volume_type` set to `HIGH_PERFORMANCE`: configurable within the allowable range for the selected volume size.
-	// - For M30 or greater (not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
+	// - For Gen1 instance sizes (`M30` or greater, not including `Mxx_NVME` tiers) with `ebs_volume_type` set to `PROVISIONED`: configurable within the allowable range for the selected volume size.
 	//
-	// For Azure, this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
+	// For GCP, you can set this attribute only for Gen2 instance sizes (`M30_GEN_2` or greater), which use Hyperdisk Balanced storage. Gen1 instance sizes don't support configurable IOPS. The valid range depends on `disk_size_gb` and the selected instance size:
+	//
+	// - The minimum value is the greater of 3000 and three times `disk_size_gb`.
+	// - The maximum value is the lesser of 500 times `disk_size_gb` and the maximum IOPS for the selected instance size, up to 160000 IOPS.
+	//
+	// For Azure (Gen1 only; Azure doesn't support Gen2), this parameter applies to M40 or greater (not including `Mxx_NVME` tiers). The maximum IOPS depend on the selected instance size and disk size. This parameter defaults to the cluster tier's standard IOPS value. Changing this value impacts cluster cost.
 	// +kubebuilder:validation:Optional
 	DiskIops *float64 `json:"diskIops,omitempty" tf:"disk_iops,omitempty"`
 
-	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: Using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, it should be used only with the Provisioned IOPS volume type. When using Provisioned IOPS, the disk_size_gb parameter specifies the storage capacity, but the IOPS are set independently. Ensuring that disk_size_gb is used exclusively with Provisioned IOPS will help avoid these issues.
+	// Storage capacity that the host's root volume possesses expressed in gigabytes. This value must be equal for all shards and node types. If disk size specified is below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value.  The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. Note: On AWS, using disk_size_gb with Standard IOPS could lead to errors and configuration issues. Therefore, on AWS, use disk_size_gb only with the Provisioned IOPS volume type; with Provisioned IOPS, disk_size_gb specifies the storage capacity while the IOPS are set independently. On GCP, disk_size_gb is always required input, since it determines the valid disk_iops range for Gen2 instance sizes.
 	// Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity.
 	//
 	// This value must be equal for all shards and node types.
@@ -1484,19 +1588,23 @@ type ReadOnlySpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
-	// - `STANDARD` volume types use gp3 storage. For Gen 2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
+	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
 	//
-	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. You must set this value to (`PROVISIONED`) for NVMe clusters.
+	// - `PROVISIONED` volume types must fall within the allowable IOPS range for the selected volume size. Only Gen1 instance sizes support this value.
 	//
-	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen 2 instance sizes.
+	// - `HIGH_PERFORMANCE` volume types use io2 storage and must fall within the allowable IOPS range for the selected volume size. Only supported for Gen2 instance sizes.
+	//
+	// NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`.
 	// +kubebuilder:validation:Optional
 	EBSVolumeType *string `json:"ebsVolumeType,omitempty" tf:"ebs_volume_type,omitempty"`
 
 	// Hardware specification for the instance sizes in this region. Each instance size has a default storage and memory capacity. The instance size you select applies to all the data-bearing hosts in your instance size. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
 	// Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards.
+	//
+	// Gen2 instance sizes use the `_GEN_2` suffix, for example `M30_GEN_2`. AWS and GCP support Gen2 instance sizes. Azure doesn't support Gen2 instance sizes. GCP supports the following Gen2 instance sizes: `M30_GEN_2`, `M40_GEN_2`, `M50_GEN_2`, `M60_GEN_2`, `M80_GEN_2`, `M140_GEN_2`, `M200_GEN_2`, `R40_GEN_2`, `R50_GEN_2`, `R60_GEN_2`, `R80_GEN_2`, `R200_GEN_2`, `R300_GEN_2`, and `R400_GEN_2`. GCP doesn't support `Mxx_NVME` Gen2 instance sizes.
 	// +kubebuilder:validation:Optional
 	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
 
@@ -1669,6 +1777,28 @@ type ReplicationSpecsParameters struct {
 	// Human-readable label that describes the zone this shard belongs to in a Global Cluster. Provide this value only if "clusterType" : "GEOSHARDED" but not "selfManagedSharding" : true.
 	// +kubebuilder:validation:Optional
 	ZoneName *string `json:"zoneName,omitempty" tf:"zone_name,omitempty"`
+}
+
+type StorageConfigInitParameters struct {
+
+	// Maximum data size that MongoDB Cloud allows each shard to reach, expressed in gigabytes. Set the same value for every region configuration. Omit storage_config to use the Atlas default limit.
+	// Maximum data size that MongoDB Cloud allows each shard of this cluster to reach, expressed in gigabytes. Set the same value for every region configuration. Remove `storage_config` to clear the configured limit.
+	ShardSizeLimitGb *float64 `json:"shardSizeLimitGb,omitempty" tf:"shard_size_limit_gb,omitempty"`
+}
+
+type StorageConfigObservation struct {
+
+	// Maximum data size that MongoDB Cloud allows each shard to reach, expressed in gigabytes. Set the same value for every region configuration. Omit storage_config to use the Atlas default limit.
+	// Maximum data size that MongoDB Cloud allows each shard of this cluster to reach, expressed in gigabytes. Set the same value for every region configuration. Remove `storage_config` to clear the configured limit.
+	ShardSizeLimitGb *float64 `json:"shardSizeLimitGb,omitempty" tf:"shard_size_limit_gb,omitempty"`
+}
+
+type StorageConfigParameters struct {
+
+	// Maximum data size that MongoDB Cloud allows each shard to reach, expressed in gigabytes. Set the same value for every region configuration. Omit storage_config to use the Atlas default limit.
+	// Maximum data size that MongoDB Cloud allows each shard of this cluster to reach, expressed in gigabytes. Set the same value for every region configuration. Remove `storage_config` to clear the configured limit.
+	// +kubebuilder:validation:Optional
+	ShardSizeLimitGb *float64 `json:"shardSizeLimitGb" tf:"shard_size_limit_gb,omitempty"`
 }
 
 type TimeoutsInitParameters struct {

@@ -6,6 +6,8 @@ import (
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
 
+const groupProject = "project"
+
 func ConfigureProject(p *config.Provider) {
 	p.AddResourceConfigurator(refs.TFProject, func(r *config.Resource) {
 		r.ExternalName = providerAssignedID()
@@ -54,7 +56,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account_access_list_entry", func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "ServiceAccountAccessListEntry"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -70,7 +72,7 @@ func ConfigureProject(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_project_service_account_secret", func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "ServiceAccountSecret"
 		r.References = config.References{
 			refs.ProjectID: {
@@ -85,8 +87,41 @@ func ConfigureProject(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 2, 0, "secret_id")
 	})
 
+	p.AddResourceConfigurator(refs.TFProjectMCPConfig, func(r *config.Resource) {
+		r.ShortGroup = groupProject
+		r.Kind = "MCPConfig"
+		// Atlas returns both ip_address and cidr_block for an entry, but
+		// Terraform accepts exactly one of them per entry.
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"ip_access_list"},
+		}
+		r.ExternalName = computedKeyID(refs.MCPConfigID)
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset(refs.MCPConfigID)
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+		}
+	})
+
+	p.AddResourceConfigurator("mongodbatlas_project_mcp_config_secret", func(r *config.Resource) {
+		r.ShortGroup = groupProject
+		r.Kind = "MCPConfigSecret"
+		r.ExternalName = computedKeyID("secret_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("secret_id")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+			refs.MCPConfigID: {
+				TerraformName: refs.TFProjectMCPConfig,
+				Extractor:     refs.ExtractParamPath(refs.MCPConfigID, true),
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_project_service_account", func(r *config.Resource) {
-		r.ShortGroup = "project"
+		r.ShortGroup = groupProject
 		r.Kind = "ServiceAccount"
 		r.References = config.References{
 			refs.ProjectID: {

@@ -308,6 +308,12 @@ type NotificationInitParameters struct {
 	// VictorOps routing key. Optional for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	VictorOpsRoutingKeySecretRef *v2.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
 
+	// Template, using ${field} interpolation, that renders the HTTP body MongoDB Cloud sends with each webhook notification. Must render valid JSON. When unset, MongoDB Cloud sends its default JSON payload.
+	WebhookBodyTemplateSecretRef *v2.SecretKeySelector `json:"webhookBodyTemplateSecretRef,omitempty" tf:"-"`
+
+	// Template, using ${field} interpolation, that renders the HTTP headers MongoDB Cloud sends with each webhook notification. Must render a JSON object mapping header name to header value. The webhook secret and the signature header are NOT exposed to templates.
+	WebhookHeadersTemplateSecretRef *v2.SecretKeySelector `json:"webhookHeadersTemplateSecretRef,omitempty" tf:"-"`
+
 	// Optional authentication secret for the WEBHOOK notifications type.
 	WebhookSecretSecretRef *v2.SecretKeySelector `json:"webhookSecretSecretRef,omitempty" tf:"-"`
 
@@ -459,6 +465,14 @@ type NotificationParameters struct {
 	// VictorOps routing key. Optional for the VICTOR_OPS notifications type. If the key later becomes invalid, Atlas sends an email to the project owner and eventually removes the key.
 	// +kubebuilder:validation:Optional
 	VictorOpsRoutingKeySecretRef *v2.SecretKeySelector `json:"victorOpsRoutingKeySecretRef,omitempty" tf:"-"`
+
+	// Template, using ${field} interpolation, that renders the HTTP body MongoDB Cloud sends with each webhook notification. Must render valid JSON. When unset, MongoDB Cloud sends its default JSON payload.
+	// +kubebuilder:validation:Optional
+	WebhookBodyTemplateSecretRef *v2.SecretKeySelector `json:"webhookBodyTemplateSecretRef,omitempty" tf:"-"`
+
+	// Template, using ${field} interpolation, that renders the HTTP headers MongoDB Cloud sends with each webhook notification. Must render a JSON object mapping header name to header value. The webhook secret and the signature header are NOT exposed to templates.
+	// +kubebuilder:validation:Optional
+	WebhookHeadersTemplateSecretRef *v2.SecretKeySelector `json:"webhookHeadersTemplateSecretRef,omitempty" tf:"-"`
 
 	// Optional authentication secret for the WEBHOOK notifications type.
 	// +kubebuilder:validation:Optional

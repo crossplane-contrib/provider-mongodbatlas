@@ -1,0 +1,16 @@
+apiVersion: org.mongodbatlas.crossplane.io/v1alpha1
+kind: DelegationSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: org/v1alpha1/delegationsettings
+    upjet.upbound.io/manual-intervention: "Cannot be cleaned up: Delete is a no-op in Atlas, so the organization keeps these delegation settings."
+  labels:
+    testing.upbound.io/example-name: delegationsettings-example
+  name: delegationsettings-example
+spec:
+  forProvider:
+    delegatedMcpAccess: READ_ONLY
+    delegatedPartnerAccess: DISALLOWED
+    idleRefreshTokenLifetime: 3600
+    maximumRefreshTokenLifetime: 86400
+    orgId: ${data.mongodbatlas.org_id}

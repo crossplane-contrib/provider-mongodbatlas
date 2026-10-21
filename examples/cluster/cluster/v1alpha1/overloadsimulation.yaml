@@ -1,0 +1,42 @@
+apiVersion: cluster.mongodbatlas.crossplane.io/v1alpha1
+kind: OverloadSimulation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/overloadsimulation
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: overloadsimulation-example
+  name: overloadsimulation-example
+spec:
+  forProvider:
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: overloadsimulation-example
+    durationSeconds: 900
+    projectId: ${data.mongodbatlas.project_id}
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/overloadsimulation
+  labels:
+    testing.upbound.io/example-name: overloadsimulation-example
+  name: overloadsimulation-example
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    # Overload simulations need MongoDB 9.0 or later.
+    mongoDbMajorVersion: "9.0"
+    name: ${Rand.RFC1123Subdomain}
+    projectId: ${data.mongodbatlas.project_id}
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: M10
+          nodeCount: 3
+        priority: 7
+        providerName: AWS
+        regionName: US_EAST_1

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: backupschedules.cloud.mongodbatlas.m.crossplane.io
 spec:
   group: cloud.mongodbatlas.m.crossplane.io
@@ -149,6 +149,14 @@ spec:
                             type: string
                         type: object
                     type: object
+                  copyPolicyItemsEnabled:
+                    description: 'Flag that selects copy-policy mode. Set to true
+                      to use copy_policy_items or last_number_of_snapshots. When false
+                      or omitted, use frequencies. This transition is one-way: after
+                      you apply with copy_policy_items_enabled = true, Atlas cannot
+                      disable copy-policy items. You can still switch each copy_settings
+                      entry between copy_policy_items and last_number_of_snapshots.'
+                    type: boolean
                   copySettings:
                     description: List that contains a document for each copy setting
                       item in the desired backup policy. See below
@@ -159,13 +167,51 @@ spec:
                             provider that stores the snapshot copy. i.e. "AWS" "AZURE"
                             "GCP"
                           type: string
+                        copyPolicyItems:
+                          description: Copy-policy items when copy_policy_items_enabled
+                            is true. Mutually exclusive with frequencies and last_number_of_snapshots.
+                            See below.
+                          items:
+                            properties:
+                              frequencyType:
+                                description: 'Frequency associated with the copy policy
+                                  item: hourly, daily, weekly, monthly, yearly, or
+                                  ondemand.'
+                                type: string
+                              retentionUnit:
+                                description: 'Unit of time for copy retention: days,
+                                  weeks, months, or years. Required by the API except
+                                  when frequency_type is ondemand.'
+                                type: string
+                              retentionValue:
+                                description: Value to associate with retention_unit.
+                                  Required by the API except when frequency_type is
+                                  ondemand.
+                                format: int64
+                                type: integer
+                            type: object
+                          type: array
                         frequencies:
-                          description: List that describes which types of snapshots
-                            to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
+                          description: '(Deprecated, Optional) List that describes
+                            which types of snapshots to copy when copy_policy_items_enabled
+                            is false or omitted. Values: HOURLY, DAILY, WEEKLY, MONTHLY,
+                            YEARLY, ON_DEMAND. Mutually exclusive with copy_policy_items
+                            and last_number_of_snapshots on the same entry. You can
+                            switch an entry from frequencies to copy_policy_items
+                            or last_number_of_snapshots in one apply; the switch back
+                            is not possible because copy_policy_items_enabled cannot
+                            be turned off once it is true. Use copy_policy_items or
+                            last_number_of_snapshots instead.'
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
+                        lastNumberOfSnapshots:
+                          description: Number of most recent snapshots to copy, from
+                            1 to 500, when copy_policy_items_enabled is true. Mutually
+                            exclusive with frequencies and copy_policy_items.
+                          format: int64
+                          type: integer
                         regionName:
                           description: Target region to copy snapshots belonging to
                             replicationSpecId to. Please supply the 'Atlas Region'
@@ -191,6 +237,11 @@ spec:
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
+                  deleteCopySnapshots:
+                    description: Specify true to delete snapshot copies when their
+                      associated copy_policy_items are removed. Requires copy_policy_items_enabled
+                      to be true.
+                    type: boolean
                   export:
                     description: Policy for automatically exporting Cloud Backup Snapshots.
                       See below
@@ -444,6 +495,11 @@ spec:
                     description: The schedule remains in Atlas and is removed when
                       the cluster is deleted. Defaults to false. See the Delete a
                       Cluster with Backup Compliance Policy guide.
+                    type: boolean
+                  updateCopySnapshots:
+                    description: Specify true to apply the retention changes for updated
+                      copy policy items to snapshot copies that Atlas took previously.
+                      Requires copy_policy_items_enabled to be true.
                     type: boolean
                   updateSnapshots:
                     description: Specify true to apply the retention changes in the
@@ -561,6 +617,14 @@ spec:
                             type: string
                         type: object
                     type: object
+                  copyPolicyItemsEnabled:
+                    description: 'Flag that selects copy-policy mode. Set to true
+                      to use copy_policy_items or last_number_of_snapshots. When false
+                      or omitted, use frequencies. This transition is one-way: after
+                      you apply with copy_policy_items_enabled = true, Atlas cannot
+                      disable copy-policy items. You can still switch each copy_settings
+                      entry between copy_policy_items and last_number_of_snapshots.'
+                    type: boolean
                   copySettings:
                     description: List that contains a document for each copy setting
                       item in the desired backup policy. See below
@@ -571,13 +635,51 @@ spec:
                             provider that stores the snapshot copy. i.e. "AWS" "AZURE"
                             "GCP"
                           type: string
+                        copyPolicyItems:
+                          description: Copy-policy items when copy_policy_items_enabled
+                            is true. Mutually exclusive with frequencies and last_number_of_snapshots.
+                            See below.
+                          items:
+                            properties:
+                              frequencyType:
+                                description: 'Frequency associated with the copy policy
+                                  item: hourly, daily, weekly, monthly, yearly, or
+                                  ondemand.'
+                                type: string
+                              retentionUnit:
+                                description: 'Unit of time for copy retention: days,
+                                  weeks, months, or years. Required by the API except
+                                  when frequency_type is ondemand.'
+                                type: string
+                              retentionValue:
+                                description: Value to associate with retention_unit.
+                                  Required by the API except when frequency_type is
+                                  ondemand.
+                                format: int64
+                                type: integer
+                            type: object
+                          type: array
                         frequencies:
-                          description: List that describes which types of snapshots
-                            to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
+                          description: '(Deprecated, Optional) List that describes
+                            which types of snapshots to copy when copy_policy_items_enabled
+                            is false or omitted. Values: HOURLY, DAILY, WEEKLY, MONTHLY,
+                            YEARLY, ON_DEMAND. Mutually exclusive with copy_policy_items
+                            and last_number_of_snapshots on the same entry. You can
+                            switch an entry from frequencies to copy_policy_items
+                            or last_number_of_snapshots in one apply; the switch back
+                            is not possible because copy_policy_items_enabled cannot
+                            be turned off once it is true. Use copy_policy_items or
+                            last_number_of_snapshots instead.'
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
+                        lastNumberOfSnapshots:
+                          description: Number of most recent snapshots to copy, from
+                            1 to 500, when copy_policy_items_enabled is true. Mutually
+                            exclusive with frequencies and copy_policy_items.
+                          format: int64
+                          type: integer
                         regionName:
                           description: Target region to copy snapshots belonging to
                             replicationSpecId to. Please supply the 'Atlas Region'
@@ -603,6 +705,11 @@ spec:
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
+                  deleteCopySnapshots:
+                    description: Specify true to delete snapshot copies when their
+                      associated copy_policy_items are removed. Requires copy_policy_items_enabled
+                      to be true.
+                    type: boolean
                   export:
                     description: Policy for automatically exporting Cloud Backup Snapshots.
                       See below
@@ -857,6 +964,11 @@ spec:
                       the cluster is deleted. Defaults to false. See the Delete a
                       Cluster with Backup Compliance Policy guide.
                     type: boolean
+                  updateCopySnapshots:
+                    description: Specify true to apply the retention changes for updated
+                      copy policy items to snapshot copies that Atlas took previously.
+                      Requires copy_policy_items_enabled to be true.
+                    type: boolean
                   updateSnapshots:
                     description: Specify true to apply the retention changes in the
                       updated backup policy to snapshots that Atlas took previously.
@@ -944,6 +1056,14 @@ spec:
                     description: The name of the Atlas cluster that contains the snapshot
                       backup policy you want to retrieve.
                     type: string
+                  copyPolicyItemsEnabled:
+                    description: 'Flag that selects copy-policy mode. Set to true
+                      to use copy_policy_items or last_number_of_snapshots. When false
+                      or omitted, use frequencies. This transition is one-way: after
+                      you apply with copy_policy_items_enabled = true, Atlas cannot
+                      disable copy-policy items. You can still switch each copy_settings
+                      entry between copy_policy_items and last_number_of_snapshots.'
+                    type: boolean
                   copySettings:
                     description: List that contains a document for each copy setting
                       item in the desired backup policy. See below
@@ -954,13 +1074,55 @@ spec:
                             provider that stores the snapshot copy. i.e. "AWS" "AZURE"
                             "GCP"
                           type: string
+                        copyPolicyItems:
+                          description: Copy-policy items when copy_policy_items_enabled
+                            is true. Mutually exclusive with frequencies and last_number_of_snapshots.
+                            See below.
+                          items:
+                            properties:
+                              frequencyType:
+                                description: 'Frequency associated with the copy policy
+                                  item: hourly, daily, weekly, monthly, yearly, or
+                                  ondemand.'
+                                type: string
+                              id:
+                                description: Unique identifier of the copy policy
+                                  item.
+                                type: string
+                              retentionUnit:
+                                description: 'Unit of time for copy retention: days,
+                                  weeks, months, or years. Required by the API except
+                                  when frequency_type is ondemand.'
+                                type: string
+                              retentionValue:
+                                description: Value to associate with retention_unit.
+                                  Required by the API except when frequency_type is
+                                  ondemand.
+                                format: int64
+                                type: integer
+                            type: object
+                          type: array
                         frequencies:
-                          description: List that describes which types of snapshots
-                            to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
+                          description: '(Deprecated, Optional) List that describes
+                            which types of snapshots to copy when copy_policy_items_enabled
+                            is false or omitted. Values: HOURLY, DAILY, WEEKLY, MONTHLY,
+                            YEARLY, ON_DEMAND. Mutually exclusive with copy_policy_items
+                            and last_number_of_snapshots on the same entry. You can
+                            switch an entry from frequencies to copy_policy_items
+                            or last_number_of_snapshots in one apply; the switch back
+                            is not possible because copy_policy_items_enabled cannot
+                            be turned off once it is true. Use copy_policy_items or
+                            last_number_of_snapshots instead.'
                           items:
                             type: string
                           type: array
                           x-kubernetes-list-type: set
+                        lastNumberOfSnapshots:
+                          description: Number of most recent snapshots to copy, from
+                            1 to 500, when copy_policy_items_enabled is true. Mutually
+                            exclusive with frequencies and copy_policy_items.
+                          format: int64
+                          type: integer
                         regionName:
                           description: Target region to copy snapshots belonging to
                             replicationSpecId to. Please supply the 'Atlas Region'
@@ -986,6 +1148,11 @@ spec:
                       type: object
                     type: array
                     x-kubernetes-list-type: atomic
+                  deleteCopySnapshots:
+                    description: Specify true to delete snapshot copies when their
+                      associated copy_policy_items are removed. Requires copy_policy_items_enabled
+                      to be true.
+                    type: boolean
                   export:
                     description: Policy for automatically exporting Cloud Backup Snapshots.
                       See below
@@ -1217,6 +1384,11 @@ spec:
                     description: The schedule remains in Atlas and is removed when
                       the cluster is deleted. Defaults to false. See the Delete a
                       Cluster with Backup Compliance Policy guide.
+                    type: boolean
+                  updateCopySnapshots:
+                    description: Specify true to apply the retention changes for updated
+                      copy policy items to snapshot copies that Atlas took previously.
+                      Requires copy_policy_items_enabled to be true.
                     type: boolean
                   updateSnapshots:
                     description: Specify true to apply the retention changes in the

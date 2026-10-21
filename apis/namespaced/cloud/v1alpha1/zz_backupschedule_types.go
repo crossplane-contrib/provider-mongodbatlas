@@ -31,9 +31,15 @@ type BackupScheduleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
+	// Flag that selects copy-policy mode. Set to true to use copy_policy_items or last_number_of_snapshots. When false or omitted, use frequencies. This transition is one-way: after you apply with copy_policy_items_enabled = true, Atlas cannot disable copy-policy items. You can still switch each copy_settings entry between copy_policy_items and last_number_of_snapshots.
+	CopyPolicyItemsEnabled *bool `json:"copyPolicyItemsEnabled,omitempty" tf:"copy_policy_items_enabled,omitempty"`
+
 	// List that contains a document for each copy setting item in the desired backup policy. See below
 	// +listType=atomic
 	CopySettings []CopySettingsInitParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
+
+	// Specify true to delete snapshot copies when their associated copy_policy_items are removed. Requires copy_policy_items_enabled to be true.
+	DeleteCopySnapshots *bool `json:"deleteCopySnapshots,omitempty" tf:"delete_copy_snapshots,omitempty"`
 
 	// Policy for automatically exporting Cloud Backup Snapshots. See below
 	// +listType=atomic
@@ -83,6 +89,9 @@ type BackupScheduleInitParameters struct {
 	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
 	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
 
+	// Specify true to apply the retention changes for updated copy policy items to snapshot copies that Atlas took previously. Requires copy_policy_items_enabled to be true.
+	UpdateCopySnapshots *bool `json:"updateCopySnapshots,omitempty" tf:"update_copy_snapshots,omitempty"`
+
 	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 
@@ -101,9 +110,15 @@ type BackupScheduleObservation struct {
 	// The name of the Atlas cluster that contains the snapshot backup policy you want to retrieve.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
+	// Flag that selects copy-policy mode. Set to true to use copy_policy_items or last_number_of_snapshots. When false or omitted, use frequencies. This transition is one-way: after you apply with copy_policy_items_enabled = true, Atlas cannot disable copy-policy items. You can still switch each copy_settings entry between copy_policy_items and last_number_of_snapshots.
+	CopyPolicyItemsEnabled *bool `json:"copyPolicyItemsEnabled,omitempty" tf:"copy_policy_items_enabled,omitempty"`
+
 	// List that contains a document for each copy setting item in the desired backup policy. See below
 	// +listType=atomic
 	CopySettings []CopySettingsObservation `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
+
+	// Specify true to delete snapshot copies when their associated copy_policy_items are removed. Requires copy_policy_items_enabled to be true.
+	DeleteCopySnapshots *bool `json:"deleteCopySnapshots,omitempty" tf:"delete_copy_snapshots,omitempty"`
 
 	// Policy for automatically exporting Cloud Backup Snapshots. See below
 	// +listType=atomic
@@ -153,6 +168,9 @@ type BackupScheduleObservation struct {
 	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
 	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
 
+	// Specify true to apply the retention changes for updated copy policy items to snapshot copies that Atlas took previously. Requires copy_policy_items_enabled to be true.
+	UpdateCopySnapshots *bool `json:"updateCopySnapshots,omitempty" tf:"update_copy_snapshots,omitempty"`
+
 	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	UpdateSnapshots *bool `json:"updateSnapshots,omitempty" tf:"update_snapshots,omitempty"`
 
@@ -180,10 +198,18 @@ type BackupScheduleParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
+	// Flag that selects copy-policy mode. Set to true to use copy_policy_items or last_number_of_snapshots. When false or omitted, use frequencies. This transition is one-way: after you apply with copy_policy_items_enabled = true, Atlas cannot disable copy-policy items. You can still switch each copy_settings entry between copy_policy_items and last_number_of_snapshots.
+	// +kubebuilder:validation:Optional
+	CopyPolicyItemsEnabled *bool `json:"copyPolicyItemsEnabled,omitempty" tf:"copy_policy_items_enabled,omitempty"`
+
 	// List that contains a document for each copy setting item in the desired backup policy. See below
 	// +kubebuilder:validation:Optional
 	// +listType=atomic
 	CopySettings []CopySettingsParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
+
+	// Specify true to delete snapshot copies when their associated copy_policy_items are removed. Requires copy_policy_items_enabled to be true.
+	// +kubebuilder:validation:Optional
+	DeleteCopySnapshots *bool `json:"deleteCopySnapshots,omitempty" tf:"delete_copy_snapshots,omitempty"`
 
 	// Policy for automatically exporting Cloud Backup Snapshots. See below
 	// +kubebuilder:validation:Optional
@@ -243,6 +269,10 @@ type BackupScheduleParameters struct {
 	// The schedule remains in Atlas and is removed when the cluster is deleted. Defaults to false. See the Delete a Cluster with Backup Compliance Policy guide.
 	// +kubebuilder:validation:Optional
 	SkipDestroy *bool `json:"skipDestroy,omitempty" tf:"skip_destroy,omitempty"`
+
+	// Specify true to apply the retention changes for updated copy policy items to snapshot copies that Atlas took previously. Requires copy_policy_items_enabled to be true.
+	// +kubebuilder:validation:Optional
+	UpdateCopySnapshots *bool `json:"updateCopySnapshots,omitempty" tf:"update_copy_snapshots,omitempty"`
 
 	// Specify true to apply the retention changes in the updated backup policy to snapshots that Atlas took previously.
 	// +kubebuilder:validation:Optional
@@ -478,14 +508,62 @@ type BackupSchedulePolicyItemYearlyParameters struct {
 	RetentionValue *int64 `json:"retentionValue" tf:"retention_value,omitempty"`
 }
 
+type CopyPolicyItemsInitParameters struct {
+
+	// Frequency associated with the copy policy item: hourly, daily, weekly, monthly, yearly, or ondemand.
+	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
+
+	// Unit of time for copy retention: days, weeks, months, or years. Required by the API except when frequency_type is ondemand.
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	// Value to associate with retention_unit. Required by the API except when frequency_type is ondemand.
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
+type CopyPolicyItemsObservation struct {
+
+	// Frequency associated with the copy policy item: hourly, daily, weekly, monthly, yearly, or ondemand.
+	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
+
+	// Unique identifier of the copy policy item.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Unit of time for copy retention: days, weeks, months, or years. Required by the API except when frequency_type is ondemand.
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	// Value to associate with retention_unit. Required by the API except when frequency_type is ondemand.
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
+type CopyPolicyItemsParameters struct {
+
+	// Frequency associated with the copy policy item: hourly, daily, weekly, monthly, yearly, or ondemand.
+	// +kubebuilder:validation:Optional
+	FrequencyType *string `json:"frequencyType" tf:"frequency_type,omitempty"`
+
+	// Unit of time for copy retention: days, weeks, months, or years. Required by the API except when frequency_type is ondemand.
+	// +kubebuilder:validation:Optional
+	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
+
+	// Value to associate with retention_unit. Required by the API except when frequency_type is ondemand.
+	// +kubebuilder:validation:Optional
+	RetentionValue *int64 `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+}
+
 type CopySettingsInitParameters struct {
 
 	// Human-readable label that identifies the cloud provider that stores the snapshot copy. i.e. "AWS" "AZURE" "GCP"
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
-	// List that describes which types of snapshots to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
+	// Copy-policy items when copy_policy_items_enabled is true. Mutually exclusive with frequencies and last_number_of_snapshots. See below.
+	CopyPolicyItems []CopyPolicyItemsInitParameters `json:"copyPolicyItems,omitempty" tf:"copy_policy_items,omitempty"`
+
+	// (Deprecated, Optional) List that describes which types of snapshots to copy when copy_policy_items_enabled is false or omitted. Values: HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY, ON_DEMAND. Mutually exclusive with copy_policy_items and last_number_of_snapshots on the same entry. You can switch an entry from frequencies to copy_policy_items or last_number_of_snapshots in one apply; the switch back is not possible because copy_policy_items_enabled cannot be turned off once it is true. Use copy_policy_items or last_number_of_snapshots instead.
 	// +listType=set
 	Frequencies []*string `json:"frequencies,omitempty" tf:"frequencies,omitempty"`
+
+	// Number of most recent snapshots to copy, from 1 to 500, when copy_policy_items_enabled is true. Mutually exclusive with frequencies and copy_policy_items.
+	LastNumberOfSnapshots *int64 `json:"lastNumberOfSnapshots,omitempty" tf:"last_number_of_snapshots,omitempty"`
 
 	// Target region to copy snapshots belonging to replicationSpecId to. Please supply the 'Atlas Region' which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/ 'regions' link
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
@@ -502,9 +580,15 @@ type CopySettingsObservation struct {
 	// Human-readable label that identifies the cloud provider that stores the snapshot copy. i.e. "AWS" "AZURE" "GCP"
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
-	// List that describes which types of snapshots to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
+	// Copy-policy items when copy_policy_items_enabled is true. Mutually exclusive with frequencies and last_number_of_snapshots. See below.
+	CopyPolicyItems []CopyPolicyItemsObservation `json:"copyPolicyItems,omitempty" tf:"copy_policy_items,omitempty"`
+
+	// (Deprecated, Optional) List that describes which types of snapshots to copy when copy_policy_items_enabled is false or omitted. Values: HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY, ON_DEMAND. Mutually exclusive with copy_policy_items and last_number_of_snapshots on the same entry. You can switch an entry from frequencies to copy_policy_items or last_number_of_snapshots in one apply; the switch back is not possible because copy_policy_items_enabled cannot be turned off once it is true. Use copy_policy_items or last_number_of_snapshots instead.
 	// +listType=set
 	Frequencies []*string `json:"frequencies,omitempty" tf:"frequencies,omitempty"`
+
+	// Number of most recent snapshots to copy, from 1 to 500, when copy_policy_items_enabled is true. Mutually exclusive with frequencies and copy_policy_items.
+	LastNumberOfSnapshots *int64 `json:"lastNumberOfSnapshots,omitempty" tf:"last_number_of_snapshots,omitempty"`
 
 	// Target region to copy snapshots belonging to replicationSpecId to. Please supply the 'Atlas Region' which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/ 'regions' link
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
@@ -522,10 +606,18 @@ type CopySettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
-	// List that describes which types of snapshots to copy. i.e. "HOURLY" "DAILY" "WEEKLY" "MONTHLY" "ON_DEMAND"
+	// Copy-policy items when copy_policy_items_enabled is true. Mutually exclusive with frequencies and last_number_of_snapshots. See below.
+	// +kubebuilder:validation:Optional
+	CopyPolicyItems []CopyPolicyItemsParameters `json:"copyPolicyItems,omitempty" tf:"copy_policy_items,omitempty"`
+
+	// (Deprecated, Optional) List that describes which types of snapshots to copy when copy_policy_items_enabled is false or omitted. Values: HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY, ON_DEMAND. Mutually exclusive with copy_policy_items and last_number_of_snapshots on the same entry. You can switch an entry from frequencies to copy_policy_items or last_number_of_snapshots in one apply; the switch back is not possible because copy_policy_items_enabled cannot be turned off once it is true. Use copy_policy_items or last_number_of_snapshots instead.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Frequencies []*string `json:"frequencies,omitempty" tf:"frequencies,omitempty"`
+
+	// Number of most recent snapshots to copy, from 1 to 500, when copy_policy_items_enabled is true. Mutually exclusive with frequencies and copy_policy_items.
+	// +kubebuilder:validation:Optional
+	LastNumberOfSnapshots *int64 `json:"lastNumberOfSnapshots,omitempty" tf:"last_number_of_snapshots,omitempty"`
 
 	// Target region to copy snapshots belonging to replicationSpecId to. Please supply the 'Atlas Region' which can be found under https://www.mongodb.com/docs/atlas/reference/cloud-providers/ 'regions' link
 	// +kubebuilder:validation:Optional

@@ -665,6 +665,16 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 		*out = new(v2.LocalSecretKeySelector)
 		**out = **in
 	}
+	if in.WebhookBodyTemplateSecretRef != nil {
+		in, out := &in.WebhookBodyTemplateSecretRef, &out.WebhookBodyTemplateSecretRef
+		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
+	if in.WebhookHeadersTemplateSecretRef != nil {
+		in, out := &in.WebhookHeadersTemplateSecretRef, &out.WebhookHeadersTemplateSecretRef
+		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
 	if in.WebhookSecretSecretRef != nil {
 		in, out := &in.WebhookSecretSecretRef, &out.WebhookSecretSecretRef
 		*out = new(v2.LocalSecretKeySelector)
@@ -904,6 +914,16 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 	}
 	if in.VictorOpsRoutingKeySecretRef != nil {
 		in, out := &in.VictorOpsRoutingKeySecretRef, &out.VictorOpsRoutingKeySecretRef
+		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
+	if in.WebhookBodyTemplateSecretRef != nil {
+		in, out := &in.WebhookBodyTemplateSecretRef, &out.WebhookBodyTemplateSecretRef
+		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
+	if in.WebhookHeadersTemplateSecretRef != nil {
+		in, out := &in.WebhookHeadersTemplateSecretRef, &out.WebhookHeadersTemplateSecretRef
 		*out = new(v2.LocalSecretKeySelector)
 		**out = **in
 	}

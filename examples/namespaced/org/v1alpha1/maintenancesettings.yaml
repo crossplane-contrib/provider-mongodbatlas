@@ -1,0 +1,13 @@
+apiVersion: org.mongodbatlas.m.crossplane.io/v1alpha1
+kind: MaintenanceSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: org/v1alpha1/maintenancesettings
+  labels:
+    testing.upbound.io/example-name: maintenancesettings-example
+  name: maintenancesettings-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    orgId: ${data.mongodbatlas.org_id}
+    waveAssignmentMode: MANUAL

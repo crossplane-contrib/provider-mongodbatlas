@@ -1,0 +1,43 @@
+apiVersion: cluster.mongodbatlas.crossplane.io/v1alpha1
+kind: OverloadSimulation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/overloadsimulation
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+    durationSeconds: ${var.duration_seconds}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: this
+
+---
+
+apiVersion: mongodbatlas.crossplane.io/v1alpha3
+kind: AdvancedCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cluster/v1alpha1/overloadsimulation
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    clusterType: REPLICASET
+    name: ${var.cluster_name}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    replicationSpecs:
+    - regionConfigs:
+      - electableSpecs:
+          instanceSize: ${var.instance_size}
+          nodeCount: 3
+        priority: 7
+        providerName: ${var.cloud_provider}
+        regionName: ${var.region_name}

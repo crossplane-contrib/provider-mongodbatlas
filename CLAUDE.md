@@ -65,6 +65,19 @@ Each resource sets `r.ExternalName` in its configurator using constructors from 
 4. Wraps `GetIDFn` to accept the external-name annotation as canonical ID when present.
 5. Wraps `GetExternalNameFn` with a fallback to re-evaluate the template from state fields when `id` is absent.
 
+## Offline diff server
+
+`provider internal diff-server [--network tcp|unix] [--address :9099]` serves upjet's diff gRPC service (`proto/diff/v1alpha1`, `pkg/diffserver`), which the Crossplane CLI drives to simulate changes. `start` is the default command, so the image keeps its behaviour when invoked with flags alone. The server never contacts the MongoDB Atlas API or a cluster:
+
+- It is dispatched before `ctrl.GetConfig()` in `cmd/provider/main.go`, so no kubeconfig is needed; ProviderConfigs come from each request's object store.
+- `internal/clients/offline.go` replaces the Terraform setup: the ProviderConfig is resolved (a missing one fails like in a reconcile) but its credentials are never read. One Atlas client, built by `xpshim.NewOfflineClient` in `hack/xpshim.go.tmpl` with a placeholder API key, serves as the SDKv2 `Meta` and as the provider data of the framework resources, and every request it would send is refused by a transport that returns `DIFF_COMPUTATION_NOT_SUPPORTED`. The upstream framework `Configure`, which reads the `MONGODB_ATLAS_*` environment and can call AWS Secrets Manager, never runs: `offlineProvider` wraps the upstream provider with a `Configure` that hands out the offline client.
+- `xpshim.NewOfflineClient` lives in the injected template because the Atlas client type is in the Terraform provider's `internal/config`. It builds the client the way the configured provider does, checks that every Atlas SDK shares the one HTTP client, and swaps that client's transport. Edit `hack/xpshim.go.tmpl`, then copy it over `third_party/.../xpshim/xpshim.go` (`make provider-source` only extracts on a fresh checkout).
+- A resource whose plan needs the API (the ResourcePolicy validates its policies in `ModifyPlan`) fails with `FailedPrecondition` instead of reaching out. Every other resource plans offline.
+- `cmd/provider/diffserver_test.go` drives the real server over a unix socket; `internal/clients/offline_test.go` proves no request reaches the process's network boundary with an `HTTPS_PROXY` tripwire and a positive control, through the resources' own read functions.
+- `resolveModern` clears the namespace for a `ClusterProviderConfig`: the server's in-memory store keys objects on the exact namespace, unlike the API server.
+- `package/crossplane.yaml` declares the `DiffServer` capability. The CLI only runs an image whose package metadata carries it (`crossplane resource simulate` reports "package does not declare the DiffServer capability" and falls back to a client-side diff otherwise) and starts the container with `--debug internal diff-server --address :9099`.
+- To try it: `crossplane resource simulate -f resources.yaml --providers providers.yaml`, with a Provider manifest whose `spec.package` is the built xpkg pushed to a registry the Docker daemon can pull from. The CLI still needs a kubeconfig: it reads the live resources and the referenced ProviderConfigs from the cluster (the ProviderConfig CRDs and objects must exist there), and only the provider discovery is replaced by `--providers`.
+
 ## Conventions
 
 - Every resource must have an `AddResourceConfigurator` in its `config/resources/*.go` with explicit `r.ExternalName` (unless default `identifierFromProvider()` is correct) and `r.References` for `project_id` (or other cross-resource refs)

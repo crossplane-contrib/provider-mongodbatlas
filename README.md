@@ -83,6 +83,11 @@ Build binary:
 make build
 ```
 
+The binary also serves upjet's diff gRPC service for the Crossplane CLI with
+`provider internal diff-server`; it computes plans offline and never contacts
+the MongoDB Atlas API or a cluster. See [CLAUDE.md](CLAUDE.md) for how it is
+kept offline.
+
 ## Report a Bug
 
 For filing bugs, suggesting improvements, or requesting new features, please

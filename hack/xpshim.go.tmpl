@@ -8,9 +8,13 @@
 package xpshim
 
 import (
+	"errors"
+	"net/http"
+
 	tpf "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	"github.com/mongodb/terraform-provider-mongodbatlas/internal/config"
 	"github.com/mongodb/terraform-provider-mongodbatlas/internal/provider"
 )
 
@@ -23,4 +27,40 @@ func GetSDKProvider() *schema.Provider {
 // provider.
 func GetFrameworkProvider() tpf.Provider {
 	return provider.NewFrameworkProvider()
+}
+
+// NewOfflineClient builds the Atlas client that the provider's resources expect
+// as their meta (SDKv2) or provider data (framework), authenticating with the
+// given programmatic API key, and sends every request of every Atlas SDK the
+// client carries through rt instead of the network. It is the hook of the
+// Crossplane provider's offline diff server, whose rt refuses every request.
+//
+// The client is built the way the configured provider builds it, so that it
+// carries every SDK client the resources read off it, and the transport is
+// swapped afterwards: config.NewClient builds one *http.Client and hands it to
+// each SDK, so replacing that client's transport guards them all. The SDK
+// clients are checked to share it, as a change upstream that gave one of them
+// a client of its own would otherwise leave that one unguarded. A programmatic
+// API key is the only credential config.NewClient accepts without a network
+// round trip: a service account mints its token on construction. The Realm
+// client does not use the shared HTTP client and authenticates lazily, so it is
+// replaced with one without keys, which refuses before it sends anything.
+func NewOfflineClient(publicKey, privateKey, terraformVersion string, rt http.RoundTripper) (any, error) {
+	c, err := config.NewClient(&config.Credentials{PublicKey: publicKey, PrivateKey: privateKey}, terraformVersion)
+	if err != nil {
+		return nil, err
+	}
+	hc := c.AtlasV2.GetConfig().HTTPClient
+	for _, other := range []*http.Client{
+		c.AtlasPreview.GetConfig().HTTPClient,
+		c.AtlasV220240530.GetConfig().HTTPClient,
+		c.AtlasV220241113.GetConfig().HTTPClient,
+	} {
+		if other != hc {
+			return nil, errors.New("the Atlas SDK clients do not share one HTTP client, so one transport cannot guard them all")
+		}
+	}
+	hc.Transport = rt
+	c.Realm = &config.RealmClient{}
+	return c, nil
 }

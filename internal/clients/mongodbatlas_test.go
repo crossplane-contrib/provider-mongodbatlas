@@ -4,7 +4,9 @@ import (
 	"context"
 	"testing"
 
+	rtfake "github.com/crossplane/crossplane-runtime/v2/pkg/resource/fake"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/test"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -12,6 +14,11 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client/fake"
+
+	namespacedv1beta1 "github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/v1beta1"
 )
 
 const (
@@ -226,6 +233,84 @@ func TestCredentialHash_ServiceAccountKeys(t *testing.T) {
 			gotEqual := credentialHash(tc.args.a) == credentialHash(tc.args.b)
 			if diff := cmp.Diff(tc.wantEqual, gotEqual); diff != "" {
 				t.Errorf("credentialHash equality: -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+// TestResolveModern asserts that a namespaced managed resource resolves a
+// ClusterProviderConfig without its own namespace, and a ProviderConfig from
+// its own namespace. The fake client keys objects on their exact namespace,
+// like the diff server's in-memory store, so the first case fails without
+// the namespace reset in resolveModern.
+func TestResolveModern(t *testing.T) {
+	const (
+		namespace    = "team-a"
+		pcName       = "default"
+		clusterCreds = "cluster-creds"
+		localCreds   = "namespaced-creds"
+	)
+	scheme := runtime.NewScheme()
+	if err := namespacedv1beta1.SchemeBuilder.AddToScheme(scheme); err != nil {
+		t.Fatalf("cannot build the test scheme: %v", err)
+	}
+	credentials := func(secret string) namespacedv1beta1.ProviderCredentials {
+		return namespacedv1beta1.ProviderCredentials{
+			Source: xpv2.CredentialsSourceSecret,
+			CommonCredentialSelectors: xpv2.CommonCredentialSelectors{
+				SecretRef: &xpv2.SecretKeySelector{
+					SecretReference: xpv2.SecretReference{Name: secret, Namespace: "crossplane-system"},
+					Key:             "credentials",
+				},
+			},
+		}
+	}
+
+	type want struct {
+		secret xpv2.SecretReference
+		err    bool
+	}
+	cases := map[string]struct {
+		kind string
+		want want
+	}{
+		"ClusterProviderConfigFromNamespacedResource": {
+			kind: namespacedv1beta1.ClusterProviderConfigKind,
+			want: want{secret: xpv2.SecretReference{Name: clusterCreds, Namespace: "crossplane-system"}},
+		},
+		"ProviderConfigFromOwnNamespace": {
+			kind: namespacedv1beta1.ProviderConfigKind,
+			want: want{secret: xpv2.SecretReference{Name: localCreds, Namespace: namespace}},
+		},
+		"UnknownKind": {
+			kind: "NoSuchProviderConfig",
+			want: want{err: true},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			kc := fake.NewClientBuilder().WithScheme(scheme).WithObjects(
+				&namespacedv1beta1.ClusterProviderConfig{
+					ObjectMeta: metav1.ObjectMeta{Name: pcName},
+					Spec:       namespacedv1beta1.ProviderConfigSpec{Credentials: credentials(clusterCreds)},
+				},
+				&namespacedv1beta1.ProviderConfig{
+					ObjectMeta: metav1.ObjectMeta{Name: pcName, Namespace: namespace},
+					Spec:       namespacedv1beta1.ProviderConfigSpec{Credentials: credentials(localCreds)},
+				},
+			).Build()
+			mg := &rtfake.ModernManaged{ObjectMeta: metav1.ObjectMeta{Name: "example", Namespace: namespace, UID: "test-uid"}}
+			mg.SetProviderConfigReference(&xpv2.ProviderConfigReference{Kind: tc.kind, Name: pcName})
+
+			got, err := resolveModern(context.Background(), kc, mg)
+			if (err != nil) != tc.want.err {
+				t.Fatalf("resolveModern() error = %v, wantErr %v", err, tc.want.err)
+			}
+			if err != nil {
+				return
+			}
+			if diff := cmp.Diff(tc.want.secret, got.Credentials.SecretRef.SecretReference); diff != "" {
+				t.Errorf("resolveModern() resolved the wrong ProviderConfig (-want +got):\n%s", diff)
 			}
 		})
 	}

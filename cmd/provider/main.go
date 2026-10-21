@@ -36,7 +36,9 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/customresourcesgate"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/diffserver"
 	"github.com/go-logr/logr"
 	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 	"google.golang.org/grpc"
@@ -47,6 +49,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
@@ -73,6 +76,10 @@ const (
 	tlsServerCertDirEnvVar  = "TLS_SERVER_CERTS_DIR"
 	certsDirEnvVar          = "CERTS_DIR"
 	tlsServerCertDir        = "/tls/server"
+
+	// The commands kong parses, as Context.Command reports them.
+	cmdStart      = "start"
+	cmdDiffServer = "internal diff-server"
 )
 
 type certsDir string
@@ -83,10 +90,12 @@ func (d certsDir) BeforeApply(certsDirSet *bool) error {
 	return nil
 }
 
-var cli struct {
+// startCmd runs the provider's controllers. It is the default command, so
+// that the provider keeps behaving as it did before the internal commands
+// were introduced when it is invoked with flags alone.
+type startCmd struct {
 	CertsDir                 certsDir      `default:"${defaultCertsDir}"                  env:"${defautCertsDirEnvVar}"                                                                              help:"The directory that contains the server key and certificate"`
 	ChangelogsSocketPath     string        `default:"/var/run/changelogs/changelogs.sock" env:"CHANGELOGS_SOCKET_PATH"                                                                               help:"Path for changelogs socket (if enabled)"`
-	Debug                    bool          `help:"Run with debug logging."                short:"d"`
 	EnableChangeLogs         bool          `default:"false"                               env:"ENABLE_CHANGE_LOGS"                                                                                   help:"Enable support for capturing change logs during reconciliation."`
 	EnableManagementPolicies bool          `default:"true"                                env:"ENABLE_MANAGEMENT_POLICIES"                                                                           help:"Enable support for Management Policies."`
 	EnableSecretCache        bool          `default:"true"                                env:"ENABLE_SECRET_CACHE"                                                                                  help:"Enable caching of Secrets via an informer. Disabling it routes Secret reads through live API calls, trading memory for API server QPS."`
@@ -98,6 +107,23 @@ var cli struct {
 	PprofBindAddress         string        `default:""                                    env:"PPROF_BIND_ADDRESS"                                                                                   help:"The address the pprof profiling server listens on (e.g. :8083). Empty disables profiling."`
 	SyncPeriod               time.Duration `default:"1h"                                  help:"Controller manager sync period such as 300ms, 1.5h, or 2h45m"                                        short:"s"`
 	WebhookPort              int           `default:"9443"                                env:"WEBHOOK_PORT"                                                                                         help:"The port the webhook listens on"`
+}
+
+// diffServerCmd serves upjet's diff gRPC service, which the Crossplane CLI
+// drives to simulate changes. It never contacts the MongoDB Atlas API or a
+// cluster: plans are computed offline from the resources in each request.
+type diffServerCmd struct {
+	Network string `default:"tcp"   enum:"tcp,unix"           env:"DIFF_SERVER_NETWORK"                                                                   help:"The network the diff gRPC server listens on."`
+	Address string `default:":9099" env:"DIFF_SERVER_ADDRESS" help:"The address the diff gRPC server listens on. A socket path when the network is unix."`
+}
+
+var cli struct {
+	Debug bool `help:"Run with debug logging." short:"d"`
+
+	Start    startCmd `cmd:"" default:"withargs" help:"Start the provider's controllers."`
+	Internal struct {
+		DiffServer diffServerCmd `cmd:"" help:"Start a gRPC server serving the provider's diff services. It never contacts the MongoDB Atlas API or a cluster: plans are computed offline from the resources in each request." name:"diff-server"`
+	} `cmd:"" help:"Commands used internally by the Crossplane ecosystem. No compatibility guarantees are made for them."`
 }
 
 func main() {
@@ -124,16 +150,30 @@ func main() {
 		ctrl.SetLogger(logr.Discard())
 	}
 
-	// currently, we configure the jitter to be the 5% of the poll interval
-	pollJitter := time.Duration(float64(cli.PollInterval) * 0.05)
+	switch ctx.Command() {
+	case cmdDiffServer:
+		// Dispatched before a cluster connection (ctrl.GetConfig and the
+		// manager below) becomes a requirement for running this binary at
+		// all: the diff server serves from the resources in each request and
+		// never talks to a cluster or to the Atlas API.
+		ctx.FatalIfErrorf(serveDiffServer(ctrl.SetupSignalHandler(), log, cli.Internal.DiffServer.Network, cli.Internal.DiffServer.Address, config.GetidentifierFromProvider(), config.GetProviderNamespaced()), "Cannot run the diff gRPC server")
+		return
+	case cmdStart:
+		// The provider's controllers are started below.
+	default:
+		ctx.Fatalf("unknown command %q", ctx.Command())
+	}
 
-	log.Debug("Starting", "sync-period", cli.SyncPeriod.String(), "poll-interval", cli.PollInterval.String(), "poll-jitter", pollJitter, "max-reconcile-rate", cli.MaxReconcileRate)
+	// currently, we configure the jitter to be the 5% of the poll interval
+	pollJitter := time.Duration(float64(cli.Start.PollInterval) * 0.05)
+
+	log.Debug("Starting", "sync-period", cli.Start.SyncPeriod.String(), "poll-interval", cli.Start.PollInterval.String(), "poll-jitter", pollJitter, "max-reconcile-rate", cli.Start.MaxReconcileRate)
 
 	cfg, err := ctrl.GetConfig()
 	ctx.FatalIfErrorf(err, "Cannot get API server rest config")
 
 	if !certsDirSet {
-		cli.CertsDir = certsDirFromEnv(cli.CertsDir)
+		cli.Start.CertsDir = certsDirFromEnv(cli.Start.CertsDir)
 	}
 
 	// The scheme must be fully populated before ctrl.NewManager runs: the CRD
@@ -155,7 +195,7 @@ func main() {
 	ctx.FatalIfErrorf(authv1.AddToScheme(scheme), "Cannot add k8s authorization APIs to scheme")
 
 	var clientOpts client.Options
-	if !cli.EnableSecretCache {
+	if !cli.Start.EnableSecretCache {
 		clientOpts = client.Options{
 			Cache: &client.CacheOptions{DisableFor: []client.Object{&corev1.Secret{}}},
 		}
@@ -163,10 +203,10 @@ func main() {
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
 		Scheme:           scheme,
-		LeaderElection:   cli.LeaderElection,
+		LeaderElection:   cli.Start.LeaderElection,
 		LeaderElectionID: "crossplane-leader-election-upjet-provider-mongodbatlas",
 		Cache: cache.Options{
-			SyncPeriod:       &cli.SyncPeriod,
+			SyncPeriod:       &cli.Start.SyncPeriod,
 			DefaultTransform: cache.TransformStripManagedFields(),
 			// Strips the OpenAPI schema (and other non-critical fields) from
 			// cached CRDs: the SafeStart gate below only needs GVK +
@@ -182,14 +222,14 @@ func main() {
 			},
 		},
 		Client:           clientOpts,
-		PprofBindAddress: cli.PprofBindAddress,
+		PprofBindAddress: cli.Start.PprofBindAddress,
 		Metrics: metricsserver.Options{
-			BindAddress: cli.MetricsBindAddress,
+			BindAddress: cli.Start.MetricsBindAddress,
 		},
 		WebhookServer: webhook.NewServer(
 			webhook.Options{
-				CertDir: string(cli.CertsDir),
-				Port:    cli.WebhookPort,
+				CertDir: string(cli.Start.CertsDir),
+				Port:    cli.Start.WebhookPort,
 			}),
 		LeaderElectionResourceLock: resourcelock.LeasesResourceLock,
 		LeaseDuration:              func() *time.Duration { d := 60 * time.Second; return &d }(),
@@ -211,12 +251,12 @@ func main() {
 
 	clusterOpts := tjcontroller.Options{
 		Logger:                  log,
-		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.MaxReconcileRate),
-		PollInterval:            cli.PollInterval,
-		MaxConcurrentReconciles: cli.MaxReconcileRate,
+		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.Start.MaxReconcileRate),
+		PollInterval:            cli.Start.PollInterval,
+		MaxConcurrentReconciles: cli.Start.MaxReconcileRate,
 		Features:                &feature.Flags{},
 		MetricOptions: &xpcontroller.MetricOptions{
-			PollStateMetricInterval: cli.PollStateMetricInterval,
+			PollStateMetricInterval: cli.Start.PollStateMetricInterval,
 			MRMetrics:               metricRecorder,
 			MRStateMetrics:          stateMetrics,
 		},
@@ -224,17 +264,17 @@ func main() {
 		SetupFn:               setupFn,
 		OperationTrackerStore: otStore,
 		PollJitter:            pollJitter,
-		StartWebhooks:         cli.CertsDir != "",
+		StartWebhooks:         cli.Start.CertsDir != "",
 	}
 
 	namespacedOpts := tjcontroller.Options{
 		Logger:                  log,
-		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.MaxReconcileRate),
-		PollInterval:            cli.PollInterval,
-		MaxConcurrentReconciles: cli.MaxReconcileRate,
+		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.Start.MaxReconcileRate),
+		PollInterval:            cli.Start.PollInterval,
+		MaxConcurrentReconciles: cli.Start.MaxReconcileRate,
 		Features:                &feature.Flags{},
 		MetricOptions: &xpcontroller.MetricOptions{
-			PollStateMetricInterval: cli.PollStateMetricInterval,
+			PollStateMetricInterval: cli.Start.PollStateMetricInterval,
 			MRMetrics:               metricRecorder,
 			MRStateMetrics:          stateMetrics,
 		},
@@ -242,22 +282,22 @@ func main() {
 		SetupFn:               setupFn,
 		OperationTrackerStore: otStore,
 		PollJitter:            pollJitter,
-		StartWebhooks:         cli.CertsDir != "",
+		StartWebhooks:         cli.Start.CertsDir != "",
 	}
 
-	if cli.EnableManagementPolicies {
+	if cli.Start.EnableManagementPolicies {
 		clusterOpts.Features.Enable(features.EnableBetaManagementPolicies)
 		namespacedOpts.Features.Enable(features.EnableBetaManagementPolicies)
 		log.Info("Beta feature enabled", "flag", features.EnableBetaManagementPolicies)
 	}
 
-	if cli.EnableChangeLogs {
+	if cli.Start.EnableChangeLogs {
 		clusterOpts.Features.Enable(feature.EnableAlphaChangeLogs)
 		namespacedOpts.Features.Enable(feature.EnableAlphaChangeLogs)
 		log.Info("Alpha feature enabled", "flag", feature.EnableAlphaChangeLogs)
 
-		conn, err := grpc.NewClient("unix://"+cli.ChangelogsSocketPath, grpc.WithTransportCredentials(insecure.NewCredentials()))
-		ctx.FatalIfErrorf(err, "failed to create change logs client connection at %s", cli.ChangelogsSocketPath)
+		conn, err := grpc.NewClient("unix://"+cli.Start.ChangelogsSocketPath, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		ctx.FatalIfErrorf(err, "failed to create change logs client connection at %s", cli.Start.ChangelogsSocketPath)
 
 		clo := xpcontroller.ChangeLogOptions{
 			ChangeLogger: managed.NewGRPCChangeLogger(
@@ -288,7 +328,7 @@ func main() {
 		ctx.FatalIfErrorf(controllerNamespaced.Setup(mgr, namespacedOpts), "Cannot setup namespaced MongoDBAtlas controllers")
 	}
 
-	if cli.CertsDir != "" {
+	if cli.Start.CertsDir != "" {
 		ctx.FatalIfErrorf(controllerCluster.SetupWebhookWithManager(mgr), "Cannot setup cluster-scoped conversion webhooks")
 		ctx.FatalIfErrorf(controllerNamespaced.SetupWebhookWithManager(mgr), "Cannot setup namespaced conversion webhooks")
 	}
@@ -356,4 +396,42 @@ func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {
 		}
 	}
 	return true, nil
+}
+
+// serveDiffServer runs the diff gRPC server on the given network and address
+// until the context is cancelled.
+func serveDiffServer(ctx context.Context, log logging.Logger, network, address string, providers ...*ujconfig.Provider) error {
+	s, scheme, err := newDiffServer(log, providers...)
+	if err != nil {
+		return err
+	}
+	return s.Serve(ctx, network, address, scheme)
+}
+
+// newDiffServer returns the diff gRPC server, wired to compute plans offline,
+// and the runtime scheme it decodes plan requests with. The scheme holds the
+// provider's own APIs and the Kubernetes core API, which is all a request can
+// carry: the server never talks to a cluster.
+func newDiffServer(log logging.Logger, providers ...*ujconfig.Provider) (*diffserver.Server, *runtime.Scheme, error) {
+	scheme := runtime.NewScheme()
+	if err := clientgoscheme.AddToScheme(scheme); err != nil {
+		return nil, nil, errors.Wrap(err, "cannot add Kubernetes core APIs to the diff server scheme")
+	}
+	if err := apisCluster.AddToScheme(scheme); err != nil {
+		return nil, nil, errors.Wrap(err, "cannot add cluster-scoped MongoDBAtlas APIs to the diff server scheme")
+	}
+	if err := apisNamespaced.AddToScheme(scheme); err != nil {
+		return nil, nil, errors.Wrap(err, "cannot add namespaced MongoDBAtlas APIs to the diff server scheme")
+	}
+	if len(providers) == 0 {
+		return nil, nil, errors.New("at least one provider configuration is required")
+	}
+	// The upstream framework provider is stateless, so the one instance both
+	// provider configurations carry serves both scopes.
+	s := diffserver.NewServer(
+		diffserver.WithProviderConfigurations(providers...),
+		diffserver.WithLogger(log),
+		diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(providers[0].TerraformPluginFrameworkProvider)),
+	)
+	return s, scheme, nil
 }

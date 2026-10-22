@@ -146,7 +146,9 @@ pull-docs:
 # constructors (legal, since it lives inside the module root), and go.mod has
 # a replace directive pointing at this directory. third_party/ is gitignored;
 # fresh checkouts must run `make provider-source` (wired into build.init and
-# generate.init) before the Go tree compiles.
+# generate.init) before the Go tree compiles. The clone happens once; the
+# xpshim is copied on every run so an edited template reaches existing
+# checkouts (Go's build cache keys on content, so an unchanged copy is free).
 PROVIDER_SOURCE_DIR := third_party/terraform-provider-mongodbatlas
 
 provider-source:
@@ -156,9 +158,9 @@ provider-source:
 		git clone -c advice.detachedHead=false --depth 1 --branch "v$(TERRAFORM_PROVIDER_VERSION)" "$(TERRAFORM_PROVIDER_REPO)" "$(PROVIDER_SOURCE_DIR)" || $(FAIL); \
 		rm -rf "$(PROVIDER_SOURCE_DIR)/.git"; \
 		mkdir -p "$(PROVIDER_SOURCE_DIR)/xpshim"; \
-		cp hack/xpshim.go.tmpl "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go"; \
 		$(OK) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
 	fi
+	@cp hack/xpshim.go.tmpl "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs provider-source
 generate.done: copy-examples

@@ -22,3 +22,6 @@ metadata:
 spec:
   capabilities:
   - SafeStart
+  # The image serves upjet's diff gRPC service from `provider internal
+  # diff-server`, which the Crossplane CLI's resource simulate runs locally.
+  - DiffServer

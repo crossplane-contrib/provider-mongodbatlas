@@ -1,11 +1,11 @@
-# MongoDBAtlas Provider [![v1.5.1](https://img.shields.io/badge/v1.5.1-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.5.1)
+# MongoDBAtlas Provider [![v1.6.0](https://img.shields.io/badge/v1.6.0-green)](https://github.com/crossplane-contrib/provider-mongodbatlas/releases/tag/v1.6.0)
 
 `provider-mongodbatlas` is a [Crossplane](https://crossplane.io/) provider that
 is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 MongoDBAtlas API.
 
-[![Upstream Terraform Provider](https://img.shields.io/badge/upstream_terraform_provider-v2.17.0-blue?logo=terraform)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v2.17.0)
+[![Upstream Terraform Provider](https://img.shields.io/badge/upstream_terraform_provider-v2.20.1-blue?logo=terraform)](https://github.com/mongodb/terraform-provider-mongodbatlas/tree/v2.20.1)
 
 ## Getting Started
 
@@ -19,7 +19,7 @@ kind: Provider
 metadata:
   name: provider-mongodbatlas
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.5.1
+  package: xpkg.upbound.io/crossplane-contrib/provider-mongodbatlas:v1.6.0
 EOF
 ```
 
@@ -82,11 +82,6 @@ Build binary:
 ```console
 make build
 ```
-
-The binary also serves upjet's diff gRPC service for the Crossplane CLI with
-`provider internal diff-server`; it computes plans offline and never contacts
-the MongoDB Atlas API or a cluster. See [CLAUDE.md](CLAUDE.md) for how it is
-kept offline.
 
 ## Report a Bug
 

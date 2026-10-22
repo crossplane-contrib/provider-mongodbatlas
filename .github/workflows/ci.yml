@@ -8,6 +8,10 @@ on:
   workflow_dispatch: {}
 
 env:
+  # Keep temp files off the size-capped tmpfs /tmp of ubuntu-26.04 runners.
+  TMPDIR: /home/runner/work/_temp
+  GOTMPDIR: /home/runner/work/_temp
+
   # Common versions
   DOCKER_BUILDX_VERSION: "v0.33.0"
 

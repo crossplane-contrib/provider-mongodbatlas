@@ -198,6 +198,57 @@ func TestComputedKeyFrameworkResources(t *testing.T) {
 	}
 }
 
+// TestServiceAccountSecretImport covers the org and project
+// ServiceAccountSecret resources. They have no "id" attribute, and Terraform
+// Read finds the secret by secret_id, so an import with only the
+// crossplane.io/external-name annotation must copy it into secret_id, and an
+// unset secret_id must report an empty state, so that Create runs.
+func TestServiceAccountSecretImport(t *testing.T) {
+	cases := map[string]string{
+		"mongodbatlas_service_account_secret":         refs.OrgID,
+		"mongodbatlas_project_service_account_secret": refs.ProjectID,
+	}
+	p := GetProviderNamespaced()
+	for name, parent := range cases {
+		t.Run(name, func(t *testing.T) {
+			r := p.Resources[name]
+			e := r.ExternalName
+
+			if e.SetIdentifierArgumentFn == nil {
+				t.Fatal("SetIdentifierArgumentFn: want set, got nil")
+			}
+			params := map[string]any{parent: "p1", refs.ClientID: "c1"}
+			e.SetIdentifierArgumentFn(params, "s1")
+			if params["secret_id"] != "s1" {
+				t.Errorf("SetIdentifierArgumentFn: want secret_id=%q, got %v", "s1", params["secret_id"])
+			}
+			params = map[string]any{parent: "p1", refs.ClientID: "c1"}
+			e.SetIdentifierArgumentFn(params, "")
+			if _, ok := params["secret_id"]; ok {
+				t.Errorf("SetIdentifierArgumentFn with empty external name: want no secret_id, got %v", params["secret_id"])
+			}
+
+			got, err := e.GetExternalNameFn(map[string]any{parent: "p1", refs.ClientID: "c1", "secret_id": "s1"})
+			if err != nil || got != "s1" {
+				t.Errorf("GetExternalNameFn: want %q, got %q, %v", "s1", got, err)
+			}
+
+			if r.TerraformPluginFrameworkIsStateEmptyFn == nil {
+				t.Fatal("TerraformPluginFrameworkIsStateEmptyFn: want set, got nil")
+			}
+			attrs := map[string]tftypes.Type{"secret_id": tftypes.String}
+			for v, want := range map[string]bool{"": true, "s1": false} {
+				st := tftypes.NewValue(tftypes.Object{AttributeTypes: attrs},
+					map[string]tftypes.Value{"secret_id": tftypes.NewValue(tftypes.String, v)})
+				empty, err := r.TerraformPluginFrameworkIsStateEmptyFn(context.Background(), st, rschema.Schema{})
+				if err != nil || empty != want {
+					t.Errorf("TerraformPluginFrameworkIsStateEmptyFn with secret_id=%q: want %v, got %v, %v", v, want, empty, err)
+				}
+			}
+		})
+	}
+}
+
 // TestAIModelRateLimitExternalName covers mongodbatlas_ai_model_rate_limit,
 // a plugin-framework resource with no "id" attribute. The external name is
 // the user-set model_group_name.

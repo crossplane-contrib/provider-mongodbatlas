@@ -75,9 +75,8 @@ spec:
               forProvider:
                 properties:
                   apiKeyId:
-                    description: |-
-                      hexadecimal digit string that identifies this organization API key that you want to assign to one project.
-                      Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      this organization API key that you want to assign to one project.
                     type: string
                   apiKeyIdRef:
                     description: Reference to a APIKey in mongodbatlas to populate
@@ -156,9 +155,8 @@ spec:
                         type: object
                     type: object
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -237,9 +235,10 @@ spec:
                         type: object
                     type: object
                   roles:
-                    description: |-
-                      readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
-                      Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
+                    description: Human-readable label that identifies the collection
+                      of privileges that MongoDB Cloud grants a specific API key,
+                      MongoDB Cloud user, or MongoDB Cloud team. These roles include
+                      only the specific project-level roles.
                     items:
                       type: string
                     type: array
@@ -259,9 +258,8 @@ spec:
                   autoscaler.
                 properties:
                   apiKeyId:
-                    description: |-
-                      hexadecimal digit string that identifies this organization API key that you want to assign to one project.
-                      Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      this organization API key that you want to assign to one project.
                     type: string
                   apiKeyIdRef:
                     description: Reference to a APIKey in mongodbatlas to populate
@@ -340,9 +338,8 @@ spec:
                         type: object
                     type: object
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -421,9 +418,10 @@ spec:
                         type: object
                     type: object
                   roles:
-                    description: |-
-                      readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
-                      Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
+                    description: Human-readable label that identifies the collection
+                      of privileges that MongoDB Cloud grants a specific API key,
+                      MongoDB Cloud user, or MongoDB Cloud team. These roles include
+                      only the specific project-level roles.
                     items:
                       type: string
                     type: array
@@ -527,21 +525,20 @@ spec:
               atProvider:
                 properties:
                   apiKeyId:
-                    description: |-
-                      hexadecimal digit string that identifies this organization API key that you want to assign to one project.
-                      Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      this organization API key that you want to assign to one project.
                     type: string
                   id:
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   roles:
-                    description: |-
-                      readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
-                      Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
+                    description: Human-readable label that identifies the collection
+                      of privileges that MongoDB Cloud grants a specific API key,
+                      MongoDB Cloud user, or MongoDB Cloud team. These roles include
+                      only the specific project-level roles.
                     items:
                       type: string
                     type: array

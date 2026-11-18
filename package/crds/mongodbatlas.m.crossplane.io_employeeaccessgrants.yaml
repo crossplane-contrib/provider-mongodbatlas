@@ -60,9 +60,7 @@ spec:
               forProvider:
                 properties:
                   clusterName:
-                    description: |-
-                      readable label that identifies this cluster.
-                      Human-readable label that identifies this cluster.
+                    description: Human-readable label that identifies this cluster.
                     type: string
                   clusterNameRef:
                     description: Reference to a AdvancedCluster in mongodbatlas to
@@ -147,19 +145,16 @@ spec:
                         type: object
                     type: object
                   expirationTime:
-                    description: |-
-                      (String) Expiration date for the employee access grant.
-                      Expiration date for the employee access grant.
+                    description: Expiration date for the employee access grant.
                     type: string
                   grantType:
-                    description: |-
-                      (String) Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
-                      Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                    description: Level of access to grant to MongoDB Employees. Possible
+                      values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or
+                      CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -258,9 +253,7 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
-                    description: |-
-                      readable label that identifies this cluster.
-                      Human-readable label that identifies this cluster.
+                    description: Human-readable label that identifies this cluster.
                     type: string
                   clusterNameRef:
                     description: Reference to a AdvancedCluster in mongodbatlas to
@@ -345,19 +338,16 @@ spec:
                         type: object
                     type: object
                   expirationTime:
-                    description: |-
-                      (String) Expiration date for the employee access grant.
-                      Expiration date for the employee access grant.
+                    description: Expiration date for the employee access grant.
                     type: string
                   grantType:
-                    description: |-
-                      (String) Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
-                      Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                    description: Level of access to grant to MongoDB Employees. Possible
+                      values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or
+                      CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -515,26 +505,21 @@ spec:
               atProvider:
                 properties:
                   clusterName:
-                    description: |-
-                      readable label that identifies this cluster.
-                      Human-readable label that identifies this cluster.
+                    description: Human-readable label that identifies this cluster.
                     type: string
                   expirationTime:
-                    description: |-
-                      (String) Expiration date for the employee access grant.
-                      Expiration date for the employee access grant.
+                    description: Expiration date for the employee access grant.
                     type: string
                   grantType:
-                    description: |-
-                      (String) Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
-                      Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
+                    description: Level of access to grant to MongoDB Employees. Possible
+                      values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or
+                      CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
                     type: string
                   id:
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                 type: object
               conditions:

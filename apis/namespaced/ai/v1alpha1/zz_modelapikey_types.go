@@ -15,19 +15,15 @@ import (
 
 type ModelAPIKeyInitParameters struct {
 
-	// (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-	// Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-	// Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
-	// (String) A name for the new API key that will be created.
 	// A name for the new API key that will be created.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -43,71 +39,56 @@ type ModelAPIKeyInitParameters struct {
 
 type ModelAPIKeyObservation struct {
 
-	// (String) Identifier used to reference this API key in admin API calls.
 	// Identifier used to reference this API key in admin API calls.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
-	// (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-	// Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) UTC date when the API key was created. This parameter is formatted as an ISO 8601 timestamp.
 	// UTC date when the API key was created. This parameter is formatted as an ISO 8601 timestamp.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// (String) Name of the user that created this API key. If no user name is available, the user ID is returned.
 	// Name of the user that created this API key. If no user name is available, the user ID is returned.
 	CreatedBy *string `json:"createdBy,omitempty" tf:"created_by,omitempty"`
 
-	// computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
 	// Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
-	// (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-	// Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) UTC date when the API key was last used. This parameter is formatted as an ISO 8601 timestamp.
 	// UTC date when the API key was last used. This parameter is formatted as an ISO 8601 timestamp.
 	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
 
-	// (String) A partially obfuscated version of the API key secret returned when the API key was created.
 	// A partially obfuscated version of the API key secret returned when the API key was created.
 	MaskedSecret *string `json:"maskedSecret,omitempty" tf:"masked_secret,omitempty"`
 
-	// (String) A name for the new API key that will be created.
 	// A name for the new API key that will be created.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (String) A string describing the current status of the API key.
 	// A string describing the current status of the API key.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
 type ModelAPIKeyParameters struct {
 
-	// (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-	// Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-	// Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
-	// (String) A name for the new API key that will be created.
 	// A name for the new API key that will be created.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

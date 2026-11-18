@@ -15,12 +15,10 @@ import (
 
 type LogIntegrationInitParameters struct {
 
-	// (Set of String) Array of log types exported by this integration.
 	// Array of log types exported by this integration.
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -33,14 +31,12 @@ type LogIntegrationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
-	// (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	// OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
 
-	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+	// HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	OtelSuppliedHeaders []OtelSuppliedHeadersInitParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
-	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -48,40 +44,33 @@ type LogIntegrationInitParameters struct {
 type LogIntegrationObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// character hexadecimal digit string that identifies the log integration configuration.
 	// Unique 24-character hexadecimal digit string that identifies the log integration configuration.
 	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
-	// (Set of String) Array of log types exported by this integration.
 	// Array of log types exported by this integration.
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	// OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
 
-	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+	// HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	OtelSuppliedHeaders []OtelSuppliedHeadersObservation `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
-	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LogIntegrationParameters struct {
 
-	// (Set of String) Array of log types exported by this integration.
 	// Array of log types exported by this integration.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
@@ -95,16 +84,14 @@ type LogIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
-	// (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	// OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	// +kubebuilder:validation:Optional
 	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
 
-	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
+	// HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	OtelSuppliedHeaders []OtelSuppliedHeadersParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
-	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -112,30 +99,25 @@ type LogIntegrationParameters struct {
 
 type OtelSuppliedHeadersInitParameters struct {
 
-	// (String) Header name.
 	// Header name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (String, Sensitive) Header value. Redacted in responses.
 	// Header value. Redacted in responses.
 	ValueSecretRef v2.SecretKeySelector `json:"valueSecretRef" tf:"-"`
 }
 
 type OtelSuppliedHeadersObservation struct {
 
-	// (String) Header name.
 	// Header name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type OtelSuppliedHeadersParameters struct {
 
-	// (String) Header name.
 	// Header name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
-	// (String, Sensitive) Header value. Redacted in responses.
 	// Header value. Redacted in responses.
 	// +kubebuilder:validation:Optional
 	ValueSecretRef v2.SecretKeySelector `json:"valueSecretRef" tf:"-"`

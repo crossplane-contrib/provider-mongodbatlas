@@ -59,17 +59,14 @@ spec:
               forProvider:
                 properties:
                   logTypes:
-                    description: |-
-                      (Set of String) Array of log types exported by this integration.
-                      Array of log types exported by this integration.
+                    description: Array of log types exported by this integration.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   orgId:
-                    description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
-                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -154,25 +151,20 @@ spec:
                         type: object
                     type: object
                   otelEndpoint:
-                    description: |-
-                      (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
-                      OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+                    description: OpenTelemetry collector endpoint URL. Must be HTTPS
+                      and not exceed 2048 characters.
                     type: string
                   otelSuppliedHeaders:
-                    description: (Attributes List, Sensitive) HTTP headers for authentication
-                      and configuration. Maximum 10 headers, total size limit 2KB.
-                      (see below for nested schema)
+                    description: HTTP headers for authentication and configuration.
+                      Maximum 10 headers, total size limit 2KB. (see below for nested
+                      schema)
                     items:
                       properties:
                         name:
-                          description: |-
-                            (String) Header name.
-                            Header name.
+                          description: Header name.
                           type: string
                         valueSecretRef:
-                          description: |-
-                            (String, Sensitive) Header value. Redacted in responses.
-                            Header value. Redacted in responses.
+                          description: Header value. Redacted in responses.
                           properties:
                             key:
                               type: string
@@ -186,9 +178,10 @@ spec:
                       type: object
                     type: array
                   type:
-                    description: |-
-                      readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
-                      Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+                    description: Human-readable label that identifies the service
+                      to which you want to integrate with Atlas. The value must match
+                      the log integration type. This value cannot be modified after
+                      the integration is created.
                     type: string
                 type: object
               initProvider:
@@ -205,17 +198,14 @@ spec:
                   autoscaler.
                 properties:
                   logTypes:
-                    description: |-
-                      (Set of String) Array of log types exported by this integration.
-                      Array of log types exported by this integration.
+                    description: Array of log types exported by this integration.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   orgId:
-                    description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
-                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -300,25 +290,20 @@ spec:
                         type: object
                     type: object
                   otelEndpoint:
-                    description: |-
-                      (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
-                      OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+                    description: OpenTelemetry collector endpoint URL. Must be HTTPS
+                      and not exceed 2048 characters.
                     type: string
                   otelSuppliedHeaders:
-                    description: (Attributes List, Sensitive) HTTP headers for authentication
-                      and configuration. Maximum 10 headers, total size limit 2KB.
-                      (see below for nested schema)
+                    description: HTTP headers for authentication and configuration.
+                      Maximum 10 headers, total size limit 2KB. (see below for nested
+                      schema)
                     items:
                       properties:
                         name:
-                          description: |-
-                            (String) Header name.
-                            Header name.
+                          description: Header name.
                           type: string
                         valueSecretRef:
-                          description: |-
-                            (String, Sensitive) Header value. Redacted in responses.
-                            Header value. Redacted in responses.
+                          description: Header value. Redacted in responses.
                           properties:
                             key:
                               type: string
@@ -334,9 +319,10 @@ spec:
                       type: object
                     type: array
                   type:
-                    description: |-
-                      readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
-                      Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+                    description: Human-readable label that identifies the service
+                      to which you want to integrate with Atlas. The value must match
+                      the log integration type. This value cannot be modified after
+                      the integration is created.
                     type: string
                 type: object
               managementPolicies:
@@ -414,45 +400,39 @@ spec:
                   id:
                     type: string
                   integrationId:
-                    description: |-
-                      character hexadecimal digit string that identifies the log integration configuration.
-                      Unique 24-character hexadecimal digit string that identifies the log integration configuration.
+                    description: Unique 24-character hexadecimal digit string that
+                      identifies the log integration configuration.
                     type: string
                   logTypes:
-                    description: |-
-                      (Set of String) Array of log types exported by this integration.
-                      Array of log types exported by this integration.
+                    description: Array of log types exported by this integration.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   orgId:
-                    description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
-                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   otelEndpoint:
-                    description: |-
-                      (String) OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
-                      OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
+                    description: OpenTelemetry collector endpoint URL. Must be HTTPS
+                      and not exceed 2048 characters.
                     type: string
                   otelSuppliedHeaders:
-                    description: (Attributes List, Sensitive) HTTP headers for authentication
-                      and configuration. Maximum 10 headers, total size limit 2KB.
-                      (see below for nested schema)
+                    description: HTTP headers for authentication and configuration.
+                      Maximum 10 headers, total size limit 2KB. (see below for nested
+                      schema)
                     items:
                       properties:
                         name:
-                          description: |-
-                            (String) Header name.
-                            Header name.
+                          description: Header name.
                           type: string
                       type: object
                     type: array
                   type:
-                    description: |-
-                      readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
-                      Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+                    description: Human-readable label that identifies the service
+                      to which you want to integrate with Atlas. The value must match
+                      the log integration type. This value cannot be modified after
+                      the integration is created.
                     type: string
                 type: object
               conditions:

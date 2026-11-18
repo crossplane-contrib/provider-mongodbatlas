@@ -73,24 +73,21 @@ spec:
               forProvider:
                 properties:
                   cloud:
-                    description: |-
-                      (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-                      Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+                    description: Cloud provider scope for this API key. Use "ANY"
+                      for a cloud-agnostic scope. Additional cloud values will be
+                      supported in future API versions.
                     type: string
                   geography:
-                    description: |-
-                      (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-                      Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+                    description: Geography scope for this API key. Use "ANY" for a
+                      geography-agnostic scope. Additional geography values will be
+                      supported in future API versions.
                     type: string
                   name:
-                    description: |-
-                      (String) A name for the new API key that will be created.
-                      A name for the new API key that will be created.
+                    description: A name for the new API key that will be created.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -183,24 +180,21 @@ spec:
                   autoscaler.
                 properties:
                   cloud:
-                    description: |-
-                      (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-                      Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+                    description: Cloud provider scope for this API key. Use "ANY"
+                      for a cloud-agnostic scope. Additional cloud values will be
+                      supported in future API versions.
                     type: string
                   geography:
-                    description: |-
-                      (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-                      Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+                    description: Geography scope for this API key. Use "ANY" for a
+                      geography-agnostic scope. Additional geography values will be
+                      supported in future API versions.
                     type: string
                   name:
-                    description: |-
-                      (String) A name for the new API key that will be created.
-                      A name for the new API key that will be created.
+                    description: A name for the new API key that will be created.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -384,61 +378,52 @@ spec:
               atProvider:
                 properties:
                   apiKeyId:
-                    description: |-
-                      (String) Identifier used to reference this API key in admin API calls.
-                      Identifier used to reference this API key in admin API calls.
+                    description: Identifier used to reference this API key in admin
+                      API calls.
                     type: string
                   cloud:
-                    description: |-
-                      (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-                      Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+                    description: Cloud provider scope for this API key. Use "ANY"
+                      for a cloud-agnostic scope. Additional cloud values will be
+                      supported in future API versions.
                     type: string
                   createdAt:
-                    description: |-
-                      (String) UTC date when the API key was created. This parameter is formatted as an ISO 8601 timestamp.
-                      UTC date when the API key was created. This parameter is formatted as an ISO 8601 timestamp.
+                    description: UTC date when the API key was created. This parameter
+                      is formatted as an ISO 8601 timestamp.
                     type: string
                   createdBy:
-                    description: |-
-                      (String) Name of the user that created this API key. If no user name is available, the user ID is returned.
-                      Name of the user that created this API key. If no user name is available, the user ID is returned.
+                    description: Name of the user that created this API key. If no
+                      user name is available, the user ID is returned.
                     type: string
                   endpoint:
-                    description: |-
-                      computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
-                      Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
+                    description: Server-computed endpoint hostname derived from `cloud`
+                      and `geography`. This field is read-only and must not be supplied
+                      in request bodies.
                     type: string
                   geography:
-                    description: |-
-                      (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-                      Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+                    description: Geography scope for this API key. Use "ANY" for a
+                      geography-agnostic scope. Additional geography values will be
+                      supported in future API versions.
                     type: string
                   id:
                     type: string
                   lastUsedAt:
-                    description: |-
-                      (String) UTC date when the API key was last used. This parameter is formatted as an ISO 8601 timestamp.
-                      UTC date when the API key was last used. This parameter is formatted as an ISO 8601 timestamp.
+                    description: UTC date when the API key was last used. This parameter
+                      is formatted as an ISO 8601 timestamp.
                     type: string
                   maskedSecret:
-                    description: |-
-                      (String) A partially obfuscated version of the API key secret returned when the API key was created.
-                      A partially obfuscated version of the API key secret returned when the API key was created.
+                    description: A partially obfuscated version of the API key secret
+                      returned when the API key was created.
                     type: string
                   name:
-                    description: |-
-                      (String) A name for the new API key that will be created.
-                      A name for the new API key that will be created.
+                    description: A name for the new API key that will be created.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   status:
-                    description: |-
-                      (String) A string describing the current status of the API key.
-                      A string describing the current status of the API key.
+                    description: A string describing the current status of the API
+                      key.
                     type: string
                 type: object
               conditions:

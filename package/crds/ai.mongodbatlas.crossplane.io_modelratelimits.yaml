@@ -73,24 +73,19 @@ spec:
               forProvider:
                 properties:
                   cloud:
-                    description: |-
-                      (String) Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
-                      Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
+                    description: Cloud provider scope. Must be "ANY". Additional values
+                      will be supported in future API versions.
                     type: string
                   geography:
-                    description: |-
-                      (String) Geography scope. Must be "ANY". Additional values will be supported in future API versions.
-                      Geography scope. Must be "ANY". Additional values will be supported in future API versions.
+                    description: Geography scope. Must be "ANY". Additional values
+                      will be supported in future API versions.
                     type: string
                   modelGroupName:
-                    description: |-
-                      (String) The name of the model group to be updated.
-                      The name of the model group to be updated.
+                    description: The name of the model group to be updated.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -169,14 +164,14 @@ spec:
                         type: object
                     type: object
                   requestsPerMinuteLimit:
-                    description: |-
-                      (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
-                      The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+                    description: The number of requests per minute allowed for this
+                      model group. Must be a positive integer. Cannot be more than
+                      the organization level limit for this group model.
                     type: number
                   tokensPerMinuteLimit:
-                    description: |-
-                      (Number) The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
-                      The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+                    description: The number of tokens per minute allowed for this
+                      model group. Must be a positive integer. Cannot be more than
+                      the organization level limit for this group model.
                     type: number
                 type: object
               initProvider:
@@ -193,24 +188,19 @@ spec:
                   autoscaler.
                 properties:
                   cloud:
-                    description: |-
-                      (String) Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
-                      Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
+                    description: Cloud provider scope. Must be "ANY". Additional values
+                      will be supported in future API versions.
                     type: string
                   geography:
-                    description: |-
-                      (String) Geography scope. Must be "ANY". Additional values will be supported in future API versions.
-                      Geography scope. Must be "ANY". Additional values will be supported in future API versions.
+                    description: Geography scope. Must be "ANY". Additional values
+                      will be supported in future API versions.
                     type: string
                   modelGroupName:
-                    description: |-
-                      (String) The name of the model group to be updated.
-                      The name of the model group to be updated.
+                    description: The name of the model group to be updated.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -289,14 +279,14 @@ spec:
                         type: object
                     type: object
                   requestsPerMinuteLimit:
-                    description: |-
-                      (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
-                      The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+                    description: The number of requests per minute allowed for this
+                      model group. Must be a positive integer. Cannot be more than
+                      the organization level limit for this group model.
                     type: number
                   tokensPerMinuteLimit:
-                    description: |-
-                      (Number) The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
-                      The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+                    description: The number of tokens per minute allowed for this
+                      model group. Must be a positive integer. Cannot be more than
+                      the organization level limit for this group model.
                     type: number
                 type: object
               managementPolicies:
@@ -412,48 +402,42 @@ spec:
               atProvider:
                 properties:
                   cloud:
-                    description: |-
-                      (String) Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
-                      Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
+                    description: Cloud provider scope. Must be "ANY". Additional values
+                      will be supported in future API versions.
                     type: string
                   endpoint:
-                    description: |-
-                      computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
-                      Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
+                    description: Server-computed endpoint hostname derived from `cloud`
+                      and `geography`. This field is read-only and must not be supplied
+                      in request bodies.
                     type: string
                   geography:
-                    description: |-
-                      (String) Geography scope. Must be "ANY". Additional values will be supported in future API versions.
-                      Geography scope. Must be "ANY". Additional values will be supported in future API versions.
+                    description: Geography scope. Must be "ANY". Additional values
+                      will be supported in future API versions.
                     type: string
                   id:
                     type: string
                   modelGroupName:
-                    description: |-
-                      (String) The name of the model group to be updated.
-                      The name of the model group to be updated.
+                    description: The name of the model group to be updated.
                     type: string
                   modelNames:
-                    description: |-
-                      (List of String) List of embedding model names included in this model group.
-                      List of embedding model names included in this model group.
+                    description: List of embedding model names included in this model
+                      group.
                     items:
                       type: string
                     type: array
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   requestsPerMinuteLimit:
-                    description: |-
-                      (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
-                      The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+                    description: The number of requests per minute allowed for this
+                      model group. Must be a positive integer. Cannot be more than
+                      the organization level limit for this group model.
                     type: number
                   tokensPerMinuteLimit:
-                    description: |-
-                      (Number) The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
-                      The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
+                    description: The number of tokens per minute allowed for this
+                      model group. Must be a positive integer. Cannot be more than
+                      the organization level limit for this group model.
                     type: number
                 type: object
               conditions:

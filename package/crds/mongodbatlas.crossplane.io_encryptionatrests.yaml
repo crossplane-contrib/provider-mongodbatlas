@@ -73,15 +73,15 @@ spec:
               forProvider:
                 properties:
                   awsKmsConfig:
-                    description: |-
-                      (Block List) Amazon Web Services (AWS) KMS configuration details and encryption at rest configuration set for the specified project. (see below for nested schema)
-                      Amazon Web Services (AWS) KMS configuration details and encryption at rest configuration set for the specified project.
+                    description: Amazon Web Services (AWS) KMS configuration details
+                      and encryption at rest configuration set for the specified project.
                     items:
                       properties:
                         accessKeyIdSecretRef:
-                          description: |-
-                            (String, Sensitive) Unique alphanumeric string that identifies an Identity and Access Management (IAM) access key with permissions required to access your Amazon Web Services (AWS) Customer Master Key (CMK).
-                            Unique alphanumeric string that identifies an Identity and Access Management (IAM) access key with permissions required to access your Amazon Web Services (AWS) Customer Master Key (CMK).
+                          description: Unique alphanumeric string that identifies
+                            an Identity and Access Management (IAM) access key with
+                            permissions required to access your Amazon Web Services
+                            (AWS) Customer Master Key (CMK).
                           properties:
                             key:
                               description: The key to select.
@@ -98,9 +98,9 @@ spec:
                           - namespace
                           type: object
                         customerMasterKeyIdSecretRef:
-                          description: |-
-                            (String, Sensitive) Unique alphanumeric string that identifies the Amazon Web Services (AWS) Customer Master Key (CMK) you used to encrypt and decrypt the MongoDB master keys.
-                            Unique alphanumeric string that identifies the Amazon Web Services (AWS) Customer Master Key (CMK) you used to encrypt and decrypt the MongoDB master keys.
+                          description: Unique alphanumeric string that identifies
+                            the Amazon Web Services (AWS) Customer Master Key (CMK)
+                            you used to encrypt and decrypt the MongoDB master keys.
                           properties:
                             key:
                               description: The key to select.
@@ -117,24 +117,33 @@ spec:
                           - namespace
                           type: object
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified project through Amazon
+                            Web Services (AWS) Key Management Service (KMS). To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         region:
-                          description: |-
-                            hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
-                            Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+                          description: Physical location where MongoDB Atlas deploys
+                            your AWS-hosted MongoDB cluster nodes. The region you
+                            choose can affect network latency for clients accessing
+                            your databases. When MongoDB Cloud deploys a dedicated
+                            cluster, it checks if a VPC or VPC connection exists for
+                            that provider and region. If not, MongoDB Atlas creates
+                            them as part of the deployment. MongoDB Atlas assigns
+                            the VPC a CIDR block. To limit a new VPC peering connection
+                            to one CIDR block and region, create the connection first.
+                            Deploy the cluster after the connection starts.
                           type: string
                         requirePrivateNetworking:
-                          description: |-
-                            (Boolean) Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
-                            Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
+                          description: Enable connection to your Amazon Web Services
+                            (AWS) Key Management Service (KMS) over private networking.
                           type: boolean
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            an Amazon Web Services (AWS) Identity and Access Management
+                            (IAM) role. This IAM role has the permissions required
+                            to manage your AWS customer master key.
                           type: string
                         roleIdRef:
                           description: Reference to a ProviderAccessAuthorization
@@ -213,9 +222,10 @@ spec:
                               type: object
                           type: object
                         secretAccessKeySecretRef:
-                          description: |-
-                            readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
-                            Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
+                          description: Human-readable label of the Identity and Access
+                            Management (IAM) secret access key with permissions required
+                            to access your Amazon Web Services (AWS) customer master
+                            key.
                           properties:
                             key:
                               description: The key to select.
@@ -234,20 +244,18 @@ spec:
                       type: object
                     type: array
                   azureKeyVaultConfig:
-                    description: |-
-                      (Block List) Details that define the configuration of Encryption at Rest using Azure Key Vault (AKV). (see below for nested schema)
-                      Details that define the configuration of Encryption at Rest using Azure Key Vault (AKV).
+                    description: Details that define the configuration of Encryption
+                      at Rest using Azure Key Vault (AKV).
                     items:
                       properties:
                         azureEnvironment:
-                          description: |-
-                            (String) Azure environment in which your account credentials reside.
-                            Azure environment in which your account credentials reside.
+                          description: Azure environment in which your account credentials
+                            reside.
                           type: string
                         clientIdSecretRef:
-                          description: |-
-                            hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
-                            Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
+                          description: Unique 36-hexadecimal character string that
+                            identifies an Azure application associated with your Azure
+                            Active Directory tenant.
                           properties:
                             key:
                               description: The key to select.
@@ -264,14 +272,14 @@ spec:
                           - namespace
                           type: object
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified  project. To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified  project. To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         keyIdentifierSecretRef:
-                          description: |-
-                            (String, Sensitive) Web address with a unique key that identifies for your Azure Key Vault.
-                            Web address with a unique key that identifies for your Azure Key Vault.
+                          description: Web address with a unique key that identifies
+                            for your Azure Key Vault.
                           properties:
                             key:
                               description: The key to select.
@@ -288,29 +296,29 @@ spec:
                           - namespace
                           type: object
                         keyVaultName:
-                          description: |-
-                            (String) Unique string that identifies the Azure Key Vault that contains your key.
-                            Unique string that identifies the Azure Key Vault that contains your key.
+                          description: Unique string that identifies the Azure Key
+                            Vault that contains your key.
                           type: string
                         requirePrivateNetworking:
-                          description: |-
-                            (Boolean) Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
-                            Enable connection to your Azure Key Vault over private networking.
+                          description: Enable connection to your Azure Key Vault over
+                            private networking.
                           type: boolean
                         resourceGroupName:
-                          description: |-
-                            (String) Name of the Azure resource group that contains your Azure Key Vault.
-                            Name of the Azure resource group that contains your Azure Key Vault.
+                          description: Name of the Azure resource group that contains
+                            your Azure Key Vault.
                           type: string
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the Azure Service Principal that Atlas uses to access
+                            the Azure Key Vault.
                           type: string
                         secretSecretRef:
-                          description: |-
-                            (String, Sensitive) Private data that you need secured and that belongs to the specified Azure Key Vault (AKV) tenant (azureKeyVault.tenantID). This data can include any type of sensitive data such as passwords, database connection strings, API keys, and the like. AKV stores this information as encrypted binary data.
-                            Private data that you need secured and that belongs to the specified Azure Key Vault (AKV) tenant (**azureKeyVault.tenantID**). This data can include any type of sensitive data such as passwords, database connection strings, API keys, and the like. AKV stores this information as encrypted binary data.
+                          description: Private data that you need secured and that
+                            belongs to the specified Azure Key Vault (AKV) tenant
+                            (**azureKeyVault.tenantID**). This data can include any
+                            type of sensitive data such as passwords, database connection
+                            strings, API keys, and the like. AKV stores this information
+                            as encrypted binary data.
                           properties:
                             key:
                               description: The key to select.
@@ -327,9 +335,8 @@ spec:
                           - namespace
                           type: object
                         subscriptionIdSecretRef:
-                          description: |-
-                            hexadecimal character string that identifies your Azure subscription.
-                            Unique 36-hexadecimal character string that identifies your Azure subscription.
+                          description: Unique 36-hexadecimal character string that
+                            identifies your Azure subscription.
                           properties:
                             key:
                               description: The key to select.
@@ -346,9 +353,9 @@ spec:
                           - namespace
                           type: object
                         tenantIdSecretRef:
-                          description: |-
-                            hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
-                            Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
+                          description: Unique 36-hexadecimal character string that
+                            identifies the Azure Active Directory tenant within your
+                            Azure subscription.
                           properties:
                             key:
                               description: The key to select.
@@ -367,25 +374,23 @@ spec:
                       type: object
                     type: array
                   enabledForSearchNodes:
-                    description: |-
-                      (Boolean) Flag that indicates whether Encryption at Rest for Dedicated Search Nodes is enabled in the specified project.
-                      Flag that indicates whether Encryption at Rest for Dedicated Search Nodes is enabled in the specified project.
+                    description: Flag that indicates whether Encryption at Rest for
+                      Dedicated Search Nodes is enabled in the specified project.
                     type: boolean
                   googleCloudKmsConfig:
-                    description: |-
-                      (Block List) Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS). (see below for nested schema)
-                      Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS).
+                    description: Details that define the configuration of Encryption
+                      at Rest using Google Cloud Key Management Service (KMS).
                     items:
                       properties:
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified  project. To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified  project. To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         keyVersionResourceIdSecretRef:
-                          description: |-
-                            (String, Sensitive) Resource path that displays the key version resource ID for your Google Cloud KMS.
-                            Resource path that displays the key version resource ID for your Google Cloud KMS.
+                          description: Resource path that displays the key version
+                            resource ID for your Google Cloud KMS.
                           properties:
                             key:
                               description: The key to select.
@@ -402,14 +407,14 @@ spec:
                           - namespace
                           type: object
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the Google Cloud Provider Access Role that MongoDB Cloud
+                            uses to access the Google Cloud KMS.
                           type: string
                         serviceAccountKeySecretRef:
-                          description: |-
-                            (String, Sensitive) JavaScript Object Notation (JSON) object that contains the Google Cloud Key Management Service (KMS). Format the JSON as a string and not as an object.
-                            JavaScript Object Notation (JSON) object that contains the Google Cloud Key Management Service (KMS). Format the JSON as a string and not as an object.
+                          description: JavaScript Object Notation (JSON) object that
+                            contains the Google Cloud Key Management Service (KMS).
+                            Format the JSON as a string and not as an object.
                           properties:
                             key:
                               description: The key to select.
@@ -428,9 +433,8 @@ spec:
                       type: object
                     type: array
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -523,15 +527,15 @@ spec:
                   autoscaler.
                 properties:
                   awsKmsConfig:
-                    description: |-
-                      (Block List) Amazon Web Services (AWS) KMS configuration details and encryption at rest configuration set for the specified project. (see below for nested schema)
-                      Amazon Web Services (AWS) KMS configuration details and encryption at rest configuration set for the specified project.
+                    description: Amazon Web Services (AWS) KMS configuration details
+                      and encryption at rest configuration set for the specified project.
                     items:
                       properties:
                         accessKeyIdSecretRef:
-                          description: |-
-                            (String, Sensitive) Unique alphanumeric string that identifies an Identity and Access Management (IAM) access key with permissions required to access your Amazon Web Services (AWS) Customer Master Key (CMK).
-                            Unique alphanumeric string that identifies an Identity and Access Management (IAM) access key with permissions required to access your Amazon Web Services (AWS) Customer Master Key (CMK).
+                          description: Unique alphanumeric string that identifies
+                            an Identity and Access Management (IAM) access key with
+                            permissions required to access your Amazon Web Services
+                            (AWS) Customer Master Key (CMK).
                           properties:
                             key:
                               description: The key to select.
@@ -548,9 +552,9 @@ spec:
                           - namespace
                           type: object
                         customerMasterKeyIdSecretRef:
-                          description: |-
-                            (String, Sensitive) Unique alphanumeric string that identifies the Amazon Web Services (AWS) Customer Master Key (CMK) you used to encrypt and decrypt the MongoDB master keys.
-                            Unique alphanumeric string that identifies the Amazon Web Services (AWS) Customer Master Key (CMK) you used to encrypt and decrypt the MongoDB master keys.
+                          description: Unique alphanumeric string that identifies
+                            the Amazon Web Services (AWS) Customer Master Key (CMK)
+                            you used to encrypt and decrypt the MongoDB master keys.
                           properties:
                             key:
                               description: The key to select.
@@ -567,24 +571,33 @@ spec:
                           - namespace
                           type: object
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified project through Amazon
+                            Web Services (AWS) Key Management Service (KMS). To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         region:
-                          description: |-
-                            hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
-                            Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+                          description: Physical location where MongoDB Atlas deploys
+                            your AWS-hosted MongoDB cluster nodes. The region you
+                            choose can affect network latency for clients accessing
+                            your databases. When MongoDB Cloud deploys a dedicated
+                            cluster, it checks if a VPC or VPC connection exists for
+                            that provider and region. If not, MongoDB Atlas creates
+                            them as part of the deployment. MongoDB Atlas assigns
+                            the VPC a CIDR block. To limit a new VPC peering connection
+                            to one CIDR block and region, create the connection first.
+                            Deploy the cluster after the connection starts.
                           type: string
                         requirePrivateNetworking:
-                          description: |-
-                            (Boolean) Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
-                            Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
+                          description: Enable connection to your Amazon Web Services
+                            (AWS) Key Management Service (KMS) over private networking.
                           type: boolean
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            an Amazon Web Services (AWS) Identity and Access Management
+                            (IAM) role. This IAM role has the permissions required
+                            to manage your AWS customer master key.
                           type: string
                         roleIdRef:
                           description: Reference to a ProviderAccessAuthorization
@@ -663,9 +676,10 @@ spec:
                               type: object
                           type: object
                         secretAccessKeySecretRef:
-                          description: |-
-                            readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
-                            Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
+                          description: Human-readable label of the Identity and Access
+                            Management (IAM) secret access key with permissions required
+                            to access your Amazon Web Services (AWS) customer master
+                            key.
                           properties:
                             key:
                               description: The key to select.
@@ -684,20 +698,18 @@ spec:
                       type: object
                     type: array
                   azureKeyVaultConfig:
-                    description: |-
-                      (Block List) Details that define the configuration of Encryption at Rest using Azure Key Vault (AKV). (see below for nested schema)
-                      Details that define the configuration of Encryption at Rest using Azure Key Vault (AKV).
+                    description: Details that define the configuration of Encryption
+                      at Rest using Azure Key Vault (AKV).
                     items:
                       properties:
                         azureEnvironment:
-                          description: |-
-                            (String) Azure environment in which your account credentials reside.
-                            Azure environment in which your account credentials reside.
+                          description: Azure environment in which your account credentials
+                            reside.
                           type: string
                         clientIdSecretRef:
-                          description: |-
-                            hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
-                            Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
+                          description: Unique 36-hexadecimal character string that
+                            identifies an Azure application associated with your Azure
+                            Active Directory tenant.
                           properties:
                             key:
                               description: The key to select.
@@ -714,14 +726,14 @@ spec:
                           - namespace
                           type: object
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified  project. To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified  project. To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         keyIdentifierSecretRef:
-                          description: |-
-                            (String, Sensitive) Web address with a unique key that identifies for your Azure Key Vault.
-                            Web address with a unique key that identifies for your Azure Key Vault.
+                          description: Web address with a unique key that identifies
+                            for your Azure Key Vault.
                           properties:
                             key:
                               description: The key to select.
@@ -738,29 +750,29 @@ spec:
                           - namespace
                           type: object
                         keyVaultName:
-                          description: |-
-                            (String) Unique string that identifies the Azure Key Vault that contains your key.
-                            Unique string that identifies the Azure Key Vault that contains your key.
+                          description: Unique string that identifies the Azure Key
+                            Vault that contains your key.
                           type: string
                         requirePrivateNetworking:
-                          description: |-
-                            (Boolean) Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
-                            Enable connection to your Azure Key Vault over private networking.
+                          description: Enable connection to your Azure Key Vault over
+                            private networking.
                           type: boolean
                         resourceGroupName:
-                          description: |-
-                            (String) Name of the Azure resource group that contains your Azure Key Vault.
-                            Name of the Azure resource group that contains your Azure Key Vault.
+                          description: Name of the Azure resource group that contains
+                            your Azure Key Vault.
                           type: string
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the Azure Service Principal that Atlas uses to access
+                            the Azure Key Vault.
                           type: string
                         secretSecretRef:
-                          description: |-
-                            (String, Sensitive) Private data that you need secured and that belongs to the specified Azure Key Vault (AKV) tenant (azureKeyVault.tenantID). This data can include any type of sensitive data such as passwords, database connection strings, API keys, and the like. AKV stores this information as encrypted binary data.
-                            Private data that you need secured and that belongs to the specified Azure Key Vault (AKV) tenant (**azureKeyVault.tenantID**). This data can include any type of sensitive data such as passwords, database connection strings, API keys, and the like. AKV stores this information as encrypted binary data.
+                          description: Private data that you need secured and that
+                            belongs to the specified Azure Key Vault (AKV) tenant
+                            (**azureKeyVault.tenantID**). This data can include any
+                            type of sensitive data such as passwords, database connection
+                            strings, API keys, and the like. AKV stores this information
+                            as encrypted binary data.
                           properties:
                             key:
                               description: The key to select.
@@ -777,9 +789,8 @@ spec:
                           - namespace
                           type: object
                         subscriptionIdSecretRef:
-                          description: |-
-                            hexadecimal character string that identifies your Azure subscription.
-                            Unique 36-hexadecimal character string that identifies your Azure subscription.
+                          description: Unique 36-hexadecimal character string that
+                            identifies your Azure subscription.
                           properties:
                             key:
                               description: The key to select.
@@ -796,9 +807,9 @@ spec:
                           - namespace
                           type: object
                         tenantIdSecretRef:
-                          description: |-
-                            hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
-                            Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
+                          description: Unique 36-hexadecimal character string that
+                            identifies the Azure Active Directory tenant within your
+                            Azure subscription.
                           properties:
                             key:
                               description: The key to select.
@@ -817,25 +828,23 @@ spec:
                       type: object
                     type: array
                   enabledForSearchNodes:
-                    description: |-
-                      (Boolean) Flag that indicates whether Encryption at Rest for Dedicated Search Nodes is enabled in the specified project.
-                      Flag that indicates whether Encryption at Rest for Dedicated Search Nodes is enabled in the specified project.
+                    description: Flag that indicates whether Encryption at Rest for
+                      Dedicated Search Nodes is enabled in the specified project.
                     type: boolean
                   googleCloudKmsConfig:
-                    description: |-
-                      (Block List) Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS). (see below for nested schema)
-                      Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS).
+                    description: Details that define the configuration of Encryption
+                      at Rest using Google Cloud Key Management Service (KMS).
                     items:
                       properties:
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified  project. To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified  project. To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         keyVersionResourceIdSecretRef:
-                          description: |-
-                            (String, Sensitive) Resource path that displays the key version resource ID for your Google Cloud KMS.
-                            Resource path that displays the key version resource ID for your Google Cloud KMS.
+                          description: Resource path that displays the key version
+                            resource ID for your Google Cloud KMS.
                           properties:
                             key:
                               description: The key to select.
@@ -852,14 +861,14 @@ spec:
                           - namespace
                           type: object
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the Google Cloud Provider Access Role that MongoDB Cloud
+                            uses to access the Google Cloud KMS.
                           type: string
                         serviceAccountKeySecretRef:
-                          description: |-
-                            (String, Sensitive) JavaScript Object Notation (JSON) object that contains the Google Cloud Key Management Service (KMS). Format the JSON as a string and not as an object.
-                            JavaScript Object Notation (JSON) object that contains the Google Cloud Key Management Service (KMS). Format the JSON as a string and not as an object.
+                          description: JavaScript Object Notation (JSON) object that
+                            contains the Google Cloud Key Management Service (KMS).
+                            Format the JSON as a string and not as an object.
                           properties:
                             key:
                               description: The key to select.
@@ -878,9 +887,8 @@ spec:
                       type: object
                     type: array
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -1051,116 +1059,117 @@ spec:
               atProvider:
                 properties:
                   awsKmsConfig:
-                    description: |-
-                      (Block List) Amazon Web Services (AWS) KMS configuration details and encryption at rest configuration set for the specified project. (see below for nested schema)
-                      Amazon Web Services (AWS) KMS configuration details and encryption at rest configuration set for the specified project.
+                    description: Amazon Web Services (AWS) KMS configuration details
+                      and encryption at rest configuration set for the specified project.
                     items:
                       properties:
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified project through Amazon
+                            Web Services (AWS) Key Management Service (KMS). To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         region:
-                          description: |-
-                            hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
-                            Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+                          description: Physical location where MongoDB Atlas deploys
+                            your AWS-hosted MongoDB cluster nodes. The region you
+                            choose can affect network latency for clients accessing
+                            your databases. When MongoDB Cloud deploys a dedicated
+                            cluster, it checks if a VPC or VPC connection exists for
+                            that provider and region. If not, MongoDB Atlas creates
+                            them as part of the deployment. MongoDB Atlas assigns
+                            the VPC a CIDR block. To limit a new VPC peering connection
+                            to one CIDR block and region, create the connection first.
+                            Deploy the cluster after the connection starts.
                           type: string
                         requirePrivateNetworking:
-                          description: |-
-                            (Boolean) Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
-                            Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
+                          description: Enable connection to your Amazon Web Services
+                            (AWS) Key Management Service (KMS) over private networking.
                           type: boolean
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            an Amazon Web Services (AWS) Identity and Access Management
+                            (IAM) role. This IAM role has the permissions required
+                            to manage your AWS customer master key.
                           type: string
                         valid:
-                          description: |-
-                            (Boolean) Flag that indicates whether the Amazon Web Services (AWS) Key Management Service (KMS) encryption key can encrypt and decrypt data.
-                            Flag that indicates whether the Amazon Web Services (AWS) Key Management Service (KMS) encryption key can encrypt and decrypt data.
+                          description: Flag that indicates whether the Amazon Web
+                            Services (AWS) Key Management Service (KMS) encryption
+                            key can encrypt and decrypt data.
                           type: boolean
                       type: object
                     type: array
                   azureKeyVaultConfig:
-                    description: |-
-                      (Block List) Details that define the configuration of Encryption at Rest using Azure Key Vault (AKV). (see below for nested schema)
-                      Details that define the configuration of Encryption at Rest using Azure Key Vault (AKV).
+                    description: Details that define the configuration of Encryption
+                      at Rest using Azure Key Vault (AKV).
                     items:
                       properties:
                         azureEnvironment:
-                          description: |-
-                            (String) Azure environment in which your account credentials reside.
-                            Azure environment in which your account credentials reside.
+                          description: Azure environment in which your account credentials
+                            reside.
                           type: string
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified  project. To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified  project. To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         keyVaultName:
-                          description: |-
-                            (String) Unique string that identifies the Azure Key Vault that contains your key.
-                            Unique string that identifies the Azure Key Vault that contains your key.
+                          description: Unique string that identifies the Azure Key
+                            Vault that contains your key.
                           type: string
                         requirePrivateNetworking:
-                          description: |-
-                            (Boolean) Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
-                            Enable connection to your Azure Key Vault over private networking.
+                          description: Enable connection to your Azure Key Vault over
+                            private networking.
                           type: boolean
                         resourceGroupName:
-                          description: |-
-                            (String) Name of the Azure resource group that contains your Azure Key Vault.
-                            Name of the Azure resource group that contains your Azure Key Vault.
+                          description: Name of the Azure resource group that contains
+                            your Azure Key Vault.
                           type: string
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the Azure Service Principal that Atlas uses to access
+                            the Azure Key Vault.
                           type: string
                         valid:
-                          description: |-
-                            (Boolean) Flag that indicates whether the Amazon Web Services (AWS) Key Management Service (KMS) encryption key can encrypt and decrypt data.
-                            Flag that indicates whether the Azure encryption key can encrypt and decrypt data.
+                          description: Flag that indicates whether the Azure encryption
+                            key can encrypt and decrypt data.
                           type: boolean
                       type: object
                     type: array
                   enabledForSearchNodes:
-                    description: |-
-                      (Boolean) Flag that indicates whether Encryption at Rest for Dedicated Search Nodes is enabled in the specified project.
-                      Flag that indicates whether Encryption at Rest for Dedicated Search Nodes is enabled in the specified project.
+                    description: Flag that indicates whether Encryption at Rest for
+                      Dedicated Search Nodes is enabled in the specified project.
                     type: boolean
                   googleCloudKmsConfig:
-                    description: |-
-                      (Block List) Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS). (see below for nested schema)
-                      Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS).
+                    description: Details that define the configuration of Encryption
+                      at Rest using Google Cloud Key Management Service (KMS).
                     items:
                       properties:
                         enabled:
-                          description: |-
-                            (Boolean) Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the mongodbatlas_encryption_at_rest resource and reapply your configuration.
-                            Flag that indicates whether someone enabled encryption at rest for the specified  project. To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
+                          description: Flag that indicates whether someone enabled
+                            encryption at rest for the specified  project. To disable
+                            encryption at rest, remove the `mongodbatlas_encryption_at_rest`
+                            resource and reapply your configuration.
                           type: boolean
                         roleId:
-                          description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
-                            Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
+                          description: Unique 24-hexadecimal digit string that identifies
+                            the Google Cloud Provider Access Role that MongoDB Cloud
+                            uses to access the Google Cloud KMS.
                           type: string
                         valid:
-                          description: |-
-                            (Boolean) Flag that indicates whether the Amazon Web Services (AWS) Key Management Service (KMS) encryption key can encrypt and decrypt data.
-                            Flag that indicates whether the Google Cloud Key Management Service (KMS) encryption key can encrypt and decrypt data.
+                          description: Flag that indicates whether the Google Cloud
+                            Key Management Service (KMS) encryption key can encrypt
+                            and decrypt data.
                           type: boolean
                       type: object
                     type: array
                   id:
-                    description: (String) The ID of this resource.
+                    description: The ID of this resource.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                 type: object
               conditions:

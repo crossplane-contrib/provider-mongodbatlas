@@ -235,7 +235,7 @@ type ServiceAccountInitParameters struct {
 
 type ServiceAccountObservation struct {
 
-	// level credentials for subsequent operations.
+	// and service_account.secrets.0.secret are stored. Service Account secrets expire after the configured secret_expires_after_hours period. When the secret expires, the resource automatically falls back to provider-level credentials for subsequent operations.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
 	// The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
@@ -253,9 +253,6 @@ type ServiceAccountObservation struct {
 
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings.
 	SecretExpiresAfterHours *int64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
-
-	// A list of secrets associated with the specified Service Account. See Secrets.
-	Secrets []SecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
 }
 
 type ServiceAccountParameters struct {

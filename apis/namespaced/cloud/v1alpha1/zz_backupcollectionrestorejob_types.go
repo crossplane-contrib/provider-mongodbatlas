@@ -15,7 +15,6 @@ import (
 
 type BackupCollectionRestoreJobInitParameters struct {
 
-	// readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -29,37 +28,30 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
-	// (String) Optional suffix applied to restored collection names.
 	// Optional suffix applied to restored collection names.
 	CollectionSuffix *string `json:"collectionSuffix,omitempty" tf:"collection_suffix,omitempty"`
 
-	// (Attributes List) List of collections to restore (up to 100 items). (see below for nested schema)
+	// List of collections to restore (up to 100 items). (see below for nested schema)
 	Collections []CollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
 
-	// (String) Optional suffix applied to restored database names.
 	// Optional suffix applied to restored database names.
 	DatabaseSuffix *string `json:"databaseSuffix,omitempty" tf:"database_suffix,omitempty"`
 
-	// (Attributes List) List of databases to restore (up to 100 items). (see below for nested schema)
+	// List of databases to restore (up to 100 items). (see below for nested schema)
 	Databases []DatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 
-	// (String) Strategy for restoring indexes (all, none, or all except TTL).
 	// Strategy for restoring indexes (all, none, or all except TTL).
 	IndexStrategy *string `json:"indexStrategy,omitempty" tf:"index_strategy,omitempty"`
 
-	// in-time restore.
 	// Oplog increment for point-in-time restore.
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
-	// in-time restore.
 	// Oplog timestamp (seconds part) for point-in-time restore.
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
-	// in-time restore time in seconds since UNIX epoch.
 	// Point-in-time restore time in seconds since UNIX epoch.
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -72,7 +64,6 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) ID of the snapshot to restore.
 	// ID of the snapshot to restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
@@ -85,7 +76,6 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
-	// (String) Target cluster name.
 	// Target cluster name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -99,7 +89,6 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetClusterNameSelector *v2.NamespacedSelector `json:"targetClusterNameSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
@@ -112,110 +101,89 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetProjectIDSelector *v2.NamespacedSelector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Strategy for writing data on the target (create as new or overwrite existing). With OVERWRITE_EXISTING, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
 	// Strategy for writing data on the target (create as new or overwrite existing). With `OVERWRITE_EXISTING`, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
 	WriteStrategy *string `json:"writeStrategy,omitempty" tf:"write_strategy,omitempty"`
 }
 
 type BackupCollectionRestoreJobObservation struct {
 
-	// readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// (String) Optional suffix applied to restored collection names.
 	// Optional suffix applied to restored collection names.
 	CollectionSuffix *string `json:"collectionSuffix,omitempty" tf:"collection_suffix,omitempty"`
 
-	// (Attributes List) List of collections to restore (up to 100 items). (see below for nested schema)
+	// List of collections to restore (up to 100 items). (see below for nested schema)
 	Collections []CollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
 
-	// (String) Date and time when the restore job was created (ISO 8601 format in UTC).
 	// Date and time when the restore job was created (ISO 8601 format in UTC).
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// (String) Optional suffix applied to restored database names.
 	// Optional suffix applied to restored database names.
 	DatabaseSuffix *string `json:"databaseSuffix,omitempty" tf:"database_suffix,omitempty"`
 
-	// (Attributes List) List of databases to restore (up to 100 items). (see below for nested schema)
+	// List of databases to restore (up to 100 items). (see below for nested schema)
 	Databases []DatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
 
-	// (String) Error message when the job has failed or been canceled.
 	// Error message when the job has failed or been canceled.
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
-	// (String) Date and time when the restore job finished (ISO 8601 format in UTC).
 	// Date and time when the restore job finished (ISO 8601 format in UTC).
 	FinishedAt *string `json:"finishedAt,omitempty" tf:"finished_at,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (Attributes) Overall index build status for a collection restore job. (see below for nested schema)
+	// Overall index build status for a collection restore job. (see below for nested schema)
 	IndexStatus *IndexStatusObservation `json:"indexStatus,omitempty" tf:"index_status,omitempty"`
 
-	// (String) Strategy for restoring indexes (all, none, or all except TTL).
 	// Strategy for restoring indexes (all, none, or all except TTL).
 	IndexStrategy *string `json:"indexStrategy,omitempty" tf:"index_strategy,omitempty"`
 
-	// hexadecimal digit string that identifies the collection restore job.
 	// Unique 24-hexadecimal digit string that identifies the collection restore job.
 	JobID *string `json:"jobId,omitempty" tf:"job_id,omitempty"`
 
-	// in-time restore.
 	// Oplog increment for point-in-time restore.
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
-	// in-time restore.
 	// Oplog timestamp (seconds part) for point-in-time restore.
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
-	// in-time restore time in seconds since UNIX epoch.
 	// Point-in-time restore time in seconds since UNIX epoch.
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (Number) Number of documents restored so far across all supported collections.
 	// Number of documents restored so far across all supported collections.
 	RestoredDocuments *float64 `json:"restoredDocuments,omitempty" tf:"restored_documents,omitempty"`
 
-	// (String) ID of the snapshot to restore.
 	// ID of the snapshot to restore.
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
-	// (String) Current state of the collection restore job.
-	// Current state of the collection restore job.
+	// Current state of the collection restore job. A `SUCCESSFUL` job can include individual `UNSUPPORTED` collection restores. Use the `mongodbatlas_cloud_backup_collection_restore_job_collections` data source to get per-collection detailed states.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// (String) Target cluster name.
 	// Target cluster name.
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (Number) Total number of documents across all supported collections in the restore job. This value may initially reflect an estimate based on collection metadata and can change as accurate document counts become available during the restore.
 	// Total number of documents across all supported collections in the restore job. This value may initially reflect an estimate based on collection metadata and can change as accurate document counts become available during the restore.
 	TotalDocuments *float64 `json:"totalDocuments,omitempty" tf:"total_documents,omitempty"`
 
-	// (String) Strategy for writing data on the target (create as new or overwrite existing). With OVERWRITE_EXISTING, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
 	// Strategy for writing data on the target (create as new or overwrite existing). With `OVERWRITE_EXISTING`, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
 	WriteStrategy *string `json:"writeStrategy,omitempty" tf:"write_strategy,omitempty"`
 }
 
 type BackupCollectionRestoreJobParameters struct {
 
-	// readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -230,45 +198,38 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
-	// (String) Optional suffix applied to restored collection names.
 	// Optional suffix applied to restored collection names.
 	// +kubebuilder:validation:Optional
 	CollectionSuffix *string `json:"collectionSuffix,omitempty" tf:"collection_suffix,omitempty"`
 
-	// (Attributes List) List of collections to restore (up to 100 items). (see below for nested schema)
+	// List of collections to restore (up to 100 items). (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Collections []CollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
 
-	// (String) Optional suffix applied to restored database names.
 	// Optional suffix applied to restored database names.
 	// +kubebuilder:validation:Optional
 	DatabaseSuffix *string `json:"databaseSuffix,omitempty" tf:"database_suffix,omitempty"`
 
-	// (Attributes List) List of databases to restore (up to 100 items). (see below for nested schema)
+	// List of databases to restore (up to 100 items). (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Databases []DatabasesParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 
-	// (String) Strategy for restoring indexes (all, none, or all except TTL).
 	// Strategy for restoring indexes (all, none, or all except TTL).
 	// +kubebuilder:validation:Optional
 	IndexStrategy *string `json:"indexStrategy,omitempty" tf:"index_strategy,omitempty"`
 
-	// in-time restore.
 	// Oplog increment for point-in-time restore.
 	// +kubebuilder:validation:Optional
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
-	// in-time restore.
 	// Oplog timestamp (seconds part) for point-in-time restore.
 	// +kubebuilder:validation:Optional
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
-	// in-time restore time in seconds since UNIX epoch.
 	// Point-in-time restore time in seconds since UNIX epoch.
 	// +kubebuilder:validation:Optional
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -282,7 +243,6 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) ID of the snapshot to restore.
 	// ID of the snapshot to restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.BackupSnapshot
 	// +kubebuilder:validation:Optional
@@ -296,7 +256,6 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	SnapshotIDSelector *v2.NamespacedSelector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
-	// (String) Target cluster name.
 	// Target cluster name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -311,7 +270,6 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetClusterNameSelector *v2.NamespacedSelector `json:"targetClusterNameSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -325,11 +283,10 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetProjectIDSelector *v2.NamespacedSelector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Strategy for writing data on the target (create as new or overwrite existing). With OVERWRITE_EXISTING, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
 	// Strategy for writing data on the target (create as new or overwrite existing). With `OVERWRITE_EXISTING`, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
 	// +kubebuilder:validation:Optional
 	WriteStrategy *string `json:"writeStrategy,omitempty" tf:"write_strategy,omitempty"`
@@ -337,34 +294,28 @@ type BackupCollectionRestoreJobParameters struct {
 
 type CollectionsInitParameters struct {
 
-	// (String) Collection requested to restore, as database.collection.
 	// Collection requested to restore, as `database.collection`.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" tf:"source_namespace,omitempty"`
 
-	// (String) Requested target collection as database.collection; if empty, source namespace is used.
 	// Requested target collection as `database.collection`; if empty, source namespace is used.
 	TargetNamespace *string `json:"targetNamespace,omitempty" tf:"target_namespace,omitempty"`
 }
 
 type CollectionsObservation struct {
 
-	// (String) Collection requested to restore, as database.collection.
 	// Collection requested to restore, as `database.collection`.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" tf:"source_namespace,omitempty"`
 
-	// (String) Requested target collection as database.collection; if empty, source namespace is used.
 	// Requested target collection as `database.collection`; if empty, source namespace is used.
 	TargetNamespace *string `json:"targetNamespace,omitempty" tf:"target_namespace,omitempty"`
 }
 
 type CollectionsParameters struct {
 
-	// (String) Collection requested to restore, as database.collection.
 	// Collection requested to restore, as `database.collection`.
 	// +kubebuilder:validation:Optional
 	SourceNamespace *string `json:"sourceNamespace" tf:"source_namespace,omitempty"`
 
-	// (String) Requested target collection as database.collection; if empty, source namespace is used.
 	// Requested target collection as `database.collection`; if empty, source namespace is used.
 	// +kubebuilder:validation:Optional
 	TargetNamespace *string `json:"targetNamespace,omitempty" tf:"target_namespace,omitempty"`
@@ -372,34 +323,28 @@ type CollectionsParameters struct {
 
 type DatabasesInitParameters struct {
 
-	// (String) Collection requested to restore, as database.collection.
 	// Database name requested to restore.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" tf:"source_namespace,omitempty"`
 
-	// (String) Requested target collection as database.collection; if empty, source namespace is used.
 	// Requested target database name; if empty, source database name is used.
 	TargetNamespace *string `json:"targetNamespace,omitempty" tf:"target_namespace,omitempty"`
 }
 
 type DatabasesObservation struct {
 
-	// (String) Collection requested to restore, as database.collection.
 	// Database name requested to restore.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" tf:"source_namespace,omitempty"`
 
-	// (String) Requested target collection as database.collection; if empty, source namespace is used.
 	// Requested target database name; if empty, source database name is used.
 	TargetNamespace *string `json:"targetNamespace,omitempty" tf:"target_namespace,omitempty"`
 }
 
 type DatabasesParameters struct {
 
-	// (String) Collection requested to restore, as database.collection.
 	// Database name requested to restore.
 	// +kubebuilder:validation:Optional
 	SourceNamespace *string `json:"sourceNamespace" tf:"source_namespace,omitempty"`
 
-	// (String) Requested target collection as database.collection; if empty, source namespace is used.
 	// Requested target database name; if empty, source database name is used.
 	// +kubebuilder:validation:Optional
 	TargetNamespace *string `json:"targetNamespace,omitempty" tf:"target_namespace,omitempty"`
@@ -410,11 +355,9 @@ type IndexStatusInitParameters struct {
 
 type IndexStatusObservation struct {
 
-	// (Number) Number of collections that failed to build indexes.
 	// Number of collections that failed to build indexes.
 	FailedCollectionCount *float64 `json:"failedCollectionCount,omitempty" tf:"failed_collection_count,omitempty"`
 
-	// (String) Current state of the collection restore job.
 	// Index build state indicating the status of index creation during or after a restore operation.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -424,21 +367,18 @@ type IndexStatusParameters struct {
 
 type TimeoutsInitParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
 type TimeoutsObservation struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
 type TimeoutsParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`

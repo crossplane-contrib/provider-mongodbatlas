@@ -15,34 +15,28 @@ import (
 
 type MCPConfigIPAccessListInitParameters struct {
 
-	// Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
 	// Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// (String) Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or cidrBlock, but not for both in the same request.
 	// Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or `cidrBlock`, but not for both in the same request.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
 type MCPConfigIPAccessListObservation struct {
 
-	// Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
 	// Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// (String) Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or cidrBlock, but not for both in the same request.
 	// Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or `cidrBlock`, but not for both in the same request.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
 type MCPConfigIPAccessListParameters struct {
 
-	// Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
 	// Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// (String) Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or cidrBlock, but not for both in the same request.
 	// Network address in the access list for the Service Account. This parameter requires the address to be expressed as one Internet Protocol version 4 or version 6 address. You can set a value for this parameter or `cidrBlock`, but not for both in the same request.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
@@ -50,14 +44,12 @@ type MCPConfigIPAccessListParameters struct {
 
 type MCPConfigInitParameters struct {
 
-	// (Attributes Set) List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
+	// List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
 	IPAccessList []MCPConfigIPAccessListInitParameters `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 
-	// readable name that identifies this MCP configuration.
 	// Human-readable name that identifies this MCP configuration.
 	McpConfigName *string `json:"mcpConfigName,omitempty" tf:"mcp_config_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -70,7 +62,6 @@ type MCPConfigInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (Set of String) List of project roles to assign to this MCP configuration.
 	// List of project roles to assign to this MCP configuration.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -78,32 +69,26 @@ type MCPConfigInitParameters struct {
 
 type MCPConfigObservation struct {
 
-	// (String) Unique identifier for the Service Account client associated with this MCP configuration. Use this Service Account to connect to the Atlas Remote MCP.
 	// Unique identifier for the Service Account client associated with this MCP configuration. Use this Service Account to connect to the Atlas Remote MCP.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
-	// (String) Unique identifier for the egress Service Account client associated with this MCP configuration. This Service Account is managed by MongoDB Atlas.
 	// Unique identifier for the egress Service Account client associated with this MCP configuration. This Service Account is managed by MongoDB Atlas.
 	EgressClientID *string `json:"egressClientId,omitempty" tf:"egress_client_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (Attributes Set) List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
+	// List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
 	IPAccessList []MCPConfigIPAccessListObservation `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 
-	// (String) Unique identifier that identifies this MCP configuration.
 	// Unique identifier that identifies this MCP configuration.
 	McpConfigID *string `json:"mcpConfigId,omitempty" tf:"mcp_config_id,omitempty"`
 
-	// readable name that identifies this MCP configuration.
 	// Human-readable name that identifies this MCP configuration.
 	McpConfigName *string `json:"mcpConfigName,omitempty" tf:"mcp_config_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (Set of String) List of project roles to assign to this MCP configuration.
 	// List of project roles to assign to this MCP configuration.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -111,16 +96,14 @@ type MCPConfigObservation struct {
 
 type MCPConfigParameters struct {
 
-	// (Attributes Set) List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
+	// List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	IPAccessList []MCPConfigIPAccessListParameters `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 
-	// readable name that identifies this MCP configuration.
 	// Human-readable name that identifies this MCP configuration.
 	// +kubebuilder:validation:Optional
 	McpConfigName *string `json:"mcpConfigName,omitempty" tf:"mcp_config_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -134,7 +117,6 @@ type MCPConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (Set of String) List of project roles to assign to this MCP configuration.
 	// List of project roles to assign to this MCP configuration.
 	// +kubebuilder:validation:Optional
 	// +listType=set

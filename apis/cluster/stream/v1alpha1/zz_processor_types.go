@@ -15,34 +15,28 @@ import (
 
 type AutoscalingInitParameters struct {
 
-	// up limit). When not set, it defaults to the workspace maximum tier.
 	// Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	MaxTier *string `json:"maxTier,omitempty" tf:"max_tier,omitempty"`
 
-	// down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
 	// Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
 	MinTier *string `json:"minTier,omitempty" tf:"min_tier,omitempty"`
 }
 
 type AutoscalingObservation struct {
 
-	// up limit). When not set, it defaults to the workspace maximum tier.
 	// Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	MaxTier *string `json:"maxTier,omitempty" tf:"max_tier,omitempty"`
 
-	// down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
 	// Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
 	MinTier *string `json:"minTier,omitempty" tf:"min_tier,omitempty"`
 }
 
 type AutoscalingParameters struct {
 
-	// up limit). When not set, it defaults to the workspace maximum tier.
 	// Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	// +kubebuilder:validation:Optional
 	MaxTier *string `json:"maxTier,omitempty" tf:"max_tier,omitempty"`
 
-	// down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
 	// Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
 	// +kubebuilder:validation:Optional
 	MinTier *string `json:"minTier,omitempty" tf:"min_tier,omitempty"`
@@ -50,47 +44,38 @@ type AutoscalingParameters struct {
 
 type DlqInitParameters struct {
 
-	// (String) Name of the collection to use for the DLQ.
 	// Name of the collection to use for the DLQ.
 	Coll *string `json:"coll,omitempty" tf:"coll,omitempty"`
 
-	// (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
 	// Name of the connection to write DLQ messages to. Must be an Atlas connection.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
-	// (String) Name of the database to use for the DLQ.
 	// Name of the database to use for the DLQ.
 	DB *string `json:"db,omitempty" tf:"db,omitempty"`
 }
 
 type DlqObservation struct {
 
-	// (String) Name of the collection to use for the DLQ.
 	// Name of the collection to use for the DLQ.
 	Coll *string `json:"coll,omitempty" tf:"coll,omitempty"`
 
-	// (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
 	// Name of the connection to write DLQ messages to. Must be an Atlas connection.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
-	// (String) Name of the database to use for the DLQ.
 	// Name of the database to use for the DLQ.
 	DB *string `json:"db,omitempty" tf:"db,omitempty"`
 }
 
 type DlqParameters struct {
 
-	// (String) Name of the collection to use for the DLQ.
 	// Name of the collection to use for the DLQ.
 	// +kubebuilder:validation:Optional
 	Coll *string `json:"coll" tf:"coll,omitempty"`
 
-	// (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
 	// Name of the connection to write DLQ messages to. Must be an Atlas connection.
 	// +kubebuilder:validation:Optional
 	ConnectionName *string `json:"connectionName" tf:"connection_name,omitempty"`
 
-	// (String) Name of the database to use for the DLQ.
 	// Name of the database to use for the DLQ.
 	// +kubebuilder:validation:Optional
 	DB *string `json:"db" tf:"db,omitempty"`
@@ -98,13 +83,12 @@ type DlqParameters struct {
 
 type OptionsInitParameters struct {
 
-	// (Attributes) Vertical autoscaling configuration for the stream processor. When present, the processor automatically scales its tier between min_tier and max_tier based on load; tier is used only as the initial/baseline tier and the running tier is reported by effective_tier. To disable autoscaling, remove this block. (see below for nested schema)
+	// Vertical autoscaling configuration for the stream processor. When present, the processor automatically scales its tier between min_tier and max_tier based on load; tier is used only as the initial/baseline tier and the running tier is reported by effective_tier. To disable autoscaling, remove this block. (see below for nested schema)
 	Autoscaling *AutoscalingInitParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
-	// (Attributes) Dead letter queue for the stream processor. Refer to the MongoDB Atlas Docs for more information. (see below for nested schema)
+	// Dead letter queue for the stream processor. Refer to the MongoDB Atlas Docs for more information. (see below for nested schema)
 	Dlq *DlqInitParameters `json:"dlq,omitempty" tf:"dlq,omitempty"`
 
-	// (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
 	// Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
 	//
 	// **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
@@ -113,13 +97,12 @@ type OptionsInitParameters struct {
 
 type OptionsObservation struct {
 
-	// (Attributes) Vertical autoscaling configuration for the stream processor. When present, the processor automatically scales its tier between min_tier and max_tier based on load; tier is used only as the initial/baseline tier and the running tier is reported by effective_tier. To disable autoscaling, remove this block. (see below for nested schema)
+	// Vertical autoscaling configuration for the stream processor. When present, the processor automatically scales its tier between min_tier and max_tier based on load; tier is used only as the initial/baseline tier and the running tier is reported by effective_tier. To disable autoscaling, remove this block. (see below for nested schema)
 	Autoscaling *AutoscalingObservation `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
-	// (Attributes) Dead letter queue for the stream processor. Refer to the MongoDB Atlas Docs for more information. (see below for nested schema)
+	// Dead letter queue for the stream processor. Refer to the MongoDB Atlas Docs for more information. (see below for nested schema)
 	Dlq *DlqObservation `json:"dlq,omitempty" tf:"dlq,omitempty"`
 
-	// (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
 	// Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
 	//
 	// **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
@@ -128,15 +111,14 @@ type OptionsObservation struct {
 
 type OptionsParameters struct {
 
-	// (Attributes) Vertical autoscaling configuration for the stream processor. When present, the processor automatically scales its tier between min_tier and max_tier based on load; tier is used only as the initial/baseline tier and the running tier is reported by effective_tier. To disable autoscaling, remove this block. (see below for nested schema)
+	// Vertical autoscaling configuration for the stream processor. When present, the processor automatically scales its tier between min_tier and max_tier based on load; tier is used only as the initial/baseline tier and the running tier is reported by effective_tier. To disable autoscaling, remove this block. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Autoscaling *AutoscalingParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
-	// (Attributes) Dead letter queue for the stream processor. Refer to the MongoDB Atlas Docs for more information. (see below for nested schema)
+	// Dead letter queue for the stream processor. Refer to the MongoDB Atlas Docs for more information. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Dlq *DlqParameters `json:"dlq,omitempty" tf:"dlq,omitempty"`
 
-	// (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
 	// Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
 	//
 	// **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
@@ -146,15 +128,13 @@ type OptionsParameters struct {
 
 type ProcessorInitParameters struct {
 
-	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
 	// Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
 	FailoverEnabled *bool `json:"failoverEnabled,omitempty" tf:"failover_enabled,omitempty"`
 
-	// (String, Deprecated) Label that identifies the stream processing workspace.
+	// Deprecated.
 	// Label that identifies the stream processing workspace.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/stream/v1alpha1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("instance_name",false)
@@ -168,18 +148,15 @@ type ProcessorInitParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
-	// (Attributes) Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
+	// Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
 	Options *OptionsInitParameters `json:"options,omitempty" tf:"options,omitempty"`
 
-	// literal equality matches, and $addFields/$project output field order.
 	// Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
 	Pipeline *string `json:"pipeline,omitempty" tf:"pipeline,omitempty"`
 
-	// (String) Label that identifies the stream processor.
 	// Label that identifies the stream processor.
 	ProcessorName *string `json:"processorName,omitempty" tf:"processor_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -192,20 +169,17 @@ type ProcessorInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	// The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	//
 	// **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
 	// Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	Timeouts *ProcessorTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Label that identifies the stream processing workspace.
 	// Label that identifies the stream processing workspace.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/stream/v1alpha1.Workspace
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("workspace_name",false)
@@ -222,75 +196,63 @@ type ProcessorInitParameters struct {
 
 type ProcessorObservation struct {
 
-	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// (String) Tier the stream processor is currently running on. When autoscaling is disabled this equals tier; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
 	// Tier the stream processor is currently running on. When autoscaling is disabled this equals `tier`; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
 	EffectiveTier *string `json:"effectiveTier,omitempty" tf:"effective_tier,omitempty"`
 
-	// to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
 	// Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
 	FailoverEnabled *bool `json:"failoverEnabled,omitempty" tf:"failover_enabled,omitempty"`
 
-	// hexadecimal character string that identifies the stream processor.
+	// Unique 24-hexadecimal character string that identifies the stream processor.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String, Deprecated) Label that identifies the stream processing workspace.
+	// Deprecated.
 	// Label that identifies the stream processing workspace.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
-	// (Attributes) Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
+	// Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
 	Options *OptionsObservation `json:"options,omitempty" tf:"options,omitempty"`
 
-	// literal equality matches, and $addFields/$project output field order.
 	// Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
 	Pipeline *string `json:"pipeline,omitempty" tf:"pipeline,omitempty"`
 
-	// (String) Label that identifies the stream processor.
 	// Label that identifies the stream processor.
 	ProcessorName *string `json:"processorName,omitempty" tf:"processor_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	// The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	//
 	// **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// (String) The stats associated with the stream processor. Refer to the MongoDB Atlas Docs for more information.
 	// The stats associated with the stream processor. Refer to the [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/manage-stream-processor/#view-statistics-of-a-stream-processor) for more information.
 	Stats *string `json:"stats,omitempty" tf:"stats,omitempty"`
 
-	// (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
 	// Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	Timeouts *ProcessorTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Label that identifies the stream processing workspace.
 	// Label that identifies the stream processing workspace.
 	WorkspaceName *string `json:"workspaceName,omitempty" tf:"workspace_name,omitempty"`
 }
 
 type ProcessorParameters struct {
 
-	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
 	// Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
 	// +kubebuilder:validation:Optional
 	FailoverEnabled *bool `json:"failoverEnabled,omitempty" tf:"failover_enabled,omitempty"`
 
-	// (String, Deprecated) Label that identifies the stream processing workspace.
+	// Deprecated.
 	// Label that identifies the stream processing workspace.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/stream/v1alpha1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("instance_name",false)
@@ -305,21 +267,18 @@ type ProcessorParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
-	// (Attributes) Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
+	// Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Options *OptionsParameters `json:"options,omitempty" tf:"options,omitempty"`
 
-	// literal equality matches, and $addFields/$project output field order.
 	// Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
 	// +kubebuilder:validation:Optional
 	Pipeline *string `json:"pipeline,omitempty" tf:"pipeline,omitempty"`
 
-	// (String) Label that identifies the stream processor.
 	// Label that identifies the stream processor.
 	// +kubebuilder:validation:Optional
 	ProcessorName *string `json:"processorName,omitempty" tf:"processor_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -333,23 +292,20 @@ type ProcessorParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	// The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 	//
 	// **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
 	// Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
 	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *ProcessorTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
-	// (String) Label that identifies the stream processing workspace.
 	// Label that identifies the stream processing workspace.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/stream/v1alpha1.Workspace
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("workspace_name",false)
@@ -367,21 +323,18 @@ type ProcessorParameters struct {
 
 type ProcessorTimeoutsInitParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
 type ProcessorTimeoutsObservation struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
 type ProcessorTimeoutsParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`

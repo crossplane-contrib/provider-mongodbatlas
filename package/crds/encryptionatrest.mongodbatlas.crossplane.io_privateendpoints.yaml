@@ -73,19 +73,22 @@ spec:
               forProvider:
                 properties:
                   cloudProvider:
-                    description: |-
-                      (String) Label that identifies the cloud provider for the Encryption At Rest private endpoint.
-                      Label that identifies the cloud provider for the Encryption At Rest private endpoint.
+                    description: Label that identifies the cloud provider for the
+                      Encryption At Rest private endpoint.
                     type: string
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -164,22 +167,25 @@ spec:
                         type: object
                     type: object
                   regionName:
-                    description: |-
-                      (String) Cloud provider region in which the Encryption At Rest private endpoint is located.
-                      Cloud provider region in which the Encryption At Rest private endpoint is located.
+                    description: Cloud provider region in which the Encryption At
+                      Rest private endpoint is located.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
+                    description: (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `3h`.'
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Setting a timeout for a Delete operation
+                          is only applicable if changes are saved into state before
+                          the destroy operation occurs. Default: `3h`.'
                         type: string
                     type: object
                 type: object
@@ -197,19 +203,22 @@ spec:
                   autoscaler.
                 properties:
                   cloudProvider:
-                    description: |-
-                      (String) Label that identifies the cloud provider for the Encryption At Rest private endpoint.
-                      Label that identifies the cloud provider for the Encryption At Rest private endpoint.
+                    description: Label that identifies the cloud provider for the
+                      Encryption At Rest private endpoint.
                     type: string
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -288,22 +297,25 @@ spec:
                         type: object
                     type: object
                   regionName:
-                    description: |-
-                      (String) Cloud provider region in which the Encryption At Rest private endpoint is located.
-                      Cloud provider region in which the Encryption At Rest private endpoint is located.
+                    description: Cloud provider region in which the Encryption At
+                      Rest private endpoint is located.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
+                    description: (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `3h`.'
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Setting a timeout for a Delete operation
+                          is only applicable if changes are saved into state before
+                          the destroy operation occurs. Default: `3h`.'
                         type: string
                     type: object
                 type: object
@@ -408,56 +420,57 @@ spec:
               atProvider:
                 properties:
                   cloudProvider:
-                    description: |-
-                      (String) Label that identifies the cloud provider for the Encryption At Rest private endpoint.
-                      Label that identifies the cloud provider for the Encryption At Rest private endpoint.
+                    description: Label that identifies the cloud provider for the
+                      Encryption At Rest private endpoint.
                     type: string
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   errorMessage:
-                    description: |-
-                      (String) Error message for failures associated with the Encryption At Rest private endpoint.
-                      Error message for failures associated with the Encryption At Rest private endpoint.
+                    description: Error message for failures associated with the Encryption
+                      At Rest private endpoint.
                     type: string
                   id:
-                    description: hexadecimal digit string that identifies the Private
-                      Endpoint Service.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Private Endpoint Service.
                     type: string
                   privateEndpointConnectionName:
-                    description: |-
-                      (String) Connection name of the Azure Private Endpoint.
-                      Connection name of the Azure Private Endpoint.
+                    description: Connection name of the Azure Private Endpoint.
                     type: string
                   projectId:
-                    description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   regionName:
-                    description: |-
-                      (String) Cloud provider region in which the Encryption At Rest private endpoint is located.
-                      Cloud provider region in which the Encryption At Rest private endpoint is located.
+                    description: Cloud provider region in which the Encryption At
+                      Rest private endpoint is located.
                     type: string
                   status:
-                    description: |-
-                      (String) State of the Encryption At Rest private endpoint.
-                      State of the Encryption At Rest private endpoint.
+                    description: State of the Encryption At Rest private endpoint.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
+                    description: (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `3h`.'
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Setting a timeout for a Delete operation
+                          is only applicable if changes are saved into state before
+                          the destroy operation occurs. Default: `3h`.'
                         type: string
                     type: object
                 type: object

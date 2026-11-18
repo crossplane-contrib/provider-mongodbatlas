@@ -15,6 +15,9 @@ import (
 
 type BackupScheduleInitParameters struct {
 
+	// Flag that indicates whether Atlas manages the snapshot copy settings for the cluster. Value can be one of the following:
+	AutoCopySettingsEnabled *bool `json:"autoCopySettingsEnabled,omitempty" tf:"auto_copy_settings_enabled,omitempty"`
+
 	// Flag that indicates whether MongoDB Cloud automatically exports Cloud Backup Snapshots to the Export Bucket. Value can be one of the following:
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
@@ -34,7 +37,7 @@ type BackupScheduleInitParameters struct {
 	// Flag that selects copy-policy mode. Set to true to use copy_policy_items or last_number_of_snapshots. When false or omitted, use frequencies. This transition is one-way: after you apply with copy_policy_items_enabled = true, Atlas cannot disable copy-policy items. You can still switch each copy_settings entry between copy_policy_items and last_number_of_snapshots.
 	CopyPolicyItemsEnabled *bool `json:"copyPolicyItemsEnabled,omitempty" tf:"copy_policy_items_enabled,omitempty"`
 
-	// List that contains a document for each copy setting item in the desired backup policy. See below
+	// ; setting both auto_copy_settings_enabled = true and copy_settings causes a plan-time error.
 	// +listType=atomic
 	CopySettings []CopySettingsInitParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
@@ -101,6 +104,9 @@ type BackupScheduleInitParameters struct {
 
 type BackupScheduleObservation struct {
 
+	// Flag that indicates whether Atlas manages the snapshot copy settings for the cluster. Value can be one of the following:
+	AutoCopySettingsEnabled *bool `json:"autoCopySettingsEnabled,omitempty" tf:"auto_copy_settings_enabled,omitempty"`
+
 	// Flag that indicates whether MongoDB Cloud automatically exports Cloud Backup Snapshots to the Export Bucket. Value can be one of the following:
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
 
@@ -113,7 +119,7 @@ type BackupScheduleObservation struct {
 	// Flag that selects copy-policy mode. Set to true to use copy_policy_items or last_number_of_snapshots. When false or omitted, use frequencies. This transition is one-way: after you apply with copy_policy_items_enabled = true, Atlas cannot disable copy-policy items. You can still switch each copy_settings entry between copy_policy_items and last_number_of_snapshots.
 	CopyPolicyItemsEnabled *bool `json:"copyPolicyItemsEnabled,omitempty" tf:"copy_policy_items_enabled,omitempty"`
 
-	// List that contains a document for each copy setting item in the desired backup policy. See below
+	// ; setting both auto_copy_settings_enabled = true and copy_settings causes a plan-time error.
 	// +listType=atomic
 	CopySettings []CopySettingsObservation `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`
 
@@ -180,6 +186,10 @@ type BackupScheduleObservation struct {
 
 type BackupScheduleParameters struct {
 
+	// Flag that indicates whether Atlas manages the snapshot copy settings for the cluster. Value can be one of the following:
+	// +kubebuilder:validation:Optional
+	AutoCopySettingsEnabled *bool `json:"autoCopySettingsEnabled,omitempty" tf:"auto_copy_settings_enabled,omitempty"`
+
 	// Flag that indicates whether MongoDB Cloud automatically exports Cloud Backup Snapshots to the Export Bucket. Value can be one of the following:
 	// +kubebuilder:validation:Optional
 	AutoExportEnabled *bool `json:"autoExportEnabled,omitempty" tf:"auto_export_enabled,omitempty"`
@@ -202,7 +212,7 @@ type BackupScheduleParameters struct {
 	// +kubebuilder:validation:Optional
 	CopyPolicyItemsEnabled *bool `json:"copyPolicyItemsEnabled,omitempty" tf:"copy_policy_items_enabled,omitempty"`
 
-	// List that contains a document for each copy setting item in the desired backup policy. See below
+	// ; setting both auto_copy_settings_enabled = true and copy_settings causes a plan-time error.
 	// +kubebuilder:validation:Optional
 	// +listType=atomic
 	CopySettings []CopySettingsParameters `json:"copySettings,omitempty" tf:"copy_settings,omitempty"`

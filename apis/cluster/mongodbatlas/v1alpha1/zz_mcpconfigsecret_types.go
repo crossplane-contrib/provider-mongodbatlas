@@ -15,7 +15,6 @@ import (
 
 type MCPConfigSecretInitParameters struct {
 
-	// (String) Unique identifier of the MCP configuration.
 	// Unique identifier of the MCP configuration.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.MCPConfig
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("mcp_config_id",true)
@@ -29,7 +28,6 @@ type MCPConfigSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	McpConfigIDSelector *v2.Selector `json:"mcpConfigIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -42,51 +40,41 @@ type MCPConfigSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
-	// (Number) The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
 	// The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 }
 
 type MCPConfigSecretObservation struct {
 
-	// (String) The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
 
-	// (String) The masked Service Account secret.
 	// The masked Service Account secret.
 	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
 
-	// (String) Unique identifier of the MCP configuration.
 	// Unique identifier of the MCP configuration.
 	McpConfigID *string `json:"mcpConfigId,omitempty" tf:"mcp_config_id,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// (Number) The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
 	// The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
-	// hexadecimal digit string that identifies the secret.
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
 
 type MCPConfigSecretParameters struct {
 
-	// (String) Unique identifier of the MCP configuration.
 	// Unique identifier of the MCP configuration.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.MCPConfig
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("mcp_config_id",true)
@@ -101,7 +89,6 @@ type MCPConfigSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	McpConfigIDSelector *v2.Selector `json:"mcpConfigIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
@@ -115,7 +102,6 @@ type MCPConfigSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
-	// (Number) The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
 	// The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
 	// +kubebuilder:validation:Optional
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`

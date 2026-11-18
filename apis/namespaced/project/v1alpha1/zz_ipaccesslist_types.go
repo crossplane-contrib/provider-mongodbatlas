@@ -15,23 +15,18 @@ import (
 
 type IPAccessListInitParameters struct {
 
-	// (String) Unique identifier of the AWS security group to add to the access list. Mutually exclusive with cidr_block and ip_address.
 	// Unique identifier of the AWS security group to add to the access list. Mutually exclusive with `cidr_block` and `ip_address`.
 	AwsSecurityGroup *string `json:"awsSecurityGroup,omitempty" tf:"aws_security_group,omitempty"`
 
-	// (String) Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with ip_address and aws_security_group.
 	// Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with `ip_address` and `aws_security_group`.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// (String) Remark that explains the purpose or scope of this IP access list entry.
 	// Remark that explains the purpose or scope of this IP access list entry.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
-	// (String) Single IP address to be added to the access list. Mutually exclusive with cidr_block and aws_security_group.
 	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -44,61 +39,51 @@ type IPAccessListInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type IPAccessListObservation struct {
 
-	// (String) Unique identifier of the AWS security group to add to the access list. Mutually exclusive with cidr_block and ip_address.
 	// Unique identifier of the AWS security group to add to the access list. Mutually exclusive with `cidr_block` and `ip_address`.
 	AwsSecurityGroup *string `json:"awsSecurityGroup,omitempty" tf:"aws_security_group,omitempty"`
 
-	// (String) Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with ip_address and aws_security_group.
 	// Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with `ip_address` and `aws_security_group`.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// (String) Remark that explains the purpose or scope of this IP access list entry.
 	// Remark that explains the purpose or scope of this IP access list entry.
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) Single IP address to be added to the access list. Mutually exclusive with cidr_block and aws_security_group.
 	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type IPAccessListParameters struct {
 
-	// (String) Unique identifier of the AWS security group to add to the access list. Mutually exclusive with cidr_block and ip_address.
 	// Unique identifier of the AWS security group to add to the access list. Mutually exclusive with `cidr_block` and `ip_address`.
 	// +kubebuilder:validation:Optional
 	AwsSecurityGroup *string `json:"awsSecurityGroup,omitempty" tf:"aws_security_group,omitempty"`
 
-	// (String) Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with ip_address and aws_security_group.
 	// Range of IP addresses in CIDR notation to be added to the access list. Mutually exclusive with `ip_address` and `aws_security_group`.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// (String) Remark that explains the purpose or scope of this IP access list entry.
 	// Remark that explains the purpose or scope of this IP access list entry.
 	// +kubebuilder:validation:Optional
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
-	// (String) Single IP address to be added to the access list. Mutually exclusive with cidr_block and aws_security_group.
 	// Single IP address to be added to the access list. Mutually exclusive with `cidr_block` and `aws_security_group`.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -112,41 +97,35 @@ type IPAccessListParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (Attributes) (see below for nested schema)
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type TimeoutsInitParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 45m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `45m`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: 2m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: `2m`.
 	Read *string `json:"read,omitempty" tf:"read,omitempty"`
 }
 
 type TimeoutsObservation struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 45m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `45m`.
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: 2m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: `2m`.
 	Read *string `json:"read,omitempty" tf:"read,omitempty"`
 }
 
 type TimeoutsParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: 45m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs. Default: `45m`.
 	// +kubebuilder:validation:Optional
 	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: 2m.
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled. Default: `2m`.
 	// +kubebuilder:validation:Optional
 	Read *string `json:"read,omitempty" tf:"read,omitempty"`

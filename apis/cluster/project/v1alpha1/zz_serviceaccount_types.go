@@ -18,23 +18,18 @@ type SecretsInitParameters struct {
 
 type SecretsObservation struct {
 
-	// (String) The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The date that the secret was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// (String) The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The date for the expiration of the secret. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
-	// (String) The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The last time the secret was used. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
 
-	// (String) The masked Service Account secret.
 	// The masked Service Account secret.
 	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
 
-	// hexadecimal digit string that identifies the secret.
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
@@ -44,15 +39,12 @@ type SecretsParameters struct {
 
 type ServiceAccountInitParameters struct {
 
-	// (String) Human readable description for the Service Account.
 	// Human readable description for the Service Account.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -65,78 +57,63 @@ type ServiceAccountInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles for the Service Account.
 	// A list of project-level roles for the Service Account.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set `without_initial_secret` to false or omit `without_initial_secret`. Do not set this field when you set `without_initial_secret` to true. You cannot update this field after you create the Service Account.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
-	// (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
 	// When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set `secret_expires_after_hours`.
 	WithoutInitialSecret *bool `json:"withoutInitialSecret,omitempty" tf:"without_initial_secret,omitempty"`
 }
 
 type ServiceAccountObservation struct {
 
-	// (String) The Client ID of the Service Account.
 	// The Client ID of the Service Account.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
-	// (String) The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	// The date that the Service Account was created on. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// (String) Human readable description for the Service Account.
 	// Human readable description for the Service Account.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// level roles for the Service Account.
 	// A list of project-level roles for the Service Account.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set `without_initial_secret` to false or omit `without_initial_secret`. Do not set this field when you set `without_initial_secret` to true. You cannot update this field after you create the Service Account.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
-	// (Attributes List) A list of secrets associated with the specified Service Account. (see below for nested schema)
+	// A list of secrets associated with the specified Service Account. (see below for nested schema)
 	Secrets []SecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
 
-	// (Boolean) Indicates whether the Service Account is system managed.
 	// Indicates whether the Service Account is system managed.
 	SystemManaged *bool `json:"systemManaged,omitempty" tf:"system_managed,omitempty"`
 
-	// (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
 	// When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set `secret_expires_after_hours`.
 	WithoutInitialSecret *bool `json:"withoutInitialSecret,omitempty" tf:"without_initial_secret,omitempty"`
 }
 
 type ServiceAccountParameters struct {
 
-	// (String) Human readable description for the Service Account.
 	// Human readable description for the Service Account.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -150,18 +127,15 @@ type ServiceAccountParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles for the Service Account.
 	// A list of project-level roles for the Service Account.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// (Number) The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set without_initial_secret to false or omit without_initial_secret. Do not set this field when you set without_initial_secret to true. You cannot update this field after you create the Service Account.
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set `without_initial_secret` to false or omit `without_initial_secret`. Do not set this field when you set `without_initial_secret` to true. You cannot update this field after you create the Service Account.
 	// +kubebuilder:validation:Optional
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
-	// (Boolean) When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set secret_expires_after_hours.
 	// When true, creates the Service Account without generating an initial secret. If you set this field to true, do not set `secret_expires_after_hours`.
 	// +kubebuilder:validation:Optional
 	WithoutInitialSecret *bool `json:"withoutInitialSecret,omitempty" tf:"without_initial_secret,omitempty"`

@@ -15,23 +15,18 @@ import (
 
 type DelegationSettingsInitParameters struct {
 
-	// (String) Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are DISALLOWED, READ_ONLY, and READ_WRITE. Defaults to DISALLOWED.
 	// Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults to `DISALLOWED`.
 	DelegatedMcpAccess *string `json:"delegatedMcpAccess,omitempty" tf:"delegated_mcp_access,omitempty"`
 
-	// (String) Policy that controls whether partner delegated access is permitted within this organization. Possible values are DISALLOWED and READ_WRITE. Defaults to DISALLOWED.
 	// Policy that controls whether partner delegated access is permitted within this organization. Possible values are `DISALLOWED` and `READ_WRITE`. Defaults to `DISALLOWED`.
 	DelegatedPartnerAccess *string `json:"delegatedPartnerAccess,omitempty" tf:"delegated_partner_access,omitempty"`
 
-	// (Number) Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	IdleRefreshTokenLifetime *float64 `json:"idleRefreshTokenLifetime,omitempty" tf:"idle_refresh_token_lifetime,omitempty"`
 
-	// (Number) Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	MaximumRefreshTokenLifetime *float64 `json:"maximumRefreshTokenLifetime,omitempty" tf:"maximum_refresh_token_lifetime,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -47,52 +42,42 @@ type DelegationSettingsInitParameters struct {
 
 type DelegationSettingsObservation struct {
 
-	// (String) Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are DISALLOWED, READ_ONLY, and READ_WRITE. Defaults to DISALLOWED.
 	// Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults to `DISALLOWED`.
 	DelegatedMcpAccess *string `json:"delegatedMcpAccess,omitempty" tf:"delegated_mcp_access,omitempty"`
 
-	// (String) Policy that controls whether partner delegated access is permitted within this organization. Possible values are DISALLOWED and READ_WRITE. Defaults to DISALLOWED.
 	// Policy that controls whether partner delegated access is permitted within this organization. Possible values are `DISALLOWED` and `READ_WRITE`. Defaults to `DISALLOWED`.
 	DelegatedPartnerAccess *string `json:"delegatedPartnerAccess,omitempty" tf:"delegated_partner_access,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (Number) Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	IdleRefreshTokenLifetime *float64 `json:"idleRefreshTokenLifetime,omitempty" tf:"idle_refresh_token_lifetime,omitempty"`
 
-	// (Number) Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	MaximumRefreshTokenLifetime *float64 `json:"maximumRefreshTokenLifetime,omitempty" tf:"maximum_refresh_token_lifetime,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 }
 
 type DelegationSettingsParameters struct {
 
-	// (String) Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are DISALLOWED, READ_ONLY, and READ_WRITE. Defaults to DISALLOWED.
 	// Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults to `DISALLOWED`.
 	// +kubebuilder:validation:Optional
 	DelegatedMcpAccess *string `json:"delegatedMcpAccess,omitempty" tf:"delegated_mcp_access,omitempty"`
 
-	// (String) Policy that controls whether partner delegated access is permitted within this organization. Possible values are DISALLOWED and READ_WRITE. Defaults to DISALLOWED.
 	// Policy that controls whether partner delegated access is permitted within this organization. Possible values are `DISALLOWED` and `READ_WRITE`. Defaults to `DISALLOWED`.
 	// +kubebuilder:validation:Optional
 	DelegatedPartnerAccess *string `json:"delegatedPartnerAccess,omitempty" tf:"delegated_partner_access,omitempty"`
 
-	// (Number) Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// +kubebuilder:validation:Optional
 	IdleRefreshTokenLifetime *float64 `json:"idleRefreshTokenLifetime,omitempty" tf:"idle_refresh_token_lifetime,omitempty"`
 
-	// (Number) Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	// +kubebuilder:validation:Optional
 	MaximumRefreshTokenLifetime *float64 `json:"maximumRefreshTokenLifetime,omitempty" tf:"maximum_refresh_token_lifetime,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional

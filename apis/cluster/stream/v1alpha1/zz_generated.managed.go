@@ -306,3 +306,53 @@ func (mg *Workspace) SetProviderConfigReference(r *xpv2.Reference) {
 func (mg *Workspace) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) GetDeletionPolicy() xpv2.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) GetProviderConfigReference() *xpv2.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) SetDeletionPolicy(r xpv2.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) SetProviderConfigReference(r *xpv2.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this WorkspacePrivateEndpoint.
+func (mg *WorkspacePrivateEndpoint) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

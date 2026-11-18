@@ -1047,6 +1047,7 @@ spec:
                       type: object
                     type: array
                   id:
+                    description: The ID of this resource.
                     type: string
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies

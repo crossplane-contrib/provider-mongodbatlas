@@ -252,6 +252,7 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -467,6 +468,7 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -622,6 +624,7 @@ spec:
                       what status it is in.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

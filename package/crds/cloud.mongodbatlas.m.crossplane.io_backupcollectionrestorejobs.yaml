@@ -150,6 +150,8 @@ spec:
                     description: Optional suffix applied to restored collection names.
                     type: string
                   collections:
+                    description: List of collections to restore (up to 100 items).
+                      (see below for nested schema)
                     items:
                       properties:
                         sourceNamespace:
@@ -165,6 +167,8 @@ spec:
                     description: Optional suffix applied to restored database names.
                     type: string
                   databases:
+                    description: List of databases to restore (up to 100 items). (see
+                      below for nested schema)
                     items:
                       properties:
                         sourceNamespace:
@@ -534,6 +538,7 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -654,6 +659,8 @@ spec:
                     description: Optional suffix applied to restored collection names.
                     type: string
                   collections:
+                    description: List of collections to restore (up to 100 items).
+                      (see below for nested schema)
                     items:
                       properties:
                         sourceNamespace:
@@ -669,6 +676,8 @@ spec:
                     description: Optional suffix applied to restored database names.
                     type: string
                   databases:
+                    description: List of databases to restore (up to 100 items). (see
+                      below for nested schema)
                     items:
                       properties:
                         sourceNamespace:
@@ -1038,6 +1047,7 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -1136,6 +1146,8 @@ spec:
                     description: Optional suffix applied to restored collection names.
                     type: string
                   collections:
+                    description: List of collections to restore (up to 100 items).
+                      (see below for nested schema)
                     items:
                       properties:
                         sourceNamespace:
@@ -1155,6 +1167,8 @@ spec:
                     description: Optional suffix applied to restored database names.
                     type: string
                   databases:
+                    description: List of databases to restore (up to 100 items). (see
+                      below for nested schema)
                     items:
                       properties:
                         sourceNamespace:
@@ -1176,6 +1190,8 @@ spec:
                   id:
                     type: string
                   indexStatus:
+                    description: Overall index build status for a collection restore
+                      job. (see below for nested schema)
                     properties:
                       failedCollectionCount:
                         description: Number of collections that failed to build indexes.
@@ -1229,6 +1245,7 @@ spec:
                       your project, also known as `groupId` in the official documentation.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

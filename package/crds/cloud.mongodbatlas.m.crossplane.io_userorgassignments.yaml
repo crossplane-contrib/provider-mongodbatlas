@@ -147,6 +147,9 @@ spec:
                         type: object
                     type: object
                   roles:
+                    description: Organization and project level roles to assign the
+                      MongoDB Cloud user within one organization. (see below for nested
+                      schema)
                     properties:
                       orgRoles:
                         description: One or more organization level roles to assign
@@ -263,6 +266,9 @@ spec:
                         type: object
                     type: object
                   roles:
+                    description: Organization and project level roles to assign the
+                      MongoDB Cloud user within one organization. (see below for nested
+                      schema)
                     properties:
                       orgRoles:
                         description: One or more organization level roles to assign
@@ -402,6 +408,9 @@ spec:
                       are already active in the organization.
                     type: string
                   roles:
+                    description: Organization and project level roles to assign the
+                      MongoDB Cloud user within one organization. (see below for nested
+                      schema)
                     properties:
                       orgRoles:
                         description: One or more organization level roles to assign
@@ -411,6 +420,8 @@ spec:
                         type: array
                         x-kubernetes-list-type: set
                       projectRoleAssignments:
+                        description: List of project level role assignments to assign
+                          the MongoDB Cloud user. (see below for nested schema)
                         items:
                           properties:
                             projectId:

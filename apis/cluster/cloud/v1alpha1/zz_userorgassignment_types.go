@@ -42,6 +42,7 @@ type RolesObservation struct {
 	// +listType=set
 	OrgRoles []*string `json:"orgRoles,omitempty" tf:"org_roles,omitempty"`
 
+	// List of project level role assignments to assign the MongoDB Cloud user. (see below for nested schema)
 	ProjectRoleAssignments []ProjectRoleAssignmentsObservation `json:"projectRoleAssignments,omitempty" tf:"project_role_assignments,omitempty"`
 }
 
@@ -67,6 +68,7 @@ type UserOrgAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Organization and project level roles to assign the MongoDB Cloud user within one organization. (see below for nested schema)
 	Roles *RolesInitParameters `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// Email address that represents the username of the MongoDB Cloud user.
@@ -110,6 +112,7 @@ type UserOrgAssignmentObservation struct {
 	// String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
 	OrgMembershipStatus *string `json:"orgMembershipStatus,omitempty" tf:"org_membership_status,omitempty"`
 
+	// Organization and project level roles to assign the MongoDB Cloud user within one organization. (see below for nested schema)
 	Roles *RolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
@@ -138,6 +141,7 @@ type UserOrgAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// Organization and project level roles to assign the MongoDB Cloud user within one organization. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Roles *RolesParameters `json:"roles,omitempty" tf:"roles,omitempty"`
 

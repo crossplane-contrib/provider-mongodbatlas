@@ -252,6 +252,7 @@ type EncryptionAtRestObservation struct {
 	// Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS).
 	GoogleCloudKMSConfig []GoogleCloudKMSConfigObservation `json:"googleCloudKmsConfig,omitempty" tf:"google_cloud_kms_config,omitempty"`
 
+	// The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.

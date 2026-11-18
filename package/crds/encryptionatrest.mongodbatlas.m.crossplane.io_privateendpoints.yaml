@@ -163,6 +163,7 @@ spec:
                       Rest private endpoint is located.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -298,6 +299,7 @@ spec:
                       Rest private endpoint is located.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -406,6 +408,8 @@ spec:
                       At Rest private endpoint.
                     type: string
                   id:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the Private Endpoint Service.
                     type: string
                   privateEndpointConnectionName:
                     description: Connection name of the Azure Private Endpoint.
@@ -422,6 +426,7 @@ spec:
                     description: State of the Encryption At Rest private endpoint.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

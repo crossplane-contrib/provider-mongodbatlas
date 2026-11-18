@@ -72,6 +72,8 @@ spec:
                     description: OpenTelemetry collector endpoint URL. Must use HTTPS.
                     type: string
                   headers:
+                    description: HTTP headers for authentication and configuration.
+                      Total size limit 2KB. (see below for nested schema)
                     items:
                       properties:
                         name:
@@ -104,6 +106,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   oauth:
+                    description: OAuth 2.0 client credentials configuration. Required
+                      when auth_type is OAUTH2. Secrets are never returned. (see below
+                      for nested schema)
                     properties:
                       clientAuthMethod:
                         description: How the client authenticates to the token endpoint.
@@ -267,6 +272,8 @@ spec:
                     description: OpenTelemetry collector endpoint URL. Must use HTTPS.
                     type: string
                   headers:
+                    description: HTTP headers for authentication and configuration.
+                      Total size limit 2KB. (see below for nested schema)
                     items:
                       properties:
                         name:
@@ -301,6 +308,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   oauth:
+                    description: OAuth 2.0 client credentials configuration. Required
+                      when auth_type is OAUTH2. Secrets are never returned. (see below
+                      for nested schema)
                     properties:
                       clientAuthMethod:
                         description: How the client authenticates to the token endpoint.
@@ -539,6 +549,8 @@ spec:
                     description: OpenTelemetry collector endpoint URL. Must use HTTPS.
                     type: string
                   headers:
+                    description: HTTP headers for authentication and configuration.
+                      Total size limit 2KB. (see below for nested schema)
                     items:
                       properties:
                         name:
@@ -547,6 +559,9 @@ spec:
                       type: object
                     type: array
                   headersRedacted:
+                    description: HTTP headers for authentication and configuration.
+                      Values are redacted and never returned in plaintext. (see below
+                      for nested schema)
                     items:
                       properties:
                         name:
@@ -575,6 +590,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   oauth:
+                    description: OAuth 2.0 client credentials configuration. Required
+                      when auth_type is OAUTH2. Secrets are never returned. (see below
+                      for nested schema)
                     properties:
                       clientAuthMethod:
                         description: How the client authenticates to the token endpoint.
@@ -595,6 +613,11 @@ spec:
                         type: array
                         x-kubernetes-list-type: set
                       signingKeyInfo:
+                        description: Read-only metadata for the Atlas-managed signing
+                          key used by PRIVATE_KEY_JWT. Present only for that method.
+                          Register the jwks_uri with your identity provider. Atlas
+                          rotates the underlying key without changing this URL. (see
+                          below for nested schema)
                         properties:
                           algorithm:
                             description: Signing algorithm of the Atlas-managed key.

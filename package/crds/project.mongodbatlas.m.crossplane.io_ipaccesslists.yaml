@@ -163,6 +163,7 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       delete:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -300,6 +301,7 @@ spec:
                         type: object
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       delete:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -407,6 +409,7 @@ spec:
                       your project, also known as `groupId` in the official documentation.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       delete:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

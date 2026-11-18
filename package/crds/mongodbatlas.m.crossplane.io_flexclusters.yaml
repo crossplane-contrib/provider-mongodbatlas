@@ -158,6 +158,8 @@ spec:
                         type: object
                     type: object
                   providerSettings:
+                    description: Group of cloud provider settings that configure the
+                      provisioned MongoDB flex cluster. (see below for nested schema)
                     properties:
                       backingProviderName:
                         description: Cloud service provider on which MongoDB Cloud
@@ -186,6 +188,7 @@ spec:
                       the cluster.
                     type: boolean
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -322,6 +325,8 @@ spec:
                         type: object
                     type: object
                   providerSettings:
+                    description: Group of cloud provider settings that configure the
+                      provisioned MongoDB flex cluster. (see below for nested schema)
                     properties:
                       backingProviderName:
                         description: Cloud service provider on which MongoDB Cloud
@@ -350,6 +355,7 @@ spec:
                       the cluster.
                     type: boolean
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -446,6 +452,7 @@ spec:
               atProvider:
                 properties:
                   backupSettings:
+                    description: Flex backup configuration (see below for nested schema)
                     properties:
                       enabled:
                         description: Flag that indicates whether backups are performed
@@ -456,6 +463,8 @@ spec:
                     description: Flex cluster topology.
                     type: string
                   connectionStrings:
+                    description: Collection of Uniform Resource Locators that point
+                      to the MongoDB database. (see below for nested schema)
                     properties:
                       standard:
                         description: Public connection string that you can use to
@@ -483,6 +492,8 @@ spec:
                       is `true`.
                     type: boolean
                   id:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the instance.
                     type: string
                   mongoDbVersion:
                     description: Version of MongoDB that the instance runs.
@@ -495,6 +506,8 @@ spec:
                       the project.
                     type: string
                   providerSettings:
+                    description: Group of cloud provider settings that configure the
+                      provisioned MongoDB flex cluster. (see below for nested schema)
                     properties:
                       backingProviderName:
                         description: Cloud service provider on which MongoDB Cloud
@@ -535,6 +548,7 @@ spec:
                       the cluster.
                     type: boolean
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

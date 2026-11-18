@@ -167,6 +167,7 @@ spec:
                       VPC endpoint.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -296,6 +297,7 @@ spec:
                       VPC endpoint.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -420,6 +422,7 @@ spec:
                     description: Status of the endpoint registration.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

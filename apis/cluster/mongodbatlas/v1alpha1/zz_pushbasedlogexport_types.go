@@ -48,6 +48,7 @@ type PushBasedLogExportInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (see below for nested schema)
 	Timeouts *PushBasedLogExportTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
@@ -76,6 +77,7 @@ type PushBasedLogExportObservation struct {
 	// Describes whether or not the feature is enabled and what status it is in.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *PushBasedLogExportTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
@@ -119,6 +121,7 @@ type PushBasedLogExportParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *PushBasedLogExportTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }

@@ -13,6 +13,7 @@ import (
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
@@ -280,35 +281,47 @@ func TestLegacyEncodedExternalName(t *testing.T) {
 	}
 }
 
-// TestCleanArgumentDocs checks that docs tfplugindocs wrote from the schema
-// description are emptied, and that only docs whose first hyphen sits inside
-// the text get the separator upjet strips; docs with a real separator keep
-// theirs.
+// TestCleanArgumentDocs checks that a doc tfplugindocs wrote from the schema
+// description is emptied only when every field it applies to prints that
+// description, and that only docs whose first hyphen sits inside the text get
+// the separator upjet strips.
 func TestCleanArgumentDocs(t *testing.T) {
-	cases := map[string]string{
-		"(String) Unique 24-hexadecimal digit string":                     "",
-		"(Boolean) Flag that indicates whether to enable the setting.":    "",
-		"(Set of String) Human-readable labels.":                          "",
-		"(Attributes List, Sensitive) HTTP headers.":                      "",
-		"(Block List, Max: 1) Settings.":                                  "",
-		"(String, Deprecated) Label that identifies the workspace.":       "Deprecated.",
-		"(String, Sensitive, Deprecated) Password.":                       "Deprecated.",
-		"Oplog timestamp (seconds part) for point-in-time restore.":       "- Oplog timestamp (seconds part) for point-in-time restore.",
-		"(Optional) - Flag that indicates whether the cluster is paused.": "(Optional) - Flag that indicates whether the cluster is paused.",
-		"- (Required) Unique 24-hexadecimal digit string":                 "- (Required) Unique 24-hexadecimal digit string",
+	described := &schema.Schema{Type: schema.TypeString, Description: "From the schema."}
+	bare := &schema.Schema{Type: schema.TypeString}
+	tf := &schema.Resource{Schema: map[string]*schema.Schema{
+		"project_id":    described,
+		"instance_name": described,
+		"legacy_name":   bare,
+		"id":            described, // upjet drops it when it generates the CRD
+		// upjet prints no description for nested objects converted from the
+		// plugin framework, so their doc must stay.
+		"headers": {Type: schema.TypeList, Elem: &schema.Resource{Schema: map[string]*schema.Schema{
+			"value": described,
+		}}},
+	}}
+	cases := map[string]struct{ in, want string }{
+		"project_id":    {"(String) Unique 24-hexadecimal digit string.", ""},
+		"value":         {"(String, Sensitive) Header value.", ""},
+		"headers":       {"(Attributes List, Sensitive) HTTP headers.", "HTTP headers."},
+		"id":            {"(String) Unique 24-hexadecimal ID.", "- Unique 24-hexadecimal ID."},
+		"instance_name": {"(String, Deprecated) Label.", "Deprecated."},
+		"legacy_name":   {"(String, Deprecated) Old label.", "Deprecated. Old label."},
+		"oplog_ts":      {"Oplog timestamp (seconds part) for point-in-time restore.", "- Oplog timestamp (seconds part) for point-in-time restore."},
+		"paused":        {"(Optional) - Flag that indicates whether the cluster is paused.", "(Optional) - Flag that indicates whether the cluster is paused."},
+		"bucket":        {"- (Required) Unique 24-hexadecimal digit string.", "- (Required) Unique 24-hexadecimal digit string."},
 		// upjet then drops "(Required - AWS)"; without the dash it cut at "AWS)".
-		"(Required - AWS) Region of the bucket.": "- (Required - AWS) Region of the bucket.",
+		"region": {"(Required - AWS) Region of the bucket.", "- (Required - AWS) Region of the bucket."},
 	}
 	docs := map[string]string{}
-	for in := range cases {
-		docs[in] = in
+	for k, c := range cases {
+		docs[k] = c.in
 	}
-	r := &ujconfig.Resource{MetaResource: &registry.Resource{ArgumentDocs: docs}}
+	r := &ujconfig.Resource{TerraformResource: tf, MetaResource: &registry.Resource{ArgumentDocs: docs}}
 	cleanArgumentDocs()(r)
 	cleanArgumentDocs()(r) // a second run must not change anything
-	for in, want := range cases {
-		if got := r.MetaResource.ArgumentDocs[in]; got != want {
-			t.Errorf("%q: got %q, want %q", in, got, want)
+	for k, c := range cases {
+		if got := r.MetaResource.ArgumentDocs[k]; got != c.want {
+			t.Errorf("%s: got %q, want %q", k, got, c.want)
 		}
 	}
 	cleanArgumentDocs()(&ujconfig.Resource{}) // no docs: must not panic

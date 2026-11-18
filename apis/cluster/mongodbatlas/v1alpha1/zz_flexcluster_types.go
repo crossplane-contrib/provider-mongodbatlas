@@ -60,6 +60,7 @@ type FlexClusterInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	ProviderSettings *ProviderSettingsInitParameters `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
 	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
@@ -69,15 +70,19 @@ type FlexClusterInitParameters struct {
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type FlexClusterObservation struct {
+
+	// Flex backup configuration (see below for nested schema)
 	BackupSettings *BackupSettingsObservation `json:"backupSettings,omitempty" tf:"backup_settings,omitempty"`
 
 	// Flex cluster topology.
 	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
+	// Collection of Uniform Resource Locators that point to the MongoDB database. (see below for nested schema)
 	ConnectionStrings *ConnectionStringsObservation `json:"connectionStrings,omitempty" tf:"connection_strings,omitempty"`
 
 	// Date and time when MongoDB Cloud created this instance. This parameter expresses its value in ISO 8601 format in UTC.
@@ -86,6 +91,7 @@ type FlexClusterObservation struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the instance.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Version of MongoDB that the instance runs.
@@ -97,6 +103,7 @@ type FlexClusterObservation struct {
 	// Unique 24-hexadecimal character string that identifies the project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	ProviderSettings *ProviderSettingsObservation `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
 	// Human-readable label that indicates the current operating condition of this instance.
@@ -109,6 +116,7 @@ type FlexClusterObservation struct {
 	// Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster.
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Method by which the cluster maintains the MongoDB versions.
@@ -138,6 +146,7 @@ type FlexClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	ProviderSettings *ProviderSettingsParameters `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
@@ -150,6 +159,7 @@ type FlexClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	TerminationProtectionEnabled *bool `json:"terminationProtectionEnabled,omitempty" tf:"termination_protection_enabled,omitempty"`
 
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }

@@ -49,6 +49,7 @@ type LogIntegrationInitParameters struct {
 	// Required for type: OTEL_LOG_EXPORT. OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
 
+	// HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	OtelSuppliedHeaders []OtelSuppliedHeadersInitParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
 	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT, S3_LOG_EXPORT. Path prefix where the log files will be stored. Atlas will add further sub-directories based on the log type.
@@ -111,6 +112,7 @@ type LogIntegrationObservation struct {
 	// Required for type: OTEL_LOG_EXPORT. OpenTelemetry collector endpoint URL. Must be HTTPS and not exceed 2048 characters.
 	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
 
+	// HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	OtelSuppliedHeaders []OtelSuppliedHeadersObservation `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
 	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT, S3_LOG_EXPORT. Path prefix where the log files will be stored. Atlas will add further sub-directories based on the log type.
@@ -182,6 +184,7 @@ type LogIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	OtelEndpoint *string `json:"otelEndpoint,omitempty" tf:"otel_endpoint,omitempty"`
 
+	// HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	OtelSuppliedHeaders []OtelSuppliedHeadersParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 

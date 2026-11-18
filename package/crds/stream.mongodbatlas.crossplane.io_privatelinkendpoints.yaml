@@ -374,6 +374,7 @@ spec:
                     description: Error message if the connection is in a failed state.
                     type: string
                   id:
+                    description: The ID of the Private Link connection.
                     type: string
                   interfaceEndpointId:
                     description: Interface endpoint ID that is created from the specified

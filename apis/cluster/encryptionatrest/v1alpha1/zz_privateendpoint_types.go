@@ -36,6 +36,7 @@ type PrivateEndpointInitParameters struct {
 	// Cloud provider region in which the Encryption At Rest private endpoint is located.
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
@@ -50,6 +51,7 @@ type PrivateEndpointObservation struct {
 	// Error message for failures associated with the Encryption At Rest private endpoint.
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies the Private Endpoint Service.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Connection name of the Azure Private Endpoint.
@@ -64,6 +66,7 @@ type PrivateEndpointObservation struct {
 	// State of the Encryption At Rest private endpoint.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
@@ -94,6 +97,7 @@ type PrivateEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }

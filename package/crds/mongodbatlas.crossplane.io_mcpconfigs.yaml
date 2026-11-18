@@ -73,6 +73,9 @@ spec:
               forProvider:
                 properties:
                   ipAccessList:
+                    description: List of IP access list entries that define allowed
+                      source addresses for this MCP configuration. (see below for
+                      nested schema)
                     items:
                       properties:
                         cidrBlock:
@@ -197,6 +200,9 @@ spec:
                   autoscaler.
                 properties:
                   ipAccessList:
+                    description: List of IP access list entries that define allowed
+                      source addresses for this MCP configuration. (see below for
+                      nested schema)
                     items:
                       properties:
                         cidrBlock:
@@ -420,6 +426,9 @@ spec:
                   id:
                     type: string
                   ipAccessList:
+                    description: List of IP access list entries that define allowed
+                      source addresses for this MCP configuration. (see below for
+                      nested schema)
                     items:
                       properties:
                         cidrBlock:

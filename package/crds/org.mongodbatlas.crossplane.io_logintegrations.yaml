@@ -163,6 +163,9 @@ spec:
                       and not exceed 2048 characters.
                     type: string
                   otelSuppliedHeaders:
+                    description: HTTP headers for authentication and configuration.
+                      Maximum 10 headers, total size limit 2KB. (see below for nested
+                      schema)
                     items:
                       properties:
                         name:
@@ -298,6 +301,9 @@ spec:
                       and not exceed 2048 characters.
                     type: string
                   otelSuppliedHeaders:
+                    description: HTTP headers for authentication and configuration.
+                      Maximum 10 headers, total size limit 2KB. (see below for nested
+                      schema)
                     items:
                       properties:
                         name:
@@ -452,6 +458,9 @@ spec:
                       and not exceed 2048 characters.
                     type: string
                   otelSuppliedHeaders:
+                    description: HTTP headers for authentication and configuration.
+                      Maximum 10 headers, total size limit 2KB. (see below for nested
+                      schema)
                     items:
                       properties:
                         name:

@@ -43,6 +43,8 @@ type IPAccessListParameters struct {
 }
 
 type MCPConfigInitParameters struct {
+
+	// List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
 	IPAccessList []IPAccessListInitParameters `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 
 	// Human-readable name that identifies this MCP configuration.
@@ -75,6 +77,7 @@ type MCPConfigObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
 	IPAccessList []IPAccessListObservation `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 
 	// Unique identifier that identifies this MCP configuration.
@@ -93,6 +96,7 @@ type MCPConfigObservation struct {
 
 type MCPConfigParameters struct {
 
+	// List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	IPAccessList []IPAccessListParameters `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 

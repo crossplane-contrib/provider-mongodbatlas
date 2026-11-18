@@ -162,6 +162,8 @@ spec:
                         type: object
                     type: object
                   policies:
+                    description: List of policies that make up the Atlas resource
+                      policy. (see below for nested schema)
                     items:
                       properties:
                         body:
@@ -274,6 +276,8 @@ spec:
                         type: object
                     type: object
                   policies:
+                    description: List of policies that make up the Atlas resource
+                      policy. (see below for nested schema)
                     items:
                       properties:
                         body:
@@ -384,10 +388,13 @@ spec:
               atProvider:
                 properties:
                   createdByUser:
+                    description: The user that last updated the Atlas resource policy.
+                      (see below for nested schema)
                     properties:
                       id:
-                        description: Unique 24-hexadecimal character string that identifies
-                          a user.
+                        description: |-
+                          Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
+                          Unique 24-hexadecimal character string that identifies a user.
                         type: string
                       name:
                         description: Human-readable label that describes a user.
@@ -401,12 +408,17 @@ spec:
                     description: Description of the Atlas resource policy.
                     type: string
                   id:
+                    description: Unique 24-hexadecimal digit string that identifies
+                      an Atlas resource policy.
                     type: string
                   lastUpdatedByUser:
+                    description: The user that last updated the Atlas resource policy.
+                      (see below for nested schema)
                     properties:
                       id:
-                        description: Unique 24-hexadecimal character string that identifies
-                          a user.
+                        description: |-
+                          Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
+                          Unique 24-hexadecimal character string that identifies a user.
                         type: string
                       name:
                         description: Human-readable label that describes a user.
@@ -427,6 +439,8 @@ spec:
                       user has access.
                     type: string
                   policies:
+                    description: List of policies that make up the Atlas resource
+                      policy. (see below for nested schema)
                     items:
                       properties:
                         body:
@@ -434,8 +448,9 @@ spec:
                             policy. The syntax used is the Cedar Policy language.
                           type: string
                         id:
-                          description: Unique 24-hexadecimal character string that
-                            identifies the policy.
+                          description: |-
+                            Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
+                            Unique 24-hexadecimal character string that identifies the policy.
                           type: string
                       type: object
                     type: array

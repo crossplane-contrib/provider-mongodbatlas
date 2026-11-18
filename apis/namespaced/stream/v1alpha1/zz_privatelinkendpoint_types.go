@@ -89,6 +89,7 @@ type PrivatelinkEndpointObservation struct {
 	// Error message if the connection is in a failed state.
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
+	// The ID of the Private Link connection.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Interface endpoint ID that is created from the specified service endpoint ID.

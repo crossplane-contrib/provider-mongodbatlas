@@ -18,6 +18,7 @@ type CreatedByUserInitParameters struct {
 
 type CreatedByUserObservation struct {
 
+	// Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	// Unique 24-hexadecimal character string that identifies a user.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -33,6 +34,7 @@ type LastUpdatedByUserInitParameters struct {
 
 type LastUpdatedByUserObservation struct {
 
+	// Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	// Unique 24-hexadecimal character string that identifies a user.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -54,6 +56,7 @@ type PoliciesObservation struct {
 	// A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	// Unique 24-hexadecimal character string that identifies the policy.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
@@ -85,10 +88,13 @@ type ResourcePolicyInitParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// List of policies that make up the Atlas resource policy. (see below for nested schema)
 	Policies []PoliciesInitParameters `json:"policies,omitempty" tf:"policies,omitempty"`
 }
 
 type ResourcePolicyObservation struct {
+
+	// The user that last updated the Atlas resource policy. (see below for nested schema)
 	CreatedByUser *CreatedByUserObservation `json:"createdByUser,omitempty" tf:"created_by_user,omitempty"`
 
 	// Date and time in UTC when the Atlas resource policy was created.
@@ -97,8 +103,10 @@ type ResourcePolicyObservation struct {
 	// Description of the Atlas resource policy.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The user that last updated the Atlas resource policy. (see below for nested schema)
 	LastUpdatedByUser *LastUpdatedByUserObservation `json:"lastUpdatedByUser,omitempty" tf:"last_updated_by_user,omitempty"`
 
 	// Date and time in UTC when the Atlas resource policy was last updated.
@@ -110,6 +118,7 @@ type ResourcePolicyObservation struct {
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listorganizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// List of policies that make up the Atlas resource policy. (see below for nested schema)
 	Policies []PoliciesObservation `json:"policies,omitempty" tf:"policies,omitempty"`
 
 	// A string that identifies the version of the Atlas resource policy.
@@ -139,6 +148,7 @@ type ResourcePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
+	// List of policies that make up the Atlas resource policy. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Policies []PoliciesParameters `json:"policies,omitempty" tf:"policies,omitempty"`
 }

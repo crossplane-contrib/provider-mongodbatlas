@@ -106,6 +106,7 @@ type UserTeamAssignmentObservation struct {
 	// String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
 	OrgMembershipStatus *string `json:"orgMembershipStatus,omitempty" tf:"org_membership_status,omitempty"`
 
+	// Organization and project level roles to assign the MongoDB Cloud user within one organization. (see below for nested schema)
 	Roles *UserTeamAssignmentRolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the team to which you want to assign the MongoDB Cloud user. Use the [/teams](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-teams) endpoint to retrieve all teams to which the authenticated user has access.
@@ -174,6 +175,7 @@ type UserTeamAssignmentRolesObservation struct {
 	// +listType=set
 	OrgRoles []*string `json:"orgRoles,omitempty" tf:"org_roles,omitempty"`
 
+	// List of project level role assignments to assign the MongoDB Cloud user. (see below for nested schema)
 	ProjectRoleAssignments []RolesProjectRoleAssignmentsObservation `json:"projectRoleAssignments,omitempty" tf:"project_role_assignments,omitempty"`
 }
 

@@ -65,6 +65,7 @@ type MetricIntegrationInitParameters struct {
 	// OpenTelemetry collector endpoint URL. Must use HTTPS.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
+	// HTTP headers for authentication and configuration. Total size limit 2KB. (see below for nested schema)
 	Headers []HeadersInitParameters `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
@@ -74,6 +75,7 @@ type MetricIntegrationInitParameters struct {
 	// +listType=set
 	MetricSelection []*string `json:"metricSelection,omitempty" tf:"metric_selection,omitempty"`
 
+	// OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
 	Oauth *OauthInitParameters `json:"oauth,omitempty" tf:"oauth,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
@@ -103,8 +105,10 @@ type MetricIntegrationObservation struct {
 	// OpenTelemetry collector endpoint URL. Must use HTTPS.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
+	// HTTP headers for authentication and configuration. Total size limit 2KB. (see below for nested schema)
 	Headers []HeadersObservation `json:"headers,omitempty" tf:"headers,omitempty"`
 
+	// HTTP headers for authentication and configuration. Values are redacted and never returned in plaintext. (see below for nested schema)
 	HeadersRedacted []HeadersRedactedObservation `json:"headersRedacted,omitempty" tf:"headers_redacted,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -119,6 +123,7 @@ type MetricIntegrationObservation struct {
 	// +listType=set
 	MetricSelection []*string `json:"metricSelection,omitempty" tf:"metric_selection,omitempty"`
 
+	// OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
 	Oauth *OauthObservation `json:"oauth,omitempty" tf:"oauth,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
@@ -142,6 +147,7 @@ type MetricIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
+	// HTTP headers for authentication and configuration. Total size limit 2KB. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Headers []HeadersParameters `json:"headers,omitempty" tf:"headers,omitempty"`
 
@@ -154,6 +160,7 @@ type MetricIntegrationParameters struct {
 	// +listType=set
 	MetricSelection []*string `json:"metricSelection,omitempty" tf:"metric_selection,omitempty"`
 
+	// OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Oauth *OauthParameters `json:"oauth,omitempty" tf:"oauth,omitempty"`
 
@@ -210,6 +217,7 @@ type OauthObservation struct {
 	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
+	// Read-only metadata for the Atlas-managed signing key used by PRIVATE_KEY_JWT. Present only for that method. Register the jwks_uri with your identity provider. Atlas rotates the underlying key without changing this URL. (see below for nested schema)
 	SigningKeyInfo *SigningKeyInfoObservation `json:"signingKeyInfo,omitempty" tf:"signing_key_info,omitempty"`
 
 	// OAuth 2.0 token endpoint URL. Must use HTTPS.

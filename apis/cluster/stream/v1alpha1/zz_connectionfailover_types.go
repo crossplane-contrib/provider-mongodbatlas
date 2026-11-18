@@ -160,6 +160,8 @@ type ConnectionFailoverDBRoleToExecuteParameters struct {
 }
 
 type ConnectionFailoverInitParameters struct {
+
+	// User credentials required to connect to a Kafka Cluster. Includes the authentication type, as well as the parameters for that authentication mode. (see below for nested schema)
 	Authentication *ConnectionFailoverAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// Optional for type: Kafka. Comma separated list of server addresses.
@@ -188,11 +190,13 @@ type ConnectionFailoverInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionNameSelector *v2.Selector `json:"connectionNameSelector,omitempty" tf:"-"`
 
+	// Name of a built-in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteInitParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Networking configuration for Streams connections. (see below for nested schema)
 	Networking *ConnectionFailoverNetworkingInitParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
@@ -210,8 +214,10 @@ type ConnectionFailoverInitParameters struct {
 	// Connection region.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Properties for the secure transport connection to Kafka. For SSL, this can include the trusted certificate to use. (see below for nested schema)
 	Security *ConnectionFailoverSecurityInitParameters `json:"security,omitempty" tf:"security,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *ConnectionFailoverTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Connection type.
@@ -232,20 +238,27 @@ type ConnectionFailoverInitParameters struct {
 }
 
 type ConnectionFailoverNetworkingInitParameters struct {
+
+	// Information about networking access. (see below for nested schema)
 	Access *NetworkingAccessInitParameters `json:"access,omitempty" tf:"access,omitempty"`
 }
 
 type ConnectionFailoverNetworkingObservation struct {
+
+	// Information about networking access. (see below for nested schema)
 	Access *NetworkingAccessObservation `json:"access,omitempty" tf:"access,omitempty"`
 }
 
 type ConnectionFailoverNetworkingParameters struct {
 
+	// Information about networking access. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Access *NetworkingAccessParameters `json:"access,omitempty" tf:"access,omitempty"`
 }
 
 type ConnectionFailoverObservation struct {
+
+	// User credentials required to connect to a Kafka Cluster. Includes the authentication type, as well as the parameters for that authentication mode. (see below for nested schema)
 	Authentication *ConnectionFailoverAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// Optional for type: Kafka. Comma separated list of server addresses.
@@ -264,6 +277,7 @@ type ConnectionFailoverObservation struct {
 	// Label that identifies the stream connection name.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
+	// Name of a built-in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteObservation `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
@@ -274,6 +288,7 @@ type ConnectionFailoverObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Networking configuration for Streams connections. (see below for nested schema)
 	Networking *ConnectionFailoverNetworkingObservation `json:"networking,omitempty" tf:"networking,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
@@ -282,11 +297,13 @@ type ConnectionFailoverObservation struct {
 	// Connection region.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Properties for the secure transport connection to Kafka. For SSL, this can include the trusted certificate to use. (see below for nested schema)
 	Security *ConnectionFailoverSecurityObservation `json:"security,omitempty" tf:"security,omitempty"`
 
 	// Connection state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *ConnectionFailoverTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Connection type.
@@ -298,6 +315,7 @@ type ConnectionFailoverObservation struct {
 
 type ConnectionFailoverParameters struct {
 
+	// User credentials required to connect to a Kafka Cluster. Includes the authentication type, as well as the parameters for that authentication mode. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Authentication *ConnectionFailoverAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
@@ -332,6 +350,7 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionNameSelector *v2.Selector `json:"connectionNameSelector,omitempty" tf:"-"`
 
+	// Name of a built-in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
@@ -339,6 +358,7 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
+	// Networking configuration for Streams connections. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Networking *ConnectionFailoverNetworkingParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
@@ -359,9 +379,11 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Properties for the secure transport connection to Kafka. For SSL, this can include the trusted certificate to use. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Security *ConnectionFailoverSecurityParameters `json:"security,omitempty" tf:"security,omitempty"`
 
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *ConnectionFailoverTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 

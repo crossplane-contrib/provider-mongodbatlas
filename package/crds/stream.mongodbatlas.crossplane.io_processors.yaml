@@ -170,8 +170,17 @@ spec:
                         type: object
                     type: object
                   options:
+                    description: Optional configuration for the stream processor.
+                      Empty options objects are not supported. (see below for nested
+                      schema)
                     properties:
                       autoscaling:
+                        description: Vertical autoscaling configuration for the stream
+                          processor. When present, the processor automatically scales
+                          its tier between min_tier and max_tier based on load; tier
+                          is used only as the initial/baseline tier and the running
+                          tier is reported by effective_tier. To disable autoscaling,
+                          remove this block. (see below for nested schema)
                         properties:
                           maxTier:
                             description: Tier ceiling for autoscaling (scale-up limit).
@@ -184,6 +193,9 @@ spec:
                             type: string
                         type: object
                       dlq:
+                        description: Dead letter queue for the stream processor. Refer
+                          to the MongoDB Atlas Docs for more information. (see below
+                          for nested schema)
                         properties:
                           coll:
                             description: Name of the collection to use for the DLQ.
@@ -309,6 +321,7 @@ spec:
                       `effective_tier`.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -506,8 +519,17 @@ spec:
                         type: object
                     type: object
                   options:
+                    description: Optional configuration for the stream processor.
+                      Empty options objects are not supported. (see below for nested
+                      schema)
                     properties:
                       autoscaling:
+                        description: Vertical autoscaling configuration for the stream
+                          processor. When present, the processor automatically scales
+                          its tier between min_tier and max_tier based on load; tier
+                          is used only as the initial/baseline tier and the running
+                          tier is reported by effective_tier. To disable autoscaling,
+                          remove this block. (see below for nested schema)
                         properties:
                           maxTier:
                             description: Tier ceiling for autoscaling (scale-up limit).
@@ -520,6 +542,9 @@ spec:
                             type: string
                         type: object
                       dlq:
+                        description: Dead letter queue for the stream processor. Refer
+                          to the MongoDB Atlas Docs for more information. (see below
+                          for nested schema)
                         properties:
                           coll:
                             description: Name of the collection to use for the DLQ.
@@ -645,6 +670,7 @@ spec:
                       `effective_tier`.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -856,6 +882,8 @@ spec:
                       configured on the workspace.
                     type: boolean
                   id:
+                    description: Unique 24-hexadecimal character string that identifies
+                      the stream processor.
                     type: string
                   instanceName:
                     description: |-
@@ -863,8 +891,17 @@ spec:
                       Label that identifies the stream processing workspace.
                     type: string
                   options:
+                    description: Optional configuration for the stream processor.
+                      Empty options objects are not supported. (see below for nested
+                      schema)
                     properties:
                       autoscaling:
+                        description: Vertical autoscaling configuration for the stream
+                          processor. When present, the processor automatically scales
+                          its tier between min_tier and max_tier based on load; tier
+                          is used only as the initial/baseline tier and the running
+                          tier is reported by effective_tier. To disable autoscaling,
+                          remove this block. (see below for nested schema)
                         properties:
                           maxTier:
                             description: Tier ceiling for autoscaling (scale-up limit).
@@ -877,6 +914,9 @@ spec:
                             type: string
                         type: object
                       dlq:
+                        description: Dead letter queue for the stream processor. Refer
+                          to the MongoDB Atlas Docs for more information. (see below
+                          for nested schema)
                         properties:
                           coll:
                             description: Name of the collection to use for the DLQ.
@@ -931,6 +971,7 @@ spec:
                       `effective_tier`.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

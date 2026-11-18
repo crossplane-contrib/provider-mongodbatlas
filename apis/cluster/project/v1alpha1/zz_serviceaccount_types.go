@@ -94,6 +94,7 @@ type ServiceAccountObservation struct {
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Set this field when you set `without_initial_secret` to false or omit `without_initial_secret`. Do not set this field when you set `without_initial_secret` to true. You cannot update this field after you create the Service Account.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
+	// A list of secrets associated with the specified Service Account. (see below for nested schema)
 	Secrets []SecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
 
 	// Indicates whether the Service Account is system managed.

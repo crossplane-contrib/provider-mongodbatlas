@@ -74,6 +74,9 @@ spec:
               forProvider:
                 properties:
                   authentication:
+                    description: User credentials required to connect to a Kafka Cluster.
+                      Includes the authentication type, as well as the parameters
+                      for that authentication mode. (see below for nested schema)
                     properties:
                       clientId:
                         description: OIDC client identifier for authentication to
@@ -279,6 +282,8 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
+                    description: Name of a built-in or custom DB Role to connect to
+                      a MongoDB Cloud Cluster. (see below for nested schema)
                     properties:
                       role:
                         description: The name of the role to use. Can be a built in
@@ -300,8 +305,12 @@ spec:
                       is `true`.
                     type: boolean
                   networking:
+                    description: Networking configuration for Streams connections.
+                      (see below for nested schema)
                     properties:
                       access:
+                        description: Information about networking access. (see below
+                          for nested schema)
                         properties:
                           connectionId:
                             description: Reserved. Will be used by `PRIVATE_LINK`
@@ -410,6 +419,9 @@ spec:
                     description: Connection region.
                     type: string
                   security:
+                    description: Properties for the secure transport connection to
+                      Kafka. For SSL, this can include the trusted certificate to
+                      use. (see below for nested schema)
                     properties:
                       brokerPublicCertificate:
                         description: A trusted, public x509 certificate for connecting
@@ -421,6 +433,7 @@ spec:
                         type: string
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -538,6 +551,9 @@ spec:
                   autoscaler.
                 properties:
                   authentication:
+                    description: User credentials required to connect to a Kafka Cluster.
+                      Includes the authentication type, as well as the parameters
+                      for that authentication mode. (see below for nested schema)
                     properties:
                       clientId:
                         description: OIDC client identifier for authentication to
@@ -743,6 +759,8 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
+                    description: Name of a built-in or custom DB Role to connect to
+                      a MongoDB Cloud Cluster. (see below for nested schema)
                     properties:
                       role:
                         description: The name of the role to use. Can be a built in
@@ -764,8 +782,12 @@ spec:
                       is `true`.
                     type: boolean
                   networking:
+                    description: Networking configuration for Streams connections.
+                      (see below for nested schema)
                     properties:
                       access:
+                        description: Information about networking access. (see below
+                          for nested schema)
                         properties:
                           connectionId:
                             description: Reserved. Will be used by `PRIVATE_LINK`
@@ -874,6 +896,9 @@ spec:
                     description: Connection region.
                     type: string
                   security:
+                    description: Properties for the secure transport connection to
+                      Kafka. For SSL, this can include the trusted certificate to
+                      use. (see below for nested schema)
                     properties:
                       brokerPublicCertificate:
                         description: A trusted, public x509 certificate for connecting
@@ -885,6 +910,7 @@ spec:
                         type: string
                     type: object
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
@@ -1089,6 +1115,9 @@ spec:
               atProvider:
                 properties:
                   authentication:
+                    description: User credentials required to connect to a Kafka Cluster.
+                      Includes the authentication type, as well as the parameters
+                      for that authentication mode. (see below for nested schema)
                     properties:
                       clientId:
                         description: OIDC client identifier for authentication to
@@ -1150,6 +1179,8 @@ spec:
                     description: Label that identifies the stream connection name.
                     type: string
                   dbRoleToExecute:
+                    description: Name of a built-in or custom DB Role to connect to
+                      a MongoDB Cloud Cluster. (see below for nested schema)
                     properties:
                       role:
                         description: The name of the role to use. Can be a built in
@@ -1176,8 +1207,12 @@ spec:
                   id:
                     type: string
                   networking:
+                    description: Networking configuration for Streams connections.
+                      (see below for nested schema)
                     properties:
                       access:
+                        description: Information about networking access. (see below
+                          for nested schema)
                         properties:
                           connectionId:
                             description: Reserved. Will be used by `PRIVATE_LINK`
@@ -1210,6 +1245,9 @@ spec:
                     description: Connection region.
                     type: string
                   security:
+                    description: Properties for the secure transport connection to
+                      Kafka. For SSL, this can include the trusted certificate to
+                      use. (see below for nested schema)
                     properties:
                       brokerPublicCertificate:
                         description: A trusted, public x509 certificate for connecting
@@ -1224,6 +1262,7 @@ spec:
                     description: Connection state.
                     type: string
                   timeouts:
+                    description: (see below for nested schema)
                     properties:
                       create:
                         description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)

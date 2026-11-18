@@ -31,11 +31,13 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// Optional suffix applied to restored collection names.
 	CollectionSuffix *string `json:"collectionSuffix,omitempty" tf:"collection_suffix,omitempty"`
 
+	// List of collections to restore (up to 100 items). (see below for nested schema)
 	Collections []CollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
 
 	// Optional suffix applied to restored database names.
 	DatabaseSuffix *string `json:"databaseSuffix,omitempty" tf:"database_suffix,omitempty"`
 
+	// List of databases to restore (up to 100 items). (see below for nested schema)
 	Databases []DatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 
 	// Strategy for restoring indexes (all, none, or all except TTL).
@@ -99,6 +101,7 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetProjectIDSelector *v2.Selector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 
+	// (see below for nested schema)
 	Timeouts *TimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Strategy for writing data on the target (create as new or overwrite existing). With `OVERWRITE_EXISTING`, any writes to the affected databases or collections during the restore will be lost when the existing namespaces are dropped and replaced. To avoid data loss, stop writes to the affected namespaces before starting the restore.
@@ -113,6 +116,7 @@ type BackupCollectionRestoreJobObservation struct {
 	// Optional suffix applied to restored collection names.
 	CollectionSuffix *string `json:"collectionSuffix,omitempty" tf:"collection_suffix,omitempty"`
 
+	// List of collections to restore (up to 100 items). (see below for nested schema)
 	Collections []CollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
 
 	// Date and time when the restore job was created (ISO 8601 format in UTC).
@@ -121,6 +125,7 @@ type BackupCollectionRestoreJobObservation struct {
 	// Optional suffix applied to restored database names.
 	DatabaseSuffix *string `json:"databaseSuffix,omitempty" tf:"database_suffix,omitempty"`
 
+	// List of databases to restore (up to 100 items). (see below for nested schema)
 	Databases []DatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
 
 	// Error message when the job has failed or been canceled.
@@ -131,6 +136,7 @@ type BackupCollectionRestoreJobObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Overall index build status for a collection restore job. (see below for nested schema)
 	IndexStatus *IndexStatusObservation `json:"indexStatus,omitempty" tf:"index_status,omitempty"`
 
 	// Strategy for restoring indexes (all, none, or all except TTL).
@@ -166,6 +172,7 @@ type BackupCollectionRestoreJobObservation struct {
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *TimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// Total number of documents across all supported collections in the restore job. This value may initially reflect an estimate based on collection metadata and can change as accurate document counts become available during the restore.
@@ -195,6 +202,7 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	CollectionSuffix *string `json:"collectionSuffix,omitempty" tf:"collection_suffix,omitempty"`
 
+	// List of collections to restore (up to 100 items). (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Collections []CollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
 
@@ -202,6 +210,7 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	DatabaseSuffix *string `json:"databaseSuffix,omitempty" tf:"database_suffix,omitempty"`
 
+	// List of databases to restore (up to 100 items). (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Databases []DatabasesParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 
@@ -274,6 +283,7 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetProjectIDSelector *v2.Selector `json:"targetProjectIdSelector,omitempty" tf:"-"`
 
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *TimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 

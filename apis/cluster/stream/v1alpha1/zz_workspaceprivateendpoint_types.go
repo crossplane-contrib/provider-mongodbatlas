@@ -39,6 +39,7 @@ type WorkspacePrivateEndpointInitParameters struct {
 	// Human-readable label identifying the region of your VPC endpoint.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *WorkspacePrivateEndpointTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
@@ -70,6 +71,7 @@ type WorkspacePrivateEndpointObservation struct {
 	// Status of the endpoint registration.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// (see below for nested schema)
 	Timeouts *WorkspacePrivateEndpointTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
@@ -104,6 +106,7 @@ type WorkspacePrivateEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *WorkspacePrivateEndpointTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }

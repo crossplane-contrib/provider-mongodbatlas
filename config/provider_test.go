@@ -280,27 +280,36 @@ func TestLegacyEncodedExternalName(t *testing.T) {
 	}
 }
 
-// TestKeepDocHyphens checks that only docs whose first hyphen sits inside the
-// text get the separator upjet strips; docs with a real separator keep theirs.
-func TestKeepDocHyphens(t *testing.T) {
+// TestCleanArgumentDocs checks that docs tfplugindocs wrote from the schema
+// description are emptied, and that only docs whose first hyphen sits inside
+// the text get the separator upjet strips; docs with a real separator keep
+// theirs.
+func TestCleanArgumentDocs(t *testing.T) {
 	cases := map[string]string{
-		"(String) Unique 24-hexadecimal digit string":                     "- (String) Unique 24-hexadecimal digit string",
+		"(String) Unique 24-hexadecimal digit string":                     "",
+		"(Boolean) Flag that indicates whether to enable the setting.":    "",
+		"(Set of String) Human-readable labels.":                          "",
+		"(Attributes List, Sensitive) HTTP headers.":                      "",
+		"(Block List, Max: 1) Settings.":                                  "",
+		"(String, Deprecated) Label that identifies the workspace.":       "Deprecated.",
+		"(String, Sensitive, Deprecated) Password.":                       "Deprecated.",
 		"Oplog timestamp (seconds part) for point-in-time restore.":       "- Oplog timestamp (seconds part) for point-in-time restore.",
 		"(Optional) - Flag that indicates whether the cluster is paused.": "(Optional) - Flag that indicates whether the cluster is paused.",
 		"- (Required) Unique 24-hexadecimal digit string":                 "- (Required) Unique 24-hexadecimal digit string",
-		"(Boolean) Flag that indicates whether to enable the setting.":    "(Boolean) Flag that indicates whether to enable the setting.",
+		// upjet then drops "(Required - AWS)"; without the dash it cut at "AWS)".
+		"(Required - AWS) Region of the bucket.": "- (Required - AWS) Region of the bucket.",
 	}
 	docs := map[string]string{}
 	for in := range cases {
 		docs[in] = in
 	}
 	r := &ujconfig.Resource{MetaResource: &registry.Resource{ArgumentDocs: docs}}
-	keepDocHyphens()(r)
-	keepDocHyphens()(r) // a second run must not stack dashes
+	cleanArgumentDocs()(r)
+	cleanArgumentDocs()(r) // a second run must not change anything
 	for in, want := range cases {
 		if got := r.MetaResource.ArgumentDocs[in]; got != want {
 			t.Errorf("%q: got %q, want %q", in, got, want)
 		}
 	}
-	keepDocHyphens()(&ujconfig.Resource{}) // no docs: must not panic
+	cleanArgumentDocs()(&ujconfig.Resource{}) // no docs: must not panic
 }

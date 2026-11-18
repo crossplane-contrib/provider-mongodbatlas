@@ -60,20 +60,14 @@ spec:
               forProvider:
                 properties:
                   authentication:
-                    description: (Attributes) User credentials required to connect
-                      to a Kafka Cluster. Includes the authentication type, as well
-                      as the parameters for that authentication mode. (see below for
-                      nested schema)
                     properties:
                       clientId:
-                        description: |-
-                          (String) OIDC client identifier for authentication to the Kafka cluster.
-                          OIDC client identifier for authentication to the Kafka cluster.
+                        description: OIDC client identifier for authentication to
+                          the Kafka cluster.
                         type: string
                       clientSecretSecretRef:
-                        description: |-
-                          (String, Sensitive) OIDC client secret for authentication to the Kafka cluster.
-                          OIDC client secret for authentication to the Kafka cluster.
+                        description: OIDC client secret for authentication to the
+                          Kafka cluster.
                         properties:
                           key:
                             type: string
@@ -85,19 +79,16 @@ spec:
                         - name
                         type: object
                       mechanism:
-                        description: |-
-                          (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
-                          Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+                        description: Style of authentication. Can be one of PLAIN,
+                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
-                        description: |-
-                          (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
-                          SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+                        description: SASL OAUTHBEARER authentication method. Currently,
+                          only OIDC is supported.
                         type: string
                       passwordSecretRef:
-                        description: |-
-                          (String, Sensitive) Password of the account to connect to the Kafka cluster.
-                          Password of the account to connect to the Kafka cluster.
+                        description: Password of the account to connect to the Kafka
+                          cluster.
                         properties:
                           key:
                             type: string
@@ -109,24 +100,19 @@ spec:
                         - name
                         type: object
                       saslOauthbearerExtensions:
-                        description: |-
-                          (String) SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
-                          SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
+                        description: SASL OAUTHBEARER extensions parameter for additional
+                          OAuth2 configuration.
                         type: string
                       scope:
-                        description: |-
-                          (String) OIDC scope parameter defining the access permissions requested.
-                          OIDC scope parameter defining the access permissions requested.
+                        description: OIDC scope parameter defining the access permissions
+                          requested.
                         type: string
                       sslCertificate:
-                        description: |-
-                          (String) SSL certificate for client authentication to Kafka.
-                          SSL certificate for client authentication to Kafka.
+                        description: SSL certificate for client authentication to
+                          Kafka.
                         type: string
                       sslKeyPasswordSecretRef:
-                        description: |-
-                          (String, Sensitive) Password for the SSL key, if it is password protected.
-                          Password for the SSL key, if it is password protected.
+                        description: Password for the SSL key, if it is password protected.
                         properties:
                           key:
                             type: string
@@ -138,9 +124,7 @@ spec:
                         - name
                         type: object
                       sslKeySecretRef:
-                        description: |-
-                          (String, Sensitive) SSL key for client authentication to Kafka.
-                          SSL key for client authentication to Kafka.
+                        description: SSL key for client authentication to Kafka.
                         properties:
                           key:
                             type: string
@@ -152,43 +136,39 @@ spec:
                         - name
                         type: object
                       tokenEndpointUrl:
-                        description: |-
-                          (String) OIDC token endpoint URL for obtaining access tokens.
-                          OIDC token endpoint URL for obtaining access tokens.
+                        description: OIDC token endpoint URL for obtaining access
+                          tokens.
                         type: string
                       username:
-                        description: |-
-                          (String) Username of the account to connect to the Kafka cluster.
-                          Username of the account to connect to the Kafka cluster.
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   bootstrapServers:
-                    description: |-
-                      (String) Comma separated list of server addresses.
-                      Optional for type: Kafka. Comma separated list of server addresses.
+                    description: 'Optional for type: Kafka. Comma separated list of
+                      server addresses.'
                     type: string
                   clusterName:
-                    description: |-
-                      (String) Name of the cluster configured for this connection.
-                      Optional for type: Cluster. Name of the cluster configured for this connection.
+                    description: 'Optional for type: Cluster. Name of the cluster
+                      configured for this connection.'
                     type: string
                   clusterProjectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
-                      Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+                    description: 'Optional for type: Cluster. Unique 24-hexadecimal
+                      digit string that identifies the project that contains the configured
+                      cluster. Required if the ID does not match the project containing
+                      the streams workspace. You must first enable the organization
+                      setting.'
                     type: string
                   config:
                     additionalProperties:
                       type: string
-                    description: |-
-                      (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
-                      Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                    description: 'Optional for type: Kafka. Map of Kafka key-value
+                      pairs for optional configuration. This object is flat, and keys
+                      can have ''.'' characters.'
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
-                    description: |-
-                      (String) Label that identifies the stream connection name.
-                      Label that identifies the stream connection name.
+                    description: Label that identifies the stream connection name.
                     type: string
                   connectionNameRef:
                     description: Reference to a Connection in stream to populate connectionName.
@@ -271,60 +251,56 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
-                    description: (Attributes) Name of a built-in or custom DB Role
-                      to connect to a MongoDB Cloud Cluster. (see below for nested
-                      schema)
                     properties:
                       role:
-                        description: |-
-                          (String) The name of the role to use. Can be a built in role or a custom role.
-                          The name of the role to use. Can be a built in role or a custom role.
+                        description: The name of the role to use. Can be a built in
+                          role or a custom role.
                         type: string
                       type:
-                        description: |-
-                          (String) Connection type.
-                          Type of the DB role. Can be either Built In or Custom.
+                        description: Type of the DB role. Can be either Built In or
+                          Custom.
                         type: string
                     type: object
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   networking:
-                    description: (Attributes) Networking configuration for Streams
-                      connections. (see below for nested schema)
                     properties:
                       access:
-                        description: (Attributes) Information about networking access.
-                          (see below for nested schema)
                         properties:
                           connectionId:
-                            description: |-
-                              (String) Reserved. Will be used by PRIVATE_LINK connection type.
-                              Reserved. Will be used by `PRIVATE_LINK` connection type.
+                            description: Reserved. Will be used by `PRIVATE_LINK`
+                              connection type.
                             type: string
                           name:
-                            description: |-
-                              (String) Reserved. Will be used by PRIVATE_LINK connection type.
-                              Reserved. Will be used by `PRIVATE_LINK` connection type.
+                            description: Reserved. Will be used by `PRIVATE_LINK`
+                              connection type.
                             type: string
                           tgwRouteId:
-                            description: |-
-                              (String) Reserved. Will be used by TRANSIT_GATEWAY connection type.
-                              Reserved. Will be used by `TRANSIT_GATEWAY` connection type.
+                            description: Reserved. Will be used by `TRANSIT_GATEWAY`
+                              connection type.
                             type: string
                           type:
-                            description: |-
-                              (String) Connection type.
-                              Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
+                            description: Selected networking type. Either `PUBLIC`,
+                              `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults
+                              to `PUBLIC`. For VPC, ensure that VPC peering exists
+                              and connectivity has been established between Atlas
+                              VPC and the VPC where Kafka cluster is hosted for the
+                              connection to function properly. `TRANSIT_GATEWAY` support
+                              is coming soon.
                             type: string
                         type: object
                     type: object
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -409,54 +385,47 @@ spec:
                         type: object
                     type: object
                   region:
-                    description: |-
-                      (String) Connection region.
-                      Connection region.
+                    description: Connection region.
                     type: string
                   security:
-                    description: (Attributes) Properties for the secure transport
-                      connection to Kafka. For SSL, this can include the trusted certificate
-                      to use. (see below for nested schema)
                     properties:
                       brokerPublicCertificate:
-                        description: |-
-                          (String) A trusted, public x509 certificate for connecting to Kafka over SSL.
-                          A trusted, public x509 certificate for connecting to Kafka over SSL.
+                        description: A trusted, public x509 certificate for connecting
+                          to Kafka over SSL.
                         type: string
                       protocol:
-                        description: |-
-                          (String) Describes the transport type. Can be either SASL_PLAINTEXT, SASL_SSL, or SSL.
-                          Describes the transport type. Can be either `SASL_PLAINTEXT`, `SASL_SSL`, or `SSL`.
+                        description: Describes the transport type. Can be either `SASL_PLAINTEXT`,
+                          `SASL_SSL`, or `SSL`.
                         type: string
                     type: object
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours). Setting a timeout for a Delete operation is
+                          only applicable if changes are saved into state before the
+                          destroy operation occurs.
                         type: string
                       update:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                     type: object
                   type:
-                    description: |-
-                      (String) Connection type.
-                      Connection type.
+                    description: Connection type.
                     type: string
                   workspaceName:
-                    description: |-
-                      (String) Label that identifies the stream workspace.
-                      Label that identifies the stream workspace.
+                    description: Label that identifies the stream workspace.
                     type: string
                   workspaceNameRef:
                     description: Reference to a Workspace in stream to populate workspaceName.
@@ -553,20 +522,14 @@ spec:
                   autoscaler.
                 properties:
                   authentication:
-                    description: (Attributes) User credentials required to connect
-                      to a Kafka Cluster. Includes the authentication type, as well
-                      as the parameters for that authentication mode. (see below for
-                      nested schema)
                     properties:
                       clientId:
-                        description: |-
-                          (String) OIDC client identifier for authentication to the Kafka cluster.
-                          OIDC client identifier for authentication to the Kafka cluster.
+                        description: OIDC client identifier for authentication to
+                          the Kafka cluster.
                         type: string
                       clientSecretSecretRef:
-                        description: |-
-                          (String, Sensitive) OIDC client secret for authentication to the Kafka cluster.
-                          OIDC client secret for authentication to the Kafka cluster.
+                        description: OIDC client secret for authentication to the
+                          Kafka cluster.
                         properties:
                           key:
                             type: string
@@ -578,19 +541,16 @@ spec:
                         - name
                         type: object
                       mechanism:
-                        description: |-
-                          (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
-                          Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+                        description: Style of authentication. Can be one of PLAIN,
+                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
-                        description: |-
-                          (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
-                          SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+                        description: SASL OAUTHBEARER authentication method. Currently,
+                          only OIDC is supported.
                         type: string
                       passwordSecretRef:
-                        description: |-
-                          (String, Sensitive) Password of the account to connect to the Kafka cluster.
-                          Password of the account to connect to the Kafka cluster.
+                        description: Password of the account to connect to the Kafka
+                          cluster.
                         properties:
                           key:
                             type: string
@@ -602,24 +562,19 @@ spec:
                         - name
                         type: object
                       saslOauthbearerExtensions:
-                        description: |-
-                          (String) SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
-                          SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
+                        description: SASL OAUTHBEARER extensions parameter for additional
+                          OAuth2 configuration.
                         type: string
                       scope:
-                        description: |-
-                          (String) OIDC scope parameter defining the access permissions requested.
-                          OIDC scope parameter defining the access permissions requested.
+                        description: OIDC scope parameter defining the access permissions
+                          requested.
                         type: string
                       sslCertificate:
-                        description: |-
-                          (String) SSL certificate for client authentication to Kafka.
-                          SSL certificate for client authentication to Kafka.
+                        description: SSL certificate for client authentication to
+                          Kafka.
                         type: string
                       sslKeyPasswordSecretRef:
-                        description: |-
-                          (String, Sensitive) Password for the SSL key, if it is password protected.
-                          Password for the SSL key, if it is password protected.
+                        description: Password for the SSL key, if it is password protected.
                         properties:
                           key:
                             type: string
@@ -631,9 +586,7 @@ spec:
                         - name
                         type: object
                       sslKeySecretRef:
-                        description: |-
-                          (String, Sensitive) SSL key for client authentication to Kafka.
-                          SSL key for client authentication to Kafka.
+                        description: SSL key for client authentication to Kafka.
                         properties:
                           key:
                             type: string
@@ -645,43 +598,39 @@ spec:
                         - name
                         type: object
                       tokenEndpointUrl:
-                        description: |-
-                          (String) OIDC token endpoint URL for obtaining access tokens.
-                          OIDC token endpoint URL for obtaining access tokens.
+                        description: OIDC token endpoint URL for obtaining access
+                          tokens.
                         type: string
                       username:
-                        description: |-
-                          (String) Username of the account to connect to the Kafka cluster.
-                          Username of the account to connect to the Kafka cluster.
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   bootstrapServers:
-                    description: |-
-                      (String) Comma separated list of server addresses.
-                      Optional for type: Kafka. Comma separated list of server addresses.
+                    description: 'Optional for type: Kafka. Comma separated list of
+                      server addresses.'
                     type: string
                   clusterName:
-                    description: |-
-                      (String) Name of the cluster configured for this connection.
-                      Optional for type: Cluster. Name of the cluster configured for this connection.
+                    description: 'Optional for type: Cluster. Name of the cluster
+                      configured for this connection.'
                     type: string
                   clusterProjectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
-                      Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+                    description: 'Optional for type: Cluster. Unique 24-hexadecimal
+                      digit string that identifies the project that contains the configured
+                      cluster. Required if the ID does not match the project containing
+                      the streams workspace. You must first enable the organization
+                      setting.'
                     type: string
                   config:
                     additionalProperties:
                       type: string
-                    description: |-
-                      (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
-                      Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                    description: 'Optional for type: Kafka. Map of Kafka key-value
+                      pairs for optional configuration. This object is flat, and keys
+                      can have ''.'' characters.'
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
-                    description: |-
-                      (String) Label that identifies the stream connection name.
-                      Label that identifies the stream connection name.
+                    description: Label that identifies the stream connection name.
                     type: string
                   connectionNameRef:
                     description: Reference to a Connection in stream to populate connectionName.
@@ -764,60 +713,56 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
-                    description: (Attributes) Name of a built-in or custom DB Role
-                      to connect to a MongoDB Cloud Cluster. (see below for nested
-                      schema)
                     properties:
                       role:
-                        description: |-
-                          (String) The name of the role to use. Can be a built in role or a custom role.
-                          The name of the role to use. Can be a built in role or a custom role.
+                        description: The name of the role to use. Can be a built in
+                          role or a custom role.
                         type: string
                       type:
-                        description: |-
-                          (String) Connection type.
-                          Type of the DB role. Can be either Built In or Custom.
+                        description: Type of the DB role. Can be either Built In or
+                          Custom.
                         type: string
                     type: object
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   networking:
-                    description: (Attributes) Networking configuration for Streams
-                      connections. (see below for nested schema)
                     properties:
                       access:
-                        description: (Attributes) Information about networking access.
-                          (see below for nested schema)
                         properties:
                           connectionId:
-                            description: |-
-                              (String) Reserved. Will be used by PRIVATE_LINK connection type.
-                              Reserved. Will be used by `PRIVATE_LINK` connection type.
+                            description: Reserved. Will be used by `PRIVATE_LINK`
+                              connection type.
                             type: string
                           name:
-                            description: |-
-                              (String) Reserved. Will be used by PRIVATE_LINK connection type.
-                              Reserved. Will be used by `PRIVATE_LINK` connection type.
+                            description: Reserved. Will be used by `PRIVATE_LINK`
+                              connection type.
                             type: string
                           tgwRouteId:
-                            description: |-
-                              (String) Reserved. Will be used by TRANSIT_GATEWAY connection type.
-                              Reserved. Will be used by `TRANSIT_GATEWAY` connection type.
+                            description: Reserved. Will be used by `TRANSIT_GATEWAY`
+                              connection type.
                             type: string
                           type:
-                            description: |-
-                              (String) Connection type.
-                              Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
+                            description: Selected networking type. Either `PUBLIC`,
+                              `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults
+                              to `PUBLIC`. For VPC, ensure that VPC peering exists
+                              and connectivity has been established between Atlas
+                              VPC and the VPC where Kafka cluster is hosted for the
+                              connection to function properly. `TRANSIT_GATEWAY` support
+                              is coming soon.
                             type: string
                         type: object
                     type: object
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -902,54 +847,47 @@ spec:
                         type: object
                     type: object
                   region:
-                    description: |-
-                      (String) Connection region.
-                      Connection region.
+                    description: Connection region.
                     type: string
                   security:
-                    description: (Attributes) Properties for the secure transport
-                      connection to Kafka. For SSL, this can include the trusted certificate
-                      to use. (see below for nested schema)
                     properties:
                       brokerPublicCertificate:
-                        description: |-
-                          (String) A trusted, public x509 certificate for connecting to Kafka over SSL.
-                          A trusted, public x509 certificate for connecting to Kafka over SSL.
+                        description: A trusted, public x509 certificate for connecting
+                          to Kafka over SSL.
                         type: string
                       protocol:
-                        description: |-
-                          (String) Describes the transport type. Can be either SASL_PLAINTEXT, SASL_SSL, or SSL.
-                          Describes the transport type. Can be either `SASL_PLAINTEXT`, `SASL_SSL`, or `SSL`.
+                        description: Describes the transport type. Can be either `SASL_PLAINTEXT`,
+                          `SASL_SSL`, or `SSL`.
                         type: string
                     type: object
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours). Setting a timeout for a Delete operation is
+                          only applicable if changes are saved into state before the
+                          destroy operation occurs.
                         type: string
                       update:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                     type: object
                   type:
-                    description: |-
-                      (String) Connection type.
-                      Connection type.
+                    description: Connection type.
                     type: string
                   workspaceName:
-                    description: |-
-                      (String) Label that identifies the stream workspace.
-                      Label that identifies the stream workspace.
+                    description: Label that identifies the stream workspace.
                     type: string
                   workspaceNameRef:
                     description: Reference to a Workspace in stream to populate workspaceName.
@@ -1105,197 +1043,168 @@ spec:
               atProvider:
                 properties:
                   authentication:
-                    description: (Attributes) User credentials required to connect
-                      to a Kafka Cluster. Includes the authentication type, as well
-                      as the parameters for that authentication mode. (see below for
-                      nested schema)
                     properties:
                       clientId:
-                        description: |-
-                          (String) OIDC client identifier for authentication to the Kafka cluster.
-                          OIDC client identifier for authentication to the Kafka cluster.
+                        description: OIDC client identifier for authentication to
+                          the Kafka cluster.
                         type: string
                       mechanism:
-                        description: |-
-                          (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
-                          Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
+                        description: Style of authentication. Can be one of PLAIN,
+                          SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
-                        description: |-
-                          (String) SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
-                          SASL OAUTHBEARER authentication method. Currently, only OIDC is supported.
+                        description: SASL OAUTHBEARER authentication method. Currently,
+                          only OIDC is supported.
                         type: string
                       saslOauthbearerExtensions:
-                        description: |-
-                          (String) SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
-                          SASL OAUTHBEARER extensions parameter for additional OAuth2 configuration.
+                        description: SASL OAUTHBEARER extensions parameter for additional
+                          OAuth2 configuration.
                         type: string
                       scope:
-                        description: |-
-                          (String) OIDC scope parameter defining the access permissions requested.
-                          OIDC scope parameter defining the access permissions requested.
+                        description: OIDC scope parameter defining the access permissions
+                          requested.
                         type: string
                       sslCertificate:
-                        description: |-
-                          (String) SSL certificate for client authentication to Kafka.
-                          SSL certificate for client authentication to Kafka.
+                        description: SSL certificate for client authentication to
+                          Kafka.
                         type: string
                       tokenEndpointUrl:
-                        description: |-
-                          (String) OIDC token endpoint URL for obtaining access tokens.
-                          OIDC token endpoint URL for obtaining access tokens.
+                        description: OIDC token endpoint URL for obtaining access
+                          tokens.
                         type: string
                       username:
-                        description: |-
-                          (String) Username of the account to connect to the Kafka cluster.
-                          Username of the account to connect to the Kafka cluster.
+                        description: Username of the account to connect to the Kafka
+                          cluster.
                         type: string
                     type: object
                   bootstrapServers:
-                    description: |-
-                      (String) Comma separated list of server addresses.
-                      Optional for type: Kafka. Comma separated list of server addresses.
+                    description: 'Optional for type: Kafka. Comma separated list of
+                      server addresses.'
                     type: string
                   clusterName:
-                    description: |-
-                      (String) Name of the cluster configured for this connection.
-                      Optional for type: Cluster. Name of the cluster configured for this connection.
+                    description: 'Optional for type: Cluster. Name of the cluster
+                      configured for this connection.'
                     type: string
                   clusterProjectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
-                      Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+                    description: 'Optional for type: Cluster. Unique 24-hexadecimal
+                      digit string that identifies the project that contains the configured
+                      cluster. Required if the ID does not match the project containing
+                      the streams workspace. You must first enable the organization
+                      setting.'
                     type: string
                   config:
                     additionalProperties:
                       type: string
-                    description: |-
-                      (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
-                      Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                    description: 'Optional for type: Kafka. Map of Kafka key-value
+                      pairs for optional configuration. This object is flat, and keys
+                      can have ''.'' characters.'
                     type: object
                     x-kubernetes-map-type: granular
                   connectionName:
-                    description: |-
-                      (String) Label that identifies the stream connection name.
-                      Label that identifies the stream connection name.
+                    description: Label that identifies the stream connection name.
                     type: string
                   dbRoleToExecute:
-                    description: (Attributes) Name of a built-in or custom DB Role
-                      to connect to a MongoDB Cloud Cluster. (see below for nested
-                      schema)
                     properties:
                       role:
-                        description: |-
-                          (String) The name of the role to use. Can be a built in role or a custom role.
-                          The name of the role to use. Can be a built in role or a custom role.
+                        description: The name of the role to use. Can be a built in
+                          role or a custom role.
                         type: string
                       type:
-                        description: |-
-                          (String) Connection type.
-                          Type of the DB role. Can be either Built In or Custom.
+                        description: Type of the DB role. Can be either Built In or
+                          Custom.
                         type: string
                     type: object
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   failoverConnectionId:
-                    description: |-
-                      (String) Unique identifier of the connection.
-                      Unique identifier of the connection.
+                    description: Unique identifier of the connection.
                     type: string
                   id:
                     type: string
                   networking:
-                    description: (Attributes) Networking configuration for Streams
-                      connections. (see below for nested schema)
                     properties:
                       access:
-                        description: (Attributes) Information about networking access.
-                          (see below for nested schema)
                         properties:
                           connectionId:
-                            description: |-
-                              (String) Reserved. Will be used by PRIVATE_LINK connection type.
-                              Reserved. Will be used by `PRIVATE_LINK` connection type.
+                            description: Reserved. Will be used by `PRIVATE_LINK`
+                              connection type.
                             type: string
                           name:
-                            description: |-
-                              (String) Reserved. Will be used by PRIVATE_LINK connection type.
-                              Reserved. Will be used by `PRIVATE_LINK` connection type.
+                            description: Reserved. Will be used by `PRIVATE_LINK`
+                              connection type.
                             type: string
                           tgwRouteId:
-                            description: |-
-                              (String) Reserved. Will be used by TRANSIT_GATEWAY connection type.
-                              Reserved. Will be used by `TRANSIT_GATEWAY` connection type.
+                            description: Reserved. Will be used by `TRANSIT_GATEWAY`
+                              connection type.
                             type: string
                           type:
-                            description: |-
-                              (String) Connection type.
-                              Selected networking type. Either `PUBLIC`, `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults to `PUBLIC`. For VPC, ensure that VPC peering exists and connectivity has been established between Atlas VPC and the VPC where Kafka cluster is hosted for the connection to function properly. `TRANSIT_GATEWAY` support is coming soon.
+                            description: Selected networking type. Either `PUBLIC`,
+                              `VPC`, `PRIVATE_LINK`, or `TRANSIT_GATEWAY`. Defaults
+                              to `PUBLIC`. For VPC, ensure that VPC peering exists
+                              and connectivity has been established between Atlas
+                              VPC and the VPC where Kafka cluster is hosted for the
+                              connection to function properly. `TRANSIT_GATEWAY` support
+                              is coming soon.
                             type: string
                         type: object
                     type: object
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   region:
-                    description: |-
-                      (String) Connection region.
-                      Connection region.
+                    description: Connection region.
                     type: string
                   security:
-                    description: (Attributes) Properties for the secure transport
-                      connection to Kafka. For SSL, this can include the trusted certificate
-                      to use. (see below for nested schema)
                     properties:
                       brokerPublicCertificate:
-                        description: |-
-                          (String) A trusted, public x509 certificate for connecting to Kafka over SSL.
-                          A trusted, public x509 certificate for connecting to Kafka over SSL.
+                        description: A trusted, public x509 certificate for connecting
+                          to Kafka over SSL.
                         type: string
                       protocol:
-                        description: |-
-                          (String) Describes the transport type. Can be either SASL_PLAINTEXT, SASL_SSL, or SSL.
-                          Describes the transport type. Can be either `SASL_PLAINTEXT`, `SASL_SSL`, or `SSL`.
+                        description: Describes the transport type. Can be either `SASL_PLAINTEXT`,
+                          `SASL_SSL`, or `SSL`.
                         type: string
                     type: object
                   state:
-                    description: |-
-                      (String) Connection state.
-                      Connection state.
+                    description: Connection state.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours). Setting a timeout for a Delete operation is
+                          only applicable if changes are saved into state before the
+                          destroy operation occurs.
                         type: string
                       update:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                     type: object
                   type:
-                    description: |-
-                      (String) Connection type.
-                      Connection type.
+                    description: Connection type.
                     type: string
                   workspaceName:
-                    description: |-
-                      (String) Label that identifies the stream workspace.
-                      Label that identifies the stream workspace.
+                    description: Label that identifies the stream workspace.
                     type: string
                 type: object
               conditions:

@@ -15,11 +15,9 @@ import (
 
 type AdaptiveSettingsInitParameters struct {
 
-	// (String) JSON-encoded map of customer-specified Adaptive Settings overrides, applied on a best-effort basis. Use jsonencode to configure this attribute. Each supported entry that you specify takes precedence over the corresponding Atlas-managed default.
 	// JSON-encoded map of customer-specified Adaptive Settings overrides, applied on a best-effort basis. Use `jsonencode` to configure this attribute. Each supported entry that you specify takes precedence over the corresponding Atlas-managed default.
 	AdaptiveSettingsOverrides *string `json:"adaptiveSettingsOverrides,omitempty" tf:"adaptive_settings_overrides,omitempty"`
 
-	// (String) Human-readable label that identifies the cluster.
 	// Human-readable label that identifies the cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
@@ -33,7 +31,6 @@ type AdaptiveSettingsInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -49,33 +46,27 @@ type AdaptiveSettingsInitParameters struct {
 
 type AdaptiveSettingsObservation struct {
 
-	// (String) JSON-encoded map of customer-specified Adaptive Settings overrides, applied on a best-effort basis. Use jsonencode to configure this attribute. Each supported entry that you specify takes precedence over the corresponding Atlas-managed default.
 	// JSON-encoded map of customer-specified Adaptive Settings overrides, applied on a best-effort basis. Use `jsonencode` to configure this attribute. Each supported entry that you specify takes precedence over the corresponding Atlas-managed default.
 	AdaptiveSettingsOverrides *string `json:"adaptiveSettingsOverrides,omitempty" tf:"adaptive_settings_overrides,omitempty"`
 
-	// (String) Human-readable label that identifies the cluster.
 	// Human-readable label that identifies the cluster.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// (String) JSON-encoded map of the effective Adaptive Settings currently applied to your cluster, based on your overrides and Atlas-managed defaults. Atlas-managed defaults can vary by MongoDB version. An override for a setting unsupported by the cluster's MongoDB version doesn't take effect, and the effective value reflects the Atlas-managed default.
 	// JSON-encoded map of the effective Adaptive Settings currently applied to your cluster, based on your overrides and Atlas-managed defaults. Atlas-managed defaults can vary by MongoDB version. An override for a setting unsupported by the cluster's MongoDB version doesn't take effect, and the effective value reflects the Atlas-managed default.
 	EffectiveAdaptiveSettings *string `json:"effectiveAdaptiveSettings,omitempty" tf:"effective_adaptive_settings,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type AdaptiveSettingsParameters struct {
 
-	// (String) JSON-encoded map of customer-specified Adaptive Settings overrides, applied on a best-effort basis. Use jsonencode to configure this attribute. Each supported entry that you specify takes precedence over the corresponding Atlas-managed default.
 	// JSON-encoded map of customer-specified Adaptive Settings overrides, applied on a best-effort basis. Use `jsonencode` to configure this attribute. Each supported entry that you specify takes precedence over the corresponding Atlas-managed default.
 	// +kubebuilder:validation:Optional
 	AdaptiveSettingsOverrides *string `json:"adaptiveSettingsOverrides,omitempty" tf:"adaptive_settings_overrides,omitempty"`
 
-	// (String) Human-readable label that identifies the cluster.
 	// Human-readable label that identifies the cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
@@ -90,7 +81,6 @@ type AdaptiveSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

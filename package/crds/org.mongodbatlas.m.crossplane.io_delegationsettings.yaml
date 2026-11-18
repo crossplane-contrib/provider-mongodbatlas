@@ -60,29 +60,31 @@ spec:
               forProvider:
                 properties:
                   delegatedMcpAccess:
-                    description: |-
-                      (String) Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are DISALLOWED, READ_ONLY, and READ_WRITE. Defaults to DISALLOWED.
-                      Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults to `DISALLOWED`.
+                    description: Policy that controls how MCP (Model Context Protocol)
+                      delegated access is permitted within this organization. Possible
+                      values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults
+                      to `DISALLOWED`.
                     type: string
                   delegatedPartnerAccess:
-                    description: |-
-                      (String) Policy that controls whether partner delegated access is permitted within this organization. Possible values are DISALLOWED and READ_WRITE. Defaults to DISALLOWED.
-                      Policy that controls whether partner delegated access is permitted within this organization. Possible values are `DISALLOWED` and `READ_WRITE`. Defaults to `DISALLOWED`.
+                    description: Policy that controls whether partner delegated access
+                      is permitted within this organization. Possible values are `DISALLOWED`
+                      and `READ_WRITE`. Defaults to `DISALLOWED`.
                     type: string
                   idleRefreshTokenLifetime:
-                    description: |-
-                      (Number) Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
-                      Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+                    description: Maximum number of seconds a refresh token may be
+                      idle before it expires. Omit to leave unchanged; set to null
+                      to reset to the system default. Must be between 1 and 31536000
+                      (1 year) when provided.
                     type: number
                   maximumRefreshTokenLifetime:
-                    description: |-
-                      (Number) Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
-                      Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+                    description: Maximum lifetime of a refresh token in seconds, regardless
+                      of activity. Omit to leave unchanged; set to null to reset to
+                      the system default. Must be between 1 and 31536000 (1 year)
+                      when provided.
                     type: number
                   orgId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
-                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -181,29 +183,31 @@ spec:
                   autoscaler.
                 properties:
                   delegatedMcpAccess:
-                    description: |-
-                      (String) Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are DISALLOWED, READ_ONLY, and READ_WRITE. Defaults to DISALLOWED.
-                      Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults to `DISALLOWED`.
+                    description: Policy that controls how MCP (Model Context Protocol)
+                      delegated access is permitted within this organization. Possible
+                      values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults
+                      to `DISALLOWED`.
                     type: string
                   delegatedPartnerAccess:
-                    description: |-
-                      (String) Policy that controls whether partner delegated access is permitted within this organization. Possible values are DISALLOWED and READ_WRITE. Defaults to DISALLOWED.
-                      Policy that controls whether partner delegated access is permitted within this organization. Possible values are `DISALLOWED` and `READ_WRITE`. Defaults to `DISALLOWED`.
+                    description: Policy that controls whether partner delegated access
+                      is permitted within this organization. Possible values are `DISALLOWED`
+                      and `READ_WRITE`. Defaults to `DISALLOWED`.
                     type: string
                   idleRefreshTokenLifetime:
-                    description: |-
-                      (Number) Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
-                      Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+                    description: Maximum number of seconds a refresh token may be
+                      idle before it expires. Omit to leave unchanged; set to null
+                      to reset to the system default. Must be between 1 and 31536000
+                      (1 year) when provided.
                     type: number
                   maximumRefreshTokenLifetime:
-                    description: |-
-                      (Number) Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
-                      Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+                    description: Maximum lifetime of a refresh token in seconds, regardless
+                      of activity. Omit to leave unchanged; set to null to reset to
+                      the system default. Must be between 1 and 31536000 (1 year)
+                      when provided.
                     type: number
                   orgId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
-                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                   orgIdRef:
                     description: Reference to a Organization in mongodbatlas to populate
@@ -352,31 +356,33 @@ spec:
               atProvider:
                 properties:
                   delegatedMcpAccess:
-                    description: |-
-                      (String) Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are DISALLOWED, READ_ONLY, and READ_WRITE. Defaults to DISALLOWED.
-                      Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults to `DISALLOWED`.
+                    description: Policy that controls how MCP (Model Context Protocol)
+                      delegated access is permitted within this organization. Possible
+                      values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults
+                      to `DISALLOWED`.
                     type: string
                   delegatedPartnerAccess:
-                    description: |-
-                      (String) Policy that controls whether partner delegated access is permitted within this organization. Possible values are DISALLOWED and READ_WRITE. Defaults to DISALLOWED.
-                      Policy that controls whether partner delegated access is permitted within this organization. Possible values are `DISALLOWED` and `READ_WRITE`. Defaults to `DISALLOWED`.
+                    description: Policy that controls whether partner delegated access
+                      is permitted within this organization. Possible values are `DISALLOWED`
+                      and `READ_WRITE`. Defaults to `DISALLOWED`.
                     type: string
                   id:
                     type: string
                   idleRefreshTokenLifetime:
-                    description: |-
-                      (Number) Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
-                      Maximum number of seconds a refresh token may be idle before it expires. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+                    description: Maximum number of seconds a refresh token may be
+                      idle before it expires. Omit to leave unchanged; set to null
+                      to reset to the system default. Must be between 1 and 31536000
+                      (1 year) when provided.
                     type: number
                   maximumRefreshTokenLifetime:
-                    description: |-
-                      (Number) Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
-                      Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
+                    description: Maximum lifetime of a refresh token in seconds, regardless
+                      of activity. Omit to leave unchanged; set to null to reset to
+                      the system default. Must be between 1 and 31536000 (1 year)
+                      when provided.
                     type: number
                   orgId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
-                      Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      the organization that contains your projects.
                     type: string
                 type: object
               conditions:

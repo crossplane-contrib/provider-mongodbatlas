@@ -59,18 +59,26 @@ spec:
               forProvider:
                 properties:
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   failoverEnabled:
-                    description: |-
-                      (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
-                      Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
+                    description: Indicates whether this stream processor is eligible
+                      for failover. When `true`, an operator can trigger a failover
+                      event to migrate the stream processor to a secondary region
+                      configured in the workspace's `failover_regions`. Requires an
+                      Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions`
+                      configured on the workspace.
                     type: boolean
                   instanceName:
                     description: |-
-                      (String, Deprecated) Label that identifies the stream processing workspace.
+                      Deprecated.
                       Label that identifies the stream processing workspace.
                     type: string
                   instanceNameRef:
@@ -154,72 +162,53 @@ spec:
                         type: object
                     type: object
                   options:
-                    description: (Attributes) Optional configuration for the stream
-                      processor. Empty options objects are not supported. (see below
-                      for nested schema)
                     properties:
                       autoscaling:
-                        description: (Attributes) Vertical autoscaling configuration
-                          for the stream processor. When present, the processor automatically
-                          scales its tier between min_tier and max_tier based on load;
-                          tier is used only as the initial/baseline tier and the running
-                          tier is reported by effective_tier. To disable autoscaling,
-                          remove this block. (see below for nested schema)
                         properties:
                           maxTier:
-                            description: |-
-                              (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
-                              Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
+                            description: Tier ceiling for autoscaling (scale-up limit).
+                              When not set, it defaults to the workspace maximum tier.
                             type: string
                           minTier:
-                            description: |-
-                              (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
-                              Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
+                            description: Tier floor for autoscaling (scale-down limit).
+                              When not set, it defaults to the lower of the processor
+                              `tier` and the workspace default tier.
                             type: string
                         type: object
                       dlq:
-                        description: (Attributes) Dead letter queue for the stream
-                          processor. Refer to the MongoDB Atlas Docs for more information.
-                          (see below for nested schema)
                         properties:
                           coll:
-                            description: |-
-                              (String) Name of the collection to use for the DLQ.
-                              Name of the collection to use for the DLQ.
+                            description: Name of the collection to use for the DLQ.
                             type: string
                           connectionName:
-                            description: |-
-                              (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
-                              Name of the connection to write DLQ messages to. Must be an Atlas connection.
+                            description: Name of the connection to write DLQ messages
+                              to. Must be an Atlas connection.
                             type: string
                           db:
-                            description: |-
-                              (String) Name of the database to use for the DLQ.
-                              Name of the database to use for the DLQ.
+                            description: Name of the database to use for the DLQ.
                             type: string
                         type: object
                       resumeFromCheckpoint:
                         description: |-
-                          (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
                           Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
 
                           **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
                         type: boolean
                     type: object
                   pipeline:
-                    description: |-
-                      (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
-                      Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
+                    description: Stream aggregation pipeline you want to apply to
+                      your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation)
+                      contain more information. For more details see the [Aggregation
+                      Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/).
+                      **Field order matters:** author this as a raw JSON string (heredoc
+                      or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
-                    description: |-
-                      (String) Label that identifies the stream processor.
-                      Label that identifies the stream processor.
+                    description: Label that identifies the stream processor.
                     type: string
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -305,29 +294,29 @@ spec:
                     type: object
                   state:
                     description: |-
-                      (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
                       The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 
                       **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
                     type: string
                   tier:
-                    description: |-
-                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
-                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
+                    description: Selected tier to start a stream processor on rather
+                      than defaulting to the workspace setting. Configures Memory
+                      / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and
+                      SP50. When `options.autoscaling` is enabled, this is used only
+                      as the initial/baseline tier; the running tier is reported by
+                      `effective_tier`.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `3h`.'
                         type: string
                     type: object
                   workspaceName:
-                    description: |-
-                      (String) Label that identifies the stream processing workspace.
-                      Label that identifies the stream processing workspace.
+                    description: Label that identifies the stream processing workspace.
                     type: string
                   workspaceNameRef:
                     description: Reference to a Workspace in stream to populate workspaceName.
@@ -424,18 +413,26 @@ spec:
                   autoscaler.
                 properties:
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   failoverEnabled:
-                    description: |-
-                      (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
-                      Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
+                    description: Indicates whether this stream processor is eligible
+                      for failover. When `true`, an operator can trigger a failover
+                      event to migrate the stream processor to a secondary region
+                      configured in the workspace's `failover_regions`. Requires an
+                      Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions`
+                      configured on the workspace.
                     type: boolean
                   instanceName:
                     description: |-
-                      (String, Deprecated) Label that identifies the stream processing workspace.
+                      Deprecated.
                       Label that identifies the stream processing workspace.
                     type: string
                   instanceNameRef:
@@ -519,72 +516,53 @@ spec:
                         type: object
                     type: object
                   options:
-                    description: (Attributes) Optional configuration for the stream
-                      processor. Empty options objects are not supported. (see below
-                      for nested schema)
                     properties:
                       autoscaling:
-                        description: (Attributes) Vertical autoscaling configuration
-                          for the stream processor. When present, the processor automatically
-                          scales its tier between min_tier and max_tier based on load;
-                          tier is used only as the initial/baseline tier and the running
-                          tier is reported by effective_tier. To disable autoscaling,
-                          remove this block. (see below for nested schema)
                         properties:
                           maxTier:
-                            description: |-
-                              (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
-                              Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
+                            description: Tier ceiling for autoscaling (scale-up limit).
+                              When not set, it defaults to the workspace maximum tier.
                             type: string
                           minTier:
-                            description: |-
-                              (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
-                              Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
+                            description: Tier floor for autoscaling (scale-down limit).
+                              When not set, it defaults to the lower of the processor
+                              `tier` and the workspace default tier.
                             type: string
                         type: object
                       dlq:
-                        description: (Attributes) Dead letter queue for the stream
-                          processor. Refer to the MongoDB Atlas Docs for more information.
-                          (see below for nested schema)
                         properties:
                           coll:
-                            description: |-
-                              (String) Name of the collection to use for the DLQ.
-                              Name of the collection to use for the DLQ.
+                            description: Name of the collection to use for the DLQ.
                             type: string
                           connectionName:
-                            description: |-
-                              (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
-                              Name of the connection to write DLQ messages to. Must be an Atlas connection.
+                            description: Name of the connection to write DLQ messages
+                              to. Must be an Atlas connection.
                             type: string
                           db:
-                            description: |-
-                              (String) Name of the database to use for the DLQ.
-                              Name of the database to use for the DLQ.
+                            description: Name of the database to use for the DLQ.
                             type: string
                         type: object
                       resumeFromCheckpoint:
                         description: |-
-                          (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
                           Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
 
                           **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
                         type: boolean
                     type: object
                   pipeline:
-                    description: |-
-                      (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
-                      Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
+                    description: Stream aggregation pipeline you want to apply to
+                      your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation)
+                      contain more information. For more details see the [Aggregation
+                      Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/).
+                      **Field order matters:** author this as a raw JSON string (heredoc
+                      or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
-                    description: |-
-                      (String) Label that identifies the stream processor.
-                      Label that identifies the stream processor.
+                    description: Label that identifies the stream processor.
                     type: string
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -670,29 +648,29 @@ spec:
                     type: object
                   state:
                     description: |-
-                      (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
                       The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 
                       **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
                     type: string
                   tier:
-                    description: |-
-                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
-                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
+                    description: Selected tier to start a stream processor on rather
+                      than defaulting to the workspace setting. Configures Memory
+                      / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and
+                      SP50. When `options.autoscaling` is enabled, this is used only
+                      as the initial/baseline tier; the running tier is reported by
+                      `effective_tier`.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `3h`.'
                         type: string
                     type: object
                   workspaceName:
-                    description: |-
-                      (String) Label that identifies the stream processing workspace.
-                      Label that identifies the stream processing workspace.
+                    description: Label that identifies the stream processing workspace.
                     type: string
                   workspaceNameRef:
                     description: Reference to a Workspace in stream to populate workspaceName.
@@ -848,127 +826,115 @@ spec:
               atProvider:
                 properties:
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   effectiveTier:
-                    description: |-
-                      (String) Tier the stream processor is currently running on. When autoscaling is disabled this equals tier; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
-                      Tier the stream processor is currently running on. When autoscaling is disabled this equals `tier`; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
+                    description: Tier the stream processor is currently running on.
+                      When autoscaling is disabled this equals `tier`; when autoscaling
+                      is enabled it reflects the tier chosen by the autoscaler within
+                      the configured bounds.
                     type: string
                   failoverEnabled:
-                    description: |-
-                      (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
-                      Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
+                    description: Indicates whether this stream processor is eligible
+                      for failover. When `true`, an operator can trigger a failover
+                      event to migrate the stream processor to a secondary region
+                      configured in the workspace's `failover_regions`. Requires an
+                      Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions`
+                      configured on the workspace.
                     type: boolean
                   id:
-                    description: (String) Unique 24-hexadecimal character string that
-                      identifies the stream processor.
                     type: string
                   instanceName:
                     description: |-
-                      (String, Deprecated) Label that identifies the stream processing workspace.
+                      Deprecated.
                       Label that identifies the stream processing workspace.
                     type: string
                   options:
-                    description: (Attributes) Optional configuration for the stream
-                      processor. Empty options objects are not supported. (see below
-                      for nested schema)
                     properties:
                       autoscaling:
-                        description: (Attributes) Vertical autoscaling configuration
-                          for the stream processor. When present, the processor automatically
-                          scales its tier between min_tier and max_tier based on load;
-                          tier is used only as the initial/baseline tier and the running
-                          tier is reported by effective_tier. To disable autoscaling,
-                          remove this block. (see below for nested schema)
                         properties:
                           maxTier:
-                            description: |-
-                              (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
-                              Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
+                            description: Tier ceiling for autoscaling (scale-up limit).
+                              When not set, it defaults to the workspace maximum tier.
                             type: string
                           minTier:
-                            description: |-
-                              (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
-                              Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
+                            description: Tier floor for autoscaling (scale-down limit).
+                              When not set, it defaults to the lower of the processor
+                              `tier` and the workspace default tier.
                             type: string
                         type: object
                       dlq:
-                        description: (Attributes) Dead letter queue for the stream
-                          processor. Refer to the MongoDB Atlas Docs for more information.
-                          (see below for nested schema)
                         properties:
                           coll:
-                            description: |-
-                              (String) Name of the collection to use for the DLQ.
-                              Name of the collection to use for the DLQ.
+                            description: Name of the collection to use for the DLQ.
                             type: string
                           connectionName:
-                            description: |-
-                              (String) Name of the connection to write DLQ messages to. Must be an Atlas connection.
-                              Name of the connection to write DLQ messages to. Must be an Atlas connection.
+                            description: Name of the connection to write DLQ messages
+                              to. Must be an Atlas connection.
                             type: string
                           db:
-                            description: |-
-                              (String) Name of the database to use for the DLQ.
-                              Name of the database to use for the DLQ.
+                            description: Name of the database to use for the DLQ.
                             type: string
                         type: object
                       resumeFromCheckpoint:
                         description: |-
-                          (Boolean) Controls checkpoint behavior when the $source stage or a window stage of the pipeline changes. When true, the stream processor resumes from its last checkpoint. Set to false to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to true when not set.
                           Controls checkpoint behavior when the `$source` stage or a window stage of the `pipeline` changes. When `true`, the stream processor resumes from its last checkpoint. Set to `false` to discard the existing checkpoint, which is necessary for those changes because the API rejects them while resuming from an incompatible checkpoint. Defaults to `true` when not set.
 
                           **NOTE** This attribute is only applied to updates that change the `$source` stage, or a window's type, `interval`, `hopSize` or `allowedLateness`. It is ignored on create and on any other update, such as a `tier` change or an edit to a `$match` stage. Because it is applied to every such change while it remains in the configuration, remove it once the change it was needed for has been applied, otherwise a later `$source` or window change discards the checkpoint without being set again for that change. It cannot be imported.
                         type: boolean
                     type: object
                   pipeline:
-                    description: |-
-                      (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
-                      Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
+                    description: Stream aggregation pipeline you want to apply to
+                      your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation)
+                      contain more information. For more details see the [Aggregation
+                      Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/).
+                      **Field order matters:** author this as a raw JSON string (heredoc
+                      or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
-                    description: |-
-                      (String) Label that identifies the stream processor.
-                      Label that identifies the stream processor.
+                    description: Label that identifies the stream processor.
                     type: string
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   state:
                     description: |-
-                      (String) The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are CREATED, STARTED or STOPPED. When a Stream Processor is created without specifying the state, it will default to CREATED state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
                       The state of the stream processor. Commonly occurring states are 'CREATED', 'STARTED', 'STOPPED' and 'FAILED'. Used to start or stop the Stream Processor. Valid values are `CREATED`, `STARTED` or `STOPPED`. When a Stream Processor is created without specifying the state, it will default to `CREATED` state. When a Stream Processor is updated without specifying the state, it will default to the Previous state.
 
                       **NOTE** When a Stream Processor is updated without specifying the state, it is stopped and then restored to previous state upon update completion.
                     type: string
                   stats:
-                    description: |-
-                      (String) The stats associated with the stream processor. Refer to the MongoDB Atlas Docs for more information.
-                      The stats associated with the stream processor. Refer to the [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/manage-stream-processor/#view-statistics-of-a-stream-processor) for more information.
+                    description: The stats associated with the stream processor. Refer
+                      to the [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/manage-stream-processor/#view-statistics-of-a-stream-processor)
+                      for more information.
                     type: string
                   tier:
-                    description: |-
-                      (String) Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When options.autoscaling is enabled, this is used only as the initial/baseline tier; the running tier is reported by effective_tier.
-                      Selected tier to start a stream processor on rather than defaulting to the workspace setting. Configures Memory / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and SP50. When `options.autoscaling` is enabled, this is used only as the initial/baseline tier; the running tier is reported by `effective_tier`.
+                    description: Selected tier to start a stream processor on rather
+                      than defaulting to the workspace setting. Configures Memory
+                      / VCPU allowances. Valid options are SP2, SP5, SP10, SP30, and
+                      SP50. When `options.autoscaling` is enabled, this is used only
+                      as the initial/baseline tier; the running tier is reported by
+                      `effective_tier`.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: 3h.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), and "h" (hours). Default: `3h`.
+                        description: 'A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          and "h" (hours). Default: `3h`.'
                         type: string
                     type: object
                   workspaceName:
-                    description: |-
-                      (String) Label that identifies the stream processing workspace.
-                      Label that identifies the stream processing workspace.
+                    description: Label that identifies the stream processing workspace.
                     type: string
                 type: object
               conditions:

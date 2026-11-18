@@ -15,19 +15,15 @@ import (
 
 type WorkspacePrivateEndpointInitParameters struct {
 
-	// (String) DNS name of your VPC endpoint.
 	// DNS name of your VPC endpoint.
 	CustomerDNSName *string `json:"customerDnsName,omitempty" tf:"customer_dns_name,omitempty"`
 
-	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// (String) Unique identifier of your VPC endpoint.
 	// Unique identifier of your VPC endpoint.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -40,72 +36,57 @@ type WorkspacePrivateEndpointInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) Human-readable label identifying the region of your VPC endpoint.
 	// Human-readable label identifying the region of your VPC endpoint.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Attributes) (see below for nested schema)
 	Timeouts *WorkspacePrivateEndpointTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type WorkspacePrivateEndpointObservation struct {
 
-	// (String) Cloud provider hosting the VPC endpoint.
 	// Cloud provider hosting the VPC endpoint.
 	CloudProvider *string `json:"cloudProvider,omitempty" tf:"cloud_provider,omitempty"`
 
-	// (String) DNS name of your VPC endpoint.
 	// DNS name of your VPC endpoint.
 	CustomerDNSName *string `json:"customerDnsName,omitempty" tf:"customer_dns_name,omitempty"`
 
-	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// (String) Unique identifier of your VPC endpoint.
 	// Unique identifier of your VPC endpoint.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
-	// (String) Name of the Atlas endpoint service your VPC endpoint connects to. Absent when no endpoint service is configured for the endpoint's region.
 	// Name of the Atlas endpoint service your VPC endpoint connects to. Absent when no endpoint service is configured for the endpoint's region.
 	EndpointServiceName *string `json:"endpointServiceName,omitempty" tf:"endpoint_service_name,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (String) Human-readable label identifying the region of your VPC endpoint.
 	// Human-readable label identifying the region of your VPC endpoint.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (String) Status of the endpoint registration.
 	// Status of the endpoint registration.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// (Attributes) (see below for nested schema)
 	Timeouts *WorkspacePrivateEndpointTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type WorkspacePrivateEndpointParameters struct {
 
-	// (String) DNS name of your VPC endpoint.
 	// DNS name of your VPC endpoint.
 	// +kubebuilder:validation:Optional
 	CustomerDNSName *string `json:"customerDnsName,omitempty" tf:"customer_dns_name,omitempty"`
 
-	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// (String) Unique identifier of your VPC endpoint.
 	// Unique identifier of your VPC endpoint.
 	// +kubebuilder:validation:Optional
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -119,33 +100,28 @@ type WorkspacePrivateEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (String) Human-readable label identifying the region of your VPC endpoint.
 	// Human-readable label identifying the region of your VPC endpoint.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Timeouts *WorkspacePrivateEndpointTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 }
 
 type WorkspacePrivateEndpointTimeoutsInitParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
 type WorkspacePrivateEndpointTimeoutsObservation struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`
 }
 
 type WorkspacePrivateEndpointTimeoutsParameters struct {
 
-	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	// +kubebuilder:validation:Optional
 	Create *string `json:"create,omitempty" tf:"create,omitempty"`

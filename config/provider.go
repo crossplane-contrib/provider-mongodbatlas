@@ -41,24 +41,42 @@ func resetRootShortGroup() ujconfig.ResourceOption {
 	}
 }
 
-// docMarkers matches the "(Optional)" or "(String)" markers that can precede
+// docMarkers matches the "(Optional)" or "(Required)" markers that can precede
 // the separator dash of an argument doc.
 var docMarkers = regexp.MustCompile(`^(\s*\([^)]*\))*\s*$`)
 
-// keepDocHyphens stops upjet from cutting argument docs at a hyphen inside the
-// text. upjet drops everything up to the first "-" of a doc, expecting the
-// "`name` - description" layout. The Atlas docs use the tfplugindocs layout,
-// which has no separator, so "Unique 24-hexadecimal digit string" became
-// "hexadecimal digit string". A leading "- " gives upjet a separator to drop.
-func keepDocHyphens() ujconfig.ResourceOption {
+// docType matches the type marker tfplugindocs puts before a description, such
+// as "(String)" or "(Attributes List, Sensitive)".
+var docType = regexp.MustCompile(`^\((String|Number|Boolean|Dynamic|Object|(List|Set|Map) of [^,)]+|(Attributes|Block)( (List|Set|Map))?(, Max: \d+)?)(, (Sensitive|Deprecated))*\)`)
+
+// cleanArgumentDocs fixes the argument docs upjet puts before the schema
+// description in each CRD field description.
+//
+// A doc with a tfplugindocs type marker was generated from that schema
+// description, so it is emptied to avoid printing the text twice; only a
+// deprecation, which the schema description does not mention, is kept.
+//
+// upjet drops everything up to the first "-" of a doc, expecting the
+// "`name` - description" layout. Other docs without that separator would lose
+// the text before a hyphen ("Unique 24-hexadecimal" became "hexadecimal"), so
+// they get a leading "- " for upjet to drop.
+func cleanArgumentDocs() ujconfig.ResourceOption {
 	return func(r *ujconfig.Resource) {
 		if r.MetaResource == nil {
 			return
 		}
 		for k, v := range r.MetaResource.ArgumentDocs {
-			if i := strings.Index(v, "-"); i > 0 && !docMarkers.MatchString(v[:i]) {
-				r.MetaResource.ArgumentDocs[k] = "- " + v
+			switch m := docType.FindString(v); {
+			case strings.Contains(m, "Deprecated"):
+				v = "Deprecated."
+			case m != "":
+				v = ""
+			default:
+				if i := strings.Index(v, "-"); i > 0 && !docMarkers.MatchString(v[:i]) {
+					v = "- " + v
+				}
 			}
+			r.MetaResource.ArgumentDocs[k] = v
 		}
 	}
 }
@@ -67,7 +85,7 @@ func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitia
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			resetRootShortGroup(),
-			keepDocHyphens(),
+			cleanArgumentDocs(),
 			ExternalNameConfigurations(),
 		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{

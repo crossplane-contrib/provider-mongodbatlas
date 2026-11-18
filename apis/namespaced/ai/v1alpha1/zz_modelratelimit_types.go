@@ -15,19 +15,15 @@ import (
 
 type ModelRateLimitInitParameters struct {
 
-	// (String) Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
 	// Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) Geography scope. Must be "ANY". Additional values will be supported in future API versions.
 	// Geography scope. Must be "ANY". Additional values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
-	// (String) The name of the model group to be updated.
 	// The name of the model group to be updated.
 	ModelGroupName *string `json:"modelGroupName,omitempty" tf:"model_group_name,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -40,70 +36,56 @@ type ModelRateLimitInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	RequestsPerMinuteLimit *float64 `json:"requestsPerMinuteLimit,omitempty" tf:"requests_per_minute_limit,omitempty"`
 
-	// (Number) The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	TokensPerMinuteLimit *float64 `json:"tokensPerMinuteLimit,omitempty" tf:"tokens_per_minute_limit,omitempty"`
 }
 
 type ModelRateLimitObservation struct {
 
-	// (String) Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
 	// Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) Server-computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
 	// Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
-	// (String) Geography scope. Must be "ANY". Additional values will be supported in future API versions.
 	// Geography scope. Must be "ANY". Additional values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) The name of the model group to be updated.
 	// The name of the model group to be updated.
 	ModelGroupName *string `json:"modelGroupName,omitempty" tf:"model_group_name,omitempty"`
 
-	// (List of String) List of embedding model names included in this model group.
 	// List of embedding model names included in this model group.
 	ModelNames []*string `json:"modelNames,omitempty" tf:"model_names,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	RequestsPerMinuteLimit *float64 `json:"requestsPerMinuteLimit,omitempty" tf:"requests_per_minute_limit,omitempty"`
 
-	// (Number) The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	TokensPerMinuteLimit *float64 `json:"tokensPerMinuteLimit,omitempty" tf:"tokens_per_minute_limit,omitempty"`
 }
 
 type ModelRateLimitParameters struct {
 
-	// (String) Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
 	// Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) Geography scope. Must be "ANY". Additional values will be supported in future API versions.
 	// Geography scope. Must be "ANY". Additional values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
-	// (String) The name of the model group to be updated.
 	// The name of the model group to be updated.
 	// +kubebuilder:validation:Optional
 	ModelGroupName *string `json:"modelGroupName,omitempty" tf:"model_group_name,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -117,12 +99,10 @@ type ModelRateLimitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// (Number) The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of requests per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// +kubebuilder:validation:Optional
 	RequestsPerMinuteLimit *float64 `json:"requestsPerMinuteLimit,omitempty" tf:"requests_per_minute_limit,omitempty"`
 
-	// (Number) The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// The number of tokens per minute allowed for this model group. Must be a positive integer. Cannot be more than the organization level limit for this group model.
 	// +kubebuilder:validation:Optional
 	TokensPerMinuteLimit *float64 `json:"tokensPerMinuteLimit,omitempty" tf:"tokens_per_minute_limit,omitempty"`

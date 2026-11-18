@@ -59,35 +59,26 @@ spec:
               forProvider:
                 properties:
                   aggregationTemporality:
-                    description: |-
-                      (String) The temporality to send to the metric integration.
-                      The temporality to send to the metric integration.
+                    description: The temporality to send to the metric integration.
                     type: string
                   authType:
-                    description: |-
-                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
-                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
+                    description: Authentication method the integration uses when exporting
+                      metrics to the endpoint. `HEADER` authenticates with the static
+                      HTTP headers provided in the `headers` field, which must be
+                      set when this value is used. `OAUTH2` acquires a bearer token
+                      from an OAuth 2.0 token endpoint using the `oauth` field.
                     type: string
                   endpoint:
-                    description: |-
-                      (String) OpenTelemetry collector endpoint URL. Must use HTTPS.
-                      OpenTelemetry collector endpoint URL. Must use HTTPS.
+                    description: OpenTelemetry collector endpoint URL. Must use HTTPS.
                     type: string
                   headers:
-                    description: (Attributes List) HTTP headers for authentication
-                      and configuration. Total size limit 2KB. (see below for nested
-                      schema)
                     items:
                       properties:
                         name:
-                          description: |-
-                            (String) Header name.
-                            Header name.
+                          description: Header name.
                           type: string
                         valueSecretRef:
-                          description: |-
-                            (String, Sensitive) Header value.
-                            Header value.
+                          description: Header value.
                           properties:
                             key:
                               type: string
@@ -101,37 +92,33 @@ spec:
                       type: object
                     type: array
                   integrationType:
-                    description: |-
-                      (String) Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
-                      Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
+                    description: Type of metric integration. Identifies which protocol
+                      will be used for the integration. This value cannot be modified
+                      after the integration is created.
                     type: string
                   metricSelection:
-                    description: |-
-                      (Set of String) Array of metric categories to export. Determines which types of metrics are sent to the integration.
-                      Array of metric categories to export. Determines which types of metrics are sent to the integration.
+                    description: Array of metric categories to export. Determines
+                      which types of metrics are sent to the integration.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   oauth:
-                    description: (Attributes) OAuth 2.0 client credentials configuration.
-                      Required when auth_type is OAUTH2. Secrets are never returned.
-                      (see below for nested schema)
                     properties:
                       clientAuthMethod:
-                        description: |-
-                          (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
-                          How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                        description: How the client authenticates to the token endpoint.
+                          `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT`
+                          signs a client assertion with an Atlas-generated, Atlas-managed
+                          key. Register the returned JWKS URL with your identity provider.
                         type: string
                       clientId:
-                        description: |-
-                          (String) OAuth 2.0 client identifier registered with the token endpoint.
-                          OAuth 2.0 client identifier registered with the token endpoint.
+                        description: OAuth 2.0 client identifier registered with the
+                          token endpoint.
                         type: string
                       clientSecretSecretRef:
-                        description: |-
-                          (String, Sensitive) Shared client secret. Required when client_auth_method is CLIENT_SECRET, and rejected for PRIVATE_KEY_JWT. Encrypted at rest and never returned.
-                          Shared client secret. Required when client_auth_method is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`. Encrypted at rest and never returned.
+                        description: Shared client secret. Required when client_auth_method
+                          is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`.
+                          Encrypted at rest and never returned.
                         properties:
                           key:
                             type: string
@@ -143,31 +130,28 @@ spec:
                         - name
                         type: object
                       scopes:
-                        description: |-
-                          (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
-                          Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+                        description: Optional OAuth 2.0 scopes requested on the token,
+                          sent as a space delimited `scope` parameter. Applies to
+                          both client authentication methods.
                         items:
                           type: string
                         type: array
                         x-kubernetes-list-type: set
                       tokenEndpoint:
-                        description: |-
-                          (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
-                          OAuth 2.0 token endpoint URL. Must use HTTPS.
+                        description: OAuth 2.0 token endpoint URL. Must use HTTPS.
                         type: string
                       tokenRequestParams:
                         additionalProperties:
                           type: string
-                        description: |-
-                          (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
-                          Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                        description: Optional provider-specific parameters added to
+                          the token request, for example a resource indicator. Applies
+                          to both client authentication methods.
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -252,9 +236,8 @@ spec:
                         type: object
                     type: object
                   providerType:
-                    description: |-
-                      (String) The provider type for the metric integration. Identifies the third-party service provider.
-                      The provider type for the metric integration. Identifies the third-party service provider.
+                    description: The provider type for the metric integration. Identifies
+                      the third-party service provider.
                     type: string
                 type: object
               initProvider:
@@ -271,35 +254,26 @@ spec:
                   autoscaler.
                 properties:
                   aggregationTemporality:
-                    description: |-
-                      (String) The temporality to send to the metric integration.
-                      The temporality to send to the metric integration.
+                    description: The temporality to send to the metric integration.
                     type: string
                   authType:
-                    description: |-
-                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
-                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
+                    description: Authentication method the integration uses when exporting
+                      metrics to the endpoint. `HEADER` authenticates with the static
+                      HTTP headers provided in the `headers` field, which must be
+                      set when this value is used. `OAUTH2` acquires a bearer token
+                      from an OAuth 2.0 token endpoint using the `oauth` field.
                     type: string
                   endpoint:
-                    description: |-
-                      (String) OpenTelemetry collector endpoint URL. Must use HTTPS.
-                      OpenTelemetry collector endpoint URL. Must use HTTPS.
+                    description: OpenTelemetry collector endpoint URL. Must use HTTPS.
                     type: string
                   headers:
-                    description: (Attributes List) HTTP headers for authentication
-                      and configuration. Total size limit 2KB. (see below for nested
-                      schema)
                     items:
                       properties:
                         name:
-                          description: |-
-                            (String) Header name.
-                            Header name.
+                          description: Header name.
                           type: string
                         valueSecretRef:
-                          description: |-
-                            (String, Sensitive) Header value.
-                            Header value.
+                          description: Header value.
                           properties:
                             key:
                               type: string
@@ -315,37 +289,33 @@ spec:
                       type: object
                     type: array
                   integrationType:
-                    description: |-
-                      (String) Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
-                      Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
+                    description: Type of metric integration. Identifies which protocol
+                      will be used for the integration. This value cannot be modified
+                      after the integration is created.
                     type: string
                   metricSelection:
-                    description: |-
-                      (Set of String) Array of metric categories to export. Determines which types of metrics are sent to the integration.
-                      Array of metric categories to export. Determines which types of metrics are sent to the integration.
+                    description: Array of metric categories to export. Determines
+                      which types of metrics are sent to the integration.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   oauth:
-                    description: (Attributes) OAuth 2.0 client credentials configuration.
-                      Required when auth_type is OAUTH2. Secrets are never returned.
-                      (see below for nested schema)
                     properties:
                       clientAuthMethod:
-                        description: |-
-                          (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
-                          How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                        description: How the client authenticates to the token endpoint.
+                          `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT`
+                          signs a client assertion with an Atlas-generated, Atlas-managed
+                          key. Register the returned JWKS URL with your identity provider.
                         type: string
                       clientId:
-                        description: |-
-                          (String) OAuth 2.0 client identifier registered with the token endpoint.
-                          OAuth 2.0 client identifier registered with the token endpoint.
+                        description: OAuth 2.0 client identifier registered with the
+                          token endpoint.
                         type: string
                       clientSecretSecretRef:
-                        description: |-
-                          (String, Sensitive) Shared client secret. Required when client_auth_method is CLIENT_SECRET, and rejected for PRIVATE_KEY_JWT. Encrypted at rest and never returned.
-                          Shared client secret. Required when client_auth_method is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`. Encrypted at rest and never returned.
+                        description: Shared client secret. Required when client_auth_method
+                          is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`.
+                          Encrypted at rest and never returned.
                         properties:
                           key:
                             type: string
@@ -357,31 +327,28 @@ spec:
                         - name
                         type: object
                       scopes:
-                        description: |-
-                          (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
-                          Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+                        description: Optional OAuth 2.0 scopes requested on the token,
+                          sent as a space delimited `scope` parameter. Applies to
+                          both client authentication methods.
                         items:
                           type: string
                         type: array
                         x-kubernetes-list-type: set
                       tokenEndpoint:
-                        description: |-
-                          (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
-                          OAuth 2.0 token endpoint URL. Must use HTTPS.
+                        description: OAuth 2.0 token endpoint URL. Must use HTTPS.
                         type: string
                       tokenRequestParams:
                         additionalProperties:
                           type: string
-                        description: |-
-                          (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
-                          Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                        description: Optional provider-specific parameters added to
+                          the token request, for example a resource indicator. Applies
+                          to both client authentication methods.
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -466,9 +433,8 @@ spec:
                         type: object
                     type: object
                   providerType:
-                    description: |-
-                      (String) The provider type for the metric integration. Identifies the third-party service provider.
-                      The provider type for the metric integration. Identifies the third-party service provider.
+                    description: The provider type for the metric integration. Identifies
+                      the third-party service provider.
                     type: string
                 type: object
               managementPolicies:
@@ -560,145 +526,113 @@ spec:
               atProvider:
                 properties:
                   aggregationTemporality:
-                    description: |-
-                      (String) The temporality to send to the metric integration.
-                      The temporality to send to the metric integration.
+                    description: The temporality to send to the metric integration.
                     type: string
                   authType:
-                    description: |-
-                      (String) Authentication method the integration uses when exporting metrics to the endpoint. HEADER authenticates with the static HTTP headers provided in the headers field, which must be set when this value is used. OAUTH2 acquires a bearer token from an OAuth 2.0 token endpoint using the oauth field.
-                      Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field.
+                    description: Authentication method the integration uses when exporting
+                      metrics to the endpoint. `HEADER` authenticates with the static
+                      HTTP headers provided in the `headers` field, which must be
+                      set when this value is used. `OAUTH2` acquires a bearer token
+                      from an OAuth 2.0 token endpoint using the `oauth` field.
                     type: string
                   endpoint:
-                    description: |-
-                      (String) OpenTelemetry collector endpoint URL. Must use HTTPS.
-                      OpenTelemetry collector endpoint URL. Must use HTTPS.
+                    description: OpenTelemetry collector endpoint URL. Must use HTTPS.
                     type: string
                   headers:
-                    description: (Attributes List) HTTP headers for authentication
-                      and configuration. Total size limit 2KB. (see below for nested
-                      schema)
                     items:
                       properties:
                         name:
-                          description: |-
-                            (String) Header name.
-                            Header name.
+                          description: Header name.
                           type: string
                       type: object
                     type: array
                   headersRedacted:
-                    description: (Attributes List) HTTP headers for authentication
-                      and configuration. Values are redacted and never returned in
-                      plaintext. (see below for nested schema)
                     items:
                       properties:
                         name:
-                          description: |-
-                            (String) Header name.
-                            Header name.
+                          description: Header name.
                           type: string
                         value:
-                          description: |-
-                            (String, Sensitive) Header value.
-                            Redacted header value.
+                          description: Redacted header value.
                           type: string
                       type: object
                     type: array
                   id:
                     type: string
                   integrationType:
-                    description: |-
-                      (String) Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
-                      Type of metric integration. Identifies which protocol will be used for the integration. This value cannot be modified after the integration is created.
+                    description: Type of metric integration. Identifies which protocol
+                      will be used for the integration. This value cannot be modified
+                      after the integration is created.
                     type: string
                   metricIntegrationId:
-                    description: |-
-                      (String) Unique identifier of the metric integration configuration.
-                      Unique identifier of the metric integration configuration.
+                    description: Unique identifier of the metric integration configuration.
                     type: string
                   metricSelection:
-                    description: |-
-                      (Set of String) Array of metric categories to export. Determines which types of metrics are sent to the integration.
-                      Array of metric categories to export. Determines which types of metrics are sent to the integration.
+                    description: Array of metric categories to export. Determines
+                      which types of metrics are sent to the integration.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   oauth:
-                    description: (Attributes) OAuth 2.0 client credentials configuration.
-                      Required when auth_type is OAUTH2. Secrets are never returned.
-                      (see below for nested schema)
                     properties:
                       clientAuthMethod:
-                        description: |-
-                          (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
-                          How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                        description: How the client authenticates to the token endpoint.
+                          `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT`
+                          signs a client assertion with an Atlas-generated, Atlas-managed
+                          key. Register the returned JWKS URL with your identity provider.
                         type: string
                       clientId:
-                        description: |-
-                          (String) OAuth 2.0 client identifier registered with the token endpoint.
-                          OAuth 2.0 client identifier registered with the token endpoint.
+                        description: OAuth 2.0 client identifier registered with the
+                          token endpoint.
                         type: string
                       scopes:
-                        description: |-
-                          (Set of String) Optional OAuth 2.0 scopes requested on the token, sent as a space delimited scope parameter. Applies to both client authentication methods.
-                          Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods.
+                        description: Optional OAuth 2.0 scopes requested on the token,
+                          sent as a space delimited `scope` parameter. Applies to
+                          both client authentication methods.
                         items:
                           type: string
                         type: array
                         x-kubernetes-list-type: set
                       signingKeyInfo:
-                        description: (Attributes) Read-only metadata for the Atlas-managed
-                          signing key used by PRIVATE_KEY_JWT. Present only for that
-                          method. Register the jwks_uri with your identity provider.
-                          Atlas rotates the underlying key without changing this URL.
-                          (see below for nested schema)
                         properties:
                           algorithm:
-                            description: |-
-                              (String) Signing algorithm of the Atlas-managed key.
-                              Signing algorithm of the Atlas-managed key.
+                            description: Signing algorithm of the Atlas-managed key.
                             type: string
                           createdAt:
-                            description: |-
-                              (String) When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
-                              When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+                            description: When the currently active signing key was
+                              created. This parameter expresses its value in the ISO
+                              8601 timestamp format in UTC.
                             type: string
                           jwksUri:
-                            description: |-
-                              (String) Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
-                              Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
+                            description: Public JWKS URL serving this integration's
+                              signing keys. Fixed for the lifetime of the integration.
                             type: string
                           kid:
-                            description: |-
-                              (String) Key ID stamped on client assertions, the SHA-1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
-                              Key ID stamped on client assertions, the `SHA-1` thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
+                            description: Key ID stamped on client assertions, the
+                              `SHA-1` thumbprint of the key certificate in uppercase
+                              hexadecimal. Changes when Atlas rotates the key.
                             type: string
                         type: object
                       tokenEndpoint:
-                        description: |-
-                          (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
-                          OAuth 2.0 token endpoint URL. Must use HTTPS.
+                        description: OAuth 2.0 token endpoint URL. Must use HTTPS.
                         type: string
                       tokenRequestParams:
                         additionalProperties:
                           type: string
-                        description: |-
-                          (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
-                          Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                        description: Optional provider-specific parameters added to
+                          the token request, for example a resource indicator. Applies
+                          to both client authentication methods.
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   providerType:
-                    description: |-
-                      (String) The provider type for the metric integration. Identifies the third-party service provider.
-                      The provider type for the metric integration. Identifies the third-party service provider.
+                    description: The provider type for the metric integration. Identifies
+                      the third-party service provider.
                     type: string
                 type: object
               conditions:

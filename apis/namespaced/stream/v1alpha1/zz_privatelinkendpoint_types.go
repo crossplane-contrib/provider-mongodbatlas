@@ -15,15 +15,12 @@ import (
 
 type PrivatelinkEndpointInitParameters struct {
 
-	// (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	Arn *string `json:"arn,omitempty" tf:"arn,omitempty"`
 
-	// (String) Authentication mechanism to use with this private link connection. Only applies when the vendor is MSK. Valid values are SASL_SCRAM, TLS, and IAM. Changing this value forces replacement of the private link connection.
 	// Authentication mechanism to use with this private link connection. Only applies when the vendor is `MSK`. Valid values are `SASL_SCRAM`, `TLS`, and `IAM`. Changing this value forces replacement of the private link connection.
 	AuthenticationScheme *string `json:"authenticationScheme,omitempty" tf:"authentication_scheme,omitempty"`
 
-	// (String) The domain hostname. Optional for AWS Confluent Enterprise Kafka Cluster. Required for the following provider and vendor combinations:
 	// The domain hostname. Optional for AWS Confluent Enterprise Kafka Cluster. Required for the following provider and vendor combinations:
 	//
 	// * AWS provider with CONFLUENT vendor for Dedicated Kafka Cluster.
@@ -37,31 +34,24 @@ type PrivatelinkEndpointInitParameters struct {
 	// This attribute can be updated in place for AWS Confluent Enterprise Kafka Cluster. Updating it is only allowed when no domain is currently set, or when the connection is in the `IDLE` state.
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
-	// (List of String) Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	DNSSubDomain []*string `json:"dnsSubDomain,omitempty" tf:"dns_sub_domain,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
-	// (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
 	// The region of the Provider’s cluster. See [AZURE](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/#stream-processing-instances) and [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/#stream-processing-instances) supported regions. When the vendor is `CONFLUENT`, this is the domain name of Confluent cluster. When the vendor is `MSK`, this is computed by the API from the provided `arn`.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
-	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AWS LAMBDA, this is the Lambda VPC endpoint service name in the format com.amazonaws.{region}.lambda. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
 	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AWS LAMBDA, this is the Lambda VPC endpoint service name in the format `com.amazonaws.{region}.lambda`. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
-	// (String) Vendor that manages the endpoint. The following are the vendor values per provider:
 	// Vendor that manages the endpoint. The following are the vendor values per provider:
 	//
 	// * **AWS**: MSK, CONFLUENT, S3, and LAMBDA
@@ -74,15 +64,12 @@ type PrivatelinkEndpointInitParameters struct {
 
 type PrivatelinkEndpointObservation struct {
 
-	// (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	Arn *string `json:"arn,omitempty" tf:"arn,omitempty"`
 
-	// (String) Authentication mechanism to use with this private link connection. Only applies when the vendor is MSK. Valid values are SASL_SCRAM, TLS, and IAM. Changing this value forces replacement of the private link connection.
 	// Authentication mechanism to use with this private link connection. Only applies when the vendor is `MSK`. Valid values are `SASL_SCRAM`, `TLS`, and `IAM`. Changing this value forces replacement of the private link connection.
 	AuthenticationScheme *string `json:"authenticationScheme,omitempty" tf:"authentication_scheme,omitempty"`
 
-	// (String) The domain hostname. Optional for AWS Confluent Enterprise Kafka Cluster. Required for the following provider and vendor combinations:
 	// The domain hostname. Optional for AWS Confluent Enterprise Kafka Cluster. Required for the following provider and vendor combinations:
 	//
 	// * AWS provider with CONFLUENT vendor for Dedicated Kafka Cluster.
@@ -96,54 +83,41 @@ type PrivatelinkEndpointObservation struct {
 	// This attribute can be updated in place for AWS Confluent Enterprise Kafka Cluster. Updating it is only allowed when no domain is currently set, or when the connection is in the `IDLE` state.
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
-	// (List of String) Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	DNSSubDomain []*string `json:"dnsSubDomain,omitempty" tf:"dns_sub_domain,omitempty"`
 
-	// (String) Error message if the connection is in a failed state.
 	// Error message if the connection is in a failed state.
 	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
 
-	// (String) The ID of the Private Link connection.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) Interface endpoint ID that is created from the specified service endpoint ID.
 	// Interface endpoint ID that is created from the specified service endpoint ID.
 	InterfaceEndpointID *string `json:"interfaceEndpointId,omitempty" tf:"interface_endpoint_id,omitempty"`
 
-	// (String) Name of interface endpoint that is created from the specified service endpoint ID.
 	// Name of interface endpoint that is created from the specified service endpoint ID.
 	InterfaceEndpointName *string `json:"interfaceEndpointName,omitempty" tf:"interface_endpoint_name,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (String) Account ID from the cloud provider.
 	// Account ID from the cloud provider.
 	ProviderAccountID *string `json:"providerAccountId,omitempty" tf:"provider_account_id,omitempty"`
 
-	// (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
-	// (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
 	// The region of the Provider’s cluster. See [AZURE](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/#stream-processing-instances) and [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/#stream-processing-instances) supported regions. When the vendor is `CONFLUENT`, this is the domain name of Confluent cluster. When the vendor is `MSK`, this is computed by the API from the provided `arn`.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
-	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AWS LAMBDA, this is the Lambda VPC endpoint service name in the format com.amazonaws.{region}.lambda. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
 	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AWS LAMBDA, this is the Lambda VPC endpoint service name in the format `com.amazonaws.{region}.lambda`. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
-	// (String) Status of the connection.
 	// Status of the connection.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// (String) Vendor that manages the endpoint. The following are the vendor values per provider:
 	// Vendor that manages the endpoint. The following are the vendor values per provider:
 	//
 	// * **AWS**: MSK, CONFLUENT, S3, and LAMBDA
@@ -156,17 +130,14 @@ type PrivatelinkEndpointObservation struct {
 
 type PrivatelinkEndpointParameters struct {
 
-	// (String) Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// Amazon Resource Name (ARN). Required for AWS Provider and MSK vendor.
 	// +kubebuilder:validation:Optional
 	Arn *string `json:"arn,omitempty" tf:"arn,omitempty"`
 
-	// (String) Authentication mechanism to use with this private link connection. Only applies when the vendor is MSK. Valid values are SASL_SCRAM, TLS, and IAM. Changing this value forces replacement of the private link connection.
 	// Authentication mechanism to use with this private link connection. Only applies when the vendor is `MSK`. Valid values are `SASL_SCRAM`, `TLS`, and `IAM`. Changing this value forces replacement of the private link connection.
 	// +kubebuilder:validation:Optional
 	AuthenticationScheme *string `json:"authenticationScheme,omitempty" tf:"authentication_scheme,omitempty"`
 
-	// (String) The domain hostname. Optional for AWS Confluent Enterprise Kafka Cluster. Required for the following provider and vendor combinations:
 	// The domain hostname. Optional for AWS Confluent Enterprise Kafka Cluster. Required for the following provider and vendor combinations:
 	//
 	// * AWS provider with CONFLUENT vendor for Dedicated Kafka Cluster.
@@ -181,37 +152,30 @@ type PrivatelinkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	DNSDomain *string `json:"dnsDomain,omitempty" tf:"dns_domain,omitempty"`
 
-	// (List of String) Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// Sub-Domain name of Confluent cluster. These are typically your availability zones. Required for AWS Provider and CONFLUENT vendor. If your AWS CONFLUENT cluster doesn't use subdomains, you must set this to the empty array [].
 	// +kubebuilder:validation:Optional
 	DNSSubDomain []*string `json:"dnsSubDomain,omitempty" tf:"dns_sub_domain,omitempty"`
 
-	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// (String) Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// Provider where the endpoint is deployed. Valid values are AWS, AZURE, and GCP.
 	// +kubebuilder:validation:Optional
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
-	// (String) The region of the Provider’s cluster. See AZURE and AWS supported regions. When the vendor is CONFLUENT, this is the domain name of Confluent cluster. When the vendor is MSK, this is computed by the API from the provided arn.
 	// The region of the Provider’s cluster. See [AZURE](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/#stream-processing-instances) and [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/#stream-processing-instances) supported regions. When the vendor is `CONFLUENT`, this is the domain name of Confluent cluster. When the vendor is `MSK`, this is computed by the API from the provided `arn`.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (List of String) List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// List of GCP service attachment URIs for Confluent vendor. Required for GCP provider with CONFLUENT vendor.
 	// +kubebuilder:validation:Optional
 	ServiceAttachmentUris []*string `json:"serviceAttachmentUris,omitempty" tf:"service_attachment_uris,omitempty"`
 
-	// (String) For AZURE EVENTHUB, this is the namespace endpoint ID. For AWS CONFLUENT cluster, this is the VPC Endpoint service name. For AWS LAMBDA, this is the Lambda VPC endpoint service name in the format com.amazonaws.{region}.lambda. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}.
 	// For AZURE EVENTHUB, this is the [namespace endpoint ID](https://learn.microsoft.com/en-us/rest/api/eventhub/namespaces/get). For AWS CONFLUENT cluster, this is the [VPC Endpoint service name](https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html). For AWS LAMBDA, this is the Lambda VPC endpoint service name in the format `com.amazonaws.{region}.lambda`. For AZURE_BLOB_STORAGE, this is the Azure Resource Manager path of the storage account in the format `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage/storageAccounts/{storageAccount}`.
 	// +kubebuilder:validation:Optional
 	ServiceEndpointID *string `json:"serviceEndpointId,omitempty" tf:"service_endpoint_id,omitempty"`
 
-	// (String) Vendor that manages the endpoint. The following are the vendor values per provider:
 	// Vendor that manages the endpoint. The following are the vendor values per provider:
 	//
 	// * **AWS**: MSK, CONFLUENT, S3, and LAMBDA

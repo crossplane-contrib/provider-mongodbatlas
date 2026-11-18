@@ -74,9 +74,8 @@ spec:
               forProvider:
                 properties:
                   clusterName:
-                    description: |-
-                      (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
-                      Human-readable label that identifies the cluster on which to start the overload protection simulation.
+                    description: Human-readable label that identifies the cluster
+                      on which to start the overload protection simulation.
                     type: string
                   clusterNameRef:
                     description: Reference to a AdvancedCluster in mongodbatlas to
@@ -155,19 +154,22 @@ spec:
                         type: object
                     type: object
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   durationSeconds:
-                    description: |-
-                      (Number) Duration of the overload protection simulation in seconds.
-                      Duration of the overload protection simulation in seconds.
+                    description: Duration of the overload protection simulation in
+                      seconds.
                     type: number
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -246,17 +248,20 @@ spec:
                         type: object
                     type: object
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours). Setting a timeout for a Delete operation is
+                          only applicable if changes are saved into state before the
+                          destroy operation occurs.
                         type: string
                     type: object
                 type: object
@@ -274,9 +279,8 @@ spec:
                   autoscaler.
                 properties:
                   clusterName:
-                    description: |-
-                      (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
-                      Human-readable label that identifies the cluster on which to start the overload protection simulation.
+                    description: Human-readable label that identifies the cluster
+                      on which to start the overload protection simulation.
                     type: string
                   clusterNameRef:
                     description: Reference to a AdvancedCluster in mongodbatlas to
@@ -355,19 +359,22 @@ spec:
                         type: object
                     type: object
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   durationSeconds:
-                    description: |-
-                      (Number) Duration of the overload protection simulation in seconds.
-                      Duration of the overload protection simulation in seconds.
+                    description: Duration of the overload protection simulation in
+                      seconds.
                     type: number
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -446,17 +453,20 @@ spec:
                         type: object
                     type: object
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours). Setting a timeout for a Delete operation is
+                          only applicable if changes are saved into state before the
+                          destroy operation occurs.
                         type: string
                     type: object
                 type: object
@@ -557,64 +567,66 @@ spec:
               atProvider:
                 properties:
                   cancelRequestedAt:
-                    description: |-
-                      (String) Date and time when cancellation of the overload protection simulation was requested. This parameter is only present when a cancellation has been requested and expresses its value in the ISO 8601 timestamp format in UTC.
-                      Date and time when cancellation of the overload protection simulation was requested. This parameter is only present when a cancellation has been requested and expresses its value in the ISO 8601 timestamp format in UTC.
+                    description: Date and time when cancellation of the overload protection
+                      simulation was requested. This parameter is only present when
+                      a cancellation has been requested and expresses its value in
+                      the ISO 8601 timestamp format in UTC.
                     type: string
                   clusterName:
-                    description: |-
-                      (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
-                      Human-readable label that identifies the cluster on which to start the overload protection simulation.
+                    description: Human-readable label that identifies the cluster
+                      on which to start the overload protection simulation.
                     type: string
                   deleteOnCreateTimeout:
-                    description: |-
-                      (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
-                      Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
+                    description: Indicates whether to delete the resource being created
+                      if a timeout is reached when waiting for completion. When set
+                      to `true` and timeout occurs, it triggers the deletion and returns
+                      immediately without waiting for deletion to complete. When set
+                      to `false`, the timeout will not trigger resource deletion.
+                      If you suspect a transient error when the value is `true`, wait
+                      before retrying to allow resource deletion to finish. Default
+                      is `true`.
                     type: boolean
                   durationSeconds:
-                    description: |-
-                      (Number) Duration of the overload protection simulation in seconds.
-                      Duration of the overload protection simulation in seconds.
+                    description: Duration of the overload protection simulation in
+                      seconds.
                     type: number
                   expiresAt:
-                    description: |-
-                      (String) Date and time when the overload protection simulation expires. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
-                      Date and time when the overload protection simulation expires. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+                    description: Date and time when the overload protection simulation
+                      expires. This parameter expresses its value in the ISO 8601
+                      timestamp format in UTC.
                     type: string
                   id:
                     type: string
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   requestDate:
-                    description: |-
-                      (String) Date and time when the overload protection simulation was requested. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
-                      Date and time when the overload protection simulation was requested. This parameter expresses its value in the ISO 8601 timestamp format in UTC.
+                    description: Date and time when the overload protection simulation
+                      was requested. This parameter expresses its value in the ISO
+                      8601 timestamp format in UTC.
                     type: string
                   simulationId:
-                    description: |-
-                      (String) Unique identifier of the overload protection simulation.
-                      Unique identifier of the overload protection simulation.
+                    description: Unique identifier of the overload protection simulation.
                     type: string
                   state:
-                    description: |-
-                      (String) Current state of the overload protection simulation.
-                      Current state of the overload protection simulation.
+                    description: Current state of the overload protection simulation.
                     type: string
                   timeouts:
-                    description: (Attributes) (see below for nested schema)
                     properties:
                       create:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours).
                         type: string
                       delete:
-                        description: |-
-                          (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-                          A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+                        description: A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration)
+                          consisting of numbers and unit suffixes, such as "30s" or
+                          "2h45m". Valid time units are "s" (seconds), "m" (minutes),
+                          "h" (hours). Setting a timeout for a Delete operation is
+                          only applicable if changes are saved into state before the
+                          destroy operation occurs.
                         type: string
                     type: object
                 type: object

@@ -59,9 +59,8 @@ spec:
               forProvider:
                 properties:
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -146,17 +145,14 @@ spec:
                         type: object
                     type: object
                   roleNames:
-                    description: |-
-                      (Set of String) One or more project-level roles assigned to the team.
-                      One or more project-level roles assigned to the team.
+                    description: One or more project-level roles assigned to the team.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamId:
-                    description: |-
-                      (String) Unique 24-hexadecimal character string that identifies the team.
-                      Unique 24-hexadecimal character string that identifies the team.
+                    description: Unique 24-hexadecimal character string that identifies
+                      the team.
                     type: string
                   teamIdRef:
                     description: Reference to a Team in mongodbatlas to populate teamId.
@@ -253,9 +249,8 @@ spec:
                   autoscaler.
                 properties:
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
                     description: Reference to a Project in mongodbatlas to populate
@@ -340,17 +335,14 @@ spec:
                         type: object
                     type: object
                   roleNames:
-                    description: |-
-                      (Set of String) One or more project-level roles assigned to the team.
-                      One or more project-level roles assigned to the team.
+                    description: One or more project-level roles assigned to the team.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamId:
-                    description: |-
-                      (String) Unique 24-hexadecimal character string that identifies the team.
-                      Unique 24-hexadecimal character string that identifies the team.
+                    description: Unique 24-hexadecimal character string that identifies
+                      the team.
                     type: string
                   teamIdRef:
                     description: Reference to a Team in mongodbatlas to populate teamId.
@@ -504,22 +496,18 @@ spec:
                   id:
                     type: string
                   projectId:
-                    description: |-
-                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
-                      Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
+                    description: Unique 24-hexadecimal digit string that identifies
+                      your project, also known as `groupId` in the official documentation.
                     type: string
                   roleNames:
-                    description: |-
-                      (Set of String) One or more project-level roles assigned to the team.
-                      One or more project-level roles assigned to the team.
+                    description: One or more project-level roles assigned to the team.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   teamId:
-                    description: |-
-                      (String) Unique 24-hexadecimal character string that identifies the team.
-                      Unique 24-hexadecimal character string that identifies the team.
+                    description: Unique 24-hexadecimal character string that identifies
+                      the team.
                     type: string
                 type: object
               conditions:

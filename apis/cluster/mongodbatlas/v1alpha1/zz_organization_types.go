@@ -253,9 +253,6 @@ type ServiceAccountObservation struct {
 
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings.
 	SecretExpiresAfterHours *int64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
-
-	// A list of secrets associated with the specified Service Account. See Secrets.
-	Secrets []SecretsObservation `json:"secrets,omitempty" tf:"secrets,omitempty"`
 }
 
 type ServiceAccountParameters struct {

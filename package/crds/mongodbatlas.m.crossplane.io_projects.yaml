@@ -58,6 +58,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  isAtlasHomePageAiAssistantEnabled:
+                    description: Flag that indicates whether the MongoDB Assistant
+                      on the Atlas Home Page is enabled for the project. By default,
+                      this flag is set to true.
+                    type: boolean
                   isClusterAiAssistantEnabled:
                     description: Flag that indicates whether to enable the AI Assistant
                       for the project's clusters. By default, this flag is set to
@@ -301,6 +306,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  isAtlasHomePageAiAssistantEnabled:
+                    description: Flag that indicates whether the MongoDB Assistant
+                      on the Atlas Home Page is enabled for the project. By default,
+                      this flag is set to true.
+                    type: boolean
                   isClusterAiAssistantEnabled:
                     description: Flag that indicates whether to enable the AI Assistant
                       for the project's clusters. By default, this flag is set to
@@ -647,6 +657,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  isAtlasHomePageAiAssistantEnabled:
+                    description: Flag that indicates whether the MongoDB Assistant
+                      on the Atlas Home Page is enabled for the project. By default,
+                      this flag is set to true.
+                    type: boolean
                   isClusterAiAssistantEnabled:
                     description: Flag that indicates whether to enable the AI Assistant
                       for the project's clusters. By default, this flag is set to

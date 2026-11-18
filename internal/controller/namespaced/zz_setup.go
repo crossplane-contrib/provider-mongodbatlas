@@ -94,6 +94,7 @@ import (
 	privatelinkendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/privatelinkendpoint"
 	processor "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/processor"
 	workspace "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/workspace"
+	workspaceprivateendpoint "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/stream/workspaceprivateendpoint"
 	projectassignment "github.com/crossplane-contrib/provider-mongodbatlas/internal/controller/namespaced/team/projectassignment"
 )
 
@@ -186,6 +187,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		privatelinkendpoint.Setup,
 		processor.Setup,
 		workspace.Setup,
+		workspaceprivateendpoint.Setup,
 		projectassignment.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -284,6 +286,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		privatelinkendpoint.SetupGated,
 		processor.SetupGated,
 		workspace.SetupGated,
+		workspaceprivateendpoint.SetupGated,
 		projectassignment.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -381,6 +384,7 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		privatelinkendpoint.SetupWebhookWithManager,
 		processor.SetupWebhookWithManager,
 		workspace.SetupWebhookWithManager,
+		workspaceprivateendpoint.SetupWebhookWithManager,
 		projectassignment.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {

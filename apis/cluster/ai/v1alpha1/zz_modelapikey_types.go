@@ -15,12 +15,12 @@ import (
 
 type ModelAPIKeyInitParameters struct {
 
-	// (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-	// Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+	// agnostic scope. Additional cloud values will be supported in future API versions.
+	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-	// Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+	// agnostic scope. Additional geography values will be supported in future API versions.
+	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
 	// (String) A name for the new API key that will be created.
@@ -47,8 +47,8 @@ type ModelAPIKeyObservation struct {
 	// Identifier used to reference this API key in admin API calls.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
-	// (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-	// Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+	// agnostic scope. Additional cloud values will be supported in future API versions.
+	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
 	// (String) UTC date when the API key was created. This parameter is formatted as an ISO 8601 timestamp.
@@ -63,8 +63,8 @@ type ModelAPIKeyObservation struct {
 	// Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
-	// (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-	// Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+	// agnostic scope. Additional geography values will be supported in future API versions.
+	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -92,13 +92,13 @@ type ModelAPIKeyObservation struct {
 
 type ModelAPIKeyParameters struct {
 
-	// (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-	// Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+	// agnostic scope. Additional cloud values will be supported in future API versions.
+	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-	// Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+	// agnostic scope. Additional geography values will be supported in future API versions.
+	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 

@@ -77,6 +77,9 @@ type LimitsParameters struct {
 
 type ProjectInitParameters struct {
 
+	// Flag that indicates whether the MongoDB Assistant on the Atlas Home Page is enabled for the project. By default, this flag is set to true.
+	IsAtlasHomePageAIAssistantEnabled *bool `json:"isAtlasHomePageAiAssistantEnabled,omitempty" tf:"is_atlas_home_page_ai_assistant_enabled,omitempty"`
+
 	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
 	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
 
@@ -157,6 +160,9 @@ type ProjectObservation struct {
 	// IP addresses in a project categorized by services. See IP Addresses. WARNING: This attribute is deprecated, use the mongodbatlas_project_ip_addresses data source instead.
 	IPAddresses *IPAddressesObservation `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// Flag that indicates whether the MongoDB Assistant on the Atlas Home Page is enabled for the project. By default, this flag is set to true.
+	IsAtlasHomePageAIAssistantEnabled *bool `json:"isAtlasHomePageAiAssistantEnabled,omitempty" tf:"is_atlas_home_page_ai_assistant_enabled,omitempty"`
+
 	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
 	IsClusterAIAssistantEnabled *bool `json:"isClusterAiAssistantEnabled,omitempty" tf:"is_cluster_ai_assistant_enabled,omitempty"`
 
@@ -215,6 +221,10 @@ type ProjectObservation struct {
 }
 
 type ProjectParameters struct {
+
+	// Flag that indicates whether the MongoDB Assistant on the Atlas Home Page is enabled for the project. By default, this flag is set to true.
+	// +kubebuilder:validation:Optional
+	IsAtlasHomePageAIAssistantEnabled *bool `json:"isAtlasHomePageAiAssistantEnabled,omitempty" tf:"is_atlas_home_page_ai_assistant_enabled,omitempty"`
 
 	// Flag that indicates whether to enable the AI Assistant for the project's clusters. By default, this flag is set to true.
 	// +kubebuilder:validation:Optional

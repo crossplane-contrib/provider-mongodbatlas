@@ -1,0 +1,16 @@
+apiVersion: stream.mongodbatlas.crossplane.io/v1alpha1
+kind: WorkspacePrivateEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/workspaceprivateendpoint
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    customerDnsName: ${var.vpc_endpoint_dns_name}
+    endpointId: ${var.vpc_endpoint_id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: US_EAST_1

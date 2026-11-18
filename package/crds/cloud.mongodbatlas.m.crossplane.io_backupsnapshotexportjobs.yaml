@@ -342,7 +342,7 @@ spec:
                     description: Unique identifier of the Cloud Backup snapshot to
                       export. If necessary, use the Get All Cloud Backups API to retrieve
                       the list of snapshot IDs for a cluster or use the data source
-                      mongodbatlas_cloud_cloud_backup_snapshots
+                      mongodbatlas_cloud_backup_snapshots
                     type: string
                   snapshotIdRef:
                     description: Reference to a BackupSnapshot in cloud to populate
@@ -722,7 +722,7 @@ spec:
                     description: Unique identifier of the Cloud Backup snapshot to
                       export. If necessary, use the Get All Cloud Backups API to retrieve
                       the list of snapshot IDs for a cluster or use the data source
-                      mongodbatlas_cloud_cloud_backup_snapshots
+                      mongodbatlas_cloud_backup_snapshots
                     type: string
                   snapshotIdRef:
                     description: Reference to a BackupSnapshot in cloud to populate
@@ -881,12 +881,14 @@ spec:
                     items:
                       properties:
                         exportId:
-                          description: Returned for sharded clusters only. Export
-                            job details for each replica set in the sharded cluster.
+                          description: Returned for sharded clusters only. Unique
+                            24-hexadecimal character string that identifies the Cloud
+                            Backup snapshot export job for each shard in a sharded
+                            cluster.
                           type: string
                         replicaSetName:
-                          description: Returned for sharded clusters only. Unique
-                            identifier of the export job for the replica set.
+                          description: Returned for sharded clusters only. Human-readable
+                            label that identifies the replica set on the sharded cluster.
                           type: string
                       type: object
                     type: array
@@ -937,6 +939,9 @@ spec:
                   id:
                     type: string
                   prefix:
+                    description: Full path on the cloud provider bucket to the folder
+                      where the snapshot is exported. The path is in the following
+                      format:/exported_snapshots/{ORG-NAME}/{PROJECT-NAME}/{CLUSTER-NAME}/{SNAPSHOT-INITIATION-DATE}/{TIMESTAMP}
                     type: string
                   projectId:
                     description: Unique 24-hexadecimal digit string that identifies
@@ -947,7 +952,7 @@ spec:
                     description: Unique identifier of the Cloud Backup snapshot to
                       export. If necessary, use the Get All Cloud Backups API to retrieve
                       the list of snapshot IDs for a cluster or use the data source
-                      mongodbatlas_cloud_cloud_backup_snapshots
+                      mongodbatlas_cloud_backup_snapshots
                     type: string
                   state:
                     description: 'Status of the export job. Value can be one of the

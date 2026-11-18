@@ -58,6 +58,10 @@ spec:
             properties:
               forProvider:
                 properties:
+                  autoCopySettingsEnabled:
+                    description: 'Flag that indicates whether Atlas manages the snapshot
+                      copy settings for the cluster. Value can be one of the following:'
+                    type: boolean
                   autoExportEnabled:
                     description: 'Flag that indicates whether MongoDB Cloud automatically
                       exports Cloud Backup Snapshots to the Export Bucket. Value can
@@ -158,8 +162,7 @@ spec:
                       entry between copy_policy_items and last_number_of_snapshots.'
                     type: boolean
                   copySettings:
-                    description: List that contains a document for each copy setting
-                      item in the desired backup policy. See below
+                    description: time error.
                     items:
                       properties:
                         cloudProvider:
@@ -526,6 +529,10 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  autoCopySettingsEnabled:
+                    description: 'Flag that indicates whether Atlas manages the snapshot
+                      copy settings for the cluster. Value can be one of the following:'
+                    type: boolean
                   autoExportEnabled:
                     description: 'Flag that indicates whether MongoDB Cloud automatically
                       exports Cloud Backup Snapshots to the Export Bucket. Value can
@@ -626,8 +633,7 @@ spec:
                       entry between copy_policy_items and last_number_of_snapshots.'
                     type: boolean
                   copySettings:
-                    description: List that contains a document for each copy setting
-                      item in the desired backup policy. See below
+                    description: time error.
                     items:
                       properties:
                         cloudProvider:
@@ -1044,6 +1050,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  autoCopySettingsEnabled:
+                    description: 'Flag that indicates whether Atlas manages the snapshot
+                      copy settings for the cluster. Value can be one of the following:'
+                    type: boolean
                   autoExportEnabled:
                     description: 'Flag that indicates whether MongoDB Cloud automatically
                       exports Cloud Backup Snapshots to the Export Bucket. Value can
@@ -1065,8 +1075,7 @@ spec:
                       entry between copy_policy_items and last_number_of_snapshots.'
                     type: boolean
                   copySettings:
-                    description: List that contains a document for each copy setting
-                      item in the desired backup policy. See below
+                    description: time error.
                     items:
                       properties:
                         cloudProvider:

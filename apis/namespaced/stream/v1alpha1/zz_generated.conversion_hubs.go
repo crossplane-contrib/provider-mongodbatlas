@@ -23,3 +23,6 @@ func (tr *Processor) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Workspace) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *WorkspacePrivateEndpoint) Hub() {}

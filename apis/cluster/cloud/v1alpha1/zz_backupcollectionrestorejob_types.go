@@ -189,8 +189,8 @@ type BackupCollectionRestoreJobObservation struct {
 	// ID of the snapshot to restore.
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
-	// (String) Current state of the collection restore job.
-	// Current state of the collection restore job.
+	// collection detailed states.
+	// Current state of the collection restore job. A `SUCCESSFUL` job can include individual `UNSUPPORTED` collection restores. Use the `mongodbatlas_cloud_backup_collection_restore_job_collections` data source to get per-collection detailed states.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// (String) Target cluster name.
@@ -414,7 +414,7 @@ type IndexStatusObservation struct {
 	// Number of collections that failed to build indexes.
 	FailedCollectionCount *float64 `json:"failedCollectionCount,omitempty" tf:"failed_collection_count,omitempty"`
 
-	// (String) Current state of the collection restore job.
+	// collection detailed states.
 	// Index build state indicating the status of index creation during or after a restore operation.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }

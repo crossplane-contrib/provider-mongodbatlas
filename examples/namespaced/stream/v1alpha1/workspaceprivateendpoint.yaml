@@ -1,0 +1,16 @@
+apiVersion: stream.mongodbatlas.m.crossplane.io/v1alpha1
+kind: WorkspacePrivateEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: stream/v1alpha1/workspaceprivateendpoint
+    upjet.upbound.io/manual-intervention: "Needs an AWS VPC interface endpoint."
+  labels:
+    testing.upbound.io/example-name: workspaceprivateendpoint-example
+  name: workspaceprivateendpoint-example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    customerDnsName: vpce-0abc123def4567890-abcdefgh.vpce-svc-0123456789abcdef0.us-east-1.vpce.amazonaws.com
+    endpointId: vpce-0abc123def4567890
+    projectId: ${data.mongodbatlas.project_id}
+    region: US_EAST_1

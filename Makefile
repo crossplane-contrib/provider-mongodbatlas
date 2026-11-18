@@ -11,7 +11,7 @@ export TERRAFORM_VERSION ?= 1.5.7
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
 export TERRAFORM_PROVIDER_SOURCE ?= mongodb/mongodbatlas
-export TERRAFORM_PROVIDER_VERSION ?= 2.20.1
+export TERRAFORM_PROVIDER_VERSION ?= 2.22.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-$(PROJECT_NAME)
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/mongodb/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := $(TERRAFORM_PROVIDER_REPO)/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
@@ -125,7 +125,8 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 	@$(INFO) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 	@mkdir -p $(TERRAFORM_WORKDIR)
 	@echo '{"terraform":[{"required_providers":[{"provider":{"source":"'"$(TERRAFORM_PROVIDER_SOURCE)"'","version":"'"$(TERRAFORM_PROVIDER_VERSION)"'"}}],"required_version":"'"$(TERRAFORM_VERSION)"'"}]}' > $(TERRAFORM_WORKDIR)/main.tf.json
-	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) init > $(TERRAFORM_WORKDIR)/terraform-logs.txt 2>&1
+	@# -upgrade: the lock file still pins the previous version after a bump
+	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) init -upgrade > $(TERRAFORM_WORKDIR)/terraform-logs.txt 2>&1
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@sed -i 's/``\([^`]*\)``/\\"\1\\"/g' $(TERRAFORM_PROVIDER_SCHEMA)
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
@@ -134,6 +135,9 @@ pull-docs:
 	@if [ ! -d "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" ]; then \
   		mkdir -p "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" && \
 		git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)"; \
+	elif [ "$$(git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" describe --tags --exact-match 2>/dev/null)" != "v$(TERRAFORM_PROVIDER_VERSION)" ]; then \
+		git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" fetch -q --depth 1 --filter=blob:none origin tag "v$(TERRAFORM_PROVIDER_VERSION)" && \
+		git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" -c advice.detachedHead=false checkout -q "v$(TERRAFORM_PROVIDER_VERSION)"; \
 	fi
 	@git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
 
@@ -142,22 +146,25 @@ pull-docs:
 #
 # The Atlas provider keeps its constructors in internal/provider, which cannot
 # be imported from another module. We extract the module source at the exact
-# release tag (SHA-pinned), inject an xpshim package that re-exports the
+# release tag, inject an xpshim package that re-exports the
 # constructors (legal, since it lives inside the module root), and go.mod has
 # a replace directive pointing at this directory. third_party/ is gitignored;
 # fresh checkouts must run `make provider-source` (wired into build.init and
-# generate.init) before the Go tree compiles. The clone happens once; the
+# generate.init) before the Go tree compiles. The clone runs again only when
+# the stamp file does not match TERRAFORM_PROVIDER_VERSION; the
 # xpshim is copied on every run so an edited template reaches existing
 # checkouts (Go's build cache keys on content, so an unchanged copy is free).
 PROVIDER_SOURCE_DIR := third_party/terraform-provider-mongodbatlas
+PROVIDER_SOURCE_STAMP := $(PROVIDER_SOURCE_DIR)/.provider-version
 
 provider-source:
-	@if [ ! -f "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go" ]; then \
+	@if [ "$$(cat "$(PROVIDER_SOURCE_STAMP)" 2>/dev/null)" != "$(TERRAFORM_PROVIDER_VERSION)" ]; then \
 		$(INFO) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
 		rm -rf "$(PROVIDER_SOURCE_DIR)"; \
-		git clone -c advice.detachedHead=false --depth 1 --branch "v$(TERRAFORM_PROVIDER_VERSION)" "$(TERRAFORM_PROVIDER_REPO)" "$(PROVIDER_SOURCE_DIR)" || $(FAIL); \
+		git clone -c advice.detachedHead=false --depth 1 --branch "v$(TERRAFORM_PROVIDER_VERSION)" "$(TERRAFORM_PROVIDER_REPO)" "$(PROVIDER_SOURCE_DIR)" || { $(FAIL); exit 1; }; \
 		rm -rf "$(PROVIDER_SOURCE_DIR)/.git"; \
 		mkdir -p "$(PROVIDER_SOURCE_DIR)/xpshim"; \
+		echo "$(TERRAFORM_PROVIDER_VERSION)" > "$(PROVIDER_SOURCE_STAMP)"; \
 		$(OK) extracting Atlas provider source v$(TERRAFORM_PROVIDER_VERSION); \
 	fi
 	@cp hack/xpshim.go.tmpl "$(PROVIDER_SOURCE_DIR)/xpshim/xpshim.go"

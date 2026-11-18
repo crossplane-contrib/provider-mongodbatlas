@@ -96,6 +96,7 @@ var terraformFrameworkIncludedResources = []string{
 	"mongodbatlas_stream_privatelink_endpoint",
 	"mongodbatlas_stream_processor",
 	"mongodbatlas_stream_workspace",
+	"mongodbatlas_stream_workspace_private_endpoint",
 	"mongodbatlas_team_project_assignment",
 }
 

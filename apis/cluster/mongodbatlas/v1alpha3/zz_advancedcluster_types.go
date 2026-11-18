@@ -878,7 +878,7 @@ type AnalyticsSpecsInitParameters struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -934,7 +934,7 @@ type AnalyticsSpecsObservation struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -992,7 +992,7 @@ type AnalyticsSpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -1225,7 +1225,7 @@ type ElectableSpecsInitParameters struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -1281,7 +1281,7 @@ type ElectableSpecsObservation struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -1339,7 +1339,7 @@ type ElectableSpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -1474,7 +1474,7 @@ type ReadOnlySpecsInitParameters struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -1530,7 +1530,7 @@ type ReadOnlySpecsObservation struct {
 	// The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.
@@ -1588,7 +1588,7 @@ type ReadOnlySpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. You can't set this parameter for a multi-cloud cluster. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
+	// Type of storage you want to attach to your AWS-provisioned cluster. Set only if you selected AWS as your cloud service provider. In multi-cloud clusters, set this parameter only for AWS regions. NVMe clusters require either the PROVISIONED or HIGH_PERFORMANCE volume type. Valid values are:
 	// Type of storage you want to attach to your AWS-provisioned cluster.
 	//
 	// - `STANDARD` volume types use gp3 storage. For Gen2 instance sizes, you can configure IOPS independently of storage size using `disk_iops`.

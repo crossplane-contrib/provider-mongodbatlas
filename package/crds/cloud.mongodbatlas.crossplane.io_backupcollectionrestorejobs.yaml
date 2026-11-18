@@ -1233,7 +1233,7 @@ spec:
                         type: number
                       state:
                         description: |-
-                          (String) Current state of the collection restore job.
+                          collection detailed states.
                           Index build state indicating the status of index creation during or after a restore operation.
                         type: string
                     type: object
@@ -1279,8 +1279,8 @@ spec:
                     type: string
                   state:
                     description: |-
-                      (String) Current state of the collection restore job.
-                      Current state of the collection restore job.
+                      collection detailed states.
+                      Current state of the collection restore job. A `SUCCESSFUL` job can include individual `UNSUPPORTED` collection restores. Use the `mongodbatlas_cloud_backup_collection_restore_job_collections` data source to get per-collection detailed states.
                     type: string
                   targetClusterName:
                     description: |-

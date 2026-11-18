@@ -105,6 +105,15 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 		}
 	})
 
+	p.AddResourceConfigurator("mongodbatlas_stream_workspace_private_endpoint", func(r *config.Resource) {
+		r.ExternalName = templated("{{ .parameters.project_id }}/{{ .parameters.endpoint_id }}")
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+		}
+	})
+
 	p.AddResourceConfigurator("mongodbatlas_stream_privatelink_endpoint", func(r *config.Resource) {
 		r.ExternalName = config.IdentifierFromProvider
 	})

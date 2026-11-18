@@ -55,7 +55,7 @@ type BackupSnapshotExportJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
+	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_backup_snapshots
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
@@ -99,12 +99,13 @@ type BackupSnapshotExportJobObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Full path on the cloud provider bucket to the folder where the snapshot is exported. The path is in the following format:/exported_snapshots/{ORG-NAME}/{PROJECT-NAME}/{CLUSTER-NAME}/{SNAPSHOT-INITIATION-DATE}/{TIMESTAMP}
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the project which contains the Atlas cluster whose snapshot you want to export, also known as groupId in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
+	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_backup_snapshots
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
 	// Status of the export job. Value can be one of the following:
@@ -157,7 +158,7 @@ type BackupSnapshotExportJobParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_cloud_backup_snapshots
+	// Unique identifier of the Cloud Backup snapshot to export. If necessary, use the Get All Cloud Backups API to retrieve the list of snapshot IDs for a cluster or use the data source mongodbatlas_cloud_backup_snapshots
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
@@ -176,10 +177,10 @@ type ComponentsInitParameters struct {
 
 type ComponentsObservation struct {
 
-	// Returned for sharded clusters only. Export job details for each replica set in the sharded cluster.
+	// Returned for sharded clusters only. Unique 24-hexadecimal character string that identifies the Cloud Backup snapshot export job for each shard in a sharded cluster.
 	ExportID *string `json:"exportId,omitempty" tf:"export_id,omitempty"`
 
-	// Returned for sharded clusters only. Unique identifier of the export job for the replica set.
+	// Returned for sharded clusters only. Human-readable label that identifies the replica set on the sharded cluster.
 	ReplicaSetName *string `json:"replicaSetName,omitempty" tf:"replica_set_name,omitempty"`
 }
 

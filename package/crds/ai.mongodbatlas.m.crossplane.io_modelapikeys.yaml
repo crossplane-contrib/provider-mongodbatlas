@@ -60,13 +60,13 @@ spec:
                 properties:
                   cloud:
                     description: |-
-                      (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-                      Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+                      agnostic scope. Additional cloud values will be supported in future API versions.
+                      Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                     type: string
                   geography:
                     description: |-
-                      (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-                      Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+                      agnostic scope. Additional geography values will be supported in future API versions.
+                      Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                     type: string
                   name:
                     description: |-
@@ -176,13 +176,13 @@ spec:
                 properties:
                   cloud:
                     description: |-
-                      (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-                      Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+                      agnostic scope. Additional cloud values will be supported in future API versions.
+                      Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                     type: string
                   geography:
                     description: |-
-                      (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-                      Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+                      agnostic scope. Additional geography values will be supported in future API versions.
+                      Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                     type: string
                   name:
                     description: |-
@@ -360,8 +360,8 @@ spec:
                     type: string
                   cloud:
                     description: |-
-                      (String) Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
-                      Cloud provider scope for this API key. Must be "ANY". Additional cloud values will be supported in future API versions.
+                      agnostic scope. Additional cloud values will be supported in future API versions.
+                      Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                     type: string
                   createdAt:
                     description: |-
@@ -380,8 +380,8 @@ spec:
                     type: string
                   geography:
                     description: |-
-                      (String) Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
-                      Geography scope for this API key. Must be "ANY". Additional geography values will be supported in future API versions.
+                      agnostic scope. Additional geography values will be supported in future API versions.
+                      Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                     type: string
                   id:
                     type: string

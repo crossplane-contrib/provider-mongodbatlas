@@ -80,7 +80,7 @@ spec:
                       properties:
                         cidrBlock:
                           description: |-
-                            Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+                            (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
                             Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
                           type: string
                         ipAddress:
@@ -92,12 +92,12 @@ spec:
                     type: array
                   mcpConfigName:
                     description: |-
-                      readable name that identifies this MCP configuration.
+                      (String) Human-readable name that identifies this MCP configuration.
                       Human-readable name that identifies this MCP configuration.
                     type: string
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   orgIdRef:
@@ -206,7 +206,7 @@ spec:
                       properties:
                         cidrBlock:
                           description: |-
-                            Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+                            (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
                             Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
                           type: string
                         ipAddress:
@@ -218,12 +218,12 @@ spec:
                     type: array
                   mcpConfigName:
                     description: |-
-                      readable name that identifies this MCP configuration.
+                      (String) Human-readable name that identifies this MCP configuration.
                       Human-readable name that identifies this MCP configuration.
                     type: string
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   orgIdRef:
@@ -431,7 +431,7 @@ spec:
                       properties:
                         cidrBlock:
                           description: |-
-                            Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+                            (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
                             Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
                           type: string
                         ipAddress:
@@ -448,12 +448,12 @@ spec:
                     type: string
                   mcpConfigName:
                     description: |-
-                      readable name that identifies this MCP configuration.
+                      (String) Human-readable name that identifies this MCP configuration.
                       Human-readable name that identifies this MCP configuration.
                     type: string
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   roles:

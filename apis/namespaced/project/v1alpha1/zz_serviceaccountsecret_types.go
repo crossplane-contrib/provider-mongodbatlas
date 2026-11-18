@@ -29,7 +29,7 @@ type ServiceAccountSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -71,7 +71,7 @@ type ServiceAccountSecretObservation struct {
 	// The masked Service Account secret.
 	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -79,7 +79,7 @@ type ServiceAccountSecretObservation struct {
 	// The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. This attribute is required when creating the Service Account Secret and you cannot update it later.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
-	// hexadecimal digit string that identifies the secret.
+	// (String) Unique 24-hexadecimal digit string that identifies the secret.
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
@@ -101,7 +101,7 @@ type ServiceAccountSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

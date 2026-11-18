@@ -15,11 +15,11 @@ import (
 
 type ModelAPIKeyInitParameters struct {
 
-	// agnostic scope. Additional cloud values will be supported in future API versions.
+	// (String) Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// agnostic scope. Additional geography values will be supported in future API versions.
+	// (String) Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
@@ -27,7 +27,7 @@ type ModelAPIKeyInitParameters struct {
 	// A name for the new API key that will be created.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -47,7 +47,7 @@ type ModelAPIKeyObservation struct {
 	// Identifier used to reference this API key in admin API calls.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
-	// agnostic scope. Additional cloud values will be supported in future API versions.
+	// (String) Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
@@ -59,11 +59,11 @@ type ModelAPIKeyObservation struct {
 	// Name of the user that created this API key. If no user name is available, the user ID is returned.
 	CreatedBy *string `json:"createdBy,omitempty" tf:"created_by,omitempty"`
 
-	// computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
+	// (String) Server-computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
 	// Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
-	// agnostic scope. Additional geography values will be supported in future API versions.
+	// (String) Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
 
@@ -81,7 +81,7 @@ type ModelAPIKeyObservation struct {
 	// A name for the new API key that will be created.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -92,12 +92,12 @@ type ModelAPIKeyObservation struct {
 
 type ModelAPIKeyParameters struct {
 
-	// agnostic scope. Additional cloud values will be supported in future API versions.
+	// (String) Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	// Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// agnostic scope. Additional geography values will be supported in future API versions.
+	// (String) Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	// Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
 	// +kubebuilder:validation:Optional
 	Geography *string `json:"geography,omitempty" tf:"geography,omitempty"`
@@ -107,7 +107,7 @@ type ModelAPIKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

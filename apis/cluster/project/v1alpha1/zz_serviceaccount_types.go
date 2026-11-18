@@ -34,7 +34,7 @@ type SecretsObservation struct {
 	// The masked Service Account secret.
 	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
 
-	// hexadecimal digit string that identifies the secret.
+	// (String) Unique 24-hexadecimal digit string that identifies the secret.
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
@@ -48,11 +48,11 @@ type ServiceAccountInitParameters struct {
 	// Human readable description for the Service Account.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
+	// (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -65,7 +65,7 @@ type ServiceAccountInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles for the Service Account.
+	// (Set of String) A list of project-level roles for the Service Account.
 	// A list of project-level roles for the Service Account.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -95,15 +95,15 @@ type ServiceAccountObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
+	// (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// level roles for the Service Account.
+	// (Set of String) A list of project-level roles for the Service Account.
 	// A list of project-level roles for the Service Account.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -131,12 +131,12 @@ type ServiceAccountParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
+	// (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -150,7 +150,7 @@ type ServiceAccountParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles for the Service Account.
+	// (Set of String) A list of project-level roles for the Service Account.
 	// A list of project-level roles for the Service Account.
 	// +kubebuilder:validation:Optional
 	// +listType=set

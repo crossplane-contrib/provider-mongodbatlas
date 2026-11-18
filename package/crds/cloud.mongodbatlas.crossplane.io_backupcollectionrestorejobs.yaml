@@ -76,7 +76,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies the source cluster for the restore.
+                      (String) Human-readable label that identifies the source cluster for the restore.
                       Human-readable label that identifies the source cluster for the restore.
                     type: string
                   clusterNameRef:
@@ -206,22 +206,22 @@ spec:
                     type: string
                   oplogInc:
                     description: |-
-                      in-time restore.
+                      (Number) Oplog increment for point-in-time restore.
                       Oplog increment for point-in-time restore.
                     type: number
                   oplogTs:
                     description: |-
-                      in-time restore.
+                      (Number) Oplog timestamp (seconds part) for point-in-time restore.
                       Oplog timestamp (seconds part) for point-in-time restore.
                     type: number
                   pointInTimeUtcSeconds:
                     description: |-
-                      in-time restore time in seconds since UNIX epoch.
+                      (Number) Point-in-time restore time in seconds since UNIX epoch.
                       Point-in-time restore time in seconds since UNIX epoch.
                     type: number
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -464,7 +464,7 @@ spec:
                     type: object
                   targetProjectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   targetProjectIdRef:
@@ -573,7 +573,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies the source cluster for the restore.
+                      (String) Human-readable label that identifies the source cluster for the restore.
                       Human-readable label that identifies the source cluster for the restore.
                     type: string
                   clusterNameRef:
@@ -703,22 +703,22 @@ spec:
                     type: string
                   oplogInc:
                     description: |-
-                      in-time restore.
+                      (Number) Oplog increment for point-in-time restore.
                       Oplog increment for point-in-time restore.
                     type: number
                   oplogTs:
                     description: |-
-                      in-time restore.
+                      (Number) Oplog timestamp (seconds part) for point-in-time restore.
                       Oplog timestamp (seconds part) for point-in-time restore.
                     type: number
                   pointInTimeUtcSeconds:
                     description: |-
-                      in-time restore time in seconds since UNIX epoch.
+                      (Number) Point-in-time restore time in seconds since UNIX epoch.
                       Point-in-time restore time in seconds since UNIX epoch.
                     type: number
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -961,7 +961,7 @@ spec:
                     type: object
                   targetProjectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   targetProjectIdRef:
@@ -1158,7 +1158,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies the source cluster for the restore.
+                      (String) Human-readable label that identifies the source cluster for the restore.
                       Human-readable label that identifies the source cluster for the restore.
                     type: string
                   collectionSuffix:
@@ -1233,7 +1233,7 @@ spec:
                         type: number
                       state:
                         description: |-
-                          collection detailed states.
+                          (String) Current state of the collection restore job. A SUCCESSFUL job can include individual UNSUPPORTED collection restores. Use the mongodbatlas_cloud_backup_collection_restore_job_collections data source to get per-collection detailed states.
                           Index build state indicating the status of index creation during or after a restore operation.
                         type: string
                     type: object
@@ -1244,27 +1244,27 @@ spec:
                     type: string
                   jobId:
                     description: |-
-                      hexadecimal digit string that identifies the collection restore job.
+                      (String) Unique 24-hexadecimal digit string that identifies the collection restore job.
                       Unique 24-hexadecimal digit string that identifies the collection restore job.
                     type: string
                   oplogInc:
                     description: |-
-                      in-time restore.
+                      (Number) Oplog increment for point-in-time restore.
                       Oplog increment for point-in-time restore.
                     type: number
                   oplogTs:
                     description: |-
-                      in-time restore.
+                      (Number) Oplog timestamp (seconds part) for point-in-time restore.
                       Oplog timestamp (seconds part) for point-in-time restore.
                     type: number
                   pointInTimeUtcSeconds:
                     description: |-
-                      in-time restore time in seconds since UNIX epoch.
+                      (Number) Point-in-time restore time in seconds since UNIX epoch.
                       Point-in-time restore time in seconds since UNIX epoch.
                     type: number
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   restoredDocuments:
@@ -1279,7 +1279,7 @@ spec:
                     type: string
                   state:
                     description: |-
-                      collection detailed states.
+                      (String) Current state of the collection restore job. A SUCCESSFUL job can include individual UNSUPPORTED collection restores. Use the mongodbatlas_cloud_backup_collection_restore_job_collections data source to get per-collection detailed states.
                       Current state of the collection restore job. A `SUCCESSFUL` job can include individual `UNSUPPORTED` collection restores. Use the `mongodbatlas_cloud_backup_collection_restore_job_collections` data source to get per-collection detailed states.
                     type: string
                   targetClusterName:
@@ -1289,7 +1289,7 @@ spec:
                     type: string
                   targetProjectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   timeouts:

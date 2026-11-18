@@ -20,7 +20,7 @@ type LogIntegrationInitParameters struct {
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -40,7 +40,7 @@ type LogIntegrationInitParameters struct {
 	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	OtelSuppliedHeaders []OtelSuppliedHeadersInitParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
-	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+	// (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -48,7 +48,7 @@ type LogIntegrationInitParameters struct {
 type LogIntegrationObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// character hexadecimal digit string that identifies the log integration configuration.
+	// (String) Unique 24-character hexadecimal digit string that identifies the log integration configuration.
 	// Unique 24-character hexadecimal digit string that identifies the log integration configuration.
 	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
 
@@ -57,7 +57,7 @@ type LogIntegrationObservation struct {
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -68,7 +68,7 @@ type LogIntegrationObservation struct {
 	// (Attributes List, Sensitive) HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. (see below for nested schema)
 	OtelSuppliedHeaders []OtelSuppliedHeadersObservation `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
-	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+	// (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -81,7 +81,7 @@ type LogIntegrationParameters struct {
 	// +listType=set
 	LogTypes []*string `json:"logTypes,omitempty" tf:"log_types,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
@@ -104,7 +104,7 @@ type LogIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	OtelSuppliedHeaders []OtelSuppliedHeadersParameters `json:"otelSuppliedHeaders,omitempty" tf:"otel_supplied_headers,omitempty"`
 
-	// readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+	// (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`

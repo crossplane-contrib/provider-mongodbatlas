@@ -81,7 +81,7 @@ spec:
                     type: number
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   orgIdRef:
@@ -202,7 +202,7 @@ spec:
                     type: number
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   orgIdRef:
@@ -375,7 +375,7 @@ spec:
                     type: number
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                 type: object

@@ -15,7 +15,7 @@ import (
 
 type UserProjectAssignmentInitParameters struct {
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -28,7 +28,7 @@ type UserProjectAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles to assign the MongoDB Cloud user.
+	// (Set of String) One or more project-level roles to assign the MongoDB Cloud user.
 	// One or more project-level roles to assign the MongoDB Cloud user.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -40,7 +40,7 @@ type UserProjectAssignmentInitParameters struct {
 
 type UserProjectAssignmentObservation struct {
 
-	// character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
+	// (String) Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
 	// Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
 	Country *string `json:"country,omitempty" tf:"country,omitempty"`
 
@@ -82,16 +82,16 @@ type UserProjectAssignmentObservation struct {
 	// String enum that indicates whether the MongoDB Cloud user has a pending invitation to join the organization or they are already active in the organization.
 	OrgMembershipStatus *string `json:"orgMembershipStatus,omitempty" tf:"org_membership_status,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// level roles to assign the MongoDB Cloud user.
+	// (Set of String) One or more project-level roles to assign the MongoDB Cloud user.
 	// One or more project-level roles to assign the MongoDB Cloud user.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// hexadecimal digit string that identifies the MongoDB Cloud user.
+	// (String) Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
 
@@ -102,7 +102,7 @@ type UserProjectAssignmentObservation struct {
 
 type UserProjectAssignmentParameters struct {
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -116,7 +116,7 @@ type UserProjectAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles to assign the MongoDB Cloud user.
+	// (Set of String) One or more project-level roles to assign the MongoDB Cloud user.
 	// One or more project-level roles to assign the MongoDB Cloud user.
 	// +kubebuilder:validation:Optional
 	// +listType=set

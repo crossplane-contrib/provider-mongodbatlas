@@ -65,12 +65,12 @@ spec:
                     type: string
                   name:
                     description: |-
-                      readable label that describes the Atlas resource policy.
+                      (String) Human-readable label that describes the Atlas resource policy.
                       Human-readable label that describes the Atlas resource policy.
                     type: string
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listorganizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
@@ -188,12 +188,12 @@ spec:
                     type: string
                   name:
                     description: |-
-                      readable label that describes the Atlas resource policy.
+                      (String) Human-readable label that describes the Atlas resource policy.
                       Human-readable label that describes the Atlas resource policy.
                     type: string
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listorganizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
@@ -369,12 +369,12 @@ spec:
                     properties:
                       id:
                         description: |-
-                          hexadecimal digit string that identifies an Atlas resource policy.
+                          (String) Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
                           Unique 24-hexadecimal character string that identifies a user.
                         type: string
                       name:
                         description: |-
-                          readable label that describes the Atlas resource policy.
+                          (String) Human-readable label that describes the Atlas resource policy.
                           Human-readable label that describes a user.
                         type: string
                     type: object
@@ -389,8 +389,8 @@ spec:
                       Description of the Atlas resource policy.
                     type: string
                   id:
-                    description: hexadecimal digit string that identifies an Atlas
-                      resource policy.
+                    description: (String) Unique 24-hexadecimal digit string that
+                      identifies an Atlas resource policy.
                     type: string
                   lastUpdatedByUser:
                     description: (Attributes) The user that last updated the Atlas
@@ -398,12 +398,12 @@ spec:
                     properties:
                       id:
                         description: |-
-                          hexadecimal digit string that identifies an Atlas resource policy.
+                          (String) Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
                           Unique 24-hexadecimal character string that identifies a user.
                         type: string
                       name:
                         description: |-
-                          readable label that describes the Atlas resource policy.
+                          (String) Human-readable label that describes the Atlas resource policy.
                           Human-readable label that describes a user.
                         type: string
                     type: object
@@ -414,12 +414,12 @@ spec:
                     type: string
                   name:
                     description: |-
-                      readable label that describes the Atlas resource policy.
+                      (String) Human-readable label that describes the Atlas resource policy.
                       Human-readable label that describes the Atlas resource policy.
                     type: string
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listorganizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   policies:
@@ -434,7 +434,7 @@ spec:
                           type: string
                         id:
                           description: |-
-                            hexadecimal digit string that identifies an Atlas resource policy.
+                            (String) Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
                             Unique 24-hexadecimal character string that identifies the policy.
                           type: string
                       type: object

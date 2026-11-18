@@ -123,7 +123,7 @@ spec:
                           type: boolean
                         region:
                           description: |-
-                            hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+                            (String) Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
                             Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
                           type: string
                         requirePrivateNetworking:
@@ -133,7 +133,7 @@ spec:
                           type: boolean
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                           type: string
                         roleIdRef:
@@ -214,7 +214,7 @@ spec:
                           type: object
                         secretAccessKeySecretRef:
                           description: |-
-                            readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
+                            (String, Sensitive) Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
                             Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
                           properties:
                             key:
@@ -246,7 +246,7 @@ spec:
                           type: string
                         clientIdSecretRef:
                           description: |-
-                            hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
+                            (String, Sensitive) Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
                             Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
                           properties:
                             key:
@@ -304,7 +304,7 @@ spec:
                           type: string
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
                           type: string
                         secretSecretRef:
@@ -328,7 +328,7 @@ spec:
                           type: object
                         subscriptionIdSecretRef:
                           description: |-
-                            hexadecimal character string that identifies your Azure subscription.
+                            (String, Sensitive) Unique 36-hexadecimal character string that identifies your Azure subscription.
                             Unique 36-hexadecimal character string that identifies your Azure subscription.
                           properties:
                             key:
@@ -347,7 +347,7 @@ spec:
                           type: object
                         tenantIdSecretRef:
                           description: |-
-                            hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
+                            (String, Sensitive) Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
                             Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
                           properties:
                             key:
@@ -403,7 +403,7 @@ spec:
                           type: object
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
                           type: string
                         serviceAccountKeySecretRef:
@@ -429,7 +429,7 @@ spec:
                     type: array
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -573,7 +573,7 @@ spec:
                           type: boolean
                         region:
                           description: |-
-                            hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+                            (String) Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
                             Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
                           type: string
                         requirePrivateNetworking:
@@ -583,7 +583,7 @@ spec:
                           type: boolean
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                           type: string
                         roleIdRef:
@@ -664,7 +664,7 @@ spec:
                           type: object
                         secretAccessKeySecretRef:
                           description: |-
-                            readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
+                            (String, Sensitive) Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
                             Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
                           properties:
                             key:
@@ -696,7 +696,7 @@ spec:
                           type: string
                         clientIdSecretRef:
                           description: |-
-                            hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
+                            (String, Sensitive) Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
                             Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
                           properties:
                             key:
@@ -754,7 +754,7 @@ spec:
                           type: string
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
                           type: string
                         secretSecretRef:
@@ -778,7 +778,7 @@ spec:
                           type: object
                         subscriptionIdSecretRef:
                           description: |-
-                            hexadecimal character string that identifies your Azure subscription.
+                            (String, Sensitive) Unique 36-hexadecimal character string that identifies your Azure subscription.
                             Unique 36-hexadecimal character string that identifies your Azure subscription.
                           properties:
                             key:
@@ -797,7 +797,7 @@ spec:
                           type: object
                         tenantIdSecretRef:
                           description: |-
-                            hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
+                            (String, Sensitive) Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
                             Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
                           properties:
                             key:
@@ -853,7 +853,7 @@ spec:
                           type: object
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
                           type: string
                         serviceAccountKeySecretRef:
@@ -879,7 +879,7 @@ spec:
                     type: array
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -1063,7 +1063,7 @@ spec:
                           type: boolean
                         region:
                           description: |-
-                            hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+                            (String) Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
                             Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
                           type: string
                         requirePrivateNetworking:
@@ -1073,7 +1073,7 @@ spec:
                           type: boolean
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                           type: string
                         valid:
@@ -1116,7 +1116,7 @@ spec:
                           type: string
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
                           type: string
                         valid:
@@ -1144,7 +1144,7 @@ spec:
                           type: boolean
                         roleId:
                           description: |-
-                            hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+                            (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
                             Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
                           type: string
                         valid:
@@ -1159,7 +1159,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                 type: object

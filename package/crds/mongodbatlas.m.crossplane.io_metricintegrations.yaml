@@ -120,7 +120,7 @@ spec:
                     properties:
                       clientAuthMethod:
                         description: |-
-                          generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                          (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
                           How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
                         type: string
                       clientId:
@@ -159,14 +159,14 @@ spec:
                         additionalProperties:
                           type: string
                         description: |-
-                          specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                          (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
                           Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -253,7 +253,7 @@ spec:
                     type: object
                   providerType:
                     description: |-
-                      party service provider.
+                      (String) The provider type for the metric integration. Identifies the third-party service provider.
                       The provider type for the metric integration. Identifies the third-party service provider.
                     type: string
                 type: object
@@ -334,7 +334,7 @@ spec:
                     properties:
                       clientAuthMethod:
                         description: |-
-                          generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                          (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
                           How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
                         type: string
                       clientId:
@@ -373,14 +373,14 @@ spec:
                         additionalProperties:
                           type: string
                         description: |-
-                          specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                          (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
                           Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -467,7 +467,7 @@ spec:
                     type: object
                   providerType:
                     description: |-
-                      party service provider.
+                      (String) The provider type for the metric integration. Identifies the third-party service provider.
                       The provider type for the metric integration. Identifies the third-party service provider.
                     type: string
                 type: object
@@ -632,7 +632,7 @@ spec:
                     properties:
                       clientAuthMethod:
                         description: |-
-                          generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+                          (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
                           How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
                         type: string
                       clientId:
@@ -649,15 +649,15 @@ spec:
                         type: array
                         x-kubernetes-list-type: set
                       signingKeyInfo:
-                        description: only metadata for the Atlas-managed signing key
-                          used by PRIVATE_KEY_JWT. Present only for that method. Register
-                          the jwks_uri with your identity provider. Atlas rotates
-                          the underlying key without changing this URL. (see below
-                          for nested schema)
+                        description: (Attributes) Read-only metadata for the Atlas-managed
+                          signing key used by PRIVATE_KEY_JWT. Present only for that
+                          method. Register the jwks_uri with your identity provider.
+                          Atlas rotates the underlying key without changing this URL.
+                          (see below for nested schema)
                         properties:
                           algorithm:
                             description: |-
-                              managed key.
+                              (String) Signing algorithm of the Atlas-managed key.
                               Signing algorithm of the Atlas-managed key.
                             type: string
                           createdAt:
@@ -672,7 +672,7 @@ spec:
                             type: string
                           kid:
                             description: |-
-                              1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
+                              (String) Key ID stamped on client assertions, the SHA-1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
                               Key ID stamped on client assertions, the `SHA-1` thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
                             type: string
                         type: object
@@ -685,19 +685,19 @@ spec:
                         additionalProperties:
                           type: string
                         description: |-
-                          specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+                          (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
                           Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   providerType:
                     description: |-
-                      party service provider.
+                      (String) The provider type for the metric integration. Identifies the third-party service provider.
                       The provider type for the metric integration. Identifies the third-party service provider.
                     type: string
                 type: object

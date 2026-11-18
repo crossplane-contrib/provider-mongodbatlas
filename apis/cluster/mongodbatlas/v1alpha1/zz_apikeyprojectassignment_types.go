@@ -15,7 +15,7 @@ import (
 
 type APIKeyProjectAssignmentInitParameters struct {
 
-	// hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+	// (String) Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.APIKey
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
@@ -28,7 +28,7 @@ type APIKeyProjectAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v2.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -41,7 +41,7 @@ type APIKeyProjectAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
+	// (Set of String) Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -49,17 +49,17 @@ type APIKeyProjectAssignmentInitParameters struct {
 
 type APIKeyProjectAssignmentObservation struct {
 
-	// hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+	// (String) Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	APIKeyID *string `json:"apiKeyId,omitempty" tf:"api_key_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
+	// (Set of String) Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -67,7 +67,7 @@ type APIKeyProjectAssignmentObservation struct {
 
 type APIKeyProjectAssignmentParameters struct {
 
-	// hexadecimal digit string that identifies this organization API key that you want to assign to one project.
+	// (String) Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// Unique 24-hexadecimal digit string that identifies this organization API key that you want to assign to one project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.APIKey
 	// +kubebuilder:validation:Optional
@@ -81,7 +81,7 @@ type APIKeyProjectAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	APIKeyIDSelector *v2.Selector `json:"apiKeyIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -95,7 +95,7 @@ type APIKeyProjectAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
+	// (Set of String) Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// Human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific API key, MongoDB Cloud user, or MongoDB Cloud team. These roles include only the specific project-level roles.
 	// +kubebuilder:validation:Optional
 	// +listType=set

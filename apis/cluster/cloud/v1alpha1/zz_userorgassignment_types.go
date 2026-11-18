@@ -18,11 +18,11 @@ type ProjectRoleAssignmentsInitParameters struct {
 
 type ProjectRoleAssignmentsObservation struct {
 
-	// hexadecimal digit string that identifies the project to which these roles belong.
+	// (String) Unique 24-hexadecimal digit string that identifies the project to which these roles belong.
 	// Unique 24-hexadecimal digit string that identifies the project to which these roles belong.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// level roles assigned to the MongoDB Cloud user.
+	// (Set of String) One or more project-level roles assigned to the MongoDB Cloud user.
 	// One or more project-level roles assigned to the MongoDB Cloud user.
 	// +listType=set
 	ProjectRoles []*string `json:"projectRoles,omitempty" tf:"project_roles,omitempty"`
@@ -61,7 +61,7 @@ type RolesParameters struct {
 
 type UserOrgAssignmentInitParameters struct {
 
-	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -84,7 +84,7 @@ type UserOrgAssignmentInitParameters struct {
 
 type UserOrgAssignmentObservation struct {
 
-	// character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
+	// (String) Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
 	// Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
 	Country *string `json:"country,omitempty" tf:"country,omitempty"`
 
@@ -122,7 +122,7 @@ type UserOrgAssignmentObservation struct {
 	// Mobile phone number that belongs to the MongoDB Cloud user.
 	MobileNumber *string `json:"mobileNumber,omitempty" tf:"mobile_number,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -133,12 +133,12 @@ type UserOrgAssignmentObservation struct {
 	// (Attributes) Organization and project level roles to assign the MongoDB Cloud user within one organization. (see below for nested schema)
 	Roles *RolesObservation `json:"roles,omitempty" tf:"roles,omitempty"`
 
-	// hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
+	// (Set of String) List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
 	// List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
 	// +listType=set
 	TeamIds []*string `json:"teamIds,omitempty" tf:"team_ids,omitempty"`
 
-	// hexadecimal digit string that identifies the MongoDB Cloud user.
+	// (String) Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	// Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
 	UserID *string `json:"userId,omitempty" tf:"user_id,omitempty"`
 
@@ -149,7 +149,7 @@ type UserOrgAssignmentObservation struct {
 
 type UserOrgAssignmentParameters struct {
 
-	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional

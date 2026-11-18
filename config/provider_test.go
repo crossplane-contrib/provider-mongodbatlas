@@ -8,6 +8,8 @@ import (
 	"strings"
 	"testing"
 
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/registry"
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -276,4 +278,29 @@ func TestLegacyEncodedExternalName(t *testing.T) {
 			}
 		})
 	}
+}
+
+// TestKeepDocHyphens checks that only docs whose first hyphen sits inside the
+// text get the separator upjet strips; docs with a real separator keep theirs.
+func TestKeepDocHyphens(t *testing.T) {
+	cases := map[string]string{
+		"(String) Unique 24-hexadecimal digit string":                     "- (String) Unique 24-hexadecimal digit string",
+		"Oplog timestamp (seconds part) for point-in-time restore.":       "- Oplog timestamp (seconds part) for point-in-time restore.",
+		"(Optional) - Flag that indicates whether the cluster is paused.": "(Optional) - Flag that indicates whether the cluster is paused.",
+		"- (Required) Unique 24-hexadecimal digit string":                 "- (Required) Unique 24-hexadecimal digit string",
+		"(Boolean) Flag that indicates whether to enable the setting.":    "(Boolean) Flag that indicates whether to enable the setting.",
+	}
+	docs := map[string]string{}
+	for in := range cases {
+		docs[in] = in
+	}
+	r := &ujconfig.Resource{MetaResource: &registry.Resource{ArgumentDocs: docs}}
+	keepDocHyphens()(r)
+	keepDocHyphens()(r) // a second run must not stack dashes
+	for in, want := range cases {
+		if got := r.MetaResource.ArgumentDocs[in]; got != want {
+			t.Errorf("%q: got %q, want %q", in, got, want)
+		}
+	}
+	keepDocHyphens()(&ujconfig.Resource{}) // no docs: must not panic
 }

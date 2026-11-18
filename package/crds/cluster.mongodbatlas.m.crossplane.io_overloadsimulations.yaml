@@ -61,7 +61,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies the cluster on which to start the overload protection simulation.
+                      (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
                       Human-readable label that identifies the cluster on which to start the overload protection simulation.
                     type: string
                   clusterNameRef:
@@ -158,7 +158,7 @@ spec:
                     type: number
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -273,7 +273,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies the cluster on which to start the overload protection simulation.
+                      (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
                       Human-readable label that identifies the cluster on which to start the overload protection simulation.
                     type: string
                   clusterNameRef:
@@ -370,7 +370,7 @@ spec:
                     type: number
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -545,7 +545,7 @@ spec:
                     type: string
                   clusterName:
                     description: |-
-                      readable label that identifies the cluster on which to start the overload protection simulation.
+                      (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
                       Human-readable label that identifies the cluster on which to start the overload protection simulation.
                     type: string
                   deleteOnCreateTimeout:
@@ -567,7 +567,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   requestDate:

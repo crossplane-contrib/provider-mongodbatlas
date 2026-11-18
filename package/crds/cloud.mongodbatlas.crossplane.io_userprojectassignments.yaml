@@ -75,7 +75,7 @@ spec:
                 properties:
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -156,7 +156,7 @@ spec:
                     type: object
                   roles:
                     description: |-
-                      level roles to assign the MongoDB Cloud user.
+                      (Set of String) One or more project-level roles to assign the MongoDB Cloud user.
                       One or more project-level roles to assign the MongoDB Cloud user.
                     items:
                       type: string
@@ -183,7 +183,7 @@ spec:
                 properties:
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -264,7 +264,7 @@ spec:
                     type: object
                   roles:
                     description: |-
-                      level roles to assign the MongoDB Cloud user.
+                      (Set of String) One or more project-level roles to assign the MongoDB Cloud user.
                       One or more project-level roles to assign the MongoDB Cloud user.
                     items:
                       type: string
@@ -379,7 +379,7 @@ spec:
                 properties:
                   country:
                     description: |-
-                      character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
+                      (String) Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
                       Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
                     type: string
                   createdAt:
@@ -431,12 +431,12 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   roles:
                     description: |-
-                      level roles to assign the MongoDB Cloud user.
+                      (Set of String) One or more project-level roles to assign the MongoDB Cloud user.
                       One or more project-level roles to assign the MongoDB Cloud user.
                     items:
                       type: string
@@ -444,7 +444,7 @@ spec:
                     x-kubernetes-list-type: set
                   userId:
                     description: |-
-                      hexadecimal digit string that identifies the MongoDB Cloud user.
+                      (String) Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
                       Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
                     type: string
                   username:

@@ -82,7 +82,7 @@ spec:
                     x-kubernetes-list-type: set
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   orgIdRef:
@@ -200,7 +200,7 @@ spec:
                     type: array
                   type:
                     description: |-
-                      readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+                      (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
                       Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
                     type: string
                 type: object
@@ -227,7 +227,7 @@ spec:
                     x-kubernetes-list-type: set
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   orgIdRef:
@@ -347,7 +347,7 @@ spec:
                     type: array
                   type:
                     description: |-
-                      readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+                      (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
                       Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
                     type: string
                 type: object
@@ -455,7 +455,7 @@ spec:
                     type: string
                   integrationId:
                     description: |-
-                      character hexadecimal digit string that identifies the log integration configuration.
+                      (String) Unique 24-character hexadecimal digit string that identifies the log integration configuration.
                       Unique 24-character hexadecimal digit string that identifies the log integration configuration.
                     type: string
                   logTypes:
@@ -468,7 +468,7 @@ spec:
                     x-kubernetes-list-type: set
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
                     type: string
                   otelEndpoint:
@@ -491,7 +491,7 @@ spec:
                     type: array
                   type:
                     description: |-
-                      readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
+                      (String) Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
                       Human-readable label that identifies the service to which you want to integrate with Atlas. The value must match the log integration type. This value cannot be modified after the integration is created.
                     type: string
                 type: object

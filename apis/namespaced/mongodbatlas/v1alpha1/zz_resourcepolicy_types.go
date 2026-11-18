@@ -18,11 +18,11 @@ type CreatedByUserInitParameters struct {
 
 type CreatedByUserObservation struct {
 
-	// hexadecimal digit string that identifies an Atlas resource policy.
+	// (String) Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	// Unique 24-hexadecimal character string that identifies a user.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// readable label that describes the Atlas resource policy.
+	// (String) Human-readable label that describes the Atlas resource policy.
 	// Human-readable label that describes a user.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
@@ -35,11 +35,11 @@ type LastUpdatedByUserInitParameters struct {
 
 type LastUpdatedByUserObservation struct {
 
-	// hexadecimal digit string that identifies an Atlas resource policy.
+	// (String) Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	// Unique 24-hexadecimal character string that identifies a user.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// readable label that describes the Atlas resource policy.
+	// (String) Human-readable label that describes the Atlas resource policy.
 	// Human-readable label that describes a user.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
@@ -60,7 +60,7 @@ type PoliciesObservation struct {
 	// A string that defines the permissions for the policy. The syntax used is the Cedar Policy language.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
-	// hexadecimal digit string that identifies an Atlas resource policy.
+	// (String) Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	// Unique 24-hexadecimal character string that identifies the policy.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
@@ -79,11 +79,11 @@ type ResourcePolicyInitParameters struct {
 	// Description of the Atlas resource policy.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable label that describes the Atlas resource policy.
+	// (String) Human-readable label that describes the Atlas resource policy.
 	// Human-readable label that describes the Atlas resource policy.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listorganizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -113,7 +113,7 @@ type ResourcePolicyObservation struct {
 	// Description of the Atlas resource policy.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// hexadecimal digit string that identifies an Atlas resource policy.
+	// (String) Unique 24-hexadecimal digit string that identifies an Atlas resource policy.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (Attributes) The user that last updated the Atlas resource policy. (see below for nested schema)
@@ -123,11 +123,11 @@ type ResourcePolicyObservation struct {
 	// Date and time in UTC when the Atlas resource policy was last updated.
 	LastUpdatedDate *string `json:"lastUpdatedDate,omitempty" tf:"last_updated_date,omitempty"`
 
-	// readable label that describes the Atlas resource policy.
+	// (String) Human-readable label that describes the Atlas resource policy.
 	// Human-readable label that describes the Atlas resource policy.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listorganizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -146,12 +146,12 @@ type ResourcePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable label that describes the Atlas resource policy.
+	// (String) Human-readable label that describes the Atlas resource policy.
 	// Human-readable label that describes the Atlas resource policy.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-listorganizations) endpoint to retrieve all organizations to which the authenticated user has access.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional

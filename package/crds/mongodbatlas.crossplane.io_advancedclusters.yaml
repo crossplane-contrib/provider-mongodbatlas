@@ -132,7 +132,7 @@ spec:
                         type: boolean
                       oplogMinRetentionHours:
                         description: |-
-                          scaling does not prevent the error.
+                          to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
                           Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
                         type: number
                       oplogSizeMb:
@@ -874,7 +874,7 @@ spec:
                         type: boolean
                       oplogMinRetentionHours:
                         description: |-
-                          scaling does not prevent the error.
+                          to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
                           Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
                         type: number
                       oplogSizeMb:
@@ -1707,7 +1707,7 @@ spec:
                         type: boolean
                       oplogMinRetentionHours:
                         description: |-
-                          scaling does not prevent the error.
+                          to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
                           Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
                         type: number
                       oplogSizeMb:

@@ -31,7 +31,7 @@ type DelegationSettingsInitParameters struct {
 	// Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	MaximumRefreshTokenLifetime *float64 `json:"maximumRefreshTokenLifetime,omitempty" tf:"maximum_refresh_token_lifetime,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -65,7 +65,7 @@ type DelegationSettingsObservation struct {
 	// Maximum lifetime of a refresh token in seconds, regardless of activity. Omit to leave unchanged; set to null to reset to the system default. Must be between 1 and 31536000 (1 year) when provided.
 	MaximumRefreshTokenLifetime *float64 `json:"maximumRefreshTokenLifetime,omitempty" tf:"maximum_refresh_token_lifetime,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 }
@@ -92,7 +92,7 @@ type DelegationSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	MaximumRefreshTokenLifetime *float64 `json:"maximumRefreshTokenLifetime,omitempty" tf:"maximum_refresh_token_lifetime,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional

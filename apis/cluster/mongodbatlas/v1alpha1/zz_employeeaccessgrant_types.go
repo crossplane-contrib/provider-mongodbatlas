@@ -15,7 +15,7 @@ import (
 
 type EmployeeAccessGrantInitParameters struct {
 
-	// readable label that identifies this cluster.
+	// (String) Human-readable label that identifies this cluster.
 	// Human-readable label that identifies this cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -37,7 +37,7 @@ type EmployeeAccessGrantInitParameters struct {
 	// Level of access to grant to MongoDB Employees. Possible values are CLUSTER_DATABASE_LOGS, CLUSTER_INFRASTRUCTURE or CLUSTER_INFRASTRUCTURE_AND_APP_SERVICES_SYNC_DATA.
 	GrantType *string `json:"grantType,omitempty" tf:"grant_type,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -53,7 +53,7 @@ type EmployeeAccessGrantInitParameters struct {
 
 type EmployeeAccessGrantObservation struct {
 
-	// readable label that identifies this cluster.
+	// (String) Human-readable label that identifies this cluster.
 	// Human-readable label that identifies this cluster.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
@@ -67,14 +67,14 @@ type EmployeeAccessGrantObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type EmployeeAccessGrantParameters struct {
 
-	// readable label that identifies this cluster.
+	// (String) Human-readable label that identifies this cluster.
 	// Human-readable label that identifies this cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -99,7 +99,7 @@ type EmployeeAccessGrantParameters struct {
 	// +kubebuilder:validation:Optional
 	GrantType *string `json:"grantType,omitempty" tf:"grant_type,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

@@ -79,12 +79,12 @@ spec:
                     type: boolean
                   name:
                     description: |-
-                      readable label that identifies the instance.
+                      (String) Human-readable label that identifies the instance.
                       Human-readable label that identifies the instance.
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal character string that identifies the project.
+                      (String) Unique 24-hexadecimal character string that identifies the project.
                       Unique 24-hexadecimal character string that identifies the project.
                     type: string
                   projectIdRef:
@@ -175,7 +175,7 @@ spec:
                         type: string
                       regionName:
                         description: |-
-                          readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+                          (String) Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
                           Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/), [GCP](https://www.mongodb.com/docs/atlas/reference/google-gcp/), and [Azure](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/).
                         type: string
                     type: object
@@ -183,7 +183,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+                      (Map of String) Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                       Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                     type: object
                     x-kubernetes-map-type: granular
@@ -232,12 +232,12 @@ spec:
                     type: boolean
                   name:
                     description: |-
-                      readable label that identifies the instance.
+                      (String) Human-readable label that identifies the instance.
                       Human-readable label that identifies the instance.
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal character string that identifies the project.
+                      (String) Unique 24-hexadecimal character string that identifies the project.
                       Unique 24-hexadecimal character string that identifies the project.
                     type: string
                   projectIdRef:
@@ -328,7 +328,7 @@ spec:
                         type: string
                       regionName:
                         description: |-
-                          readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+                          (String) Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
                           Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/), [GCP](https://www.mongodb.com/docs/atlas/reference/google-gcp/), and [Azure](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/).
                         type: string
                     type: object
@@ -336,7 +336,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+                      (Map of String) Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                       Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                     type: object
                     x-kubernetes-map-type: granular
@@ -506,7 +506,8 @@ spec:
                       Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
                     type: boolean
                   id:
-                    description: hexadecimal digit string that identifies the instance.
+                    description: (String) Unique 24-hexadecimal digit string that
+                      identifies the instance.
                     type: string
                   mongoDbVersion:
                     description: |-
@@ -515,12 +516,12 @@ spec:
                     type: string
                   name:
                     description: |-
-                      readable label that identifies the instance.
+                      (String) Human-readable label that identifies the instance.
                       Human-readable label that identifies the instance.
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal character string that identifies the project.
+                      (String) Unique 24-hexadecimal character string that identifies the project.
                       Unique 24-hexadecimal character string that identifies the project.
                     type: string
                   providerSettings:
@@ -540,25 +541,25 @@ spec:
                         type: number
                       providerName:
                         description: |-
-                          readable label that identifies the cloud service provider.
+                          (String) Human-readable label that identifies the cloud service provider.
                           Human-readable label that identifies the cloud service provider.
                         type: string
                       regionName:
                         description: |-
-                          readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+                          (String) Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
                           Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/), [GCP](https://www.mongodb.com/docs/atlas/reference/google-gcp/), and [Azure](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/).
                         type: string
                     type: object
                   stateName:
                     description: |-
-                      readable label that indicates the current operating condition of this instance.
+                      (String) Human-readable label that indicates the current operating condition of this instance.
                       Human-readable label that indicates the current operating condition of this instance.
                     type: string
                   tags:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+                      (Map of String) Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                       Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
                     type: object
                     x-kubernetes-map-type: granular

@@ -23,7 +23,7 @@ type ConnectionFailoverAuthenticationInitParameters struct {
 	// OIDC client secret for authentication to the Kafka cluster.
 	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// 256, SCRAM-512, or OAUTHBEARER.
+	// (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	// Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
@@ -70,7 +70,7 @@ type ConnectionFailoverAuthenticationObservation struct {
 	// OIDC client identifier for authentication to the Kafka cluster.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
-	// 256, SCRAM-512, or OAUTHBEARER.
+	// (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	// Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
 
@@ -111,7 +111,7 @@ type ConnectionFailoverAuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
-	// 256, SCRAM-512, or OAUTHBEARER.
+	// (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	// Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
 	// +kubebuilder:validation:Optional
 	Mechanism *string `json:"mechanism,omitempty" tf:"mechanism,omitempty"`
@@ -210,11 +210,11 @@ type ConnectionFailoverInitParameters struct {
 	// Optional for type: Cluster. Name of the cluster configured for this connection.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+	// (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	// Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
-	// value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+	// (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
@@ -233,7 +233,7 @@ type ConnectionFailoverInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionNameSelector *v2.NamespacedSelector `json:"connectionNameSelector,omitempty" tf:"-"`
 
-	// in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
+	// (Attributes) Name of a built-in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteInitParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
 	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
@@ -243,7 +243,7 @@ type ConnectionFailoverInitParameters struct {
 	// (Attributes) Networking configuration for Streams connections. (see below for nested schema)
 	Networking *ConnectionFailoverNetworkingInitParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -317,11 +317,11 @@ type ConnectionFailoverObservation struct {
 	// Optional for type: Cluster. Name of the cluster configured for this connection.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+	// (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	// Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
-	// value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+	// (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
@@ -330,7 +330,7 @@ type ConnectionFailoverObservation struct {
 	// Label that identifies the stream connection name.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
-	// in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
+	// (Attributes) Name of a built-in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteObservation `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
 	// (Boolean) Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to true and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to false, the timeout will not trigger resource deletion. If you suspect a transient error when the value is true, wait before retrying to allow resource deletion to finish. Default is true.
@@ -346,7 +346,7 @@ type ConnectionFailoverObservation struct {
 	// (Attributes) Networking configuration for Streams connections. (see below for nested schema)
 	Networking *ConnectionFailoverNetworkingObservation `json:"networking,omitempty" tf:"networking,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -389,12 +389,12 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+	// (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	// Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
 	// +kubebuilder:validation:Optional
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
 
-	// value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+	// (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -415,7 +415,7 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionNameSelector *v2.NamespacedSelector `json:"connectionNameSelector,omitempty" tf:"-"`
 
-	// in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
+	// (Attributes) Name of a built-in or custom DB Role to connect to a MongoDB Cloud Cluster. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	DBRoleToExecute *ConnectionFailoverDBRoleToExecuteParameters `json:"dbRoleToExecute,omitempty" tf:"db_role_to_execute,omitempty"`
 
@@ -428,7 +428,7 @@ type ConnectionFailoverParameters struct {
 	// +kubebuilder:validation:Optional
 	Networking *ConnectionFailoverNetworkingParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

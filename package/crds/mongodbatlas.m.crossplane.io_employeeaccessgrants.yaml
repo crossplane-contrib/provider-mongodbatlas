@@ -61,7 +61,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies this cluster.
+                      (String) Human-readable label that identifies this cluster.
                       Human-readable label that identifies this cluster.
                     type: string
                   clusterNameRef:
@@ -158,7 +158,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -259,7 +259,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies this cluster.
+                      (String) Human-readable label that identifies this cluster.
                       Human-readable label that identifies this cluster.
                     type: string
                   clusterNameRef:
@@ -356,7 +356,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -516,7 +516,7 @@ spec:
                 properties:
                   clusterName:
                     description: |-
-                      readable label that identifies this cluster.
+                      (String) Human-readable label that identifies this cluster.
                       Human-readable label that identifies this cluster.
                     type: string
                   expirationTime:
@@ -533,7 +533,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                 type: object

@@ -19,11 +19,11 @@ type ServiceAccountInitParameters_2 struct {
 	// Human readable description for the Service Account.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
+	// (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -36,7 +36,7 @@ type ServiceAccountInitParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
-	// level roles for the Service Account.
+	// (Set of String) A list of organization-level roles for the Service Account.
 	// A list of organization-level roles for the Service Account.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -66,15 +66,15 @@ type ServiceAccountObservation_2 struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
+	// (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// level roles for the Service Account.
+	// (Set of String) A list of organization-level roles for the Service Account.
 	// A list of organization-level roles for the Service Account.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -102,12 +102,12 @@ type ServiceAccountParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// readable name for the Service Account. The name is modifiable and does not have to be unique.
+	// (String) Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// Human-readable name for the Service Account. The name is modifiable and does not have to be unique.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional
@@ -121,7 +121,7 @@ type ServiceAccountParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
-	// level roles for the Service Account.
+	// (Set of String) A list of organization-level roles for the Service Account.
 	// A list of organization-level roles for the Service Account.
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -159,7 +159,7 @@ type ServiceAccountSecretsObservation struct {
 	// The masked Service Account secret.
 	MaskedSecretValue *string `json:"maskedSecretValue,omitempty" tf:"masked_secret_value,omitempty"`
 
-	// hexadecimal digit string that identifies the secret.
+	// (String) Unique 24-hexadecimal digit string that identifies the secret.
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }

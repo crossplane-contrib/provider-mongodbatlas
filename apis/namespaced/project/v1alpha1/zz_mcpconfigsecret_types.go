@@ -29,7 +29,7 @@ type MCPConfigSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	McpConfigIDSelector *v2.NamespacedSelector `json:"mcpConfigIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -71,7 +71,7 @@ type MCPConfigSecretObservation struct {
 	// Unique identifier of the MCP configuration.
 	McpConfigID *string `json:"mcpConfigId,omitempty" tf:"mcp_config_id,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -79,7 +79,7 @@ type MCPConfigSecretObservation struct {
 	// The expiration time of the new ingress Service Account secret, provided in hours. This attribute is required when creating the secret and cannot be updated later.
 	SecretExpiresAfterHours *float64 `json:"secretExpiresAfterHours,omitempty" tf:"secret_expires_after_hours,omitempty"`
 
-	// hexadecimal digit string that identifies the secret.
+	// (String) Unique 24-hexadecimal digit string that identifies the secret.
 	// Unique 24-hexadecimal digit string that identifies the secret.
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
@@ -101,7 +101,7 @@ type MCPConfigSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	McpConfigIDSelector *v2.NamespacedSelector `json:"mcpConfigIdSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

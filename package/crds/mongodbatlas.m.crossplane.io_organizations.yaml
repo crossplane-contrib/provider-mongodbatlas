@@ -535,7 +535,11 @@ spec:
                     items:
                       properties:
                         clientId:
-                          description: level credentials for subsequent operations.
+                          description: and service_account.secrets.0.secret are stored.
+                            Service Account secrets expire after the configured secret_expires_after_hours
+                            period. When the secret expires, the resource automatically
+                            falls back to provider-level credentials for subsequent
+                            operations.
                           type: string
                         createdAt:
                           description: The date that the Service Account was created

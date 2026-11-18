@@ -15,7 +15,7 @@ import (
 
 type BackupCollectionRestoreJobInitParameters struct {
 
-	// readable label that identifies the source cluster for the restore.
+	// (String) Human-readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -47,19 +47,19 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// Strategy for restoring indexes (all, none, or all except TTL).
 	IndexStrategy *string `json:"indexStrategy,omitempty" tf:"index_strategy,omitempty"`
 
-	// in-time restore.
+	// (Number) Oplog increment for point-in-time restore.
 	// Oplog increment for point-in-time restore.
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
-	// in-time restore.
+	// (Number) Oplog timestamp (seconds part) for point-in-time restore.
 	// Oplog timestamp (seconds part) for point-in-time restore.
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
-	// in-time restore time in seconds since UNIX epoch.
+	// (Number) Point-in-time restore time in seconds since UNIX epoch.
 	// Point-in-time restore time in seconds since UNIX epoch.
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -99,7 +99,7 @@ type BackupCollectionRestoreJobInitParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetClusterNameSelector *v2.NamespacedSelector `json:"targetClusterNameSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
@@ -122,7 +122,7 @@ type BackupCollectionRestoreJobInitParameters struct {
 
 type BackupCollectionRestoreJobObservation struct {
 
-	// readable label that identifies the source cluster for the restore.
+	// (String) Human-readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
@@ -161,23 +161,23 @@ type BackupCollectionRestoreJobObservation struct {
 	// Strategy for restoring indexes (all, none, or all except TTL).
 	IndexStrategy *string `json:"indexStrategy,omitempty" tf:"index_strategy,omitempty"`
 
-	// hexadecimal digit string that identifies the collection restore job.
+	// (String) Unique 24-hexadecimal digit string that identifies the collection restore job.
 	// Unique 24-hexadecimal digit string that identifies the collection restore job.
 	JobID *string `json:"jobId,omitempty" tf:"job_id,omitempty"`
 
-	// in-time restore.
+	// (Number) Oplog increment for point-in-time restore.
 	// Oplog increment for point-in-time restore.
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
-	// in-time restore.
+	// (Number) Oplog timestamp (seconds part) for point-in-time restore.
 	// Oplog timestamp (seconds part) for point-in-time restore.
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
-	// in-time restore time in seconds since UNIX epoch.
+	// (Number) Point-in-time restore time in seconds since UNIX epoch.
 	// Point-in-time restore time in seconds since UNIX epoch.
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -189,7 +189,7 @@ type BackupCollectionRestoreJobObservation struct {
 	// ID of the snapshot to restore.
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
-	// collection detailed states.
+	// (String) Current state of the collection restore job. A SUCCESSFUL job can include individual UNSUPPORTED collection restores. Use the mongodbatlas_cloud_backup_collection_restore_job_collections data source to get per-collection detailed states.
 	// Current state of the collection restore job. A `SUCCESSFUL` job can include individual `UNSUPPORTED` collection restores. Use the `mongodbatlas_cloud_backup_collection_restore_job_collections` data source to get per-collection detailed states.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -197,7 +197,7 @@ type BackupCollectionRestoreJobObservation struct {
 	// Target cluster name.
 	TargetClusterName *string `json:"targetClusterName,omitempty" tf:"target_cluster_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	TargetProjectID *string `json:"targetProjectId,omitempty" tf:"target_project_id,omitempty"`
 
@@ -215,7 +215,7 @@ type BackupCollectionRestoreJobObservation struct {
 
 type BackupCollectionRestoreJobParameters struct {
 
-	// readable label that identifies the source cluster for the restore.
+	// (String) Human-readable label that identifies the source cluster for the restore.
 	// Human-readable label that identifies the source cluster for the restore.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
@@ -253,22 +253,22 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	IndexStrategy *string `json:"indexStrategy,omitempty" tf:"index_strategy,omitempty"`
 
-	// in-time restore.
+	// (Number) Oplog increment for point-in-time restore.
 	// Oplog increment for point-in-time restore.
 	// +kubebuilder:validation:Optional
 	OplogInc *float64 `json:"oplogInc,omitempty" tf:"oplog_inc,omitempty"`
 
-	// in-time restore.
+	// (Number) Oplog timestamp (seconds part) for point-in-time restore.
 	// Oplog timestamp (seconds part) for point-in-time restore.
 	// +kubebuilder:validation:Optional
 	OplogTS *float64 `json:"oplogTs,omitempty" tf:"oplog_ts,omitempty"`
 
-	// in-time restore time in seconds since UNIX epoch.
+	// (Number) Point-in-time restore time in seconds since UNIX epoch.
 	// Point-in-time restore time in seconds since UNIX epoch.
 	// +kubebuilder:validation:Optional
 	PointInTimeUtcSeconds *float64 `json:"pointInTimeUtcSeconds,omitempty" tf:"point_in_time_utc_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -311,7 +311,7 @@ type BackupCollectionRestoreJobParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetClusterNameSelector *v2.NamespacedSelector `json:"targetClusterNameSelector,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -414,7 +414,7 @@ type IndexStatusObservation struct {
 	// Number of collections that failed to build indexes.
 	FailedCollectionCount *float64 `json:"failedCollectionCount,omitempty" tf:"failed_collection_count,omitempty"`
 
-	// collection detailed states.
+	// (String) Current state of the collection restore job. A SUCCESSFUL job can include individual UNSUPPORTED collection restores. Use the mongodbatlas_cloud_backup_collection_restore_job_collections data source to get per-collection detailed states.
 	// Index build state indicating the status of index creation during or after a restore operation.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }

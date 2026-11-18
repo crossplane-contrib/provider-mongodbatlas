@@ -583,7 +583,7 @@ type AdvancedConfigurationInitParameters struct {
 	// Flag that indicates whether the cluster disables executing any query that requires a collection scan to return results.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
-	// scaling does not prevent the error.
+	// to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
 	// Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
@@ -644,7 +644,7 @@ type AdvancedConfigurationObservation struct {
 	// Flag that indicates whether the cluster disables executing any query that requires a collection scan to return results.
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
-	// scaling does not prevent the error.
+	// to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
 	// Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`
 
@@ -713,7 +713,7 @@ type AdvancedConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	NoTableScan *bool `json:"noTableScan,omitempty" tf:"no_table_scan,omitempty"`
 
-	// scaling does not prevent the error.
+	// to 0 in the same apply as disabling disk auto-scaling does not prevent the error.
 	// Minimum retention window for cluster's oplog expressed in hours. Once this attribute has been set to a non-null value, removing it from your configuration or setting it to `null` will retain the last applied value rather than reverting to the default value. To disable this setting, check the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-storage.oplogMinRetentionHours) for the specific value to use (currently `0`).
 	// +kubebuilder:validation:Optional
 	OplogMinRetentionHours *float64 `json:"oplogMinRetentionHours,omitempty" tf:"oplog_min_retention_hours,omitempty"`

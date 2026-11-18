@@ -105,7 +105,7 @@ spec:
                         type: object
                       mechanism:
                         description: |-
-                          256, SCRAM-512, or OAUTHBEARER.
+                          (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
                           Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
@@ -208,14 +208,14 @@ spec:
                     type: string
                   clusterProjectId:
                     description: |-
-                      hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+                      (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
                       Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
                     type: string
                   config:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                      (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                       Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
@@ -299,8 +299,9 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
-                    description: in or custom DB Role to connect to a MongoDB Cloud
-                      Cluster. (see below for nested schema)
+                    description: (Attributes) Name of a built-in or custom DB Role
+                      to connect to a MongoDB Cloud Cluster. (see below for nested
+                      schema)
                     properties:
                       role:
                         description: |-
@@ -350,7 +351,7 @@ spec:
                     type: object
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -599,7 +600,7 @@ spec:
                         type: object
                       mechanism:
                         description: |-
-                          256, SCRAM-512, or OAUTHBEARER.
+                          (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
                           Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
@@ -702,14 +703,14 @@ spec:
                     type: string
                   clusterProjectId:
                     description: |-
-                      hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+                      (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
                       Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
                     type: string
                   config:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                      (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                       Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
@@ -793,8 +794,9 @@ spec:
                         type: object
                     type: object
                   dbRoleToExecute:
-                    description: in or custom DB Role to connect to a MongoDB Cloud
-                      Cluster. (see below for nested schema)
+                    description: (Attributes) Name of a built-in or custom DB Role
+                      to connect to a MongoDB Cloud Cluster. (see below for nested
+                      schema)
                     properties:
                       role:
                         description: |-
@@ -844,7 +846,7 @@ spec:
                     type: object
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -1161,7 +1163,7 @@ spec:
                         type: string
                       mechanism:
                         description: |-
-                          256, SCRAM-512, or OAUTHBEARER.
+                          (String) Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
                           Style of authentication. Can be one of PLAIN, SCRAM-256, SCRAM-512, or OAUTHBEARER.
                         type: string
                       method:
@@ -1207,14 +1209,14 @@ spec:
                     type: string
                   clusterProjectId:
                     description: |-
-                      hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
+                      (String) Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
                       Optional for type: Cluster. Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams workspace. You must first enable the organization setting.
                     type: string
                   config:
                     additionalProperties:
                       type: string
                     description: |-
-                      value pairs for optional configuration. This object is flat, and keys can have '.' characters.
+                      (Map of String) Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                       Optional for type: Kafka. Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters.
                     type: object
                     x-kubernetes-map-type: granular
@@ -1224,8 +1226,9 @@ spec:
                       Label that identifies the stream connection name.
                     type: string
                   dbRoleToExecute:
-                    description: in or custom DB Role to connect to a MongoDB Cloud
-                      Cluster. (see below for nested schema)
+                    description: (Attributes) Name of a built-in or custom DB Role
+                      to connect to a MongoDB Cloud Cluster. (see below for nested
+                      schema)
                     properties:
                       role:
                         description: |-
@@ -1282,7 +1285,7 @@ spec:
                     type: object
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   region:

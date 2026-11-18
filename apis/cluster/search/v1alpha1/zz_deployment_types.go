@@ -33,7 +33,7 @@ type DeploymentInitParameters struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -46,6 +46,7 @@ type DeploymentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Boolean) If true, the resource update is executed without waiting until the state is IDLE, making the operation faster.
 	// If true, the resource update is executed without waiting until the state is `IDLE`, making the operation faster.
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 
@@ -70,20 +71,21 @@ type DeploymentObservation struct {
 	// Cloud service provider that manages your customer keys to provide an additional layer of Encryption At Rest for the cluster.
 	EncryptionAtRestProvider *string `json:"encryptionAtRestProvider,omitempty" tf:"encryption_at_rest_provider,omitempty"`
 
-	// hexadecimal digit string that identifies the search deployment.
+	// (String) Unique 24-hexadecimal digit string that identifies the search deployment.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (Boolean) If true, the resource update is executed without waiting until the state is IDLE, making the operation faster.
 	// If true, the resource update is executed without waiting until the state is `IDLE`, making the operation faster.
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`
 
 	// (Attributes List) List of settings that configure the search nodes for your cluster. This list is currently limited to defining a single element. (see below for nested schema)
 	Specs []SpecsObservation `json:"specs,omitempty" tf:"specs,omitempty"`
 
-	// readable label that indicates the current operating condition of this search deployment.
+	// (String) Human-readable label that indicates the current operating condition of this search deployment.
 	// Human-readable label that indicates the current operating condition of this search deployment.
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
@@ -113,7 +115,7 @@ type DeploymentParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -127,6 +129,7 @@ type DeploymentParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
+	// (Boolean) If true, the resource update is executed without waiting until the state is IDLE, making the operation faster.
 	// If true, the resource update is executed without waiting until the state is `IDLE`, making the operation faster.
 	// +kubebuilder:validation:Optional
 	SkipWaitOnUpdate *bool `json:"skipWaitOnUpdate,omitempty" tf:"skip_wait_on_update,omitempty"`

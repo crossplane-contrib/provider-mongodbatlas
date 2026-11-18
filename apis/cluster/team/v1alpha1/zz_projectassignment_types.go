@@ -15,7 +15,7 @@ import (
 
 type ProjectAssignmentInitParameters struct {
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -28,12 +28,12 @@ type ProjectAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles assigned to the team.
+	// (Set of String) One or more project-level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
-	// hexadecimal character string that identifies the team.
+	// (String) Unique 24-hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Team
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
@@ -50,23 +50,23 @@ type ProjectAssignmentInitParameters struct {
 type ProjectAssignmentObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// level roles assigned to the team.
+	// (Set of String) One or more project-level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
-	// hexadecimal character string that identifies the team.
+	// (String) Unique 24-hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 }
 
 type ProjectAssignmentParameters struct {
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -80,13 +80,13 @@ type ProjectAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// level roles assigned to the team.
+	// (Set of String) One or more project-level roles assigned to the team.
 	// One or more project-level roles assigned to the team.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	RoleNames []*string `json:"roleNames,omitempty" tf:"role_names,omitempty"`
 
-	// hexadecimal character string that identifies the team.
+	// (String) Unique 24-hexadecimal character string that identifies the team.
 	// Unique 24-hexadecimal character string that identifies the team.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Team
 	// +kubebuilder:validation:Optional

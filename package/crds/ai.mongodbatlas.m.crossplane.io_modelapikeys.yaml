@@ -60,12 +60,12 @@ spec:
                 properties:
                   cloud:
                     description: |-
-                      agnostic scope. Additional cloud values will be supported in future API versions.
+                      (String) Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                       Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                     type: string
                   geography:
                     description: |-
-                      agnostic scope. Additional geography values will be supported in future API versions.
+                      (String) Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                       Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                     type: string
                   name:
@@ -75,7 +75,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -176,12 +176,12 @@ spec:
                 properties:
                   cloud:
                     description: |-
-                      agnostic scope. Additional cloud values will be supported in future API versions.
+                      (String) Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                       Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                     type: string
                   geography:
                     description: |-
-                      agnostic scope. Additional geography values will be supported in future API versions.
+                      (String) Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                       Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                     type: string
                   name:
@@ -191,7 +191,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -360,7 +360,7 @@ spec:
                     type: string
                   cloud:
                     description: |-
-                      agnostic scope. Additional cloud values will be supported in future API versions.
+                      (String) Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                       Cloud provider scope for this API key. Use "ANY" for a cloud-agnostic scope. Additional cloud values will be supported in future API versions.
                     type: string
                   createdAt:
@@ -375,12 +375,12 @@ spec:
                     type: string
                   endpoint:
                     description: |-
-                      computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
+                      (String) Server-computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
                       Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
                     type: string
                   geography:
                     description: |-
-                      agnostic scope. Additional geography values will be supported in future API versions.
+                      (String) Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                       Geography scope for this API key. Use "ANY" for a geography-agnostic scope. Additional geography values will be supported in future API versions.
                     type: string
                   id:
@@ -402,7 +402,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   status:

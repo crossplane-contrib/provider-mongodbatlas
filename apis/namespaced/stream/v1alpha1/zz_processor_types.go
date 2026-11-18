@@ -15,34 +15,34 @@ import (
 
 type AutoscalingInitParameters struct {
 
-	// up limit). When not set, it defaults to the workspace maximum tier.
+	// (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	// Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	MaxTier *string `json:"maxTier,omitempty" tf:"max_tier,omitempty"`
 
-	// down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+	// (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
 	// Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
 	MinTier *string `json:"minTier,omitempty" tf:"min_tier,omitempty"`
 }
 
 type AutoscalingObservation struct {
 
-	// up limit). When not set, it defaults to the workspace maximum tier.
+	// (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	// Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	MaxTier *string `json:"maxTier,omitempty" tf:"max_tier,omitempty"`
 
-	// down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+	// (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
 	// Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
 	MinTier *string `json:"minTier,omitempty" tf:"min_tier,omitempty"`
 }
 
 type AutoscalingParameters struct {
 
-	// up limit). When not set, it defaults to the workspace maximum tier.
+	// (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	// Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
 	// +kubebuilder:validation:Optional
 	MaxTier *string `json:"maxTier,omitempty" tf:"max_tier,omitempty"`
 
-	// down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+	// (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
 	// Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
 	// +kubebuilder:validation:Optional
 	MinTier *string `json:"minTier,omitempty" tf:"min_tier,omitempty"`
@@ -150,7 +150,7 @@ type ProcessorInitParameters struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
+	// (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
 	// Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
 	FailoverEnabled *bool `json:"failoverEnabled,omitempty" tf:"failover_enabled,omitempty"`
 
@@ -171,7 +171,7 @@ type ProcessorInitParameters struct {
 	// (Attributes) Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
 	Options *OptionsInitParameters `json:"options,omitempty" tf:"options,omitempty"`
 
-	// literal equality matches, and $addFields/$project output field order.
+	// (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
 	// Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
 	Pipeline *string `json:"pipeline,omitempty" tf:"pipeline,omitempty"`
 
@@ -179,7 +179,7 @@ type ProcessorInitParameters struct {
 	// Label that identifies the stream processor.
 	ProcessorName *string `json:"processorName,omitempty" tf:"processor_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -230,11 +230,11 @@ type ProcessorObservation struct {
 	// Tier the stream processor is currently running on. When autoscaling is disabled this equals `tier`; when autoscaling is enabled it reflects the tier chosen by the autoscaler within the configured bounds.
 	EffectiveTier *string `json:"effectiveTier,omitempty" tf:"effective_tier,omitempty"`
 
-	// to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
+	// (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
 	// Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
 	FailoverEnabled *bool `json:"failoverEnabled,omitempty" tf:"failover_enabled,omitempty"`
 
-	// hexadecimal character string that identifies the stream processor.
+	// (String) Unique 24-hexadecimal character string that identifies the stream processor.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (String, Deprecated) Label that identifies the stream processing workspace.
@@ -244,7 +244,7 @@ type ProcessorObservation struct {
 	// (Attributes) Optional configuration for the stream processor. Empty options objects are not supported. (see below for nested schema)
 	Options *OptionsObservation `json:"options,omitempty" tf:"options,omitempty"`
 
-	// literal equality matches, and $addFields/$project output field order.
+	// (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
 	// Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
 	Pipeline *string `json:"pipeline,omitempty" tf:"pipeline,omitempty"`
 
@@ -252,7 +252,7 @@ type ProcessorObservation struct {
 	// Label that identifies the stream processor.
 	ProcessorName *string `json:"processorName,omitempty" tf:"processor_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -285,7 +285,7 @@ type ProcessorParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
+	// (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
 	// Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
 	// +kubebuilder:validation:Optional
 	FailoverEnabled *bool `json:"failoverEnabled,omitempty" tf:"failover_enabled,omitempty"`
@@ -309,7 +309,7 @@ type ProcessorParameters struct {
 	// +kubebuilder:validation:Optional
 	Options *OptionsParameters `json:"options,omitempty" tf:"options,omitempty"`
 
-	// literal equality matches, and $addFields/$project output field order.
+	// (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
 	// Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
 	// +kubebuilder:validation:Optional
 	Pipeline *string `json:"pipeline,omitempty" tf:"pipeline,omitempty"`
@@ -319,7 +319,7 @@ type ProcessorParameters struct {
 	// +kubebuilder:validation:Optional
 	ProcessorName *string `json:"processorName,omitempty" tf:"processor_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

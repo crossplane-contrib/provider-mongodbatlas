@@ -3,6 +3,8 @@ package config
 import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
+	"regexp"
+	"strings"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
@@ -39,10 +41,33 @@ func resetRootShortGroup() ujconfig.ResourceOption {
 	}
 }
 
+// docMarkers matches the "(Optional)" or "(String)" markers that can precede
+// the separator dash of an argument doc.
+var docMarkers = regexp.MustCompile(`^(\s*\([^)]*\))*\s*$`)
+
+// keepDocHyphens stops upjet from cutting argument docs at a hyphen inside the
+// text. upjet drops everything up to the first "-" of a doc, expecting the
+// "`name` - description" layout. The Atlas docs use the tfplugindocs layout,
+// which has no separator, so "Unique 24-hexadecimal digit string" became
+// "hexadecimal digit string". A leading "- " gives upjet a separator to drop.
+func keepDocHyphens() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
+		if r.MetaResource == nil {
+			return
+		}
+		for k, v := range r.MetaResource.ArgumentDocs {
+			if i := strings.Index(v, "-"); i > 0 && !docMarkers.MatchString(v[:i]) {
+				r.MetaResource.ArgumentDocs[k] = "- " + v
+			}
+		}
+	}
+}
+
 func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitializerFn) *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			resetRootShortGroup(),
+			keepDocHyphens(),
 			ExternalNameConfigurations(),
 		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{

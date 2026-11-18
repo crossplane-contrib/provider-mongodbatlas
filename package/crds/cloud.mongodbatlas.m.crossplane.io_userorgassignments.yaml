@@ -60,7 +60,7 @@ spec:
                 properties:
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
@@ -180,7 +180,7 @@ spec:
                 properties:
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   orgIdRef:
@@ -359,7 +359,7 @@ spec:
                 properties:
                   country:
                     description: |-
-                      character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
+                      (String) Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
                       Two-character alphabetical string that identifies the MongoDB Cloud user's geographic location. This parameter uses the ISO 3166-1a2 code format.
                     type: string
                   createdAt:
@@ -406,7 +406,7 @@ spec:
                     type: string
                   orgId:
                     description: |-
-                      hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
+                      (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the /orgs endpoint to retrieve all organizations to which the authenticated user has access.
                       Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [/orgs](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/group/endpoint-organizations) endpoint to retrieve all organizations to which the authenticated user has access.
                     type: string
                   orgMembershipStatus:
@@ -435,12 +435,12 @@ spec:
                           properties:
                             projectId:
                               description: |-
-                                hexadecimal digit string that identifies the project to which these roles belong.
+                                (String) Unique 24-hexadecimal digit string that identifies the project to which these roles belong.
                                 Unique 24-hexadecimal digit string that identifies the project to which these roles belong.
                               type: string
                             projectRoles:
                               description: |-
-                                level roles assigned to the MongoDB Cloud user.
+                                (Set of String) One or more project-level roles assigned to the MongoDB Cloud user.
                                 One or more project-level roles assigned to the MongoDB Cloud user.
                               items:
                                 type: string
@@ -451,7 +451,7 @@ spec:
                     type: object
                   teamIds:
                     description: |-
-                      hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
+                      (Set of String) List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
                       List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs.
                     items:
                       type: string
@@ -459,7 +459,7 @@ spec:
                     x-kubernetes-list-type: set
                   userId:
                     description: |-
-                      hexadecimal digit string that identifies the MongoDB Cloud user.
+                      (String) Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
                       Unique 24-hexadecimal digit string that identifies the MongoDB Cloud user.
                     type: string
                   username:

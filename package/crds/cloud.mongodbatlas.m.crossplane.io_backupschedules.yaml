@@ -162,7 +162,8 @@ spec:
                       entry between copy_policy_items and last_number_of_snapshots.'
                     type: boolean
                   copySettings:
-                    description: time error.
+                    description: ; setting both auto_copy_settings_enabled = true
+                      and copy_settings causes a plan-time error.
                     items:
                       properties:
                         cloudProvider:
@@ -633,7 +634,8 @@ spec:
                       entry between copy_policy_items and last_number_of_snapshots.'
                     type: boolean
                   copySettings:
-                    description: time error.
+                    description: ; setting both auto_copy_settings_enabled = true
+                      and copy_settings causes a plan-time error.
                     items:
                       properties:
                         cloudProvider:
@@ -1075,7 +1077,8 @@ spec:
                       entry between copy_policy_items and last_number_of_snapshots.'
                     type: boolean
                   copySettings:
-                    description: time error.
+                    description: ; setting both auto_copy_settings_enabled = true
+                      and copy_settings causes a plan-time error.
                     items:
                       properties:
                         cloudProvider:

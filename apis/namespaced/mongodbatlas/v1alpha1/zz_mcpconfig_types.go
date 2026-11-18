@@ -15,7 +15,7 @@ import (
 
 type IPAccessListInitParameters struct {
 
-	// Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+	// (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
 	// Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
@@ -26,7 +26,7 @@ type IPAccessListInitParameters struct {
 
 type IPAccessListObservation struct {
 
-	// Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+	// (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
 	// Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
@@ -37,7 +37,7 @@ type IPAccessListObservation struct {
 
 type IPAccessListParameters struct {
 
-	// Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
+	// (String) Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or ipAddress, but not for both in the same request.
 	// Range of network addresses in the access list for the Service Account. This parameter requires the range to be expressed in Classless Inter-Domain Routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress`, but not for both in the same request.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
@@ -53,11 +53,11 @@ type MCPConfigInitParameters struct {
 	// (Attributes Set) List of IP access list entries that define allowed source addresses for this MCP configuration. (see below for nested schema)
 	IPAccessList []IPAccessListInitParameters `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 
-	// readable name that identifies this MCP configuration.
+	// (String) Human-readable name that identifies this MCP configuration.
 	// Human-readable name that identifies this MCP configuration.
 	McpConfigName *string `json:"mcpConfigName,omitempty" tf:"mcp_config_name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -95,11 +95,11 @@ type MCPConfigObservation struct {
 	// Unique identifier that identifies this MCP configuration.
 	McpConfigID *string `json:"mcpConfigId,omitempty" tf:"mcp_config_id,omitempty"`
 
-	// readable name that identifies this MCP configuration.
+	// (String) Human-readable name that identifies this MCP configuration.
 	// Human-readable name that identifies this MCP configuration.
 	McpConfigName *string `json:"mcpConfigName,omitempty" tf:"mcp_config_name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -115,12 +115,12 @@ type MCPConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAccessList []IPAccessListParameters `json:"ipAccessList,omitempty" tf:"ip_access_list,omitempty"`
 
-	// readable name that identifies this MCP configuration.
+	// (String) Human-readable name that identifies this MCP configuration.
 	// Human-readable name that identifies this MCP configuration.
 	// +kubebuilder:validation:Optional
 	McpConfigName *string `json:"mcpConfigName,omitempty" tf:"mcp_config_name,omitempty"`
 
-	// hexadecimal digit string that identifies the organization that contains your projects.
+	// (String) Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Organization
 	// +kubebuilder:validation:Optional

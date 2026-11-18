@@ -15,7 +15,7 @@ import (
 
 type OverloadSimulationInitParameters struct {
 
-	// readable label that identifies the cluster on which to start the overload protection simulation.
+	// (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
 	// Human-readable label that identifies the cluster on which to start the overload protection simulation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
@@ -37,7 +37,7 @@ type OverloadSimulationInitParameters struct {
 	// Duration of the overload protection simulation in seconds.
 	DurationSeconds *float64 `json:"durationSeconds,omitempty" tf:"duration_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -60,7 +60,7 @@ type OverloadSimulationObservation struct {
 	// Date and time when cancellation of the overload protection simulation was requested. This parameter is only present when a cancellation has been requested and expresses its value in the ISO 8601 timestamp format in UTC.
 	CancelRequestedAt *string `json:"cancelRequestedAt,omitempty" tf:"cancel_requested_at,omitempty"`
 
-	// readable label that identifies the cluster on which to start the overload protection simulation.
+	// (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
 	// Human-readable label that identifies the cluster on which to start the overload protection simulation.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
@@ -78,7 +78,7 @@ type OverloadSimulationObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -100,7 +100,7 @@ type OverloadSimulationObservation struct {
 
 type OverloadSimulationParameters struct {
 
-	// readable label that identifies the cluster on which to start the overload protection simulation.
+	// (String) Human-readable label that identifies the cluster on which to start the overload protection simulation.
 	// Human-readable label that identifies the cluster on which to start the overload protection simulation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha3.AdvancedCluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
@@ -125,7 +125,7 @@ type OverloadSimulationParameters struct {
 	// +kubebuilder:validation:Optional
 	DurationSeconds *float64 `json:"durationSeconds,omitempty" tf:"duration_seconds,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

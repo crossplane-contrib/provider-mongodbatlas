@@ -60,7 +60,7 @@ spec:
                 properties:
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -147,7 +147,7 @@ spec:
                     type: object
                   roleNames:
                     description: |-
-                      level roles assigned to the team.
+                      (Set of String) One or more project-level roles assigned to the team.
                       One or more project-level roles assigned to the team.
                     items:
                       type: string
@@ -155,7 +155,7 @@ spec:
                     x-kubernetes-list-type: set
                   teamId:
                     description: |-
-                      hexadecimal character string that identifies the team.
+                      (String) Unique 24-hexadecimal character string that identifies the team.
                       Unique 24-hexadecimal character string that identifies the team.
                     type: string
                   teamIdRef:
@@ -254,7 +254,7 @@ spec:
                 properties:
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -341,7 +341,7 @@ spec:
                     type: object
                   roleNames:
                     description: |-
-                      level roles assigned to the team.
+                      (Set of String) One or more project-level roles assigned to the team.
                       One or more project-level roles assigned to the team.
                     items:
                       type: string
@@ -349,7 +349,7 @@ spec:
                     x-kubernetes-list-type: set
                   teamId:
                     description: |-
-                      hexadecimal character string that identifies the team.
+                      (String) Unique 24-hexadecimal character string that identifies the team.
                       Unique 24-hexadecimal character string that identifies the team.
                     type: string
                   teamIdRef:
@@ -505,12 +505,12 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   roleNames:
                     description: |-
-                      level roles assigned to the team.
+                      (Set of String) One or more project-level roles assigned to the team.
                       One or more project-level roles assigned to the team.
                     items:
                       type: string
@@ -518,7 +518,7 @@ spec:
                     x-kubernetes-list-type: set
                   teamId:
                     description: |-
-                      hexadecimal character string that identifies the team.
+                      (String) Unique 24-hexadecimal character string that identifies the team.
                       Unique 24-hexadecimal character string that identifies the team.
                     type: string
                 type: object

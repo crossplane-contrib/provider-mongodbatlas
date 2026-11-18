@@ -65,7 +65,7 @@ spec:
                     type: boolean
                   failoverEnabled:
                     description: |-
-                      to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
+                      (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
                       Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
                     type: boolean
                   instanceName:
@@ -168,12 +168,12 @@ spec:
                         properties:
                           maxTier:
                             description: |-
-                              up limit). When not set, it defaults to the workspace maximum tier.
+                              (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
                               Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
                             type: string
                           minTier:
                             description: |-
-                              down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+                              (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
                               Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
                             type: string
                         type: object
@@ -208,7 +208,7 @@ spec:
                     type: object
                   pipeline:
                     description: |-
-                      literal equality matches, and $addFields/$project output field order.
+                      (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
                       Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
@@ -218,7 +218,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -430,7 +430,7 @@ spec:
                     type: boolean
                   failoverEnabled:
                     description: |-
-                      to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
+                      (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
                       Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
                     type: boolean
                   instanceName:
@@ -533,12 +533,12 @@ spec:
                         properties:
                           maxTier:
                             description: |-
-                              up limit). When not set, it defaults to the workspace maximum tier.
+                              (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
                               Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
                             type: string
                           minTier:
                             description: |-
-                              down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+                              (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
                               Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
                             type: string
                         type: object
@@ -573,7 +573,7 @@ spec:
                     type: object
                   pipeline:
                     description: |-
-                      literal equality matches, and $addFields/$project output field order.
+                      (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
                       Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
@@ -583,7 +583,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -859,12 +859,12 @@ spec:
                     type: string
                   failoverEnabled:
                     description: |-
-                      to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
+                      (Boolean) Indicates whether this stream processor is eligible for failover. When true, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's failover_regions. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with failover_regions configured on the workspace.
                       Indicates whether this stream processor is eligible for failover. When `true`, an operator can trigger a failover event to migrate the stream processor to a secondary region configured in the workspace's `failover_regions`. Requires an Atlas-to-Atlas or Atlas-to-Kafka pipeline with `failover_regions` configured on the workspace.
                     type: boolean
                   id:
-                    description: hexadecimal character string that identifies the
-                      stream processor.
+                    description: (String) Unique 24-hexadecimal character string that
+                      identifies the stream processor.
                     type: string
                   instanceName:
                     description: |-
@@ -886,12 +886,12 @@ spec:
                         properties:
                           maxTier:
                             description: |-
-                              up limit). When not set, it defaults to the workspace maximum tier.
+                              (String) Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
                               Tier ceiling for autoscaling (scale-up limit). When not set, it defaults to the workspace maximum tier.
                             type: string
                           minTier:
                             description: |-
-                              down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
+                              (String) Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor tier and the workspace default tier.
                               Tier floor for autoscaling (scale-down limit). When not set, it defaults to the lower of the processor `tier` and the workspace default tier.
                             type: string
                         type: object
@@ -926,7 +926,7 @@ spec:
                     type: object
                   pipeline:
                     description: |-
-                      literal equality matches, and $addFields/$project output field order.
+                      (String) Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. MongoDB Atlas Docs contain more information. For more details see the Aggregation Pipelines Documentation. Field order matters: author this as a raw JSON string (heredoc or file("pipeline.json")) and do not use jsonencode, which sorts object keys lexicographically, changing sort precedence, document-literal equality matches, and $addFields/$project output field order.
                       Stream aggregation pipeline you want to apply to your streaming data, as a JSON string. [MongoDB Atlas Docs](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/#std-label-stream-aggregation) contain more information. For more details see the [Aggregation Pipelines Documentation](https://www.mongodb.com/docs/atlas/atlas-stream-processing/stream-aggregation/). **Field order matters:** author this as a raw JSON string (heredoc or `file("pipeline.json")`) and do not use [jsonencode](https://developer.hashicorp.
                     type: string
                   processorName:
@@ -936,7 +936,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   state:

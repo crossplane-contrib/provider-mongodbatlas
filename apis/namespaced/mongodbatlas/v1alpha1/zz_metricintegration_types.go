@@ -90,7 +90,7 @@ type MetricIntegrationInitParameters struct {
 	// (Attributes) OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
 	Oauth *OauthInitParameters `json:"oauth,omitempty" tf:"oauth,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -103,7 +103,7 @@ type MetricIntegrationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// party service provider.
+	// (String) The provider type for the metric integration. Identifies the third-party service provider.
 	// The provider type for the metric integration. Identifies the third-party service provider.
 	ProviderType *string `json:"providerType,omitempty" tf:"provider_type,omitempty"`
 }
@@ -146,11 +146,11 @@ type MetricIntegrationObservation struct {
 	// (Attributes) OAuth 2.0 client credentials configuration. Required when auth_type is OAUTH2. Secrets are never returned. (see below for nested schema)
 	Oauth *OauthObservation `json:"oauth,omitempty" tf:"oauth,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
-	// party service provider.
+	// (String) The provider type for the metric integration. Identifies the third-party service provider.
 	// The provider type for the metric integration. Identifies the third-party service provider.
 	ProviderType *string `json:"providerType,omitempty" tf:"provider_type,omitempty"`
 }
@@ -191,7 +191,7 @@ type MetricIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	Oauth *OauthParameters `json:"oauth,omitempty" tf:"oauth,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -205,7 +205,7 @@ type MetricIntegrationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
-	// party service provider.
+	// (String) The provider type for the metric integration. Identifies the third-party service provider.
 	// The provider type for the metric integration. Identifies the third-party service provider.
 	// +kubebuilder:validation:Optional
 	ProviderType *string `json:"providerType,omitempty" tf:"provider_type,omitempty"`
@@ -213,7 +213,7 @@ type MetricIntegrationParameters struct {
 
 type OauthInitParameters struct {
 
-	// generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	// (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
 	// How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
 	ClientAuthMethod *string `json:"clientAuthMethod,omitempty" tf:"client_auth_method,omitempty"`
 
@@ -234,7 +234,7 @@ type OauthInitParameters struct {
 	// OAuth 2.0 token endpoint URL. Must use HTTPS.
 	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
 
-	// specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
 	// Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
 	// +mapType=granular
 	TokenRequestParams map[string]*string `json:"tokenRequestParams,omitempty" tf:"token_request_params,omitempty"`
@@ -242,7 +242,7 @@ type OauthInitParameters struct {
 
 type OauthObservation struct {
 
-	// generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	// (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
 	// How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
 	ClientAuthMethod *string `json:"clientAuthMethod,omitempty" tf:"client_auth_method,omitempty"`
 
@@ -255,14 +255,14 @@ type OauthObservation struct {
 	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
-	// only metadata for the Atlas-managed signing key used by PRIVATE_KEY_JWT. Present only for that method. Register the jwks_uri with your identity provider. Atlas rotates the underlying key without changing this URL. (see below for nested schema)
+	// (Attributes) Read-only metadata for the Atlas-managed signing key used by PRIVATE_KEY_JWT. Present only for that method. Register the jwks_uri with your identity provider. Atlas rotates the underlying key without changing this URL. (see below for nested schema)
 	SigningKeyInfo *SigningKeyInfoObservation `json:"signingKeyInfo,omitempty" tf:"signing_key_info,omitempty"`
 
 	// (String) OAuth 2.0 token endpoint URL. Must use HTTPS.
 	// OAuth 2.0 token endpoint URL. Must use HTTPS.
 	TokenEndpoint *string `json:"tokenEndpoint,omitempty" tf:"token_endpoint,omitempty"`
 
-	// specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
 	// Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
 	// +mapType=granular
 	TokenRequestParams map[string]*string `json:"tokenRequestParams,omitempty" tf:"token_request_params,omitempty"`
@@ -270,7 +270,7 @@ type OauthObservation struct {
 
 type OauthParameters struct {
 
-	// generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
+	// (String) How the client authenticates to the token endpoint. CLIENT_SECRET sends a shared secret. PRIVATE_KEY_JWT signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
 	// How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider.
 	// +kubebuilder:validation:Optional
 	ClientAuthMethod *string `json:"clientAuthMethod" tf:"client_auth_method,omitempty"`
@@ -296,7 +296,7 @@ type OauthParameters struct {
 	// +kubebuilder:validation:Optional
 	TokenEndpoint *string `json:"tokenEndpoint" tf:"token_endpoint,omitempty"`
 
-	// specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
+	// (Map of String) Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
 	// Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -308,7 +308,7 @@ type SigningKeyInfoInitParameters struct {
 
 type SigningKeyInfoObservation struct {
 
-	// managed key.
+	// (String) Signing algorithm of the Atlas-managed key.
 	// Signing algorithm of the Atlas-managed key.
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
@@ -320,7 +320,7 @@ type SigningKeyInfoObservation struct {
 	// Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration.
 	JwksURI *string `json:"jwksUri,omitempty" tf:"jwks_uri,omitempty"`
 
-	// 1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
+	// (String) Key ID stamped on client assertions, the SHA-1 thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
 	// Key ID stamped on client assertions, the `SHA-1` thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key.
 	Kid *string `json:"kid,omitempty" tf:"kid,omitempty"`
 }

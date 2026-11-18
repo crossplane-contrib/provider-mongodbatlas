@@ -70,7 +70,7 @@ spec:
                     type: boolean
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -200,7 +200,7 @@ spec:
                     type: boolean
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -393,8 +393,8 @@ spec:
                       Error message for failures associated with the Encryption At Rest private endpoint.
                     type: string
                   id:
-                    description: hexadecimal digit string that identifies the Private
-                      Endpoint Service.
+                    description: (String) Unique 24-hexadecimal digit string that
+                      identifies the Private Endpoint Service.
                     type: string
                   privateEndpointConnectionName:
                     description: |-
@@ -403,7 +403,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   regionName:

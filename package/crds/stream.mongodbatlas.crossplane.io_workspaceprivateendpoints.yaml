@@ -91,7 +91,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -172,7 +172,7 @@ spec:
                     type: object
                   region:
                     description: |-
-                      readable label identifying the region of your VPC endpoint.
+                      (String) Human-readable label identifying the region of your VPC endpoint.
                       Human-readable label identifying the region of your VPC endpoint.
                     type: string
                   timeouts:
@@ -215,7 +215,7 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   projectIdRef:
@@ -296,7 +296,7 @@ spec:
                     type: object
                   region:
                     description: |-
-                      readable label identifying the region of your VPC endpoint.
+                      (String) Human-readable label identifying the region of your VPC endpoint.
                       Human-readable label identifying the region of your VPC endpoint.
                     type: string
                   timeouts:
@@ -443,12 +443,12 @@ spec:
                     type: string
                   projectId:
                     description: |-
-                      hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+                      (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
                       Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
                     type: string
                   region:
                     description: |-
-                      readable label identifying the region of your VPC endpoint.
+                      (String) Human-readable label identifying the region of your VPC endpoint.
                       Human-readable label identifying the region of your VPC endpoint.
                     type: string
                   status:

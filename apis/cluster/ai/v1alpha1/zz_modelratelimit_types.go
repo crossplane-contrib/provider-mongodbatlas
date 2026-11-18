@@ -27,7 +27,7 @@ type ModelRateLimitInitParameters struct {
 	// The name of the model group to be updated.
 	ModelGroupName *string `json:"modelGroupName,omitempty" tf:"model_group_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -55,7 +55,7 @@ type ModelRateLimitObservation struct {
 	// Cloud provider scope. Must be "ANY". Additional values will be supported in future API versions.
 	Cloud *string `json:"cloud,omitempty" tf:"cloud,omitempty"`
 
-	// computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
+	// (String) Server-computed endpoint hostname derived from cloud and geography. This field is read-only and must not be supplied in request bodies.
 	// Server-computed endpoint hostname derived from `cloud` and `geography`. This field is read-only and must not be supplied in request bodies.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
@@ -73,7 +73,7 @@ type ModelRateLimitObservation struct {
 	// List of embedding model names included in this model group.
 	ModelNames []*string `json:"modelNames,omitempty" tf:"model_names,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -103,7 +103,7 @@ type ModelRateLimitParameters struct {
 	// +kubebuilder:validation:Optional
 	ModelGroupName *string `json:"modelGroupName,omitempty" tf:"model_group_name,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

@@ -49,11 +49,11 @@ type FlexClusterInitParameters struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// readable label that identifies the instance.
+	// (String) Human-readable label that identifies the instance.
 	// Human-readable label that identifies the instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal character string that identifies the project.
+	// (String) Unique 24-hexadecimal character string that identifies the project.
 	// Unique 24-hexadecimal character string that identifies the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -69,7 +69,7 @@ type FlexClusterInitParameters struct {
 	// (Attributes) Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	ProviderSettings *ProviderSettingsInitParameters `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
-	// value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+	// (Map of String) Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -102,29 +102,29 @@ type FlexClusterObservation struct {
 	// Indicates whether to delete the resource being created if a timeout is reached when waiting for completion. When set to `true` and timeout occurs, it triggers the deletion and returns immediately without waiting for deletion to complete. When set to `false`, the timeout will not trigger resource deletion. If you suspect a transient error when the value is `true`, wait before retrying to allow resource deletion to finish. Default is `true`.
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// hexadecimal digit string that identifies the instance.
+	// (String) Unique 24-hexadecimal digit string that identifies the instance.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (String) Version of MongoDB that the instance runs.
 	// Version of MongoDB that the instance runs.
 	MongoDBVersion *string `json:"mongoDbVersion,omitempty" tf:"mongo_db_version,omitempty"`
 
-	// readable label that identifies the instance.
+	// (String) Human-readable label that identifies the instance.
 	// Human-readable label that identifies the instance.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal character string that identifies the project.
+	// (String) Unique 24-hexadecimal character string that identifies the project.
 	// Unique 24-hexadecimal character string that identifies the project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// (Attributes) Group of cloud provider settings that configure the provisioned MongoDB flex cluster. (see below for nested schema)
 	ProviderSettings *ProviderSettingsObservation `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
-	// readable label that indicates the current operating condition of this instance.
+	// (String) Human-readable label that indicates the current operating condition of this instance.
 	// Human-readable label that indicates the current operating condition of this instance.
 	StateName *string `json:"stateName,omitempty" tf:"state_name,omitempty"`
 
-	// value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+	// (Map of String) Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -148,12 +148,12 @@ type FlexClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteOnCreateTimeout *bool `json:"deleteOnCreateTimeout,omitempty" tf:"delete_on_create_timeout,omitempty"`
 
-	// readable label that identifies the instance.
+	// (String) Human-readable label that identifies the instance.
 	// Human-readable label that identifies the instance.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// hexadecimal character string that identifies the project.
+	// (String) Unique 24-hexadecimal character string that identifies the project.
 	// Unique 24-hexadecimal character string that identifies the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -171,7 +171,7 @@ type FlexClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ProviderSettings *ProviderSettingsParameters `json:"providerSettings,omitempty" tf:"provider_settings,omitempty"`
 
-	// value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
+	// (Map of String) Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// Map that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -193,7 +193,7 @@ type ProviderSettingsInitParameters struct {
 	// Cloud service provider on which MongoDB Cloud provisioned the flex cluster.
 	BackingProviderName *string `json:"backingProviderName,omitempty" tf:"backing_provider_name,omitempty"`
 
-	// readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+	// (String) Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
 	// Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/), [GCP](https://www.mongodb.com/docs/atlas/reference/google-gcp/), and [Azure](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/).
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
@@ -208,11 +208,11 @@ type ProviderSettingsObservation struct {
 	// Storage capacity available to the flex cluster expressed in gigabytes.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// readable label that identifies the cloud service provider.
+	// (String) Human-readable label that identifies the cloud service provider.
 	// Human-readable label that identifies the cloud service provider.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
-	// readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+	// (String) Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
 	// Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/), [GCP](https://www.mongodb.com/docs/atlas/reference/google-gcp/), and [Azure](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/).
 	RegionName *string `json:"regionName,omitempty" tf:"region_name,omitempty"`
 }
@@ -224,7 +224,7 @@ type ProviderSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	BackingProviderName *string `json:"backingProviderName" tf:"backing_provider_name,omitempty"`
 
-	// readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
+	// (String) Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see AWS, GCP, and Azure.
 	// Human-readable label that identifies the geographic location of your MongoDB flex cluster. The region you choose can affect network latency for clients accessing your databases. For a complete list of region names, see [AWS](https://www.mongodb.com/docs/atlas/reference/amazon-aws/), [GCP](https://www.mongodb.com/docs/atlas/reference/google-gcp/), and [Azure](https://www.mongodb.com/docs/atlas/reference/microsoft-azure/).
 	// +kubebuilder:validation:Optional
 	RegionName *string `json:"regionName" tf:"region_name,omitempty"`

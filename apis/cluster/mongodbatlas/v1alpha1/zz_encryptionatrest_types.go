@@ -27,7 +27,7 @@ type AwsKMSConfigInitParameters struct {
 	// Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+	// (String) Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
 	// Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
@@ -35,7 +35,7 @@ type AwsKMSConfigInitParameters struct {
 	// Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
 	RequirePrivateNetworking *bool `json:"requirePrivateNetworking,omitempty" tf:"require_private_networking,omitempty"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
@@ -48,7 +48,7 @@ type AwsKMSConfigInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 
-	// readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
+	// (String, Sensitive) Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
 	// Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
 	SecretAccessKeySecretRef *v2.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 }
@@ -59,7 +59,7 @@ type AwsKMSConfigObservation struct {
 	// Flag that indicates whether someone enabled encryption at rest for the specified project through Amazon Web Services (AWS) Key Management Service (KMS). To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+	// (String) Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
 	// Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
@@ -67,7 +67,7 @@ type AwsKMSConfigObservation struct {
 	// Enable connection to your Amazon Web Services (AWS) Key Management Service (KMS) over private networking.
 	RequirePrivateNetworking *bool `json:"requirePrivateNetworking,omitempty" tf:"require_private_networking,omitempty"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
@@ -93,7 +93,7 @@ type AwsKMSConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
+	// (String) Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
 	// Physical location where MongoDB Atlas deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Atlas creates them as part of the deployment. MongoDB Atlas assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
@@ -103,7 +103,7 @@ type AwsKMSConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	RequirePrivateNetworking *bool `json:"requirePrivateNetworking,omitempty" tf:"require_private_networking,omitempty"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
@@ -117,7 +117,7 @@ type AwsKMSConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 
-	// readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
+	// (String, Sensitive) Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
 	// Human-readable label of the Identity and Access Management (IAM) secret access key with permissions required to access your Amazon Web Services (AWS) customer master key.
 	// +kubebuilder:validation:Optional
 	SecretAccessKeySecretRef *v2.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
@@ -129,7 +129,7 @@ type AzureKeyVaultConfigInitParameters struct {
 	// Azure environment in which your account credentials reside.
 	AzureEnvironment *string `json:"azureEnvironment,omitempty" tf:"azure_environment,omitempty"`
 
-	// hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
+	// (String, Sensitive) Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
 	// Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
 	ClientIDSecretRef *v2.SecretKeySelector `json:"clientIdSecretRef,omitempty" tf:"-"`
 
@@ -153,7 +153,7 @@ type AzureKeyVaultConfigInitParameters struct {
 	// Name of the Azure resource group that contains your Azure Key Vault.
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
@@ -161,11 +161,11 @@ type AzureKeyVaultConfigInitParameters struct {
 	// Private data that you need secured and that belongs to the specified Azure Key Vault (AKV) tenant (**azureKeyVault.tenantID**). This data can include any type of sensitive data such as passwords, database connection strings, API keys, and the like. AKV stores this information as encrypted binary data.
 	SecretSecretRef *v2.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
-	// hexadecimal character string that identifies your Azure subscription.
+	// (String, Sensitive) Unique 36-hexadecimal character string that identifies your Azure subscription.
 	// Unique 36-hexadecimal character string that identifies your Azure subscription.
 	SubscriptionIDSecretRef *v2.SecretKeySelector `json:"subscriptionIdSecretRef,omitempty" tf:"-"`
 
-	// hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
+	// (String, Sensitive) Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
 	// Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
 	TenantIDSecretRef *v2.SecretKeySelector `json:"tenantIdSecretRef,omitempty" tf:"-"`
 }
@@ -192,7 +192,7 @@ type AzureKeyVaultConfigObservation struct {
 	// Name of the Azure resource group that contains your Azure Key Vault.
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
@@ -208,7 +208,7 @@ type AzureKeyVaultConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AzureEnvironment *string `json:"azureEnvironment,omitempty" tf:"azure_environment,omitempty"`
 
-	// hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
+	// (String, Sensitive) Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
 	// Unique 36-hexadecimal character string that identifies an Azure application associated with your Azure Active Directory tenant.
 	// +kubebuilder:validation:Optional
 	ClientIDSecretRef *v2.SecretKeySelector `json:"clientIdSecretRef,omitempty" tf:"-"`
@@ -238,7 +238,7 @@ type AzureKeyVaultConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
@@ -248,12 +248,12 @@ type AzureKeyVaultConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretSecretRef *v2.SecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
-	// hexadecimal character string that identifies your Azure subscription.
+	// (String, Sensitive) Unique 36-hexadecimal character string that identifies your Azure subscription.
 	// Unique 36-hexadecimal character string that identifies your Azure subscription.
 	// +kubebuilder:validation:Optional
 	SubscriptionIDSecretRef *v2.SecretKeySelector `json:"subscriptionIdSecretRef,omitempty" tf:"-"`
 
-	// hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
+	// (String, Sensitive) Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
 	// Unique 36-hexadecimal character string that identifies the Azure Active Directory tenant within your Azure subscription.
 	// +kubebuilder:validation:Optional
 	TenantIDSecretRef *v2.SecretKeySelector `json:"tenantIdSecretRef,omitempty" tf:"-"`
@@ -277,7 +277,7 @@ type EncryptionAtRestInitParameters struct {
 	// Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS).
 	GoogleCloudKMSConfig []GoogleCloudKMSConfigInitParameters `json:"googleCloudKmsConfig,omitempty" tf:"google_cloud_kms_config,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -312,7 +312,7 @@ type EncryptionAtRestObservation struct {
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
@@ -339,7 +339,7 @@ type EncryptionAtRestParameters struct {
 	// +kubebuilder:validation:Optional
 	GoogleCloudKMSConfig []GoogleCloudKMSConfigParameters `json:"googleCloudKmsConfig,omitempty" tf:"google_cloud_kms_config,omitempty"`
 
-	// hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
+	// (String) Unique 24-hexadecimal digit string that identifies your project, also known as groupId in the official documentation.
 	// Unique 24-hexadecimal digit string that identifies your project, also known as `groupId` in the official documentation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
@@ -364,7 +364,7 @@ type GoogleCloudKMSConfigInitParameters struct {
 	// Resource path that displays the key version resource ID for your Google Cloud KMS.
 	KeyVersionResourceIDSecretRef *v2.SecretKeySelector `json:"keyVersionResourceIdSecretRef,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
@@ -379,7 +379,7 @@ type GoogleCloudKMSConfigObservation struct {
 	// Flag that indicates whether someone enabled encryption at rest for the specified  project. To disable encryption at rest, remove the `mongodbatlas_encryption_at_rest` resource and reapply your configuration.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
@@ -400,7 +400,7 @@ type GoogleCloudKMSConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyVersionResourceIDSecretRef *v2.SecretKeySelector `json:"keyVersionResourceIdSecretRef,omitempty" tf:"-"`
 
-	// hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
+	// (String) Unique 24-hexadecimal digit string that identifies an Amazon Web Services (AWS) Identity and Access Management (IAM) role. This IAM role has the permissions required to manage your AWS customer master key.
 	// Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`

@@ -37,7 +37,7 @@ type ServiceAccountAccessListEntryInitParameters struct {
 	// IP address to be added to the access list. You can set a value for this parameter or **cidr_block**, but not for both.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies the project.
+	// (String) Unique 24-hexadecimal digit string that identifies the project.
 	// Unique 24-hexadecimal digit string that identifies the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -79,7 +79,7 @@ type ServiceAccountAccessListEntryObservation struct {
 	// Date when the API received the most recent request that originated from this network address.
 	LastUsedAt *string `json:"lastUsedAt,omitempty" tf:"last_used_at,omitempty"`
 
-	// hexadecimal digit string that identifies the project.
+	// (String) Unique 24-hexadecimal digit string that identifies the project.
 	// Unique 24-hexadecimal digit string that identifies the project.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -115,7 +115,7 @@ type ServiceAccountAccessListEntryParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// hexadecimal digit string that identifies the project.
+	// (String) Unique 24-hexadecimal digit string that identifies the project.
 	// Unique 24-hexadecimal digit string that identifies the project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional

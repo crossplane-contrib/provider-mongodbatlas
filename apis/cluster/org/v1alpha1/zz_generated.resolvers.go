@@ -74,6 +74,7 @@ func (mg *Invitation) ResolveReferences(ctx context.Context, c client.Reader) er
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Organization", "OrganizationList")
@@ -96,6 +97,26 @@ func (mg *Invitation) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Team", "TeamList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.TeamsIds),
+			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.ForProvider.TeamsIdsRefs,
+			Selector:      mg.Spec.ForProvider.TeamsIdsSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.TeamsIds")
+	}
+	mg.Spec.ForProvider.TeamsIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.TeamsIdsRefs = mrsp.ResolvedReferences
+	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Organization", "OrganizationList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -115,6 +136,26 @@ func (mg *Invitation) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Team", "TeamList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.TeamsIds),
+			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.InitProvider.TeamsIdsRefs,
+			Selector:      mg.Spec.InitProvider.TeamsIdsSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.TeamsIds")
+	}
+	mg.Spec.InitProvider.TeamsIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.TeamsIdsRefs = mrsp.ResolvedReferences
 
 	return nil
 }

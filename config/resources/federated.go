@@ -18,6 +18,15 @@ func ConfigureFederated(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			"cloud_provider_config.aws.role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
+			"cloud_provider_config.azure.role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
+			"cloud_provider_config.gcp.role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 		for _, f := range []string{
 			"cloud_provider_config",
@@ -83,6 +92,9 @@ func ConfigureFederated(p *config.Provider) {
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
+			},
+			"role_assignments.group_id": {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})

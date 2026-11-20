@@ -159,6 +159,90 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  teamsIdsRefs:
+                    description: References to Team in mongodbatlas to populate teamsIds.
+                    items:
+                      description: A NamespacedReference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        namespace:
+                          description: Namespace of the referenced object
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  teamsIdsSelector:
+                    description: Selector for a list of Team in mongodbatlas to populate
+                      teamsIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   username:
                     description: Email address of the invited user. This is the address
                       to which Atlas sends the invite. If the user accepts the invitation,
@@ -279,6 +363,90 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  teamsIdsRefs:
+                    description: References to Team in mongodbatlas to populate teamsIds.
+                    items:
+                      description: A NamespacedReference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        namespace:
+                          description: Namespace of the referenced object
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  teamsIdsSelector:
+                    description: Selector for a list of Team in mongodbatlas to populate
+                      teamsIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   username:
                     description: Email address of the invited user. This is the address
                       to which Atlas sends the invite. If the user accepts the invitation,

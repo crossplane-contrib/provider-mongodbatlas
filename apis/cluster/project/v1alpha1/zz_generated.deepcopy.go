@@ -1304,6 +1304,16 @@ func (in *ProjectAssignmentInitParameters) DeepCopyInto(out *ProjectAssignmentIn
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RoleNames != nil {
 		in, out := &in.RoleNames, &out.RoleNames
 		*out = make([]*string, len(*in))
@@ -1365,6 +1375,16 @@ func (in *ProjectAssignmentParameters) DeepCopyInto(out *ProjectAssignmentParame
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleNames != nil {
 		in, out := &in.RoleNames, &out.RoleNames

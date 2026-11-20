@@ -10,6 +10,8 @@ spec:
   forProvider:
     description: Description of your API key
     projectAssignment:
-    - projectId: 64259ee860c43338194b0f8e
+    - projectIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
       roleNames:
       - GROUP_OWNER

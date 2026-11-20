@@ -199,6 +199,12 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			"aws_kms_config.role_id": {
 				TerraformName: refs.TFProviderAccessAuthorization,
 			},
+			"azure_key_vault_config.role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
+			"google_cloud_kms_config.role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 	})
 
@@ -249,6 +255,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 			refs.IAMRoleID: {
 				TerraformName: refs.TFProviderAccessAuthorization,
 			},
+			"role_id": {
+				TerraformName: refs.TFProviderAccessAuthorization,
+			},
 		}
 		// otel_supplied_headers is a list-of-objects field marked sensitive in the
 		// Terraform schema. The code generator only supports string-like sensitive
@@ -286,6 +295,9 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.References = config.References{
 			refs.OrgID: {
 				TerraformName: refs.TFOrganization,
+			},
+			"teams_ids": {
+				TerraformName: refs.TFTeam,
 			},
 		}
 	})
@@ -491,6 +503,11 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_project_api_key", func(r *config.Resource) {
 		r.ExternalName = importJoinedIDAssigned([]string{refs.APIKeyID}, refs.APIKeyID)
+		r.References = config.References{
+			"project_assignment.project_id": {
+				TerraformName: refs.TFProject,
+			},
+		}
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_access_list_api_key", func(r *config.Resource) {

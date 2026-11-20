@@ -8,6 +8,11 @@ import (
 
 const groupCloud = "cloud"
 
+// firstReplicationSpecZoneID is the zone of an AdvancedCluster's first replication spec, in its observation.
+// It is the only zone of a replica set or of a sharded cluster in one zone;
+// a backup copy to another zone of a global cluster needs its zoneId set directly.
+const firstReplicationSpecZoneID = "replication_specs[0].zone_id"
+
 func ConfigureCloud(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_backup_compliance_policy", func(r *config.Resource) {
 		r.ShortGroup = groupCloud
@@ -44,6 +49,13 @@ func ConfigureCloud(p *config.Provider) {
 			refs.ClusterName: {
 				TerraformName: refs.TFCluster,
 				Extractor:     refs.ExtractParamPath("name", false),
+			},
+			"export.export_bucket_id": {
+				TerraformName: "mongodbatlas_cloud_backup_snapshot_export_bucket",
+			},
+			"copy_settings.zone_id": {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(firstReplicationSpecZoneID, true),
 			},
 		}
 		for _, f := range []string{

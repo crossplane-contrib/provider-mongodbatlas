@@ -308,12 +308,56 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ClusterNameRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.CopySettings); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha3", "AdvancedCluster", "AdvancedClusterList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CopySettings[i3].ZoneID),
+				Extract:      resource.ExtractParamPath("replication_specs[0].zone_id", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.CopySettings[i3].ZoneIDRef,
+				Selector:     mg.Spec.ForProvider.CopySettings[i3].ZoneIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.CopySettings[i3].ZoneID")
+		}
+		mg.Spec.ForProvider.CopySettings[i3].ZoneID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CopySettings[i3].ZoneIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Export); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "BackupSnapshotExportBucket", "BackupSnapshotExportBucketList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Export[i3].ExportBucketID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.Export[i3].ExportBucketIDRef,
+				Selector:     mg.Spec.ForProvider.Export[i3].ExportBucketIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Export[i3].ExportBucketID")
+		}
+		mg.Spec.ForProvider.Export[i3].ExportBucketID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Export[i3].ExportBucketIDRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 			Extract:      reference.ExternalName(),
@@ -348,12 +392,56 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.InitProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ClusterNameRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CopySettings); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha3", "AdvancedCluster", "AdvancedClusterList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CopySettings[i3].ZoneID),
+				Extract:      resource.ExtractParamPath("replication_specs[0].zone_id", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.CopySettings[i3].ZoneIDRef,
+				Selector:     mg.Spec.InitProvider.CopySettings[i3].ZoneIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CopySettings[i3].ZoneID")
+		}
+		mg.Spec.InitProvider.CopySettings[i3].ZoneID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CopySettings[i3].ZoneIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Export); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "BackupSnapshotExportBucket", "BackupSnapshotExportBucketList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Export[i3].ExportBucketID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.Export[i3].ExportBucketIDRef,
+				Selector:     mg.Spec.InitProvider.Export[i3].ExportBucketIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Export[i3].ExportBucketID")
+		}
+		mg.Spec.InitProvider.Export[i3].ExportBucketID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Export[i3].ExportBucketIDRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
 			Extract:      reference.ExternalName(),

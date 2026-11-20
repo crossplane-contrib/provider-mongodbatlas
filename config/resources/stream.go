@@ -23,6 +23,9 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 				TerraformName: refs.TFCluster,
 				Extractor:     refs.ExtractParamPath(refs.Name, false),
 			},
+			"cluster_project_id": {
+				TerraformName: refs.TFProject,
+			},
 		}
 		descAuth, _ := comments.New("If true, the authentication password will be auto-generated and"+
 			" stored in the Secret referenced by the authentication.passwordSecretRef field.",
@@ -66,6 +69,13 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 			refs.ConnectionName: {
 				TerraformName: refs.TFStreamConnection,
 				Extractor:     refs.ExtractParamPath(refs.ConnectionName, false),
+			},
+			refs.ClusterName: {
+				TerraformName: refs.TFCluster,
+				Extractor:     refs.ExtractParamPath(refs.Name, false),
+			},
+			"cluster_project_id": {
+				TerraformName: refs.TFProject,
 			},
 		}
 	})
@@ -116,5 +126,10 @@ func ConfigureStream(p *config.Provider, pwGen func(string, string) config.NewIn
 
 	p.AddResourceConfigurator("mongodbatlas_stream_privatelink_endpoint", func(r *config.Resource) {
 		r.ExternalName = config.IdentifierFromProvider
+		r.References = config.References{
+			refs.ProjectID: {
+				TerraformName: refs.TFProject,
+			},
+		}
 	})
 }

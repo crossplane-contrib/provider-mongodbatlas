@@ -71,7 +71,16 @@ type LogIntegrationInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.Reference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Required for type: AZURE_LOG_EXPORT. Storage account name where logs will be stored.
 	StorageAccountName *string `json:"storageAccountName,omitempty" tf:"storage_account_name,omitempty"`
@@ -210,8 +219,17 @@ type LogIntegrationParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Required for type: AZURE_LOG_EXPORT, GCS_LOG_EXPORT. Unique 24-character hexadecimal string that identifies the Atlas Cloud Provider Access role.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.Reference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Required for type: AZURE_LOG_EXPORT. Storage account name where logs will be stored.
 	// +kubebuilder:validation:Optional

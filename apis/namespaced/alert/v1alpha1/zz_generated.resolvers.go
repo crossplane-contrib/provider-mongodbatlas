@@ -23,12 +23,56 @@ func (mg *Configuration) ResolveReferences( // ResolveReferences of this Configu
 
 	var rsp reference.NamespacedResolutionResponse
 	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Notification); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "PartyIntegration", "PartyIntegrationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Notification[i3].IntegrationID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.Notification[i3].IntegrationIDRef,
+				Selector:     mg.Spec.ForProvider.Notification[i3].IntegrationIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Notification[i3].IntegrationID")
+		}
+		mg.Spec.ForProvider.Notification[i3].IntegrationID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Notification[i3].IntegrationIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Notification); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Team", "TeamList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Notification[i3].TeamID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.Notification[i3].TeamIDRef,
+				Selector:     mg.Spec.ForProvider.Notification[i3].TeamIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Notification[i3].TeamID")
+		}
+		mg.Spec.ForProvider.Notification[i3].TeamID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Notification[i3].TeamIDRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 			Extract:      reference.ExternalName(),
@@ -43,12 +87,56 @@ func (mg *Configuration) ResolveReferences( // ResolveReferences of this Configu
 	}
 	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Notification); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "PartyIntegration", "PartyIntegrationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Notification[i3].IntegrationID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.Notification[i3].IntegrationIDRef,
+				Selector:     mg.Spec.InitProvider.Notification[i3].IntegrationIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Notification[i3].IntegrationID")
+		}
+		mg.Spec.InitProvider.Notification[i3].IntegrationID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Notification[i3].IntegrationIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Notification); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Team", "TeamList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Notification[i3].TeamID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.Notification[i3].TeamIDRef,
+				Selector:     mg.Spec.InitProvider.Notification[i3].TeamIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Notification[i3].TeamID")
+		}
+		mg.Spec.InitProvider.Notification[i3].TeamID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Notification[i3].TeamIDRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
 			Extract:      reference.ExternalName(),

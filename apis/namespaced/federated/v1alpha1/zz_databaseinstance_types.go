@@ -16,7 +16,16 @@ import (
 type AwsInitParameters struct {
 
 	// Unique identifier of the role that the Federated Instance can use to access the data stores. If necessary, use the Atlas UI or API to retrieve the role ID. You must also specify the test_s3_bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Name of the S3 data bucket that the provided role ID is authorized to access. You must also specify the role_id.
 	TestS3Bucket *string `json:"testS3Bucket,omitempty" tf:"test_s3_bucket,omitempty"`
@@ -42,8 +51,17 @@ type AwsObservation struct {
 type AwsParameters struct {
 
 	// Unique identifier of the role that the Federated Instance can use to access the data stores. If necessary, use the Atlas UI or API to retrieve the role ID. You must also specify the test_s3_bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
-	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Name of the S3 data bucket that the provided role ID is authorized to access. You must also specify the role_id.
 	// +kubebuilder:validation:Optional
@@ -53,7 +71,16 @@ type AwsParameters struct {
 type AzureInitParameters struct {
 
 	// Unique identifier of the role that the Federated Database Instance can use to access the data stores.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 type AzureObservation struct {
@@ -74,8 +101,17 @@ type AzureObservation struct {
 type AzureParameters struct {
 
 	// Unique identifier of the role that the Federated Database Instance can use to access the data stores.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
-	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 type CloudProviderConfigInitParameters struct {
@@ -407,7 +443,16 @@ type DatabaseInstanceParameters struct {
 type GCPInitParameters struct {
 
 	// Unique identifier of the role that the Federated Database Instance uses to access the data stores.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 type GCPObservation struct {
@@ -422,8 +467,17 @@ type GCPObservation struct {
 type GCPParameters struct {
 
 	// Unique identifier of the role that the Federated Database Instance uses to access the data stores.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
-	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 }
 
 type PrivateEndpointHostnamesInitParameters struct {

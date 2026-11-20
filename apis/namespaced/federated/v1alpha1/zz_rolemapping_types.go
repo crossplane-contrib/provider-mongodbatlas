@@ -16,7 +16,16 @@ import (
 type RoleAssignmentsInitParameters struct {
 
 	// Unique identifier of the project to which you want the role mapping to apply.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate groupId.
+	// +kubebuilder:validation:Optional
+	GroupIDRef *v2.NamespacedReference `json:"groupIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate groupId.
+	// +kubebuilder:validation:Optional
+	GroupIDSelector *v2.NamespacedSelector `json:"groupIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -44,8 +53,17 @@ type RoleAssignmentsObservation struct {
 type RoleAssignmentsParameters struct {
 
 	// Unique identifier of the project to which you want the role mapping to apply.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate groupId.
+	// +kubebuilder:validation:Optional
+	GroupIDRef *v2.NamespacedReference `json:"groupIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate groupId.
+	// +kubebuilder:validation:Optional
+	GroupIDSelector *v2.NamespacedSelector `json:"groupIdSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the organization that contains your projects.
 	// +kubebuilder:validation:Optional

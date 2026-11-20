@@ -14,6 +14,12 @@ func ConfigureAlert(p *config.Provider) {
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,
 			},
+			"notification.team_id": {
+				TerraformName: refs.TFTeam,
+			},
+			"notification.integration_id": {
+				TerraformName: "mongodbatlas_third_party_integration",
+			},
 		}
 		for _, f := range []string{
 			"matcher",

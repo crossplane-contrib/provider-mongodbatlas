@@ -247,10 +247,13 @@ func main() {
 	fwProvider := xpshim.GetFrameworkProvider()
 	setupFn := clients.TerraformSetupBuilder(sdkProvider, fwProvider)
 	otStore := tjcontroller.NewOperationStore(log)
+	// Both scopes share one limiter: --max-reconcile-rate is the rate of the
+	// whole provider.
+	globalRateLimiter := ratelimiter.NewGlobal(cli.Start.MaxReconcileRate)
 
 	clusterOpts := tjcontroller.Options{
 		Logger:                  log,
-		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.Start.MaxReconcileRate),
+		GlobalRateLimiter:       globalRateLimiter,
 		PollInterval:            cli.Start.PollInterval,
 		MaxConcurrentReconciles: cli.Start.MaxReconcileRate,
 		Features:                &feature.Flags{},
@@ -268,7 +271,7 @@ func main() {
 
 	namespacedOpts := tjcontroller.Options{
 		Logger:                  log,
-		GlobalRateLimiter:       ratelimiter.NewGlobal(cli.Start.MaxReconcileRate),
+		GlobalRateLimiter:       globalRateLimiter,
 		PollInterval:            cli.Start.PollInterval,
 		MaxConcurrentReconciles: cli.Start.MaxReconcileRate,
 		Features:                &feature.Flags{},

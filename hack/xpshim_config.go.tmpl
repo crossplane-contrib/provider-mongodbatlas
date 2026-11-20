@@ -1,0 +1,21 @@
+// This file is injected into the extracted provider module's internal/config
+// package by the `make provider-source` target, so that it can reach the
+// package's unexported service account token cache. xpshim re-exports it.
+
+package config
+
+// ForgetStaleServiceAccount drops the token source cached for clientID when it
+// was built with a secret other than clientSecret, so that the next Configure
+// builds one with the new secret.
+//
+// The upstream cache is keyed by client ID only and fails every Configure with
+// "service account credentials changed" once the secret differs. A Terraform
+// run is too short to notice, but a long-running controller sees it on every
+// secret rotation. Clients built before keep the token source they hold.
+func ForgetStaleServiceAccount(clientID, clientSecret string) {
+	saTokenSourceCache.mu.Lock()
+	defer saTokenSourceCache.mu.Unlock()
+	if e, ok := saTokenSourceCache.sources[clientID]; ok && e.clientSecret != clientSecret {
+		delete(saTokenSourceCache.sources, clientID)
+	}
+}

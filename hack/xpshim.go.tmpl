@@ -29,6 +29,14 @@ func GetFrameworkProvider() tpf.Provider {
 	return provider.NewFrameworkProvider()
 }
 
+// ForgetStaleServiceAccount drops the token source the Atlas provider cached
+// for clientID when it was built with a secret other than clientSecret. Call
+// it before configuring the provider with rotated service account credentials:
+// the upstream cache otherwise rejects them until the process restarts.
+func ForgetStaleServiceAccount(clientID, clientSecret string) {
+	config.ForgetStaleServiceAccount(clientID, clientSecret)
+}
+
 // NewOfflineClient builds the Atlas client that the provider's resources expect
 // as their meta (SDKv2) or provider data (framework), authenticating with the
 // given programmatic API key, and sends every request of every Atlas SDK the

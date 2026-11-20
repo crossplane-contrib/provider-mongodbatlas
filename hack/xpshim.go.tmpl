@@ -29,9 +29,8 @@ func GetFrameworkProvider() tpf.Provider {
 	return provider.NewFrameworkProvider()
 }
 
-// ForgetStaleServiceAccount drops the token source the Atlas provider cached
-// for clientID when it was built with a secret other than clientSecret. Call
-// it before configuring the provider with rotated service account credentials:
+// ForgetStaleServiceAccount drops the token source the Atlas provider cached for clientID under another secret.
+// Call it before configuring the provider with rotated service account credentials:
 // the upstream cache otherwise rejects them until the process restarts.
 func ForgetStaleServiceAccount(clientID, clientSecret string) {
 	config.ForgetStaleServiceAccount(clientID, clientSecret)

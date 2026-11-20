@@ -144,18 +144,15 @@ pull-docs:
 # ====================================================================================
 # Atlas provider source extraction for the no-fork (in-process) runtime.
 #
-# The Atlas provider keeps its constructors in internal/provider, which cannot
-# be imported from another module. We extract the module source at the exact
-# release tag, inject an xpshim package that re-exports the
-# constructors (legal, since it lives inside the module root), and go.mod has
-# a replace directive pointing at this directory. A second file goes into
-# internal/config, where it can reach that package's unexported state.
-# third_party/ is gitignored; fresh checkouts must run `make provider-source`
-# (wired into build.init and generate.init) before the Go tree compiles. The
-# clone runs again only when the stamp file does not match
-# TERRAFORM_PROVIDER_VERSION; both injected files are copied on every run so an
-# edited template reaches existing checkouts (Go's build cache keys on
-# content, so an unchanged copy is free).
+# The Atlas provider keeps its constructors in internal/provider, which cannot be imported from another module.
+# We extract the module source at the exact release tag and inject an xpshim package that re-exports the constructors
+# (legal, since it lives inside the module root); go.mod has a replace directive pointing at this directory.
+# A second file goes into internal/config, where it can reach that package's unexported state.
+# third_party/ is gitignored, so fresh checkouts must run `make provider-source` (wired into build.init and
+# generate.init) before the Go tree compiles.
+# The clone runs again only when the stamp file does not match TERRAFORM_PROVIDER_VERSION.
+# Both injected files are copied on every run, so an edited template reaches existing checkouts
+# (Go's build cache keys on content, so an unchanged copy is free).
 PROVIDER_SOURCE_DIR := third_party/terraform-provider-mongodbatlas
 PROVIDER_SOURCE_STAMP := $(PROVIDER_SOURCE_DIR)/.provider-version
 

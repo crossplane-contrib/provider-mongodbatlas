@@ -74,12 +74,10 @@ const (
 	errNoClient                 = "the MongoDB Atlas Terraform provider accepted the credentials but built no client"
 )
 
-// TerraformSetupBuilder returns a SetupFn for the no-fork (in-process)
-// architecture. Each credential set gets one Atlas client, built by the SDKv2
-// provider's Configure and kept for cacheTTL. The client is Setup.Meta for
-// the SDKv2 resources, and Setup.FrameworkProvider hands the same client to
-// the framework resources, so upjet's per-reconcile Configure of the
-// framework provider builds nothing.
+// TerraformSetupBuilder returns a SetupFn for the no-fork (in-process) architecture.
+// Each credential set gets one Atlas client, built by the SDKv2 provider's Configure and kept for cacheTTL.
+// The client is Setup.Meta for the SDKv2 resources, and Setup.FrameworkProvider hands it to the framework resources,
+// so the framework Configure that upjet calls on every reconcile builds nothing.
 func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider, cacheTTL time.Duration) terraform.SetupFn {
 	clients := newClientCache(sdk, fw, cacheTTL)
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
@@ -144,18 +142,16 @@ func configureCredentials(config map[string]any, creds map[string]string) error 
 	return nil
 }
 
-// clientCache holds one configured provider per credential set, keyed by
-// credentialHash, and drops entries older than ttl so that rotated or deleted
-// credentials do not keep their client alive for the life of the process.
+// clientCache holds one configured provider per credential set, keyed by credentialHash.
+// It drops entries older than ttl, so a rotated or deleted credential set does not keep its client forever.
 type clientCache struct {
 	sdk *schema.Provider
 	fw  tpf.Provider
 	ttl time.Duration
 	now func() time.Time
 
-	// mu also serializes Configure: the SDKv2 provider keeps its meta in the
-	// shared instance, and a stale service account must not be forgotten
-	// while another credential set configures the same client ID.
+	// mu also serializes Configure: the SDKv2 provider keeps its meta in the shared instance,
+	// and a stale service account must not be forgotten while another credential set configures the same client ID.
 	mu      sync.Mutex
 	entries map[string]cachedProvider
 }
@@ -169,8 +165,7 @@ func newClientCache(sdk *schema.Provider, fw tpf.Provider, ttl time.Duration) *c
 	return &clientCache{sdk: sdk, fw: fw, ttl: ttl, now: time.Now, entries: map[string]cachedProvider{}}
 }
 
-// get returns the provider configured with config, configuring the SDKv2
-// provider on a cache miss.
+// get returns the provider configured with config, configuring the SDKv2 provider on a cache miss.
 func (c *clientCache) get(ctx context.Context, config map[string]any) (*configuredProvider, error) {
 	h := credentialHash(config)
 
@@ -190,8 +185,8 @@ func (c *clientCache) get(ctx context.Context, config map[string]any) (*configur
 	if diags := c.sdk.Configure(ctx, tf.NewResourceConfigRaw(config)); diags.HasError() {
 		return nil, fmt.Errorf("failed to configure SDK provider: %v", diags)
 	}
-	// The Atlas provider returns no client and no error for credentials its
-	// own validation rejects, leaving the diagnostic to the framework half.
+	// Credentials the Atlas provider's own validation rejects give no client and no error here:
+	// only the framework half of the provider reports them.
 	meta := c.sdk.Meta()
 	if meta == nil {
 		return nil, errors.New(errNoClient)
@@ -202,35 +197,30 @@ func (c *clientCache) get(ctx context.Context, config map[string]any) (*configur
 	return p, nil
 }
 
-// configuredProvider is the upstream framework provider with its Configure
-// replaced by one that hands every resource and data source a client built
-// beforehand. The upstream Configure reads the configuration block, the
-// MONGODB_ATLAS_* environment and, when an AWS role is configured, AWS
-// Secrets Manager, and builds a new Atlas client every time upjet calls it,
-// which is on every reconcile. Everything else, the schema, the resources and
-// the provider meta schema in particular, is the upstream provider's own.
+// configuredProvider is the upstream framework provider, with a Configure that hands out a client built beforehand.
+// The upstream Configure reads the configuration block, the MONGODB_ATLAS_* environment and, with an AWS role,
+// AWS Secrets Manager; it builds a new Atlas client every time upjet calls it, which is on every reconcile.
+// Everything else, the schema, the resources and the provider meta schema in particular, is upstream's own.
 type configuredProvider struct {
 	tpf.Provider
 	client any
 }
 
-// Configure hands the resources and the data sources the prepared client.
+// Configure hands the prepared client to the resources and the data sources.
 // Ephemeral resources, which upjet never opens, get no provider data.
 func (p *configuredProvider) Configure(_ context.Context, _ tpf.ConfigureRequest, resp *tpf.ConfigureResponse) {
 	resp.DataSourceData = p.client
 	resp.ResourceData = p.client
 }
 
-// MetaSchema serves the upstream provider's meta schema, which its resources
-// read on every operation.
+// MetaSchema serves the upstream provider's meta schema, which its resources read on every operation.
 func (p *configuredProvider) MetaSchema(ctx context.Context, req tpf.MetaSchemaRequest, resp *tpf.MetaSchemaResponse) {
 	if mp, ok := p.Provider.(tpf.ProviderWithMetaSchema); ok {
 		mp.MetaSchema(ctx, req, resp)
 	}
 }
 
-// EphemeralResources serves the upstream provider's ephemeral resources, so
-// that the wrapped provider has the same protocol surface as the upstream one.
+// EphemeralResources serves the upstream ephemeral resources, so the wrapper keeps the upstream protocol surface.
 func (p *configuredProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
 	if ep, ok := p.Provider.(tpf.ProviderWithEphemeralResources); ok {
 		return ep.EphemeralResources(ctx)

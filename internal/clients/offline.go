@@ -55,11 +55,10 @@ const (
 // The ProviderConfig a resource references is still resolved, so that a
 // resource whose ProviderConfig is missing fails the way it does in a
 // reconcile, but nothing in it is read: an Atlas ProviderConfig carries only
-// credentials, and the Secret they would come from is never read. The setup
-// carries one Atlas client, built once for the process, as the Meta the SDKv2
-// resources read and as the provider data configuredProvider hands the
-// framework resources, so the upstream Configure, which reads the
-// MONGODB_ATLAS_* environment and can call AWS Secrets Manager, never runs.
+// credentials, and the Secret they would come from is never read.
+// The setup carries one Atlas client, built once for the process, as the Meta the SDKv2 resources read
+// and as the provider data configuredProvider hands the framework resources.
+// The upstream Configure, which reads the MONGODB_ATLAS_* environment and can call AWS Secrets Manager, never runs.
 // That client cannot send a request: see offlineTransport.
 func OfflineTerraformSetupBuilder(fw tpf.Provider) terraform.SetupFn {
 	offline := sync.OnceValues(func() (*configuredProvider, error) {

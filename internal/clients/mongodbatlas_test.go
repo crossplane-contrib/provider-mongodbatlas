@@ -235,12 +235,10 @@ func TestResolveModern(t *testing.T) {
 	}
 }
 
-// testMeta is the client a countingSDKProvider builds. It is a pointer, so
-// that a test can tell a cached client from a rebuilt one.
+// testMeta is the client a countingSDKProvider builds: a pointer, so a test can tell a cached client from a new one.
 type testMeta struct{ publicKey string }
 
-// countingSDKProvider returns an SDKv2 provider whose Configure counts its
-// calls and returns what configure returns for the configured public key.
+// countingSDKProvider returns an SDKv2 provider whose Configure counts its calls and returns configure(public_key).
 func countingSDKProvider(calls *int, configure func(publicKey string) (any, diag.Diagnostics)) *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
@@ -306,10 +304,9 @@ func TestClientCacheExpiresEntries(t *testing.T) {
 	assert.Len(t, c.entries, 1, "expired entries of other credentials must be dropped")
 }
 
-// TestClientCacheRejectsMissingClient covers credentials the Atlas provider's
-// own validation rejects: its SDKv2 Configure then returns no client and no
-// error, which must fail the setup instead of caching a nil client that the
-// SDKv2 resources panic on.
+// TestClientCacheRejectsMissingClient covers credentials the Atlas provider's own validation rejects.
+// Its SDKv2 Configure then returns no client and no error,
+// which must fail the setup instead of caching a nil client that the SDKv2 resources panic on.
 func TestClientCacheRejectsMissingClient(t *testing.T) {
 	ctx := context.Background()
 	calls := 0
@@ -333,12 +330,10 @@ func TestClientCacheConfigureError(t *testing.T) {
 	assert.Empty(t, c.entries, "a failed Configure must not be cached")
 }
 
-// TestClientCacheRotatedServiceAccountSecret configures the real Atlas
-// provider against a local OAuth token endpoint. The upstream token source
-// cache is keyed by client ID only and rejects a second secret for the life of
-// the process; the cache must forget the stale entry so that a rotated secret,
-// or a second ProviderConfig with another secret of the same service account,
-// can configure.
+// TestClientCacheRotatedServiceAccountSecret configures the real Atlas provider against a local OAuth token endpoint.
+// The upstream token source cache is keyed by client ID only and rejects a second secret until the process restarts.
+// The client cache must forget the stale entry, so that a rotated secret,
+// or a second ProviderConfig with another secret of the same service account, can configure.
 func TestClientCacheRotatedServiceAccountSecret(t *testing.T) {
 	ctx := context.Background()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -375,9 +370,8 @@ func TestClientCacheRotatedServiceAccountSecret(t *testing.T) {
 	assert.Same(t, old, cached, "the client built with the previous secret stays cached until it expires")
 }
 
-// TestTerraformSetupBuilder asserts that the setup reads the credentials from
-// the ProviderConfig's Secret and hands one client, built once, to both halves
-// of the Atlas provider.
+// TestTerraformSetupBuilder asserts that the setup reads the credentials from the ProviderConfig's Secret
+// and hands one client, built once, to both halves of the Atlas provider.
 func TestTerraformSetupBuilder(t *testing.T) {
 	ctx := context.Background()
 	kc := fake.NewClientBuilder().WithScheme(newTestScheme(t)).WithObjects(

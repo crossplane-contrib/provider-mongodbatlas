@@ -85,6 +85,10 @@ func ConfigureProject(p *config.Provider) {
 		}
 		r.ExternalName.GetIDFn = refs.GetIDFromParamsAndExternalName("/", 2, refs.ProjectID, "client_id")
 		r.ExternalName.GetExternalNameFn = refs.ExternalNameFromIDOrState("/", 2, 0, "secret_id")
+		// No "id" attribute: Read finds the secret by secret_id, so copy the
+		// external name into it, or an import creates a new secret.
+		r.ExternalName.SetIdentifierArgumentFn = refs.SetIdentifierArgument("secret_id")
+		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("secret_id")
 	})
 
 	p.AddResourceConfigurator(refs.TFProjectMCPConfig, func(r *config.Resource) {

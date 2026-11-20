@@ -250,7 +250,16 @@ type ConnectionInitParameters struct {
 	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams instance. You must first enable the organization setting.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate clusterProjectId.
+	// +kubebuilder:validation:Optional
+	ClusterProjectIDRef *v2.NamespacedReference `json:"clusterProjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate clusterProjectId.
+	// +kubebuilder:validation:Optional
+	ClusterProjectIDSelector *v2.NamespacedSelector `json:"clusterProjectIdSelector,omitempty" tf:"-"`
 
 	// A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
 	// +mapType=granular
@@ -438,8 +447,17 @@ type ConnectionParameters struct {
 	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the project that contains the configured cluster. Required if the ID does not match the project containing the streams instance. You must first enable the organization setting.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ClusterProjectID *string `json:"clusterProjectId,omitempty" tf:"cluster_project_id,omitempty"`
+
+	// Reference to a Project in mongodbatlas to populate clusterProjectId.
+	// +kubebuilder:validation:Optional
+	ClusterProjectIDRef *v2.NamespacedReference `json:"clusterProjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in mongodbatlas to populate clusterProjectId.
+	// +kubebuilder:validation:Optional
+	ClusterProjectIDSelector *v2.NamespacedSelector `json:"clusterProjectIdSelector,omitempty" tf:"-"`
 
 	// A map of Kafka key-value pairs for optional configuration. This is a flat object, and keys can have '.' characters.
 	// +kubebuilder:validation:Optional

@@ -128,7 +128,16 @@ type AzureKeyVaultConfigInitParameters struct {
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Private data that you need secured and that belongs to the specified Azure Key Vault (AKV) tenant (**azureKeyVault.tenantID**). This data can include any type of sensitive data such as passwords, database connection strings, API keys, and the like. AKV stores this information as encrypted binary data.
 	SecretSecretRef *v2.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
@@ -195,8 +204,17 @@ type AzureKeyVaultConfigParameters struct {
 	ResourceGroupName *string `json:"resourceGroupName,omitempty" tf:"resource_group_name,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the Azure Service Principal that Atlas uses to access the Azure Key Vault.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Private data that you need secured and that belongs to the specified Azure Key Vault (AKV) tenant (**azureKeyVault.tenantID**). This data can include any type of sensitive data such as passwords, database connection strings, API keys, and the like. AKV stores this information as encrypted binary data.
 	// +kubebuilder:validation:Optional
@@ -300,7 +318,16 @@ type GoogleCloudKMSConfigInitParameters struct {
 	KeyVersionResourceIDSecretRef *v2.LocalSecretKeySelector `json:"keyVersionResourceIdSecretRef,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// JavaScript Object Notation (JSON) object that contains the Google Cloud Key Management Service (KMS). Format the JSON as a string and not as an object.
 	ServiceAccountKeySecretRef *v2.LocalSecretKeySelector `json:"serviceAccountKeySecretRef,omitempty" tf:"-"`
@@ -329,8 +356,17 @@ type GoogleCloudKMSConfigParameters struct {
 	KeyVersionResourceIDSecretRef *v2.LocalSecretKeySelector `json:"keyVersionResourceIdSecretRef,omitempty" tf:"-"`
 
 	// Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/cloud/v1alpha1.ProviderAccessAuthorization
 	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// Reference to a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDRef *v2.NamespacedReference `json:"roleIdRef,omitempty" tf:"-"`
+
+	// Selector for a ProviderAccessAuthorization in cloud to populate roleId.
+	// +kubebuilder:validation:Optional
+	RoleIDSelector *v2.NamespacedSelector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// JavaScript Object Notation (JSON) object that contains the Google Cloud Key Management Service (KMS). Format the JSON as a string and not as an object.
 	// +kubebuilder:validation:Optional

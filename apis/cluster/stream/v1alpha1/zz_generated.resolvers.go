@@ -51,6 +51,26 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterProjectID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ClusterProjectIDRef,
+			Selector:     mg.Spec.ForProvider.ClusterProjectIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterProjectID")
+	}
+	mg.Spec.ForProvider.ClusterProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterProjectIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -111,6 +131,26 @@ func (mg *Connection) ResolveReferences( // ResolveReferences of this Connection
 		}
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterProjectID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ClusterProjectIDRef,
+			Selector:     mg.Spec.InitProvider.ClusterProjectIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterProjectID")
+	}
+	mg.Spec.InitProvider.ClusterProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterProjectIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -156,6 +196,46 @@ func (mg *ConnectionFailover) ResolveReferences(ctx context.Context, c client.Re
 
 	var rsp reference.ResolutionResponse
 	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha3", "AdvancedCluster", "AdvancedClusterList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterName),
+			Extract:      resource.ExtractParamPath("name", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ClusterNameRef,
+			Selector:     mg.Spec.ForProvider.ClusterNameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterName")
+	}
+	mg.Spec.ForProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterNameRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterProjectID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ClusterProjectIDRef,
+			Selector:     mg.Spec.ForProvider.ClusterProjectIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClusterProjectID")
+	}
+	mg.Spec.ForProvider.ClusterProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClusterProjectIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("stream.mongodbatlas.crossplane.io", "v1alpha1", "Connection", "ConnectionList")
 		if err != nil {
@@ -216,6 +296,46 @@ func (mg *ConnectionFailover) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.WorkspaceName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.WorkspaceNameRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha3", "AdvancedCluster", "AdvancedClusterList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterName),
+			Extract:      resource.ExtractParamPath("name", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ClusterNameRef,
+			Selector:     mg.Spec.InitProvider.ClusterNameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterName")
+	}
+	mg.Spec.InitProvider.ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterNameRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterProjectID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ClusterProjectIDRef,
+			Selector:     mg.Spec.InitProvider.ClusterProjectIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClusterProjectID")
+	}
+	mg.Spec.InitProvider.ClusterProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterProjectIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("stream.mongodbatlas.crossplane.io", "v1alpha1", "Connection", "ConnectionList")
 		if err != nil {
@@ -282,6 +402,58 @@ func (mg *ConnectionFailover) ResolveReferences(ctx context.Context, c client.Re
 
 // ResolveReferences of this Instance.
 func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ProjectIDRef,
+			Selector:     mg.Spec.ForProvider.ProjectIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ProjectID")
+	}
+	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ProjectIDRef,
+			Selector:     mg.Spec.InitProvider.ProjectIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ProjectID")
+	}
+	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this PrivatelinkEndpoint.
+func (mg *PrivatelinkEndpoint) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

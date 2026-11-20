@@ -32,8 +32,17 @@ type InvitationInitParameters struct {
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// An array of unique 24-hexadecimal digit strings that identify the teams that the user was invited to join.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	// +listType=set
 	TeamsIds []*string `json:"teamsIds,omitempty" tf:"teams_ids,omitempty"`
+
+	// References to Team in mongodbatlas to populate teamsIds.
+	// +kubebuilder:validation:Optional
+	TeamsIdsRefs []v2.NamespacedReference `json:"teamsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Team in mongodbatlas to populate teamsIds.
+	// +kubebuilder:validation:Optional
+	TeamsIdsSelector *v2.NamespacedSelector `json:"teamsIdsSelector,omitempty" tf:"-"`
 
 	// Email address of the invited user. This is the address to which Atlas sends the invite. If the user accepts the invitation, they log in to Atlas with this username.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -92,9 +101,18 @@ type InvitationParameters struct {
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// An array of unique 24-hexadecimal digit strings that identify the teams that the user was invited to join.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	TeamsIds []*string `json:"teamsIds,omitempty" tf:"teams_ids,omitempty"`
+
+	// References to Team in mongodbatlas to populate teamsIds.
+	// +kubebuilder:validation:Optional
+	TeamsIdsRefs []v2.NamespacedReference `json:"teamsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Team in mongodbatlas to populate teamsIds.
+	// +kubebuilder:validation:Optional
+	TeamsIdsSelector *v2.NamespacedSelector `json:"teamsIdsSelector,omitempty" tf:"-"`
 
 	// Email address of the invited user. This is the address to which Atlas sends the invite. If the user accepts the invitation, they log in to Atlas with this username.
 	// +kubebuilder:validation:Optional

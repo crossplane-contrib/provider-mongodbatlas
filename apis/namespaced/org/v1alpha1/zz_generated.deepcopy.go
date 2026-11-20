@@ -319,6 +319,18 @@ func (in *InvitationInitParameters) DeepCopyInto(out *InvitationInitParameters) 
 			}
 		}
 	}
+	if in.TeamsIdsRefs != nil {
+		in, out := &in.TeamsIdsRefs, &out.TeamsIdsRefs
+		*out = make([]v2.NamespacedReference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.TeamsIdsSelector != nil {
+		in, out := &in.TeamsIdsSelector, &out.TeamsIdsSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Username != nil {
 		in, out := &in.Username, &out.Username
 		*out = new(string)
@@ -479,6 +491,18 @@ func (in *InvitationParameters) DeepCopyInto(out *InvitationParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.TeamsIdsRefs != nil {
+		in, out := &in.TeamsIdsRefs, &out.TeamsIdsRefs
+		*out = make([]v2.NamespacedReference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.TeamsIdsSelector != nil {
+		in, out := &in.TeamsIdsSelector, &out.TeamsIdsSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Username != nil {
 		in, out := &in.Username, &out.Username

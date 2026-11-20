@@ -479,6 +479,50 @@ func (mg *EncryptionAtRest) ResolveReferences(ctx context.Context, c client.Read
 		mg.Spec.ForProvider.AwsKMSConfig[i3].RoleIDRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.AzureKeyVaultConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AzureKeyVaultConfig[i3].RoleID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.AzureKeyVaultConfig[i3].RoleIDRef,
+				Selector:     mg.Spec.ForProvider.AzureKeyVaultConfig[i3].RoleIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.AzureKeyVaultConfig[i3].RoleID")
+		}
+		mg.Spec.ForProvider.AzureKeyVaultConfig[i3].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AzureKeyVaultConfig[i3].RoleIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.GoogleCloudKMSConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GoogleCloudKMSConfig[i3].RoleID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.GoogleCloudKMSConfig[i3].RoleIDRef,
+				Selector:     mg.Spec.ForProvider.GoogleCloudKMSConfig[i3].RoleIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.GoogleCloudKMSConfig[i3].RoleID")
+		}
+		mg.Spec.ForProvider.GoogleCloudKMSConfig[i3].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.GoogleCloudKMSConfig[i3].RoleIDRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
 		if err != nil {
@@ -519,6 +563,50 @@ func (mg *EncryptionAtRest) ResolveReferences(ctx context.Context, c client.Read
 		}
 		mg.Spec.InitProvider.AwsKMSConfig[i3].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.AwsKMSConfig[i3].RoleIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.AzureKeyVaultConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AzureKeyVaultConfig[i3].RoleID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.AzureKeyVaultConfig[i3].RoleIDRef,
+				Selector:     mg.Spec.InitProvider.AzureKeyVaultConfig[i3].RoleIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.AzureKeyVaultConfig[i3].RoleID")
+		}
+		mg.Spec.InitProvider.AzureKeyVaultConfig[i3].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.AzureKeyVaultConfig[i3].RoleIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.GoogleCloudKMSConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GoogleCloudKMSConfig[i3].RoleID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.GoogleCloudKMSConfig[i3].RoleIDRef,
+				Selector:     mg.Spec.InitProvider.GoogleCloudKMSConfig[i3].RoleIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.GoogleCloudKMSConfig[i3].RoleID")
+		}
+		mg.Spec.InitProvider.GoogleCloudKMSConfig[i3].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.GoogleCloudKMSConfig[i3].RoleIDRef = rsp.ResolvedReference
 
 	}
 	{
@@ -795,6 +883,26 @@ func (mg *LogIntegration) ResolveReferences(ctx context.Context, c client.Reader
 		}
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.RoleIDRef,
+			Selector:     mg.Spec.ForProvider.RoleIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.RoleID")
+	}
+	mg.Spec.ForProvider.RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RoleIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.IAMRoleID),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -828,6 +936,26 @@ func (mg *LogIntegration) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.RoleIDRef,
+			Selector:     mg.Spec.InitProvider.RoleIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RoleID")
+	}
+	mg.Spec.InitProvider.RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RoleIDRef = rsp.ResolvedReference
 
 	return nil
 }

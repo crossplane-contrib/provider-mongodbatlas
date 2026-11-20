@@ -24,12 +24,84 @@ func (mg *DatabaseInstance) ResolveReferences( // ResolveReferences of this Data
 
 	var rsp reference.NamespacedResolutionResponse
 	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.CloudProviderConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.CloudProviderConfig[i3].Aws); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudProviderConfig[i3].Aws[i4].RoleID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.CloudProviderConfig[i3].Aws[i4].RoleIDRef,
+					Selector:     mg.Spec.ForProvider.CloudProviderConfig[i3].Aws[i4].RoleIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.CloudProviderConfig[i3].Aws[i4].RoleID")
+			}
+			mg.Spec.ForProvider.CloudProviderConfig[i3].Aws[i4].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.CloudProviderConfig[i3].Aws[i4].RoleIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.CloudProviderConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.CloudProviderConfig[i3].Azure); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudProviderConfig[i3].Azure[i4].RoleID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.CloudProviderConfig[i3].Azure[i4].RoleIDRef,
+					Selector:     mg.Spec.ForProvider.CloudProviderConfig[i3].Azure[i4].RoleIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.CloudProviderConfig[i3].Azure[i4].RoleID")
+			}
+			mg.Spec.ForProvider.CloudProviderConfig[i3].Azure[i4].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.CloudProviderConfig[i3].Azure[i4].RoleIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.CloudProviderConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.CloudProviderConfig[i3].GCP); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudProviderConfig[i3].GCP[i4].RoleID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.CloudProviderConfig[i3].GCP[i4].RoleIDRef,
+					Selector:     mg.Spec.ForProvider.CloudProviderConfig[i3].GCP[i4].RoleIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.CloudProviderConfig[i3].GCP[i4].RoleID")
+			}
+			mg.Spec.ForProvider.CloudProviderConfig[i3].GCP[i4].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.CloudProviderConfig[i3].GCP[i4].RoleIDRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 			Extract:      reference.ExternalName(),
@@ -44,12 +116,84 @@ func (mg *DatabaseInstance) ResolveReferences( // ResolveReferences of this Data
 	}
 	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CloudProviderConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.CloudProviderConfig[i3].Aws); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudProviderConfig[i3].Aws[i4].RoleID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.CloudProviderConfig[i3].Aws[i4].RoleIDRef,
+					Selector:     mg.Spec.InitProvider.CloudProviderConfig[i3].Aws[i4].RoleIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.CloudProviderConfig[i3].Aws[i4].RoleID")
+			}
+			mg.Spec.InitProvider.CloudProviderConfig[i3].Aws[i4].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.CloudProviderConfig[i3].Aws[i4].RoleIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CloudProviderConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.CloudProviderConfig[i3].Azure); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudProviderConfig[i3].Azure[i4].RoleID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.CloudProviderConfig[i3].Azure[i4].RoleIDRef,
+					Selector:     mg.Spec.InitProvider.CloudProviderConfig[i3].Azure[i4].RoleIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.CloudProviderConfig[i3].Azure[i4].RoleID")
+			}
+			mg.Spec.InitProvider.CloudProviderConfig[i3].Azure[i4].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.CloudProviderConfig[i3].Azure[i4].RoleIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CloudProviderConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.CloudProviderConfig[i3].GCP); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloud.mongodbatlas.m.crossplane.io", "v1alpha1", "ProviderAccessAuthorization", "ProviderAccessAuthorizationList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudProviderConfig[i3].GCP[i4].RoleID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.CloudProviderConfig[i3].GCP[i4].RoleIDRef,
+					Selector:     mg.Spec.InitProvider.CloudProviderConfig[i3].GCP[i4].RoleIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.CloudProviderConfig[i3].GCP[i4].RoleID")
+			}
+			mg.Spec.InitProvider.CloudProviderConfig[i3].GCP[i4].RoleID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.CloudProviderConfig[i3].GCP[i4].RoleIDRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
 			Extract:      reference.ExternalName(),
@@ -292,12 +436,34 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 	}
 	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RoleAssignments); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleAssignments[i3].GroupID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.RoleAssignments[i3].GroupIDRef,
+				Selector:     mg.Spec.ForProvider.RoleAssignments[i3].GroupIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.RoleAssignments[i3].GroupID")
+		}
+		mg.Spec.ForProvider.RoleAssignments[i3].GroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RoleAssignments[i3].GroupIDRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Organization", "OrganizationList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
 			Extract:      reference.ExternalName(),
@@ -312,6 +478,29 @@ func (mg *RoleMapping) ResolveReferences(ctx context.Context, c client.Reader) e
 	}
 	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RoleAssignments); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.m.crossplane.io", "v1alpha1", "Project", "ProjectList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleAssignments[i3].GroupID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.RoleAssignments[i3].GroupIDRef,
+				Selector:     mg.Spec.InitProvider.RoleAssignments[i3].GroupIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.RoleAssignments[i3].GroupID")
+		}
+		mg.Spec.InitProvider.RoleAssignments[i3].GroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.RoleAssignments[i3].GroupIDRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

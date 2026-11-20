@@ -16,8 +16,65 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *IPAccessList) ResolveReferences( // ResolveReferences of this IPAccessList.
+func (mg *APIKey) ResolveReferences( // ResolveReferences of this APIKey.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ProjectAssignment); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectAssignment[i3].ProjectID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.ProjectAssignment[i3].ProjectIDRef,
+				Selector:     mg.Spec.ForProvider.ProjectAssignment[i3].ProjectIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ProjectAssignment[i3].ProjectID")
+		}
+		mg.Spec.ForProvider.ProjectAssignment[i3].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ProjectAssignment[i3].ProjectIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ProjectAssignment); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("mongodbatlas.crossplane.io", "v1alpha1", "Project", "ProjectList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectAssignment[i3].ProjectID),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.ProjectAssignment[i3].ProjectIDRef,
+				Selector:     mg.Spec.InitProvider.ProjectAssignment[i3].ProjectIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ProjectAssignment[i3].ProjectID")
+		}
+		mg.Spec.InitProvider.ProjectAssignment[i3].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ProjectAssignment[i3].ProjectIDRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this IPAccessList.
+func (mg *IPAccessList) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

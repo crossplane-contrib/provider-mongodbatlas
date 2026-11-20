@@ -19,13 +19,17 @@ spec:
       - ORG_MEMBER
       - ORG_GROUP_CREATOR
       - ORG_BILLING_ADMIN
-    - groupId: 628aa20d7f7f7f7f7098b81b8
+    - groupIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
       roles:
       - GROUP_OWNER
       - GROUP_DATA_ACCESS_ADMIN
       - GROUP_SEARCH_INDEX_EDITOR
       - GROUP_DATA_ACCESS_READ_ONLY
-    - groupId: 628aa20d7f7f7f7f7078b81b8
+    - groupIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
       roles:
       - GROUP_OWNER
       - GROUP_DATA_ACCESS_ADMIN

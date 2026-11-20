@@ -262,7 +262,16 @@ type NotificationInitParameters struct {
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
 	// The ID of the associated integration, the credentials of which to use for requests.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.PartyIntegration
 	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
+
+	// Reference to a PartyIntegration in mongodbatlas to populate integrationId.
+	// +kubebuilder:validation:Optional
+	IntegrationIDRef *v2.NamespacedReference `json:"integrationIdRef,omitempty" tf:"-"`
+
+	// Selector for a PartyIntegration in mongodbatlas to populate integrationId.
+	// +kubebuilder:validation:Optional
+	IntegrationIDSelector *v2.NamespacedSelector `json:"integrationIdSelector,omitempty" tf:"-"`
 
 	// Number of minutes to wait between successive notifications for unacknowledged alerts that are not resolved. The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and OPS_GENIE notifications do not return this value. The notification interval must be configured and managed within each external service.
 	IntervalMin *float64 `json:"intervalMin,omitempty" tf:"interval_min,omitempty"`
@@ -293,7 +302,16 @@ type NotificationInitParameters struct {
 	ServiceKeySecretRef *v2.LocalSecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	// Unique identifier of a team.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
+	// Reference to a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDRef *v2.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+
+	// Selector for a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDSelector *v2.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
 	// Type of alert notification.
 	// Accepted values are:
@@ -405,8 +423,17 @@ type NotificationParameters struct {
 	EmailEnabled *bool `json:"emailEnabled,omitempty" tf:"email_enabled,omitempty"`
 
 	// The ID of the associated integration, the credentials of which to use for requests.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.PartyIntegration
 	// +kubebuilder:validation:Optional
 	IntegrationID *string `json:"integrationId,omitempty" tf:"integration_id,omitempty"`
+
+	// Reference to a PartyIntegration in mongodbatlas to populate integrationId.
+	// +kubebuilder:validation:Optional
+	IntegrationIDRef *v2.NamespacedReference `json:"integrationIdRef,omitempty" tf:"-"`
+
+	// Selector for a PartyIntegration in mongodbatlas to populate integrationId.
+	// +kubebuilder:validation:Optional
+	IntegrationIDSelector *v2.NamespacedSelector `json:"integrationIdSelector,omitempty" tf:"-"`
 
 	// Number of minutes to wait between successive notifications for unacknowledged alerts that are not resolved. The minimum value is 5. NOTE PAGER_DUTY, VICTOR_OPS, and OPS_GENIE notifications do not return this value. The notification interval must be configured and managed within each external service.
 	// +kubebuilder:validation:Optional
@@ -446,8 +473,17 @@ type NotificationParameters struct {
 	ServiceKeySecretRef *v2.LocalSecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 
 	// Unique identifier of a team.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/namespaced/mongodbatlas/v1alpha1.Team
 	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
+
+	// Reference to a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDRef *v2.NamespacedReference `json:"teamIdRef,omitempty" tf:"-"`
+
+	// Selector for a Team in mongodbatlas to populate teamId.
+	// +kubebuilder:validation:Optional
+	TeamIDSelector *v2.NamespacedSelector `json:"teamIdSelector,omitempty" tf:"-"`
 
 	// Type of alert notification.
 	// Accepted values are:

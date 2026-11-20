@@ -910,10 +910,30 @@ func (in *ConnectionFailoverInitParameters) DeepCopyInto(out *ConnectionFailover
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ClusterProjectID != nil {
 		in, out := &in.ClusterProjectID, &out.ClusterProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterProjectIDRef != nil {
+		in, out := &in.ClusterProjectIDRef, &out.ClusterProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterProjectIDSelector != nil {
+		in, out := &in.ClusterProjectIDSelector, &out.ClusterProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Config != nil {
 		in, out := &in.Config, &out.Config
@@ -1249,10 +1269,30 @@ func (in *ConnectionFailoverParameters) DeepCopyInto(out *ConnectionFailoverPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterNameRef != nil {
+		in, out := &in.ClusterNameRef, &out.ClusterNameRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterNameSelector != nil {
+		in, out := &in.ClusterNameSelector, &out.ClusterNameSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ClusterProjectID != nil {
 		in, out := &in.ClusterProjectID, &out.ClusterProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterProjectIDRef != nil {
+		in, out := &in.ClusterProjectIDRef, &out.ClusterProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterProjectIDSelector != nil {
+		in, out := &in.ClusterProjectIDSelector, &out.ClusterProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Config != nil {
 		in, out := &in.Config, &out.Config
@@ -1604,6 +1644,16 @@ func (in *ConnectionInitParameters) DeepCopyInto(out *ConnectionInitParameters) 
 		in, out := &in.ClusterProjectID, &out.ClusterProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterProjectIDRef != nil {
+		in, out := &in.ClusterProjectIDRef, &out.ClusterProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterProjectIDSelector != nil {
+		in, out := &in.ClusterProjectIDSelector, &out.ClusterProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Config != nil {
 		in, out := &in.Config, &out.Config
@@ -1987,6 +2037,16 @@ func (in *ConnectionParameters) DeepCopyInto(out *ConnectionParameters) {
 		in, out := &in.ClusterProjectID, &out.ClusterProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClusterProjectIDRef != nil {
+		in, out := &in.ClusterProjectIDRef, &out.ClusterProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ClusterProjectIDSelector != nil {
+		in, out := &in.ClusterProjectIDSelector, &out.ClusterProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Config != nil {
 		in, out := &in.Config, &out.Config
@@ -3089,6 +3149,16 @@ func (in *PrivatelinkEndpointInitParameters) DeepCopyInto(out *PrivatelinkEndpoi
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProviderName != nil {
 		in, out := &in.ProviderName, &out.ProviderName
 		*out = new(string)
@@ -3304,6 +3374,16 @@ func (in *PrivatelinkEndpointParameters) DeepCopyInto(out *PrivatelinkEndpointPa
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProviderName != nil {
 		in, out := &in.ProviderName, &out.ProviderName

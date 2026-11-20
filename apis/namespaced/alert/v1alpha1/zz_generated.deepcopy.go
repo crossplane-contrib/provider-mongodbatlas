@@ -589,6 +589,16 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.IntegrationIDRef != nil {
+		in, out := &in.IntegrationIDRef, &out.IntegrationIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IntegrationIDSelector != nil {
+		in, out := &in.IntegrationIDSelector, &out.IntegrationIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.IntervalMin != nil {
 		in, out := &in.IntervalMin, &out.IntervalMin
 		*out = new(float64)
@@ -644,6 +654,16 @@ func (in *NotificationInitParameters) DeepCopyInto(out *NotificationInitParamete
 		in, out := &in.TeamID, &out.TeamID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TeamIDRef != nil {
+		in, out := &in.TeamIDRef, &out.TeamIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TeamIDSelector != nil {
+		in, out := &in.TeamIDSelector, &out.TeamIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
@@ -841,6 +861,16 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.IntegrationIDRef != nil {
+		in, out := &in.IntegrationIDRef, &out.IntegrationIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IntegrationIDSelector != nil {
+		in, out := &in.IntegrationIDSelector, &out.IntegrationIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.IntervalMin != nil {
 		in, out := &in.IntervalMin, &out.IntervalMin
 		*out = new(float64)
@@ -896,6 +926,16 @@ func (in *NotificationParameters) DeepCopyInto(out *NotificationParameters) {
 		in, out := &in.TeamID, &out.TeamID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TeamIDRef != nil {
+		in, out := &in.TeamIDRef, &out.TeamIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TeamIDSelector != nil {
+		in, out := &in.TeamIDSelector, &out.TeamIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName

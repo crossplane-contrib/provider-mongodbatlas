@@ -582,7 +582,17 @@ type CopySettingsInitParameters struct {
 	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the zone in a cluster. For global clusters, there can be multiple zones to choose from. For sharded clusters and replica set clusters, there is only one zone in the cluster. To find appropriate value for zone_id, do a GET request to Return One Cluster from One Project and consult the replicationSpecs array Return One Cluster From One Project. Alternately, use mongodbatlas_advanced_cluster data source or resource and reference replication_specs.#.zone_id.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("replication_specs[0].zone_id",true)
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
+
+	// Reference to a AdvancedCluster in mongodbatlas to populate zoneId.
+	// +kubebuilder:validation:Optional
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate zoneId.
+	// +kubebuilder:validation:Optional
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 type CopySettingsObservation struct {
@@ -638,14 +648,33 @@ type CopySettingsParameters struct {
 	ShouldCopyOplogs *bool `json:"shouldCopyOplogs,omitempty" tf:"should_copy_oplogs,omitempty"`
 
 	// Unique 24-hexadecimal digit string that identifies the zone in a cluster. For global clusters, there can be multiple zones to choose from. For sharded clusters and replica set clusters, there is only one zone in the cluster. To find appropriate value for zone_id, do a GET request to Return One Cluster from One Project and consult the replicationSpecs array Return One Cluster From One Project. Alternately, use mongodbatlas_advanced_cluster data source or resource and reference replication_specs.#.zone_id.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/mongodbatlas/v1alpha3.AdvancedCluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("replication_specs[0].zone_id",true)
 	// +kubebuilder:validation:Optional
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
+
+	// Reference to a AdvancedCluster in mongodbatlas to populate zoneId.
+	// +kubebuilder:validation:Optional
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+
+	// Selector for a AdvancedCluster in mongodbatlas to populate zoneId.
+	// +kubebuilder:validation:Optional
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 type ExportInitParameters struct {
 
 	// Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket export_bucket_id value.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshotExportBucket
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
+
+	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDRef *v2.Reference `json:"exportBucketIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDSelector *v2.Selector `json:"exportBucketIdSelector,omitempty" tf:"-"`
 
 	// Frequency associated with the export snapshot item: weekly, monthly, yearly, daily (requires reaching out to Customer Support)
 	FrequencyType *string `json:"frequencyType,omitempty" tf:"frequency_type,omitempty"`
@@ -663,8 +692,17 @@ type ExportObservation struct {
 type ExportParameters struct {
 
 	// Unique identifier of the mongodbatlas_cloud_backup_snapshot_export_bucket export_bucket_id value.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-mongodbatlas/apis/cluster/cloud/v1alpha1.BackupSnapshotExportBucket
 	// +kubebuilder:validation:Optional
 	ExportBucketID *string `json:"exportBucketId,omitempty" tf:"export_bucket_id,omitempty"`
+
+	// Reference to a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDRef *v2.Reference `json:"exportBucketIdRef,omitempty" tf:"-"`
+
+	// Selector for a BackupSnapshotExportBucket in cloud to populate exportBucketId.
+	// +kubebuilder:validation:Optional
+	ExportBucketIDSelector *v2.Selector `json:"exportBucketIdSelector,omitempty" tf:"-"`
 
 	// Frequency associated with the export snapshot item: weekly, monthly, yearly, daily (requires reaching out to Customer Support)
 	// +kubebuilder:validation:Optional

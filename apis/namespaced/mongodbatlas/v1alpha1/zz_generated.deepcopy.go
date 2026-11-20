@@ -1248,6 +1248,16 @@ func (in *AzureKeyVaultConfigInitParameters) DeepCopyInto(out *AzureKeyVaultConf
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SecretSecretRef != nil {
 		in, out := &in.SecretSecretRef, &out.SecretSecretRef
 		*out = new(v2.LocalSecretKeySelector)
@@ -1367,6 +1377,16 @@ func (in *AzureKeyVaultConfigParameters) DeepCopyInto(out *AzureKeyVaultConfigPa
 		in, out := &in.RoleID, &out.RoleID
 		*out = new(string)
 		**out = **in
+	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecretSecretRef != nil {
 		in, out := &in.SecretSecretRef, &out.SecretSecretRef
@@ -3917,6 +3937,16 @@ func (in *GoogleCloudKMSConfigInitParameters) DeepCopyInto(out *GoogleCloudKMSCo
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAccountKeySecretRef != nil {
 		in, out := &in.ServiceAccountKeySecretRef, &out.ServiceAccountKeySecretRef
 		*out = new(v2.LocalSecretKeySelector)
@@ -3981,6 +4011,16 @@ func (in *GoogleCloudKMSConfigParameters) DeepCopyInto(out *GoogleCloudKMSConfig
 		in, out := &in.RoleID, &out.RoleID
 		*out = new(string)
 		**out = **in
+	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountKeySecretRef != nil {
 		in, out := &in.ServiceAccountKeySecretRef, &out.ServiceAccountKeySecretRef
@@ -4509,6 +4549,16 @@ func (in *LogIntegrationInitParameters) DeepCopyInto(out *LogIntegrationInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.StorageAccountName != nil {
 		in, out := &in.StorageAccountName, &out.StorageAccountName
 		*out = new(string)
@@ -4776,6 +4826,16 @@ func (in *LogIntegrationParameters) DeepCopyInto(out *LogIntegrationParameters) 
 		in, out := &in.RoleID, &out.RoleID
 		*out = new(string)
 		**out = **in
+	}
+	if in.RoleIDRef != nil {
+		in, out := &in.RoleIDRef, &out.RoleIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleIDSelector != nil {
+		in, out := &in.RoleIDSelector, &out.RoleIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageAccountName != nil {
 		in, out := &in.StorageAccountName, &out.StorageAccountName

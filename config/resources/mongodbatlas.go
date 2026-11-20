@@ -9,7 +9,6 @@ import (
 func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster", func(r *config.Resource) {
 		r.Version = refs.VersionV1Alpha2
-		r.UseAsync = true
 		r.Kind = "Cluster"
 		r.ExternalName = importJoinedIDMapped([]string{refs.ProjectID, refs.Name, refs.ProviderName}, map[string]string{refs.ProjectID: refs.ProjectID, refs.Name: refs.ClusterName, refs.ProviderName: refs.ProviderName}, refs.ClusterName)
 		r.TerraformResource.DeprecationMessage = "This resource is deprecated and will be removed in the next major version. Please use AdvancedCluster (mongodbatlas_advanced_cluster) instead."
@@ -38,7 +37,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 		r.ShortGroup = ""
 		r.Version = refs.VersionV1Alpha3
 		r.Kind = "AdvancedCluster"
-		r.UseAsync = true
 		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.name }}")
 		r.References = config.References{
 			refs.ProjectID: {
@@ -54,7 +52,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 
 	p.AddResourceConfigurator("mongodbatlas_flex_cluster", func(r *config.Resource) {
 		r.ShortGroup = ""
-		r.UseAsync = true
 		r.Kind = "FlexCluster"
 		r.ExternalName = templated("{{ .parameters.project_id }}-{{ .parameters.name }}")
 		r.References = config.References{
@@ -85,8 +82,8 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	p.AddResourceConfigurator("mongodbatlas_cluster_overload_simulation", func(r *config.Resource) {
 		r.ShortGroup = "cluster"
 		r.Kind = "OverloadSimulation"
-		// Create and Delete wait up to 5 minutes for the simulation state.
-		r.UseAsync = true
+		// Create and Delete wait up to 5 minutes for the simulation state, which
+		// upjet's default UseAsync keeps off the reconcile loop.
 		r.ExternalName = computedKeyID("simulation_id")
 		r.TerraformPluginFrameworkIsStateEmptyFn = refs.StateEmptyWhenAttributeUnset("simulation_id")
 		r.References = config.References{
@@ -132,7 +129,6 @@ func ConfigureMongoDBAtlas(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("mongodbatlas_auditing", func(r *config.Resource) {
-		r.UseAsync = true
 		r.References = config.References{
 			refs.ProjectID: {
 				TerraformName: refs.TFProject,

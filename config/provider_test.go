@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"maps"
+	"reflect"
 	"slices"
 	"strings"
 	"testing"
@@ -14,9 +15,40 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/refs"
 )
+
+func testProviderNamespaced() *ujconfig.Provider {
+	return GetProviderNamespaced(xpshim.GetSDKProvider(), xpshim.GetFrameworkProvider())
+}
+
+// TestScopesShareTerraformProviders asserts that both scopes can be built over
+// one pair of Terraform provider instances. An SDKv2 resource's configuration
+// points at the schema in the shared ResourcesMap and the configurators edit
+// it in place, once per scope, so an edit that does not give the same result
+// twice (appending to a description, say) changes the schema here.
+func TestScopesShareTerraformProviders(t *testing.T) {
+	want := GetProvider(xpshim.GetSDKProvider(), xpshim.GetFrameworkProvider())
+
+	sdk, fw := xpshim.GetSDKProvider(), xpshim.GetFrameworkProvider()
+	GetProviderNamespaced(sdk, fw)
+	got := GetProvider(sdk, fw)
+
+	for name, r := range want.Resources {
+		// Framework resources get a schema converted afresh for each scope.
+		if !r.ShouldUseTerraformPluginSDKClient() {
+			continue
+		}
+		// CoreConfigSchema holds the types, flags and descriptions the CRDs
+		// are generated from; the schema itself carries functions, which
+		// never compare equal.
+		if !reflect.DeepEqual(r.TerraformResource.CoreConfigSchema(), got.Resources[name].TerraformResource.CoreConfigSchema()) {
+			t.Errorf("%s: the schema built over shared Terraform providers differs from the one built over its own", name)
+		}
+	}
+}
 
 // TestPlainProviderIDResources covers plugin-framework resources whose
 // Terraform "id" attribute is the plain provider-assigned ID. Read passes
@@ -49,7 +81,7 @@ func TestPlainProviderIDResources(t *testing.T) {
 			"region_name":    "US_EAST_2",
 		},
 	}
-	p := GetProviderNamespaced()
+	p := testProviderNamespaced()
 	for name, params := range cases {
 		t.Run(name, func(t *testing.T) {
 			e := p.Resources[name].ExternalName
@@ -97,7 +129,7 @@ func encodeStateID(values map[string]string) string {
 // are only inside project_assignment, and Terraform writes and reads a state
 // ID that holds only api_key_id.
 func TestProjectAPIKeyID(t *testing.T) {
-	e := GetProviderNamespaced().Resources["mongodbatlas_project_api_key"].ExternalName
+	e := testProviderNamespaced().Resources["mongodbatlas_project_api_key"].ExternalName
 	params := map[string]any{
 		"description":        "key",
 		"project_assignment": []any{map[string]any{refs.ProjectID: "p1", "role_names": []any{"GROUP_READ_ONLY"}}},
@@ -122,7 +154,7 @@ func TestProjectAPIKeyID(t *testing.T) {
 // user_id is the required argument; username is computed, so it is not in
 // forProvider before create.
 func TestCloudUserTeamAssignmentID(t *testing.T) {
-	e := GetProviderNamespaced().Resources["mongodbatlas_cloud_user_team_assignment"].ExternalName
+	e := testProviderNamespaced().Resources["mongodbatlas_cloud_user_team_assignment"].ExternalName
 	params := map[string]any{"org_id": "o1", "team_id": "t1", "user_id": "u1"}
 
 	id, err := e.GetIDFn(context.Background(), "", params, map[string]any{})
@@ -158,7 +190,7 @@ func TestComputedKeyFrameworkResources(t *testing.T) {
 		"mongodbatlas_project_mcp_config_secret":           "secret_id",
 		"mongodbatlas_stream_connection_failover":          "failover_connection_id",
 	}
-	p := GetProviderNamespaced()
+	p := testProviderNamespaced()
 	for name, key := range cases {
 		t.Run(name, func(t *testing.T) {
 			r := p.Resources[name]
@@ -205,7 +237,7 @@ func TestComputedKeyFrameworkResources(t *testing.T) {
 // a plugin-framework resource with no "id" attribute. The external name is
 // the user-set model_group_name.
 func TestAIModelRateLimitExternalName(t *testing.T) {
-	e := GetProviderNamespaced().Resources["mongodbatlas_ai_model_rate_limit"].ExternalName
+	e := testProviderNamespaced().Resources["mongodbatlas_ai_model_rate_limit"].ExternalName
 	name, err := e.GetExternalNameFn(map[string]any{
 		refs.ProjectID: "p1", "cloud": "AWS", "geography": "US", "model_group_name": "g1",
 	})
@@ -217,7 +249,7 @@ func TestAIModelRateLimitExternalName(t *testing.T) {
 // TestStateIDKeysMatchTerraformRead covers SDK resources whose Terraform Read
 // decodes more keys from the state ID than the external name holds.
 func TestStateIDKeysMatchTerraformRead(t *testing.T) {
-	p := GetProviderNamespaced()
+	p := testProviderNamespaced()
 
 	t.Run("mongodbatlas_x509_authentication_database_user with username", func(t *testing.T) {
 		e := p.Resources["mongodbatlas_x509_authentication_database_user"].ExternalName
@@ -256,7 +288,7 @@ func TestStateIDKeysMatchTerraformRead(t *testing.T) {
 // external name was the full encoded state ID. GetIDFn must not encode it a
 // second time.
 func TestLegacyEncodedExternalName(t *testing.T) {
-	p := GetProviderNamespaced()
+	p := testProviderNamespaced()
 	cases := map[string]struct {
 		params map[string]any
 		state  map[string]string

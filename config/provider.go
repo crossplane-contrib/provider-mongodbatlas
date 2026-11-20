@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+	tpf "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/password"
 	"github.com/crossplane-contrib/provider-mongodbatlas/config/resources"
@@ -117,7 +117,7 @@ func allDescribed(described map[string]bool, key string) bool {
 	return found
 }
 
-func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitializerFn) *ujconfig.Provider {
+func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitializerFn, sdk *schema.Provider, fw tpf.Provider) *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			resetRootShortGroup(),
@@ -131,8 +131,8 @@ func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitia
 		ujconfig.WithRootGroup(rootGroup),
 		ujconfig.WithShortName("mongodbatlas"),
 		ujconfig.WithSkipList(SkipTfResourceList),
-		ujconfig.WithTerraformProvider(xpshim.GetSDKProvider()),
-		ujconfig.WithTerraformPluginFrameworkProvider(xpshim.GetFrameworkProvider()),
+		ujconfig.WithTerraformProvider(sdk),
+		ujconfig.WithTerraformPluginFrameworkProvider(fw),
 		// IncludeList defaults to [".+"] (all resources).
 		// Clear it to avoid overlap with the typed lists below.
 		ujconfig.WithIncludeList(nil),
@@ -157,12 +157,19 @@ func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitia
 	return pc
 }
 
-// GetidentifierFromProvider returns the cluster-scoped provider configuration.
-func GetidentifierFromProvider() *ujconfig.Provider {
-	return newProvider("mongodbatlas.crossplane.io", password.ClusterGenerator)
+// GetProvider returns the cluster-scoped provider configuration over the
+// given Terraform provider instances.
+//
+// Both scopes can share one pair of instances. The configuration of an SDKv2
+// resource points at the schema in the instance's ResourcesMap, and the
+// resource configurators edit that schema in place, so every edit must give
+// the same result when it runs once per scope.
+func GetProvider(sdk *schema.Provider, fw tpf.Provider) *ujconfig.Provider {
+	return newProvider("mongodbatlas.crossplane.io", password.ClusterGenerator, sdk, fw)
 }
 
-// GetProviderNamespaced returns the namespace-scoped provider configuration.
-func GetProviderNamespaced() *ujconfig.Provider {
-	return newProvider("mongodbatlas.m.crossplane.io", password.NamespacedGenerator)
+// GetProviderNamespaced returns the namespace-scoped provider configuration
+// over the given Terraform provider instances. See GetProvider.
+func GetProviderNamespaced(sdk *schema.Provider, fw tpf.Provider) *ujconfig.Provider {
+	return newProvider("mongodbatlas.m.crossplane.io", password.NamespacedGenerator, sdk, fw)
 }

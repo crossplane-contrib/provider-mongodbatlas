@@ -244,6 +244,8 @@ func main() {
 	metrics.Registry.MustRegister(metricRecorder)
 	metrics.Registry.MustRegister(stateMetrics)
 
+	// One pair of Terraform provider instances serves both scopes' configurations
+	// and the setup, which configures the SDKv2 instance.
 	sdkProvider := xpshim.GetSDKProvider()
 	fwProvider := xpshim.GetFrameworkProvider()
 	setupFn := clients.TerraformSetupBuilder(sdkProvider, fwProvider, cli.Start.ClientCacheTTL)
@@ -263,7 +265,7 @@ func main() {
 			MRMetrics:               metricRecorder,
 			MRStateMetrics:          stateMetrics,
 		},
-		Provider:              config.GetidentifierFromProvider(),
+		Provider:              config.GetProvider(sdkProvider, fwProvider),
 		SetupFn:               setupFn,
 		OperationTrackerStore: otStore,
 		PollJitter:            pollJitter,
@@ -281,7 +283,7 @@ func main() {
 			MRMetrics:               metricRecorder,
 			MRStateMetrics:          stateMetrics,
 		},
-		Provider:              config.GetProviderNamespaced(),
+		Provider:              config.GetProviderNamespaced(sdkProvider, fwProvider),
 		SetupFn:               setupFn,
 		OperationTrackerStore: otStore,
 		PollJitter:            pollJitter,
@@ -427,10 +429,11 @@ func newDiffServer(log logging.Logger) (*diffserver.Server, *runtime.Scheme, err
 	if err := apisNamespaced.AddToScheme(scheme); err != nil {
 		return nil, nil, errors.Wrap(err, "cannot add namespaced MongoDBAtlas APIs to the diff server scheme")
 	}
+	sdk, fw := xpshim.GetSDKProvider(), xpshim.GetFrameworkProvider()
 	s := diffserver.NewServer(
-		diffserver.WithProviderConfigurations(config.GetidentifierFromProvider(), config.GetProviderNamespaced()),
+		diffserver.WithProviderConfigurations(config.GetProvider(sdk, fw), config.GetProviderNamespaced(sdk, fw)),
 		diffserver.WithLogger(log),
-		diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(xpshim.GetFrameworkProvider())),
+		diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(fw)),
 	)
 	return s, scheme, nil
 }

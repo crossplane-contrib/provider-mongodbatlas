@@ -95,6 +95,7 @@ func (d certsDir) BeforeApply(certsDirSet *bool) error {
 type startCmd struct {
 	CertsDir                 certsDir      `default:"${defaultCertsDir}"                  env:"${defautCertsDirEnvVar}"                                                                              help:"The directory that contains the server key and certificate"`
 	ChangelogsSocketPath     string        `default:"/var/run/changelogs/changelogs.sock" env:"CHANGELOGS_SOCKET_PATH"                                                                               help:"Path for changelogs socket (if enabled)"`
+	ClientCacheTTL           time.Duration `default:"30m"                                 env:"CLIENT_CACHE_TTL"                                                                                     help:"How long a configured MongoDB Atlas client is reused for the same credentials. Zero builds a new client on every reconcile."`
 	EnableChangeLogs         bool          `default:"false"                               env:"ENABLE_CHANGE_LOGS"                                                                                   help:"Enable support for capturing change logs during reconciliation."`
 	EnableManagementPolicies bool          `default:"true"                                env:"ENABLE_MANAGEMENT_POLICIES"                                                                           help:"Enable support for Management Policies."`
 	EnableSecretCache        bool          `default:"true"                                env:"ENABLE_SECRET_CACHE"                                                                                  help:"Enable caching of Secrets via an informer. Disabling it routes Secret reads through live API calls, trading memory for API server QPS."`
@@ -245,7 +246,7 @@ func main() {
 
 	sdkProvider := xpshim.GetSDKProvider()
 	fwProvider := xpshim.GetFrameworkProvider()
-	setupFn := clients.TerraformSetupBuilder(sdkProvider, fwProvider)
+	setupFn := clients.TerraformSetupBuilder(sdkProvider, fwProvider, cli.Start.ClientCacheTTL)
 	otStore := tjcontroller.NewOperationStore(log)
 	// Both scopes share one limiter: --max-reconcile-rate is the rate of the
 	// whole provider.

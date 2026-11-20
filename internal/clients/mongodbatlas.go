@@ -21,11 +21,16 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"maps"
+	"strings"
 	"sync"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	tpf "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tf "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -44,6 +49,9 @@ const (
 	keyPrivateKey   = "private_key"
 	keyClientID     = "client_id"
 	keyClientSecret = "client_secret"
+
+	// serviceAccountPrefix starts every Atlas service account client ID.
+	serviceAccountPrefix = "mdb_sa"
 )
 
 // credentialKeys lists every key that identifies a credential set, in a fixed
@@ -61,24 +69,19 @@ const (
 	errConfigureCredentials     = "cannot configure mongodbatlas credentials"
 	errServiceAccountIncomplete = "service account credentials require both client_id and client_secret"
 	errMissingCredentials       = "credentials must contain client_id and client_secret (service account) or public_key and private_key (programmatic API key)"
+	errServiceAccountAsAPIKey   = "public_key holds a service account client ID (it starts with " + serviceAccountPrefix + "): put service account credentials in client_id and client_secret"
+	errConfigureSDK             = "cannot configure SDK provider"
+	errNoClient                 = "the MongoDB Atlas Terraform provider accepted the credentials but built no client"
 )
 
-// metaCache caches configured SDK provider metadata keyed by credential hash.
-// Prevents per-reconcile SDK Configure calls that create new HTTP clients.
-var (
-	metaCacheMu sync.Mutex
-	metaCache   = map[string]any{}
-)
-
-// TerraformSetupBuilder returns a SetupFn for the no-fork (in-process)
-// architecture. It populates Setup.Meta with the configured SDKv2 provider
-// metadata (cached by credential hash) and Setup.FrameworkProvider with the
-// unconfigured framework provider (upjet configures it per reconcile).
-func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider) terraform.SetupFn {
+// TerraformSetupBuilder returns a SetupFn for the no-fork (in-process) architecture.
+// Each credential set gets one Atlas client, built by the SDKv2 provider's Configure and kept for cacheTTL.
+// The client is Setup.Meta for the SDKv2 resources, and Setup.FrameworkProvider hands it to the framework resources,
+// so the framework Configure that upjet calls on every reconcile builds nothing.
+func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider, cacheTTL time.Duration) terraform.SetupFn {
+	clients := newClientCache(sdk, fw, cacheTTL)
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{
-			FrameworkProvider: fw,
-		}
+		ps := terraform.Setup{}
 
 		pcSpec, err := resolveProviderConfig(ctx, client, mg)
 		if err != nil {
@@ -99,11 +102,12 @@ func TerraformSetupBuilder(sdk *schema.Provider, fw tpf.Provider) terraform.Setu
 			return terraform.Setup{}, errors.Wrap(err, errConfigureCredentials)
 		}
 
-		meta, err := configureSDKCached(ctx, sdk, ps.Configuration)
+		p, err := clients.get(ctx, ps.Configuration)
 		if err != nil {
-			return terraform.Setup{}, errors.Wrap(err, "cannot configure SDK provider")
+			return terraform.Setup{}, errors.Wrap(err, errConfigureSDK)
 		}
-		ps.Meta = meta
+		ps.Meta = p.client
+		ps.FrameworkProvider = p
 
 		return ps, nil
 	}
@@ -130,30 +134,98 @@ func configureCredentials(config map[string]any, creds map[string]string) error 
 	if publicKey == "" || privateKey == "" {
 		return errors.New(errMissingCredentials)
 	}
+	if strings.HasPrefix(publicKey, serviceAccountPrefix) {
+		return errors.New(errServiceAccountAsAPIKey)
+	}
 	config[keyPublicKey] = publicKey
 	config[keyPrivateKey] = privateKey
 	return nil
 }
 
-func configureSDKCached(ctx context.Context, sdk *schema.Provider, config map[string]any) (any, error) {
+// clientCache holds one configured provider per credential set, keyed by credentialHash.
+// It drops entries older than ttl, so a rotated or deleted credential set does not keep its client forever.
+type clientCache struct {
+	sdk *schema.Provider
+	fw  tpf.Provider
+	ttl time.Duration
+	now func() time.Time
+
+	// mu also serializes Configure: the SDKv2 provider keeps its meta in the shared instance,
+	// and a stale service account must not be forgotten while another credential set configures the same client ID.
+	mu      sync.Mutex
+	entries map[string]cachedProvider
+}
+
+type cachedProvider struct {
+	provider  *configuredProvider
+	createdAt time.Time
+}
+
+func newClientCache(sdk *schema.Provider, fw tpf.Provider, ttl time.Duration) *clientCache {
+	return &clientCache{sdk: sdk, fw: fw, ttl: ttl, now: time.Now, entries: map[string]cachedProvider{}}
+}
+
+// get returns the provider configured with config, configuring the SDKv2 provider on a cache miss.
+func (c *clientCache) get(ctx context.Context, config map[string]any) (*configuredProvider, error) {
 	h := credentialHash(config)
 
-	metaCacheMu.Lock()
-	defer metaCacheMu.Unlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
-	if meta, ok := metaCache[h]; ok {
-		return meta, nil
+	now := c.now()
+	maps.DeleteFunc(c.entries, func(_ string, e cachedProvider) bool { return now.Sub(e.createdAt) >= c.ttl })
+	if e, ok := c.entries[h]; ok {
+		return e.provider, nil
 	}
 
-	rc := tf.NewResourceConfigRaw(config)
-	diags := sdk.Configure(ctx, rc)
-	if diags.HasError() {
+	if id, ok := config[keyClientID].(string); ok {
+		secret, _ := config[keyClientSecret].(string)
+		xpshim.ForgetStaleServiceAccount(id, secret)
+	}
+	if diags := c.sdk.Configure(ctx, tf.NewResourceConfigRaw(config)); diags.HasError() {
 		return nil, fmt.Errorf("failed to configure SDK provider: %v", diags)
 	}
+	// Credentials the Atlas provider's own validation rejects give no client and no error here:
+	// only the framework half of the provider reports them.
+	meta := c.sdk.Meta()
+	if meta == nil {
+		return nil, errors.New(errNoClient)
+	}
 
-	meta := sdk.Meta()
-	metaCache[h] = meta
-	return meta, nil
+	p := &configuredProvider{Provider: c.fw, client: meta}
+	c.entries[h] = cachedProvider{provider: p, createdAt: now}
+	return p, nil
+}
+
+// configuredProvider is the upstream framework provider, with a Configure that hands out a client built beforehand.
+// The upstream Configure reads the configuration block, the MONGODB_ATLAS_* environment and, with an AWS role,
+// AWS Secrets Manager; it builds a new Atlas client every time upjet calls it, which is on every reconcile.
+// Everything else, the schema, the resources and the provider meta schema in particular, is upstream's own.
+type configuredProvider struct {
+	tpf.Provider
+	client any
+}
+
+// Configure hands the prepared client to the resources and the data sources.
+// Ephemeral resources, which upjet never opens, get no provider data.
+func (p *configuredProvider) Configure(_ context.Context, _ tpf.ConfigureRequest, resp *tpf.ConfigureResponse) {
+	resp.DataSourceData = p.client
+	resp.ResourceData = p.client
+}
+
+// MetaSchema serves the upstream provider's meta schema, which its resources read on every operation.
+func (p *configuredProvider) MetaSchema(ctx context.Context, req tpf.MetaSchemaRequest, resp *tpf.MetaSchemaResponse) {
+	if mp, ok := p.Provider.(tpf.ProviderWithMetaSchema); ok {
+		mp.MetaSchema(ctx, req, resp)
+	}
+}
+
+// EphemeralResources serves the upstream ephemeral resources, so the wrapper keeps the upstream protocol surface.
+func (p *configuredProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
+	if ep, ok := p.Provider.(tpf.ProviderWithEphemeralResources); ok {
+		return ep.EphemeralResources(ctx)
+	}
+	return nil
 }
 
 func credentialHash(config map[string]any) string {

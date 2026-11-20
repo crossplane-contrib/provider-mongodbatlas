@@ -205,7 +205,7 @@ func TestOfflineTerraformSetupBuilder(t *testing.T) {
 
 	// The positive control for "never reads the credentials": the online
 	// setup resolves the same ProviderConfig and fails on its missing Secret.
-	if _, err := TerraformSetupBuilder(xpshim.GetSDKProvider(), upstream)(ctx, kc, modernManaged(namespacedv1beta1.ClusterProviderConfigKind, offlineTestPCName)); err == nil {
+	if _, err := TerraformSetupBuilder(xpshim.GetSDKProvider(), upstream, time.Minute)(ctx, kc, modernManaged(namespacedv1beta1.ClusterProviderConfigKind, offlineTestPCName)); err == nil {
 		t.Fatal("expected the online setup to fail on the missing credentials Secret")
 	}
 
@@ -232,9 +232,9 @@ func TestOfflineTerraformSetupBuilder(t *testing.T) {
 			if diff := cmp.Diff(want, ps.Configuration); diff != "" {
 				t.Errorf("unexpected Terraform provider configuration, -want +got:\n%s", diff)
 			}
-			p, ok := ps.FrameworkProvider.(*offlineProvider)
+			p, ok := ps.FrameworkProvider.(*configuredProvider)
 			if !ok || p.Provider != upstream {
-				t.Fatalf("expected the upstream provider wrapped by offlineProvider, got %T", ps.FrameworkProvider)
+				t.Fatalf("expected the upstream provider wrapped by configuredProvider, got %T", ps.FrameworkProvider)
 			}
 			if ps.Meta == nil || ps.Meta != p.client {
 				t.Errorf("expected the SDKv2 meta and the framework provider data to be the same client, got %T and %T", ps.Meta, p.client)
@@ -380,7 +380,7 @@ func TestOfflineProviderWrapsUpstream(t *testing.T) {
 	ctx := context.Background()
 	upstream := xpshim.GetFrameworkProvider()
 	client := &struct{ name string }{name: "offline"}
-	p := &offlineProvider{Provider: upstream, client: client}
+	p := &configuredProvider{Provider: upstream, client: client}
 
 	resp := tpf.ConfigureResponse{}
 	p.Configure(ctx, tpf.ConfigureRequest{}, &resp)
@@ -392,7 +392,7 @@ func TestOfflineProviderWrapsUpstream(t *testing.T) {
 	// the wrapper must keep serving the upstream meta schema.
 	mp, ok := upstream.(tpf.ProviderWithMetaSchema)
 	if !ok {
-		t.Fatal("the upstream provider no longer serves a provider meta schema; the forwarder in offlineProvider can go")
+		t.Fatal("the upstream provider no longer serves a provider meta schema; the forwarder in configuredProvider can go")
 	}
 	want, got := tpf.MetaSchemaResponse{}, tpf.MetaSchemaResponse{}
 	mp.MetaSchema(ctx, tpf.MetaSchemaRequest{}, &want)
@@ -406,7 +406,7 @@ func TestOfflineProviderWrapsUpstream(t *testing.T) {
 
 	ep, ok := upstream.(tpf.ProviderWithEphemeralResources)
 	if !ok {
-		t.Fatal("the upstream provider no longer serves ephemeral resources; the forwarder in offlineProvider can go")
+		t.Fatal("the upstream provider no longer serves ephemeral resources; the forwarder in configuredProvider can go")
 	}
 	if want, got := len(ep.EphemeralResources(ctx)), len(p.EphemeralResources(ctx)); want != got {
 		t.Errorf("expected %d ephemeral resources, got %d", want, got)

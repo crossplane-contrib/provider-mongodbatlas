@@ -24,7 +24,6 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/crossplane/upjet/v2/pkg/diffserver"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
-	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	tpf "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/mongodb/terraform-provider-mongodbatlas/xpshim"
 	"github.com/pkg/errors"
@@ -56,17 +55,18 @@ const (
 // The ProviderConfig a resource references is still resolved, so that a
 // resource whose ProviderConfig is missing fails the way it does in a
 // reconcile, but nothing in it is read: an Atlas ProviderConfig carries only
-// credentials, and the Secret they would come from is never read. The setup
-// carries one Atlas client, built once for the process, as the Meta the SDKv2
-// resources read and as the provider data offlineProvider hands the framework
-// resources. That client cannot send a request: see offlineTransport.
+// credentials, and the Secret they would come from is never read.
+// The setup carries one Atlas client, built once for the process, as the Meta the SDKv2 resources read
+// and as the provider data configuredProvider hands the framework resources.
+// The upstream Configure, which reads the MONGODB_ATLAS_* environment and can call AWS Secrets Manager, never runs.
+// That client cannot send a request: see offlineTransport.
 func OfflineTerraformSetupBuilder(fw tpf.Provider) terraform.SetupFn {
-	offline := sync.OnceValues(func() (*offlineProvider, error) {
+	offline := sync.OnceValues(func() (*configuredProvider, error) {
 		c, err := xpshim.NewOfflineClient(offlinePublicKey, offlinePrivateKey, "", offlineTransport{})
 		if err != nil {
 			return nil, errors.Wrap(err, errBuildOfflineClient)
 		}
-		return &offlineProvider{Provider: fw, client: c}, nil
+		return &configuredProvider{Provider: fw, client: c}, nil
 	})
 	return func(ctx context.Context, c client.Client, mg resource.Managed) (terraform.Setup, error) {
 		if _, err := resolveProviderConfig(ctx, c, mg); err != nil {
@@ -85,43 +85,6 @@ func OfflineTerraformSetupBuilder(fw tpf.Provider) terraform.SetupFn {
 			FrameworkProvider: p,
 		}, nil
 	}
-}
-
-// offlineProvider is the upstream Atlas Terraform provider with its Configure
-// replaced. The upstream Configure resolves the credentials from the
-// configuration block, the MONGODB_ATLAS_* environment and, when an AWS role
-// is configured, AWS Secrets Manager; this one reads none of them and hands
-// every resource the offline client. Everything else, the schema, the
-// resources and the provider meta schema in particular, is the upstream
-// provider's own.
-type offlineProvider struct {
-	tpf.Provider
-	client any
-}
-
-// Configure hands the resources and the data sources the client that cannot
-// reach Atlas. Ephemeral resources, which the diff server never opens, get no
-// provider data.
-func (p *offlineProvider) Configure(_ context.Context, _ tpf.ConfigureRequest, resp *tpf.ConfigureResponse) {
-	resp.DataSourceData = p.client
-	resp.ResourceData = p.client
-}
-
-// MetaSchema serves the upstream provider's meta schema, which its resources
-// read on every operation.
-func (p *offlineProvider) MetaSchema(ctx context.Context, req tpf.MetaSchemaRequest, resp *tpf.MetaSchemaResponse) {
-	if mp, ok := p.Provider.(tpf.ProviderWithMetaSchema); ok {
-		mp.MetaSchema(ctx, req, resp)
-	}
-}
-
-// EphemeralResources serves the upstream provider's ephemeral resources, so
-// that the wrapped provider has the same protocol surface as the upstream one.
-func (p *offlineProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
-	if ep, ok := p.Provider.(tpf.ProviderWithEphemeralResources); ok {
-		return ep.EphemeralResources(ctx)
-	}
-	return nil
 }
 
 // offlineTransport refuses every HTTP request it sees, failing the diff at

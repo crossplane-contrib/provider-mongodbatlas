@@ -15,7 +15,7 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-go v0.31.0
-	github.com/hashicorp/terraform-plugin-sdk/v2 v2.40.1
+	github.com/hashicorp/terraform-plugin-sdk/v2 v2.41.1
 	// Actual version: see Makefile TERRAFORM_PROVIDER_VERSION. Replace directive below overrides.
 	github.com/mongodb/terraform-provider-mongodbatlas v0.0.0-local
 	github.com/pkg/errors v0.9.1

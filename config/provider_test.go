@@ -358,3 +358,23 @@ func TestCleanArgumentDocs(t *testing.T) {
 	}
 	cleanArgumentDocs()(&ujconfig.Resource{}) // no docs: must not panic
 }
+
+// TestExternalTags asserts that the resources with a tags map get upjet's
+// tagger, and that those with tags as key/value blocks do not.
+func TestExternalTags(t *testing.T) {
+	want := map[string]bool{
+		"mongodbatlas_project":             true,
+		"mongodbatlas_advanced_cluster":    true,
+		"mongodbatlas_flex_cluster":        true,
+		"mongodbatlas_cluster":             false,
+		"mongodbatlas_serverless_instance": false,
+	}
+	for _, p := range []*ujconfig.Provider{GetProvider(xpshim.GetSDKProvider(), xpshim.GetFrameworkProvider()), testProviderNamespaced()} {
+		for name, r := range p.Resources {
+			got := len(r.InitializerFns) > 0 && reflect.ValueOf(r.InitializerFns[len(r.InitializerFns)-1]).Pointer() == reflect.ValueOf(ujconfig.TagInitializer).Pointer()
+			if got != want[name] {
+				t.Errorf("%s: tagger registered = %t, want %t", name, got, want[name])
+			}
+		}
+	}
+}

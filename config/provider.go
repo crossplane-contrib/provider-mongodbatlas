@@ -117,12 +117,27 @@ func allDescribed(described map[string]bool, key string) bool {
 	return found
 }
 
+// addExternalTags registers upjet's tagger for resources whose tags field is a map, so they carry
+// the crossplane-specific tags as defined in Upjet.
+// Resources with tags as a list of key/value blocks (Cluster, ServerlessInstance) are left out: the tagger writes a map.
+func addExternalTags() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
+		if r.TerraformResource == nil {
+			return
+		}
+		if s, ok := r.TerraformResource.Schema["tags"]; ok && s.Type == schema.TypeMap {
+			r.InitializerFns = append(r.InitializerFns, ujconfig.TagInitializer)
+		}
+	}
+}
+
 func newProvider(rootGroup string, pwGen func(string, string) ujconfig.NewInitializerFn, sdk *schema.Provider, fw tpf.Provider) *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithDefaultResourceOptions(
 			resetRootShortGroup(),
 			cleanArgumentDocs(),
 			ExternalNameConfigurations(),
+			addExternalTags(),
 		),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",
